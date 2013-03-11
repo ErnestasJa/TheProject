@@ -26,7 +26,7 @@ int main()
 	
 	iqmheader head;
 	fread(&head,sizeof(head),1,io);
-	printf("Header size:%i\nFile size:%i\n",sizeof(head),head.filesize);
+	printf("Header size:%i\nFile size:%i\n",(int)sizeof(head),head.filesize);
 	iqmesh *mesh;
 	
 	iqmloader *loader=new iqmloader();
