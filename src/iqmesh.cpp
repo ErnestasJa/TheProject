@@ -15,6 +15,8 @@ void iqmesh::generate()
 		{
 			case IQM_POSITION:
 			printf("Got a position buffer.\n");
+			if(va->format!=IQM_FLOAT)
+				printf("Bad format?\n");
 			break;
 			
 			case IQM_TEXCOORD:
