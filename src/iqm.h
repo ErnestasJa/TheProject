@@ -25,7 +25,7 @@ struct iqmmesh
 	unsigned int first_vertex, num_vertexes;
 	unsigned int first_triangle, num_triangles;
 };
-enum iqmbuffers
+enum
 {
     IQM_POSITION     = 0,
     IQM_TEXCOORD     = 1,
@@ -34,10 +34,10 @@ enum iqmbuffers
     IQM_BLENDINDEXES = 4,
     IQM_BLENDWEIGHTS = 5,
     IQM_COLOR        = 6,
-    IQM_COUNT,
+    IQM_BUFFER_COUNT,
     IQM_CUSTOM       = 0x10
 };
-enum iqmtypes
+enum
 {
     IQM_BYTE   = 0,
     IQM_UBYTE  = 1,
@@ -51,7 +51,7 @@ enum iqmtypes
 };
 struct iqmtriangle
 {
-	glm::vec3<unsigned int> verts;
+	glm::detail::tvec3<unsigned int> verts;
 };
 struct iqmjoint
 {

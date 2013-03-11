@@ -1,1 +1,1 @@
-../../../Build/Debug//src_precomp.o ../../../Build/Debug//src_main.o ../../../Build/Debug//src_glxw.o ../../../Build/Debug//src_glxw_glx.o
+../../../Build/Debug//src_precomp.o ../../../Build/Debug//src_main.o ../../../Build/Debug//src_iqmesh.o ../../../Build/Debug//src_texture.o ../../../Build/Debug//src_iqmloader.o ../../../Build/Debug//src_glxw.o ../../../Build/Debug//src_glxw_glx.o

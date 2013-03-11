@@ -1,5 +1,4 @@
-#include <stdio.h>
-
+#include "iqmesh.h"
 int main()
 {
 	printf("Hello world!\n");
@@ -21,6 +20,11 @@ int main()
 	
 	/* Development going wild. or is it? */
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
+	
+	iqmesh *mesh=new iqmesh();
+	unsigned char* a=new unsigned char[3];
+	iqmheader h;
+	mesh->load(a,h);
 	
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
