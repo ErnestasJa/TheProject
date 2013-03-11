@@ -33,7 +33,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
+      <Compiler Options="-g;-O0;-std=c++0x;-Wall" C_Options="-g;-O0;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="."/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../libs/glfw/include"/>
@@ -87,7 +87,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
+      <Compiler Options="-O2;-std=c++0x;-Wall" C_Options="-O2;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="."/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../libs/glfw/include"/>
