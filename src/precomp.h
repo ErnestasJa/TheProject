@@ -9,6 +9,5 @@
 #include <GLXW/glxw_glx.h>
 #include <GL/glxext.h>
 
-#undef GLFW_INCLUDE_GL3
 #include <GL/glfw.h>
 #include <glm.hpp>

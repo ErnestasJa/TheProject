@@ -37,7 +37,7 @@ int main()
 	fread(&head,sizeof(head),1,io);
 	
 	//size check works
-	printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int)sizeof(head),head.filesize,head.filesize==fsize?"same":"not same");
+	printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int)sizeof(head),head.filesize,(int)head.filesize==fsize?"same":"not same");
 	
 	iqmesh *mesh;
 	

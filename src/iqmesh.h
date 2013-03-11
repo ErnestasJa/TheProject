@@ -28,9 +28,16 @@ public:
 	std::vector<iqmanim*> anims; //animation info
 	std::vector<iqmbounds*> bounds; //the bounding box
 	
+	//geometry,buffers
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];
-	std::vector<vertexanim*> vertices;
+	std::vector<glm::vec3> positions;
+	std::vector<glm::vec2> texcoords;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec4> tangents;
+	std::vector<glm::detail::tvec4<uint8_t>> bindexes;
+	std::vector<glm::detail::tvec4<uint8_t>> bweights;
+	std::vector<glm::vec3> colors;
 	std::vector<unsigned int> indices;
 private:
 protected:

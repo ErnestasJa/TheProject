@@ -34,6 +34,7 @@ enum
     IQM_BLENDINDEXES = 4,
     IQM_BLENDWEIGHTS = 5,
     IQM_COLOR        = 6,
+    IQM_INDICES      = 7,
     IQM_BUFFER_COUNT,
     IQM_CUSTOM       = 0x10
 };
