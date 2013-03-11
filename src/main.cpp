@@ -35,6 +35,7 @@ int main()
 	fread(buffer+sizeof(head),head.filesize-sizeof(head),1,io);
 	
 	mesh=loader->load(buffer,head);
+	mesh->generate();
 	
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))

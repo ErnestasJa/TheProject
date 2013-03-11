@@ -13,27 +13,28 @@ class iqmesh
 {
 //Variables
 public:
-private:
 	//Information variables
-	std::vector<iqmmesh> meshes;
-	std::vector<iqmjoint> joints;
-	std::vector<iqmpose> poses;
-	std::vector<iqmanim> anims;
-	std::vector<iqmvertexarray> vertexarrays;
-	std::vector<iqmbounds> bounds;
+	std::vector<const char*> texts; //that's where names are put
+	std::vector<iqmmesh*> meshes; //meshbuffers
+	std::vector<iqmvertexarray*> vertexarrays;
+	std::vector<iqmtriangle*> triangles;
+	std::vector<iqmjoint*> joints;
+	std::vector<iqmpose*> poses;
+	std::vector<iqmanim*> anims;
+	std::vector<iqmbounds*> bounds;
 	
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];
-	std::vector<vertex> vertices;
-	//Used for getting indices
-	std::vector<iqmtriangle> triangles;
+	std::vector<vertex*> vertices;
+	std::vector<unsigned int> indices;
+private:
 protected:
 
 //Methods
 public:
 	iqmesh();
 	virtual ~iqmesh();
-	void load ( const unsigned char *data,const iqmheader &head );
+	void generate();
 private:
 protected:
 };
