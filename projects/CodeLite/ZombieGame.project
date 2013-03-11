@@ -11,6 +11,16 @@
     <File Name="../../src/precomp.cpp"/>
     <File Name="../../src/main.cpp"/>
     <File Name="../../src/precomp.h"/>
+    <VirtualDirectory Name="mesh">
+      <File Name="../../src/iqmesh.cpp"/>
+      <File Name="../../src/iqmesh.h"/>
+      <File Name="../../src/iqm.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="render"/>
+    <VirtualDirectory Name="loaders">
+      <File Name="../../src/iqmloader.h"/>
+      <File Name="../../src/iqmloader.cpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="glxw">
     <File Name="../../libs/glxw/include/GLXW/glxw.h"/>
