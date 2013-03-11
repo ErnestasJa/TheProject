@@ -25,8 +25,20 @@ int main()
 	FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
 	
 	iqmheader head;
+	//seek to the end of file
+	fseek(io,0,SEEK_END);
+	//get the size
+	int fsize=ftell(io);
+	printf("Filesize ftell:%i\n",fsize);
+	//get back to the beginning
+	fseek(io,SEEK_SET,0);
+	
+	//read the header
 	fread(&head,sizeof(head),1,io);
-	printf("Header size:%i\nFile size:%i\n",(int)sizeof(head),head.filesize);
+	
+	//size check works
+	printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int)sizeof(head),head.filesize,head.filesize==fsize?"same":"not same");
+	
 	iqmesh *mesh;
 	
 	iqmloader *loader=new iqmloader();
