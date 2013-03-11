@@ -1,5 +1,4 @@
-#ifndef __IQM_H__
-#define __IQM_H__
+#pragma once
 
 #define IQM_MAGIC "INTERQUAKEMODEL"
 #define IQM_VERSION 2
@@ -57,14 +56,15 @@ enum
 
 struct iqmtriangle
 {
-    unsigned int vertex[3];
+    glm::vec3<unsigned int> verts;
 };
 
 struct iqmjoint
 {
     unsigned int name;
     int parent;
-    float translate[3], rotate[4], scale[3];
+	glm::vec3 translate,scale;
+	glm::vec4 rotate;
 };
 
 struct iqmpose
@@ -102,6 +102,3 @@ struct iqmbounds
     float bbmin[3], bbmax[3];
     float xyradius, radius;
 };
-
-#endif
-

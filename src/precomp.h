@@ -7,3 +7,6 @@
 #include <GL/glxext.h>
 
 #include <GL/glfw.h>
+#include <glm.hpp>
+
+#include <util.h>

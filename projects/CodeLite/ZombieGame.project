@@ -16,11 +16,15 @@
       <File Name="../../src/iqmesh.h"/>
       <File Name="../../src/iqm.h"/>
     </VirtualDirectory>
-    <VirtualDirectory Name="render"/>
+    <VirtualDirectory Name="render">
+      <File Name="../../src/texture.h"/>
+      <File Name="../../src/texture.cpp"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="loaders">
       <File Name="../../src/iqmloader.h"/>
       <File Name="../../src/iqmloader.cpp"/>
     </VirtualDirectory>
+    <File Name="../../src/util.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="glxw">
     <File Name="../../libs/glxw/include/GLXW/glxw.h"/>
