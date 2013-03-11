@@ -36,12 +36,14 @@ int main()
 	
 	mesh=loader->load(buffer,head);
 	mesh->generate();
-	
+	glEnable(GL_DEPTH);
+	glDepthFunc(GL_LESS);
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
         /* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }

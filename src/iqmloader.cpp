@@ -64,7 +64,7 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			
 			//ofs comments? offset to probably const* char comments
 			
-			//ofs extensions? the one I don't know about
+			//ofs extensions? the ones I don't know about
 			
 			//a test
 			for(uint8_t i=0; i<head.num_meshes; i++)
