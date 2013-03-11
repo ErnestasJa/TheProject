@@ -8,5 +8,3 @@
 
 #include <GL/glfw.h>
 #include <glm.hpp>
-
-#include <util.h>

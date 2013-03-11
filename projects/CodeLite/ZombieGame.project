@@ -24,7 +24,6 @@
       <File Name="../../src/iqmloader.h"/>
       <File Name="../../src/iqmloader.cpp"/>
     </VirtualDirectory>
-    <File Name="../../src/util.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="glxw">
     <File Name="../../libs/glxw/include/GLXW/glxw.h"/>
