@@ -22,11 +22,12 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			return nullptr;
 		}
 		
+		const char* textstr=(const char*)&data[head.ofs_text];
 		iqmmesh* m=(iqmmesh*)&data[head.ofs_meshes];
 		for(unsigned int i=0; i<head.num_meshes; i++)
 		{
 			iqmmesh &temp=m[i];
-			printf("TEST INFO:\nName:%i\nMaterial:%i\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",temp.name,temp.material,temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);
+			printf("TEST INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",&textstr[temp.name],&textstr[temp.material],temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);
 		}
 	}
 	return nullptr;
