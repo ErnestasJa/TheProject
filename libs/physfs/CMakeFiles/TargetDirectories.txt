@@ -1,0 +1,3 @@
+/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/dist.dir
+/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/physfs-static.dir
+/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/test_physfs.dir

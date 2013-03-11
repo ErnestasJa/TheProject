@@ -1,0 +1,2 @@
+/usr/bin/ar cr libBulletSoftBodySolvers_OpenCL_AMD.a  CMakeFiles/BulletSoftBodySolvers_OpenCL_AMD.dir/__/btSoftBodySolver_OpenCL.o CMakeFiles/BulletSoftBodySolvers_OpenCL_AMD.dir/__/btSoftBodySolver_OpenCLSIMDAware.o CMakeFiles/BulletSoftBodySolvers_OpenCL_AMD.dir/__/btSoftBodySolverOutputCLtoGL.o
+/usr/bin/ranlib libBulletSoftBodySolvers_OpenCL_AMD.a
