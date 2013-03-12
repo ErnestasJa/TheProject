@@ -49,9 +49,16 @@ int main()
 	mesh=loader->load(buffer,head);
 	glEnable(GL_DEPTH);
 	glDepthFunc(GL_LESS);
+	glDisable(GL_CULL_FACE);
 	
-	for(uint i=0; i<mesh->positions.size(); i++)
-		printf("X:%f Y:%f Z:%f\n",mesh->positions[i].x,mesh->positions[i].y,mesh->positions[i].z);
+	GLuint vaid;
+	glGenVertexArrays(1,&vaid);
+	glBindVertexArray(vaid);
+	
+	printf("Indices test:%i\nM1 start:%i\nM1 count:%i\nM2 start:%i\nM2 count:%i\n",mesh->indices.size(),mesh->meshes[0]->first_triangle*3,mesh->meshes[0]->num_triangles*3,mesh->meshes[1]->first_triangle*3,mesh->meshes[1]->num_triangles*3);
+	
+//	for(uint i=0; i<mesh->positions.size(); i++)
+//		printf("X:%f Y:%f Z:%f\n",mesh->positions[i].x,mesh->positions[i].y,mesh->positions[i].z);
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {

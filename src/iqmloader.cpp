@@ -67,6 +67,7 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			//ofs extensions? the ones I don't know about
 			
 			//put the buffer data in place where it belongs.
+			//temporary vecs for filling buffers up.
 			glm::vec2 *temp2;
 			glm::vec3 *temp3;
 			glm::vec4 *temp4;
