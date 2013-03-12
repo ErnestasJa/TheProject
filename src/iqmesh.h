@@ -1,19 +1,15 @@
 #pragma once
 #include "iqm.h"
-struct vertexanim
+struct vertex
 {
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec4 tangent;
 	glm::vec2 texcoord;
-	glm::detail::tvec4<unsigned char> blendindex;
-	glm::detail::tvec4<unsigned char> blendweight;
+	glm::detail::tvec4<uint8_t> blendindex;
+	glm::detail::tvec4<uint8_t> blendweight;
 };
 
-struct vertexstatic
-{
-	
-};
 class iqmesh
 {
 //Variables
@@ -38,7 +34,7 @@ public:
 	std::vector<glm::detail::tvec4<uint8_t>> bindexes;
 	std::vector<glm::detail::tvec4<uint8_t>> bweights;
 	std::vector<glm::vec3> colors;
-	std::vector<unsigned int> indices;
+	std::vector<uint> indices;
 private:
 protected:
 
@@ -47,6 +43,7 @@ public:
 	iqmesh();
 	virtual ~iqmesh();
 	void generate();
+	void draw();
 private:
 protected:
 };

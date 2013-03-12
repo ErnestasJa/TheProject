@@ -66,12 +66,85 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			
 			//ofs extensions? the ones I don't know about
 			
+			//put the buffer data in place where it belongs.
+			glm::vec2 *temp2;
+			glm::vec3 *temp3;
+			glm::vec4 *temp4;
+			glm::detail::tvec4<uint> *tempu4;
+			for(uint i=0; i<head.num_vertexarrays; i++)
+			{
+				iqmvertexarray *va=output->vertexarrays[i];
+				switch(va->type)
+				{
+					case IQM_POSITION:
+					temp3=(glm::vec3*)&data[va->offset];
+					output->positions.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->positions[j]=temp3[j];
+					break;
+					
+					case IQM_TEXCOORD:
+					temp2=(glm::vec2*)&data[va->offset];
+					output->texcoords.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->texcoords[j]=temp2[j];
+					break;
+					
+					case IQM_NORMAL:
+					temp3=(glm::vec3*)&data[va->offset];
+					output->normals.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->normals[j]=temp3[j];
+					break;
+					
+					case IQM_TANGENT:
+					temp4=(glm::vec4*)&data[va->offset];
+					output->tangents.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->tangents[j]=temp4[j];
+					break;
+					
+					case IQM_BLENDINDEXES:
+					tempu4=(glm::detail::tvec4<uint>*)&data[va->offset];
+					output->bindexes.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->bindexes[j]=tempu4[j];
+					break;
+					
+					case IQM_BLENDWEIGHTS:
+					tempu4=(glm::detail::tvec4<uint>*)&data[va->offset];
+					output->bweights.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->bweights[j]=tempu4[j];
+					break;
+					
+					
+					case IQM_COLOR:
+					temp3=(glm::vec3*)&data[va->offset];
+					output->colors.resize(head.num_vertexes);
+					for(uint j=0; j<head.num_vertexes; j++)
+						output->colors[j]=temp3[j];
+					break;
+				}
+			}
+			
+			output->indices.resize(head.num_triangles*3);
+			for(uint i=0; i<head.num_triangles*3; i+=3)
+			{
+				output->indices[i]=output->triangles[i/3]->verts.x;
+				output->indices[i+1]=output->triangles[i/3]->verts.y;
+				output->indices[i+2]=output->triangles[i/3]->verts.z;
+			}
+			
 			//a test
 			for(uint8_t i=0; i<head.num_meshes; i++)
 			{
 				iqmmesh &temp=meshes[i];
 				printf("TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",&texts[temp.name],&texts[temp.material],temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);
 			}
+			
+			//should it be here?
+			output->generate();
 		}
 		else
 		{

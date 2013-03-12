@@ -11,7 +11,7 @@ void iqmesh::generate()
 	glGenVertexArrays(1,&vaoid);
 	glBindVertexArray(vaoid);
 	//keeping track on enabling attrib ids
-	uint attribid;
+	uint attribid=0;
 	//determine how many buffers we got and check their formats
 	for(uint i=0; i<vertexarrays.size(); i++)
 	{
@@ -115,5 +115,13 @@ void iqmesh::generate()
 	for(uint i=attribid; i>0; i--)
 		glDisableVertexAttribArray(i);
 	
+	glBindVertexArray(0);
+}
+
+void iqmesh::draw()
+{
+	glBindVertexArray(vaoid);
+	for(uint i=0; i<meshes.size(); i++)
+		glDrawElementsBaseVertex(GL_TRIANGLES,meshes[i]->num_triangles*3,GL_UNSIGNED_INT,0,meshes[i]->first_vertex);
 	glBindVertexArray(0);
 }

@@ -47,15 +47,17 @@ int main()
 	fread(buffer+sizeof(head),head.filesize-sizeof(head),1,io);
 	
 	mesh=loader->load(buffer,head);
-	mesh->generate();
 	glEnable(GL_DEPTH);
 	glDepthFunc(GL_LESS);
+	
+	for(uint i=0; i<mesh->positions.size(); i++)
+		printf("X:%f Y:%f Z:%f\n",mesh->positions[i].x,mesh->positions[i].y,mesh->positions[i].z);
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
         /* Render here */
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		
+		mesh->draw();
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }
