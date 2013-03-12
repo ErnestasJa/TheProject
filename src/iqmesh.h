@@ -10,13 +10,23 @@ struct vertex
 	glm::detail::tvec4<uint8_t> blendweight;
 };
 
+struct iqsubmesh
+{
+	std::string name;
+	//material material; Future material implementations.
+	uint32_t first_vertex,num_vertices;
+	uint32_t first_index,num_indices;
+	
+	bool visible;
+};
+
 class iqmesh
 {
 //Variables
 public:
 	//Information variables
 	std::vector<const char*> texts; //that's where names are put
-	std::vector<iqmmesh*> meshes; //meshbuffer info
+	std::vector<iqsubmesh> submeshes; //native submesh info, converted from iqm format
 	std::vector<iqmvertexarray*> vertexarrays; //vertex array info
 	std::vector<iqmtriangle*> triangles; //triangle info(for indices)
 	std::vector<iqmjoint*> joints; //joint info
@@ -43,7 +53,7 @@ public:
 	iqmesh();
 	virtual ~iqmesh();
 	bool generate();
-	void draw();
+	void draw(bool whole);
 private:
 protected:
 };

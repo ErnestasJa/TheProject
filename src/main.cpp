@@ -140,10 +140,6 @@ int main()
 	GLuint vaid;
 	glGenVertexArrays(1,&vaid);
 	glBindVertexArray(vaid);
-	
-	printf("Indices test:%i\nM1 start:%i\nM1 count:%i\nM2 start:%i\nM2 count:%i\n",mesh->indices.size(),mesh->meshes[0]->first_triangle*3,mesh->meshes[0]->num_triangles*3,mesh->meshes[1]->first_triangle*3,mesh->meshes[1]->num_triangles*3);
-	for(uint i=0; i<IQM_BUFFER_COUNT; i++)
-		printf("Buffer id: %i\n",mesh->buffers[i]);
 		
 	CompileShaders();
 	
@@ -159,7 +155,7 @@ int main()
 	
 	GLuint mpl=glGetUniformLocation(ShaderProgram,"MVP");
 	glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
-	
+	mesh->submeshes[0].visible=false;
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
@@ -179,7 +175,7 @@ int main()
 		M=glm::rotate<float>(M,1,glm::vec3(0,0,1));
 		MVP=P*V*M;
 		glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
-		mesh->draw();
+		mesh->draw(false);
 		glUseProgram(0);
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();

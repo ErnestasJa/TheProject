@@ -133,18 +133,29 @@ bool iqmesh::generate()
 	return true;
 }
 
-void iqmesh::draw()
+void iqmesh::draw(bool whole)
 {
+	//bind the meshe's vertex array with its bound buffers
 	glBindVertexArray(vaoid);
-	for(uint i=0; i<meshes.size(); i++)
+	
+	if(whole)
 	{
-		//the start index of a sub mesh
-		uint sindex=meshes[i]->first_triangle*3u;
-		//the number of indices of a sub mesh
-		uint nindex=meshes[i]->num_triangles*3u;
-		
-		//draw using the new range we got.
-		glDrawElementsBaseVertex(GL_TRIANGLES,nindex,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sindex),0);
+		//draw mesh as one unit, saves draw calls.
+		glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,0);
 	}
+	else
+	{
+		//draw each submesh separately, allows more customisation.
+		for(uint i=0; i<submeshes.size(); i++)
+		{
+			if(submeshes[i].visible)
+			{
+				//draw all sub meshes using index offset
+				glDrawElements(GL_TRIANGLES,submeshes[i].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_index));
+			}
+		}
+	}
+	
+	//make sure to unbind the vertex array after using it
 	glBindVertexArray(0);
 }

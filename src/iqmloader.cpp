@@ -24,9 +24,21 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 				output->texts[i]=&texts[i];
 				
 			iqmmesh* meshes=(iqmmesh*)&data[head.ofs_meshes];
-			output->meshes.resize(head.num_meshes);
+			output->submeshes.resize(head.num_meshes);
 			for(uint i=0; i<head.num_meshes; i++)
-				output->meshes[i]=&meshes[i];
+			{
+				iqmmesh *temp=&meshes[i];
+				iqsubmesh sub;
+				
+				sub.name=std::string(output->texts[temp->name]);
+				sub.first_index=temp->first_triangle*3u;
+				sub.num_indices=temp->num_triangles*3u;
+				sub.first_vertex=temp->first_vertex;
+				sub.num_vertices=temp->num_vertexes;
+				sub.visible=true;
+				
+				output->submeshes[i]=sub;
+			}
 				
 			iqmvertexarray* vertexarrays=(iqmvertexarray*)&data[head.ofs_vertexarrays];
 			output->vertexarrays.resize(head.num_vertexarrays);
@@ -129,14 +141,7 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 				}
 			}
 			
-			//output->indices.resize(head.num_triangles*3);
-			//for(uint i=0; i<head.num_triangles; i++)
-			//{
-			//	output->indices.push_back(output->triangles[i]->verts[0]);
-			//	output->indices.push_back(output->triangles[i]->verts[1]);
-			//	output->indices.push_back(output->triangles[i]->verts[2]);
-			//}
-			
+			//convert triangles to indices and add them.
 			output->indices.resize(head.num_triangles*3);
 			uint counter=0;
 			for(uint i=0; i<head.num_triangles; i++)
@@ -148,21 +153,26 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			}
 			printf("Indices:%i\n",counter);
 			
-			//a test
+			//mesh info test
 			for(uint i=0; i<head.num_meshes; i++)
 			{
-				iqmmesh &temp=meshes[i];
-				printf("TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",&texts[temp.name],&texts[temp.material],temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);
+				iqsubmesh sm=output->submeshes[i];
+				printf("TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i\n",sm.name.c_str(),"NYI",sm.first_vertex,sm.num_vertices,sm.first_index,sm.num_indices);
 			}
 			
-			output->generate();
+			if(output->generate())
+				return output;
+			else
+			{
+				printf("Mesh generation failed.\n");
+				return nullptr;
+			}
 		}
 		else
 		{
 			printf("No meshes present. Is it a blank IQM?\n");
 			return nullptr;
 		}
-		return output;
 	}
 	else
 		return nullptr;
