@@ -34,7 +34,7 @@ public:
 	std::vector<glm::detail::tvec4<uint8_t>> bindexes;
 	std::vector<glm::detail::tvec4<uint8_t>> bweights;
 	std::vector<glm::vec3> colors;
-	std::vector<uint> indices;
+	std::vector<uint32_t> indices;
 private:
 protected:
 
@@ -42,7 +42,7 @@ protected:
 public:
 	iqmesh();
 	virtual ~iqmesh();
-	void generate();
+	bool generate();
 	void draw();
 private:
 protected:

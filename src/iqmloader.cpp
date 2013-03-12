@@ -130,15 +130,26 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			}
 			
 			//output->indices.resize(head.num_triangles*3);
+			//for(uint i=0; i<head.num_triangles; i++)
+			//{
+			//	output->indices.push_back(output->triangles[i]->verts[0]);
+			//	output->indices.push_back(output->triangles[i]->verts[1]);
+			//	output->indices.push_back(output->triangles[i]->verts[2]);
+			//}
+			
+			output->indices.resize(head.num_triangles*3);
+			uint counter=0;
 			for(uint i=0; i<head.num_triangles; i++)
 			{
-				output->indices.push_back(output->triangles[i]->verts[0]);
-				output->indices.push_back(output->triangles[i]->verts[1]);
-				output->indices.push_back(output->triangles[i]->verts[2]);
+				output->indices[counter]=output->triangles[i]->verts[0];
+				output->indices[counter+1]=output->triangles[i]->verts[1];
+				output->indices[counter+2]=output->triangles[i]->verts[2];
+				counter+=3;
 			}
+			printf("Indices:%i\n",counter);
 			
 			//a test
-			for(uint8_t i=0; i<head.num_meshes; i++)
+			for(uint i=0; i<head.num_meshes; i++)
 			{
 				iqmmesh &temp=meshes[i];
 				printf("TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",&texts[temp.name],&texts[temp.material],temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);

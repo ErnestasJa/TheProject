@@ -109,9 +109,8 @@ int main()
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
 	glEnable(GL_DEPTH);
 	glDepthFunc(GL_LEQUAL);
-	//gluPerspective(45.0,4.0/3.0,1.0,1000.0);
 	
-	FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
+	FILE* io=fopen("../../ZombieGameProject/res/test.iqm","rb");
 	
 	iqmheader head;
 	//seek to the end of file
@@ -160,9 +159,6 @@ int main()
 	GLuint mpl=glGetUniformLocation(ShaderProgram,"MVP");
 	glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
 	
-	for(uint i=0; i<mesh->triangles.size(); i++)
-		printf("%i %i %i\n",mesh->triangles[i]->verts[0],mesh->triangles[i]->verts[1],mesh->triangles[i]->verts[2]);
-	
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
@@ -179,6 +175,8 @@ int main()
         /* Render here */
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		glUseProgram(ShaderProgram);
+		M=glm::rotate<float>(M,1,glm::vec3(0,0,1));
+		MVP=P*V*M;
 		glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
 		mesh->draw();
 		glUseProgram(0);

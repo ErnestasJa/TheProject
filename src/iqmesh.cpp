@@ -5,7 +5,7 @@ iqmesh::iqmesh()
 iqmesh::~iqmesh()
 {
 }
-void iqmesh::generate()
+bool iqmesh::generate()
 {
 	//set the buffers to invalid values
 	for(uint i=0; i<IQM_BUFFER_COUNT; i++)
@@ -26,7 +26,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_POSITION]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_POSITION]);
@@ -41,7 +41,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_TEXCOORD]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TEXCOORD]);
@@ -56,7 +56,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_NORMAL]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_NORMAL]);
@@ -71,7 +71,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_TANGENT]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TANGENT]);
@@ -86,7 +86,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_UBYTE)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_BLENDINDEXES]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDINDEXES]);
@@ -101,7 +101,7 @@ void iqmesh::generate()
 			if(va->format!=IQM_UBYTE)
 			{
 				printf("Bad format. Cannot continue.\n");
-				return;
+				return false;
 			}
 			glGenBuffers(1,&buffers[IQM_BLENDWEIGHTS]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDWEIGHTS]);
@@ -117,20 +117,32 @@ void iqmesh::generate()
 			break;
 		}
 	}
-	glGenBuffers(1,&buffers[IQM_INDICES]);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,buffers[IQM_INDICES]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(unsigned int),&indices[0],GL_STATIC_DRAW);
+	if(indices.size()>0)
+	{
+		glGenBuffers(1,&buffers[IQM_INDICES]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,buffers[IQM_INDICES]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(indices[0]),&indices[0],GL_STATIC_DRAW);
+	}
+	else
+		return false;
 	
 //	for(uint i=0; i<attribid; i++)
 //		glDisableVertexAttribArray(i);
 	
 	glBindVertexArray(0);
+	return true;
 }
 
 void iqmesh::draw()
 {
 	glBindVertexArray(vaoid);
+	//glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,nullptr);
 	for(uint i=0; i<meshes.size(); i++)
-		glDrawElementsBaseVertex(GL_TRIANGLES,meshes[i]->num_triangles*3,GL_UNSIGNED_INT,(void*)(sizeof(uint) * (meshes[i]->first_triangle*3)),meshes[i]->first_vertex);
+	{
+		uint sindex=meshes[i]->first_triangle*3u;
+		uint nindex=meshes[i]->num_triangles*3u;
+		
+		glDrawElementsBaseVertex(GL_TRIANGLES,nindex,GL_UNSIGNED_INT,(intptr_t*)(sizeof(uint32_t)*sindex),meshes[i]->first_vertex);
+	}
 	glBindVertexArray(0);
 }
