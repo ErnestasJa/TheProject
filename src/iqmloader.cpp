@@ -129,12 +129,12 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 				}
 			}
 			
-			output->indices.resize(head.num_triangles*3);
-			for(uint i=0; i<head.num_triangles*3; i+=3)
+			//output->indices.resize(head.num_triangles*3);
+			for(uint i=0; i<head.num_triangles; i++)
 			{
-				output->indices[i]=output->triangles[i/3]->verts.x;
-				output->indices[i+1]=output->triangles[i/3]->verts.y;
-				output->indices[i+2]=output->triangles[i/3]->verts.z;
+				output->indices.push_back(output->triangles[i]->verts[0]);
+				output->indices.push_back(output->triangles[i]->verts[1]);
+				output->indices.push_back(output->triangles[i]->verts[2]);
 			}
 			
 			//a test
@@ -144,7 +144,6 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 				printf("TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Tri:%i\nN.Tris:%i\n",&texts[temp.name],&texts[temp.material],temp.first_vertex,temp.num_vertexes,temp.first_triangle,temp.num_triangles);
 			}
 			
-			//should it be here?
 			output->generate();
 		}
 		else

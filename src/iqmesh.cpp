@@ -7,6 +7,9 @@ iqmesh::~iqmesh()
 }
 void iqmesh::generate()
 {
+	//set the buffers to invalid values
+	for(uint i=0; i<IQM_BUFFER_COUNT; i++)
+		buffers[i]=-1;
 	//create the VAO
 	glGenVertexArrays(1,&vaoid);
 	glBindVertexArray(vaoid);
@@ -118,8 +121,8 @@ void iqmesh::generate()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,buffers[IQM_INDICES]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(unsigned int),&indices[0],GL_STATIC_DRAW);
 	
-	for(uint i=0; i<attribid; i++)
-		glDisableVertexAttribArray(i);
+//	for(uint i=0; i<attribid; i++)
+//		glDisableVertexAttribArray(i);
 	
 	glBindVertexArray(0);
 }
@@ -128,6 +131,6 @@ void iqmesh::draw()
 {
 	glBindVertexArray(vaoid);
 	for(uint i=0; i<meshes.size(); i++)
-		glDrawElementsBaseVertex(GL_TRIANGLES,meshes[i]->num_triangles*3,GL_UNSIGNED_INT,(void*)(sizeof(unsigned int) * (meshes[i]->first_triangle*3)),meshes[i]->first_vertex);
+		glDrawElementsBaseVertex(GL_TRIANGLES,meshes[i]->num_triangles*3,GL_UNSIGNED_INT,(void*)(sizeof(uint) * (meshes[i]->first_triangle*3)),meshes[i]->first_vertex);
 	glBindVertexArray(0);
 }

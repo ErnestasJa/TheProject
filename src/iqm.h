@@ -52,7 +52,7 @@ enum
 };
 struct iqmtriangle
 {
-	glm::detail::tvec3<uint8_t> verts;
+	glm::detail::tvec3<uint> verts;
 };
 struct iqmjoint
 {
