@@ -136,13 +136,15 @@ bool iqmesh::generate()
 void iqmesh::draw()
 {
 	glBindVertexArray(vaoid);
-	//glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,nullptr);
 	for(uint i=0; i<meshes.size(); i++)
 	{
+		//the start index of a sub mesh
 		uint sindex=meshes[i]->first_triangle*3u;
+		//the number of indices of a sub mesh
 		uint nindex=meshes[i]->num_triangles*3u;
 		
-		glDrawElementsBaseVertex(GL_TRIANGLES,nindex,GL_UNSIGNED_INT,(intptr_t*)(sizeof(uint32_t)*sindex),meshes[i]->first_vertex);
+		//draw using the new range we got.
+		glDrawElementsBaseVertex(GL_TRIANGLES,nindex,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sindex),0);
 	}
 	glBindVertexArray(0);
 }

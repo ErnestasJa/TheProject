@@ -109,8 +109,9 @@ int main()
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
 	glEnable(GL_DEPTH);
 	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE);
 	
-	FILE* io=fopen("../../ZombieGameProject/res/test.iqm","rb");
+	FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
 	
 	iqmheader head;
 	//seek to the end of file
