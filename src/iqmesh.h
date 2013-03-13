@@ -24,15 +24,15 @@ class iqmesh
 {
 //Variables
 public:
-	//Information variables
-	std::vector<const char*> texts; //that's where names are put
-	std::vector<iqsubmesh> submeshes; //native submesh info, converted from iqm format
-	std::vector<iqmvertexarray*> vertexarrays; //vertex array info
-	std::vector<iqmtriangle*> triangles; //triangle info(for indices)
-	std::vector<iqmjoint*> joints; //joint info
-	std::vector<iqmpose*> poses; //pose info
-	std::vector<iqmanim*> anims; //animation info
-	std::vector<iqmbounds*> bounds; //the bounding box
+	//Information variables, will replace IQM ones with natives when the time comes. [MOST OF THEM ARE TEMPORARY]
+	std::vector<const char*> texts; //IQM that's where names are put
+	std::vector<iqsubmesh> submeshes; //NATIVE submesh info, converted from iqm format
+	std::vector<iqmvertexarray*> vertexarrays; //IQM vertex array info
+	std::vector<iqmtriangle*> triangles; //IQM triangle info(for indices)
+	std::vector<iqmjoint*> joints; //IQM joint info
+	std::vector<iqmpose*> poses; //IQM pose info
+	std::vector<iqmanim*> anims; //IQM animation info
+	std::vector<iqmbounds*> bounds; //IQM the bounding box
 	
 	//geometry,buffers
 	GLuint vaoid;

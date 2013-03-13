@@ -73,7 +73,7 @@
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
         <PostConnectCommands/>
-        <StartupCommands>optirun</StartupCommands>
+        <StartupCommands/>
       </Debugger>
       <PreBuild/>
       <PostBuild/>

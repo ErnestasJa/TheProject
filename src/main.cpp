@@ -111,7 +111,7 @@ int main()
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_CULL_FACE);
 	
-	FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
+	FILE* io=fopen("../../ZombieGameProject/res/test.iqm","rb");
 	
 	iqmheader head;
 	//seek to the end of file
@@ -147,15 +147,15 @@ int main()
 	int nbFrames = 0;
 	
 	glm::mat4 M=glm::mat4(1.0f);
-	M=glm::rotate<float>(M,-90,glm::vec3(1,0,0));
-	M=glm::rotate<float>(M,-90,glm::vec3(0,0,1));
-	glm::mat4 V=glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
+	//M=glm::rotate<float>(M,-90,glm::vec3(1,0,0));
+	//M=glm::rotate<float>(M,-90,glm::vec3(0,0,1));
+	glm::mat4 V=glm::lookAt(glm::vec3(0,20,5),glm::vec3(0,0,5),glm::vec3(0,0,1));
 	glm::mat4 P=glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
 	glm::mat4 MVP=P*V*M;
 	
 	GLuint mpl=glGetUniformLocation(ShaderProgram,"MVP");
 	glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
-	mesh->submeshes[0].visible=false;
+
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
@@ -175,7 +175,7 @@ int main()
 		M=glm::rotate<float>(M,1,glm::vec3(0,0,1));
 		MVP=P*V*M;
 		glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
-		mesh->draw(false);
+		mesh->draw(true);
 		glUseProgram(0);
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
