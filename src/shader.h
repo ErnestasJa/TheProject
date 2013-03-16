@@ -3,45 +3,52 @@
 
 struct binding
 {
-	const char *name;
+	std::string name;
 	int32_t index;
 };
 
 struct shader
 {
-	const char *name, *vsstr, *psstr;
+	std::string name, vsstr, psstr;
 	const binding *attribs, *texs;
 	uint32_t vs, ps, program, vsobj, psobj;
 
-	shader ( const char *name, const char *vsstr = NULL, const char *psstr = NULL, const binding *attribs = NULL, const binding *texs = NULL )
-	: name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), vs ( 0 ), ps ( 0 ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
+	shader ( const std::string & name, const std::string & vsstr = NULL, const std::string & psstr = NULL, const binding *attribs = NULL, const binding *texs = NULL )
+		: name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), vs ( 0 ), ps ( 0 ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
 
-	static void showinfo ( uint32_t obj, const char *tname, const char *name )
+	static void showinfo ( uint32_t obj, const std::string & tname, const std::string & name )
 	{
 		int32_t length = 0;
 
-		if ( !strcmp ( tname, "PROG" ) ) glGetProgramiv ( obj, GL_INFO_LOG_LENGTH, &length );
-		else glGetShaderiv ( obj, GL_INFO_LOG_LENGTH, &length );
+		if ( tname=="PROG" ) 
+			glGetProgramiv ( obj, GL_INFO_LOG_LENGTH, &length );
+		else 
+			glGetShaderiv ( obj, GL_INFO_LOG_LENGTH, &length );
 
 		if ( length > 1 )
 		{
 			GLchar *log = new GLchar[length];
 
-			if ( !strcmp ( tname, "PROG" ) ) glGetProgramInfoLog ( obj, length, &length, log );
-			else glGetShaderInfoLog ( obj, length, &length, log );
+			if ( tname == "PROG" ) 
+				glGetProgramInfoLog ( obj, length, &length, log );
+			else 
+				glGetShaderInfoLog ( obj, length, &length, log );
 
-			printf ( "GLSL ERROR (%s:%s)\n", tname, name );
+			printf ( "GLSL ERROR (%s:%s)\n", tname.c_str(), name.c_str() );
 			puts ( log );
+			
 			delete[] log;
 		}
 	}
 
-	static void compile ( GLenum type, uint32_t &obj, const char *def, const char *tname, const char *name, bool msg = true )
+	static void compile ( GLenum type, uint32_t &obj, const std::string & def, const std::string & tname, const std::string & name, bool msg = true )
 	{
-		const GLchar *source = ( const GLchar* ) ( def + strspn ( def, " \t\r\n" ) );
 		obj = glCreateShader ( type );
-		glShaderSource ( obj, 1, &source, NULL );
+		char const * str = def.c_str();
+
+		glShaderSource ( obj, 1, &str, NULL );
 		glCompileShader ( obj );
+		
 		int32_t success;
 		glGetShaderiv ( obj, GL_COMPILE_STATUS, &success );
 
@@ -51,6 +58,7 @@ struct shader
 
 			glDeleteShader ( obj );
 			obj = 0;
+			
 			printf ( "error compiling shader\n" );
 		}
 	}
@@ -65,8 +73,8 @@ struct shader
 			glAttachShader ( program, vsobj );
 			glAttachShader ( program, psobj );
 
-			if ( attribs ) for ( const binding *a = attribs; a->name; a++ )
-					glBindAttribLocation ( program, a->index, a->name );
+			if ( attribs ) for ( const binding *a = attribs; a->name.size(); a++ )
+					glBindAttribLocation ( program, a->index, a->name.c_str() );
 
 			glLinkProgram ( program );
 			glGetProgramiv ( program, GL_LINK_STATUS, &success );
@@ -86,7 +94,7 @@ struct shader
 		}
 	}
 
-	void compile ( const char *vsdef, const char *psdef, const binding *attribs = NULL )
+	void compile ( const std::string & vsdef, const std::string & psdef, const binding *attribs = NULL )
 	{
 		compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
 		compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
@@ -95,7 +103,7 @@ struct shader
 
 	void compile()
 	{
-		if ( vsstr && psstr ) compile ( vsstr, psstr, attribs );
+		if ( vsstr.size() && psstr.size() ) compile ( vsstr, psstr, attribs );
 	}
 
 	void set()
@@ -104,12 +112,12 @@ struct shader
 		bindtexs();
 	}
 
-	int32_t getparam ( const char *pname )
+	int32_t getparam ( const std::string & pname )
 	{
-		return glGetUniformLocation ( program, pname );
+		return glGetUniformLocation ( program, pname.c_str() );
 	}
 
-	void bindtex ( const char *tname, int32_t index )
+	void bindtex ( const std::string & tname, int32_t index )
 	{
 		int32_t loc = getparam ( tname );
 
@@ -118,7 +126,7 @@ struct shader
 
 	void bindtexs()
 	{
-		if ( texs ) for ( const binding *t = texs; t->name; t++ )
+		if ( texs ) for ( const binding *t = texs; t->name.size(); t++ )
 				bindtex ( t->name, t->index );
 	}
 };
