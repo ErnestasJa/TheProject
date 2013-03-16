@@ -7,14 +7,26 @@ struct binding
 	int32_t index;
 };
 
+
+/**
+ * Usage:
+ * shader sh(shader_name, vertex_source, fragment_source, attribute_bindings, texture_bindings);
+ * sh->compile();
+ * sh->link();
+ * if(sh->program) good;
+ * 
+ * ///render
+ * sh->set();
+ **/
+
 struct shader
 {
 	std::string name, vsstr, psstr;
 	const binding *attribs, *texs;
-	uint32_t vs, ps, program, vsobj, psobj;
+	uint32_t program, vsobj, psobj;
 
 	shader ( const std::string & name, const std::string & vsstr = NULL, const std::string & psstr = NULL, const binding *attribs = NULL, const binding *texs = NULL )
-		: name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), vs ( 0 ), ps ( 0 ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
+		: name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
 
 	static void showinfo ( uint32_t obj, const std::string & tname, const std::string & name )
 	{
