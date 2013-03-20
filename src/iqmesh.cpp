@@ -1,3 +1,4 @@
+#include "precomp.h"
 #include "iqmesh.h"
 iqmesh::iqmesh()
 {
@@ -35,7 +36,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			case IQM_TEXCOORD:
 			printf("Got a texcoord buffer.\n");
 			if(va->format!=IQM_FLOAT)
@@ -50,7 +51,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,2,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			case IQM_NORMAL:
 			printf("Got a normal buffer.\n");
 			if(va->format!=IQM_FLOAT)
@@ -65,7 +66,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			case IQM_TANGENT:
 			printf("Got a tangent buffer.\n");
 			if(va->format!=IQM_FLOAT)
@@ -80,7 +81,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,4,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			case IQM_BLENDINDEXES:
 			printf("Got a blendindex buffer.\n");
 			if(va->format!=IQM_UBYTE)
@@ -95,7 +96,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			case IQM_BLENDWEIGHTS:
 			printf("Got a blendweight buffer.\n");
 			if(va->format!=IQM_UBYTE)
@@ -110,7 +111,7 @@ bool iqmesh::generate()
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
 			attribid++;
 			break;
-			
+
 			//whoever uses that.. :D
 			case IQM_COLOR:
 			printf("Got a color buffer. Lol.\n");
@@ -125,10 +126,10 @@ bool iqmesh::generate()
 	}
 	else
 		return false;
-	
+
 //	for(uint i=0; i<attribid; i++)
 //		glDisableVertexAttribArray(i);
-	
+
 	glBindVertexArray(0);
 	return true;
 }
@@ -137,7 +138,7 @@ void iqmesh::draw(bool whole)
 {
 	//bind the meshe's vertex array with its bound buffers
 	glBindVertexArray(vaoid);
-	
+
 	if(whole)
 	{
 		//draw mesh as one unit, saves draw calls.
@@ -150,12 +151,13 @@ void iqmesh::draw(bool whole)
 		{
 			if(submeshes[i].visible)
 			{
+			    glBindTexture(GL_TEXTURE_2D,submeshes[i].mat.texid);
 				//draw all sub meshes using index offset
 				glDrawElements(GL_TRIANGLES,submeshes[i].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_index));
 			}
 		}
 	}
-	
+
 	//make sure to unbind the vertex array after using it
 	glBindVertexArray(0);
 }

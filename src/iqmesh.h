@@ -10,13 +10,18 @@ struct vertex
 	glm::detail::tvec4<uint8_t> blendweight;
 };
 
+struct material
+{
+    GLuint texid;
+};
+
 struct iqsubmesh
 {
 	std::string name;
-	//material material; Future material implementations.
+	material mat; //Future material implementations.
 	uint32_t first_vertex,num_vertices;
 	uint32_t first_index,num_indices;
-	
+
 	bool visible;
 };
 
@@ -33,7 +38,7 @@ public:
 	std::vector<iqmpose*> poses; //IQM pose info
 	std::vector<iqmanim*> anims; //IQM animation info
 	std::vector<iqmbounds*> bounds; //IQM the bounding box
-	
+
 	//geometry,buffers
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];

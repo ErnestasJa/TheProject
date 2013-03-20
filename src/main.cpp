@@ -1,24 +1,30 @@
+#include "precomp.h"
 #include "iqmesh.h"
 #include "iqmloader.h"
+#include "texture.h"
 
 static const char* pVS = "                                                    \n\
 #version 330                                                                  \n\
                                                                               \n\
 layout (location = 0) in vec3 Position;                                       \n\
+layout (location = 1) in vec2 TexCoords;                                      \n\
 uniform mat4 MVP;                                                             \n\
+out vec2 UV;                                                                  \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    gl_Position = MVP*vec4(Position.x, Position.y, Position.z, 1.0);  \n\
+    UV=TexCoords;                                                             \n\
+    gl_Position = MVP*vec4(Position.x, Position.y, Position.z, 1.0);          \n\
 }";
 
 static const char* pFS = "                                                    \n\
 #version 330                                                                  \n\
-                                                                              \n\
+uniform sampler2D tex;                                                        \n\
+in vec2 UV;                                                                   \n\
 out vec4 FragColor;                                                           \n\
                                                                               \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    FragColor = vec4(1.0, 0.0, 0.0, 1.0);                                     \n\
+    FragColor = texture2D(tex,UV);                                  \n\
 }";
 
 static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -87,13 +93,13 @@ int main()
 	printf("Hello world!\n");
 
 	glxwInit();
-	
+
 	if (!glfwInit())
 	{
 		printf("glfw init failed!\n");
         return -1;
 	}
-	
+
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3); // We want OpenGL 3.3
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
@@ -104,15 +110,14 @@ int main()
 		printf("glfw open window failed!\n");
         return -1;
 	}
-	
+
 	/* Development going wild. or is it? */
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
-	glEnable(GL_DEPTH);
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
-	glEnable(GL_CULL_FACE);
-	
-	FILE* io=fopen("../../ZombieGameProject/res/test.iqm","rb");
-	
+
+	FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
+
 	iqmheader head;
 	//seek to the end of file
 	fseek(io,0,SEEK_END);
@@ -121,40 +126,61 @@ int main()
 	printf("Filesize ftell:%i\n",fsize);
 	//get back to the beginning
 	fseek(io,SEEK_SET,0);
-	
+
 	//read the header
 	fread(&head,sizeof(head),1,io);
-	
+
 	//size check works
 	printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int)sizeof(head),head.filesize,(int)head.filesize==fsize?"same":"not same");
-	
+
 	iqmesh *mesh;
-	
+
 	iqmloader *loader=new iqmloader();
-	
+
 	uint8_t* buffer=new uint8_t[head.filesize];
 	fread(buffer+sizeof(head),head.filesize-sizeof(head),1,io);
-	
+	fclose(io);
+
 	mesh=loader->load(buffer,head);
-	
+	delete[] buffer;
+
 	GLuint vaid;
 	glGenVertexArrays(1,&vaid);
 	glBindVertexArray(vaid);
-		
+
 	CompileShaders();
-	
+
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
-	
+
 	glm::mat4 M=glm::mat4(1.0f);
 	//M=glm::rotate<float>(M,-90,glm::vec3(1,0,0));
 	//M=glm::rotate<float>(M,-90,glm::vec3(0,0,1));
 	glm::mat4 V=glm::lookAt(glm::vec3(0,20,5),glm::vec3(0,0,5),glm::vec3(0,0,1));
 	glm::mat4 P=glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
 	glm::mat4 MVP=P*V*M;
-	
+
 	GLuint mpl=glGetUniformLocation(ShaderProgram,"MVP");
 	glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
+
+	GLuint tex;
+
+    glGenTextures(1, &tex);				/* Create The Texture */
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glfwLoadTexture2D("../../ZombieGameProject/res/Body.tga",GLFW_ORIGIN_UL_BIT|GLFW_BUILD_MIPMAPS_BIT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+    GLuint tex2;
+
+    glGenTextures(1, &tex2);				/* Create The Texture */
+    glBindTexture(GL_TEXTURE_2D, tex2);
+    glfwLoadTexture2D("../../ZombieGameProject/res/Head.tga",GLFW_ORIGIN_UL_BIT|GLFW_BUILD_MIPMAPS_BIT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+    mesh->submeshes[0].mat.texid=tex;
+    mesh->submeshes[1].mat.texid=tex2;
 
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
@@ -164,7 +190,7 @@ int main()
 			nbFrames++;
 			if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
 				// printf and reset timer
-				printf("%f ms/frame\n", 1000.0/double(nbFrames));
+				printf("FPS: %i (%f ms/frame)\n",nbFrames,1000.0/double(nbFrames));
 				nbFrames = 0;
 				lastTime += 1.0;
 			}
@@ -175,11 +201,12 @@ int main()
 		M=glm::rotate<float>(M,1,glm::vec3(0,0,1));
 		MVP=P*V*M;
 		glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
-		mesh->draw(true);
+		mesh->draw(false);
 		glUseProgram(0);
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }
-
+    delete mesh;
+    delete loader;
 	return 0;
 }

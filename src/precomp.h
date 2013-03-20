@@ -1,3 +1,6 @@
+#ifndef _PRECOMP_H_
+#define _PRECOMP_H_
+
 #include <iostream>
 #include <stdio.h>
 #include <stdint.h>
@@ -13,3 +16,5 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+
+#endif // _PRECOMP_H_
