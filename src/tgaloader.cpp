@@ -48,7 +48,7 @@ texture * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)
         data[i+2]=tmp;
     }
 
-    texture * tex = new texture("");
+    texture * tex = new texture();
 
     tex->generate(data, GL_TEXTURE_2D, m_header.bitsperpixel/8, m_header.width,m_header.height);
 

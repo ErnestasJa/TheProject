@@ -17,7 +17,7 @@ struct texture
 	uint32_t obj;
 	uint32_t type;
 
-	texture(const std::string & name):name(name)
+	texture()
 	{
         obj = 0;
         type = 0;
@@ -54,13 +54,22 @@ struct texture
 		glBindTexture(type,0);
 	}
 
-	void set_filters(uint8_t filter=bit<0>(), uint8_t clamp=bit<0>()|bit<1>())
+	void set_filters(uint8_t filter=bit<0>())
 	{
 	    glBindTexture(type,obj);
 
-		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-        glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(type, GL_TEXTURE_MAG_FILTER, tbit(filter,BIT0) ? GL_LINEAR : GL_NEAREST);
+		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, tbit(filter,BIT1) ? GL_LINEAR_MIPMAP_LINEAR : (tbit(filter,BIT0) ? GL_LINEAR : GL_NEAREST));
+
+		glBindTexture(type,0);
+	}
+
+	void set_clamp(uint8_t clamp=bit<0>()|bit<1>())
+	{
+	    glBindTexture(type,obj);
+
+        glTexParameteri(type, GL_TEXTURE_WRAP_S, tbit(clamp,BIT0) ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTexParameteri(type, GL_TEXTURE_WRAP_T, tbit(clamp,BIT1) ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 
 		glBindTexture(type,0);
 	}
