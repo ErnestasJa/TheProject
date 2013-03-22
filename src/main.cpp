@@ -91,7 +91,11 @@ int main()
 {
 	printf("Hello world!\n");
 
-	glxwInit();
+	if(glxwInit()!=0)
+    {
+        printf("GLXW failed to initialize.\n");
+        return -1;
+    }
 
 	if (!glfwInit())
 	{
