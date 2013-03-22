@@ -9,15 +9,15 @@ iqmesh::~iqmesh()
 bool iqmesh::generate()
 {
 	//set the buffers to invalid values
-	for(uint i=0; i<IQM_BUFFER_COUNT; i++)
+	for(uint32_t i=0; i<IQM_BUFFER_COUNT; i++)
 		buffers[i]=-1;
 	//create the VAO
 	glGenVertexArrays(1,&vaoid);
 	glBindVertexArray(vaoid);
 	//keeping track on enabling attrib ids
-	uint attribid=0;
+	uint32_t attribid=0;
 	//determine how many buffers we got and check their formats
-	for(uint i=0; i<vertexarrays.size(); i++)
+	for(uint32_t i=0; i<vertexarrays.size(); i++)
 	{
 		iqmvertexarray *va=vertexarrays[i];
 		switch(va->type)
@@ -147,7 +147,7 @@ void iqmesh::draw(bool whole)
 	else
 	{
 		//draw each submesh separately, allows more customisation.
-		for(uint i=0; i<submeshes.size(); i++)
+		for(uint32_t i=0; i<submeshes.size(); i++)
 		{
 			if(submeshes[i].visible)
 			{

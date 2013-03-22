@@ -374,3 +374,379 @@
 	<windows.h>
 	<dlfcn.h>
 
+1363959647 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+	<iostream>
+	<stdio.h>
+	<stdint.h>
+	<vector>
+	<string.h>
+	<GLXW/glxw.h>
+	<GL/glcorearb.h>
+	<GLXW/glxw_wgl.h>
+	<GL/wglext.h>
+	<GLXW/glxw_glx.h>
+	<GL/glxext.h>
+	<GL/glfw.h>
+	<glm.hpp>
+	<gtc/matrix_transform.hpp>
+	<gtc/type_ptr.hpp>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\glxw\glxw.h
+	<GL/glcorearb.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\gl\glcorearb.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\glxw\glxw_wgl.h
+	<GL/glcorearb.h>
+	<GL/wglext.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\gl\wglext.h
+	<windows.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\glxw\glxw_glx.h
+	<GL/glx.h>
+	<GL/glxext.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\gl\glxext.h
+	<windows.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glfw\include\gl\glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\glm.hpp
+	"core/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cstdio>
+	"core/setup.hpp"
+	"./core/_detail.hpp"
+	"./core/_vectorize.hpp"
+	"./core/type.hpp"
+	"./core/func_trigonometric.hpp"
+	"./core/func_exponential.hpp"
+	"./core/func_common.hpp"
+	"./core/func_packing.hpp"
+	"./core/func_geometric.hpp"
+	"./core/func_matrix.hpp"
+	"./core/func_vector_relational.hpp"
+	"./core/func_integer.hpp"
+	"./core/func_noise.hpp"
+	"./core/_swizzle.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\_fixes.hpp
+	<cmath>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\setup.hpp
+	<intrin.h>
+	<immintrin.h>
+	<immintrin.h>
+	<smmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\_detail.hpp
+	"setup.hpp"
+	<cassert>
+	<cstdint>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\_vectorize.hpp
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type.hpp
+	"type_half.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_gentype.hpp"
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat2x2.hpp"
+	"type_mat2x3.hpp"
+	"type_mat2x4.hpp"
+	"type_mat3x2.hpp"
+	"type_mat3x3.hpp"
+	"type_mat3x4.hpp"
+	"type_mat4x2.hpp"
+	"type_mat4x3.hpp"
+	"type_mat4x4.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_half.hpp
+	<cstdlib>
+	"type_half.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_half.inl
+	"_detail.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_float.hpp
+	"type_half.hpp"
+	"setup.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_int.hpp
+	"setup.hpp"
+	"_detail.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_gentype.hpp
+	"type_size.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_size.hpp
+	<cstdlib>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec1.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec1.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec.hpp
+	"type_gentype.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\_swizzle.hpp
+	"_swizzle_func.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\_swizzle_func.hpp
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec1.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec2.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec2.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec2.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec3.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec3.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec3.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec4.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec4.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_vec4.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x2.hpp
+	"type_mat.hpp"
+	"type_mat2x2.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat.hpp
+	"type_gentype.hpp"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x2.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x3.hpp
+	"type_mat.hpp"
+	"type_mat2x3.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x3.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x4.hpp
+	"type_mat.hpp"
+	"type_mat2x4.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat2x4.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x2.hpp
+	"type_mat.hpp"
+	"type_mat3x2.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x2.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x3.hpp
+	"type_mat.hpp"
+	"type_mat3x3.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x3.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x4.hpp
+	"type_mat.hpp"
+	"type_mat3x4.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat3x4.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x2.hpp
+	"type_mat.hpp"
+	"type_mat4x2.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x2.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x3.hpp
+	"type_mat.hpp"
+	"type_mat4x3.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x3.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x4.hpp
+	"type_mat.hpp"
+	"type_mat4x4.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\type_mat4x4.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_trigonometric.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_exponential.hpp
+	"func_exponential.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_exponential.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_common.hpp
+	"_fixes.hpp"
+	"func_common.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_common.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_packing.hpp
+	"func_packing.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_packing.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_geometric.hpp
+	"func_geometric.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_geometric.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_matrix.hpp
+	"func_matrix.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_matrix.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_vector_relational.hpp
+	"_detail.hpp"
+	"func_vector_relational.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_vector_relational.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_integer.hpp
+	"func_integer.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_integer.inl
+	<intrin.h>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_noise.hpp
+	"func_noise.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\core\func_noise.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\matrix_transform.hpp
+	"../glm.hpp"
+	"matrix_transform.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\matrix_transform.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\type_ptr.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	<cstring>
+	"type_ptr.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\half_float.hpp
+	"../glm.hpp"
+	"half_float.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\half_float.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\quaternion.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/constants.hpp"
+	"quaternion.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\constants.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"constants.inl"
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\constants.inl
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\quaternion.inl
+	<limits>
+
+1363958396 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glm\gtc\type_ptr.inl
+
+1363958396 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\src\glxw.c
+	<GLXW/glxw.h>
+	<windows.h>
+	<dlfcn.h>
+
+1363958396 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\src\glxw_wgl.c
+	<GLXW/glxw_wgl.h>
+	<windows.h>
+	<dlfcn.h>
+
+1363958978 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.cpp
+	"precomp.h"
+	"iqmesh.h"
+
+1363959647 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+	<iostream>
+	<stdio.h>
+	<stdint.h>
+	<vector>
+	<string.h>
+	<GLXW/glxw.h>
+	<GL/glcorearb.h>
+	<GLXW/glxw_wgl.h>
+	<GL/wglext.h>
+	<GLXW/glxw_glx.h>
+	<GL/glxext.h>
+	<GL/glfw.h>
+	<glm.hpp>
+	<gtc/matrix_transform.hpp>
+	<gtc/type_ptr.hpp>
+
+1363958399 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
+	"iqm.h"
+
+1363958399 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqm.h
+
+1363959049 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.cpp
+	"precomp.h"
+	"iqmloader.h"
+	"iqmesh.h"
+
+1363958399 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.h
+
+1363959058 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
+	"precomp.h"
+	"iqmesh.h"
+	"iqmloader.h"
+

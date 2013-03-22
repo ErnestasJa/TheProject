@@ -9,8 +9,13 @@
 
 #include <GLXW/glxw.h>
 #include <GL/glcorearb.h>
+#ifdef __MINGW32__
+#include <GLXW/glxw_wgl.h>
+#include <GL/wglext.h>
+#else
 #include <GLXW/glxw_glx.h>
 #include <GL/glxext.h>
+#endif
 
 #include <GL/glfw.h>
 #include <glm.hpp>

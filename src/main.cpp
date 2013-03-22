@@ -1,7 +1,6 @@
 #include "precomp.h"
 #include "iqmesh.h"
 #include "iqmloader.h"
-#include "texture.h"
 
 static const char* pVS = "                                                    \n\
 #version 330                                                                  \n\
