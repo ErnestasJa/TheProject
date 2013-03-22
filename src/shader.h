@@ -1,5 +1,7 @@
 #pragma once
 #include <string.h>
+#include <string>
+#include "GLXW/glxw.h"
 
 struct binding
 {
@@ -14,7 +16,7 @@ struct binding
  * sh->compile();
  * sh->link();
  * if(sh->program) good;
- * 
+ *
  * ///render
  * sh->set();
  **/
@@ -32,23 +34,23 @@ struct shader
 	{
 		int32_t length = 0;
 
-		if ( tname=="PROG" ) 
+		if ( tname=="PROG" )
 			glGetProgramiv ( obj, GL_INFO_LOG_LENGTH, &length );
-		else 
+		else
 			glGetShaderiv ( obj, GL_INFO_LOG_LENGTH, &length );
 
 		if ( length > 1 )
 		{
 			GLchar *log = new GLchar[length];
 
-			if ( tname == "PROG" ) 
+			if ( tname == "PROG" )
 				glGetProgramInfoLog ( obj, length, &length, log );
-			else 
+			else
 				glGetShaderInfoLog ( obj, length, &length, log );
 
 			printf ( "GLSL ERROR (%s:%s)\n", tname.c_str(), name.c_str() );
 			puts ( log );
-			
+
 			delete[] log;
 		}
 	}
@@ -60,7 +62,7 @@ struct shader
 
 		glShaderSource ( obj, 1, &str, NULL );
 		glCompileShader ( obj );
-		
+
 		int32_t success;
 		glGetShaderiv ( obj, GL_COMPILE_STATUS, &success );
 
@@ -70,7 +72,7 @@ struct shader
 
 			glDeleteShader ( obj );
 			obj = 0;
-			
+
 			printf ( "error compiling shader\n" );
 		}
 	}

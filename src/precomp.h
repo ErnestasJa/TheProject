@@ -1,6 +1,9 @@
-#include <iostream>
+#pragma once
+//#include <iostream>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+//#include <string>
 
 #include <GLXW/glxw.h>
 #include <GL/glcorearb.h>
@@ -8,4 +11,6 @@
 #include <GL/glxext.h>
 
 #include <GL/glfw.h>
+
+#include "bit.h"
 

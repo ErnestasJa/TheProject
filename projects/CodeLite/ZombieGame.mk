@@ -6,14 +6,14 @@
 ProjectName            :=ZombieGame
 ConfigurationName      :=Debug
 WorkspacePath          := "/home/serengeor/.codelite"
-ProjectPath            := "/home/serengeor/Coding/ZombieGameProjectDevelopment/projects/CodeLite"
+ProjectPath            := "/home/serengeor/Coding/ZombieGameProjectTexture/projects/CodeLite"
 IntermediateDirectory  :=../../../Build/Debug/
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=
-Date                   :=03/11/13
+Date                   :=03/16/13
 CodeLitePath           :="/home/serengeor/.codelite"
 LinkerName             :=g++
 SharedObjectLinkerName :=g++ -shared -fPIC
@@ -39,8 +39,8 @@ LinkOptions            :=
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch)../../src $(IncludeSwitch)../../libs/glfw/include $(IncludeSwitch)../../libs/bullet/src $(IncludeSwitch)../../libs/glm $(IncludeSwitch)../../libs/glxw/include 
 IncludePCH             :=  -include ../../src/precomp.h 
 RcIncludePath          := 
-Libs                   := $(LibrarySwitch)dl $(LibrarySwitch)pthread $(LibrarySwitch)Xext $(LibrarySwitch)X11 $(LibrarySwitch)GL $(LibrarySwitch)Xrandr $(LibrarySwitch)glfw $(LibrarySwitch)physfs 
-ArLibs                 :=  "dl" "pthread" "Xext" "X11" "GL" "Xrandr" "libglfw.a" "libphysfs.a" 
+Libs                   := $(LibrarySwitch)dl $(LibrarySwitch)pthread $(LibrarySwitch)Xext $(LibrarySwitch)X11 $(LibrarySwitch)GL $(LibrarySwitch)Xrandr $(LibrarySwitch)glfw $(LibrarySwitch)physfs $(LibrarySwitch)png 
+ArLibs                 :=  "dl" "pthread" "Xext" "X11" "GL" "Xrandr" "libglfw.a" "libphysfs.a" "png" 
 LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)../../libs/glfw/lib/x11 $(LibraryPathSwitch)../../libs/physfs 
 
 ##
@@ -89,7 +89,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/src_precomp$(ObjectSuffix): ../../src/precomp.cpp $(IntermediateDirectory)/src_precomp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectDevelopment/src/precomp.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_precomp$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectTexture/src/precomp.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_precomp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_precomp$(DependSuffix): ../../src/precomp.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_precomp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_precomp$(DependSuffix) -MM "../../src/precomp.cpp"
 
@@ -97,7 +97,7 @@ $(IntermediateDirectory)/src_precomp$(PreprocessSuffix): ../../src/precomp.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_precomp$(PreprocessSuffix) "../../src/precomp.cpp"
 
 $(IntermediateDirectory)/src_main$(ObjectSuffix): ../../src/main.cpp $(IntermediateDirectory)/src_main$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectDevelopment/src/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectTexture/src/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_main$(DependSuffix): ../../src/main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_main$(ObjectSuffix) -MF$(IntermediateDirectory)/src_main$(DependSuffix) -MM "../../src/main.cpp"
 
@@ -105,7 +105,7 @@ $(IntermediateDirectory)/src_main$(PreprocessSuffix): ../../src/main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main$(PreprocessSuffix) "../../src/main.cpp"
 
 $(IntermediateDirectory)/src_glxw$(ObjectSuffix): ../../libs/glxw/src/glxw.c $(IntermediateDirectory)/src_glxw$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectDevelopment/libs/glxw/src/glxw.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_glxw$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectTexture/libs/glxw/src/glxw.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_glxw$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_glxw$(DependSuffix): ../../libs/glxw/src/glxw.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_glxw$(ObjectSuffix) -MF$(IntermediateDirectory)/src_glxw$(DependSuffix) -MM "../../libs/glxw/src/glxw.c"
 
@@ -113,7 +113,7 @@ $(IntermediateDirectory)/src_glxw$(PreprocessSuffix): ../../libs/glxw/src/glxw.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_glxw$(PreprocessSuffix) "../../libs/glxw/src/glxw.c"
 
 $(IntermediateDirectory)/src_glxw_glx$(ObjectSuffix): ../../libs/glxw/src/glxw_glx.c $(IntermediateDirectory)/src_glxw_glx$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectDevelopment/libs/glxw/src/glxw_glx.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_glxw_glx$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/serengeor/Coding/ZombieGameProjectTexture/libs/glxw/src/glxw_glx.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_glxw_glx$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_glxw_glx$(DependSuffix): ../../libs/glxw/src/glxw_glx.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_glxw_glx$(ObjectSuffix) -MF$(IntermediateDirectory)/src_glxw_glx$(DependSuffix) -MM "../../libs/glxw/src/glxw_glx.c"
 

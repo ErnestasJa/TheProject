@@ -12,6 +12,8 @@
     <File Name="../../src/main.cpp"/>
     <File Name="../../src/precomp.h"/>
     <File Name="../../src/shader.h"/>
+    <File Name="../../src/texture.h"/>
+    <File Name="../../src/bit.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="glxw">
     <File Name="../../libs/glxw/include/GLXW/glxw.h"/>
@@ -53,6 +55,7 @@
         <Library Value="Xrandr"/>
         <Library Value="libglfw.a"/>
         <Library Value="libphysfs.a"/>
+        <Library Value="png"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="../../../Build/Debug/" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
