@@ -105,7 +105,7 @@ int main()
 
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3); // We want OpenGL 3.3
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
     /* Create a windowed mode window and its OpenGL context */
     if (!glfwOpenWindow(800, 600, 8, 8, 8, 0, 24, 0, GLFW_WINDOW))
@@ -114,7 +114,7 @@ int main()
         return -1;
 	}
 
-	printf("OpenGL version: %s\n",glGetString(GL_VERSION));
+	printf("OpenGL context version: %s\n",glGetString(GL_VERSION));
 
 	/* Development going wild. or is it? */
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
