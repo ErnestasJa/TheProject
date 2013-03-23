@@ -114,6 +114,8 @@ int main()
         return -1;
 	}
 
+	printf("OpenGL version: %s\n",glGetString(GL_VERSION));
+
 	/* Development going wild. or is it? */
 	glClearColor(0.2f,0.2f,0.4f,1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -146,10 +148,6 @@ int main()
 
 	mesh=loader->load(buffer,head);
 	delete[] buffer;
-
-	GLuint vaid;
-	glGenVertexArrays(1,&vaid);
-	glBindVertexArray(vaid);
 
 	CompileShaders();
 
