@@ -91,12 +91,6 @@ int main()
 {
 	printf("Hello world!\n");
 
-	if(glxwInit()!=0)
-    {
-        printf("GLXW failed to initialize.\n");
-        return -1;
-    }
-
 	if (!glfwInit())
 	{
 		printf("glfw init failed!\n");
@@ -105,14 +99,21 @@ int main()
 
 	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3); // We want OpenGL 3.3
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
+
     /* Create a windowed mode window and its OpenGL context */
     if (!glfwOpenWindow(800, 600, 8, 8, 8, 0, 24, 0, GLFW_WINDOW))
 	{
 		printf("glfw open window failed!\n");
         return -1;
 	}
+
+	if(glxwInit()!=0)
+    {
+        printf("GLXW failed to initialize.\n");
+        return -1;
+    }
 
 	printf("OpenGL context version: %s\n",glGetString(GL_VERSION));
 
@@ -182,6 +183,8 @@ int main()
 
     mesh->submeshes[0].mat.texid=tex;
     mesh->submeshes[1].mat.texid=tex2;
+
+    printf("Animations: %i %i\n",mesh->anims[0]->first_frame,mesh->anims[0]->num_frames);
 
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
