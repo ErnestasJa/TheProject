@@ -94,7 +94,13 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 					temp3=(glm::vec3*)&data[va->offset];
 					output->positions.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
+                    {
+                        //switch to Y-UP from Z-UP
+                        float y=temp3[j].z;
+                        temp3[j].z=temp3[j].y;
+                        temp3[j].y=y;
 						output->positions[j]=temp3[j];
+                    }
 					break;
 
 					case IQM_TEXCOORD:
