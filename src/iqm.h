@@ -1,6 +1,12 @@
 #pragma once
+#include <stdint.h>
+
 #define IQM_MAGIC "INTERQUAKEMODEL"
 #define IQM_VERSION 2
+
+#pragma pack(push)
+#pragma pack(1)
+
 struct iqmheader
 {
 	char magic[16];
@@ -18,6 +24,7 @@ struct iqmheader
 	uint32_t num_comment, ofs_comment;
 	uint32_t num_extensions, ofs_extensions;
 };
+
 struct iqmmesh
 {
 	uint32_t name;
@@ -25,6 +32,7 @@ struct iqmmesh
 	uint32_t first_vertex, num_vertexes;
 	uint32_t first_triangle, num_triangles;
 };
+
 enum
 {
     IQM_POSITION     = 0,
@@ -38,6 +46,7 @@ enum
     IQM_BUFFER_COUNT,
     IQM_CUSTOM       = 0x10
 };
+
 enum
 {
     IQM_BYTE   = 0,
@@ -50,6 +59,7 @@ enum
     IQM_FLOAT  = 7,
     IQM_DOUBLE = 8,
 };
+
 struct iqmtriangle
 {
 	glm::detail::tvec3<uint32_t> verts;
@@ -57,20 +67,17 @@ struct iqmtriangle
 struct iqmjoint
 {
 	uint32_t name;
-	int parent;
+	int32_t parent;
 	glm::vec3 translate,scale;
 	glm::vec4 rotate;
 };
 struct iqmpose
 {
-	int parent;
+	int32_t parent;
 	uint32_t mask;
 	float channeloffset[10];
 	float channelscale[10];
 };
-
-#pragma pack(push)
-#pragma pack(1)
 
 struct iqmanim
 {
@@ -79,8 +86,6 @@ struct iqmanim
 	float framerate;
 	uint32_t flags;
 };
-
-#pragma pack(pop)
 
 enum
 {
@@ -100,3 +105,4 @@ struct iqmbounds
 	glm::vec3 bbmin, bbmax;
 	float xyradius, radius;
 };
+

@@ -44,36 +44,36 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			iqmvertexarray* vertexarrays=(iqmvertexarray*)&data[head.ofs_vertexarrays];
 			output->vertexarrays.resize(head.num_vertexarrays);
 			for(uint32_t i=0; i<head.num_vertexarrays; i++)
-				output->vertexarrays[i]=&vertexarrays[i];
+				output->vertexarrays[i]=vertexarrays[i];
 
 			iqmtriangle* triangles=(iqmtriangle*)&data[head.ofs_triangles];
 			output->triangles.resize(head.num_triangles);
 			for(uint32_t i=0; i<head.num_triangles; i++)
-				output->triangles[i]=&triangles[i];
+				output->triangles[i]=triangles[i];
 
 			//ofs adjacency? Dunno what to do with this. Adjacent triangles, duh.
 
 			iqmjoint* joints=(iqmjoint*)&data[head.ofs_joints];
 			output->joints.resize(head.num_joints);
 			for(uint32_t i=0; i<head.num_joints; i++)
-				output->joints[i]=&joints[i];
+				output->joints[i]=joints[i];
 
 			iqmpose* poses=(iqmpose*)&data[head.ofs_poses];
 			output->poses.resize(head.num_poses);
 			for(uint32_t i=0; i<head.num_poses; i++)
-				output->poses[i]=&poses[i];
+				output->poses[i]=poses[i];
 
 			iqmanim* anims=(iqmanim*)&data[head.ofs_anims];
 			output->anims.resize(head.num_anims);
 			for(uint32_t i=0; i<head.num_anims; i++)
-				output->anims[i]=&anims[i];
+				output->anims[i]=anims[i];
 
 			//ofs frames? Dunno for now.
 
 			//aparently there's only one bounds entry(A bounding box), hence using [0]
 			iqmbounds* bounds=(iqmbounds*)&data[head.ofs_bounds];
 			output->bounds.resize(1);
-			output->bounds[0]=&bounds[0];
+			output->bounds[0]=bounds[0];
 
 			//ofs comments? offset to probably const* char comments
 
@@ -87,11 +87,11 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			glm::detail::tvec4<uint8_t> *tempu4;
 			for(uint32_t i=0; i<head.num_vertexarrays; i++)
 			{
-				iqmvertexarray *va=output->vertexarrays[i];
-				switch(va->type)
+				iqmvertexarray va=output->vertexarrays[i];
+				switch(va.type)
 				{
 					case IQM_POSITION:
-					temp3=(glm::vec3*)&data[va->offset];
+					temp3=(glm::vec3*)&data[va.offset];
 					output->positions.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
                     {
@@ -104,35 +104,35 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 					break;
 
 					case IQM_TEXCOORD:
-					temp2=(glm::vec2*)&data[va->offset];
+					temp2=(glm::vec2*)&data[va.offset];
 					output->texcoords.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->texcoords[j]=temp2[j];
 					break;
 
 					case IQM_NORMAL:
-					temp3=(glm::vec3*)&data[va->offset];
+					temp3=(glm::vec3*)&data[va.offset];
 					output->normals.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->normals[j]=temp3[j];
 					break;
 
 					case IQM_TANGENT:
-					temp4=(glm::vec4*)&data[va->offset];
+					temp4=(glm::vec4*)&data[va.offset];
 					output->tangents.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->tangents[j]=temp4[j];
 					break;
 
 					case IQM_BLENDINDEXES:
-					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va->offset];
+					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
 					output->bindexes.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->bindexes[j]=tempu4[j];
 					break;
 
 					case IQM_BLENDWEIGHTS:
-					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va->offset];
+					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
 					output->bweights.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->bweights[j]=tempu4[j];
@@ -140,7 +140,7 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 
 
 					case IQM_COLOR:
-					temp3=(glm::vec3*)&data[va->offset];
+					temp3=(glm::vec3*)&data[va.offset];
 					output->colors.resize(head.num_vertexes);
 					for(uint32_t j=0; j<head.num_vertexes; j++)
 						output->colors[j]=temp3[j];
@@ -153,9 +153,9 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 			uint32_t counter=0;
 			for(uint32_t i=0; i<head.num_triangles; i++)
 			{
-				output->indices[counter]=output->triangles[i]->verts[0];
-				output->indices[counter+1]=output->triangles[i]->verts[1];
-				output->indices[counter+2]=output->triangles[i]->verts[2];
+				output->indices[counter]=output->triangles[i].verts[0];
+				output->indices[counter+1]=output->triangles[i].verts[1];
+				output->indices[counter+2]=output->triangles[i].verts[2];
 				counter+=3;
 			}
 			printf("Indices:%i\n",counter);

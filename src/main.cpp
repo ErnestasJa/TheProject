@@ -105,6 +105,7 @@ static void CompileShaders()
 int main()
 {
     printf("Hello world!\n");
+    printf("sizeof(iqmanim)=%i\n", sizeof(iqmanim));
 
     if (!glfwInit())
     {
@@ -143,7 +144,7 @@ int main()
     //seek to the end of file
     fseek(io,0,SEEK_END);
     //get the size
-    int fsize=ftell(io);
+    int32_t fsize=ftell(io);
     printf("Filesize ftell:%i\n",fsize);
     //get back to the beginning
     fseek(io,SEEK_SET,0);
@@ -152,7 +153,7 @@ int main()
     fread(&head,sizeof(head),1,io);
 
     //size check works
-    printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int)sizeof(head),head.filesize,(int)head.filesize==fsize?"same":"not same");
+    printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int32_t)sizeof(head),head.filesize,(int32_t)head.filesize==fsize?"same":"not same");
 
     iqmesh *mesh;
 
@@ -168,7 +169,7 @@ int main()
     CompileShaders();
 
     double lastTime = glfwGetTime();
-    int nbFrames = 0;
+    int32_t nbFrames = 0;
 
     glm::mat4 M=glm::mat4(1.0f);
     //M=glm::rotate<float>(M,-90,glm::vec3(1,0,0));
@@ -200,7 +201,7 @@ int main()
     mesh->submeshes[1].mat.texid=tex2;
 
     printf("Is this bitch big endian? (%s)\n",is_big_endian()==true?"true":"false");
-    printf("Animations: %i %i\n",mesh->anims[0]->first_frame,mesh->anims[0]->num_frames);
+    printf("Animations: %i %i\n",mesh->anims[0].first_frame,mesh->anims[0].num_frames);
 
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
