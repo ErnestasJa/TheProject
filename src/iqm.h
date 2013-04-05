@@ -68,6 +68,10 @@ struct iqmpose
 	float channeloffset[10];
 	float channelscale[10];
 };
+
+#pragma pack(push)
+#pragma pack(1)
+
 struct iqmanim
 {
 	uint32_t name;
@@ -75,10 +79,14 @@ struct iqmanim
 	float framerate;
 	uint32_t flags;
 };
+
+#pragma pack(pop)
+
 enum
 {
     IQM_LOOP = 1<<0
 };
+
 struct iqmvertexarray
 {
 	uint32_t type;
