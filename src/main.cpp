@@ -21,14 +21,14 @@ void main()
 const char fsh[]=
 R"(#version 330
 
-uniform sampler2D tex;
+uniform sampler2D tex, tex2;
 
 in vec2 uv;
 out vec4 outputColor;
 
 void main()
 {
-   outputColor = texture( tex, uv ).rgba;
+   outputColor = vec4(texture( tex, uv ).rgb - texture( tex2, uv ).rgb,1);
 }
 )";
 
@@ -134,7 +134,7 @@ int main()
 	}
 
 
-	binding tex_binding[]={{"tex",0},{"",-1}};
+	binding tex_binding[]={{"tex",0},{"tex2",1},{"",-1}};
 
 	shader sh("default",vsh,fsh,nullptr,tex_binding);
 	sh.compile();
@@ -142,15 +142,18 @@ int main()
 	sh.set();
 
     texture * tex = load_tex("test.tga");
+    texture * tex2 = load_tex("test2.tga");
+
+	if(tex2)
+    {
+        tex2->set(1);
+    }
 
     if(tex)
     {
         tex->set(0);
     }
 
-	/*texture t("test");
-	t.generate(tex,GL_TEXTURE_2D,32,2,2,0);
-	t.set(1);*/
 
 	/* Development going wild. or is it? */
 	glClearColor ( 0.2f,0.2f,0.4f,1.0f );
