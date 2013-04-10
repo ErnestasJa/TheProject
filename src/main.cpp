@@ -105,7 +105,7 @@ static void CompileShaders()
 int main()
 {
     printf("Hello world!\n");
-    printf("sizeof(iqmanim)=%u\n", sizeof(iqmanim));
+    printf("sizeof(iqmanim)=%lu\n", sizeof(iqmanim));
 
     if (!glfwInit())
     {

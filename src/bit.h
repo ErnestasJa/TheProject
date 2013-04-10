@@ -7,7 +7,7 @@ static constexpr uint32_t bit()
 	return 1 << b;
 }
 
-static bool tbit(uint32_t b, uint32_t b2)
+inline bool tbit(uint32_t b, uint32_t b2)
 {
 	return (b&b2)==b2;
 }
