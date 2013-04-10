@@ -22,4 +22,6 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-#endif // _PRECOMP_H_
+#include "bit.h"
+
+#endif

@@ -11,6 +11,7 @@
     <File Name="../../src/precomp.cpp"/>
     <File Name="../../src/main.cpp"/>
     <File Name="../../src/precomp.h"/>
+<<<<<<< HEAD
     <VirtualDirectory Name="mesh">
       <File Name="../../src/iqmesh.cpp"/>
       <File Name="../../src/iqmesh.h"/>
@@ -24,6 +25,11 @@
       <File Name="../../src/iqmloader.h"/>
       <File Name="../../src/iqmloader.cpp"/>
     </VirtualDirectory>
+=======
+    <File Name="../../src/shader.h"/>
+    <File Name="../../src/texture.h"/>
+    <File Name="../../src/bit.h"/>
+>>>>>>> texture_testing
   </VirtualDirectory>
   <VirtualDirectory Name="glxw">
     <File Name="../../libs/glxw/include/GLXW/glxw.h"/>
@@ -47,6 +53,64 @@
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-std=c++0x;-Wall" C_Options="-g;-O0;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
+<<<<<<< HEAD
+=======
+        <IncludePath Value="."/>
+        <IncludePath Value="../../src"/>
+        <IncludePath Value="../../libs/glfw/include"/>
+        <IncludePath Value="../../libs/bullet/src"/>
+        <IncludePath Value="../../libs/glm"/>
+        <IncludePath Value="../../libs/glxw/include"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="../../libs/glfw/lib/x11"/>
+        <LibraryPath Value="../../libs/physfs"/>
+        <Library Value="dl"/>
+        <Library Value="pthread"/>
+        <Library Value="Xext"/>
+        <Library Value="X11"/>
+        <Library Value="GL"/>
+        <Library Value="Xrandr"/>
+        <Library Value="libglfw.a"/>
+        <Library Value="libphysfs.a"/>
+        <Library Value="png"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="../../../Build/Debug/" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="yes">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths>../../src
+../../libs</SearchPaths>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Debug_Win" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-std=c++0x;-Wall" C_Options="-g;-O0;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
+>>>>>>> texture_testing
         <IncludePath Value="."/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../libs/glfw/include"/>
@@ -100,7 +164,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
+      <Compiler Options="-O2;-std=c++0x;-Wall" C_Options="-O2;-Wall" Required="yes" PreCompiledHeader="../../src/precomp.h" PCHInCommandLine="yes" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="."/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../libs/glfw/include"/>
