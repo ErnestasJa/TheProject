@@ -1,9 +1,11 @@
 #ifndef _PRECOMP_H_
 #define _PRECOMP_H_
 
-#include <iostream>
-#include <stdio.h>
 #include <stdint.h>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+
 #include <vector>
 #include <string.h>
 
