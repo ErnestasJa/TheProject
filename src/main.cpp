@@ -96,7 +96,7 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    FILE* io=fopen("../../ZombieGame/res/mrfixit.iqm","rb");
+    FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
 
     iqmheader head;
     //seek to the end of file
@@ -143,8 +143,8 @@ int main()
     GLuint mpl = sh.getparam("MVP");
     glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
 
-    texture * tex = load_tex("../../ZombieGame/res/Body.tga");
-    texture * tex2 = load_tex("../../ZombieGame/res/Head.tga");
+    texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
+    texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
 
     mesh->submeshes[0].mat.texid=tex->obj;
     mesh->submeshes[1].mat.texid=tex2->obj;

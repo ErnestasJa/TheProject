@@ -94,57 +94,57 @@ iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 					case IQM_POSITION:
 					temp3=(glm::vec3*)&data[va.offset];
 					output->positions.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-                    {
-                        //switch to Y-UP from Z-UP
-                        float y=temp3[j].z;
-                        temp3[j].z=temp3[j].y;
-                        temp3[j].y=y;
-						output->positions[j]=temp3[j];
-                    }
+
+					std::copy(temp3,temp3+head.num_vertexes,&output->positions[0]);
+
 					break;
 
 					case IQM_TEXCOORD:
 					temp2=(glm::vec2*)&data[va.offset];
 					output->texcoords.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->texcoords[j]=temp2[j];
+
+					std::copy(temp2,temp2+head.num_vertexes,&output->texcoords[0]);
 					break;
 
 					case IQM_NORMAL:
 					temp3=(glm::vec3*)&data[va.offset];
 					output->normals.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->normals[j]=temp3[j];
+
+					std::copy(temp3,temp3+head.num_vertexes,&output->normals[0]);
+
 					break;
 
 					case IQM_TANGENT:
 					temp4=(glm::vec4*)&data[va.offset];
 					output->tangents.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->tangents[j]=temp4[j];
+
+					std::copy(temp4,temp4+head.num_vertexes,&output->tangents[0]);
+
 					break;
 
 					case IQM_BLENDINDEXES:
 					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
 					output->bindexes.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->bindexes[j]=tempu4[j];
+
+					std::copy(tempu4,tempu4+head.num_vertexes,&output->bindexes[0]);
+
 					break;
 
 					case IQM_BLENDWEIGHTS:
 					tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
 					output->bweights.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->bweights[j]=tempu4[j];
+
+					std::copy(tempu4,tempu4+head.num_vertexes,&output->bweights[0]);
+
 					break;
 
 
 					case IQM_COLOR:
 					temp3=(glm::vec3*)&data[va.offset];
 					output->colors.resize(head.num_vertexes);
-					for(uint32_t j=0; j<head.num_vertexes; j++)
-						output->colors[j]=temp3[j];
+
+					std::copy(temp3,temp3+head.num_vertexes,&output->colors[0]);
+
 					break;
 				}
 			}
