@@ -100,9 +100,20 @@ struct iqmvertexarray
 	uint32_t size;
 	uint32_t offset;
 };
+
 struct iqmbounds
 {
 	glm::vec3 bbmin, bbmax;
 	float xyradius, radius;
+
+	glm::vec3 get_center()
+	{
+	    return (bbmin+bbmax)/2.0f;
+	}
+
+	glm::vec3 get_extents()
+	{
+	    return bbmax-bbmin;
+	}
 };
 

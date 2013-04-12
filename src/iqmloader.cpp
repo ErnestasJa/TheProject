@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "iqmloader.h"
 #include "iqmesh.h"
+
 iqmesh *iqmloader::load ( const unsigned char* data, const iqmheader &head )
 {
 	iqmesh *output=nullptr;
