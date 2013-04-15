@@ -3,8 +3,10 @@ class iqmesh;
 struct iqmheader;
 class iqmloader
 {
-public:
-	iqmesh *load(const unsigned char* data,const iqmheader &head);
 private:
+    void load_header(const unsigned char* data, iqmheader * & header);
+public:
+	iqmesh *load(const unsigned char* data);
+
 protected:
 };

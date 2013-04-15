@@ -1,18 +1,22 @@
 #pragma once
 #include "iqm.h"
+#include "geom.h"
+
+/*
 struct vertex
 {
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec4 tangent;
-	glm::vec2 texcoord;
-	glm::detail::tvec4<uint8_t> blendindex;
-	glm::detail::tvec4<uint8_t> blendweight;
+    vec3 position;
+    vec3 normal;
+    vec4 tangent[4];
+    vec2 texcoord[2];
+    uint8_t blendindex[4];
+    uint8_t blendweight[4];
 };
+*/
 
 struct material
 {
-    GLuint texid;
+    uint32_t texid;
 };
 
 struct iqsubmesh
@@ -29,19 +33,27 @@ class iqmesh
 {
 //Variables
 public:
-	//Information variables, will replace IQM ones with natives when the time comes. [MOST OF THEM ARE TEMPORARY]
-	std::vector<const char*> texts; //IQM that's where names are put
-	std::vector<iqsubmesh> submeshes; //NATIVE submesh info, converted from iqm format
-	std::vector<iqmvertexarray> vertexarrays; //IQM vertex array info
-	std::vector<iqmtriangle> triangles; //IQM triangle info(for indices)
-	std::vector<iqmjoint> joints; //IQM joint info
-	std::vector<iqmpose> poses; //IQM pose info
-	std::vector<iqmanim> anims; //IQM animation info
-	std::vector<iqmbounds> bounds; //IQM the bounding box
+    ///All data from file should be here, nullptr if not needed anymore.
+	iqmheader * data_header;
+	char * data_buff;
+
+    const char* texts;
+    	//Information variables, will replace IQM ones with natives when the time comes. [MOST OF THEM ARE TEMPORARY]
+
+	iqmesh * submeshes;
+	iqmvertexarray * vertexarrays; //IQM vertex array info
+	iqmtriangle* triangles; //IQM triangle info(for indices)
+	iqmjoint* joints; //IQM joint info
+	iqmpose* poses; //IQM pose info
+	iqmanim* anims; //IQM animation info
+	iqmbounds* bounds; //IQM the bounding box
 
 	//geometry,buffers
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];
+
+
+
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec2> texcoords;
 	std::vector<glm::vec3> normals;
@@ -50,6 +62,7 @@ public:
 	std::vector<glm::detail::tvec4<uint8_t>> bweights;
 	std::vector<glm::vec3> colors;
 	std::vector<uint32_t> indices;
+
 private:
 protected:
 

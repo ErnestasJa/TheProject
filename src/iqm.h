@@ -1,4 +1,5 @@
 #pragma once
+#include "geom.h"
 #include <stdint.h>
 
 #define IQM_MAGIC "INTERQUAKEMODEL"
@@ -62,15 +63,17 @@ enum
 
 struct iqmtriangle
 {
-	glm::detail::tvec3<uint32_t> verts;
+	uint32_t verts[3];
 };
+
 struct iqmjoint
 {
 	uint32_t name;
 	int32_t parent;
-	glm::vec3 translate,scale;
-	glm::vec4 rotate;
+	vec3 translate,scale;
+	vec4 rotate;
 };
+
 struct iqmpose
 {
 	int32_t parent;
@@ -103,15 +106,15 @@ struct iqmvertexarray
 
 struct iqmbounds
 {
-	glm::vec3 bbmin, bbmax;
+	vec3 bbmin, bbmax;
 	float xyradius, radius;
 
-	glm::vec3 get_center()
+	vec3 get_center()
 	{
 	    return (bbmin+bbmax)/2.0f;
 	}
 
-	glm::vec3 get_extents()
+	vec3 get_extents()
 	{
 	    return bbmax-bbmin;
 	}

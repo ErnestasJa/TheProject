@@ -121,7 +121,7 @@ int main()
     fread(buffer+sizeof(head),head.filesize-sizeof(head),1,io);
     fclose(io);
 
-    mesh=loader->load(buffer,head);
+    mesh=loader->load(buffer);
     delete[] buffer;
 
 

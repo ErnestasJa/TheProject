@@ -17,7 +17,7 @@ bool iqmesh::generate()
 	//keeping track on enabling attrib ids
 	uint32_t attribid=0;
 	//determine how many buffers we got and check their formats
-	for(uint32_t i=0; i<vertexarrays.size(); i++)
+	for(uint32_t i=0; i<data_header->num_vertexarrays; i++)
 	{
 		iqmvertexarray va=vertexarrays[i];
 		switch(va.type)
@@ -147,14 +147,11 @@ void iqmesh::draw(bool whole)
 	else
 	{
 		//draw each submesh separately, allows more customisation.
-		for(uint32_t i=0; i<submeshes.size(); i++)
+		for(uint32_t i=0; i<data_header->num_meshes; i++)
 		{
-			if(submeshes[i].visible)
-			{
-			    glBindTexture(GL_TEXTURE_2D,submeshes[i].mat.texid);
-				//draw all sub meshes using index offset
-				glDrawElements(GL_TRIANGLES,submeshes[i].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_index));
-			}
+            glBindTexture(GL_TEXTURE_2D,submeshes[i].mat.texid);
+            //draw all sub meshes using index offset
+            glDrawElements(GL_TRIANGLES,submeshes[i].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_index));
 		}
 	}
 
