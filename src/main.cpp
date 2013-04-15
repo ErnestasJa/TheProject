@@ -96,34 +96,23 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
+    ///-------------------------------------
     FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
 
-    iqmheader head;
-    //seek to the end of file
-    fseek(io,0,SEEK_END);
     //get the size
+    fseek(io,0,SEEK_END);
     int32_t fsize=ftell(io);
-    printf("Filesize ftell:%i\n",fsize);
-    //get back to the beginning
     fseek(io,SEEK_SET,0);
 
-    //read the header
-    fread(&head,sizeof(head),1,io);
+    printf("Filesize ftell:%i\n",fsize);
 
-    //size check works
-    printf("Header size:%i\nFile size:%i\nSize check:%s\n",(int32_t)sizeof(head),head.filesize,(int32_t)head.filesize==fsize?"same":"not same");
-
-    iqmesh *mesh;
-
-    iqmloader *loader=new iqmloader();
-
-    uint8_t* buffer=new uint8_t[head.filesize];
-    fread(buffer+sizeof(head),head.filesize-sizeof(head),1,io);
+    char* buffer=new char[fsize];
+    fread(buffer,fsize,1,io);
     fclose(io);
 
-    mesh=loader->load(buffer);
-    delete[] buffer;
-
+    iqmloader *loader=new iqmloader();
+    iqmesh * mesh=loader->load(buffer);
+    ///-------------------------------------
 
     double lastTime = glfwGetTime();
     int32_t nbFrames = 0;
@@ -146,8 +135,8 @@ int main()
     texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
     texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
 
-    mesh->submeshes[0].mat.texid=tex->obj;
-    mesh->submeshes[1].mat.texid=tex2->obj;
+    //mesh->submeshes[0].mat.texid=tex->obj;
+    //mesh->submeshes[1].mat.texid=tex2->obj;
 
     printf("Animations: %i %i\n",mesh->anims[0].first_frame,mesh->anims[0].num_frames);
 

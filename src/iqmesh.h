@@ -34,13 +34,13 @@ class iqmesh
 //Variables
 public:
     ///All data from file should be here, nullptr if not needed anymore.
-	iqmheader * data_header;
+	iqmheader data_header;
 	char * data_buff;
 
     const char* texts;
     	//Information variables, will replace IQM ones with natives when the time comes. [MOST OF THEM ARE TEMPORARY]
 
-	iqmesh * submeshes;
+	iqmmesh * submeshes;
 	iqmvertexarray * vertexarrays; //IQM vertex array info
 	iqmtriangle* triangles; //IQM triangle info(for indices)
 	iqmjoint* joints; //IQM joint info

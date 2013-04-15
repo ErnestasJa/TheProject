@@ -59,6 +59,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="../../src" />
+			<Add directory="../../src/math" />
 			<Add directory="../../libs/bullet/src" />
 			<Add directory="../../libs/glfw/include" />
 			<Add directory="../../libs/glm" />
@@ -84,6 +85,7 @@
 		<Unit filename="../../src/iqmloader.cpp" />
 		<Unit filename="../../src/iqmloader.h" />
 		<Unit filename="../../src/main.cpp" />
+		<Unit filename="../../src/math/geom.h" />
 		<Unit filename="../../src/precomp.h">
 			<Option compile="1" />
 			<Option weight="0" />
