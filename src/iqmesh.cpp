@@ -31,9 +31,10 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_POSITION]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_POSITION]);
-			glBufferData(GL_ARRAY_BUFFER,positions.size()*sizeof(positions[0]),&positions[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(vec3),positions,GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
+
 			attribid++;
 			break;
 
@@ -46,7 +47,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_TEXCOORD]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TEXCOORD]);
-			glBufferData(GL_ARRAY_BUFFER,texcoords.size()*sizeof(texcoords[0]),&texcoords[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, data_header.num_vertexes*sizeof(texcoords[0]),&texcoords[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,2,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
@@ -61,7 +62,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_NORMAL]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_NORMAL]);
-			glBufferData(GL_ARRAY_BUFFER,normals.size()*sizeof(normals[0]),&normals[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(normals[0]),&normals[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
@@ -76,7 +77,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_TANGENT]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TANGENT]);
-			glBufferData(GL_ARRAY_BUFFER,tangents.size()*sizeof(tangents[0]),&tangents[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(tangents[0]),&tangents[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_FLOAT,GL_FALSE,0,0);
 			attribid++;
@@ -91,7 +92,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_BLENDINDEXES]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDINDEXES]);
-			glBufferData(GL_ARRAY_BUFFER,bindexes.size()*sizeof(bindexes[0]),&bindexes[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bindexes[0]),&bindexes[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
 			attribid++;
@@ -106,7 +107,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_BLENDWEIGHTS]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDWEIGHTS]);
-			glBufferData(GL_ARRAY_BUFFER,bweights.size()*sizeof(bweights[0]),&bweights[0],GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bweights[0]),&bweights[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
 			attribid++;
@@ -118,11 +119,11 @@ bool iqmesh::generate()
 			break;
 		}
 	}
-	if(indices.size()>0)
+	if(data_header.num_triangles>0)
 	{
 		glGenBuffers(1,&buffers[IQM_INDICES]);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,buffers[IQM_INDICES]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,indices.size()*sizeof(indices[0]),&indices[0],GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,data_header.num_triangles*3*sizeof(uint32_t),&triangles[0],GL_STATIC_DRAW);
 	}
 	else
 		return false;
@@ -142,7 +143,7 @@ void iqmesh::draw(bool whole)
 	if(whole)
 	{
 		//draw mesh as one unit, saves draw calls.
-		glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,0);
+		glDrawElements(GL_TRIANGLES,data_header.num_triangles*3,GL_UNSIGNED_INT,0);
 	}
 	else
 	{
@@ -151,7 +152,7 @@ void iqmesh::draw(bool whole)
 		{
             //glBindTexture(GL_TEXTURE_2D,submeshes[i].mat.texid);
             //draw all sub meshes using index offset
-            glDrawElements(GL_TRIANGLES,submeshes[i].num_vertexes*3,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_triangle*3));
+            glDrawElements(GL_TRIANGLES,submeshes[i].num_triangles*3,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_triangle*3));
 		}
 	}
 

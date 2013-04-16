@@ -29,17 +29,19 @@ struct iqsubmesh
 	bool visible;
 };
 
+struct u8vec4{uint8_t v[4];};
+
+
 class iqmesh
 {
 //Variables
 public:
-    ///All data from file should be here, nullptr if not needed anymore.
 	iqmheader data_header;
 	char * data_buff;
 
-    const char* texts;
-    	//Information variables, will replace IQM ones with natives when the time comes. [MOST OF THEM ARE TEMPORARY]
+    const char** texts;
 
+    ///metadata buffers
 	iqmmesh * submeshes;
 	iqmvertexarray * vertexarrays; //IQM vertex array info
 	iqmtriangle* triangles; //IQM triangle info(for indices)
@@ -48,20 +50,18 @@ public:
 	iqmanim* anims; //IQM animation info
 	iqmbounds* bounds; //IQM the bounding box
 
-	//geometry,buffers
+    /// data buffers
+	vec3* positions;
+	vec2* texcoords;
+	vec3* normals;
+	vec4* tangents;
+	u8vec4 * bindexes;
+	u8vec4 * bweights;
+	vec3 * colors;
+
+	//GL buffers
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];
-
-
-
-	std::vector<glm::vec3> positions;
-	std::vector<glm::vec2> texcoords;
-	std::vector<glm::vec3> normals;
-	std::vector<glm::vec4> tangents;
-	std::vector<glm::detail::tvec4<uint8_t>> bindexes;
-	std::vector<glm::detail::tvec4<uint8_t>> bweights;
-	std::vector<glm::vec3> colors;
-	std::vector<uint32_t> indices;
 
 private:
 protected:

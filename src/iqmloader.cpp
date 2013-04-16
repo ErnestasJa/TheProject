@@ -26,7 +26,12 @@ iqmesh *iqmloader::load ( const char* data)
     output=new iqmesh();
 
     ///big single line of null terminated >strings<
-    output->texts=(const char*)&data[head.ofs_text];
+    const char* texts=(const char*)&data[head.ofs_text];
+
+    output->texts = new const char * [head.num_text];
+
+    for(uint32_t i=0; i<head.num_text; i++)
+        output->texts[i]=&texts[i];
 
     output->submeshes   =(iqmmesh*)         &data[head.ofs_meshes];
     output->vertexarrays=(iqmvertexarray*)  &data[head.ofs_vertexarrays];
@@ -51,75 +56,42 @@ iqmesh *iqmloader::load ( const char* data)
         iqmvertexarray va=output->vertexarrays[i];
         switch(va.type)
         {
-            case IQM_POSITION:
-            temp3=(glm::vec3*)&data[va.offset];
-            output->positions.resize(head.num_vertexes);
-
-            std::copy(temp3,temp3+head.num_vertexes,&output->positions[0]);
+        case IQM_POSITION:
+            output->positions=(vec3*)&data[va.offset];
 
             break;
 
-            case IQM_TEXCOORD:
-            temp2=(glm::vec2*)&data[va.offset];
-            output->texcoords.resize(head.num_vertexes);
-
-            std::copy(temp2,temp2+head.num_vertexes,&output->texcoords[0]);
-            break;
-
-            case IQM_NORMAL:
-            temp3=(glm::vec3*)&data[va.offset];
-            output->normals.resize(head.num_vertexes);
-
-            std::copy(temp3,temp3+head.num_vertexes,&output->normals[0]);
+        case IQM_TEXCOORD:
+            output->texcoords=(vec2*)&data[va.offset];
 
             break;
 
-            case IQM_TANGENT:
-            temp4=(glm::vec4*)&data[va.offset];
-            output->tangents.resize(head.num_vertexes);
-
-            std::copy(temp4,temp4+head.num_vertexes,&output->tangents[0]);
+        case IQM_NORMAL:
+            output->normals=(vec3*)&data[va.offset];
 
             break;
 
-            case IQM_BLENDINDEXES:
-            tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
-            output->bindexes.resize(head.num_vertexes);
-
-            std::copy(tempu4,tempu4+head.num_vertexes,&output->bindexes[0]);
+        case IQM_TANGENT:
+            output->tangents=(vec4*)&data[va.offset];
 
             break;
 
-            case IQM_BLENDWEIGHTS:
-            tempu4=(glm::detail::tvec4<uint8_t>*)&data[va.offset];
-            output->bweights.resize(head.num_vertexes);
-
-            std::copy(tempu4,tempu4+head.num_vertexes,&output->bweights[0]);
+        case IQM_BLENDINDEXES:
+            output->bindexes=(u8vec4*)&data[va.offset];
 
             break;
 
+        case IQM_BLENDWEIGHTS:
+            output->bweights=(u8vec4*)&data[va.offset];
 
-            case IQM_COLOR:
-            temp3=(glm::vec3*)&data[va.offset];
-            output->colors.resize(head.num_vertexes);
+            break;
 
-            std::copy(temp3,temp3+head.num_vertexes,&output->colors[0]);
+        case IQM_COLOR:
+            output->colors=(vec3*)&data[va.offset];
 
             break;
         }
     }
-
-    //convert triangles to indices and add them.
-    output->indices.resize(head.num_triangles*3);
-    uint32_t counter=0;
-    for(uint32_t i=0; i<head.num_triangles; i++)
-    {
-        output->indices[counter]=output->triangles[i].verts[0];
-        output->indices[counter+1]=output->triangles[i].verts[1];
-        output->indices[counter+2]=output->triangles[i].verts[2];
-        counter+=3;
-    }
-    printf("Indices:%i\n",counter);
 
     //mesh info test
     for(uint32_t i=0; i<head.num_meshes; i++)
@@ -128,11 +100,10 @@ iqmesh *iqmloader::load ( const char* data)
         printf("TEST MESH LOADER INFO:\nName:%i\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i\n",sm.name,"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
+    output->data_header = head;
+
     if(output->generate())
-    {
-        output->data_header = head;
         return output;
-    }
     else
     {
         printf("Mesh generation failed.\n");
