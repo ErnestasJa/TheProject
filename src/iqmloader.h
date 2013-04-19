@@ -7,6 +7,7 @@ private:
     void load_header(const char* data, iqmheader & header);
 public:
 	iqmesh *load(const char* data);
+	bool loadiqmanims(iqmesh * mesh);
 
 protected:
 };

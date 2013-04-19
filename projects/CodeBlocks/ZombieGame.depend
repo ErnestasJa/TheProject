@@ -814,7 +814,7 @@
 	"precomp.h"
 	"iqmesh.h"
 
-1365874072 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1366316258 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<fstream>
@@ -828,7 +828,6 @@
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
 	<GL/glfw.h>
-	<glm.hpp>
 	<gtc/matrix_transform.hpp>
 	<gtc/type_ptr.hpp>
 	"bit.h"
@@ -1121,11 +1120,11 @@
 1365596500 /home/serengeor/Coding/ZombieGameProject/src/bit.h
 	<stdint.h>
 
-1366149553 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
+1366392838 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
 	"iqm.h"
 	"geom.h"
 
-1366057013 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
+1366387757 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
 	"geom.h"
 	<stdint.h>
 
@@ -1146,7 +1145,7 @@
 1365596500 /home/serengeor/Coding/ZombieGameProject/src/tgaloader.h
 	"texture.h"
 
-1365874072 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1366316258 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<fstream>
@@ -1160,19 +1159,18 @@
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
 	<GL/glfw.h>
-	<glm.hpp>
 	<gtc/matrix_transform.hpp>
 	<gtc/type_ptr.hpp>
 	"bit.h"
 
-1366149593 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
+1366400449 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
 	"precomp.h"
 	"iqmloader.h"
 	"iqmesh.h"
 
-1366065253 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
+1366317507 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1366064918 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1366400050 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"

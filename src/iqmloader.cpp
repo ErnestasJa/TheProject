@@ -24,6 +24,7 @@ iqmesh *iqmloader::load ( const char* data)
     }
 
     output=new iqmesh();
+    output->data_buff = (uint8_t*)data;
 
     ///big single line of null terminated >strings<
     const char* texts=(const char*)&data[head.ofs_text];
@@ -40,17 +41,26 @@ iqmesh *iqmloader::load ( const char* data)
     output->poses       =(iqmpose*)         &data[head.ofs_poses];
     output->anims       =(iqmanim*)         &data[head.ofs_anims];
 
-    //ofs frames? Dunno for now.
+    output->frames = new mat3x4[head.num_frames * head.num_poses];
+    output->base_frame = new mat3x4[head.num_joints];
+    output->inverse_base_frame = new mat3x4[head.num_joints];
+
+    for(uint32_t i = 0; i < (uint32_t)head.num_joints; i++)
+    {
+        iqmjoint &j = output->joints[i];
+        output->base_frame[i] = mat3x4(quat(j.rotate).normalize(), vec3(j.translate), vec3(j.scale));
+        output->inverse_base_frame[i].invert(output->base_frame[i]);
+
+        if(j.parent >= 0)
+        {
+            output->base_frame[i] = output->base_frame[j.parent] * output->base_frame[i];
+            output->inverse_base_frame[i] *= output->inverse_base_frame[j.parent];
+        }
+    }
 
     //aparently there's only one bounds entry(A bounding box), hence using [0]
     output->bounds=(iqmbounds*)&data[head.ofs_bounds];
 
-    //put the buffer data in place where it belongs.
-    //temporary vecs for filling buffers up.
-    glm::vec2 *temp2;
-    glm::vec3 *temp3;
-    glm::vec4 *temp4;
-    glm::detail::tvec4<uint8_t> *tempu4;
     for(uint32_t i=0; i<head.num_vertexarrays; i++)
     {
         iqmvertexarray va=output->vertexarrays[i];
@@ -112,4 +122,65 @@ iqmesh *iqmloader::load ( const char* data)
 
 
     return output;
+}
+
+bool iqmloader::loadiqmanims(iqmesh * mesh)
+{
+    iqmheader & hdr = mesh->data_header;
+    if((int)hdr.num_poses != hdr.num_joints) return false;
+
+    uint8_t * buf = (uint8_t *)mesh->data_buff;
+
+    lilswap((uint *)&buf[hdr.ofs_poses], hdr.num_poses*sizeof(iqmpose)/sizeof(uint));
+    lilswap((uint *)&buf[hdr.ofs_anims], hdr.num_anims*sizeof(iqmanim)/sizeof(uint));
+    lilswap((ushort *)&buf[hdr.ofs_frames], hdr.num_frames*hdr.num_framechannels);
+
+    uint16_t * frame_data = (uint16_t *)(buf+hdr.ofs_frames);
+
+    for(int i = 0; i < (int)hdr.num_frames; i++)
+    {
+        for(int j = 0; j < (int)hdr.num_poses; j++)
+        {
+            iqmpose &p = mesh->poses[j];
+            quat rotate;
+            vec3 translate, scale;
+            translate.x = p.channeloffset[0];
+            if(p.mask&0x01) translate.x += *frame_data++ * p.channelscale[0];
+            translate.y = p.channeloffset[1];
+            if(p.mask&0x02) translate.y += *frame_data++ * p.channelscale[1];
+            translate.z = p.channeloffset[2];
+            if(p.mask&0x04) translate.z += *frame_data++ * p.channelscale[2];
+            rotate.x = p.channeloffset[3];
+            if(p.mask&0x08) rotate.x += *frame_data++ * p.channelscale[3];
+            rotate.y = p.channeloffset[4];
+            if(p.mask&0x10) rotate.y += *frame_data++ * p.channelscale[4];
+            rotate.z = p.channeloffset[5];
+            if(p.mask&0x20) rotate.z += *frame_data++ * p.channelscale[5];
+            rotate.w = p.channeloffset[6];
+            if(p.mask&0x40) rotate.w += *frame_data++ * p.channelscale[6];
+            scale.x = p.channeloffset[7];
+            if(p.mask&0x80) scale.x += *frame_data++ * p.channelscale[7];
+            scale.y = p.channeloffset[8];
+            if(p.mask&0x100) scale.y += *frame_data++ * p.channelscale[8];
+            scale.z = p.channeloffset[9];
+            if(p.mask&0x200) scale.z += *frame_data++ * p.channelscale[9];
+            // Concatenate each pose with the inverse base pose to avoid doing this at animation time.
+            // If the joint has a parent, then it needs to be pre-concatenated with its parent's base pose.
+            // Thus it all negates at animation time like so:
+            //   (parentPose * parentInverseBasePose) * (parentBasePose * childPose * childInverseBasePose) =>
+            //   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
+            //   parentPose * childPose * childInverseBasePose
+            mat3x4 m(rotate.normalize(), translate, scale);
+            if(p.parent >= 0) mesh->frames[i*hdr.num_poses + j] = mesh->base_frame[p.parent] * m * mesh->inverse_base_frame[j];
+            else mesh->frames[i*hdr.num_poses + j] = m * mesh->inverse_base_frame[j];
+        }
+    }
+
+    for(int i = 0; i < (int)hdr.num_anims; i++)
+    {
+        iqmanim &a = mesh->anims[i];
+        printf("Loaded anim: %s\n", mesh->texts[a.name]);
+    }
+
+    return true;
 }

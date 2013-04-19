@@ -112,6 +112,7 @@ int main()
 
     iqmloader *loader=new iqmloader();
     iqmesh * mesh=loader->load(buffer);
+    loader->loadiqmanims(mesh);
     ///-------------------------------------
 
     double lastTime = glfwGetTime();

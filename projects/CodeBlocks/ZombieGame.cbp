@@ -86,6 +86,7 @@
 		<Unit filename="../../src/iqmloader.h" />
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/geom.h" />
+		<Unit filename="../../src/math/util.h" />
 		<Unit filename="../../src/precomp.h">
 			<Option compile="1" />
 			<Option weight="0" />

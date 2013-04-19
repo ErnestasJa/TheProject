@@ -37,7 +37,7 @@ class iqmesh
 //Variables
 public:
 	iqmheader data_header;
-	char * data_buff;
+	uint8_t * data_buff;
 
     const char** texts;
 
@@ -59,7 +59,13 @@ public:
 	u8vec4 * bweights;
 	vec3 * colors;
 
-	//GL buffers
+    ///animation
+	mat3x4 * frames;
+	mat3x4 * base_frame;
+	mat3x4 * inverse_base_frame;
+	uint16_t * frame_data;
+
+	///GL buffers
 	GLuint vaoid;
 	GLuint buffers[IQM_BUFFER_COUNT];
 
