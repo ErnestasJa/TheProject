@@ -44,11 +44,17 @@ iqmesh *iqmloader::load ( const char* data)
     output->frames = new mat3x4[head.num_frames * head.num_poses];
     output->base_frame = new mat3x4[head.num_joints];
     output->inverse_base_frame = new mat3x4[head.num_joints];
+    output->current_frame = new mat3x4[head.num_joints];
+
+    lilswap((uint *)&data[head.ofs_vertexarrays], head.num_vertexarrays*sizeof(iqmvertexarray)/sizeof(uint));
+    lilswap((uint *)&data[head.ofs_triangles], head.num_triangles*sizeof(iqmtriangle)/sizeof(uint));
+    lilswap((uint *)&data[head.ofs_meshes], head.num_meshes*sizeof(iqmmesh)/sizeof(uint));
+    lilswap((uint *)&data[head.ofs_joints], head.num_joints*sizeof(iqmjoint)/sizeof(uint));
 
     for(uint32_t i = 0; i < (uint32_t)head.num_joints; i++)
     {
         iqmjoint &j = output->joints[i];
-        output->base_frame[i] = mat3x4(quat(j.rotate).normalize(), vec3(j.translate), vec3(j.scale));
+        output->base_frame[i] = mat3x4(quat(j.rotate.v).normalize(), j.translate, j.scale);
         output->inverse_base_frame[i].invert(output->base_frame[i]);
 
         if(j.parent >= 0)
@@ -127,15 +133,13 @@ iqmesh *iqmloader::load ( const char* data)
 bool iqmloader::loadiqmanims(iqmesh * mesh)
 {
     iqmheader & hdr = mesh->data_header;
-    if((int)hdr.num_poses != hdr.num_joints) return false;
+    if(hdr.num_poses != hdr.num_joints) return false;
 
-    uint8_t * buf = (uint8_t *)mesh->data_buff;
+    //lilswap((uint *)&mesh->data_buff[hdr.ofs_poses], hdr.num_poses*sizeof(iqmpose)/sizeof(uint));
+    //lilswap((uint *)&mesh->data_buff[hdr.ofs_anims], hdr.num_anims*sizeof(iqmanim)/sizeof(uint));
+    //lilswap((ushort *)&mesh->data_buff[hdr.ofs_frames], hdr.num_frames*hdr.num_framechannels);
 
-    lilswap((uint *)&buf[hdr.ofs_poses], hdr.num_poses*sizeof(iqmpose)/sizeof(uint));
-    lilswap((uint *)&buf[hdr.ofs_anims], hdr.num_anims*sizeof(iqmanim)/sizeof(uint));
-    lilswap((ushort *)&buf[hdr.ofs_frames], hdr.num_frames*hdr.num_framechannels);
-
-    uint16_t * frame_data = (uint16_t *)(buf+hdr.ofs_frames);
+    uint16_t * frame_data = (uint16_t *)&mesh->data_buff[hdr.ofs_frames];
 
     for(int i = 0; i < (int)hdr.num_frames; i++)
     {

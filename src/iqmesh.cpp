@@ -135,6 +135,29 @@ bool iqmesh::generate()
 	return true;
 }
 
+void iqmesh::set_frame(float frame)
+{
+    if(data_header.num_frames <= 0) return;
+
+    int frame1 = (int)floor(frame),
+        frame2 = frame1 + 1;
+    float frameoffset = frame - frame1;
+    frame1 %= data_header.num_frames;
+    frame2 %= data_header.num_frames;
+    mat3x4 *mat1 = &frames[frame1 * data_header.num_joints],
+              *mat2 = &frames[frame2 * data_header.num_joints];
+    // Interpolate matrixes between the two closest frames and concatenate with parent matrix if necessary.
+    // Concatenate the result with the inverse of the base pose.
+    // You would normally do animation blending and inter-frame blending here in a 3D engine.
+
+    for(uint32_t i = 0; i < data_header.num_joints; i++)
+    {
+        mat3x4 mat = mat1[i]*(1 - frameoffset) + mat2[i]*frameoffset;
+        if(joints[i].parent >= 0) current_frame[i] = current_frame[joints[i].parent] * mat;
+        else current_frame[i] = mat;
+    }
+}
+
 void iqmesh::draw(bool whole)
 {
 	//bind the meshe's vertex array with its bound buffers

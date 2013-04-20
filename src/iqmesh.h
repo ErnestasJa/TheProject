@@ -63,6 +63,7 @@ public:
 	mat3x4 * frames;
 	mat3x4 * base_frame;
 	mat3x4 * inverse_base_frame;
+	mat3x4 * current_frame;
 	uint16_t * frame_data;
 
 	///GL buffers
@@ -78,6 +79,9 @@ public:
 	virtual ~iqmesh();
 	bool generate();
 	void draw(bool whole);
+
+	void set_frame(float frame);
+
 private:
 protected:
 };

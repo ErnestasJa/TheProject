@@ -70,8 +70,9 @@ struct iqmjoint
 {
 	uint32_t name;
 	int32_t parent;
-	vec3 translate,scale;
-	quat rotate;
+	vec3 translate;
+	vec4 rotate;
+	vec3 scale;
 };
 
 struct iqmpose
