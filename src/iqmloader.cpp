@@ -41,29 +41,6 @@ iqmesh *iqmloader::load ( const char* data)
     output->poses       =(iqmpose*)         &data[head.ofs_poses];
     output->anims       =(iqmanim*)         &data[head.ofs_anims];
 
-    output->frames = new mat3x4[head.num_frames * head.num_poses];
-    output->base_frame = new mat3x4[head.num_joints];
-    output->inverse_base_frame = new mat3x4[head.num_joints];
-    output->current_frame = new mat3x4[head.num_joints];
-
-    lilswap((uint *)&data[head.ofs_vertexarrays], head.num_vertexarrays*sizeof(iqmvertexarray)/sizeof(uint));
-    lilswap((uint *)&data[head.ofs_triangles], head.num_triangles*sizeof(iqmtriangle)/sizeof(uint));
-    lilswap((uint *)&data[head.ofs_meshes], head.num_meshes*sizeof(iqmmesh)/sizeof(uint));
-    lilswap((uint *)&data[head.ofs_joints], head.num_joints*sizeof(iqmjoint)/sizeof(uint));
-
-    for(uint32_t i = 0; i < (uint32_t)head.num_joints; i++)
-    {
-        iqmjoint &j = output->joints[i];
-        output->base_frame[i] = mat3x4(quat(j.rotate.v).normalize(), j.translate, j.scale);
-        output->inverse_base_frame[i].invert(output->base_frame[i]);
-
-        if(j.parent >= 0)
-        {
-            output->base_frame[i] = output->base_frame[j.parent] * output->base_frame[i];
-            output->inverse_base_frame[i] *= output->inverse_base_frame[j.parent];
-        }
-    }
-
     //aparently there's only one bounds entry(A bounding box), hence using [0]
     output->bounds=(iqmbounds*)&data[head.ofs_bounds];
 
@@ -106,6 +83,24 @@ iqmesh *iqmloader::load ( const char* data)
             output->colors=(vec3*)&data[va.offset];
 
             break;
+        }
+    }
+
+    output->frames = new mat3x4[head.num_frames * head.num_poses];
+    output->base_frame = new mat3x4[head.num_joints];
+    output->inverse_base_frame = new mat3x4[head.num_joints];
+    output->current_frame = new mat3x4[head.num_joints];
+
+    for(uint32_t i = 0; i < head.num_joints; i++)
+    {
+        iqmjoint &j = output->joints[i];
+        output->base_frame[i] = mat3x4(quat(j.rotate).normalize(), vec3(j.translate), vec3(j.scale));
+        output->inverse_base_frame[i].invert(output->base_frame[i]);
+
+        if(j.parent >= 0)
+        {
+            output->base_frame[i] = output->base_frame[j.parent] * output->base_frame[i];
+            output->inverse_base_frame[i] *= output->inverse_base_frame[j.parent];
         }
     }
 

@@ -5,9 +5,6 @@
 #define IQM_MAGIC "INTERQUAKEMODEL"
 #define IQM_VERSION 2
 
-#pragma pack(push)
-#pragma pack(1)
-
 struct iqmheader
 {
 	char magic[16];
@@ -70,9 +67,9 @@ struct iqmjoint
 {
 	uint32_t name;
 	int32_t parent;
-	vec3 translate;
-	vec4 rotate;
-	vec3 scale;
+	float translate[3];
+	float rotate[4];
+	float scale[3];
 };
 
 struct iqmpose
@@ -120,4 +117,3 @@ struct iqmbounds
 	    return bbmax-bbmin;
 	}
 };
-

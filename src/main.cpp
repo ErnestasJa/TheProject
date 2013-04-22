@@ -38,7 +38,7 @@ static const char* gvs =
 "   m += bonemats[int(vbones.z)] * vweights.z;\n"
 "   m += bonemats[int(vbones.w)] * vweights.w;\n"
 "   vec4 mpos;\n"
-"   mpos = vec4(vec4(pos,1) * m,1.0);\n\n\n\n\n"
+"   mpos = vec4(vec4(pos,1) * m,1);\n"
 "   gl_Position = MVP * mpos;\n"
 "   //mat3 madjtrans = mat3(cross(m[1].xyz, m[2].xyz), cross(m[2].xyz, m[0].xyz), cross(m[0].xyz, m[1].xyz));\n"
 "   //vec3 mnormal = normal * madjtrans;\n"
@@ -156,10 +156,12 @@ int main()
 
 
     glm::mat4 M=glm::mat4(1.0f);
-    M=glm::translate(M,glm::vec3(0,0,10));
     glm::mat4 V=glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
     glm::mat4 P=glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
-    glm::mat4 MVP=P*V*M;
+    M=glm::translate(M,glm::vec3(-10,5,-10));
+    M=glm::scale(M,glm::vec3(0.01,0.01,0.01));
+    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
+    glm::mat4 MVP;
 
     binding tex_binding[]={{"",-1}};
     binding attrib_binding[]={{"position",0},{"tex_coords",1},{"",-1}};
@@ -170,7 +172,6 @@ int main()
 
     uint32_t mpl = sh.getparam("MVP");
     uint32_t bonemats = sh.getparam("bonemats");
-    glUniformMatrix4fv(mpl,1,GL_FALSE,glm::value_ptr(MVP));
 
     texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
     texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
@@ -206,7 +207,6 @@ int main()
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-        V=glm::rotate<float>(V,1,glm::vec3(0,1,0));
         MVP=P*V*M;
         glUniformMatrix4fv(sh.getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
         glUniformMatrix3x4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,mesh->current_frame[0].a.v);

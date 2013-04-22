@@ -2,35 +2,7 @@
 #include "iqm.h"
 #include "geom.h"
 
-/*
-struct vertex
-{
-    vec3 position;
-    vec3 normal;
-    vec4 tangent[4];
-    vec2 texcoord[2];
-    uint8_t blendindex[4];
-    uint8_t blendweight[4];
-};
-*/
-
-struct material
-{
-    uint32_t texid;
-};
-
-struct iqsubmesh
-{
-	std::string name;
-	material mat; //Future material implementations.
-	uint32_t first_vertex,num_vertices;
-	uint32_t first_index,num_indices;
-
-	bool visible;
-};
-
 struct u8vec4{uint8_t v[4];};
-
 
 class iqmesh
 {

@@ -2,9 +2,12 @@
 #include "iqmesh.h"
 iqmesh::iqmesh()
 {
+    data_buff = NULL;
 }
 iqmesh::~iqmesh()
 {
+    if(data_buff)
+        delete [] data_buff;
 }
 bool iqmesh::generate()
 {
@@ -94,7 +97,7 @@ bool iqmesh::generate()
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDINDEXES]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bindexes[0]),&bindexes[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
+			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
 			attribid++;
 			break;
 
@@ -109,7 +112,7 @@ bool iqmesh::generate()
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDWEIGHTS]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bweights[0]),&bweights[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,4,GL_UNSIGNED_SHORT,GL_FALSE,0,0);
+			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
 			attribid++;
 			break;
 
