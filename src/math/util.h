@@ -64,5 +64,42 @@ template<class T> T getval(FILE *f) { T n; return fread(&n, 1, sizeof(n), f) == 
 template<class T> T getlil(FILE *f) { return lilswap(getval<T>(f)); }
 template<class T> T getbig(FILE *f) { return bigswap(getval<T>(f)); }
 
+#include "glm.hpp"
+
+inline void convertquat(glm::mat4 & mat, const glm::quat & q)
+    {
+
+        float x = q.x, y = q.y, z = q.z, w = q.w,
+              tx = 2*x, ty = 2*y, tz = 2*z,
+              txx = tx*x, tyy = ty*y, tzz = tz*z,
+              txy = tx*y, txz = tx*z, tyz = ty*z,
+              twx = w*tx, twy = w*ty, twz = w*tz;
+        mat[0] = glm::vec4(1 - (tyy + tzz), txy - twz, txz + twy,0);
+        mat[1] = glm::vec4(txy + twz, 1 - (txx + tzz), tyz - twx,0);
+        mat[2] = glm::vec4(txz - twy, tyz + twx, 1 - (txx + tyy),0);
+        mat[3] = glm::vec4(0, 0, 0,1);
+
+    }
+
+inline void scale(glm::vec4 & v, const glm::vec3& scale)
+{
+    v.x*=scale.x;
+    v.y*=scale.y;
+    v.z*=scale.z;
+}
+
+inline void makeJointMatrix(glm::mat4 & mat, const glm::quat & rot, const glm::vec3& pos, const glm::vec3& s)
+{
+    convertquat(mat,rot);
+
+    scale(mat[0], s);
+    scale(mat[1], s);
+    scale(mat[2], s);
+
+    mat[0].w= pos.x;
+    mat[1].w= pos.y;
+    mat[2].w= pos.z;
+}
+
 #endif
 

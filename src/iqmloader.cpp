@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "iqmloader.h"
 #include "iqmesh.h"
+#include "math/util.h"
 
 void iqmloader::load_header(const char* data, iqmheader & header)
 {
@@ -50,22 +51,22 @@ iqmesh *iqmloader::load ( const char* data)
         switch(va.type)
         {
         case IQM_POSITION:
-            output->positions=(vec3*)&data[va.offset];
+            output->positions=(glm::vec3*)&data[va.offset];
 
             break;
 
         case IQM_TEXCOORD:
-            output->texcoords=(vec2*)&data[va.offset];
+            output->texcoords=(glm::vec2*)&data[va.offset];
 
             break;
 
         case IQM_NORMAL:
-            output->normals=(vec3*)&data[va.offset];
+            output->normals=(glm::vec3*)&data[va.offset];
 
             break;
 
         case IQM_TANGENT:
-            output->tangents=(vec4*)&data[va.offset];
+            output->tangents=(glm::vec4*)&data[va.offset];
 
             break;
 
@@ -80,22 +81,22 @@ iqmesh *iqmloader::load ( const char* data)
             break;
 
         case IQM_COLOR:
-            output->colors=(vec3*)&data[va.offset];
+            output->colors=(glm::vec3*)&data[va.offset];
 
             break;
         }
     }
 
-    output->frames = new mat3x4[head.num_frames * head.num_poses];
-    output->base_frame = new mat3x4[head.num_joints];
-    output->inverse_base_frame = new mat3x4[head.num_joints];
-    output->current_frame = new mat3x4[head.num_joints];
+    output->frames = new glm::mat4[head.num_frames * head.num_poses];
+    output->base_frame = new glm::mat4[head.num_joints];
+    output->inverse_base_frame = new glm::mat4[head.num_joints];
+    output->current_frame = new glm::mat4[head.num_joints];
 
     for(uint32_t i = 0; i < head.num_joints; i++)
     {
         iqmjoint &j = output->joints[i];
-        output->base_frame[i] = mat3x4(quat(j.rotate).normalize(), vec3(j.translate), vec3(j.scale));
-        output->inverse_base_frame[i].invert(output->base_frame[i]);
+        makeJointMatrix(output->base_frame[i], glm::normalize(glm::quat(j.rotate[0],j.rotate[1],j.rotate[2],j.rotate[3])), glm::vec3(j.translate[0],j.translate[1],j.translate[2]), glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
+        output->inverse_base_frame[i] = glm::inverse(output->base_frame[i]);
 
         if(j.parent >= 0)
         {
@@ -141,8 +142,8 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
         for(int j = 0; j < (int)hdr.num_poses; j++)
         {
             iqmpose &p = mesh->poses[j];
-            quat rotate;
-            vec3 translate, scale;
+            glm::quat rotate;
+            glm::vec3 translate, scale;
             translate.x = p.channeloffset[0];
             if(p.mask&0x01) translate.x += *frame_data++ * p.channelscale[0];
             translate.y = p.channeloffset[1];
@@ -169,7 +170,8 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
             //   (parentPose * parentInverseBasePose) * (parentBasePose * childPose * childInverseBasePose) =>
             //   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
             //   parentPose * childPose * childInverseBasePose
-            mat3x4 m(rotate.normalize(), translate, scale);
+            glm::mat4 m(1.0f);
+            makeJointMatrix(m,glm::normalize(rotate), glm::vec3(translate), glm::vec3(scale));
             if(p.parent >= 0) mesh->frames[i*hdr.num_poses + j] = mesh->base_frame[p.parent] * m * mesh->inverse_base_frame[j];
             else mesh->frames[i*hdr.num_poses + j] = m * mesh->inverse_base_frame[j];
         }
