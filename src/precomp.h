@@ -20,9 +20,11 @@
 #endif
 
 #include <GL/glfw.h>
-//#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
+
+#include "glm.hpp"
+#include "gtx/norm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
 
 #include "bit.h"
 

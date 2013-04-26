@@ -64,28 +64,41 @@ template<class T> T getval(FILE *f) { T n; return fread(&n, 1, sizeof(n), f) == 
 template<class T> T getlil(FILE *f) { return lilswap(getval<T>(f)); }
 template<class T> T getbig(FILE *f) { return bigswap(getval<T>(f)); }
 
-#include "glm.hpp"
+inline void invert_glm(glm::mat4 & o)
+{
+    glm::mat3x3 invrot(glm::vec3(o[0].x, o[1].x, o[2].x), glm::vec3(o[0].y, o[1].y, o[2].y), glm::vec3(o[0].z, o[1].z, o[2].z));
+
+    invrot[0] /= glm::length2(invrot[0]);
+    invrot[1] /= glm::length2(invrot[1]);
+    invrot[2] /= glm::length2(invrot[2]);
+    glm::vec3 trans(o[0].w, o[1].w, o[2].w);
+
+    o[0] = glm::vec4(invrot[0], -glm::dot(invrot[0],trans));
+    o[1] = glm::vec4(invrot[1], -glm::dot(invrot[1],trans));
+    o[2] = glm::vec4(invrot[2], -glm::dot(invrot[2],trans));
+
+}
 
 inline void convertquat(glm::mat4 & mat, const glm::quat & q)
-    {
-
-        float x = q.x, y = q.y, z = q.z, w = q.w,
-              tx = 2*x, ty = 2*y, tz = 2*z,
-              txx = tx*x, tyy = ty*y, tzz = tz*z,
-              txy = tx*y, txz = tx*z, tyz = ty*z,
-              twx = w*tx, twy = w*ty, twz = w*tz;
-        mat[0] = glm::vec4(1 - (tyy + tzz), txy - twz, txz + twy,0);
-        mat[1] = glm::vec4(txy + twz, 1 - (txx + tzz), tyz - twx,0);
-        mat[2] = glm::vec4(txz - twy, tyz + twx, 1 - (txx + tyy),0);
-        mat[3] = glm::vec4(0, 0, 0,1);
-
-    }
-
-inline void scale(glm::vec4 & v, const glm::vec3& scale)
 {
-    v.x*=scale.x;
-    v.y*=scale.y;
-    v.z*=scale.z;
+
+    float x = q.x, y = q.y, z = q.z, w = q.w,
+          tx = 2*x, ty = 2*y, tz = 2*z,
+          txx = tx*x, tyy = ty*y, tzz = tz*z,
+          txy = tx*y, txz = tx*z, tyz = ty*z,
+          twx = w*tx, twy = w*ty, twz = w*tz;
+    mat[0] = glm::vec4(1.0f - (tyy + tzz), txy - twz, txz + twy,0);
+    mat[1] = glm::vec4(txy + twz, 1.0f - (txx + tzz), tyz - twx,0);
+    mat[2] = glm::vec4(txz - twy, tyz + twx, 1.0f - (txx + tyy),0);
+    mat[3] = glm::vec4(0, 0, 0,1);
+
+}
+
+inline void scale(glm::vec4 & v, const glm::vec3& s)
+{
+    v.x*=s.x;
+    v.y*=s.y;
+    v.z*=s.z;
 }
 
 inline void makeJointMatrix(glm::mat4 & mat, const glm::quat & rot, const glm::vec3& pos, const glm::vec3& s)
