@@ -144,6 +144,7 @@ void iqmesh::set_frame(float frame)
 
     int frame1 = (int)floor(frame),
         frame2 = frame1 + 1;
+
     float frameoffset = frame - frame1;
     frame1 %= data_header.num_frames;
     frame2 %= data_header.num_frames;

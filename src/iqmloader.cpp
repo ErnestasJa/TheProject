@@ -133,10 +133,6 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
     iqmheader & hdr = mesh->data_header;
     if(hdr.num_poses != hdr.num_joints) return false;
 
-    //lilswap((uint *)&mesh->data_buff[hdr.ofs_poses], hdr.num_poses*sizeof(iqmpose)/sizeof(uint));
-    //lilswap((uint *)&mesh->data_buff[hdr.ofs_anims], hdr.num_anims*sizeof(iqmanim)/sizeof(uint));
-    //lilswap((ushort *)&mesh->data_buff[hdr.ofs_frames], hdr.num_frames*hdr.num_framechannels);
-
     uint16_t * frame_data = (uint16_t *)&mesh->data_buff[hdr.ofs_frames];
 
     for(int i = 0; i < (int)hdr.num_frames; i++)
