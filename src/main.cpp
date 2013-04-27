@@ -37,7 +37,7 @@ static const char* gvs =
 "   m += bonemats[int(vbones.y)] * vweights.y;\n"
 "   m += bonemats[int(vbones.z)] * vweights.z;\n"
 "   m += bonemats[int(vbones.w)] * vweights.w;\n"
-"   vec4 mpos= vec4(pos,1) * m;\n"
+"   vec4 mpos= vec4(pos,0);\n"
 "   gl_Position = MVP * mpos;\n"
 "   //mat3 madjtrans = mat3(cross(m[1].xyz, m[2].xyz), cross(m[2].xyz, m[0].xyz), cross(m[0].xyz, m[1].xyz));\n"
 "   //vec3 mnormal = normal * madjtrans;\n"
@@ -172,8 +172,8 @@ int main()
     uint32_t mpl = sh.getparam("MVP");
     uint32_t bonemats = sh.getparam("bonemats");
 
-    texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
-    texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
+    //texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
+    //texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
 
     //mesh->submeshes[0].mat.texid=tex->obj;
     //mesh->submeshes[1].mat.texid=tex2->obj;

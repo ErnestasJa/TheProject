@@ -3,11 +3,18 @@
 iqmesh::iqmesh()
 {
     data_buff = NULL;
+    frames = NULL;
+	base_frame = NULL;
+	inverse_base_frame = NULL;
+	current_frame = NULL;
 }
 iqmesh::~iqmesh()
 {
-    if(data_buff)
-        delete [] data_buff;
+    if(data_buff) delete [] data_buff;
+    if(frames) delete [] frames;
+    if(base_frame) delete [] base_frame;
+    if(inverse_base_frame) delete [] inverse_base_frame;
+    if(current_frame) delete [] current_frame;
 }
 bool iqmesh::generate()
 {
@@ -34,7 +41,7 @@ bool iqmesh::generate()
 			}
 			glGenBuffers(1,&buffers[IQM_POSITION]);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_POSITION]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(glm::vec3),positions,GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(positions[0]),positions,GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
 

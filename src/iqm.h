@@ -1,5 +1,4 @@
 #pragma once
-#include "geom.h"
 #include <stdint.h>
 
 #define IQM_MAGIC "INTERQUAKEMODEL"

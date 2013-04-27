@@ -810,13 +810,14 @@
 	<stdint.h>
 	<inttypes.h>
 
-1366998062 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
+1367022831 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
 	"precomp.h"
 	"iqmesh.h"
 
-1367005981 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1367022267 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
+	<iomanip>
 	<fstream>
 	<stdio.h>
 	<vector>
@@ -1126,8 +1127,7 @@
 	"iqm.h"
 	"geom.h"
 
-1366998062 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
-	"geom.h"
+1367022127 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
 	<stdint.h>
 
 1365596500 source:/home/serengeor/Coding/ZombieGameProject/src/texture.cpp
@@ -1147,9 +1147,10 @@
 1365596500 /home/serengeor/Coding/ZombieGameProject/src/tgaloader.h
 	"texture.h"
 
-1367005981 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1367022267 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
+	<iomanip>
 	<fstream>
 	<stdio.h>
 	<vector>
@@ -1167,7 +1168,7 @@
 	"gtc/type_ptr.hpp"
 	"bit.h"
 
-1367006709 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
+1367022660 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
 	"precomp.h"
 	"iqmloader.h"
 	"iqmesh.h"
@@ -1175,7 +1176,7 @@
 
 1366467627 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1367006477 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1367023366 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"
@@ -1190,7 +1191,7 @@
 
 1366998062 /home/serengeor/Coding/ZombieGameProject/src/math/geom.h
 
-1367006163 /home/serengeor/Coding/ZombieGameProject/src/math/util.h
+1367022233 /home/serengeor/Coding/ZombieGameProject/src/math/util.h
 
 1365596500 /home/serengeor/Coding/ZombieGameProject/libs/glm/gtx/norm.hpp
 	"../glm.hpp"

@@ -95,10 +95,12 @@ iqmesh *iqmloader::load ( const char* data)
     for(uint32_t i = 0; i < head.num_joints; i++)
     {
         iqmjoint &j = output->joints[i];
+        makeJointMatrix(output->base_frame[i],
+                        glm::normalize(glm::quat(j.rotate[0],j.rotate[1],j.rotate[2],j.rotate[3])),
+                        glm::vec3(j.translate[0],j.translate[1],j.translate[2]),
+                        glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
 
-        makeJointMatrix(output->base_frame[i], glm::normalize(glm::quat(j.rotate[0],j.rotate[1],j.rotate[2],j.rotate[3])), glm::vec3(j.translate[0],j.translate[1],j.translate[2]), glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
-        output->inverse_base_frame[i] = output->base_frame[i];
-        invert_glm(output->inverse_base_frame[i]);
+        invert_glm(output->inverse_base_frame[i],output->base_frame[i]);
 
         if(j.parent >= 0)
         {
@@ -168,8 +170,9 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
             //   (parentPose * parentInverseBasePose) * (parentBasePose * childPose * childInverseBasePose) =>
             //   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
             //   parentPose * childPose * childInverseBasePose
-            glm::mat4 m(1.0f);
+            glm::mat4 m;
             makeJointMatrix(m,glm::normalize(rotate), translate, scale);
+
             if(p.parent >= 0) mesh->frames[i*hdr.num_poses + j] = mesh->base_frame[p.parent] * m * mesh->inverse_base_frame[j];
             else mesh->frames[i*hdr.num_poses + j] = m * mesh->inverse_base_frame[j];
         }
