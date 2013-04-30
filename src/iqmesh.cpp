@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "iqmesh.h"
+#include "math/util.h"
 iqmesh::iqmesh()
 {
     data_buff = NULL;
@@ -155,7 +156,7 @@ void iqmesh::set_frame(float frame)
     float frameoffset = frame - frame1;
     frame1 %= data_header.num_frames;
     frame2 %= data_header.num_frames;
-    glm::mat4 *mat1 = &frames[frame1 * data_header.num_joints],
+    glm::mat3x4 *mat1 = &frames[frame1 * data_header.num_joints],
               *mat2 = &frames[frame2 * data_header.num_joints];
     // Interpolate matrixes between the two closest frames and concatenate with parent matrix if necessary.
     // Concatenate the result with the inverse of the base pose.
@@ -163,8 +164,8 @@ void iqmesh::set_frame(float frame)
 
     for(uint32_t i = 0; i < data_header.num_joints; i++)
     {
-        glm::mat4 mat = mat1[i]*(1 - frameoffset) + mat2[i]*frameoffset;
-        if(joints[i].parent >= 0) current_frame[i] = current_frame[joints[i].parent] * mat;
+        glm::mat3x4 mat = mat1[i]*(1 - frameoffset) + mat2[i]*frameoffset;
+        if(joints[i].parent >= 0) current_frame[i] = mul(current_frame[joints[i].parent],mat);
         else current_frame[i] = mat;
     }
 }

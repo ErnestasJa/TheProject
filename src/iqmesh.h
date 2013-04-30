@@ -32,10 +32,10 @@ public:
 	glm::vec3 * colors;
 
     ///animation
-	glm::mat4 * frames;
-	glm::mat4 * base_frame;
-	glm::mat4 * inverse_base_frame;
-	glm::mat4 * current_frame;
+	glm::mat3x4 * frames;
+	glm::mat3x4 * base_frame;
+	glm::mat3x4 * inverse_base_frame;
+	glm::mat3x4 * current_frame;
 	uint16_t * frame_data;
 
 	///GL buffers

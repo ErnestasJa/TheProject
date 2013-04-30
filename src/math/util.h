@@ -46,6 +46,8 @@ static inline T clamp(T val, T minval, T maxval)
     return max(minval, min(val, maxval));
 }
 
+
+
 inline bool islittleendian() { static const int val = 1; return *(const uchar *)&val != 0; }
 inline ushort endianswap16(ushort n) { return (n<<8) | (n>>8); }
 inline uint endianswap32(uint n) { return (n<<24) | (n>>24) | ((n>>8)&0xFF00) | ((n<<8)&0xFF0000); }
@@ -64,7 +66,7 @@ template<class T> T getval(FILE *f) { T n; return fread(&n, 1, sizeof(n), f) == 
 template<class T> T getlil(FILE *f) { return lilswap(getval<T>(f)); }
 template<class T> T getbig(FILE *f) { return bigswap(getval<T>(f)); }
 
-void print_glm(const glm::mat4 & m)
+inline void print_glm(const glm::mat4 & m)
 {
     std::cout << std::setw(2) << std::setprecision(3) << "[" << m[0].x << "," << m[0].y << "," << m[0].z << "," << m[0].w << "]\n";
     std::cout << std::setw(2) << std::setprecision(3) << "[" << m[1].x << "," << m[1].y << "," << m[1].z << "," << m[1].w << "]\n";
@@ -79,7 +81,7 @@ void print_glm(const glm::mat4 & m)
     std::cout << std::setw(2) << std::setprecision(3) << "[" << m.c.x << "," << m.c.y << "," << m.c.z << "," << m.c.w << "]\n";
 }*/
 
-inline void invert_glm(glm::mat4 & dest, const glm::mat4 & o)
+inline void invert(glm::mat3x4 & dest, const glm::mat3x4 & o)
 {
     glm::mat3x3 invrot(glm::vec3(o[0].x, o[1].x, o[2].x), glm::vec3(o[0].y, o[1].y, o[2].y), glm::vec3(o[0].z, o[1].z, o[2].z));
 
@@ -91,10 +93,9 @@ inline void invert_glm(glm::mat4 & dest, const glm::mat4 & o)
     dest[0] = glm::vec4(invrot[0], -glm::dot(invrot[0],trans));
     dest[1] = glm::vec4(invrot[1], -glm::dot(invrot[1],trans));
     dest[2] = glm::vec4(invrot[2], -glm::dot(invrot[2],trans));
-    dest[3] = glm::vec4(0,0,0,1);
 }
 
-inline void convertquat(glm::mat4 & mat, const glm::quat & q)
+inline void convertquat(glm::mat3x4 & mat, const glm::quat & q)
 {
 
     float x = q.x, y = q.y, z = q.z, w = q.w,
@@ -105,7 +106,6 @@ inline void convertquat(glm::mat4 & mat, const glm::quat & q)
     mat[0] = glm::vec4(1.0f - (tyy + tzz), txy - twz, txz + twy,0);
     mat[1] = glm::vec4(txy + twz, 1.0f - (txx + tzz), tyz - twx,0);
     mat[2] = glm::vec4(txz - twy, tyz + twx, 1.0f - (txx + tyy),0);
-    mat[3] = glm::vec4(0, 0, 0,1);
 }
 
 inline void scale(glm::vec4 & v, const glm::vec3& s)
@@ -115,7 +115,7 @@ inline void scale(glm::vec4 & v, const glm::vec3& s)
     v.z*=s.z;
 }
 
-inline void makeJointMatrix(glm::mat4 & mat, const glm::quat & rot, const glm::vec3& pos, const glm::vec3& s)
+inline void makeJointMatrix(glm::mat3x4 & mat, const glm::quat & rot, const glm::vec3& pos, const glm::vec3& s)
 {
     convertquat(mat,rot);
 
@@ -127,6 +127,21 @@ inline void makeJointMatrix(glm::mat4 & mat, const glm::quat & rot, const glm::v
     mat[1].w= pos.y;
     mat[2].w= pos.z;
 }
+
+static glm::mat3x4 mul(const glm::mat3x4 & m1, const glm::mat3x4 & m2)
+{
+    glm::vec4 v1(m2[0]*m1[0].x + m2[1]*m1[0].y + m2[2]*m1[0].z);
+    v1.w+=m1[0].w;
+
+    glm::vec4 v2(m2[0]*m1[1].x + m2[1]*m1[1].y + m2[2]*m1[1].z);
+    v2.w+=m1[1].w;
+
+    glm::vec4 v3(m2[0]*m1[2].x + m2[1]*m1[2].y + m2[2]*m1[2].z);
+    v3.w+=m1[2].w;
+
+    return glm::mat3x4(v1,v2,v3);
+}
+
 
 #endif
 

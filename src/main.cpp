@@ -23,7 +23,7 @@ void main()
 static const char* gvs =
 "#version 330\n"
 "uniform mat4 MVP;\n"
-"uniform mat4 bonemats[80];\n"
+"uniform mat3x4 bonemats[80];\n"
 "layout (location=0) in vec3 pos;\n"
 "layout (location=1) in vec2 tex;\n"
 "layout (location=2) in vec3 normal;\n"
@@ -33,11 +33,11 @@ static const char* gvs =
 "out vec2 UV;\n"
 "void main(void)\n"
 "{\n"
-"   mat4 m = bonemats[int(vbones.x)] * vweights.x;\n"
+"   mat3x4 m = bonemats[int(vbones.x)] * vweights.x;\n"
 "   m += bonemats[int(vbones.y)] * vweights.y;\n"
 "   m += bonemats[int(vbones.z)] * vweights.z;\n"
 "   m += bonemats[int(vbones.w)] * vweights.w;\n"
-"   vec4 mpos= vec4(pos,1)*m;\n"
+"   vec4 mpos= vec4(vec4(pos,1)*m,1);\n"
 "   gl_Position = MVP * mpos;\n"
 "   //mat3 madjtrans = mat3(cross(m[1].xyz, m[2].xyz), cross(m[2].xyz, m[0].xyz), cross(m[0].xyz, m[1].xyz));\n"
 "   //vec3 mnormal = normal * madjtrans;\n"
@@ -208,7 +208,7 @@ int main()
 
         MVP=P*V*M;
         glUniformMatrix4fv(sh.getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
-        glUniformMatrix4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
+        glUniformMatrix3x4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
         mesh->draw(false);
 
         //glerr();
