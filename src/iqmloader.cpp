@@ -87,28 +87,6 @@ iqmesh *iqmloader::load ( const char* data)
         }
     }
 
-    output->frames = new glm::mat3x4[head.num_frames * head.num_poses];
-    output->base_frame = new glm::mat3x4[head.num_joints];
-    output->inverse_base_frame = new glm::mat3x4[head.num_joints];
-    output->current_frame = new glm::mat3x4[head.num_joints];
-
-    for(uint32_t i = 0; i < head.num_joints; i++)
-    {
-        iqmjoint &j = output->joints[i];
-        makeJointMatrix(output->base_frame[i],
-                        glm::normalize(glm::quat(j.rotate[3],j.rotate[0],j.rotate[1],j.rotate[2])),
-                        glm::vec3(j.translate[0],j.translate[1],j.translate[2]),
-                        glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
-
-        invert(output->inverse_base_frame[i],output->base_frame[i]);
-
-        if(j.parent >= 0)
-        {
-            output->base_frame[i] = mul(output->base_frame[j.parent], output->base_frame[i]);
-            output->inverse_base_frame[i] = mul(output->inverse_base_frame[i],output->inverse_base_frame[j.parent]);
-        }
-    }
-
     //mesh info test
     for(uint32_t i=0; i<head.num_meshes; i++)
     {
@@ -134,6 +112,28 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
 {
     iqmheader & hdr = mesh->data_header;
     if(hdr.num_poses != hdr.num_joints) return false;
+
+    mesh->frames = new glm::mat3x4[hdr.num_frames * hdr.num_poses];
+    mesh->base_frame = new glm::mat3x4[hdr.num_joints];
+    mesh->inverse_base_frame = new glm::mat3x4[hdr.num_joints];
+    mesh->current_frame = new glm::mat3x4[hdr.num_joints];
+
+    for(uint32_t i = 0; i < hdr.num_joints; i++)
+    {
+        iqmjoint &j = mesh->joints[i];
+        makeJointMatrix(mesh->base_frame[i],
+                        glm::normalize(glm::quat(j.rotate[3],j.rotate[0],j.rotate[1],j.rotate[2])),
+                        glm::vec3(j.translate[0],j.translate[1],j.translate[2]),
+                        glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
+
+        invert(mesh->inverse_base_frame[i],mesh->base_frame[i]);
+
+        if(j.parent >= 0)
+        {
+            mesh->base_frame[i] = mul(mesh->base_frame[j.parent], mesh->base_frame[i]);
+            mesh->inverse_base_frame[i] = mul(mesh->inverse_base_frame[i],mesh->inverse_base_frame[j.parent]);
+        }
+    }
 
     uint16_t * frame_data = (uint16_t *)&mesh->data_buff[hdr.ofs_frames];
 

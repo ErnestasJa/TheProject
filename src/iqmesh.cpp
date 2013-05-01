@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "iqmesh.h"
 #include "math/util.h"
+
 iqmesh::iqmesh()
 {
     data_buff = NULL;
@@ -8,7 +9,9 @@ iqmesh::iqmesh()
 	base_frame = NULL;
 	inverse_base_frame = NULL;
 	current_frame = NULL;
+	texts = NULL;
 }
+
 iqmesh::~iqmesh()
 {
     if(data_buff) delete [] data_buff;
@@ -16,15 +19,21 @@ iqmesh::~iqmesh()
     if(base_frame) delete [] base_frame;
     if(inverse_base_frame) delete [] inverse_base_frame;
     if(current_frame) delete [] current_frame;
+
+    if(texts) delete [] texts;
 }
+
 bool iqmesh::generate()
 {
 	//set the buffers to invalid values
-	for(uint32_t i=0; i<IQM_BUFFER_COUNT; i++)
-		buffers[i]=-1;
+	if(data_header.num_vertexarrays==0)
+        return false;
+
 	//create the VAO
-	glGenVertexArrays(1,&vaoid);
-	glBindVertexArray(vaoid);
+	glGenVertexArrays(1,&glmesh.vao);
+	glBindVertexArray(glmesh.vao);
+
+	glmesh.buffers.resize(IQM_BUFFER_COUNT);
 	//keeping track on enabling attrib ids
 	uint32_t attribid=0;
 	//determine how many buffers we got and check their formats
@@ -40,8 +49,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_POSITION]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_POSITION]);
+			glGenBuffers(1,&glmesh.buffers[IQM_POSITION]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_POSITION]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(positions[0]),positions,GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
@@ -56,8 +65,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_TEXCOORD]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TEXCOORD]);
+			glGenBuffers(1,&glmesh.buffers[IQM_TEXCOORD]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_TEXCOORD]);
 			glBufferData(GL_ARRAY_BUFFER, data_header.num_vertexes*sizeof(texcoords[0]),&texcoords[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,2,GL_FLOAT,GL_FALSE,0,0);
@@ -71,8 +80,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_NORMAL]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_NORMAL]);
+			glGenBuffers(1,&glmesh.buffers[IQM_NORMAL]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_NORMAL]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(normals[0]),&normals[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
@@ -86,8 +95,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_TANGENT]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_TANGENT]);
+			glGenBuffers(1,&glmesh.buffers[IQM_TANGENT]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_TANGENT]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(tangents[0]),&tangents[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_FLOAT,GL_FALSE,0,0);
@@ -101,8 +110,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_BLENDINDEXES]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDINDEXES]);
+			glGenBuffers(1,&glmesh.buffers[IQM_BLENDINDEXES]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_BLENDINDEXES]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bindexes[0]),&bindexes[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
@@ -116,8 +125,8 @@ bool iqmesh::generate()
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
-			glGenBuffers(1,&buffers[IQM_BLENDWEIGHTS]);
-			glBindBuffer(GL_ARRAY_BUFFER,buffers[IQM_BLENDWEIGHTS]);
+			glGenBuffers(1,&glmesh.buffers[IQM_BLENDWEIGHTS]);
+			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_BLENDWEIGHTS]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bweights[0]),&bweights[0],GL_STATIC_DRAW);
 			glEnableVertexAttribArray(attribid);
 			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
@@ -132,8 +141,8 @@ bool iqmesh::generate()
 	}
 	if(data_header.num_triangles>0)
 	{
-		glGenBuffers(1,&buffers[IQM_INDICES]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,buffers[IQM_INDICES]);
+		glGenBuffers(1,&glmesh.buffers[IQM_INDICES]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,glmesh.buffers[IQM_INDICES]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,data_header.num_triangles*3*sizeof(uint32_t),&triangles[0],GL_STATIC_DRAW);
 	}
 	else
@@ -173,7 +182,7 @@ void iqmesh::set_frame(float frame)
 void iqmesh::draw(bool whole)
 {
 	//bind the meshe's vertex array with its bound buffers
-	glBindVertexArray(vaoid);
+	glBindVertexArray(glmesh.vao);
 
 	if(whole)
 	{

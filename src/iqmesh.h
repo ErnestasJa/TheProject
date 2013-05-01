@@ -1,6 +1,7 @@
 #pragma once
 #include "iqm.h"
 #include "geom.h"
+#include "mesh.h"
 
 struct u8vec4{uint8_t v[4];};
 
@@ -39,8 +40,7 @@ public:
 	uint16_t * frame_data;
 
 	///GL buffers
-	GLuint vaoid;
-	GLuint buffers[IQM_BUFFER_COUNT];
+	mesh glmesh;
 
 private:
 protected:

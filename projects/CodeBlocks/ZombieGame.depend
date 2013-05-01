@@ -810,7 +810,7 @@
 	<stdint.h>
 	<inttypes.h>
 
-1367273351 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
+1367415581 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
 	"precomp.h"
 	"iqmesh.h"
 	"math/util.h"
@@ -1124,9 +1124,10 @@
 1365596500 /home/serengeor/Coding/ZombieGameProject/src/bit.h
 	<stdint.h>
 
-1367273338 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
+1367415234 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
 	"iqm.h"
 	"geom.h"
+	"mesh.h"
 
 1367092958 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
 	<stdint.h>
@@ -1169,7 +1170,7 @@
 	"gtc/type_ptr.hpp"
 	"bit.h"
 
-1367283365 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
+1367347915 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
 	"precomp.h"
 	"iqmloader.h"
 	"iqmesh.h"
@@ -1177,7 +1178,7 @@
 
 1366467627 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1367273680 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1367283383 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"
@@ -1209,4 +1210,7 @@
 	<limits>
 
 1365596500 /home/serengeor/Coding/ZombieGameProject/libs/glm/gtx/norm.inl
+
+1367415056 /home/serengeor/Coding/ZombieGameProject/src/mesh.h
+	"precomp.h"
 
