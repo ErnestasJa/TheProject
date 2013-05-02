@@ -24,6 +24,8 @@ iqmesh *iqmloader::load ( const char* data)
         return output;
     }
 
+
+
     output=new iqmesh();
     output->data_buff = (uint8_t*)data;
 
@@ -96,15 +98,6 @@ iqmesh *iqmloader::load ( const char* data)
 
     output->data_header = head;
 
-    if(output->generate())
-        return output;
-    else
-    {
-        printf("Mesh generation failed.\n");
-        return nullptr;
-    }
-
-
     return output;
 }
 
@@ -164,12 +157,14 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
             if(p.mask&0x100) scale.y += *frame_data++ * p.channelscale[8];
             scale.z = p.channeloffset[9];
             if(p.mask&0x200) scale.z += *frame_data++ * p.channelscale[9];
-            // Concatenate each pose with the inverse base pose to avoid doing this at animation time.
-            // If the joint has a parent, then it needs to be pre-concatenated with its parent's base pose.
-            // Thus it all negates at animation time like so:
-            //   (parentPose * parentInverseBasePose) * (parentBasePose * childPose * childInverseBasePose) =>
-            //   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
-            //   parentPose * childPose * childInverseBasePose
+
+            /// Concatenate each pose with the inverse base pose to avoid doing this at animation time.
+            /// If the joint has a parent, then it needs to be pre-concatenated with its parent's base pose.
+            /// Thus it all negates at animation time like so:
+            ///   (parentPose * parentInverseBasePose) * (parentBasePose * childPose * childInverseBasePose) =>
+            ///   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
+            ///   parentPose * childPose * childInverseBasePose
+
             glm::mat3x4 m;
             makeJointMatrix(m, glm::normalize(rotate), translate, scale);
 
