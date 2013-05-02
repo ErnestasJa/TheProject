@@ -150,9 +150,9 @@ int main()
     iqmloader *loader=new iqmloader();
     iqmesh * mesh=loader->load(buffer);
     loader->loadiqmanims(mesh);
+
+    mesh->generate();
     ///-------------------------------------
-
-
 
     glm::mat4 M=glm::mat4(1.0f);
     glm::mat4 V=glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
