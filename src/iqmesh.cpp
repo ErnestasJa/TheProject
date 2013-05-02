@@ -146,10 +146,10 @@ bool iqmesh::generate()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,data_header.num_triangles*3*sizeof(uint32_t),&triangles[0],GL_STATIC_DRAW);
 	}
 	else
+    {
+        printf("Mesh generation failed.\n");
 		return false;
-
-//	for(uint32_t i=0; i<attribid; i++)
-//		glDisableVertexAttribArray(i);
+    }
 
 	glBindVertexArray(0);
 	return true;
