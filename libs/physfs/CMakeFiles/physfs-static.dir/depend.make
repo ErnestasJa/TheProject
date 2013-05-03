@@ -42,6 +42,8 @@ CMakeFiles/physfs-static.dir/archivers/wad.o: physfs_internal.h
 CMakeFiles/physfs-static.dir/archivers/zip.o: archivers/zip.c
 CMakeFiles/physfs-static.dir/archivers/zip.o: physfs.h
 CMakeFiles/physfs-static.dir/archivers/zip.o: physfs_internal.h
+CMakeFiles/physfs-static.dir/archivers/zip.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/archivers/zip.o: zlib123/zlib.h
 
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/7zCrc.c
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/7zCrc.h
@@ -161,4 +163,77 @@ CMakeFiles/physfs-static.dir/platform/windows.o: platform/windows.c
 CMakeFiles/physfs-static.dir/platform/windows.o: physfs.h
 CMakeFiles/physfs-static.dir/platform/windows.o: physfs_internal.h
 CMakeFiles/physfs-static.dir/platform/windows.o: physfs_platforms.h
+
+CMakeFiles/physfs-static.dir/zlib123/adler32.o: zlib123/adler32.c
+CMakeFiles/physfs-static.dir/zlib123/adler32.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/adler32.o: zlib123/zlib.h
+
+CMakeFiles/physfs-static.dir/zlib123/compress.o: zlib123/compress.c
+CMakeFiles/physfs-static.dir/zlib123/compress.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/compress.o: zlib123/zlib.h
+
+CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/crc32.c
+CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/crc32.h
+CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/deflate.c
+CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/deflate.h
+CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/gzio.o: zlib123/gzio.c
+CMakeFiles/physfs-static.dir/zlib123/gzio.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/gzio.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/gzio.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/infback.c
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/inffast.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/inffixed.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/inflate.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/inftrees.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/inffast.c
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/inffast.h
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/inflate.h
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/inftrees.h
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inffast.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inffixed.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inflate.c
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inflate.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inftrees.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/inftrees.c
+CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/inftrees.h
+CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/deflate.h
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/trees.c
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/trees.h
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/zutil.h
+
+CMakeFiles/physfs-static.dir/zlib123/uncompr.o: zlib123/uncompr.c
+CMakeFiles/physfs-static.dir/zlib123/uncompr.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/uncompr.o: zlib123/zlib.h
+
+CMakeFiles/physfs-static.dir/zlib123/zutil.o: zlib123/zconf.h
+CMakeFiles/physfs-static.dir/zlib123/zutil.o: zlib123/zlib.h
+CMakeFiles/physfs-static.dir/zlib123/zutil.o: zlib123/zutil.c
+CMakeFiles/physfs-static.dir/zlib123/zutil.o: zlib123/zutil.h
 

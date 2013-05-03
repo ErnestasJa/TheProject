@@ -1,4 +1,4 @@
-The system is: Linux - 3.7.10-1-ARCH - x86_64
+The system is: Linux - 3.8.4-1-ARCH - x86_64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /usr/bin/cc 
 Build flags: 
@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/2.8.10.2/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/2.8.10.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -23,35 +23,35 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/2.8.10.2/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/2.8.10.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec2765354979/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec2765354979.dir/build.make CMakeFiles/cmTryCompileExec2765354979.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2765354979.dir/testCCompiler.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2765354979.dir/testCCompiler.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTryCompileExec2765354979
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2765354979.dir/link.txt --verbose=1
-/usr/bin/cc         CMakeFiles/cmTryCompileExec2765354979.dir/testCCompiler.c.o  -o cmTryCompileExec2765354979 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec409407598/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec409407598.dir/build.make CMakeFiles/cmTryCompileExec409407598.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec409407598.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec409407598.dir/testCCompiler.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTryCompileExec409407598
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec409407598.dir/link.txt --verbose=1
+/usr/bin/cc         CMakeFiles/cmTryCompileExec409407598.dir/testCCompiler.c.o  -o cmTryCompileExec409407598 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec3729213896/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec3729213896.dir/build.make CMakeFiles/cmTryCompileExec3729213896.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-2.8/Modules/CMakeCCompilerABI.c
-Linking C executable cmTryCompileExec3729213896
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3729213896.dir/link.txt --verbose=1
-/usr/bin/cc       -v CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec3729213896 -rdynamic  
+Run Build Command:/usr/bin/make "cmTryCompileExec2418412867/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2418412867.dir/build.make CMakeFiles/cmTryCompileExec2418412867.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-2.8/Modules/CMakeCCompilerABI.c
+Linking C executable cmTryCompileExec2418412867
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2418412867.dir/link.txt --verbose=1
+/usr/bin/cc       -v CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2418412867 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/lto-wrapper
@@ -61,24 +61,24 @@ Thread model: posix
 gcc version 4.7.2 (GCC) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3729213896' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec3729213896 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec2418412867' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec2418412867 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:/usr/bin/make "cmTryCompileExec3729213896/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTryCompileExec3729213896.dir/build.make CMakeFiles/cmTryCompileExec3729213896.dir/build]
-  ignore line: [make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp']
-  ignore line: [/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building C object CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-2.8/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTryCompileExec3729213896]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3729213896.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc       -v CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec3729213896 -rdynamic  ]
+  ignore line: [Run Build Command:/usr/bin/make "cmTryCompileExec2418412867/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTryCompileExec2418412867.dir/build.make CMakeFiles/cmTryCompileExec2418412867.dir/build]
+  ignore line: [make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1]
+  ignore line: [Building C object CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-2.8/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTryCompileExec2418412867]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2418412867.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc       -v CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2418412867 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/lto-wrapper]
@@ -88,8 +88,8 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 4.7.2 (GCC) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3729213896' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec3729213896 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec2418412867' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec2418412867 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o]
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2] ==> ignore
     arg [--build-id] ==> ignore
     arg [--eh-frame-hdr] ==> ignore
@@ -100,7 +100,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec3729213896] ==> ignore
+    arg [cmTryCompileExec2418412867] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o] ==> ignore
@@ -109,7 +109,7 @@ Parsed C implicit link information from above output:
     arg [-L/lib/../lib] ==> dir [/lib/../lib]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../..] ==> dir [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../..]
-    arg [CMakeFiles/cmTryCompileExec3729213896.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec2418412867.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -135,32 +135,32 @@ Parsed C implicit link information from above output:
 
 
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec2886956197/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec2886956197.dir/build.make CMakeFiles/cmTryCompileExec2886956197.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2886956197.dir/testCXXCompiler.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTryCompileExec2886956197.dir/testCXXCompiler.cxx.o -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTryCompileExec2886956197
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2886956197.dir/link.txt --verbose=1
-/usr/bin/c++          CMakeFiles/cmTryCompileExec2886956197.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec2886956197 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec3559618573/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3559618573.dir/build.make CMakeFiles/cmTryCompileExec3559618573.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3559618573.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTryCompileExec3559618573.dir/testCXXCompiler.cxx.o -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTryCompileExec3559618573
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3559618573.dir/link.txt --verbose=1
+/usr/bin/c++          CMakeFiles/cmTryCompileExec3559618573.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec3559618573 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec1550096382/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec1550096382.dir/build.make CMakeFiles/cmTryCompileExec1550096382.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++     -o CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-2.8/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTryCompileExec1550096382
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1550096382.dir/link.txt --verbose=1
-/usr/bin/c++        -v CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1550096382 -rdynamic  
+Run Build Command:/usr/bin/make "cmTryCompileExec3227699382/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3227699382.dir/build.make CMakeFiles/cmTryCompileExec3227699382.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-2.8/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTryCompileExec3227699382
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3227699382.dir/link.txt --verbose=1
+/usr/bin/c++        -v CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec3227699382 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/lto-wrapper
@@ -170,24 +170,24 @@ Thread model: posix
 gcc version 4.7.2 (GCC) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec1550096382' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec1550096382 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3227699382' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec3227699382 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:/usr/bin/make "cmTryCompileExec1550096382/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTryCompileExec1550096382.dir/build.make CMakeFiles/cmTryCompileExec1550096382.dir/build]
-  ignore line: [make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp']
-  ignore line: [/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-2.8/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTryCompileExec1550096382]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1550096382.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++        -v CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec1550096382 -rdynamic  ]
+  ignore line: [Run Build Command:/usr/bin/make "cmTryCompileExec3227699382/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTryCompileExec3227699382.dir/build.make CMakeFiles/cmTryCompileExec3227699382.dir/build]
+  ignore line: [make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1]
+  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-2.8/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTryCompileExec3227699382]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3227699382.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++        -v CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec3227699382 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/lto-wrapper]
@@ -197,8 +197,8 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 4.7.2 (GCC) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec1550096382' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec1550096382 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3227699382' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2 --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTryCompileExec3227699382 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2 -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../.. CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtend.o /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crtn.o]
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/collect2] ==> ignore
     arg [--build-id] ==> ignore
     arg [--eh-frame-hdr] ==> ignore
@@ -209,7 +209,7 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec1550096382] ==> ignore
+    arg [cmTryCompileExec3227699382] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../../../lib/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/crtbegin.o] ==> ignore
@@ -218,7 +218,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/lib/../lib] ==> dir [/lib/../lib]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../..] ==> dir [/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.2/../../..]
-    arg [CMakeFiles/cmTryCompileExec1550096382.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec3227699382.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -242,18 +242,18 @@ Parsed CXX implicit link information from above output:
 
 
 Performing C SOURCE FILE Test PHYSFS_IS_GCC4 succeded with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec543363593/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec543363593.dir/build.make CMakeFiles/cmTryCompileExec543363593.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec543363593.dir/src.c.o
-/usr/bin/cc   -DPHYSFS_IS_GCC4   -o CMakeFiles/cmTryCompileExec543363593.dir/src.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTryCompileExec543363593
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec543363593.dir/link.txt --verbose=1
-/usr/bin/cc     -DPHYSFS_IS_GCC4    CMakeFiles/cmTryCompileExec543363593.dir/src.c.o  -o cmTryCompileExec543363593 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec2141606070/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2141606070.dir/build.make CMakeFiles/cmTryCompileExec2141606070.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2141606070.dir/src.c.o
+/usr/bin/cc   -DPHYSFS_IS_GCC4   -o CMakeFiles/cmTryCompileExec2141606070.dir/src.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTryCompileExec2141606070
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2141606070.dir/link.txt --verbose=1
+/usr/bin/cc     -DPHYSFS_IS_GCC4    CMakeFiles/cmTryCompileExec2141606070.dir/src.c.o  -o cmTryCompileExec2141606070 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 Source file was:
 
@@ -264,47 +264,47 @@ Source file was:
         #endif
     
 Determining if the include file mntent.h exists passed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec1490178820/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec1490178820.dir/build.make CMakeFiles/cmTryCompileExec1490178820.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec1490178820.dir/CheckIncludeFile.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec1490178820.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTryCompileExec1490178820
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1490178820.dir/link.txt --verbose=1
-/usr/bin/cc         CMakeFiles/cmTryCompileExec1490178820.dir/CheckIncludeFile.c.o  -o cmTryCompileExec1490178820 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec2084665485/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2084665485.dir/build.make CMakeFiles/cmTryCompileExec2084665485.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2084665485.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2084665485.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec2084665485
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2084665485.dir/link.txt --verbose=1
+/usr/bin/cc         CMakeFiles/cmTryCompileExec2084665485.dir/CheckIncludeFile.c.o  -o cmTryCompileExec2084665485 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Determining if the include file pthread.h exists passed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec3179780276/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec3179780276.dir/build.make CMakeFiles/cmTryCompileExec3179780276.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3179780276.dir/CheckIncludeFile.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3179780276.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTryCompileExec3179780276
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3179780276.dir/link.txt --verbose=1
-/usr/bin/cc         CMakeFiles/cmTryCompileExec3179780276.dir/CheckIncludeFile.c.o  -o cmTryCompileExec3179780276 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec2936512275/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2936512275.dir/build.make CMakeFiles/cmTryCompileExec2936512275.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2936512275.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2936512275.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec2936512275
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2936512275.dir/link.txt --verbose=1
+/usr/bin/cc         CMakeFiles/cmTryCompileExec2936512275.dir/CheckIncludeFile.c.o  -o cmTryCompileExec2936512275 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 
 Determining if the include file assert.h exists passed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec3426711356/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec3426711356.dir/build.make CMakeFiles/cmTryCompileExec3426711356.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3426711356.dir/CheckIncludeFile.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3426711356.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTryCompileExec3426711356
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3426711356.dir/link.txt --verbose=1
-/usr/bin/cc         CMakeFiles/cmTryCompileExec3426711356.dir/CheckIncludeFile.c.o  -o cmTryCompileExec3426711356 -rdynamic 
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
+Run Build Command:/usr/bin/make "cmTryCompileExec3444259776/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3444259776.dir/build.make CMakeFiles/cmTryCompileExec3444259776.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3444259776.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3444259776.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec3444259776
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3444259776.dir/link.txt --verbose=1
+/usr/bin/cc         CMakeFiles/cmTryCompileExec3444259776.dir/CheckIncludeFile.c.o  -o cmTryCompileExec3444259776 -rdynamic 
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
 
 

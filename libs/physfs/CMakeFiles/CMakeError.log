@@ -1,16 +1,16 @@
 Determining if the include file sys/ucred.h exists failed with the following output:
-Change Dir: /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp
+Change Dir: /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp
 
-Run Build Command:/usr/bin/make "cmTryCompileExec2904983824/fast"
-/usr/bin/make -f CMakeFiles/cmTryCompileExec2904983824.dir/build.make CMakeFiles/cmTryCompileExec2904983824.dir/build
-make[1]: Entering directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2904983824.dir/CheckIncludeFile.c.o
-/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2904983824.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:23: fatal error: sys/ucred.h: No such file or directory
+Run Build Command:/usr/bin/make "cmTryCompileExec2666149744/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2666149744.dir/build.make CMakeFiles/cmTryCompileExec2666149744.dir/build
+make[1]: Entering directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2666149744.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2666149744.dir/CheckIncludeFile.c.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:23: fatal error: sys/ucred.h: No such file or directory
 compilation terminated.
-make[1]: *** [CMakeFiles/cmTryCompileExec2904983824.dir/CheckIncludeFile.c.o] Error 1
-make[1]: Leaving directory `/home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/CMakeTmp'
-make: *** [cmTryCompileExec2904983824/fast] Error 2
+make[1]: *** [CMakeFiles/cmTryCompileExec2666149744.dir/CheckIncludeFile.c.o] Error 1
+make[1]: Leaving directory `/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec2666149744/fast] Error 2
 
 

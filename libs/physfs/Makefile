@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGame/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGame/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -113,9 +113,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -616,6 +616,186 @@ test/test_physfs.s:
 	$(MAKE) -f CMakeFiles/test_physfs.dir/build.make CMakeFiles/test_physfs.dir/test/test_physfs.s
 .PHONY : test/test_physfs.s
 
+# target to build an object file
+zlib123/adler32.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/adler32.o
+.PHONY : zlib123/adler32.o
+
+# target to preprocess a source file
+zlib123/adler32.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/adler32.i
+.PHONY : zlib123/adler32.i
+
+# target to generate assembly for a file
+zlib123/adler32.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/adler32.s
+.PHONY : zlib123/adler32.s
+
+# target to build an object file
+zlib123/compress.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/compress.o
+.PHONY : zlib123/compress.o
+
+# target to preprocess a source file
+zlib123/compress.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/compress.i
+.PHONY : zlib123/compress.i
+
+# target to generate assembly for a file
+zlib123/compress.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/compress.s
+.PHONY : zlib123/compress.s
+
+# target to build an object file
+zlib123/crc32.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/crc32.o
+.PHONY : zlib123/crc32.o
+
+# target to preprocess a source file
+zlib123/crc32.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/crc32.i
+.PHONY : zlib123/crc32.i
+
+# target to generate assembly for a file
+zlib123/crc32.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/crc32.s
+.PHONY : zlib123/crc32.s
+
+# target to build an object file
+zlib123/deflate.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/deflate.o
+.PHONY : zlib123/deflate.o
+
+# target to preprocess a source file
+zlib123/deflate.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/deflate.i
+.PHONY : zlib123/deflate.i
+
+# target to generate assembly for a file
+zlib123/deflate.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/deflate.s
+.PHONY : zlib123/deflate.s
+
+# target to build an object file
+zlib123/gzio.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/gzio.o
+.PHONY : zlib123/gzio.o
+
+# target to preprocess a source file
+zlib123/gzio.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/gzio.i
+.PHONY : zlib123/gzio.i
+
+# target to generate assembly for a file
+zlib123/gzio.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/gzio.s
+.PHONY : zlib123/gzio.s
+
+# target to build an object file
+zlib123/infback.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/infback.o
+.PHONY : zlib123/infback.o
+
+# target to preprocess a source file
+zlib123/infback.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/infback.i
+.PHONY : zlib123/infback.i
+
+# target to generate assembly for a file
+zlib123/infback.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/infback.s
+.PHONY : zlib123/infback.s
+
+# target to build an object file
+zlib123/inffast.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inffast.o
+.PHONY : zlib123/inffast.o
+
+# target to preprocess a source file
+zlib123/inffast.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inffast.i
+.PHONY : zlib123/inffast.i
+
+# target to generate assembly for a file
+zlib123/inffast.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inffast.s
+.PHONY : zlib123/inffast.s
+
+# target to build an object file
+zlib123/inflate.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inflate.o
+.PHONY : zlib123/inflate.o
+
+# target to preprocess a source file
+zlib123/inflate.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inflate.i
+.PHONY : zlib123/inflate.i
+
+# target to generate assembly for a file
+zlib123/inflate.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inflate.s
+.PHONY : zlib123/inflate.s
+
+# target to build an object file
+zlib123/inftrees.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inftrees.o
+.PHONY : zlib123/inftrees.o
+
+# target to preprocess a source file
+zlib123/inftrees.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inftrees.i
+.PHONY : zlib123/inftrees.i
+
+# target to generate assembly for a file
+zlib123/inftrees.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/inftrees.s
+.PHONY : zlib123/inftrees.s
+
+# target to build an object file
+zlib123/trees.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/trees.o
+.PHONY : zlib123/trees.o
+
+# target to preprocess a source file
+zlib123/trees.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/trees.i
+.PHONY : zlib123/trees.i
+
+# target to generate assembly for a file
+zlib123/trees.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/trees.s
+.PHONY : zlib123/trees.s
+
+# target to build an object file
+zlib123/uncompr.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/uncompr.o
+.PHONY : zlib123/uncompr.o
+
+# target to preprocess a source file
+zlib123/uncompr.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/uncompr.i
+.PHONY : zlib123/uncompr.i
+
+# target to generate assembly for a file
+zlib123/uncompr.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/uncompr.s
+.PHONY : zlib123/uncompr.s
+
+# target to build an object file
+zlib123/zutil.o:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/zutil.o
+.PHONY : zlib123/zutil.o
+
+# target to preprocess a source file
+zlib123/zutil.i:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/zutil.i
+.PHONY : zlib123/zutil.i
+
+# target to generate assembly for a file
+zlib123/zutil.s:
+	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/zlib123/zutil.s
+.PHONY : zlib123/zutil.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -718,6 +898,42 @@ help:
 	@echo "... test/test_physfs.o"
 	@echo "... test/test_physfs.i"
 	@echo "... test/test_physfs.s"
+	@echo "... zlib123/adler32.o"
+	@echo "... zlib123/adler32.i"
+	@echo "... zlib123/adler32.s"
+	@echo "... zlib123/compress.o"
+	@echo "... zlib123/compress.i"
+	@echo "... zlib123/compress.s"
+	@echo "... zlib123/crc32.o"
+	@echo "... zlib123/crc32.i"
+	@echo "... zlib123/crc32.s"
+	@echo "... zlib123/deflate.o"
+	@echo "... zlib123/deflate.i"
+	@echo "... zlib123/deflate.s"
+	@echo "... zlib123/gzio.o"
+	@echo "... zlib123/gzio.i"
+	@echo "... zlib123/gzio.s"
+	@echo "... zlib123/infback.o"
+	@echo "... zlib123/infback.i"
+	@echo "... zlib123/infback.s"
+	@echo "... zlib123/inffast.o"
+	@echo "... zlib123/inffast.i"
+	@echo "... zlib123/inffast.s"
+	@echo "... zlib123/inflate.o"
+	@echo "... zlib123/inflate.i"
+	@echo "... zlib123/inflate.s"
+	@echo "... zlib123/inftrees.o"
+	@echo "... zlib123/inftrees.i"
+	@echo "... zlib123/inftrees.s"
+	@echo "... zlib123/trees.o"
+	@echo "... zlib123/trees.i"
+	@echo "... zlib123/trees.s"
+	@echo "... zlib123/uncompr.o"
+	@echo "... zlib123/uncompr.i"
+	@echo "... zlib123/uncompr.s"
+	@echo "... zlib123/zutil.o"
+	@echo "... zlib123/zutil.i"
+	@echo "... zlib123/zutil.s"
 .PHONY : help
 
 

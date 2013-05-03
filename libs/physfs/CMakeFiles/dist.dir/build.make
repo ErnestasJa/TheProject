@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGame/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGame/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 
 # Utility rule file for dist.
 
@@ -49,9 +49,9 @@ CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGame/libs/physfs
 include CMakeFiles/dist.dir/progress.make
 
 CMakeFiles/dist:
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Building source tarball '/home/serengeor/Coding/ZombieGame/libs/physfs/../physfs-2.0.3.tar.bz2'..."
-	hg archive -t tbz2 /home/serengeor/Coding/ZombieGame/libs/physfs/../physfs-2.0.3.tar.bz2
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Building source tarball '/home/serengeor/Coding/ZombieGameProject/libs/physfs/../physfs-2.0.3.tar.bz2'..."
+	hg archive -t tbz2 /home/serengeor/Coding/ZombieGameProject/libs/physfs/../physfs-2.0.3.tar.bz2
 
 dist: CMakeFiles/dist
 dist: CMakeFiles/dist.dir/build.make
@@ -66,6 +66,6 @@ CMakeFiles/dist.dir/clean:
 .PHONY : CMakeFiles/dist.dir/clean
 
 CMakeFiles/dist.dir/depend:
-	cd /home/serengeor/Coding/ZombieGame/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieGame/libs/physfs /home/serengeor/Coding/ZombieGame/libs/physfs /home/serengeor/Coding/ZombieGame/libs/physfs /home/serengeor/Coding/ZombieGame/libs/physfs /home/serengeor/Coding/ZombieGame/libs/physfs/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/serengeor/Coding/ZombieGameProject/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/dist.dir/depend
 
