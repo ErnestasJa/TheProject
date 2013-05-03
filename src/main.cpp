@@ -97,10 +97,9 @@ void glerr()
     }
 }
 
-int main()
+int main(int argc, const char ** argv)
 {
-    printf("sizeof(iqmanim)=%lu\n", sizeof(iqmanim));
-    printf("Is this bitch big endian? (%s)\n",is_big_endian()==true?"true":"false");
+    printf("Is this big endian platform? (%s)\n",is_big_endian()==true?"true":"false");
 
     if (!glfwInit())
     {
@@ -134,18 +133,29 @@ int main()
     glDepthFunc(GL_LEQUAL);
 
     ///-------------------------------------
-    FILE* io=fopen("../../ZombieGameProject/res/mrfixit.iqm","rb");
 
-    //get the size
-    fseek(io,0,SEEK_END);
-    int32_t fsize=ftell(io);
-    fseek(io,SEEK_SET,0);
+    if (!PHYSFS_init(argv[0]))
+    {
+        std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
+        return -1;
+    }
 
-    printf("Filesize ftell:%i\n",fsize);
+    PHYSFS_addToSearchPath(PHYSFS_getBaseDir(), 1);
 
-    char* buffer=new char[fsize];
-    fread(buffer,fsize,1,io);
-    fclose(io);
+    std::cout<< "Search path: " << PHYSFS_getBaseDir() << std::endl;
+
+    if(!PHYSFS_exists("res/mrfixit.iqm"))
+    {
+        std::cout << "File \"res/mrfixit.iqm\" not found." << std::endl;
+        return -1;
+    }
+
+    PHYSFS_file* f = PHYSFS_openRead("res/mrfixit.iqm");
+
+    char * buffer = new char[PHYSFS_fileLength(f)];
+
+    PHYSFS_read(f, buffer, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
 
     iqmloader *loader=new iqmloader();
     iqmesh * mesh=loader->load(buffer);

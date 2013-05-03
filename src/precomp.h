@@ -29,4 +29,6 @@
 
 #include "bit.h"
 
+#include "physfs.h"
+
 #endif
