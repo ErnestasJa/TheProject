@@ -5,21 +5,6 @@
 #include "iqmesh.h"
 #include "iqmloader.h"
 
-/**
-static const char* vs = R"(
-#version 330
-
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec2 tex_coords;
-uniform mat4 MVP;
-out vec2 UV;
-void main()
-{
-    UV=tex_coords;
-    gl_Position = MVP*vec4(position.x, position.y, position.z, 1.0);
-})";
-**/
-
 static const char* gvs =
 "#version 330\n"
 "uniform mat4 MVP;\n"
@@ -182,18 +167,11 @@ int main(int argc, const char ** argv)
     uint32_t mpl = sh.getparam("MVP");
     uint32_t bonemats = sh.getparam("bonemats");
 
-    //texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
-    //texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
-
-    //mesh->submeshes[0].mat.texid=tex->obj;
-    //mesh->submeshes[1].mat.texid=tex2->obj;
-
-    //printf("Animations: %i %i\n",mesh->anims[0].first_frame,mesh->anims[0].num_frames);
-    /* Loop until the user closes the window */
-
     double lastTime = glfwGetTime();
     int32_t nbFrames = 0;
     float fr=0.f,efr=101.f;
+
+    /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
         // Measure speed
