@@ -23,6 +23,7 @@
 					<Add library="GL" />
 					<Add library="Xrandr" />
 					<Add library="glfw" />
+					<Add library="../../libs/physfs/libphysfs.a" />
 					<Add directory="../../libs/glfw/lib/x11" />
 				</Linker>
 			</Target>
@@ -92,6 +93,7 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="../../src/quad.h" />
 		<Unit filename="../../src/shader.h" />
 		<Unit filename="../../src/texture.cpp" />
 		<Unit filename="../../src/texture.h" />

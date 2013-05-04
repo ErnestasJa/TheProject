@@ -4,6 +4,7 @@
 #include "shader.h"
 #include "iqmesh.h"
 #include "iqmloader.h"
+#include "quad.h"
 
 static const char* gvs =
 "#version 330\n"
@@ -53,23 +54,21 @@ static bool is_big_endian(void)
 
 texture * load_tex(std::string file)
 {
-    std::ifstream rfile(file);
-
-    if(!rfile.is_open())
+    if(!PHYSFS_exists(file.c_str()))
     {
-        printf("Could not open file\n");
+        std::cout << "File \"" << file.c_str() << "\" not found." << std::endl;
         return NULL;
     }
 
-    rfile.seekg(0, std::ios::end);
-    uint32_t size = rfile.tellg();
-    rfile.seekg(0);
+    PHYSFS_file* f = PHYSFS_openRead(file.c_str());
+    uint32_t length = PHYSFS_fileLength(f);
 
+    char * buffer = new char[length];
+    PHYSFS_read(f, buffer, 1, length);
+    PHYSFS_close(f);
 
     tgaloader l;
-    char * buf = new char[size];
-    rfile.read(buf,size);
-    return l.generate(buf,size);
+    return l.generate(buffer,length);
 }
 
 void glerr()
@@ -117,7 +116,7 @@ int main(int argc, const char ** argv)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    ///-------------------------------------
+    ///+++++++++++++++++++++++++++++++++++++
 
     if (!PHYSFS_init(argv[0]))
     {
@@ -149,6 +148,21 @@ int main(int argc, const char ** argv)
     mesh->generate();
     ///-------------------------------------
 
+
+    ///+++++++++++++++++++++++++++++++++++++
+
+    texture * t = load_tex("res/Head.tga");
+
+    quad q;
+    q.generate();
+
+    binding qtex_binding[]={{"tex",0},{"",-1}};
+    shader qsh("default",quad_vs_textured,quad_fs_textured,qtex_binding,0);
+	qsh.compile();
+	qsh.link();
+
+    ///-------------------------------------
+
     glm::mat4 M=glm::mat4(1.0f);
     glm::mat4 V=glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
     glm::mat4 P=glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
@@ -157,12 +171,9 @@ int main(int argc, const char ** argv)
     V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
     glm::mat4 MVP;
 
-    binding tex_binding[]={{"",-1}};
-    binding attrib_binding[]={{"position",0},{"tex_coords",1},{"",-1}};
     shader sh("default",gvs,fs,0,0);
 	sh.compile();
 	sh.link();
-	sh.set();
 
     uint32_t mpl = sh.getparam("MVP");
     uint32_t bonemats = sh.getparam("bonemats");
@@ -195,15 +206,22 @@ int main(int argc, const char ** argv)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
         MVP=P*V*M;
+        sh.set();
         glUniformMatrix4fv(sh.getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
         glUniformMatrix3x4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
         mesh->draw(false);
+
+        qsh.set();
+        t->set(0);
+        q.draw();
+
 
         //glerr();
 
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }
+    delete t;
     delete mesh;
     delete loader;
     return 0;
