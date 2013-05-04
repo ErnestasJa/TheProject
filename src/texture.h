@@ -17,7 +17,7 @@ struct texture
 	uint32_t obj;
 	uint32_t type;
 
-	static uint32_t bound_tex, active_slot;
+	static uint32_t current, active_slot;
 
 	texture()
 	{
@@ -52,7 +52,7 @@ struct texture
 
 		if(tbit(filter,BIT1)) glGenerateMipmap(type);
 
-		glBindTexture(type,bound_tex);
+		glBindTexture(type,current);
 	}
 
 	void set_filters(uint8_t filter=bit<0>())
@@ -62,7 +62,7 @@ struct texture
         glTexParameteri(type, GL_TEXTURE_MAG_FILTER, tbit(filter,BIT0) ? GL_LINEAR : GL_NEAREST);
 		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, tbit(filter,BIT1) ? GL_LINEAR_MIPMAP_LINEAR : (tbit(filter,BIT0) ? GL_LINEAR : GL_NEAREST));
 
-		glBindTexture(type,bound_tex);
+		glBindTexture(type,current);
 	}
 
 	void set_clamp(uint8_t clamp=bit<0>()|bit<1>())
@@ -72,7 +72,7 @@ struct texture
         glTexParameteri(type, GL_TEXTURE_WRAP_S, tbit(clamp,BIT0) ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 		glTexParameteri(type, GL_TEXTURE_WRAP_T, tbit(clamp,BIT1) ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 
-		glBindTexture(type,bound_tex);
+		glBindTexture(type,current);
 	}
 
 	void set(uint8_t slot)
@@ -81,7 +81,7 @@ struct texture
 		glBindTexture(type,obj);
 
 		active_slot = slot;
-		bound_tex = obj;
+		current = obj;
 	}
 
 	void free()

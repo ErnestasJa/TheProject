@@ -80,6 +80,7 @@
 			<Option target="Win32-Debug" />
 		</Unit>
 		<Unit filename="../../src/bit.h" />
+		<Unit filename="../../src/fbo.h" />
 		<Unit filename="../../src/iqm.h" />
 		<Unit filename="../../src/iqmesh.cpp" />
 		<Unit filename="../../src/iqmesh.h" />

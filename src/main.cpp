@@ -5,6 +5,7 @@
 #include "iqmesh.h"
 #include "iqmloader.h"
 #include "quad.h"
+#include "fbo.h"
 
 static const char* gvs =
 "#version 330\n"
@@ -77,7 +78,7 @@ void glerr()
 
     while((err=glGetError())!=GL_NO_ERROR)
     {
-        std::cout<<"GL_ERROR: " << err << std::endl;
+        std::cout<<"GL_ERROR: " << std::hex << err << std::endl;
     }
 }
 
@@ -151,8 +152,6 @@ int main(int argc, const char ** argv)
 
     ///+++++++++++++++++++++++++++++++++++++
 
-    texture * t = load_tex("res/Head.tga");
-
     quad q;
     q.generate();
 
@@ -182,6 +181,38 @@ int main(int argc, const char ** argv)
     int32_t nbFrames = 0;
     float fr=0.f,efr=101.f;
 
+
+    ///lets render to texture, huh?
+    texture * tex = new texture();
+    tex->generate(NULL,GL_TEXTURE_2D,32,1024,1024);
+
+    fbo fb;
+    fb.generate();
+    fb.set(GL_FRAMEBUFFER);
+    fb.attach(GL_COLOR_ATTACHMENT0,tex);
+
+    if(fb.is_complete())
+        std::cout<<"FBO is complete.\n";
+    else
+        std::cout<<"FBO is not complete.\n";
+
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    mesh->set_frame(1);
+
+    MVP=P*V*M;
+
+    sh.set();
+    glUniformMatrix4fv(sh.getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
+    glUniformMatrix3x4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
+    mesh->draw(false);
+
+    //fb.detach(GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D);
+    fb.unset();
+
+    ///----------------------------
+
+
     /* Loop until the user closes the window */
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
@@ -196,23 +227,10 @@ int main(int argc, const char ** argv)
             lastTime += 1.0;
         }
 
-        ///animate
-        if(fr>=efr)
-            fr=0;
-        mesh->set_frame(fr);
-        fr+=0.1;
-
-        /* Render here */
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-        MVP=P*V*M;
-        sh.set();
-        glUniformMatrix4fv(sh.getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
-        glUniformMatrix3x4fv(sh.getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
-        mesh->draw(false);
-
         qsh.set();
-        t->set(0);
+        tex->set(0);
         q.draw();
 
 
@@ -221,7 +239,8 @@ int main(int argc, const char ** argv)
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }
-    delete t;
+
+    delete tex;
     delete mesh;
     delete loader;
     return 0;
