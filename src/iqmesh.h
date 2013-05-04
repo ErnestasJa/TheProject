@@ -52,7 +52,8 @@ public:
 	bool generate();
 	void draw(bool whole);
 
-	void set_frame(float frame);
+	void set_frame(uint32_t frame);
+	void set_interp_frame(float frame);
 
 private:
 protected:

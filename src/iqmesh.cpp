@@ -10,6 +10,8 @@ iqmesh::iqmesh()
 	inverse_base_frame = NULL;
 	current_frame = NULL;
 	texts = NULL;
+
+	glmesh.buffers.resize(IQM_BUFFER_COUNT);
 }
 
 iqmesh::~iqmesh()
@@ -33,7 +35,6 @@ bool iqmesh::generate()
 	glGenVertexArrays(1,&glmesh.vao);
 	glBindVertexArray(glmesh.vao);
 
-	glmesh.buffers.resize(IQM_BUFFER_COUNT);
 	//keeping track on enabling attrib ids
 	uint32_t attribid=0;
 	//determine how many buffers we got and check their formats
@@ -44,11 +45,13 @@ bool iqmesh::generate()
 		{
 			case IQM_POSITION:
 			printf("Got a position buffer.\n");
+
 			if(va.format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
+
 			glGenBuffers(1,&glmesh.buffers[IQM_POSITION]);
 			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_POSITION]);
 			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(positions[0]),positions,GL_STATIC_DRAW);
@@ -60,11 +63,13 @@ bool iqmesh::generate()
 
 			case IQM_TEXCOORD:
 			printf("Got a texcoord buffer.\n");
+
 			if(va.format!=IQM_FLOAT)
 			{
 				printf("Bad format. Cannot continue.\n");
 				return false;
 			}
+
 			glGenBuffers(1,&glmesh.buffers[IQM_TEXCOORD]);
 			glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[IQM_TEXCOORD]);
 			glBufferData(GL_ARRAY_BUFFER, data_header.num_vertexes*sizeof(texcoords[0]),&texcoords[0],GL_STATIC_DRAW);
@@ -155,7 +160,18 @@ bool iqmesh::generate()
 	return true;
 }
 
-void iqmesh::set_frame(float frame)
+void iqmesh::set_frame(uint32_t frame)
+{
+    const uint32_t offset = (frame%data_header.num_frames)*data_header.num_joints;
+
+    for(uint32_t i = 0; i < data_header.num_joints; i++)
+    {
+        if(joints[i].parent >= 0) current_frame[i] = mul(current_frame[joints[i].parent],frames[offset+i]);
+        else current_frame[i] = frames[offset+i];
+    }
+}
+
+void iqmesh::set_interp_frame(float frame)
 {
     if(data_header.num_frames <= 0) return;
 
