@@ -6,6 +6,7 @@
 #include "iqmloader.h"
 #include "quad.h"
 #include "fbo.h"
+#include "resource_cache.h"
 
 static const char* gvs =
 "#version 330\n"
@@ -183,7 +184,9 @@ int main(int argc, const char ** argv)
 
 
     ///lets render to texture, huh?
-    texture * tex = new texture();
+    auto * cache = create_resource_cache<texture>();
+    auto tex = share(new texture());
+    cache->push_back(tex);
     tex->generate(NULL,GL_TEXTURE_2D,32,1024,1024);
 
     fbo fb;
@@ -240,8 +243,9 @@ int main(int argc, const char ** argv)
         glfwSwapBuffers();
     }
 
-    delete tex;
     delete mesh;
     delete loader;
+
+    delete cache;
     return 0;
 }

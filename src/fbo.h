@@ -33,7 +33,7 @@ struct fbo
         glBindFramebuffer(target,0);
     }
 
-    void attach(uint32_t attachment_point, texture * tex, uint32_t level=0)
+    void attach(uint32_t attachment_point, std::shared_ptr<texture> tex, uint32_t level=0)
     {
         if(tex)
             glFramebufferTexture2D(target,attachment_point,tex->type,tex->obj,0);

@@ -5,10 +5,11 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <stdio.h>
-
+#include <memory>
 #include <vector>
+
 #include <string.h>
+#include <stdio.h>
 
 #include <GLXW/glxw.h>
 #include <GL/glcorearb.h>

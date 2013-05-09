@@ -9,7 +9,6 @@ struct binding
 	int32_t index;
 };
 
-
 /**
  * Usage:
  * shader sh(shader_name, vertex_source, fragment_source, attribute_bindings, texture_bindings);
