@@ -64,6 +64,8 @@ public:
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,6*sizeof(uint32_t),&indices[0],GL_STATIC_DRAW);
 
         glBindVertexArray(0);
+
+        return true;
     }
 
     void draw()
