@@ -1,6 +1,5 @@
 #pragma once
 #include "iqm.h"
-#include "geom.h"
 #include "mesh.h"
 
 struct u8vec4{uint8_t v[4];};
@@ -40,7 +39,7 @@ public:
 	uint16_t * frame_data;
 
 	///GL buffers
-	mesh glmesh;
+	std::shared_ptr<mesh> glmesh;
 
 private:
 protected:
@@ -50,10 +49,12 @@ public:
 	iqmesh();
 	virtual ~iqmesh();
 	bool generate();
-	void draw(bool whole);
 
+	void draw(bool whole);
 	void set_frame(uint32_t frame);
 	void set_interp_frame(float frame);
+
+	void free();
 
 private:
 protected:

@@ -29,6 +29,11 @@ struct shader
 	shader ( const std::string & name, const std::string & vsstr = NULL, const std::string & psstr = NULL, const binding *attribs = NULL, const binding *texs = NULL )
 		: name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
 
+    ~shader()
+    {
+        free();
+    }
+
 	static void showinfo ( uint32_t obj, const std::string & tname, const std::string & name )
 	{
 		int32_t length = 0;
@@ -91,19 +96,24 @@ struct shader
 
 			glLinkProgram ( program );
 			glGetProgramiv ( program, GL_LINK_STATUS, &success );
-		}
 
-		if ( !success )
-		{
-			if ( program )
-			{
-				if ( msg ) showinfo ( program, "PROG", name );
+			if ( !success )
+            {
+                if ( program )
+                {
+                    if ( msg ) showinfo ( program, "PROG", name );
 
-				glDeleteProgram ( program );
-				program = 0;
-			}
+                    glDeleteProgram ( program );
+                    program = 0;
+                }
 
-			printf ( "error linking shader\n" );
+                printf ( "error linking shader\n" );
+            }
+            else
+            {
+                glDetachShader(program, vsobj);
+                glDetachShader(program, psobj);
+            }
 		}
 	}
 
@@ -142,4 +152,10 @@ struct shader
 		if ( texs ) for ( const binding *t = texs; t->name.size(); t++ )
 				bindtex ( t->name, t->index );
 	}
+
+	void free()
+	{
+        glDeleteProgram(program);
+	}
+
 };

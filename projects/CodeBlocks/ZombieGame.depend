@@ -810,10 +810,11 @@
 	<stdint.h>
 	<inttypes.h>
 
-1367671424 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
+1368199936 source:/home/serengeor/Coding/ZombieGameProject/src/iqmesh.cpp
 	"precomp.h"
 	"iqmesh.h"
 	"math/util.h"
+	"resource_cache.h"
 
 1368136774 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
@@ -1126,9 +1127,8 @@
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/bit.h
 	<stdint.h>
 
-1367623235 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
+1368199749 /home/serengeor/Coding/ZombieGameProject/src/iqmesh.h
 	"iqm.h"
-	"geom.h"
 	"mesh.h"
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/iqm.h
@@ -1182,7 +1182,7 @@
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1368136726 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1368225378 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"
@@ -1193,7 +1193,7 @@
 	"fbo.h"
 	"resource_cache.h"
 
-1368134639 /home/serengeor/Coding/ZombieGameProject/src/shader.h
+1368211200 /home/serengeor/Coding/ZombieGameProject/src/shader.h
 	<string.h>
 	<string>
 	"GLXW/glxw.h"
@@ -1218,7 +1218,7 @@
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/libs/glm/gtx/norm.inl
 
-1367592767 /home/serengeor/Coding/ZombieGameProject/src/mesh.h
+1368199537 /home/serengeor/Coding/ZombieGameProject/src/mesh.h
 	"precomp.h"
 
 1363016468 /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs.h
@@ -1228,7 +1228,7 @@
 	"shader.h"
 	"precomp.h"
 
-1368136725 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
+1368225121 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
 	"texture.h"
 	"precomp.h"
 

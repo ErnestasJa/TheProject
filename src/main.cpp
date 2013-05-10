@@ -175,17 +175,14 @@ int main(int argc, const char ** argv)
 	sh.compile();
 	sh.link();
 
-    uint32_t mpl = sh.getparam("MVP");
-    uint32_t bonemats = sh.getparam("bonemats");
-
     double lastTime = glfwGetTime();
     int32_t nbFrames = 0;
-    float fr=0.f,efr=101.f;
-
 
     ///lets render to texture, huh?
     auto * cache = create_resource_cache<texture>();
     auto tex = share(new texture());
+    std::cout << "Use count:" << tex.use_count() << std::endl;
+
     cache->push_back(tex);
     tex->generate(NULL,GL_TEXTURE_2D,32,1024,1024);
 
@@ -193,15 +190,20 @@ int main(int argc, const char ** argv)
     fb.generate();
     fb.set(GL_FRAMEBUFFER);
     fb.attach(GL_COLOR_ATTACHMENT0,tex);
+    std::cout << "Use count:" << tex.use_count() << std::endl;
 
     if(fb.is_complete())
         std::cout<<"FBO is complete.\n";
     else
         std::cout<<"FBO is not complete.\n";
 
+    int32_t max_attachments; glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS,&max_attachments);
+
+    std::cout << "Max color attachments:" << max_attachments << std::endl;
+
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    mesh->set_frame(1);
+    mesh->set_frame(80);
 
     MVP=P*V*M;
 
@@ -212,6 +214,7 @@ int main(int argc, const char ** argv)
 
     //fb.detach(GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D);
     fb.unset();
+
 
     ///----------------------------
 
@@ -242,6 +245,8 @@ int main(int argc, const char ** argv)
         /* Swap front and back buffers and process events */
         glfwSwapBuffers();
     }
+
+    tex=NULL;
 
     delete mesh;
     delete loader;

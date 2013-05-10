@@ -11,6 +11,11 @@ struct mesh
     {
 
     }
+
+    void free()
+    {
+
+    }
 };
 
 #endif // MESH_H_INCLUDED
