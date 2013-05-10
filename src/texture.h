@@ -25,6 +25,11 @@ struct texture
         type = 0;
 	}
 
+	~texture()
+	{
+	    free();
+	}
+
 	/**
 	 * @brief
 	 * @param clamp

@@ -815,14 +815,15 @@
 	"iqmesh.h"
 	"math/util.h"
 
-1367594142 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368136774 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
 	<fstream>
-	<stdio.h>
+	<memory>
 	<vector>
 	<string.h>
+	<stdio.h>
 	<GLXW/glxw.h>
 	<GL/glcorearb.h>
 	<GLXW/glxw_wgl.h>
@@ -1136,7 +1137,7 @@
 1367691326 source:/home/serengeor/Coding/ZombieGameProject/src/texture.cpp
 	"texture.h"
 
-1367699820 /home/serengeor/Coding/ZombieGameProject/src/texture.h
+1368193734 /home/serengeor/Coding/ZombieGameProject/src/texture.h
 	"GLXW/glxw.h"
 	"glm.hpp"
 	"bit.h"
@@ -1150,14 +1151,15 @@
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/tgaloader.h
 	"texture.h"
 
-1367594142 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368136774 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
 	<fstream>
-	<stdio.h>
+	<memory>
 	<vector>
 	<string.h>
+	<stdio.h>
 	<GLXW/glxw.h>
 	<GL/glcorearb.h>
 	<GLXW/glxw_wgl.h>
@@ -1180,7 +1182,7 @@
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1367700619 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1368136726 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"
@@ -1189,8 +1191,9 @@
 	"iqmloader.h"
 	"quad.h"
 	"fbo.h"
+	"resource_cache.h"
 
-1367592767 /home/serengeor/Coding/ZombieGameProject/src/shader.h
+1368134639 /home/serengeor/Coding/ZombieGameProject/src/shader.h
 	<string.h>
 	<string>
 	"GLXW/glxw.h"
@@ -1220,12 +1223,15 @@
 
 1363016468 /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs.h
 
-1367673511 /home/serengeor/Coding/ZombieGameProject/src/quad.h
+1368136806 /home/serengeor/Coding/ZombieGameProject/src/quad.h
 	"mesh.h"
 	"shader.h"
 	"precomp.h"
 
-1367700589 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
+1368136725 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
 	"texture.h"
+	"precomp.h"
+
+1368136908 /home/serengeor/Coding/ZombieGameProject/src/resource_cache.h
 	"precomp.h"
 

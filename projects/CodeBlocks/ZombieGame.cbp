@@ -95,6 +95,7 @@
 			<Option weight="0" />
 		</Unit>
 		<Unit filename="../../src/quad.h" />
+		<Unit filename="../../src/resource_cache.h" />
 		<Unit filename="../../src/shader.h" />
 		<Unit filename="../../src/texture.cpp" />
 		<Unit filename="../../src/texture.h" />
