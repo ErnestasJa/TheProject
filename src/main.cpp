@@ -239,7 +239,6 @@ int main(int argc, const char ** argv)
         tex->set(0);
         q.draw();
 
-
         //glerr();
 
         /* Swap front and back buffers and process events */
