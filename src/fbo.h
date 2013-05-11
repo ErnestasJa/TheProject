@@ -46,19 +46,23 @@ struct fbo
             color_binding[attachment_point-GL_COLOR_ATTACHMENT0]=tex;
         else if(attachment_point==GL_DEPTH_ATTACHMENT)
             depth_buffer_binding=tex;
+        else if(attachment_point==GL_STENCIL_ATTACHMENT)
+            stencil_buffer_binding=tex;
         else if(attachment_point==GL_DEPTH_STENCIL_ATTACHMENT)
             depth_stencil_buffer_binding=tex;
 
     }
 
-    void detach(uint32_t attachment_point, uint32_t tex_target)
+    void detach(uint32_t attachment_point)
     {
-        glFramebufferTexture2D(target,attachment_point,tex_target,0,0);
+        glFramebufferTexture2D(target,attachment_point,0,0,0);
 
         if(attachment_point>=GL_COLOR_ATTACHMENT0 && attachment_point<GL_COLOR_ATTACHMENT0+8)
             color_binding[attachment_point-GL_COLOR_ATTACHMENT0]=NULL;
         else if(attachment_point==GL_DEPTH_ATTACHMENT)
             depth_buffer_binding=NULL;
+        else if(attachment_point==GL_STENCIL_ATTACHMENT)
+            stencil_buffer_binding=NULL;
         else if(attachment_point==GL_DEPTH_STENCIL_ATTACHMENT)
             depth_stencil_buffer_binding=NULL;
     }
