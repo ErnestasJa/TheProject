@@ -52,7 +52,9 @@
 					<Add library="glfw" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="physfs" />
 					<Add directory="../../libs/glfw/lib/win32" />
+					<Add directory="../../libs/physfs/bins" />
 				</Linker>
 			</Target>
 		</Build>
@@ -65,6 +67,7 @@
 			<Add directory="../../libs/glm" />
 			<Add directory="../../libs/glxw/include" />
 			<Add directory="../../libs/glxw/src" />
+			<Add directory="../../libs/physfs" />
 		</Compiler>
 		<Unit filename="../../libs/glxw/src/glxw.c">
 			<Option compilerVar="CC" />

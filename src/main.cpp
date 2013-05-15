@@ -172,15 +172,15 @@ int main(int argc, const char ** argv)
     V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
     glm::mat4 MVP;
 
-    binding tex_binding[]={{"",-1}};
-    binding attrib_binding[]={{"position",0},{"tex_coords",1},{"",-1}};
+    //binding tex_binding[]={{"",-1}};
+    //binding attrib_binding[]={{"position",0},{"tex_coords",1},{"",-1}};
     shader sh("default",gvs,fs,0,0);
 	sh.compile();
 	sh.link();
 	sh.set();
 
-    uint32_t mpl = sh.getparam("MVP");
-    uint32_t bonemats = sh.getparam("bonemats");
+    //uint32_t mpl = sh.getparam("MVP");
+    //uint32_t bonemats = sh.getparam("bonemats");
 
     //texture * tex = load_tex("../../ZombieGameProject/res/Body.tga");
     //texture * tex2 = load_tex("../../ZombieGameProject/res/Head.tga");
