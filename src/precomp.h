@@ -31,4 +31,6 @@
 
 #include "physfs.h"
 
+#include "logger.h"
+
 #endif

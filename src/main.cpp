@@ -194,6 +194,8 @@ int main(int argc, const char ** argv)
     double lastTime = glfwGetTime();
     int32_t nbFrames = 0;
     float fr=0.f,efr=101.f;
+
+    //logger.log(LOG_DEBUG,"Lemme see... %u %i %d %s",10u,11,11.5d,"eeeey macarena");
     while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
     {
         // Measure speed

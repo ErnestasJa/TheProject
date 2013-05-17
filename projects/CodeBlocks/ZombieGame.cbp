@@ -87,6 +87,8 @@
 		<Unit filename="../../src/iqmesh.h" />
 		<Unit filename="../../src/iqmloader.cpp" />
 		<Unit filename="../../src/iqmloader.h" />
+		<Unit filename="../../src/logger.cpp" />
+		<Unit filename="../../src/logger.h" />
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/geom.h" />
 		<Unit filename="../../src/math/util.h" />
