@@ -816,7 +816,7 @@
 	"math/util.h"
 	"resource_cache.h"
 
-1368136774 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368913764 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -831,7 +831,6 @@
 	<GL/wglext.h>
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
-	<GL/glfw.h>
 	"glm.hpp"
 	"gtx/norm.hpp"
 	"gtc/matrix_transform.hpp"
@@ -1151,7 +1150,7 @@
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/tgaloader.h
 	"texture.h"
 
-1368136774 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368818987 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -1182,7 +1181,7 @@
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1368225378 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+1368913641 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
 	"precomp.h"
 	"tgaloader.h"
 	"texture.h"
@@ -1192,6 +1191,7 @@
 	"quad.h"
 	"fbo.h"
 	"resource_cache.h"
+	"window.h"
 
 1368211200 /home/serengeor/Coding/ZombieGameProject/src/shader.h
 	<string.h>
@@ -1228,10 +1228,15 @@
 	"shader.h"
 	"precomp.h"
 
-1368225121 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
+1368280412 /home/serengeor/Coding/ZombieGameProject/src/fbo.h
 	"texture.h"
 	"precomp.h"
 
 1368136908 /home/serengeor/Coding/ZombieGameProject/src/resource_cache.h
 	"precomp.h"
+
+1368913646 /home/serengeor/Coding/ZombieGameProject/src/window.h
+	"precomp.h"
+	"GL/glfw.h"
+	<functional>
 

@@ -1,6 +1,15 @@
 #pragma once
 
-#include <GL/glfw.h>
+#include "precomp.h"
+#include "GL/glfw.h"
+#include <functional>
+
+class window_resize_callback
+{
+public:
+    virtual void on_resize(int32_t w, int32_t h)=0;
+};
+
 class window
 {
 protected:
@@ -11,12 +20,20 @@ public:
 
     }
 
+    static std::function< void(int32_t,int32_t) > resize_callback;
+
+    static void GLFWCALL on_resize( int32_t width, int32_t height )
+    {
+        if(resize_callback)
+            resize_callback(width, height);
+    }
+
     bool init(uint32_t width, uint32_t height, uint32_t r=8, uint32_t g=8, uint32_t b=8, uint32_t alpha=8, uint32_t depth=24, uint32_t stencil=8)
     {
         if (!glfwInit())
         {
             printf("glfw init failed!\n"); //log
-            return -1;
+            return false;
         }
 
         //glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
@@ -28,12 +45,17 @@ public:
         if (!glfwOpenWindow(width, height, r, g, b, alpha, depth, stencil, GLFW_WINDOW))
         {
             printf("glfw open window failed!\n"); //log
-            return -1;
+            return false;
         }
+
+        glfwSetWindowSizeCallback(&window::on_resize);
+
+        return true;
     }
 
     bool update()
     {
+        glfwPollEvents();
         return glfwGetWindowParam(GLFW_OPENED);
     }
 
@@ -43,3 +65,5 @@ public:
     }
 
 };
+
+std::function< void(int32_t,int32_t) > window::resize_callback;

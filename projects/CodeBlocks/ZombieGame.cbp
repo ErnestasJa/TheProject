@@ -100,6 +100,7 @@
 		<Unit filename="../../src/texture.h" />
 		<Unit filename="../../src/tgaloader.cpp" />
 		<Unit filename="../../src/tgaloader.h" />
+		<Unit filename="../../src/window.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

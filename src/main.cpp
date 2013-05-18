@@ -7,6 +7,7 @@
 #include "quad.h"
 #include "fbo.h"
 #include "resource_cache.h"
+#include "window.h"
 
 static const char* gvs =
 "#version 330\n"
@@ -83,33 +84,39 @@ void glerr()
     }
 }
 
+class resize_gl : public window_resize_callback
+{
+public:
+
+    glm::mat4 * perspective;
+
+    resize_gl(glm::mat4 * perspective_matrix)
+    {
+        perspective = perspective_matrix;
+    }
+
+    virtual void on_resize(int32_t w, int32_t h)
+    {
+        glViewport(0,0,w,h);
+        perspective[0] = glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
+        std::cout<< std::endl <<"resized viewport"<< std::endl<< std::endl ;
+    }
+};
+
 int main(int argc, const char ** argv)
 {
     printf("Is this big endian platform? (%s)\n",is_big_endian()==true?"true":"false");
 
-    if (!glfwInit())
+
+    window wnd;
+    wnd.init(640,480);
+
+    if (glxwInit()!=0)
     {
-        printf("glfw init failed!\n");
+        std::cout<<"glxw_init() failed: " <<PHYSFS_getLastError()<<std::endl;
         return -1;
     }
 
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4); // 4x antialiasing
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3); // We want OpenGL 3.3
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
-
-    /* Create a windowed mode window and its OpenGL context */
-    if (!glfwOpenWindow(800, 600, 8, 8, 8, 0, 24, 0, GLFW_WINDOW))
-    {
-        printf("glfw open window failed!\n");
-        return -1;
-    }
-
-    if(glxwInit()!=0)
-    {
-        printf("GLXW failed to initialize.\n");
-        return -1;
-    }
 
     printf("OpenGL context version: %s\n",glGetString(GL_VERSION));
 
@@ -219,8 +226,11 @@ int main(int argc, const char ** argv)
     ///----------------------------
 
 
+    resize_gl rsz(&P);
+    wnd.resize_callback = std::bind(&resize_gl::on_resize, &rsz, std::placeholders::_1, std::placeholders::_2);;
+
     /* Loop until the user closes the window */
-    while (glfwGetWindowParam(GLFW_OPENED)&&!glfwGetKey(GLFW_KEY_ESC))
+    while (wnd.update())
     {
         // Measure speed
         double currentTime = glfwGetTime();
@@ -242,7 +252,7 @@ int main(int argc, const char ** argv)
         //glerr();
 
         /* Swap front and back buffers and process events */
-        glfwSwapBuffers();
+        wnd.swap_buffers();
     }
 
     tex=NULL;
