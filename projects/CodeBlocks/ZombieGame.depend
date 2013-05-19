@@ -816,7 +816,7 @@
 	"math/util.h"
 	"resource_cache.h"
 
-1368913764 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368989874 /home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -827,16 +827,11 @@
 	<stdio.h>
 	<GLXW/glxw.h>
 	<GL/glcorearb.h>
-	<GLXW/glxw_wgl.h>
-	<GL/wglext.h>
-	<GLXW/glxw_glx.h>
-	<GL/glxext.h>
 	"glm.hpp"
 	"gtx/norm.hpp"
 	"gtc/matrix_transform.hpp"
 	"gtc/type_ptr.hpp"
 	"bit.h"
-	"physfs.h"
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/libs/glxw/include/GLXW/glxw_wgl.h
 	<GL/glcorearb.h>
@@ -1150,7 +1145,7 @@
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/tgaloader.h
 	"texture.h"
 
-1368818987 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
+1368989874 source:/home/serengeor/Coding/ZombieGameProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -1161,17 +1156,11 @@
 	<stdio.h>
 	<GLXW/glxw.h>
 	<GL/glcorearb.h>
-	<GLXW/glxw_wgl.h>
-	<GL/wglext.h>
-	<GLXW/glxw_glx.h>
-	<GL/glxext.h>
-	<GL/glfw.h>
 	"glm.hpp"
 	"gtx/norm.hpp"
 	"gtc/matrix_transform.hpp"
 	"gtc/type_ptr.hpp"
 	"bit.h"
-	"physfs.h"
 
 1367592767 source:/home/serengeor/Coding/ZombieGameProject/src/iqmloader.cpp
 	"precomp.h"
@@ -1181,17 +1170,9 @@
 
 1367592767 /home/serengeor/Coding/ZombieGameProject/src/iqmloader.h
 
-1368913641 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
-	"precomp.h"
-	"tgaloader.h"
-	"texture.h"
-	"shader.h"
-	"iqmesh.h"
-	"iqmloader.h"
-	"quad.h"
-	"fbo.h"
-	"resource_cache.h"
-	"window.h"
+1369003893 source:/home/serengeor/Coding/ZombieGameProject/src/main.cpp
+	"application.h"
+	"test_application.h"
 
 1368211200 /home/serengeor/Coding/ZombieGameProject/src/shader.h
 	<string.h>
@@ -1235,8 +1216,68 @@
 1368136908 /home/serengeor/Coding/ZombieGameProject/src/resource_cache.h
 	"precomp.h"
 
-1368913646 /home/serengeor/Coding/ZombieGameProject/src/window.h
+1369003166 /home/serengeor/Coding/ZombieGameProject/src/window.h
 	"precomp.h"
 	"GL/glfw.h"
 	<functional>
+
+1368980005 source:/home/serengeor/Coding/ZombieGameProject/src/opengl_utils.cpp
+	"opengl_utils.h"
+	<GLXW/glxw_wgl.h>
+	<GL/wglext.h>
+	<GLXW/glxw_glx.h>
+	<GL/glxext.h>
+
+1368979971 /home/serengeor/Coding/ZombieGameProject/src/opengl_utils.h
+	"precomp.h"
+
+1369003106 source:/home/serengeor/Coding/ZombieGameProject/src/opengl_util.cpp
+	"opengl_util.h"
+	<GLXW/glxw_wgl.h>
+	<GL/wglext.h>
+	<GLXW/glxw_glx.h>
+	<GL/glxext.h>
+
+1369003108 /home/serengeor/Coding/ZombieGameProject/src/opengl_util.h
+	"precomp.h"
+
+1369003564 source:/home/serengeor/Coding/ZombieGameProject/src/application.cpp
+	"application.h"
+	"window.h"
+	"opengl_util.h"
+	"timer.h"
+
+1369003674 /home/serengeor/Coding/ZombieGameProject/src/application.h
+	"precomp.h"
+	"physfs.h"
+
+1368993188 source:/home/serengeor/Coding/ZombieGameProject/src/timer.cpp
+	"timer.h"
+	<chrono>
+
+1368993043 /home/serengeor/Coding/ZombieGameProject/src/timer.h
+	"precomp.h"
+
+1369003854 source:/home/serengeor/Coding/ZombieGameProject/src/test_application.cpp
+	"test_application.h"
+	"iqmloader.h"
+	"window.h"
+	"timer.h"
+	"quad.h"
+
+1369002684 /home/serengeor/Coding/ZombieGameProject/src/test_application.h
+	"application.h"
+	"resource_cache.h"
+	"iqmesh.h"
+	"texture.h"
+	"frame_buffer_object.h"
+	"shader.h"
+	"quad.h"
+
+1369001923 /home/serengeor/Coding/ZombieGameProject/src/frame_buffer_object.h
+	"texture.h"
+	"precomp.h"
+
+1369003195 source:/home/serengeor/Coding/ZombieGameProject/src/window.cpp
+	"window.h"
 

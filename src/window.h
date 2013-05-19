@@ -2,6 +2,7 @@
 
 #include "precomp.h"
 #include "GL/glfw.h"
+
 #include <functional>
 
 class window_resize_callback
@@ -28,7 +29,7 @@ public:
             resize_callback(width, height);
     }
 
-    bool init(uint32_t width, uint32_t height, uint32_t r=8, uint32_t g=8, uint32_t b=8, uint32_t alpha=8, uint32_t depth=24, uint32_t stencil=8)
+    bool init(const std::string  &title, uint32_t width, uint32_t height, uint32_t r=8, uint32_t g=8, uint32_t b=8, uint32_t alpha=8, uint32_t depth=24, uint32_t stencil=8)
     {
         if (!glfwInit())
         {
@@ -48,6 +49,8 @@ public:
             return false;
         }
 
+        glfwSetWindowTitle(title.c_str());
+
         glfwSetWindowSizeCallback(&window::on_resize);
 
         return true;
@@ -65,5 +68,3 @@ public:
     }
 
 };
-
-std::function< void(int32_t,int32_t) > window::resize_callback;

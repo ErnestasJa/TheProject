@@ -13,13 +13,6 @@
 
 #include <GLXW/glxw.h>
 #include <GL/glcorearb.h>
-#ifdef __MINGW32__
-#include <GLXW/glxw_wgl.h>
-#include <GL/wglext.h>
-#else
-#include <GLXW/glxw_glx.h>
-#include <GL/glxext.h>
-#endif
 
 #include "glm.hpp"
 #include "gtx/norm.hpp"
@@ -27,7 +20,5 @@
 #include "gtc/type_ptr.hpp"
 
 #include "bit.h"
-
-#include "physfs.h"
 
 #endif

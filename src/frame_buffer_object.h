@@ -3,7 +3,7 @@
 #include "texture.h"
 #include "precomp.h"
 
-struct fbo
+struct frame_buffer_object
 {
     static uint32_t current, current_target;
 
@@ -15,7 +15,7 @@ struct fbo
     std::shared_ptr<texture> stencil_buffer_binding;
     std::shared_ptr<texture> depth_stencil_buffer_binding;
 
-    fbo()
+    frame_buffer_object()
     {
         id = 0;
         target = GL_FRAMEBUFFER;
