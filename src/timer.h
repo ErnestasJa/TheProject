@@ -9,6 +9,7 @@ protected:
     uint32_t real_time;
 
     void update_real_time();
+
 public:
 
     timer();

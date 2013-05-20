@@ -81,3 +81,8 @@ void application::exit()
 
     delete main_timer;
 }
+
+timer * application::get_timer()
+{
+    return main_timer;
+}
