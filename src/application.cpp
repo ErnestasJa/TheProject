@@ -3,6 +3,7 @@
 #include "window.h"
 #include "opengl_util.h"
 #include "timer.h"
+#include "logger.h"
 
 static void output_versions(void)
 {
@@ -35,17 +36,17 @@ application::~application()
 bool application::init(const std::string  &title, uint32_t width, uint32_t height)
 {
     this->main_timer = new timer();
-    _log=new logger(this,0);
-    _log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
-    //std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
-
     if (!PHYSFS_init(argv[0]))
     {
         ///!Log this
-        _log->log(LOG_CRITICAL,"PHYSFS_init() failed: %s",PHYSFS_getLastError());
-        //std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
+        //_log->log(LOG_CRITICAL,"PHYSFS_init() failed: %s",PHYSFS_getLastError());
+        std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
         return false;
     }
+
+    _log=new logger(this,0);
+    _log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
+    //std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
 
     PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
 

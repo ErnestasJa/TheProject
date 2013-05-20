@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+1369060858 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -15,6 +15,7 @@
 	"gtc/matrix_transform.hpp"
 	"gtc/type_ptr.hpp"
 	"bit.h"
+	"physfs.h"
 
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\glxw\include\glxw\glxw.h
 	<GL/glcorearb.h>
@@ -343,7 +344,7 @@
 	"math/util.h"
 	"resource_cache.h"
 
-1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+1369060858 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -359,6 +360,7 @@
 	"gtc/matrix_transform.hpp"
 	"gtc/type_ptr.hpp"
 	"bit.h"
+	"physfs.h"
 
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
 	"iqm.h"
@@ -375,9 +377,11 @@
 
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.h
 
-1369057624 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
+1369061255 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
 	"application.h"
 	"test_application.h"
+	"logger.h"
+	"timer.h"
 
 1365581244 source:/home/andrew/Desktop/Coding/ZombieGameProject/src/precomp.h
 	<iostream>
@@ -1306,7 +1310,7 @@
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\mesh.h
 	"precomp.h"
 
-1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\math\util.h
+1369059605 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\math\util.h
 
 1368609045 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\tgaloader.cpp
 	"tgaloader.h"
@@ -1322,16 +1326,15 @@
 	"bit.h"
 	<string>
 
-1369058950 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
+1369062228 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
 	"application.h"
 	"window.h"
 	"opengl_util.h"
 	"timer.h"
-
-1369058056 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
-	"precomp.h"
-	"physfs.h"
 	"logger.h"
+
+1369060879 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
+	"precomp.h"
 
 1368434153 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\physfs\physfs.h
 
@@ -1343,7 +1346,7 @@
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.h
 	"precomp.h"
 
-1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
+1369064436 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
 	"precomp.h"
 
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\resource_cache.h
@@ -1362,7 +1365,7 @@
 	"texture.h"
 	"precomp.h"
 
-1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\shader.h
+1369059605 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\shader.h
 	<string.h>
 	<string>
 	"GLXW/glxw.h"
@@ -1379,30 +1382,32 @@
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
 
-1369059119 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
+1369060924 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
 	"test_application.h"
 	"iqmloader.h"
 	"window.h"
 	"timer.h"
+	"logger.h"
 	"quad.h"
 
 1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\texture.cpp
 	"texture.h"
 
-1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.cpp
+1369064436 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.cpp
 	"timer.h"
+	<ctime>
 	<chrono>
 
 1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.cpp
 	"window.h"
 
-1369059070 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.cpp
+1369064475 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.cpp
 	"precomp.h"
 	"logger.h"
 	"application.h"
 	"timer.h"
 
-1369058747 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.h
+1369060619 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.h
 	<stdio.h>
 	<string>
 	<sstream>

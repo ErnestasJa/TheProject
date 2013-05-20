@@ -1,4 +1,5 @@
 #include "timer.h"
+#include <ctime>
 #include <chrono>
 typedef std::chrono::duration<uint32_t,std::milli> milliseconds;
 

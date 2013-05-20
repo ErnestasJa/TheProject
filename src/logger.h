@@ -19,6 +19,7 @@ enum loglevel
 
 
 class application;
+class PHYSFS_File;
 
 class logger
 {
@@ -33,6 +34,7 @@ public:
 private:
     int _verbosity;
     application *_app;
+    PHYSFS_File *_logfile;
     //std::vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
 
     std::string timestamp(); //timestamp generation

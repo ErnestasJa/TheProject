@@ -1,11 +1,10 @@
 #pragma once
 
 #include "precomp.h"
-#include "physfs.h"
-#include "logger.h"
 class window;
 class opengl_util;
 class timer;
+class logger;
 
 class application
 {

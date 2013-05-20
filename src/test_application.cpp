@@ -3,6 +3,7 @@
 #include "iqmloader.h"
 #include "window.h"
 #include "timer.h"
+#include "logger.h"
 #include "quad.h"
 
 static const char* gvs =
@@ -186,7 +187,7 @@ void test_application::show_fps()
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
         // printf and reset timer
-        _log->log(LOG_DEBUG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        _log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
         //printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
         frame_count = 0;
         last_time = currentTime;
