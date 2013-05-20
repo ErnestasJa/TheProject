@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -337,13 +337,13 @@
 	<windows.h>
 	<dlfcn.h>
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.cpp
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.cpp
 	"precomp.h"
 	"iqmesh.h"
 	"math/util.h"
 	"resource_cache.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -360,7 +360,7 @@
 	"gtc/type_ptr.hpp"
 	"bit.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
 	"iqm.h"
 	"mesh.h"
 
@@ -375,7 +375,7 @@
 
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.h
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
+1369057624 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
 	"application.h"
 	"test_application.h"
 
@@ -1303,10 +1303,10 @@
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\bit.h
 	<stdint.h>
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\mesh.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\mesh.h
 	"precomp.h"
 
-1369052740 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\math\util.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\math\util.h
 
 1368609045 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\tgaloader.cpp
 	"tgaloader.h"
@@ -1316,39 +1316,40 @@
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\tgaloader.h
 	"texture.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\texture.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\texture.h
 	"GLXW/glxw.h"
 	"glm.hpp"
 	"bit.h"
 	<string>
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
+1369058950 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
 	"application.h"
 	"window.h"
 	"opengl_util.h"
 	"timer.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
+1369058056 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
 	"precomp.h"
 	"physfs.h"
+	"logger.h"
 
 1368434153 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\physfs\physfs.h
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.h
 	"precomp.h"
 	"GL/glfw.h"
 	<functional>
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.h
 	"precomp.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
 	"precomp.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\resource_cache.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\resource_cache.h
 	"precomp.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.h
+1369058062 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.h
 	"application.h"
 	"resource_cache.h"
 	"iqmesh.h"
@@ -1357,41 +1358,53 @@
 	"shader.h"
 	"quad.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\frame_buffer_object.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\frame_buffer_object.h
 	"texture.h"
 	"precomp.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\shader.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\shader.h
 	<string.h>
 	<string>
 	"GLXW/glxw.h"
 
-1368994720 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\quad.h
+1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\quad.h
 	"mesh.h"
 	"shader.h"
 	"precomp.h"
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.cpp
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.cpp
 	"opengl_util.h"
 	<GLXW/glxw_wgl.h>
 	<GL/wglext.h>
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
+1369059119 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
 	"test_application.h"
 	"iqmloader.h"
 	"window.h"
 	"timer.h"
 	"quad.h"
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\texture.cpp
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\texture.cpp
 	"texture.h"
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.cpp
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.cpp
 	"timer.h"
 	<chrono>
 
-1368994720 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.cpp
+1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.cpp
 	"window.h"
+
+1369059070 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.cpp
+	"precomp.h"
+	"logger.h"
+	"application.h"
+	"timer.h"
+
+1369058747 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<stdarg.h>
 

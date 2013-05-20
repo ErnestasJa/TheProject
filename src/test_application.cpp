@@ -109,9 +109,11 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
 
     if(fbo->is_complete()) /// log this..
-        std::cout<<"FBO is complete.\n";
+        _log->log(LOG_DEBUG,"FBO is complete.");
+        //std::cout<<"FBO is complete.\n";
     else
-        std::cout<<"FBO is not complete.\n";
+        _log->log(LOG_DEBUG,"FBO is not complete.");
+       //std::cout<<"FBO is not complete.\n";
 
     fbo_cache->push_back(share(fbo));
 
@@ -184,7 +186,8 @@ void test_application::show_fps()
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
         // printf and reset timer
-        printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
+        _log->log(LOG_DEBUG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        //printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
         frame_count = 0;
         last_time = currentTime;
     }

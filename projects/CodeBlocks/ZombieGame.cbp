@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c++0x" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
@@ -46,7 +46,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c++0x" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
@@ -90,6 +90,8 @@
 		<Unit filename="../../src/iqmesh.h" />
 		<Unit filename="../../src/iqmloader.cpp" />
 		<Unit filename="../../src/iqmloader.h" />
+		<Unit filename="../../src/logger.cpp" />
+		<Unit filename="../../src/logger.h" />
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/util.h" />
 		<Unit filename="../../src/mesh.h" />
