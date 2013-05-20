@@ -6,6 +6,8 @@
 #endif
 #define NULL 0
 
+#define M_PI 3.14159
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;

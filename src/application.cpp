@@ -3,6 +3,7 @@
 #include "window.h"
 #include "opengl_util.h"
 #include "timer.h"
+#include "logger.h"
 
 static void output_versions(void)
 {
@@ -34,16 +35,18 @@ application::~application()
 
 bool application::init(const std::string  &title, uint32_t width, uint32_t height)
 {
-    std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
-
     this->main_timer = new timer();
-
     if (!PHYSFS_init(argv[0]))
     {
         ///!Log this
+        //_log->log(LOG_CRITICAL,"PHYSFS_init() failed: %s",PHYSFS_getLastError());
         std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
         return false;
     }
+
+    _log=new logger(this,0);
+    _log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
+    //std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
 
     PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
 
@@ -71,15 +74,28 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
 
 void application::exit()
 {
-    std::cout << "Exiting." << std::endl;
+    _log->log(LOG_LOG,"Exitting.");
+    //std::cout << "Exiting." << std::endl;
 
     delete gl_util;
     delete wnd;
 
     if (!PHYSFS_deinit())
-        std::cout << "PHYSFS_deinit() failed!\n  reason: " << PHYSFS_getLastError() << "." << std::endl;
+        _log->log(LOG_CRITICAL,"PHYSFS_deinit() failed!\n reason: %s.",PHYSFS_getLastError());
+        //std::cout << "PHYSFS_deinit() failed!\n  reason: " << PHYSFS_getLastError() << "." << std::endl;
 
     delete main_timer;
+    delete _log;
+}
+
+logger *application::getLogger()
+{
+    return _log;
+}
+
+timer *application::getTimer()
+{
+    return main_timer;
 }
 
 timer * application::get_timer()
