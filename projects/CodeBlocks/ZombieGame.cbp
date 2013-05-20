@@ -23,7 +23,7 @@
 					<Add library="GL" />
 					<Add library="Xrandr" />
 					<Add library="glfw" />
-					<Add library="../../libs/physfs/libphysfs.a" />
+					<Add library="..\..\libs\physfs\libphysfs.a" />
 					<Add directory="../../libs/glfw/lib/x11" />
 				</Linker>
 			</Target>
@@ -53,6 +53,7 @@
 					<Add library="glfw" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="..\..\libs\physfs\bins\libphysfs.a" />
 					<Add directory="../../libs/glfw/lib/win32" />
 				</Linker>
 			</Target>
@@ -66,6 +67,7 @@
 			<Add directory="../../libs/glm" />
 			<Add directory="../../libs/glxw/include" />
 			<Add directory="../../libs/glxw/src" />
+			<Add directory="../../libs/physfs" />
 		</Compiler>
 		<Unit filename="../../libs/glxw/src/glxw.c">
 			<Option compilerVar="CC" />
