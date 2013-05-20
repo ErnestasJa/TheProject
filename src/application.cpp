@@ -88,17 +88,12 @@ void application::exit()
     delete _log;
 }
 
-logger *application::getLogger()
+logger *application::get_logger()
 {
     return _log;
 }
 
-timer *application::getTimer()
-{
-    return main_timer;
-}
-
-timer * application::get_timer()
+timer *application::get_timer()
 {
     return main_timer;
 }

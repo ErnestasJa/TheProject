@@ -15,7 +15,7 @@ logger::logger(application *app,int verbosity)
 
     //format the filename with realtime stamp
     std::string fname="/logs/";
-    fname+=tostr(_app->getTimer()->get_real_time());
+    fname+=tostr(_app->get_timer()->get_real_time());
     fname+="_log.txt";
 
     //open it
@@ -32,7 +32,7 @@ logger::~logger()
 
 void logger::log(loglevel lev,const char* st, ...)
 {
-    _app->getTimer()->tick();
+    _app->get_timer()->tick();
     char buf[256];
     va_list l;
     va_start(l,st);
@@ -41,7 +41,7 @@ void logger::log(loglevel lev,const char* st, ...)
     std::string message="";
 
     //message+="["+timestamp()+"] ";
-    message+=tostr(_app->getTimer()->get_time())+" ";
+    message+=tostr(_app->get_timer()->get_time())+" ";
     //add importance info
     switch(lev)
     {
@@ -77,7 +77,7 @@ std::string logger::timestamp()
 {
     std::string stamp="";
 
-    uint32_t t=_app->getTimer()->get_time()/1000;
+    uint32_t t=_app->get_timer()->get_time()/1000;
 
     uint32_t h,m,s;
 

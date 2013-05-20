@@ -25,6 +25,6 @@ public:
     virtual bool init(const std::string  &title, uint32_t width, uint32_t height);
     virtual bool update() = 0;
     virtual void exit();
-    virtual logger *getLogger();
-    virtual timer *getTimer();
+    virtual logger * get_logger();
+    virtual timer  * get_timer();
 };
