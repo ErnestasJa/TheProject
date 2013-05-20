@@ -11,8 +11,7 @@ int main(int argc, const char ** argv)
     if(app->init("test",1024,720))
     {
         app->getLogger()->log(LOG_CRITICAL,"Testing %s %i %f.","vodka vodka boris yeltsin",666,3.14);
-        while(app->update())
-            std::cout << "real time:" << app->get_timer()->get_time() << std::endl;
+        while(app->update());
 
         app->exit();
         delete app;
