@@ -338,11 +338,12 @@
 	<windows.h>
 	<dlfcn.h>
 
-1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.cpp
+1369068191 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.cpp
 	"precomp.h"
 	"iqmesh.h"
 	"math/util.h"
 	"resource_cache.h"
+	"logger.h"
 
 1369060858 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\precomp.h
 	<stdint.h>
@@ -362,22 +363,23 @@
 	"bit.h"
 	"physfs.h"
 
-1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
+1369068201 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmesh.h
 	"iqm.h"
 	"mesh.h"
 
 1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqm.h
 	<stdint.h>
 
-1368609045 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.cpp
+1369068213 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.cpp
 	"precomp.h"
 	"iqmloader.h"
 	"iqmesh.h"
 	"math/util.h"
+	"logger.h"
 
-1368609045 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.h
+1369067660 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\iqmloader.h
 
-1369061255 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
+1369066940 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\main.cpp
 	"application.h"
 	"test_application.h"
 	"logger.h"
@@ -1326,14 +1328,14 @@
 	"bit.h"
 	<string>
 
-1369062228 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
+1369067773 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.cpp
 	"application.h"
 	"window.h"
 	"opengl_util.h"
 	"timer.h"
 	"logger.h"
 
-1369060879 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
+1369067452 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\application.h
 	"precomp.h"
 
 1368434153 c:\users\andrew\desktop\stuff\coding\zombiegameproject\libs\physfs\physfs.h
@@ -1346,13 +1348,13 @@
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_util.h
 	"precomp.h"
 
-1369064436 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
+1369066940 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\timer.h
 	"precomp.h"
 
 1369055916 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\resource_cache.h
 	"precomp.h"
 
-1369058062 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.h
+1369067837 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.h
 	"application.h"
 	"resource_cache.h"
 	"iqmesh.h"
@@ -1382,7 +1384,7 @@
 	<GLXW/glxw_glx.h>
 	<GL/glxext.h>
 
-1369060924 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
+1369067845 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\test_application.cpp
 	"test_application.h"
 	"iqmloader.h"
 	"window.h"
@@ -1401,7 +1403,7 @@
 1369055916 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\window.cpp
 	"window.h"
 
-1369064475 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.cpp
+1369066940 source:c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\logger.cpp
 	"precomp.h"
 	"logger.h"
 	"application.h"

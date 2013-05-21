@@ -3,7 +3,7 @@
 #include "mesh.h"
 
 struct u8vec4{uint8_t v[4];};
-
+class logger;
 class iqmesh
 {
 //Variables
@@ -42,11 +42,12 @@ public:
 	std::shared_ptr<mesh> glmesh;
 
 private:
+    logger *m_logger;
 protected:
 
 //Methods
 public:
-	iqmesh();
+	iqmesh(logger *logger);
 	virtual ~iqmesh();
 	bool generate();
 

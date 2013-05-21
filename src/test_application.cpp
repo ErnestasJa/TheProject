@@ -74,7 +74,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     PHYSFS_read(f, buffer, 1, PHYSFS_fileLength(f));
     PHYSFS_close(f);
 
-    iqmloader *loader=new iqmloader();
+    iqmloader *loader=new iqmloader(this->get_logger());
 
     iqmesh * mesh=loader->load(buffer);
     if(mesh)

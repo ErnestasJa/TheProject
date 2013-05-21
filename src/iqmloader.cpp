@@ -2,6 +2,12 @@
 #include "iqmloader.h"
 #include "iqmesh.h"
 #include "math/util.h"
+#include "logger.h"
+
+iqmloader::iqmloader(logger *logger)
+{
+    m_logger=logger;
+}
 
 void iqmloader::load_header(const char* data, iqmheader & header)
 {
@@ -17,16 +23,16 @@ iqmesh *iqmloader::load ( const char* data)
 
 
     if ( !strcmp ( IQM_MAGIC, head.magic) && head.version==IQM_VERSION && head.filesize>0 )
-        printf ( "IQM File appears to be correct and not empty. (MAGIC:%s,VERSION:%i)\n",head.magic,head.version );
+        m_logger->log(LOG_DEBUG, "IQM File appears to be correct and not empty. (MAGIC:%s,VERSION:%i)",head.magic,head.version );
     else
     {
-        printf("IQM file is corrupt or invalid.\n");
+        m_logger->log(LOG_DEBUG,"IQM file is corrupt or invalid.");
         return output;
     }
 
 
 
-    output=new iqmesh();
+    output=new iqmesh(this->m_logger);
     output->data_buff = (uint8_t*)data;
 
     ///big single line of null terminated >strings<
@@ -93,7 +99,7 @@ iqmesh *iqmloader::load ( const char* data)
     for(uint32_t i=0; i<head.num_meshes; i++)
     {
         iqmmesh sm=output->submeshes[i];
-        printf("TEST MESH LOADER INFO:\nName:%i\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i\n",sm.name,"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
+        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%i\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",sm.name,"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
     output->data_header = head;
@@ -176,7 +182,7 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
     for(int i = 0; i < (int)hdr.num_anims; i++)
     {
         iqmanim &a = mesh->anims[i];
-        printf("Loaded anim: %s\n", mesh->texts[a.name]);
+        m_logger->log(LOG_DEBUG,"Loaded anim: %s.", mesh->texts[a.name]);
     }
 
     return true;

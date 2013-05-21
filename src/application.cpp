@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "logger.h"
 
-static void output_versions(void)
+void application::output_versions(void)
 {
     PHYSFS_Version compiled;
     PHYSFS_Version linked;
@@ -13,10 +13,14 @@ static void output_versions(void)
     PHYSFS_VERSION(&compiled);
     PHYSFS_getLinkedVersion(&linked);
 
-    printf("Compiled against PhysicsFS version %d.%d.%d,\n"
-           " and linked against %d.%d.%d.\n\n",
-            (int) compiled.major, (int) compiled.minor, (int) compiled.patch,
-            (int) linked.major, (int) linked.minor, (int) linked.patch);
+    _log->log(LOG_DEBUG,"Compiled against PhysicsFS version %d.%d.%d,"
+              " and linked against %d.%d.%d.",
+              (int) compiled.major, (int) compiled.minor, (int) compiled.patch,
+              (int) linked.major, (int) linked.minor, (int) linked.patch);
+//    printf("Compiled against PhysicsFS version %d.%d.%d,\n"
+//           " and linked against %d.%d.%d.\n\n",
+//            (int) compiled.major, (int) compiled.minor, (int) compiled.patch,
+//            (int) linked.major, (int) linked.minor, (int) linked.patch);
 } /* output_versions */
 
 application::application(int32_t argc, const char ** argv)
@@ -44,11 +48,11 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
+    PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
+
     _log=new logger(this,0);
     _log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
     //std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
-
-    PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
 
     output_versions();
 
