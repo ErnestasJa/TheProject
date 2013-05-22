@@ -17,9 +17,6 @@ public:
 	iqmmesh * submeshes;
 	iqmvertexarray * vertexarrays; //IQM vertex array info
 	iqmtriangle* triangles; //IQM triangle info(for indices)
-	iqmjoint* joints; //IQM joint info
-	iqmpose* poses; //IQM pose info
-	iqmanim* anims; //IQM animation info
 	iqmbounds* bounds; //IQM the bounding box
 
     /// data buffers
@@ -32,6 +29,10 @@ public:
 	glm::vec3 * colors;
 
     ///animation
+    iqmjoint* joints; //IQM joint info
+	iqmpose* poses; //IQM pose info
+	iqmanim* anims; //IQM animation info
+
 	glm::mat3x4 * frames;
 	glm::mat3x4 * base_frame;
 	glm::mat3x4 * inverse_base_frame;
