@@ -171,6 +171,12 @@ void test_application::on_event(gui_event e)
 {
     switch(e.get_type())
     {
+    case element_focused:
+        _log->log(LOG_DEBUG,"Element got focused.");
+        break;
+    case element_focus_lost:
+        _log->log(LOG_DEBUG,"Element lost focus.");
+        break;
     case element_hovered:
         _log->log(LOG_DEBUG,"Element got hovered.");
         break;

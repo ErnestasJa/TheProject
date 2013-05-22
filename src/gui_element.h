@@ -14,6 +14,18 @@ public:
     //each element handles it's own rendering
     virtual void render();
 
+    void render_children();
+
+    void add_child(gui_element *e);
+
+    void remove_child(gui_element *e);
+
+    void bring_to_front(gui_element *e);
+
+    void update_absolute_pos();
+
+    void set_name(std::string name);
+
     void set_event_listener(gui_event_listener *listener);
 
     void set_enabled(bool b);
@@ -43,21 +55,14 @@ public:
 
     gui_element *get_parent();
 
-    void add_child(gui_element *e);
-
-    void remove_child(gui_element *e);
-
-    void bring_to_front(gui_element *e);
-
-    void render_children();
+    std::string get_name();
 
     gui_element *get_element_from_point(int x, int y);
-
-    void update_absolute_pos();
 
 private:
 protected:
     int disp_w, disp_h;
+    std::string name;
     gui_element *parent;
     std::vector<gui_element*> children;
     gui_environment *environment;

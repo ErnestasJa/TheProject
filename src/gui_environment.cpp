@@ -56,6 +56,7 @@ void gui_environment::update(float delta)
                 {
                     focus->on_event(gui_event(
                                         gui_event_type::element_focused, focus));
+                    //if(focus->get_parent())
                     focus->get_parent()->bring_to_front(focus);
                 }
                 else

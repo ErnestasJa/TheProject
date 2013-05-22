@@ -7,7 +7,6 @@ class gui_test_element:public gui_element
 public:
     gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(x,y,w,h)
     {
-    env->add_child(this);
     this->set_parent(env);
     }
     ~gui_test_element()
@@ -20,6 +19,14 @@ public:
         {
             switch(e.get_type())
             {
+            case element_focused:
+                this->focused=true;
+                this->event_listener->on_event(e);
+                break;
+            case element_focus_lost:
+                this->focused=false;
+                this->event_listener->on_event(e);
+                break;
             case element_hovered:
                 this->hovered=true;
                 this->event_listener->on_event(e);
