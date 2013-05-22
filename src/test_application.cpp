@@ -162,6 +162,11 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     gui_test_element *elem=new gui_test_element(env,0,0,100,100);
     elem->set_event_listener(this);
+    elem->set_name("mister fox");
+
+    gui_test_element *elem2=new gui_test_element(env,50,0,100,100);
+    elem2->set_event_listener(this);
+    elem2->set_name("cock");
     //elem->update_absolute_pos();
 
     return true;
@@ -172,16 +177,16 @@ void test_application::on_event(gui_event e)
     switch(e.get_type())
     {
     case element_focused:
-        _log->log(LOG_DEBUG,"Element got focused.");
+        _log->log(LOG_DEBUG,"Element %s got focused.",e.get_caller()->get_name().c_str());
         break;
     case element_focus_lost:
-        _log->log(LOG_DEBUG,"Element lost focus.");
+        _log->log(LOG_DEBUG,"Element %s lost focus.",e.get_caller()->get_name().c_str());
         break;
     case element_hovered:
-        _log->log(LOG_DEBUG,"Element got hovered.");
+        _log->log(LOG_DEBUG,"Element %s got hovered.",e.get_caller()->get_name().c_str());
         break;
     case element_exitted:
-        _log->log(LOG_DEBUG,"Element got exitted.");
+        _log->log(LOG_DEBUG,"Element %s got exitted.",e.get_caller()->get_name().c_str());
         break;
     default:
         break;

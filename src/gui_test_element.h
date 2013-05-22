@@ -7,11 +7,12 @@ class gui_test_element:public gui_element
 public:
     gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(x,y,w,h)
     {
-    this->set_parent(env);
+        this->set_parent(env);
+        this->environment=env;
     }
     ~gui_test_element()
     {
-
+        this->environment->remove_child(this);
     }
     void on_event(gui_event e)
     {
@@ -20,19 +21,15 @@ public:
             switch(e.get_type())
             {
             case element_focused:
-                this->focused=true;
                 this->event_listener->on_event(e);
                 break;
             case element_focus_lost:
-                this->focused=false;
                 this->event_listener->on_event(e);
                 break;
             case element_hovered:
-                this->hovered=true;
                 this->event_listener->on_event(e);
                 break;
             case element_exitted:
-                this->hovered=false;
                 this->event_listener->on_event(e);
                 break;
             default:

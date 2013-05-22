@@ -49,7 +49,6 @@ void gui_element::remove_child(gui_element *e)
             e->parent=nullptr;
             children.erase(i);
             return;
-            //delete e;
         }
 }
 
@@ -62,7 +61,6 @@ void gui_element::bring_to_front(gui_element *e)
             i=children.erase(i);
             children.push_back(e);
             return;
-            //delete e;
         }
         else
             i++;
@@ -118,7 +116,6 @@ void gui_element::set_visible(bool b)
     this->visible=b;
 }
 
-//!Purpose: Debug
 void gui_element::set_hovered(bool b)
 {
     this->hovered=b;

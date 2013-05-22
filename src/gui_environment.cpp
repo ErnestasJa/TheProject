@@ -34,10 +34,12 @@ void gui_environment::update(float delta)
                     last_hover->on_event(gui_event(
                                              gui_event_type::element_exitted,
                                              last_hover));
+                                             last_hover->set_hovered(false);
                 }
                 hover = target;
                 hover->on_event(gui_event(
                                     gui_event_type::element_hovered, hover));
+                                    hover->set_hovered(true);
             }
 
             //focusing
@@ -50,13 +52,14 @@ void gui_environment::update(float delta)
                     last_focus->on_event(gui_event(
                                              gui_event_type::element_focus_lost,
                                              last_focus));
+                                             last_focus->set_focused(false);
                 }
                 focus = hover;
                 if (hover != this)
                 {
                     focus->on_event(gui_event(
                                         gui_event_type::element_focused, focus));
-                    //if(focus->get_parent())
+                                        focus->set_focused(true);
                     focus->get_parent()->bring_to_front(focus);
                 }
                 else

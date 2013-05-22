@@ -24,9 +24,6 @@ class gui_element;
 struct gui_event
 {
 public:
-    gui_event_type type;
-    gui_element *caller;
-
     gui_event(gui_event_type type,gui_element *caller)
     {
         this->type=type;
@@ -42,4 +39,7 @@ public:
     {
         return this->caller;
     }
+private:
+    gui_event_type type;
+    gui_element *caller;
 };
