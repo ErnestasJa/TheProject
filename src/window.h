@@ -1,7 +1,6 @@
 #pragma once
 
 #include "precomp.h"
-#include "GL/glfw.h"
 
 #include <functional>
 

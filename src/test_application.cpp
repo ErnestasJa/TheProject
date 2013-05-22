@@ -5,6 +5,9 @@
 #include "timer.h"
 #include "logger.h"
 #include "quad.h"
+#include "gui_environment.h"
+#include "gui_element.h"
+#include "gui_test_element.h"
 
 static const char* gvs =
 "#version 330\n"
@@ -151,9 +154,32 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     fbo->unset();
 
+    int ww,hh;
+    glfwGetWindowSize(&ww,&hh);
 
+    env=new gui_environment(ww,hh);
+    env->set_event_listener(this);
+
+    gui_test_element *elem=new gui_test_element(env,0,0,100,100);
+    elem->set_event_listener(this);
+    //elem->update_absolute_pos();
 
     return true;
+}
+
+void test_application::on_event(gui_event e)
+{
+    switch(e.get_type())
+    {
+    case element_hovered:
+        _log->log(LOG_DEBUG,"Element got hovered.");
+        break;
+    case element_exitted:
+        _log->log(LOG_DEBUG,"Element got exitted.");
+        break;
+    default:
+        break;
+    }
 }
 
 bool test_application::update()
@@ -162,6 +188,8 @@ bool test_application::update()
     {
         // Measure speed
         main_timer->tick();
+
+        env->update(0);
 
         show_fps();
 
@@ -186,8 +214,10 @@ void test_application::show_fps()
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
+        int mx,my;
+        glfwGetMousePos(&mx,&my);
         // printf and reset timer
-        _log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        _log->log(LOG_LOG,"FPS: %i (%f ms/frame) %i %i",frame_count,1000.0/double(frame_count),mx,my);
         //printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
         frame_count = 0;
         last_time = currentTime;
