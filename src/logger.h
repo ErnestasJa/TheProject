@@ -32,9 +32,9 @@ public:
 
     void log(loglevel lev,const char* st, ...);
 private:
-    int _verbosity;
-    application *_app;
-    PHYSFS_File *_logfile;
+    int m_verbosity;
+    application * m_app;
+    PHYSFS_File * m_logfile;
     //std::vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
 
     std::string timestamp(); //timestamp generation

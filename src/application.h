@@ -12,7 +12,7 @@ protected:
     window * wnd;
     opengl_util * gl_util;
     timer * main_timer;
-    logger * _log;
+    logger * m_log;
 
     int32_t argc;
     const char ** argv;

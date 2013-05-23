@@ -5,8 +5,8 @@
 
 logger::logger(application *app,int verbosity)
 {
-    _verbosity=verbosity;
-    _app=app;
+    m_verbosity=verbosity;
+    m_app=app;
 
     //set up filewriting
     PHYSFS_setWriteDir(PHYSFS_getBaseDir());
@@ -15,11 +15,11 @@ logger::logger(application *app,int verbosity)
 
     //format the filename with realtime stamp
     std::string fname="/logs/";
-    fname+=tostr(_app->get_timer()->get_real_time());
+    fname+=tostr(m_app->get_timer()->get_real_time());
     fname+="_log.txt";
 
     //open it
-    _logfile=PHYSFS_openWrite(fname.c_str());
+    m_logfile=PHYSFS_openWrite(fname.c_str());
 
     log(LOG_DEBUG,"Logger initialised...");
 }
@@ -27,12 +27,12 @@ logger::logger(application *app,int verbosity)
 logger::~logger()
 {
     log(LOG_DEBUG,"Logger is terminating...");
-    PHYSFS_close(_logfile);
+    PHYSFS_close(m_logfile);
 }
 
 void logger::log(loglevel lev,const char* st, ...)
 {
-    _app->get_timer()->tick();
+    m_app->get_timer()->tick();
     char buf[256];
     va_list l;
     va_start(l,st);
@@ -41,7 +41,7 @@ void logger::log(loglevel lev,const char* st, ...)
     std::string message="";
 
     //message+="["+timestamp()+"] ";
-    message+=tostr(_app->get_timer()->get_time())+" ";
+    message+=tostr(m_app->get_timer()->get_time())+" ";
     //add importance info
     switch(lev)
     {
@@ -68,8 +68,8 @@ void logger::log(loglevel lev,const char* st, ...)
     message.append("\n");
     //std::pair<debuglevel,std::string> p(lev,message);
     //outputs.push_back(p);
-    PHYSFS_write(_logfile,message.c_str(),message.size(),1);
-    PHYSFS_flush(_logfile);
+    PHYSFS_write(m_logfile,message.c_str(),message.size(),1);
+    PHYSFS_flush(m_logfile);
     printf("%s",message.c_str());
 }
 
@@ -77,7 +77,7 @@ std::string logger::timestamp()
 {
     std::string stamp="";
 
-    uint32_t t=_app->get_timer()->get_time()/1000;
+    uint32_t t=m_app->get_timer()->get_time()/1000;
 
     uint32_t h,m,s;
 
