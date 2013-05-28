@@ -32,14 +32,21 @@ public:
         return vec2<T>(this->x*a,this->y*a);
     }
 
-    bool operator =(const vec2<T> &b)
+    bool operator ==(const vec2<T> &b)
     {
         return this->x==b.x&&this->y==b.y;
     }
 
+    vec2<T> operator =(const vec2<T> &b)
+    {
+        this->x=b.x;
+        this->y=b.y;
+        return *this;
+    }
+
     bool operator !=(const vec2<T> &b)
     {
-        return this->x!=b.x||this->y!=b.y;
+        return !operator==(b);
     }
 
     //TODO: 2D Vector multiplication.

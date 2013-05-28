@@ -160,14 +160,12 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     env=new gui_environment(ww,hh);
     env->set_event_listener(this);
 
-    gui_test_element *elem=new gui_test_element(env,0,0,100,100);
+    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
     elem->set_event_listener(this);
-    elem->set_name("mister fox");
 
-    gui_test_element *elem2=new gui_test_element(env,50,0,100,100);
+    gui_test_element *elem2=new gui_test_element(env,0,0,50,50);
+    elem2->set_parent(elem);
     elem2->set_event_listener(this);
-    elem2->set_name("cock");
-    //elem->update_absolute_pos();
 
     return true;
 }
@@ -187,6 +185,15 @@ void test_application::on_event(gui_event e)
         break;
     case element_exitted:
         _log->log(LOG_DEBUG,"Element %s got exitted.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_pressed:
+        _log->log(LOG_DEBUG,"Mouse pressed on %s.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_released:
+        _log->log(LOG_DEBUG,"Mouse released on %s.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_dragged:
+        _log->log(LOG_DEBUG,"Mouse dragged on %s.",e.get_caller()->get_name().c_str());
         break;
     default:
         break;
@@ -225,10 +232,8 @@ void test_application::show_fps()
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
-        int mx,my;
-        glfwGetMousePos(&mx,&my);
         // printf and reset timer
-        _log->log(LOG_LOG,"FPS: %i (%f ms/frame) %i %i",frame_count,1000.0/double(frame_count),mx,my);
+        _log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
         //printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
         frame_count = 0;
         last_time = currentTime;

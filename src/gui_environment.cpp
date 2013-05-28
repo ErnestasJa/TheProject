@@ -6,6 +6,8 @@ gui_environment::gui_environment(int dispw, int disph):gui_element(0,0,dispw,dis
 {
     this->input=new input_handler(nullptr);
     hover=last_hover=focus=last_focus=nullptr;
+    m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
+    mouse_pos=last_mouse_pos=vec2<int>();
 }
 
 gui_environment::~gui_environment()
@@ -17,6 +19,8 @@ void gui_environment::update(float delta)
 {
     //hovering
     vec2<int> tm=input->get_mouse_pos();
+    mouse_pos=input->get_mouse_pos();
+    //printf("tm: %i %i c:%i %i old:%i %i\n",tm.x,tm.y,mouse_pos.x,mouse_pos.y,last_mouse_pos.x,last_mouse_pos.y);
 
     gui_element *target = get_element_from_point(tm.x, tm.y);
 
@@ -24,9 +28,8 @@ void gui_environment::update(float delta)
     if (target != nullptr)
         if (target->is_enabled() && target->is_visible() && target->accepts_events())
         {
-            mouse_pos = vec2<int>(tm.x, tm.y);
 
-            if (target != hover && target != nullptr && mouse_dragged == false)
+            if (target != hover && target != nullptr && m_mouse_dragged == false)
             {
                 if (hover != nullptr)
                 {
@@ -44,7 +47,7 @@ void gui_environment::update(float delta)
 
             //focusing
             if (input->mouse_button(0) && hover != focus
-                    && mouse_dragged == false)
+                    && m_mouse_dragged == false)
             {
                 if (focus != nullptr)
                 {
@@ -67,18 +70,18 @@ void gui_environment::update(float delta)
             }
 
             if (input->mouse_button(0) && focus != nullptr
-                    && mouse_down == false)
+                    && m_mouse_down == false)
             {
                 focus->on_event(gui_event(
                                     gui_event_type::mouse_pressed, this));
-                mouse_down = true;
+                m_mouse_down = true;
             }
 
-            if (!input->mouse_button(0) && mouse_down && focus != nullptr)
+            if (!input->mouse_button(0) && m_mouse_down && focus != nullptr)
             {
                 focus->on_event(gui_event(
                                     gui_event_type::mouse_released, this));
-                mouse_down = false;
+                m_mouse_down = false;
             }
 
             //TODO: keyboard typing
@@ -89,20 +92,22 @@ void gui_environment::update(float delta)
 
             if (mouse_pos != last_mouse_pos)
             {
-                mouse_moved = true;
+                m_mouse_moved = true;
+                last_mouse_pos=mouse_pos;
+                //printf("mouse has moved..\n");
                 if (input->mouse_button(0))
-                    mouse_dragged = true;
+                    m_mouse_dragged = true;
                 else
-                    mouse_dragged = false;
+                    m_mouse_dragged = false;
             }
             else
-                mouse_moved = false;
+                m_mouse_moved = false;
 
-            if (mouse_moved && focus != nullptr && !mouse_dragged)
+            if (m_mouse_moved && focus != nullptr && !mouse_dragged)
                 focus->on_event(gui_event(
                                     gui_event_type::mouse_moved, this));
 
-            if (mouse_down && mouse_moved && focus != nullptr)
+            if (m_mouse_down && m_mouse_moved && focus != nullptr)
                 focus->on_event(gui_event(
                                     gui_event_type::mouse_dragged, this));
         }
@@ -110,7 +115,7 @@ void gui_environment::update(float delta)
 
 void gui_environment::render()
 {
-
+    this->render_children();
 }
 
 void gui_environment::on_event(gui_event e)

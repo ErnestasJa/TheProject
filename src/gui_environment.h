@@ -30,7 +30,7 @@ public:
 private:
     input_handler *input;
     gui_element *hover, *last_hover, *focus, *last_focus;
-    bool mouse_down, mouse_moved, mouse_dragged;
+    bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
     vec2<int> mouse_pos, last_mouse_pos;
 protected:
 };

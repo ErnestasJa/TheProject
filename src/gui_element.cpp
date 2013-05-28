@@ -1,12 +1,13 @@
 #include "precomp.h"
 #include "gui_element.h"
+#include "logger.h"
 
 #include <iterator>
 
 gui_element::gui_element(int x, int y, int w, int h)
 {
-    absolute_rect = new rect2d<int>(x, y, w, h);
-    relative_rect = new rect2d<int>(x, y, w, h);
+    absolute_rect = rect2d<int>(x, y, w, h);
+    relative_rect = rect2d<int>(x, y, w, h);
 
     hovered = false;
     visible = true;
@@ -17,7 +18,7 @@ gui_element::gui_element(int x, int y, int w, int h)
     this->parent = nullptr;
     this->event_listener = nullptr;
     this->environment = nullptr;
-    set_name("gui_element "+rand()%65535);
+    set_name("gui_element_"+tostr(rand()%65535));
 }
 
 gui_element::~gui_element()
@@ -35,10 +36,11 @@ void gui_element::add_child(gui_element *e)
     for(gui_element *i : children)
         if(i==e)
             return;
-    if(e->get_parent()!=nullptr)
-        e->get_parent()->remove_child(e);
+
     e->parent=this;
     children.push_back(e);
+    update_absolute_pos();
+    printf("ADD CHILD My bounds are: %i %i %i %i %i %i %i %i\n",e->absolute_rect.x,e->absolute_rect.y,e->absolute_rect.w,e->absolute_rect.h,e->relative_rect.x,e->relative_rect.y,e->relative_rect.w,e->relative_rect.h);
 }
 
 void gui_element::remove_child(gui_element *e)
@@ -79,10 +81,11 @@ void gui_element::update_absolute_pos()
 {
     if(this->parent!=nullptr)
     {
+        this->relative_rect=this->parent->absolute_rect;
         this->absolute_rect=
-            new rect2d<int>(parent->absolute_rect->x+this->relative_rect->x,
-                            parent->absolute_rect->y + this->relative_rect->y,
-                            this->absolute_rect->w, this->absolute_rect->h);
+            rect2d<int>(this->absolute_rect.x+this->relative_rect.x,
+                            this->absolute_rect.y + this->relative_rect.y,
+                            this->absolute_rect.w, this->absolute_rect.h);
     }
     for(gui_element *e : children)
         e->update_absolute_pos();
@@ -128,6 +131,8 @@ void gui_element::set_listening(bool b)
 
 void gui_element::set_parent(gui_element *e)
 {
+    if(this->parent!=nullptr)
+        this->parent->remove_child(this);
     if(e!=nullptr)
         e->add_child(this);
     else
@@ -178,7 +183,6 @@ gui_element *gui_element::get_element_from_point(int x, int y)
 {
     gui_element *ret=nullptr;
     std::vector<gui_element*>::reverse_iterator i=children.rbegin();
-    int bbd=0;
     for(;i!=children.rend();i++)
     {
         if(*i!=nullptr)
@@ -186,10 +190,9 @@ gui_element *gui_element::get_element_from_point(int x, int y)
         ret=(*i)->get_element_from_point(x,y);
         if(ret!=nullptr)
             return ret;
-        bbd++;
         }
     }
-    if(this->is_visible()&&absolute_rect->is_point_inside(x,y))
+    if(this->is_visible()&&absolute_rect.is_point_inside(x,y))
         ret=this;
     return ret;
 }

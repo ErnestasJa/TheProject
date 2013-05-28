@@ -7,6 +7,7 @@ class gui_test_element:public gui_element
 public:
     gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(x,y,w,h)
     {
+        printf("CONSTRUCT My bounds are: %i %i %i %i %i %i %i %i\n",absolute_rect.x,absolute_rect.y,absolute_rect.w,absolute_rect.h,relative_rect.x,relative_rect.y,relative_rect.w,relative_rect.h);
         this->set_parent(env);
         this->environment=env;
     }
@@ -16,8 +17,6 @@ public:
     }
     void on_event(gui_event e)
     {
-        if(e.get_caller()==this)
-        {
             switch(e.get_type())
             {
             case element_focused:
@@ -32,10 +31,18 @@ public:
             case element_exitted:
                 this->event_listener->on_event(e);
                 break;
+            case mouse_pressed:
+                this->event_listener->on_event(e);
+                break;
+            case mouse_released:
+                this->event_listener->on_event(e);
+                break;
+            case mouse_dragged:
+                this->event_listener->on_event(gui_event(mouse_dragged,this));
+                break;
             default:
                 break;
             }
-        }
     }
 };
 

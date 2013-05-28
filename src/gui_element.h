@@ -67,6 +67,6 @@ protected:
     std::vector<gui_element*> children;
     gui_environment *environment;
     gui_event_listener *event_listener;
-    rect2d<int> *absolute_rect, *relative_rect;
+    rect2d<int> absolute_rect, relative_rect;
     bool visible, enabled, accept_events, focused, hovered;
 };
