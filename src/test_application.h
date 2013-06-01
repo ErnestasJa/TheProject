@@ -25,6 +25,7 @@ protected:
     ///these normally should not be in this class and should not be raw pointers, but we want them to be destroyed at exit and not class destructor
     frame_buffer_object * fbo;
     texture             * tex;
+    texture             * ztex;
     shader              * qsh;
     shader              * sh;
     quad                * q;

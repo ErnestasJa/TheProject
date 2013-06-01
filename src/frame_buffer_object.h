@@ -67,8 +67,8 @@ struct frame_buffer_object
             depth_stencil_buffer_binding=NULL;
     }
 
-    bool is_complete()
+    uint32_t is_complete()
     {
-        return glCheckFramebufferStatus(target)==GL_FRAMEBUFFER_COMPLETE;
+        return glCheckFramebufferStatus(target);
     }
 };

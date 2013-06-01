@@ -5,42 +5,7 @@
 #include "timer.h"
 #include "logger.h"
 #include "quad.h"
-
-static const char* gvs =
-"#version 330\n"
-"uniform mat4 MVP;\n"
-"uniform mat3x4 bonemats[80];\n"
-"layout (location=0) in vec3 pos;\n"
-"layout (location=1) in vec2 tex;\n"
-"layout (location=2) in vec3 normal;\n"
-"layout (location=3) in vec4 vtangent;\n"
-"layout (location=4) in vec4 vbones;\n"
-"layout (location=5) in vec4 vweights;\n"
-"out vec2 UV;\n"
-"void main(void)\n"
-"{\n"
-"   mat3x4 m = bonemats[int(vbones.x)] * vweights.x;\n"
-"   m += bonemats[int(vbones.y)] * vweights.y;\n"
-"   m += bonemats[int(vbones.z)] * vweights.z;\n"
-"   m += bonemats[int(vbones.w)] * vweights.w;\n"
-"   vec4 mpos= vec4(vec4(pos,1)*m,1);\n"
-"   gl_Position = MVP * mpos;\n"
-"   //mat3 madjtrans = mat3(cross(m[1].xyz, m[2].xyz), cross(m[2].xyz, m[0].xyz), cross(m[0].xyz, m[1].xyz));\n"
-"   //vec3 mnormal = normal * madjtrans;\n"
-"   //vec3 mtangent = vtangent.xyz * madjtrans; // tangent not used, just here as an example\n"
-"   //vec3 mbitangent = cross(mnormal, mtangent) * vtangent.w; // bitangent not used, just here as an example\n"
-"}\n";
-
-static const char* fs = R"(
-#version 330
-uniform sampler2D tex;
-in vec2 UV;
-out vec4 FragColor;
-
-void main()
-{
-    FragColor = texture2D(tex,UV);
-})";
+#include "opengl_util.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -86,35 +51,83 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     delete loader;
 
-    ///prepare shaders, texture, fbo and quad
+    ///mesh shaders
+    char * vsh=NULL;
+    char * fsh=NULL;
 
-    binding qtex_binding[]={{"tex",0},{"",-1}};
-    qsh = new shader("quad_shader",quad_vs_textured,quad_fs_textured,qtex_binding,0);
-	qsh->compile();
-	qsh->link();
-	shader_cache->push_back(share(qsh));
+    f = PHYSFS_openRead("res/gpu_skin_normal.vert");
+    if(!f) return false;
+    vsh = new char[PHYSFS_fileLength(f)+1];
+    PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
 
-	sh = new shader("gpu_skin",gvs,fs,0,0);
+
+    f = PHYSFS_openRead("res/gpu_skin_normal.frag");
+    if(!f) return false;
+    fsh = new char[PHYSFS_fileLength(f)+1];
+    PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
+
+
+    sh = new shader("gpu_skin",vsh,fsh,0,0);
 	sh->compile();
 	sh->link();
 	shader_cache->push_back(share(sh));
 
+	delete [] vsh;
+	delete [] fsh;
+
+	///quad shaders
+
+    f = PHYSFS_openRead("res/quad.vert");
+    if(!f) return false;
+    vsh = new char[PHYSFS_fileLength(f)+1];
+    PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
+
+
+    f = PHYSFS_openRead("res/quad.frag");
+    if(!f) return false;
+    fsh = new char[PHYSFS_fileLength(f)+1];
+    PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
+
+    binding qtex_binding[]={{"tex",0},{"",-1}};
+    qsh = new shader("quad_shader",vsh,fsh,qtex_binding,0);
+	qsh->compile();
+	qsh->link();
+	shader_cache->push_back(share(qsh));
+
+	delete [] vsh;
+	delete [] fsh;
+
+	///prepare fbo, textures
+
 	tex = new texture();
+	ztex = new texture();
 	auto shared_tex = share(tex);
-    tex->generate(NULL,GL_TEXTURE_2D,32,1024,1024);
+	auto shared_ztex = share(ztex);
+    tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
+    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024,0);
     tex_cache->push_back(shared_tex);
+    tex_cache->push_back(shared_ztex);
+    this->gl_util->check_and_output_errors();
 
     fbo = new frame_buffer_object();
     fbo->generate();
     fbo->set(GL_FRAMEBUFFER);
-    fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
 
-    if(fbo->is_complete()) /// log this..
-        m_log->log(LOG_DEBUG,"FBO is complete.");
-        //std::cout<<"FBO is complete.\n";
-    else
-        m_log->log(LOG_DEBUG,"FBO is not complete.");
-       //std::cout<<"FBO is not complete.\n";
+    fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
+    uint32_t complete = fbo->is_complete();
+
+    if(complete!=GL_FRAMEBUFFER_COMPLETE)
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+
+    fbo->attach(GL_DEPTH_ATTACHMENT,shared_ztex);
+    complete = fbo->is_complete();
+
+    if(complete!=GL_FRAMEBUFFER_COMPLETE)
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
 
     fbo_cache->push_back(share(fbo));
 
@@ -130,7 +143,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
     V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
 
-    P = glm::perspective(45.f,4.f/3.f,0.1f,1000.f);
+    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
 
     MVP=P*V*M;
 
@@ -171,11 +184,10 @@ bool test_application::update()
         tex->set(0);
         q->draw();
 
-        //glerr();
-
-
         wnd->swap_buffers();
-        return true;
+
+        ///let's just rage quit on gl error
+        return !this->gl_util->check_and_output_errors();
     }
     return false;
 }

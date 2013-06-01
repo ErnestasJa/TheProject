@@ -60,7 +60,7 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
-    this->gl_util = new opengl_util();
+    this->gl_util = new opengl_util(m_log);
 
     if(!this->gl_util->load_extensions())
     {
@@ -75,17 +75,15 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
 void application::exit()
 {
     m_log->log(LOG_LOG,"Exitting.");
-    //std::cout << "Exiting." << std::endl;
 
     delete gl_util;
     delete wnd;
+    delete m_log;
 
     if (!PHYSFS_deinit())
-        m_log->log(LOG_CRITICAL,"PHYSFS_deinit() failed!\n reason: %s.",PHYSFS_getLastError());
-        //std::cout << "PHYSFS_deinit() failed!\n  reason: " << PHYSFS_getLastError() << "." << std::endl;
+        std::cout<< "PHYSFS_deinit() failed!\n reason: " << PHYSFS_getLastError() << "." << std::endl;
 
     delete main_timer;
-    delete m_log;
 }
 
 logger *application::get_logger()

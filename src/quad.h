@@ -75,29 +75,3 @@ public:
         glBindVertexArray(0);
     }
 };
-
-static const char * quad_vs_textured = R"(
-#version 330
-layout (location=0) in vec3 pos;
-layout (location=1) in vec2 tex;
-
-out vec2 UV;
-
-void main(void)
-{
-    UV = tex;
-    gl_Position = vec4(pos,1);
-}
-
-)";
-
-static const char * quad_fs_textured = R"(
-#version 330
-uniform sampler2D tex;
-in vec2 UV;
-out vec4 FragColor;
-
-void main()
-{
-    FragColor = texture2D(tex,UV);
-})";
