@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "logger.h"
 
-static void output_versions(void)
+void application::output_versions()
 {
     PHYSFS_Version compiled;
     PHYSFS_Version linked;
@@ -38,15 +38,12 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     this->main_timer = new timer();
     if (!PHYSFS_init(argv[0]))
     {
-        ///!Log this
-        //m_log->log(LOG_CRITICAL,"PHYSFS_init() failed: %s",PHYSFS_getLastError());
         std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
         return false;
     }
 
     m_log=new logger(this,0);
     m_log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
-    //std::cout << "Initializing \"" << title.c_str() << "\"" << std::endl;
 
     PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
 

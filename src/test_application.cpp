@@ -58,6 +58,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     f = PHYSFS_openRead("res/gpu_skin_normal.vert");
     if(!f) return false;
     vsh = new char[PHYSFS_fileLength(f)+1];
+    vsh[PHYSFS_fileLength(f)]=0;
     PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
     PHYSFS_close(f);
 
@@ -66,6 +67,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     if(!f) return false;
     fsh = new char[PHYSFS_fileLength(f)+1];
     PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
+    fsh[PHYSFS_fileLength(f)]=0;
     PHYSFS_close(f);
 
 
@@ -83,12 +85,14 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     if(!f) return false;
     vsh = new char[PHYSFS_fileLength(f)+1];
     PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
+    vsh[PHYSFS_fileLength(f)]=0;
     PHYSFS_close(f);
 
 
     f = PHYSFS_openRead("res/quad.frag");
     if(!f) return false;
     fsh = new char[PHYSFS_fileLength(f)+1];
+    fsh[PHYSFS_fileLength(f)]=0;
     PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
     PHYSFS_close(f);
 
