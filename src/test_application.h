@@ -33,7 +33,6 @@ protected:
 public:
     test_application(uint32_t argc, const char ** argv);
     ~test_application();
-    logger getlogger();
     bool init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool update();
     void exit();

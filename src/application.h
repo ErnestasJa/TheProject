@@ -16,7 +16,7 @@ protected:
 
     int32_t argc;
     const char ** argv;
-
+    virtual void output_versions();
 public:
 
     application(int32_t argc, const char ** argv);

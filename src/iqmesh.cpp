@@ -2,19 +2,20 @@
 #include "iqmesh.h"
 #include "math/util.h"
 #include "resource_cache.h"
+#include "logger.h"
 
 // TODO (serengeor#1#): Separate skeletal info from mesh
 
 
-iqmesh::iqmesh()
+iqmesh::iqmesh(logger *logger)
 {
+    m_logger=logger;
     data_buff = NULL;
     frames = NULL;
 	base_frame = NULL;
 	inverse_base_frame = NULL;
 	current_frame = NULL;
 	texts = NULL;
-
 	glmesh = share(new mesh());
 	glmesh->buffers.resize(IQM_BUFFER_COUNT);
 }
@@ -43,11 +44,11 @@ bool iqmesh::generate()
 		switch(va.type)
 		{
 			case IQM_POSITION:
-			printf("Got a position buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a position buffer.");
 
 			if(va.format!=IQM_FLOAT)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 
@@ -61,11 +62,11 @@ bool iqmesh::generate()
 			break;
 
 			case IQM_TEXCOORD:
-			printf("Got a texcoord buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a texcoord buffer.");
 
 			if(va.format!=IQM_FLOAT)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 
@@ -78,10 +79,10 @@ bool iqmesh::generate()
 			break;
 
 			case IQM_NORMAL:
-			printf("Got a normal buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a normal buffer.");
 			if(va.format!=IQM_FLOAT)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 			glGenBuffers(1,&glmesh->buffers[IQM_NORMAL]);
@@ -93,10 +94,10 @@ bool iqmesh::generate()
 			break;
 
 			case IQM_TANGENT:
-			printf("Got a tangent buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a tangent buffer.");
 			if(va.format!=IQM_FLOAT)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 			glGenBuffers(1,&glmesh->buffers[IQM_TANGENT]);
@@ -108,10 +109,10 @@ bool iqmesh::generate()
 			break;
 
 			case IQM_BLENDINDEXES:
-			printf("Got a blendindex buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a blendindex buffer.");
 			if(va.format!=IQM_UBYTE)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 			glGenBuffers(1,&glmesh->buffers[IQM_BLENDINDEXES]);
@@ -123,10 +124,10 @@ bool iqmesh::generate()
 			break;
 
 			case IQM_BLENDWEIGHTS:
-			printf("Got a blendweight buffer.\n");
+			m_logger->log(LOG_DEBUG,"Got a blendweight buffer.");
 			if(va.format!=IQM_UBYTE)
 			{
-				printf("Bad format. Cannot continue.\n");
+				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
 				return false;
 			}
 			glGenBuffers(1,&glmesh->buffers[IQM_BLENDWEIGHTS]);
@@ -139,7 +140,7 @@ bool iqmesh::generate()
 
 			//whoever uses that.. :D
 			case IQM_COLOR:
-			printf("Got a color buffer. Lol.\n");
+			m_logger->log(LOG_DEBUG,"Got a color buffer. Lol.");
 			break;
 		}
 	}
@@ -151,7 +152,7 @@ bool iqmesh::generate()
 	}
 	else
     {
-        printf("Mesh generation failed.\n");
+        m_logger->log(LOG_DEBUG,"Mesh generation failed.");
 		return false;
     }
 
