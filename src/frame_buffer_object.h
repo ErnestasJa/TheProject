@@ -5,10 +5,11 @@
 
 struct frame_buffer_object
 {
-    static uint32_t current, current_target;
-
     uint32_t id;
     uint32_t target;
+
+    uint8_t ebc;
+    uint32_t enabled_buffer[8];
 
     std::shared_ptr<texture> color_binding[8];
     std::shared_ptr<texture> depth_buffer_binding;
@@ -18,7 +19,33 @@ struct frame_buffer_object
     frame_buffer_object()
     {
         id = 0;
+        ebc = 0;
         target = GL_FRAMEBUFFER;
+    }
+
+    void enable(uint32_t buffer)
+    {
+        for(uint8_t i = 0; i < ebc; i++)
+        {
+            if(enabled_buffer[i]==buffer)
+                return;
+        }
+
+        enabled_buffer[ebc]=buffer;
+        ebc++;
+    }
+
+    void disable(uint32_t buffer)
+    {
+        for(uint8_t i = 0; i < ebc; i++)
+        {
+            if(enabled_buffer[i]==buffer)
+            {
+                ebc--;
+                for(uint8_t j = i; j < ebc; j++)
+                    enabled_buffer[j]=enabled_buffer[j+1];
+            }
+        }
     }
 
     bool generate()
@@ -31,6 +58,8 @@ struct frame_buffer_object
     {
         this->target = target;
         glBindFramebuffer(target, id);
+
+        glDrawBuffers(ebc,enabled_buffer);
     }
 
     void unset()

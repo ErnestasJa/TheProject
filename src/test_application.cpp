@@ -119,6 +119,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     fbo = new frame_buffer_object();
     fbo->generate();
+    fbo->enable(GL_COLOR_ATTACHMENT0);
     fbo->set(GL_FRAMEBUFFER);
 
     fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
@@ -202,9 +203,8 @@ void test_application::show_fps()
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
-        // printf and reset timer
         m_log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
-        //printf("FPS: %i (%f ms/frame)\n",frame_count,1000.0/double(frame_count));
+
         frame_count = 0;
         last_time = currentTime;
     }
