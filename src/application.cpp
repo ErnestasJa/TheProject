@@ -45,6 +45,10 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     m_log=new logger(this,0);
     m_log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
 
+    m_log->log(LOG_LOG,"Directory: \"%s\"",PHYSFS_getBaseDir());
+
+
+
     PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
 
     output_versions();
