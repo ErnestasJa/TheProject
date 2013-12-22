@@ -81,6 +81,11 @@ public:
         return glfwGetKey(m_window,key);
     }
 
+    GLFWwindow *getWindow()
+    {
+        return m_window;
+    }
+
     bool update()
     {
         glfwPollEvents();

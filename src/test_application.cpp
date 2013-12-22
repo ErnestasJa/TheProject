@@ -160,9 +160,10 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     fbo->unset();
 
     int ww,hh;
-    glfwGetWindowSize(&ww,&hh);
+    GLFWwindow * _window=wnd->getWindow();
+    glfwGetWindowSize(_window,&ww,&hh);
 
-    env=new gui_environment(ww,hh);
+    env=new gui_environment(ww,hh,_window);
     env->set_event_listener(this);
     gui_test_element *elem=new gui_test_element(env,100,0,100,100);
     elem->set_event_listener(this);
@@ -175,6 +176,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
 void test_application::on_event(gui_event e)
 {
+    logger* _log=this->get_logger();
     switch(e.get_type())
     {
     case element_focused:

@@ -14,7 +14,7 @@
 
 #include <GLXW/glxw.h>
 
-#include "GL/glfw.h"
+#include "GLFW/glfw3.h"
 
 #include "glm.hpp"
 #include "gtx/norm.hpp"

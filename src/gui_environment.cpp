@@ -2,12 +2,12 @@
 #include "gui_environment.h"
 #include "input_handler.h"
 
-gui_environment::gui_environment(int dispw, int disph):gui_element(0,0,dispw,disph)
+gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(0,0,dispw,disph)
 {
-    this->input=new input_handler(nullptr);
+    this->input=new input_handler(nullptr,window);
     hover=last_hover=focus=last_focus=nullptr;
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
-    mouse_pos=last_mouse_pos=vec2<int>();
+    mouse_pos=last_mouse_pos=vec2<double>();
 }
 
 gui_environment::~gui_environment()
@@ -18,7 +18,7 @@ gui_environment::~gui_environment()
 void gui_environment::update(float delta)
 {
     //hovering
-    vec2<int> tm=input->get_mouse_pos();
+    vec2<double> tm=input->get_mouse_pos();
     mouse_pos=input->get_mouse_pos();
     //printf("tm: %i %i c:%i %i old:%i %i\n",tm.x,tm.y,mouse_pos.x,mouse_pos.y,last_mouse_pos.x,last_mouse_pos.y);
 

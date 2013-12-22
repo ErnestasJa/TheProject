@@ -105,7 +105,7 @@ std::string opengl_util::gl_fbo_error_to_string(uint32_t error)
         r = "GL_FRAMEBUFFER_UNDEFINED";
         break;
     default:
-        r = "GL_BAD_ERROR_CODE: " + std::to_string(error);
+        r = "GL_BAD_ERROR_CODE: " + error; //fix this
         break;
     }
 

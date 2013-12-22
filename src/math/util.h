@@ -1,6 +1,8 @@
 #ifndef __UTIL_H__
 #define __UTIL_H__
 
+#define M_PI 3.14159265359
+
 #ifdef NULL
 #undef NULL
 #endif

@@ -19,7 +19,7 @@ class input_handler;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(int dispw, int disph);
+    gui_environment(int dispw, int disph, GLFWwindow* win);
     ~gui_environment();
     void update(float delta);
     void render();
@@ -29,8 +29,9 @@ public:
     bool is_on_focus(gui_element *e);
 private:
     input_handler *input;
+    GLFWwindow* window;
     gui_element *hover, *last_hover, *focus, *last_focus;
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
-    vec2<int> mouse_pos, last_mouse_pos;
+    vec2<double> mouse_pos, last_mouse_pos;
 protected:
 };

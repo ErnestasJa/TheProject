@@ -6,13 +6,14 @@ class logger;
 class input_handler
 {
     public:
-        input_handler(logger *log);
+        input_handler(logger *log,GLFWwindow *win);
         virtual ~input_handler();
 
-        vec2<int> get_mouse_pos();
+        vec2<double> get_mouse_pos();
         bool mouse_button(int btn);
     protected:
     private:
         logger* log;
-        vec2<int> mouse_pos;
+        vec2<double> mouse_pos;
+        GLFWwindow *window;
 };
