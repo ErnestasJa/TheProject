@@ -29,12 +29,6 @@ bool read(const std::string & file, char *& buf)
     PHYSFS_read(f, buf, 1, PHYSFS_fileLength(f));
     PHYSFS_close(f);
 
-    std::cout << "====================================" << std::endl;
-    std::cout << "===========   Shader   =============" << std::endl;
-    std::cout << "====================================" << std::endl;
-    std::cout << buf << std::endl;
-    std::cout << "====================================" << std::endl << std::endl;
-
     return true;
 }
 
@@ -50,19 +44,14 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     last_time = 0;
 
     ///load our mesh
-    PHYSFS_file* f = PHYSFS_openRead("res/mrfixit.iqm");
+    char * buffer;
 
-    if(!f)
+    if(!read("res/mrfixit.iqm",buffer))
         return false;
 
-    char * buffer = new char[PHYSFS_fileLength(f)];
-
-    PHYSFS_read(f, buffer, 1, PHYSFS_fileLength(f));
-    PHYSFS_close(f);
-
     iqmloader *loader=new iqmloader(this->get_logger());
-
     iqmesh * mesh=loader->load(buffer);
+
     if(mesh)
     {
         loader->loadiqmanims(mesh);
@@ -162,7 +151,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     glUniformMatrix4fv(sh->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
     glUniformMatrix3x4fv(sh->getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
 
-    mesh->set_frame(0);
+    mesh->set_frame(80);
     mesh->draw(false);
 
     fbo->unset();
