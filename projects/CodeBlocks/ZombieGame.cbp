@@ -92,6 +92,15 @@
 		<Unit filename="../../src/application.h" />
 		<Unit filename="../../src/bit.h" />
 		<Unit filename="../../src/frame_buffer_object.h" />
+		<Unit filename="../../src/gui_element.cpp" />
+		<Unit filename="../../src/gui_element.h" />
+		<Unit filename="../../src/gui_environment.cpp" />
+		<Unit filename="../../src/gui_environment.h" />
+		<Unit filename="../../src/gui_event.h" />
+		<Unit filename="../../src/gui_event_listener.h" />
+		<Unit filename="../../src/gui_test_element.h" />
+		<Unit filename="../../src/input_handler.cpp" />
+		<Unit filename="../../src/input_handler.h" />
 		<Unit filename="../../src/iqm.h" />
 		<Unit filename="../../src/iqmesh.cpp" />
 		<Unit filename="../../src/iqmesh.h" />
@@ -109,6 +118,7 @@
 			<Option weight="0" />
 		</Unit>
 		<Unit filename="../../src/quad.h" />
+		<Unit filename="../../src/rect2d.h" />
 		<Unit filename="../../src/resource_cache.h" />
 		<Unit filename="../../src/shader.h" />
 		<Unit filename="../../src/test_application.cpp" />
@@ -119,6 +129,7 @@
 		<Unit filename="../../src/tgaloader.h" />
 		<Unit filename="../../src/timer.cpp" />
 		<Unit filename="../../src/timer.h" />
+		<Unit filename="../../src/vec2.h" />
 		<Unit filename="../../src/window.cpp" />
 		<Unit filename="../../src/window.h" />
 		<Extensions>

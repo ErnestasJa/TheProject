@@ -14,6 +14,8 @@
 
 #include <GLXW/glxw.h>
 
+#include "GL/glfw.h"
+
 #include "glm.hpp"
 #include "gtx/norm.hpp"
 #include "gtc/matrix_transform.hpp"

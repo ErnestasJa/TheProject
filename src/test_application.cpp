@@ -5,7 +5,10 @@
 #include "timer.h"
 #include "logger.h"
 #include "quad.h"
+#include "gui_environment.h"
 #include "opengl_util.h"
+#include "gui_element.h"
+#include "gui_test_element.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -156,7 +159,48 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     fbo->unset();
 
+    int ww,hh;
+    glfwGetWindowSize(&ww,&hh);
+
+    env=new gui_environment(ww,hh);
+    env->set_event_listener(this);
+    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
+    elem->set_event_listener(this);
+
+    gui_test_element *elem2=new gui_test_element(env,0,0,50,50);
+    elem2->set_parent(elem);
+    elem2->set_event_listener(this);
     return true;
+}
+
+void test_application::on_event(gui_event e)
+{
+    switch(e.get_type())
+    {
+    case element_focused:
+        _log->log(LOG_DEBUG,"Element %s got focused.",e.get_caller()->get_name().c_str());
+        break;
+    case element_focus_lost:
+        _log->log(LOG_DEBUG,"Element %s lost focus.",e.get_caller()->get_name().c_str());
+        break;
+    case element_hovered:
+        _log->log(LOG_DEBUG,"Element %s got hovered.",e.get_caller()->get_name().c_str());
+        break;
+    case element_exitted:
+        _log->log(LOG_DEBUG,"Element %s got exitted.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_pressed:
+        _log->log(LOG_DEBUG,"Mouse pressed on %s.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_released:
+        _log->log(LOG_DEBUG,"Mouse released on %s.",e.get_caller()->get_name().c_str());
+        break;
+    case mouse_dragged:
+        _log->log(LOG_DEBUG,"Mouse dragged on %s.",e.get_caller()->get_name().c_str());
+        break;
+    default:
+        break;
+    }
 }
 
 bool test_application::update()
@@ -165,6 +209,8 @@ bool test_application::update()
     {
         // Measure speed
         main_timer->tick();
+
+        env->update(0);
 
         show_fps();
 
