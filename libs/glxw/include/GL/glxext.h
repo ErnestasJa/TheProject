@@ -6,8 +6,15 @@ extern "C" {
 #endif
 
 /*
-** Copyright (c) 2007-2012 The Khronos Group Inc.
-** 
+** THIS FILE IS OBSOLETE. Please migrate away from using the
+** ".spec" files and the headers generated from them to the
+** XML Registry and headers generated from that. See
+**   http://www.opengl.org/registry/api/README.txt
+** for more information.
+**
+**
+** Copyright (c) 2007-2013 The Khronos Group Inc.
+**
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and/or associated documentation files (the
 ** "Materials"), to deal in the Materials without restriction, including
@@ -15,10 +22,10 @@ extern "C" {
 ** distribute, sublicense, and/or sell copies of the Materials, and to
 ** permit persons to whom the Materials are furnished to do so, subject to
 ** the following conditions:
-** 
+**
 ** The above copyright notice and this permission notice shall be included
 ** in all copies or substantial portions of the Materials.
-** 
+**
 ** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 ** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 ** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -48,9 +55,9 @@ extern "C" {
 /*************************************************************/
 
 /* Header file version number, required by OpenGL ABI for Linux */
-/* glxext.h last updated 2013/01/02 */
+/* glxext.h last updated 2013/06/10 */
 /* Current version at http://www.opengl.org/registry/ */
-#define GLX_GLXEXT_VERSION 34
+#define GLX_GLXEXT_VERSION 36
 
 #ifndef GLX_VERSION_1_3
 #define GLX_WINDOW_BIT                     0x00000001
@@ -679,6 +686,7 @@ extern void glXFreeContextEXT (Display *dpy, GLXContext context);
 #endif /* GLX_GLXEXT_PROTOTYPES */
 typedef Display * ( * PFNGLXGETCURRENTDISPLAYEXTPROC) (void);
 typedef int ( * PFNGLXQUERYCONTEXTINFOEXTPROC) (Display *dpy, GLXContext context, int attribute, int *value);
+typedef XID GLXContextID;
 typedef GLXContextID ( * PFNGLXGETCONTEXTIDEXTPROC) (const GLXContext context);
 typedef GLXContext ( * PFNGLXIMPORTCONTEXTEXTPROC) (Display *dpy, GLXContextID contextID);
 typedef void ( * PFNGLXFREECONTEXTEXTPROC) (Display *dpy, GLXContext context);

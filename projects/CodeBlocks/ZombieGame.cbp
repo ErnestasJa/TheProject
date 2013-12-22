@@ -21,10 +21,11 @@
 					<Add library="Xext" />
 					<Add library="X11" />
 					<Add library="GL" />
+					<Add library="Xxf86vm" />
 					<Add library="Xrandr" />
-					<Add library="glfw" />
-					<Add library="..\..\libs\physfs\libphysfs.a" />
-					<Add directory="../../libs/glfw/lib/x11" />
+					<Add library="Xi" />
+					<Add library="glfw3" />
+					<Add library="../../libs/physfs/libphysfs.a" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
@@ -53,13 +54,14 @@
 					<Add library="glfw" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
-					<Add library="..\..\libs\physfs\bins\libphysfs.a" />
+					<Add library="../../libs/physfs/bins/libphysfs.a" />
 					<Add directory="../../libs/glfw/lib/win32" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DGL3_PROTOTYPES" />
 			<Add directory="../../src" />
 			<Add directory="../../src/math" />
 			<Add directory="../../libs/bullet/src" />
@@ -69,6 +71,11 @@
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
 		</Compiler>
+		<Linker>
+			<Add directory="../../libs/glfw/src" />
+		</Linker>
+		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
+		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
 		<Unit filename="../../libs/glxw/src/glxw.c">
 			<Option compilerVar="CC" />
 		</Unit>

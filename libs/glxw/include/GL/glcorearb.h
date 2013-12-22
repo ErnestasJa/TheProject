@@ -6,7 +6,14 @@ extern "C" {
 #endif
 
 /*
-** Copyright (c) 2007-2012 The Khronos Group Inc.
+** THIS FILE IS OBSOLETE. Please migrate away from using the
+** ".spec" files and the headers generated from them to the
+** XML Registry and headers generated from that. See
+**   http://www.opengl.org/registry/api/README.txt
+** for more information.
+** 
+** 
+** Copyright (c) 2007-2013 The Khronos Group Inc.
 ** 
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and/or associated documentation files (the
@@ -31,9 +38,9 @@ extern "C" {
 /* glcorearb.h replaces gl3.h. It is for use with OpenGL core
  * profile implementations.
  *
- * glcorearb.h last updated on $Date: 2013-02-07 01:42:49 -0800 (Thu, 07 Feb 2013) $
+ * glcorearb.h last updated on $Date: 2013-06-13 02:52:31 -0700 (Thu, 13 Jun 2013) $
  *
- * RELEASE NOTES - 2013/02/07
+ * RELEASE NOTES - 2013/06/10
  *
  * glcorearb.h should be placed in the same directory as gl.h and
  * included as
@@ -99,7 +106,7 @@ typedef void GLvoid;
 /* Boolean */
 #define GL_FALSE                          0
 #define GL_TRUE                           1
-/* BeginMode */
+/* PrimitiveType */
 #define GL_POINTS                         0x0000
 #define GL_LINES                          0x0001
 #define GL_LINE_LOOP                      0x0002
@@ -608,7 +615,7 @@ typedef void GLvoid;
 #define GL_CONTEXT_FLAGS                  0x821E
 #define GL_COMPRESSED_RED                 0x8225
 #define GL_COMPRESSED_RG                  0x8226
-#define GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT 0x0001
+#define GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT 0x00000001
 #define GL_RGBA32F                        0x8814
 #define GL_RGB32F                         0x8815
 #define GL_RGBA16F                        0x881A
@@ -1015,7 +1022,6 @@ typedef void GLvoid;
 /* reuse GL_MIN_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_MAX_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_FRAGMENT_INTERPOLATION_OFFSET_BITS */
-/* reuse GL_MAX_VERTEX_STREAMS */
 /* Reuse tokens from ARB_gpu_shader_fp64 */
 /* reuse GL_DOUBLE_VEC2 */
 /* reuse GL_DOUBLE_VEC3 */
@@ -1560,7 +1566,7 @@ typedef void GLvoid;
 #define GL_TEXTURE_DEPTH_TYPE             0x8C16
 #define GL_UNSIGNED_NORMALIZED            0x8C17
 #define GL_FRAMEBUFFER_BINDING            0x8CA6
-#define GL_DRAW_FRAMEBUFFER_BINDING       GL_FRAMEBUFFER_BINDING
+#define GL_DRAW_FRAMEBUFFER_BINDING       0x8CA6
 #define GL_RENDERBUFFER_BINDING           0x8CA7
 #define GL_READ_FRAMEBUFFER               0x8CA8
 #define GL_DRAW_FRAMEBUFFER               0x8CA9
@@ -1706,9 +1712,9 @@ typedef void GLvoid;
 
 #ifndef GL_ARB_copy_buffer
 #define GL_COPY_READ_BUFFER_BINDING       0x8F36
-#define GL_COPY_READ_BUFFER               GL_COPY_READ_BUFFER_BINDING
+#define GL_COPY_READ_BUFFER               0x8F36
 #define GL_COPY_WRITE_BUFFER_BINDING      0x8F37
-#define GL_COPY_WRITE_BUFFER              GL_COPY_WRITE_BUFFER_BINDING
+#define GL_COPY_WRITE_BUFFER              0x8F37
 #endif
 
 #ifndef GL_ARB_depth_clamp
@@ -1955,9 +1961,9 @@ typedef void GLvoid;
 #ifndef GL_ARB_transform_feedback2
 #define GL_TRANSFORM_FEEDBACK             0x8E22
 #define GL_TRANSFORM_FEEDBACK_PAUSED      0x8E23
-#define GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED GL_TRANSFORM_FEEDBACK_PAUSED
+#define GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED 0x8E23
 #define GL_TRANSFORM_FEEDBACK_ACTIVE      0x8E24
-#define GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE GL_TRANSFORM_FEEDBACK_ACTIVE
+#define GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE 0x8E24
 #define GL_TRANSFORM_FEEDBACK_BINDING     0x8E25
 #endif
 
@@ -2579,8 +2585,8 @@ typedef void GLvoid;
 #define GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS 0x90DD
 #define GL_MAX_SHADER_STORAGE_BLOCK_SIZE  0x90DE
 #define GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT 0x90DF
-#define GL_SHADER_STORAGE_BARRIER_BIT     0x2000
-#define GL_MAX_COMBINED_SHADER_OUTPUT_RESOURCES GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
+#define GL_SHADER_STORAGE_BARRIER_BIT     0x00002000
+#define GL_MAX_COMBINED_SHADER_OUTPUT_RESOURCES 0x8F39
 /* reuse GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS */
 #endif
 

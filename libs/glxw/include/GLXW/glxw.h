@@ -17,7 +17,6 @@ extern "C" {
 
 int glxwInit(void);
 int glxwInitCtx(struct glxw *ctx);
-void *glxwGetProcAddress(const char *proc);
 
 struct glxw {
 PFNGLCULLFACEPROC _glCullFace;

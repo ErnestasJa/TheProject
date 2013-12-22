@@ -11,8 +11,8 @@
 #include <string.h>
 #include <stdio.h>
 
+
 #include <GLXW/glxw.h>
-#include <GL/glcorearb.h>
 
 #include "glm.hpp"
 #include "gtx/norm.hpp"

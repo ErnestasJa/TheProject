@@ -1,5 +1,5 @@
 #pragma once
-#include "GLXW/glxw.h"
+#include "opengl_inc.h"
 #include "glm.hpp"
 #include "bit.h"
 #include <string>

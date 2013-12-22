@@ -17,6 +17,27 @@ test_application::~test_application()
 
 }
 
+bool read(const std::string & file, char *& buf)
+{
+    PHYSFS_file* f = PHYSFS_openRead(file.c_str());
+
+    if(!f)
+        return false;
+
+    buf = new char[PHYSFS_fileLength(f)+1];
+    buf[PHYSFS_fileLength(f)]=0;
+    PHYSFS_read(f, buf, 1, PHYSFS_fileLength(f));
+    PHYSFS_close(f);
+
+    std::cout << "====================================" << std::endl;
+    std::cout << "===========   Shader   =============" << std::endl;
+    std::cout << "====================================" << std::endl;
+    std::cout << buf << std::endl;
+    std::cout << "====================================" << std::endl << std::endl;
+
+    return true;
+}
+
 bool test_application::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
@@ -51,52 +72,15 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     delete loader;
 
-    ///mesh shaders
+    ///quad shaders
     char * vsh=NULL;
     char * fsh=NULL;
 
-    f = PHYSFS_openRead("res/gpu_skin_normal.vert");
-    if(!f) return false;
-    vsh = new char[PHYSFS_fileLength(f)+1];
-    vsh[PHYSFS_fileLength(f)]=0;
-    PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
-    PHYSFS_close(f);
-
-
-    f = PHYSFS_openRead("res/gpu_skin_normal.frag");
-    if(!f) return false;
-    fsh = new char[PHYSFS_fileLength(f)+1];
-    PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
-    fsh[PHYSFS_fileLength(f)]=0;
-    PHYSFS_close(f);
-
-
-    sh = new shader("gpu_skin",vsh,fsh,0,0);
-	sh->compile();
-	sh->link();
-	shader_cache->push_back(share(sh));
-
-	delete [] vsh;
-	delete [] fsh;
-
-	///quad shaders
-
-    f = PHYSFS_openRead("res/quad.vert");
-    if(!f) return false;
-    vsh = new char[PHYSFS_fileLength(f)+1];
-    PHYSFS_read(f, vsh, 1, PHYSFS_fileLength(f));
-    vsh[PHYSFS_fileLength(f)]=0;
-    PHYSFS_close(f);
-
-
-    f = PHYSFS_openRead("res/quad.frag");
-    if(!f) return false;
-    fsh = new char[PHYSFS_fileLength(f)+1];
-    fsh[PHYSFS_fileLength(f)]=0;
-    PHYSFS_read(f, fsh, 1, PHYSFS_fileLength(f));
-    PHYSFS_close(f);
-
     binding qtex_binding[]={{"tex",0},{"",-1}};
+
+    if(!read("res/quad.vert",vsh)) return false;
+    if(!read("res/quad.frag",fsh)) return false;
+
     qsh = new shader("quad_shader",vsh,fsh,qtex_binding,0);
 	qsh->compile();
 	qsh->link();
@@ -105,8 +89,22 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	delete [] vsh;
 	delete [] fsh;
 
-	///prepare fbo, textures
 
+    ///mesh shaders
+    if(!read("res/gpu_skin_normal.vert",vsh)) return false;
+    if(!read("res/gpu_skin_normal.frag",fsh)) return false;
+
+    sh = new shader("gpu_skin",vsh,fsh,qtex_binding,0);
+	sh->compile();
+	sh->link();
+	shader_cache->push_back(share(sh));
+
+	delete [] vsh;
+	delete [] fsh;
+
+
+
+	///prepare fbo, textures
 	tex = new texture();
 	ztex = new texture();
 	auto shared_tex = share(tex);
@@ -164,19 +162,17 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     glUniformMatrix4fv(sh->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
     glUniformMatrix3x4fv(sh->getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
 
-    mesh->set_frame(80);
+    mesh->set_frame(0);
     mesh->draw(false);
 
     fbo->unset();
-
-
 
     return true;
 }
 
 bool test_application::update()
 {
-    if(wnd->update() && !glfwGetKey(GLFW_KEY_ESC))
+    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
     {
         // Measure speed
         main_timer->tick();

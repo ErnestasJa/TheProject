@@ -1415,3 +1415,547 @@
 	<sstream>
 	<stdarg.h>
 
+1387653839 source:/home/serengeor/Coding/ZombieProject/src/precomp.h
+	<stdint.h>
+	<iostream>
+	<iomanip>
+	<fstream>
+	<memory>
+	<vector>
+	<string.h>
+	<stdio.h>
+	<GLXW/glxw.h>
+	"glm.hpp"
+	"gtx/norm.hpp"
+	"gtc/matrix_transform.hpp"
+	"gtc/type_ptr.hpp"
+	"bit.h"
+	"physfs.h"
+
+1387651212 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLXW/glxw.h
+	<GL/glcorearb.h>
+
+1387651212 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GL/glcorearb.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/glm.hpp
+	"core/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cstdio>
+	"core/setup.hpp"
+	"./core/_detail.hpp"
+	"./core/_vectorize.hpp"
+	"./core/type.hpp"
+	"./core/func_trigonometric.hpp"
+	"./core/func_exponential.hpp"
+	"./core/func_common.hpp"
+	"./core/func_packing.hpp"
+	"./core/func_geometric.hpp"
+	"./core/func_matrix.hpp"
+	"./core/func_vector_relational.hpp"
+	"./core/func_integer.hpp"
+	"./core/func_noise.hpp"
+	"./core/_swizzle.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/_fixes.hpp
+	<cmath>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/setup.hpp
+	<intrin.h>
+	<immintrin.h>
+	<immintrin.h>
+	<smmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/_detail.hpp
+	"setup.hpp"
+	<cassert>
+	<cstdint>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/_vectorize.hpp
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type.hpp
+	"type_half.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_gentype.hpp"
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat2x2.hpp"
+	"type_mat2x3.hpp"
+	"type_mat2x4.hpp"
+	"type_mat3x2.hpp"
+	"type_mat3x3.hpp"
+	"type_mat3x4.hpp"
+	"type_mat4x2.hpp"
+	"type_mat4x3.hpp"
+	"type_mat4x4.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_half.hpp
+	<cstdlib>
+	"type_half.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_half.inl
+	"_detail.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_float.hpp
+	"type_half.hpp"
+	"setup.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_int.hpp
+	"setup.hpp"
+	"_detail.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_gentype.hpp
+	"type_size.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_size.hpp
+	<cstdlib>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec1.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec1.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec.hpp
+	"type_gentype.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/_swizzle.hpp
+	"_swizzle_func.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/_swizzle_func.hpp
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec1.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec2.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec2.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec2.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec3.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec3.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec3.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec4.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec4.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_vec4.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x2.hpp
+	"type_mat.hpp"
+	"type_mat2x2.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat.hpp
+	"type_gentype.hpp"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x2.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x3.hpp
+	"type_mat.hpp"
+	"type_mat2x3.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x3.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x4.hpp
+	"type_mat.hpp"
+	"type_mat2x4.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat2x4.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x2.hpp
+	"type_mat.hpp"
+	"type_mat3x2.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x2.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x3.hpp
+	"type_mat.hpp"
+	"type_mat3x3.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x3.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x4.hpp
+	"type_mat.hpp"
+	"type_mat3x4.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat3x4.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x2.hpp
+	"type_mat.hpp"
+	"type_mat4x2.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x2.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x3.hpp
+	"type_mat.hpp"
+	"type_mat4x3.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x3.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x4.hpp
+	"type_mat.hpp"
+	"type_mat4x4.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/type_mat4x4.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_trigonometric.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_exponential.hpp
+	"func_exponential.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_exponential.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_common.hpp
+	"_fixes.hpp"
+	"func_common.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_common.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_packing.hpp
+	"func_packing.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_packing.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_geometric.hpp
+	"func_geometric.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_geometric.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_matrix.hpp
+	"func_matrix.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_matrix.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_vector_relational.hpp
+	"_detail.hpp"
+	"func_vector_relational.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_vector_relational.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_integer.hpp
+	"func_integer.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_integer.inl
+	<intrin.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_noise.hpp
+	"func_noise.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/core/func_noise.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtx/norm.hpp
+	"../glm.hpp"
+	"../gtx/quaternion.hpp"
+	"norm.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtx/quaternion.hpp
+	"../glm.hpp"
+	"../gtc/quaternion.hpp"
+	"quaternion.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/quaternion.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/constants.hpp"
+	"quaternion.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/half_float.hpp
+	"../glm.hpp"
+	"half_float.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/half_float.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/constants.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"constants.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/constants.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/quaternion.inl
+	<limits>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtx/quaternion.inl
+	<limits>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtx/norm.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/matrix_transform.hpp
+	"../glm.hpp"
+	"matrix_transform.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/matrix_transform.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/type_ptr.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	<cstring>
+	"type_ptr.inl"
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glm/gtc/type_ptr.inl
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/bit.h
+	<stdint.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/physfs/physfs.h
+
+1387653231 source:/home/serengeor/Coding/ZombieProject/libs/glxw/src/glxw.c
+	<GLXW/glxw.h>
+	<windows.h>
+	<dlfcn.h>
+
+1387648979 source:/home/serengeor/Coding/ZombieProject/src/application.cpp
+	"application.h"
+	"window.h"
+	"opengl_util.h"
+	"timer.h"
+	"logger.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/application.h
+	"precomp.h"
+
+1387653839 /home/serengeor/Coding/ZombieProject/src/precomp.h
+	<stdint.h>
+	<iostream>
+	<iomanip>
+	<fstream>
+	<memory>
+	<vector>
+	<string.h>
+	<stdio.h>
+	<GLXW/glxw.h>
+	"glm.hpp"
+	"gtx/norm.hpp"
+	"gtc/matrix_transform.hpp"
+	"gtc/type_ptr.hpp"
+	"bit.h"
+	"physfs.h"
+
+1387718377 /home/serengeor/Coding/ZombieProject/src/window.h
+	"precomp.h"
+	"GLFW/glfw3.h"
+	<functional>
+	<map>
+
+1387648387 /home/serengeor/Coding/ZombieProject/libs/glfw/include/GL/glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/opengl_util.h
+	"precomp.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/timer.h
+	"precomp.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/logger.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<stdarg.h>
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/iqmesh.cpp
+	"precomp.h"
+	"iqmesh.h"
+	"math/util.h"
+	"resource_cache.h"
+	"logger.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/iqmesh.h
+	"iqm.h"
+	"mesh.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/iqm.h
+	<stdint.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/mesh.h
+	"precomp.h"
+
+1387667371 /home/serengeor/Coding/ZombieProject/src/math/util.h
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/resource_cache.h
+	"precomp.h"
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/iqmloader.cpp
+	"precomp.h"
+	"iqmloader.h"
+	"iqmesh.h"
+	"math/util.h"
+	"logger.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/iqmloader.h
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/logger.cpp
+	"precomp.h"
+	"logger.h"
+	"application.h"
+	"timer.h"
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/main.cpp
+	"application.h"
+	"test_application.h"
+	"logger.h"
+	"timer.h"
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/test_application.h
+	"application.h"
+	"resource_cache.h"
+	"iqmesh.h"
+	"texture.h"
+	"frame_buffer_object.h"
+	"shader.h"
+	"quad.h"
+
+1387653426 /home/serengeor/Coding/ZombieProject/src/texture.h
+	"opengl_inc.h"
+	"glm.hpp"
+	"bit.h"
+	<string>
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/frame_buffer_object.h
+	"texture.h"
+	"precomp.h"
+
+1387676568 /home/serengeor/Coding/ZombieProject/src/shader.h
+	<string.h>
+	<string>
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/quad.h
+	"mesh.h"
+	"shader.h"
+	"precomp.h"
+
+1387717254 source:/home/serengeor/Coding/ZombieProject/src/opengl_util.cpp
+	"opengl_util.h"
+	"logger.h"
+	<GLXW/glxw_wgl.h>
+	<GL/wglext.h>
+	<GLXW/glxw_glx.h>
+	"GL/glxext.h"
+
+1387651214 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLXW/glxw_wgl.h
+	<GL/glcorearb.h>
+	<GL/wglext.h>
+
+1387651214 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GL/wglext.h
+	<windows.h>
+
+1387652786 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLXW/glxw_glx.h
+	"GL/glx.h"
+	"GL/glxext.h"
+
+1387654206 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GL/glxext.h
+	<windows.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1387717332 source:/home/serengeor/Coding/ZombieProject/src/test_application.cpp
+	"test_application.h"
+	"iqmloader.h"
+	"window.h"
+	"timer.h"
+	"logger.h"
+	"quad.h"
+	"opengl_util.h"
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/texture.cpp
+	"texture.h"
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/tgaloader.cpp
+	"tgaloader.h"
+	"glm.hpp"
+	<string.h>
+
+1387648387 /home/serengeor/Coding/ZombieProject/src/tgaloader.h
+	"texture.h"
+
+1387648387 source:/home/serengeor/Coding/ZombieProject/src/timer.cpp
+	"timer.h"
+	<ctime>
+	<chrono>
+
+1387666531 source:/home/serengeor/Coding/ZombieProject/src/window.cpp
+	"window.h"
+
+1387653150 source:/home/serengeor/Coding/ZombieProject/libs/glxw/src/glxw_glx.c
+	<GLXW/glxw_glx.h>
+	<windows.h>
+	<dlfcn.h>
+
+1387653419 /home/serengeor/Coding/ZombieProject/src/opengl_inc.h
+	"GLXW/glxw.h"
+
+1379593847 /home/serengeor/Coding/ZombieProject/libs/glfw/include/GLFW/glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1387651215 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLES2/gl2.h
+	<GLES2/gl2platform.h>
+	<KHR/khrplatform.h>
+
+1387651216 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLES2/gl2platform.h
+	<KHR/khrplatform.h>
+
+1387651223 /home/serengeor/Coding/ZombieProject/libs/glxw/include/KHR/khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1387651218 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLES3/gl3.h
+	<GLES3/gl3platform.h>
+	<KHR/khrplatform.h>
+
+1387651218 /home/serengeor/Coding/ZombieProject/libs/glxw/include/GLES3/gl3platform.h
+	<KHR/khrplatform.h>
+

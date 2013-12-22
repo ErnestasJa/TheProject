@@ -19,9 +19,19 @@ extern "C" {
 
 int glxwInit(void);
 int glxwInitCtx(struct glxw_es2 *ctx);
-void *glxwGetProcAddress(const char *proc);
 
 struct glxw_es2 {
+PFNGLDEBUGMESSAGECONTROLKHRPROC _glDebugMessageControlKHR;
+PFNGLDEBUGMESSAGEINSERTKHRPROC _glDebugMessageInsertKHR;
+PFNGLDEBUGMESSAGECALLBACKKHRPROC _glDebugMessageCallbackKHR;
+PFNGLGETDEBUGMESSAGELOGKHRPROC _glGetDebugMessageLogKHR;
+PFNGLPUSHDEBUGGROUPKHRPROC _glPushDebugGroupKHR;
+PFNGLPOPDEBUGGROUPKHRPROC _glPopDebugGroupKHR;
+PFNGLOBJECTLABELKHRPROC _glObjectLabelKHR;
+PFNGLGETOBJECTLABELKHRPROC _glGetObjectLabelKHR;
+PFNGLOBJECTPTRLABELKHRPROC _glObjectPtrLabelKHR;
+PFNGLGETOBJECTPTRLABELKHRPROC _glGetObjectPtrLabelKHR;
+PFNGLGETPOINTERVKHRPROC _glGetPointervKHR;
 PFNGLEGLIMAGETARGETTEXTURE2DOESPROC _glEGLImageTargetTexture2DOES;
 PFNGLEGLIMAGETARGETRENDERBUFFERSTORAGEOESPROC _glEGLImageTargetRenderbufferStorageOES;
 PFNGLGETPROGRAMBINARYOESPROC _glGetProgramBinaryOES;
@@ -39,17 +49,6 @@ PFNGLBINDVERTEXARRAYOESPROC _glBindVertexArrayOES;
 PFNGLDELETEVERTEXARRAYSOESPROC _glDeleteVertexArraysOES;
 PFNGLGENVERTEXARRAYSOESPROC _glGenVertexArraysOES;
 PFNGLISVERTEXARRAYOESPROC _glIsVertexArrayOES;
-PFNGLDEBUGMESSAGECONTROLPROC _glDebugMessageControl;
-PFNGLDEBUGMESSAGEINSERTPROC _glDebugMessageInsert;
-PFNGLDEBUGMESSAGECALLBACKPROC _glDebugMessageCallback;
-PFNGLGETDEBUGMESSAGELOGPROC _glGetDebugMessageLog;
-PFNGLPUSHDEBUGGROUPPROC _glPushDebugGroup;
-PFNGLPOPDEBUGGROUPPROC _glPopDebugGroup;
-PFNGLOBJECTLABELPROC _glObjectLabel;
-PFNGLGETOBJECTLABELPROC _glGetObjectLabel;
-PFNGLOBJECTPTRLABELPROC _glObjectPtrLabel;
-PFNGLGETOBJECTPTRLABELPROC _glGetObjectPtrLabel;
-PFNGLGETPOINTERVPROC _glGetPointerv;
 PFNGLGETPERFMONITORGROUPSAMDPROC _glGetPerfMonitorGroupsAMD;
 PFNGLGETPERFMONITORCOUNTERSAMDPROC _glGetPerfMonitorCountersAMD;
 PFNGLGETPERFMONITORGROUPSTRINGAMDPROC _glGetPerfMonitorGroupStringAMD;
@@ -83,56 +82,78 @@ PFNGLINSERTEVENTMARKEREXTPROC _glInsertEventMarkerEXT;
 PFNGLPUSHGROUPMARKEREXTPROC _glPushGroupMarkerEXT;
 PFNGLPOPGROUPMARKEREXTPROC _glPopGroupMarkerEXT;
 PFNGLDISCARDFRAMEBUFFEREXTPROC _glDiscardFramebufferEXT;
-PFNGLMAPBUFFERRANGEEXTPROC _glMapBufferRangeEXT;
-PFNGLFLUSHMAPPEDBUFFERRANGEEXTPROC _glFlushMappedBufferRangeEXT;
-PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC _glRenderbufferStorageMultisampleEXT;
-PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC _glFramebufferTexture2DMultisampleEXT;
-PFNGLREADBUFFERINDEXEDEXTPROC _glReadBufferIndexedEXT;
-PFNGLDRAWBUFFERSINDEXEDEXTPROC _glDrawBuffersIndexedEXT;
-PFNGLGETINTEGERI_VEXTPROC _glGetIntegeri_vEXT;
-PFNGLMULTIDRAWARRAYSEXTPROC _glMultiDrawArraysEXT;
-PFNGLMULTIDRAWELEMENTSEXTPROC _glMultiDrawElementsEXT;
 PFNGLGENQUERIESEXTPROC _glGenQueriesEXT;
 PFNGLDELETEQUERIESEXTPROC _glDeleteQueriesEXT;
 PFNGLISQUERYEXTPROC _glIsQueryEXT;
 PFNGLBEGINQUERYEXTPROC _glBeginQueryEXT;
 PFNGLENDQUERYEXTPROC _glEndQueryEXT;
+PFNGLQUERYCOUNTEREXTPROC _glQueryCounterEXT;
 PFNGLGETQUERYIVEXTPROC _glGetQueryivEXT;
+PFNGLGETQUERYOBJECTIVEXTPROC _glGetQueryObjectivEXT;
 PFNGLGETQUERYOBJECTUIVEXTPROC _glGetQueryObjectuivEXT;
+PFNGLGETQUERYOBJECTI64VEXTPROC _glGetQueryObjecti64vEXT;
+PFNGLGETQUERYOBJECTUI64VEXTPROC _glGetQueryObjectui64vEXT;
+PFNGLDRAWBUFFERSEXTPROC _glDrawBuffersEXT;
+PFNGLDRAWARRAYSINSTANCEDEXTPROC _glDrawArraysInstancedEXT;
+PFNGLDRAWELEMENTSINSTANCEDEXTPROC _glDrawElementsInstancedEXT;
+PFNGLVERTEXATTRIBDIVISOREXTPROC _glVertexAttribDivisorEXT;
+PFNGLMAPBUFFERRANGEEXTPROC _glMapBufferRangeEXT;
+PFNGLFLUSHMAPPEDBUFFERRANGEEXTPROC _glFlushMappedBufferRangeEXT;
+PFNGLMULTIDRAWARRAYSEXTPROC _glMultiDrawArraysEXT;
+PFNGLMULTIDRAWELEMENTSEXTPROC _glMultiDrawElementsEXT;
+PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC _glRenderbufferStorageMultisampleEXT;
+PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC _glFramebufferTexture2DMultisampleEXT;
+PFNGLREADBUFFERINDEXEDEXTPROC _glReadBufferIndexedEXT;
+PFNGLDRAWBUFFERSINDEXEDEXTPROC _glDrawBuffersIndexedEXT;
+PFNGLGETINTEGERI_VEXTPROC _glGetIntegeri_vEXT;
 PFNGLGETGRAPHICSRESETSTATUSEXTPROC _glGetGraphicsResetStatusEXT;
 PFNGLREADNPIXELSEXTPROC _glReadnPixelsEXT;
 PFNGLGETNUNIFORMFVEXTPROC _glGetnUniformfvEXT;
 PFNGLGETNUNIFORMIVEXTPROC _glGetnUniformivEXT;
-PFNGLUSEPROGRAMSTAGESEXTPROC _glUseProgramStagesEXT;
 PFNGLACTIVESHADERPROGRAMEXTPROC _glActiveShaderProgramEXT;
-PFNGLCREATESHADERPROGRAMVEXTPROC _glCreateShaderProgramvEXT;
 PFNGLBINDPROGRAMPIPELINEEXTPROC _glBindProgramPipelineEXT;
+PFNGLCREATESHADERPROGRAMVEXTPROC _glCreateShaderProgramvEXT;
 PFNGLDELETEPROGRAMPIPELINESEXTPROC _glDeleteProgramPipelinesEXT;
 PFNGLGENPROGRAMPIPELINESEXTPROC _glGenProgramPipelinesEXT;
+PFNGLGETPROGRAMPIPELINEINFOLOGEXTPROC _glGetProgramPipelineInfoLogEXT;
+PFNGLGETPROGRAMPIPELINEIVEXTPROC _glGetProgramPipelineivEXT;
 PFNGLISPROGRAMPIPELINEEXTPROC _glIsProgramPipelineEXT;
 PFNGLPROGRAMPARAMETERIEXTPROC _glProgramParameteriEXT;
-PFNGLGETPROGRAMPIPELINEIVEXTPROC _glGetProgramPipelineivEXT;
-PFNGLPROGRAMUNIFORM1IEXTPROC _glProgramUniform1iEXT;
-PFNGLPROGRAMUNIFORM2IEXTPROC _glProgramUniform2iEXT;
-PFNGLPROGRAMUNIFORM3IEXTPROC _glProgramUniform3iEXT;
-PFNGLPROGRAMUNIFORM4IEXTPROC _glProgramUniform4iEXT;
 PFNGLPROGRAMUNIFORM1FEXTPROC _glProgramUniform1fEXT;
-PFNGLPROGRAMUNIFORM2FEXTPROC _glProgramUniform2fEXT;
-PFNGLPROGRAMUNIFORM3FEXTPROC _glProgramUniform3fEXT;
-PFNGLPROGRAMUNIFORM4FEXTPROC _glProgramUniform4fEXT;
-PFNGLPROGRAMUNIFORM1IVEXTPROC _glProgramUniform1ivEXT;
-PFNGLPROGRAMUNIFORM2IVEXTPROC _glProgramUniform2ivEXT;
-PFNGLPROGRAMUNIFORM3IVEXTPROC _glProgramUniform3ivEXT;
-PFNGLPROGRAMUNIFORM4IVEXTPROC _glProgramUniform4ivEXT;
 PFNGLPROGRAMUNIFORM1FVEXTPROC _glProgramUniform1fvEXT;
+PFNGLPROGRAMUNIFORM1IEXTPROC _glProgramUniform1iEXT;
+PFNGLPROGRAMUNIFORM1IVEXTPROC _glProgramUniform1ivEXT;
+PFNGLPROGRAMUNIFORM2FEXTPROC _glProgramUniform2fEXT;
 PFNGLPROGRAMUNIFORM2FVEXTPROC _glProgramUniform2fvEXT;
+PFNGLPROGRAMUNIFORM2IEXTPROC _glProgramUniform2iEXT;
+PFNGLPROGRAMUNIFORM2IVEXTPROC _glProgramUniform2ivEXT;
+PFNGLPROGRAMUNIFORM3FEXTPROC _glProgramUniform3fEXT;
 PFNGLPROGRAMUNIFORM3FVEXTPROC _glProgramUniform3fvEXT;
+PFNGLPROGRAMUNIFORM3IEXTPROC _glProgramUniform3iEXT;
+PFNGLPROGRAMUNIFORM3IVEXTPROC _glProgramUniform3ivEXT;
+PFNGLPROGRAMUNIFORM4FEXTPROC _glProgramUniform4fEXT;
 PFNGLPROGRAMUNIFORM4FVEXTPROC _glProgramUniform4fvEXT;
+PFNGLPROGRAMUNIFORM4IEXTPROC _glProgramUniform4iEXT;
+PFNGLPROGRAMUNIFORM4IVEXTPROC _glProgramUniform4ivEXT;
 PFNGLPROGRAMUNIFORMMATRIX2FVEXTPROC _glProgramUniformMatrix2fvEXT;
 PFNGLPROGRAMUNIFORMMATRIX3FVEXTPROC _glProgramUniformMatrix3fvEXT;
 PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC _glProgramUniformMatrix4fvEXT;
+PFNGLUSEPROGRAMSTAGESEXTPROC _glUseProgramStagesEXT;
 PFNGLVALIDATEPROGRAMPIPELINEEXTPROC _glValidateProgramPipelineEXT;
-PFNGLGETPROGRAMPIPELINEINFOLOGEXTPROC _glGetProgramPipelineInfoLogEXT;
+PFNGLPROGRAMUNIFORM1UIEXTPROC _glProgramUniform1uiEXT;
+PFNGLPROGRAMUNIFORM2UIEXTPROC _glProgramUniform2uiEXT;
+PFNGLPROGRAMUNIFORM3UIEXTPROC _glProgramUniform3uiEXT;
+PFNGLPROGRAMUNIFORM4UIEXTPROC _glProgramUniform4uiEXT;
+PFNGLPROGRAMUNIFORM1UIVEXTPROC _glProgramUniform1uivEXT;
+PFNGLPROGRAMUNIFORM2UIVEXTPROC _glProgramUniform2uivEXT;
+PFNGLPROGRAMUNIFORM3UIVEXTPROC _glProgramUniform3uivEXT;
+PFNGLPROGRAMUNIFORM4UIVEXTPROC _glProgramUniform4uivEXT;
+PFNGLPROGRAMUNIFORMMATRIX2X3FVEXTPROC _glProgramUniformMatrix2x3fvEXT;
+PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC _glProgramUniformMatrix3x2fvEXT;
+PFNGLPROGRAMUNIFORMMATRIX2X4FVEXTPROC _glProgramUniformMatrix2x4fvEXT;
+PFNGLPROGRAMUNIFORMMATRIX4X2FVEXTPROC _glProgramUniformMatrix4x2fvEXT;
+PFNGLPROGRAMUNIFORMMATRIX3X4FVEXTPROC _glProgramUniformMatrix3x4fvEXT;
+PFNGLPROGRAMUNIFORMMATRIX4X3FVEXTPROC _glProgramUniformMatrix4x3fvEXT;
 PFNGLTEXSTORAGE1DEXTPROC _glTexStorage1DEXT;
 PFNGLTEXSTORAGE2DEXTPROC _glTexStorage2DEXT;
 PFNGLTEXSTORAGE3DEXTPROC _glTexStorage3DEXT;
@@ -141,6 +162,9 @@ PFNGLTEXTURESTORAGE2DEXTPROC _glTextureStorage2DEXT;
 PFNGLTEXTURESTORAGE3DEXTPROC _glTextureStorage3DEXT;
 PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMGPROC _glRenderbufferStorageMultisampleIMG;
 PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMGPROC _glFramebufferTexture2DMultisampleIMG;
+PFNGLBLENDPARAMETERINVPROC _glBlendParameteriNV;
+PFNGLBLENDBARRIERNVPROC _glBlendBarrierNV;
+PFNGLCOPYBUFFERSUBDATANVPROC _glCopyBufferSubDataNV;
 PFNGLCOVERAGEMASKNVPROC _glCoverageMaskNV;
 PFNGLCOVERAGEOPERATIONNVPROC _glCoverageOperationNV;
 PFNGLDRAWBUFFERSNVPROC _glDrawBuffersNV;
@@ -156,6 +180,12 @@ PFNGLSETFENCENVPROC _glSetFenceNV;
 PFNGLBLITFRAMEBUFFERNVPROC _glBlitFramebufferNV;
 PFNGLRENDERBUFFERSTORAGEMULTISAMPLENVPROC _glRenderbufferStorageMultisampleNV;
 PFNGLVERTEXATTRIBDIVISORNVPROC _glVertexAttribDivisorNV;
+PFNGLUNIFORMMATRIX2X3FVNVPROC _glUniformMatrix2x3fvNV;
+PFNGLUNIFORMMATRIX3X2FVNVPROC _glUniformMatrix3x2fvNV;
+PFNGLUNIFORMMATRIX2X4FVNVPROC _glUniformMatrix2x4fvNV;
+PFNGLUNIFORMMATRIX4X2FVNVPROC _glUniformMatrix4x2fvNV;
+PFNGLUNIFORMMATRIX3X4FVNVPROC _glUniformMatrix3x4fvNV;
+PFNGLUNIFORMMATRIX4X3FVNVPROC _glUniformMatrix4x3fvNV;
 PFNGLREADBUFFERNVPROC _glReadBufferNV;
 PFNGLALPHAFUNCQCOMPROC _glAlphaFuncQCOM;
 PFNGLGETDRIVERCONTROLSQCOMPROC _glGetDriverControlsQCOM;
@@ -180,6 +210,17 @@ PFNGLENDTILINGQCOMPROC _glEndTilingQCOM;
 
 extern struct glxw_es2 *glxw_es2;
 
+#define glDebugMessageControlKHR (glxw_es2->_glDebugMessageControlKHR)
+#define glDebugMessageInsertKHR (glxw_es2->_glDebugMessageInsertKHR)
+#define glDebugMessageCallbackKHR (glxw_es2->_glDebugMessageCallbackKHR)
+#define glGetDebugMessageLogKHR (glxw_es2->_glGetDebugMessageLogKHR)
+#define glPushDebugGroupKHR (glxw_es2->_glPushDebugGroupKHR)
+#define glPopDebugGroupKHR (glxw_es2->_glPopDebugGroupKHR)
+#define glObjectLabelKHR (glxw_es2->_glObjectLabelKHR)
+#define glGetObjectLabelKHR (glxw_es2->_glGetObjectLabelKHR)
+#define glObjectPtrLabelKHR (glxw_es2->_glObjectPtrLabelKHR)
+#define glGetObjectPtrLabelKHR (glxw_es2->_glGetObjectPtrLabelKHR)
+#define glGetPointervKHR (glxw_es2->_glGetPointervKHR)
 #define glEGLImageTargetTexture2DOES (glxw_es2->_glEGLImageTargetTexture2DOES)
 #define glEGLImageTargetRenderbufferStorageOES (glxw_es2->_glEGLImageTargetRenderbufferStorageOES)
 #define glGetProgramBinaryOES (glxw_es2->_glGetProgramBinaryOES)
@@ -197,17 +238,6 @@ extern struct glxw_es2 *glxw_es2;
 #define glDeleteVertexArraysOES (glxw_es2->_glDeleteVertexArraysOES)
 #define glGenVertexArraysOES (glxw_es2->_glGenVertexArraysOES)
 #define glIsVertexArrayOES (glxw_es2->_glIsVertexArrayOES)
-#define glDebugMessageControl (glxw_es2->_glDebugMessageControl)
-#define glDebugMessageInsert (glxw_es2->_glDebugMessageInsert)
-#define glDebugMessageCallback (glxw_es2->_glDebugMessageCallback)
-#define glGetDebugMessageLog (glxw_es2->_glGetDebugMessageLog)
-#define glPushDebugGroup (glxw_es2->_glPushDebugGroup)
-#define glPopDebugGroup (glxw_es2->_glPopDebugGroup)
-#define glObjectLabel (glxw_es2->_glObjectLabel)
-#define glGetObjectLabel (glxw_es2->_glGetObjectLabel)
-#define glObjectPtrLabel (glxw_es2->_glObjectPtrLabel)
-#define glGetObjectPtrLabel (glxw_es2->_glGetObjectPtrLabel)
-#define glGetPointerv (glxw_es2->_glGetPointerv)
 #define glGetPerfMonitorGroupsAMD (glxw_es2->_glGetPerfMonitorGroupsAMD)
 #define glGetPerfMonitorCountersAMD (glxw_es2->_glGetPerfMonitorCountersAMD)
 #define glGetPerfMonitorGroupStringAMD (glxw_es2->_glGetPerfMonitorGroupStringAMD)
@@ -241,56 +271,78 @@ extern struct glxw_es2 *glxw_es2;
 #define glPushGroupMarkerEXT (glxw_es2->_glPushGroupMarkerEXT)
 #define glPopGroupMarkerEXT (glxw_es2->_glPopGroupMarkerEXT)
 #define glDiscardFramebufferEXT (glxw_es2->_glDiscardFramebufferEXT)
-#define glMapBufferRangeEXT (glxw_es2->_glMapBufferRangeEXT)
-#define glFlushMappedBufferRangeEXT (glxw_es2->_glFlushMappedBufferRangeEXT)
-#define glRenderbufferStorageMultisampleEXT (glxw_es2->_glRenderbufferStorageMultisampleEXT)
-#define glFramebufferTexture2DMultisampleEXT (glxw_es2->_glFramebufferTexture2DMultisampleEXT)
-#define glReadBufferIndexedEXT (glxw_es2->_glReadBufferIndexedEXT)
-#define glDrawBuffersIndexedEXT (glxw_es2->_glDrawBuffersIndexedEXT)
-#define glGetIntegeri_vEXT (glxw_es2->_glGetIntegeri_vEXT)
-#define glMultiDrawArraysEXT (glxw_es2->_glMultiDrawArraysEXT)
-#define glMultiDrawElementsEXT (glxw_es2->_glMultiDrawElementsEXT)
 #define glGenQueriesEXT (glxw_es2->_glGenQueriesEXT)
 #define glDeleteQueriesEXT (glxw_es2->_glDeleteQueriesEXT)
 #define glIsQueryEXT (glxw_es2->_glIsQueryEXT)
 #define glBeginQueryEXT (glxw_es2->_glBeginQueryEXT)
 #define glEndQueryEXT (glxw_es2->_glEndQueryEXT)
+#define glQueryCounterEXT (glxw_es2->_glQueryCounterEXT)
 #define glGetQueryivEXT (glxw_es2->_glGetQueryivEXT)
+#define glGetQueryObjectivEXT (glxw_es2->_glGetQueryObjectivEXT)
 #define glGetQueryObjectuivEXT (glxw_es2->_glGetQueryObjectuivEXT)
+#define glGetQueryObjecti64vEXT (glxw_es2->_glGetQueryObjecti64vEXT)
+#define glGetQueryObjectui64vEXT (glxw_es2->_glGetQueryObjectui64vEXT)
+#define glDrawBuffersEXT (glxw_es2->_glDrawBuffersEXT)
+#define glDrawArraysInstancedEXT (glxw_es2->_glDrawArraysInstancedEXT)
+#define glDrawElementsInstancedEXT (glxw_es2->_glDrawElementsInstancedEXT)
+#define glVertexAttribDivisorEXT (glxw_es2->_glVertexAttribDivisorEXT)
+#define glMapBufferRangeEXT (glxw_es2->_glMapBufferRangeEXT)
+#define glFlushMappedBufferRangeEXT (glxw_es2->_glFlushMappedBufferRangeEXT)
+#define glMultiDrawArraysEXT (glxw_es2->_glMultiDrawArraysEXT)
+#define glMultiDrawElementsEXT (glxw_es2->_glMultiDrawElementsEXT)
+#define glRenderbufferStorageMultisampleEXT (glxw_es2->_glRenderbufferStorageMultisampleEXT)
+#define glFramebufferTexture2DMultisampleEXT (glxw_es2->_glFramebufferTexture2DMultisampleEXT)
+#define glReadBufferIndexedEXT (glxw_es2->_glReadBufferIndexedEXT)
+#define glDrawBuffersIndexedEXT (glxw_es2->_glDrawBuffersIndexedEXT)
+#define glGetIntegeri_vEXT (glxw_es2->_glGetIntegeri_vEXT)
 #define glGetGraphicsResetStatusEXT (glxw_es2->_glGetGraphicsResetStatusEXT)
 #define glReadnPixelsEXT (glxw_es2->_glReadnPixelsEXT)
 #define glGetnUniformfvEXT (glxw_es2->_glGetnUniformfvEXT)
 #define glGetnUniformivEXT (glxw_es2->_glGetnUniformivEXT)
-#define glUseProgramStagesEXT (glxw_es2->_glUseProgramStagesEXT)
 #define glActiveShaderProgramEXT (glxw_es2->_glActiveShaderProgramEXT)
-#define glCreateShaderProgramvEXT (glxw_es2->_glCreateShaderProgramvEXT)
 #define glBindProgramPipelineEXT (glxw_es2->_glBindProgramPipelineEXT)
+#define glCreateShaderProgramvEXT (glxw_es2->_glCreateShaderProgramvEXT)
 #define glDeleteProgramPipelinesEXT (glxw_es2->_glDeleteProgramPipelinesEXT)
 #define glGenProgramPipelinesEXT (glxw_es2->_glGenProgramPipelinesEXT)
+#define glGetProgramPipelineInfoLogEXT (glxw_es2->_glGetProgramPipelineInfoLogEXT)
+#define glGetProgramPipelineivEXT (glxw_es2->_glGetProgramPipelineivEXT)
 #define glIsProgramPipelineEXT (glxw_es2->_glIsProgramPipelineEXT)
 #define glProgramParameteriEXT (glxw_es2->_glProgramParameteriEXT)
-#define glGetProgramPipelineivEXT (glxw_es2->_glGetProgramPipelineivEXT)
-#define glProgramUniform1iEXT (glxw_es2->_glProgramUniform1iEXT)
-#define glProgramUniform2iEXT (glxw_es2->_glProgramUniform2iEXT)
-#define glProgramUniform3iEXT (glxw_es2->_glProgramUniform3iEXT)
-#define glProgramUniform4iEXT (glxw_es2->_glProgramUniform4iEXT)
 #define glProgramUniform1fEXT (glxw_es2->_glProgramUniform1fEXT)
-#define glProgramUniform2fEXT (glxw_es2->_glProgramUniform2fEXT)
-#define glProgramUniform3fEXT (glxw_es2->_glProgramUniform3fEXT)
-#define glProgramUniform4fEXT (glxw_es2->_glProgramUniform4fEXT)
-#define glProgramUniform1ivEXT (glxw_es2->_glProgramUniform1ivEXT)
-#define glProgramUniform2ivEXT (glxw_es2->_glProgramUniform2ivEXT)
-#define glProgramUniform3ivEXT (glxw_es2->_glProgramUniform3ivEXT)
-#define glProgramUniform4ivEXT (glxw_es2->_glProgramUniform4ivEXT)
 #define glProgramUniform1fvEXT (glxw_es2->_glProgramUniform1fvEXT)
+#define glProgramUniform1iEXT (glxw_es2->_glProgramUniform1iEXT)
+#define glProgramUniform1ivEXT (glxw_es2->_glProgramUniform1ivEXT)
+#define glProgramUniform2fEXT (glxw_es2->_glProgramUniform2fEXT)
 #define glProgramUniform2fvEXT (glxw_es2->_glProgramUniform2fvEXT)
+#define glProgramUniform2iEXT (glxw_es2->_glProgramUniform2iEXT)
+#define glProgramUniform2ivEXT (glxw_es2->_glProgramUniform2ivEXT)
+#define glProgramUniform3fEXT (glxw_es2->_glProgramUniform3fEXT)
 #define glProgramUniform3fvEXT (glxw_es2->_glProgramUniform3fvEXT)
+#define glProgramUniform3iEXT (glxw_es2->_glProgramUniform3iEXT)
+#define glProgramUniform3ivEXT (glxw_es2->_glProgramUniform3ivEXT)
+#define glProgramUniform4fEXT (glxw_es2->_glProgramUniform4fEXT)
 #define glProgramUniform4fvEXT (glxw_es2->_glProgramUniform4fvEXT)
+#define glProgramUniform4iEXT (glxw_es2->_glProgramUniform4iEXT)
+#define glProgramUniform4ivEXT (glxw_es2->_glProgramUniform4ivEXT)
 #define glProgramUniformMatrix2fvEXT (glxw_es2->_glProgramUniformMatrix2fvEXT)
 #define glProgramUniformMatrix3fvEXT (glxw_es2->_glProgramUniformMatrix3fvEXT)
 #define glProgramUniformMatrix4fvEXT (glxw_es2->_glProgramUniformMatrix4fvEXT)
+#define glUseProgramStagesEXT (glxw_es2->_glUseProgramStagesEXT)
 #define glValidateProgramPipelineEXT (glxw_es2->_glValidateProgramPipelineEXT)
-#define glGetProgramPipelineInfoLogEXT (glxw_es2->_glGetProgramPipelineInfoLogEXT)
+#define glProgramUniform1uiEXT (glxw_es2->_glProgramUniform1uiEXT)
+#define glProgramUniform2uiEXT (glxw_es2->_glProgramUniform2uiEXT)
+#define glProgramUniform3uiEXT (glxw_es2->_glProgramUniform3uiEXT)
+#define glProgramUniform4uiEXT (glxw_es2->_glProgramUniform4uiEXT)
+#define glProgramUniform1uivEXT (glxw_es2->_glProgramUniform1uivEXT)
+#define glProgramUniform2uivEXT (glxw_es2->_glProgramUniform2uivEXT)
+#define glProgramUniform3uivEXT (glxw_es2->_glProgramUniform3uivEXT)
+#define glProgramUniform4uivEXT (glxw_es2->_glProgramUniform4uivEXT)
+#define glProgramUniformMatrix2x3fvEXT (glxw_es2->_glProgramUniformMatrix2x3fvEXT)
+#define glProgramUniformMatrix3x2fvEXT (glxw_es2->_glProgramUniformMatrix3x2fvEXT)
+#define glProgramUniformMatrix2x4fvEXT (glxw_es2->_glProgramUniformMatrix2x4fvEXT)
+#define glProgramUniformMatrix4x2fvEXT (glxw_es2->_glProgramUniformMatrix4x2fvEXT)
+#define glProgramUniformMatrix3x4fvEXT (glxw_es2->_glProgramUniformMatrix3x4fvEXT)
+#define glProgramUniformMatrix4x3fvEXT (glxw_es2->_glProgramUniformMatrix4x3fvEXT)
 #define glTexStorage1DEXT (glxw_es2->_glTexStorage1DEXT)
 #define glTexStorage2DEXT (glxw_es2->_glTexStorage2DEXT)
 #define glTexStorage3DEXT (glxw_es2->_glTexStorage3DEXT)
@@ -299,6 +351,9 @@ extern struct glxw_es2 *glxw_es2;
 #define glTextureStorage3DEXT (glxw_es2->_glTextureStorage3DEXT)
 #define glRenderbufferStorageMultisampleIMG (glxw_es2->_glRenderbufferStorageMultisampleIMG)
 #define glFramebufferTexture2DMultisampleIMG (glxw_es2->_glFramebufferTexture2DMultisampleIMG)
+#define glBlendParameteriNV (glxw_es2->_glBlendParameteriNV)
+#define glBlendBarrierNV (glxw_es2->_glBlendBarrierNV)
+#define glCopyBufferSubDataNV (glxw_es2->_glCopyBufferSubDataNV)
 #define glCoverageMaskNV (glxw_es2->_glCoverageMaskNV)
 #define glCoverageOperationNV (glxw_es2->_glCoverageOperationNV)
 #define glDrawBuffersNV (glxw_es2->_glDrawBuffersNV)
@@ -314,6 +369,12 @@ extern struct glxw_es2 *glxw_es2;
 #define glBlitFramebufferNV (glxw_es2->_glBlitFramebufferNV)
 #define glRenderbufferStorageMultisampleNV (glxw_es2->_glRenderbufferStorageMultisampleNV)
 #define glVertexAttribDivisorNV (glxw_es2->_glVertexAttribDivisorNV)
+#define glUniformMatrix2x3fvNV (glxw_es2->_glUniformMatrix2x3fvNV)
+#define glUniformMatrix3x2fvNV (glxw_es2->_glUniformMatrix3x2fvNV)
+#define glUniformMatrix2x4fvNV (glxw_es2->_glUniformMatrix2x4fvNV)
+#define glUniformMatrix4x2fvNV (glxw_es2->_glUniformMatrix4x2fvNV)
+#define glUniformMatrix3x4fvNV (glxw_es2->_glUniformMatrix3x4fvNV)
+#define glUniformMatrix4x3fvNV (glxw_es2->_glUniformMatrix4x3fvNV)
 #define glReadBufferNV (glxw_es2->_glReadBufferNV)
 #define glAlphaFuncQCOM (glxw_es2->_glAlphaFuncQCOM)
 #define glGetDriverControlsQCOM (glxw_es2->_glGetDriverControlsQCOM)

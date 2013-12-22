@@ -64,7 +64,7 @@ static void *get_proc(void *libgl, const char *proc)
 #endif
 
 static void load_procs(void *libgl, struct glxw *ctx);
-struct glxw *glxw;
+struct glxw *glxw = 0;
 
 int glxwInitCtx(struct glxw *ctx)
 {
@@ -81,7 +81,7 @@ int glxwInitCtx(struct glxw *ctx)
 int glxwInit(void)
 {
     static struct glxw ctx;
-    if(glxwInitCtx(&ctx) == 0)
+    if(glxw || glxwInitCtx(&ctx) == 0)
     {
         glxw = &ctx;
         return 0;

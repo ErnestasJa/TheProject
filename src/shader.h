@@ -1,7 +1,6 @@
 #pragma once
 #include <string.h>
 #include <string>
-#include "GLXW/glxw.h"
 
 struct binding
 {
@@ -52,8 +51,8 @@ struct shader
 			else
 				glGetShaderInfoLog ( obj, length, &length, log );
 
-			printf ( "GLSL ERROR (%s:%s)\n", tname.c_str(), name.c_str() );
-			puts ( log );
+
+			printf ( "GLSL ERROR (%s:%s): [%i] %s\n", tname.c_str(), name.c_str(), length, log);
 
 			delete[] log;
 		}
@@ -72,7 +71,7 @@ struct shader
 
 		if ( !success )
 		{
-			if ( msg ) showinfo ( obj, tname, name );
+			showinfo ( obj, tname, name );
 
 			glDeleteShader ( obj );
 			obj = 0;
@@ -101,7 +100,7 @@ struct shader
             {
                 if ( program )
                 {
-                    if ( msg ) showinfo ( program, "PROG", name );
+                    showinfo ( program, "PROG", name );
 
                     glDeleteProgram ( program );
                     program = 0;

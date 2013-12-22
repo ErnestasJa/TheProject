@@ -7,7 +7,7 @@
 #include <GL/wglext.h>
 #else
 #include <GLXW/glxw_glx.h>
-#include <GL/glxext.h>
+#include "GL/glxext.h"
 #endif
 
 opengl_util::opengl_util(logger * l)
@@ -74,23 +74,40 @@ std::string opengl_util::gl_error_to_string(uint32_t error)
 
 std::string opengl_util::gl_fbo_error_to_string(uint32_t error)
 {
-
+    std::string r;
     switch(error)
     {
     case 0x8CD5:
-        return "GL_FRAMEBUFFER_COMPLETE";
+        r = "GL_FRAMEBUFFER_COMPLETE";
+        break;
     case 0x8CD6:
-        return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+        r = "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+        break;
     case 0x8CD7:
-        return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+        r = "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+        break;
     case 0x8CDB:
-        return "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
+        r = "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
+        break;
     case 0x8CDC:
-        return "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
+        r = "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
+        break;
     case 0x8CDD:
-        return "GL_FRAMEBUFFER_UNSUPPORTED";
+        r = "GL_FRAMEBUFFER_UNSUPPORTED";
+        break;
+    case 0x8D56:
+        r = "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
+        break;
+    case 0x8DA8:
+        r = "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS";
+        break;
+    case 0x8219:
+        r = "GL_FRAMEBUFFER_UNDEFINED";
+        break;
     default:
-        return "BAD ERROR CODE";
-
+        r = "GL_BAD_ERROR_CODE: " + std::to_string(error);
+        break;
     }
+
+    return r;
 }
