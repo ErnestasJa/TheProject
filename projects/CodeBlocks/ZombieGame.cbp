@@ -53,11 +53,11 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="glfw3" />
+					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="libphysfs" />
+					<Add library="libphysfs_win32" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs" />
 				</Linker>

@@ -42,14 +42,26 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
+    std::string real_dir = PHYSFS_getBaseDir();
+
+    std::string dir;
+
+    uint32_t pos = real_dir.find_last_of(PHYSFS_getDirSeparator());
+    real_dir = real_dir.substr(0,pos);
+
+    pos = real_dir.find_last_of(PHYSFS_getDirSeparator());
+    real_dir = real_dir.substr(0,pos);
+
+    pos = real_dir.find_last_of(PHYSFS_getDirSeparator());
+    dir = real_dir.substr(0,pos);
+
     m_log=new logger(this,0);
     m_log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
 
-    m_log->log(LOG_LOG,"Directory: \"%s\"",PHYSFS_getBaseDir());
+    m_log->log(LOG_LOG,"Base Directory: \"%s\"",PHYSFS_getBaseDir());
+    m_log->log(LOG_LOG,"Directory: \"%s\"",dir.c_str());
 
-
-
-    PHYSFS_mount(PHYSFS_getBaseDir(), NULL, 0);
+    PHYSFS_mount(dir.c_str(), NULL, 0);
 
     output_versions();
 
