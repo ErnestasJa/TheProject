@@ -55,6 +55,8 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     pos = real_dir.find_last_of(PHYSFS_getDirSeparator());
     dir = real_dir.substr(0,pos);
 
+    dir+=PHYSFS_getDirSeparator();
+
     m_log=new logger(this,0);
     m_log->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
 

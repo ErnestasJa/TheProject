@@ -49,7 +49,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     ///load our mesh
     char * buffer;
 
-    if(!read("../../res/mrfixit.iqm",buffer))
+    if(!read("res/mrfixit.iqm",buffer))
         return false;
 
     iqmloader *loader=new iqmloader(this->get_logger());
@@ -70,8 +70,8 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     binding qtex_binding[]={{"tex",0},{"",-1}};
 
-    if(!read("../../res/quad.vert",vsh)) return false;
-    if(!read("../../res/quad.frag",fsh)) return false;
+    if(!read("res/quad.vert",vsh)) return false;
+    if(!read("res/quad.frag",fsh)) return false;
 
     qsh = new shader("quad_shader",vsh,fsh,qtex_binding,0);
 	qsh->compile();
@@ -83,8 +83,8 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
 
     ///mesh shaders
-    if(!read("../../res/gpu_skin_normal.vert",vsh)) return false;
-    if(!read("../../res/gpu_skin_normal.frag",fsh)) return false;
+    if(!read("res/gpu_skin_normal.vert",vsh)) return false;
+    if(!read("res/gpu_skin_normal.frag",fsh)) return false;
 
     sh = new shader("gpu_skin",vsh,fsh,qtex_binding,0);
 	sh->compile();
