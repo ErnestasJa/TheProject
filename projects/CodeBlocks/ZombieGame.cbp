@@ -59,7 +59,7 @@
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
 					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs" />
+					<Add directory="../../libs/physfs/lib" />
 				</Linker>
 			</Target>
 		</Build>
