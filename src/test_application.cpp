@@ -12,7 +12,7 @@
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
-
+    //definitely a comment
 }
 
 test_application::~test_application()
