@@ -47,13 +47,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 #=============================================================================
 # Target rules for target CMakeFiles/dist.dir
@@ -62,15 +62,15 @@ CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 CMakeFiles/dist.dir/all:
 	$(MAKE) -f CMakeFiles/dist.dir/build.make CMakeFiles/dist.dir/depend
 	$(MAKE) -f CMakeFiles/dist.dir/build.make CMakeFiles/dist.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles  1
 	@echo "Built target dist"
 .PHONY : CMakeFiles/dist.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dist.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/dist.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 0
 .PHONY : CMakeFiles/dist.dir/rule
 
 # Convenience name for target.
@@ -87,13 +87,44 @@ clean: CMakeFiles/dist.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/docs.dir
+
+# All Build rule for target.
+CMakeFiles/docs.dir/all:
+	$(MAKE) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/depend
+	$(MAKE) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles  2
+	@echo "Built target docs"
+.PHONY : CMakeFiles/docs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/docs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/docs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 0
+.PHONY : CMakeFiles/docs.dir/rule
+
+# Convenience name for target.
+docs: CMakeFiles/docs.dir/rule
+.PHONY : docs
+
+# clean rule for target.
+CMakeFiles/docs.dir/clean:
+	$(MAKE) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/clean
+.PHONY : CMakeFiles/docs.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/docs.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/physfs-static.dir
 
 # All Build rule for target.
 CMakeFiles/physfs-static.dir/all:
 	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/depend
 	$(MAKE) -f CMakeFiles/physfs-static.dir/build.make CMakeFiles/physfs-static.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles  2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles  3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 	@echo "Built target physfs-static"
 .PHONY : CMakeFiles/physfs-static.dir/all
 
@@ -103,9 +134,9 @@ all: CMakeFiles/physfs-static.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/physfs-static.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 40
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 40
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/physfs-static.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 0
 .PHONY : CMakeFiles/physfs-static.dir/rule
 
 # Convenience name for target.
@@ -128,7 +159,7 @@ clean: CMakeFiles/physfs-static.dir/clean
 CMakeFiles/test_physfs.dir/all: CMakeFiles/physfs-static.dir/all
 	$(MAKE) -f CMakeFiles/test_physfs.dir/build.make CMakeFiles/test_physfs.dir/depend
 	$(MAKE) -f CMakeFiles/test_physfs.dir/build.make CMakeFiles/test_physfs.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles  42
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles  43
 	@echo "Built target test_physfs"
 .PHONY : CMakeFiles/test_physfs.dir/all
 
@@ -138,9 +169,9 @@ all: CMakeFiles/test_physfs.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_physfs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 41
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 41
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_physfs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 0
 .PHONY : CMakeFiles/test_physfs.dir/rule
 
 # Convenience name for target.

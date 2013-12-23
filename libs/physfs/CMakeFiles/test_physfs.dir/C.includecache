@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/serengeor/Coding/ZombieGameProject/libs/physfs/test/test_physfs.c
+/home/serengeor/Coding/ZombieProject/libs/physfs/test/test_physfs.c
 stdio.h
 -
 stdlib.h
@@ -26,7 +26,7 @@ readline/history.h
 time.h
 -
 physfs.h
-/home/serengeor/Coding/ZombieGameProject/libs/physfs/test/physfs.h
+/home/serengeor/Coding/ZombieProject/libs/physfs/test/physfs.h
 
 physfs.h
 

@@ -35,13 +35,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # Include any dependencies generated for this target.
 include CMakeFiles/physfs-static.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/physfs-static.dir/flags.make
 
 CMakeFiles/physfs-static.dir/physfs.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/physfs.o: physfs.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/physfs.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/physfs.c
 
 CMakeFiles/physfs-static.dir/physfs.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/physfs.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs.c > CMakeFiles/physfs-static.dir/physfs.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/physfs.c > CMakeFiles/physfs-static.dir/physfs.i
 
 CMakeFiles/physfs-static.dir/physfs.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/physfs.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs.c -o CMakeFiles/physfs-static.dir/physfs.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/physfs.c -o CMakeFiles/physfs-static.dir/physfs.s
 
 CMakeFiles/physfs-static.dir/physfs.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/physfs.o.requires
@@ -77,17 +77,17 @@ CMakeFiles/physfs-static.dir/physfs.o.provides.build: CMakeFiles/physfs-static.d
 
 CMakeFiles/physfs-static.dir/physfs_byteorder.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/physfs_byteorder.o: physfs_byteorder.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/physfs_byteorder.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs_byteorder.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_byteorder.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs_byteorder.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_byteorder.c
 
 CMakeFiles/physfs-static.dir/physfs_byteorder.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/physfs_byteorder.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_byteorder.c > CMakeFiles/physfs-static.dir/physfs_byteorder.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_byteorder.c > CMakeFiles/physfs-static.dir/physfs_byteorder.i
 
 CMakeFiles/physfs-static.dir/physfs_byteorder.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/physfs_byteorder.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_byteorder.c -o CMakeFiles/physfs-static.dir/physfs_byteorder.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_byteorder.c -o CMakeFiles/physfs-static.dir/physfs_byteorder.s
 
 CMakeFiles/physfs-static.dir/physfs_byteorder.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/physfs_byteorder.o.requires
@@ -100,17 +100,17 @@ CMakeFiles/physfs-static.dir/physfs_byteorder.o.provides.build: CMakeFiles/physf
 
 CMakeFiles/physfs-static.dir/physfs_unicode.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/physfs_unicode.o: physfs_unicode.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/physfs_unicode.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs_unicode.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_unicode.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/physfs_unicode.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_unicode.c
 
 CMakeFiles/physfs-static.dir/physfs_unicode.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/physfs_unicode.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_unicode.c > CMakeFiles/physfs-static.dir/physfs_unicode.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_unicode.c > CMakeFiles/physfs-static.dir/physfs_unicode.i
 
 CMakeFiles/physfs-static.dir/physfs_unicode.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/physfs_unicode.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/physfs_unicode.c -o CMakeFiles/physfs-static.dir/physfs_unicode.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/physfs_unicode.c -o CMakeFiles/physfs-static.dir/physfs_unicode.s
 
 CMakeFiles/physfs-static.dir/physfs_unicode.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/physfs_unicode.o.requires
@@ -123,17 +123,17 @@ CMakeFiles/physfs-static.dir/physfs_unicode.o.provides.build: CMakeFiles/physfs-
 
 CMakeFiles/physfs-static.dir/platform/os2.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/os2.o: platform/os2.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/os2.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/os2.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/os2.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/os2.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/os2.c
 
 CMakeFiles/physfs-static.dir/platform/os2.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/os2.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/os2.c > CMakeFiles/physfs-static.dir/platform/os2.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/os2.c > CMakeFiles/physfs-static.dir/platform/os2.i
 
 CMakeFiles/physfs-static.dir/platform/os2.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/os2.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/os2.c -o CMakeFiles/physfs-static.dir/platform/os2.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/os2.c -o CMakeFiles/physfs-static.dir/platform/os2.s
 
 CMakeFiles/physfs-static.dir/platform/os2.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/os2.o.requires
@@ -146,17 +146,17 @@ CMakeFiles/physfs-static.dir/platform/os2.o.provides.build: CMakeFiles/physfs-st
 
 CMakeFiles/physfs-static.dir/platform/pocketpc.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/pocketpc.o: platform/pocketpc.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/pocketpc.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/pocketpc.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/pocketpc.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/pocketpc.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/pocketpc.c
 
 CMakeFiles/physfs-static.dir/platform/pocketpc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/pocketpc.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/pocketpc.c > CMakeFiles/physfs-static.dir/platform/pocketpc.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/pocketpc.c > CMakeFiles/physfs-static.dir/platform/pocketpc.i
 
 CMakeFiles/physfs-static.dir/platform/pocketpc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/pocketpc.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/pocketpc.c -o CMakeFiles/physfs-static.dir/platform/pocketpc.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/pocketpc.c -o CMakeFiles/physfs-static.dir/platform/pocketpc.s
 
 CMakeFiles/physfs-static.dir/platform/pocketpc.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/pocketpc.o.requires
@@ -169,17 +169,17 @@ CMakeFiles/physfs-static.dir/platform/pocketpc.o.provides.build: CMakeFiles/phys
 
 CMakeFiles/physfs-static.dir/platform/posix.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/posix.o: platform/posix.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/posix.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/posix.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/posix.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/posix.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/posix.c
 
 CMakeFiles/physfs-static.dir/platform/posix.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/posix.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/posix.c > CMakeFiles/physfs-static.dir/platform/posix.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/posix.c > CMakeFiles/physfs-static.dir/platform/posix.i
 
 CMakeFiles/physfs-static.dir/platform/posix.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/posix.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/posix.c -o CMakeFiles/physfs-static.dir/platform/posix.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/posix.c -o CMakeFiles/physfs-static.dir/platform/posix.s
 
 CMakeFiles/physfs-static.dir/platform/posix.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/posix.o.requires
@@ -192,17 +192,17 @@ CMakeFiles/physfs-static.dir/platform/posix.o.provides.build: CMakeFiles/physfs-
 
 CMakeFiles/physfs-static.dir/platform/unix.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/unix.o: platform/unix.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/unix.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/unix.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/unix.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/unix.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/unix.c
 
 CMakeFiles/physfs-static.dir/platform/unix.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/unix.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/unix.c > CMakeFiles/physfs-static.dir/platform/unix.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/unix.c > CMakeFiles/physfs-static.dir/platform/unix.i
 
 CMakeFiles/physfs-static.dir/platform/unix.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/unix.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/unix.c -o CMakeFiles/physfs-static.dir/platform/unix.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/unix.c -o CMakeFiles/physfs-static.dir/platform/unix.s
 
 CMakeFiles/physfs-static.dir/platform/unix.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/unix.o.requires
@@ -215,17 +215,17 @@ CMakeFiles/physfs-static.dir/platform/unix.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/platform/macosx.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/macosx.o: platform/macosx.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/macosx.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/macosx.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/macosx.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/macosx.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/macosx.c
 
 CMakeFiles/physfs-static.dir/platform/macosx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/macosx.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/macosx.c > CMakeFiles/physfs-static.dir/platform/macosx.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/macosx.c > CMakeFiles/physfs-static.dir/platform/macosx.i
 
 CMakeFiles/physfs-static.dir/platform/macosx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/macosx.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/macosx.c -o CMakeFiles/physfs-static.dir/platform/macosx.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/macosx.c -o CMakeFiles/physfs-static.dir/platform/macosx.s
 
 CMakeFiles/physfs-static.dir/platform/macosx.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/macosx.o.requires
@@ -238,17 +238,17 @@ CMakeFiles/physfs-static.dir/platform/macosx.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/platform/windows.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/platform/windows.o: platform/windows.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/platform/windows.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/windows.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/windows.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/platform/windows.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/platform/windows.c
 
 CMakeFiles/physfs-static.dir/platform/windows.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/platform/windows.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/windows.c > CMakeFiles/physfs-static.dir/platform/windows.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/platform/windows.c > CMakeFiles/physfs-static.dir/platform/windows.i
 
 CMakeFiles/physfs-static.dir/platform/windows.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/platform/windows.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/platform/windows.c -o CMakeFiles/physfs-static.dir/platform/windows.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/platform/windows.c -o CMakeFiles/physfs-static.dir/platform/windows.s
 
 CMakeFiles/physfs-static.dir/platform/windows.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/platform/windows.o.requires
@@ -261,17 +261,17 @@ CMakeFiles/physfs-static.dir/platform/windows.o.provides.build: CMakeFiles/physf
 
 CMakeFiles/physfs-static.dir/archivers/dir.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/dir.o: archivers/dir.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/dir.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/dir.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/dir.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/dir.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/dir.c
 
 CMakeFiles/physfs-static.dir/archivers/dir.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/dir.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/dir.c > CMakeFiles/physfs-static.dir/archivers/dir.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/dir.c > CMakeFiles/physfs-static.dir/archivers/dir.i
 
 CMakeFiles/physfs-static.dir/archivers/dir.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/dir.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/dir.c -o CMakeFiles/physfs-static.dir/archivers/dir.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/dir.c -o CMakeFiles/physfs-static.dir/archivers/dir.s
 
 CMakeFiles/physfs-static.dir/archivers/dir.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/dir.o.requires
@@ -284,17 +284,17 @@ CMakeFiles/physfs-static.dir/archivers/dir.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/archivers/grp.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/grp.o: archivers/grp.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_11)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/grp.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/grp.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/grp.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/grp.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/grp.c
 
 CMakeFiles/physfs-static.dir/archivers/grp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/grp.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/grp.c > CMakeFiles/physfs-static.dir/archivers/grp.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/grp.c > CMakeFiles/physfs-static.dir/archivers/grp.i
 
 CMakeFiles/physfs-static.dir/archivers/grp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/grp.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/grp.c -o CMakeFiles/physfs-static.dir/archivers/grp.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/grp.c -o CMakeFiles/physfs-static.dir/archivers/grp.s
 
 CMakeFiles/physfs-static.dir/archivers/grp.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/grp.o.requires
@@ -307,17 +307,17 @@ CMakeFiles/physfs-static.dir/archivers/grp.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/archivers/hog.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/hog.o: archivers/hog.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_12)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_12)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/hog.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/hog.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/hog.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/hog.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/hog.c
 
 CMakeFiles/physfs-static.dir/archivers/hog.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/hog.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/hog.c > CMakeFiles/physfs-static.dir/archivers/hog.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/hog.c > CMakeFiles/physfs-static.dir/archivers/hog.i
 
 CMakeFiles/physfs-static.dir/archivers/hog.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/hog.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/hog.c -o CMakeFiles/physfs-static.dir/archivers/hog.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/hog.c -o CMakeFiles/physfs-static.dir/archivers/hog.s
 
 CMakeFiles/physfs-static.dir/archivers/hog.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/hog.o.requires
@@ -330,17 +330,17 @@ CMakeFiles/physfs-static.dir/archivers/hog.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/archivers/lzma.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/lzma.o: archivers/lzma.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_13)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_13)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/lzma.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/lzma.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/lzma.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/lzma.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/lzma.c
 
 CMakeFiles/physfs-static.dir/archivers/lzma.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/lzma.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/lzma.c > CMakeFiles/physfs-static.dir/archivers/lzma.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/lzma.c > CMakeFiles/physfs-static.dir/archivers/lzma.i
 
 CMakeFiles/physfs-static.dir/archivers/lzma.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/lzma.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/lzma.c -o CMakeFiles/physfs-static.dir/archivers/lzma.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/lzma.c -o CMakeFiles/physfs-static.dir/archivers/lzma.s
 
 CMakeFiles/physfs-static.dir/archivers/lzma.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/lzma.o.requires
@@ -353,17 +353,17 @@ CMakeFiles/physfs-static.dir/archivers/lzma.o.provides.build: CMakeFiles/physfs-
 
 CMakeFiles/physfs-static.dir/archivers/mvl.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/mvl.o: archivers/mvl.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_14)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_14)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/mvl.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/mvl.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/mvl.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/mvl.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/mvl.c
 
 CMakeFiles/physfs-static.dir/archivers/mvl.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/mvl.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/mvl.c > CMakeFiles/physfs-static.dir/archivers/mvl.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/mvl.c > CMakeFiles/physfs-static.dir/archivers/mvl.i
 
 CMakeFiles/physfs-static.dir/archivers/mvl.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/mvl.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/mvl.c -o CMakeFiles/physfs-static.dir/archivers/mvl.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/mvl.c -o CMakeFiles/physfs-static.dir/archivers/mvl.s
 
 CMakeFiles/physfs-static.dir/archivers/mvl.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/mvl.o.requires
@@ -376,17 +376,17 @@ CMakeFiles/physfs-static.dir/archivers/mvl.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/archivers/qpak.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/qpak.o: archivers/qpak.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_15)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_15)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/qpak.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/qpak.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/qpak.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/qpak.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/qpak.c
 
 CMakeFiles/physfs-static.dir/archivers/qpak.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/qpak.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/qpak.c > CMakeFiles/physfs-static.dir/archivers/qpak.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/qpak.c > CMakeFiles/physfs-static.dir/archivers/qpak.i
 
 CMakeFiles/physfs-static.dir/archivers/qpak.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/qpak.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/qpak.c -o CMakeFiles/physfs-static.dir/archivers/qpak.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/qpak.c -o CMakeFiles/physfs-static.dir/archivers/qpak.s
 
 CMakeFiles/physfs-static.dir/archivers/qpak.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/qpak.o.requires
@@ -399,17 +399,17 @@ CMakeFiles/physfs-static.dir/archivers/qpak.o.provides.build: CMakeFiles/physfs-
 
 CMakeFiles/physfs-static.dir/archivers/wad.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/wad.o: archivers/wad.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_16)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_16)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/wad.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/wad.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/wad.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/wad.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/wad.c
 
 CMakeFiles/physfs-static.dir/archivers/wad.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/wad.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/wad.c > CMakeFiles/physfs-static.dir/archivers/wad.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/wad.c > CMakeFiles/physfs-static.dir/archivers/wad.i
 
 CMakeFiles/physfs-static.dir/archivers/wad.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/wad.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/wad.c -o CMakeFiles/physfs-static.dir/archivers/wad.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/wad.c -o CMakeFiles/physfs-static.dir/archivers/wad.s
 
 CMakeFiles/physfs-static.dir/archivers/wad.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/wad.o.requires
@@ -422,17 +422,17 @@ CMakeFiles/physfs-static.dir/archivers/wad.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/archivers/zip.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/archivers/zip.o: archivers/zip.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_17)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_17)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/archivers/zip.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/zip.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/zip.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/archivers/zip.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/zip.c
 
 CMakeFiles/physfs-static.dir/archivers/zip.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/archivers/zip.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/zip.c > CMakeFiles/physfs-static.dir/archivers/zip.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/zip.c > CMakeFiles/physfs-static.dir/archivers/zip.i
 
 CMakeFiles/physfs-static.dir/archivers/zip.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/archivers/zip.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/archivers/zip.c -o CMakeFiles/physfs-static.dir/archivers/zip.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/archivers/zip.c -o CMakeFiles/physfs-static.dir/archivers/zip.s
 
 CMakeFiles/physfs-static.dir/archivers/zip.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/archivers/zip.o.requires
@@ -445,17 +445,17 @@ CMakeFiles/physfs-static.dir/archivers/zip.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/7zCrc.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_18)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_18)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/7zCrc.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/7zCrc.c
 
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/7zCrc.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/7zCrc.c > CMakeFiles/physfs-static.dir/lzma/C/7zCrc.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/7zCrc.c > CMakeFiles/physfs-static.dir/lzma/C/7zCrc.i
 
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/7zCrc.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/7zCrc.c -o CMakeFiles/physfs-static.dir/lzma/C/7zCrc.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/7zCrc.c -o CMakeFiles/physfs-static.dir/lzma/C/7zCrc.s
 
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o.requires
@@ -468,17 +468,17 @@ CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o.provides.build: CMakeFiles/physfs-st
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Archive/7z/7zBuffer.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_19)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_19)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zBuffer.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o.requires
@@ -491,17 +491,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o.provides.build: CMakeF
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zDecode.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_20)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_20)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zDecode.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o.requires
@@ -514,17 +514,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o.provides.build: CMakeF
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zExtract.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_21)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_21)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zExtract.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o.requires
@@ -537,17 +537,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o.provides.build: CMake
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: lzma/C/Archive/7z/7zHeader.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_22)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_22)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zHeader.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o.requires
@@ -560,17 +560,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o.provides.build: CMakeF
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zIn.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_23)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_23)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zIn.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zIn.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zIn.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zIn.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zIn.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zIn.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o.requires
@@ -583,17 +583,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o.provides.build: CMakeFiles
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zItem.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_24)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_24)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zItem.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zItem.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zItem.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zItem.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zItem.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zItem.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o.requires
@@ -606,17 +606,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o.provides.build: CMakeFil
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: lzma/C/Archive/7z/7zMethodID.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_25)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_25)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c > CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Archive/7z/7zMethodID.c -o CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o.requires
@@ -629,17 +629,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o.provides.build: CMak
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o: lzma/C/Compress/Branch/BranchX86.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_26)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_26)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o.requires
@@ -652,17 +652,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o.provides.build: 
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Compress/Branch/BranchX86_2.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_27)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_27)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Branch/BranchX86_2.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o.requires
@@ -675,17 +675,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o.provides.build
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o: lzma/C/Compress/Lzma/LzmaDecode.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_28)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_28)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c > CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.i
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/lzma/C/Compress/Lzma/LzmaDecode.c -o CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.s
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o.requires
@@ -698,17 +698,17 @@ CMakeFiles/physfs-static.dir/lzma/C/Compress/Lzma/LzmaDecode.o.provides.build: C
 
 CMakeFiles/physfs-static.dir/zlib123/adler32.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/adler32.o: zlib123/adler32.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_29)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_29)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/adler32.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/adler32.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/adler32.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/adler32.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/adler32.c
 
 CMakeFiles/physfs-static.dir/zlib123/adler32.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/adler32.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/adler32.c > CMakeFiles/physfs-static.dir/zlib123/adler32.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/adler32.c > CMakeFiles/physfs-static.dir/zlib123/adler32.i
 
 CMakeFiles/physfs-static.dir/zlib123/adler32.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/adler32.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/adler32.c -o CMakeFiles/physfs-static.dir/zlib123/adler32.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/adler32.c -o CMakeFiles/physfs-static.dir/zlib123/adler32.s
 
 CMakeFiles/physfs-static.dir/zlib123/adler32.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/adler32.o.requires
@@ -721,17 +721,17 @@ CMakeFiles/physfs-static.dir/zlib123/adler32.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/compress.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/compress.o: zlib123/compress.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_30)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_30)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/compress.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/compress.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/compress.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/compress.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/compress.c
 
 CMakeFiles/physfs-static.dir/zlib123/compress.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/compress.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/compress.c > CMakeFiles/physfs-static.dir/zlib123/compress.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/compress.c > CMakeFiles/physfs-static.dir/zlib123/compress.i
 
 CMakeFiles/physfs-static.dir/zlib123/compress.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/compress.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/compress.c -o CMakeFiles/physfs-static.dir/zlib123/compress.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/compress.c -o CMakeFiles/physfs-static.dir/zlib123/compress.s
 
 CMakeFiles/physfs-static.dir/zlib123/compress.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/compress.o.requires
@@ -744,17 +744,17 @@ CMakeFiles/physfs-static.dir/zlib123/compress.o.provides.build: CMakeFiles/physf
 
 CMakeFiles/physfs-static.dir/zlib123/crc32.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/crc32.o: zlib123/crc32.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_31)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_31)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/crc32.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/crc32.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/crc32.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/crc32.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/crc32.c
 
 CMakeFiles/physfs-static.dir/zlib123/crc32.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/crc32.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/crc32.c > CMakeFiles/physfs-static.dir/zlib123/crc32.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/crc32.c > CMakeFiles/physfs-static.dir/zlib123/crc32.i
 
 CMakeFiles/physfs-static.dir/zlib123/crc32.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/crc32.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/crc32.c -o CMakeFiles/physfs-static.dir/zlib123/crc32.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/crc32.c -o CMakeFiles/physfs-static.dir/zlib123/crc32.s
 
 CMakeFiles/physfs-static.dir/zlib123/crc32.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/crc32.o.requires
@@ -767,17 +767,17 @@ CMakeFiles/physfs-static.dir/zlib123/crc32.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/zlib123/deflate.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/deflate.o: zlib123/deflate.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_32)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_32)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/deflate.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/deflate.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/deflate.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/deflate.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/deflate.c
 
 CMakeFiles/physfs-static.dir/zlib123/deflate.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/deflate.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/deflate.c > CMakeFiles/physfs-static.dir/zlib123/deflate.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/deflate.c > CMakeFiles/physfs-static.dir/zlib123/deflate.i
 
 CMakeFiles/physfs-static.dir/zlib123/deflate.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/deflate.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/deflate.c -o CMakeFiles/physfs-static.dir/zlib123/deflate.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/deflate.c -o CMakeFiles/physfs-static.dir/zlib123/deflate.s
 
 CMakeFiles/physfs-static.dir/zlib123/deflate.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/deflate.o.requires
@@ -790,17 +790,17 @@ CMakeFiles/physfs-static.dir/zlib123/deflate.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/gzio.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/gzio.o: zlib123/gzio.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_33)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_33)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/gzio.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/gzio.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/gzio.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/gzio.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/gzio.c
 
 CMakeFiles/physfs-static.dir/zlib123/gzio.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/gzio.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/gzio.c > CMakeFiles/physfs-static.dir/zlib123/gzio.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/gzio.c > CMakeFiles/physfs-static.dir/zlib123/gzio.i
 
 CMakeFiles/physfs-static.dir/zlib123/gzio.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/gzio.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/gzio.c -o CMakeFiles/physfs-static.dir/zlib123/gzio.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/gzio.c -o CMakeFiles/physfs-static.dir/zlib123/gzio.s
 
 CMakeFiles/physfs-static.dir/zlib123/gzio.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/gzio.o.requires
@@ -813,17 +813,17 @@ CMakeFiles/physfs-static.dir/zlib123/gzio.o.provides.build: CMakeFiles/physfs-st
 
 CMakeFiles/physfs-static.dir/zlib123/infback.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/infback.o: zlib123/infback.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_34)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_34)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/infback.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/infback.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/infback.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/infback.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/infback.c
 
 CMakeFiles/physfs-static.dir/zlib123/infback.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/infback.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/infback.c > CMakeFiles/physfs-static.dir/zlib123/infback.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/infback.c > CMakeFiles/physfs-static.dir/zlib123/infback.i
 
 CMakeFiles/physfs-static.dir/zlib123/infback.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/infback.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/infback.c -o CMakeFiles/physfs-static.dir/zlib123/infback.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/infback.c -o CMakeFiles/physfs-static.dir/zlib123/infback.s
 
 CMakeFiles/physfs-static.dir/zlib123/infback.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/infback.o.requires
@@ -836,17 +836,17 @@ CMakeFiles/physfs-static.dir/zlib123/infback.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/inffast.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/inffast.o: zlib123/inffast.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_35)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_35)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/inffast.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inffast.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inffast.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inffast.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inffast.c
 
 CMakeFiles/physfs-static.dir/zlib123/inffast.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/inffast.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inffast.c > CMakeFiles/physfs-static.dir/zlib123/inffast.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inffast.c > CMakeFiles/physfs-static.dir/zlib123/inffast.i
 
 CMakeFiles/physfs-static.dir/zlib123/inffast.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/inffast.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inffast.c -o CMakeFiles/physfs-static.dir/zlib123/inffast.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inffast.c -o CMakeFiles/physfs-static.dir/zlib123/inffast.s
 
 CMakeFiles/physfs-static.dir/zlib123/inffast.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/inffast.o.requires
@@ -859,17 +859,17 @@ CMakeFiles/physfs-static.dir/zlib123/inffast.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/inflate.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/inflate.o: zlib123/inflate.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_36)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_36)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/inflate.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inflate.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inflate.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inflate.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inflate.c
 
 CMakeFiles/physfs-static.dir/zlib123/inflate.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/inflate.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inflate.c > CMakeFiles/physfs-static.dir/zlib123/inflate.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inflate.c > CMakeFiles/physfs-static.dir/zlib123/inflate.i
 
 CMakeFiles/physfs-static.dir/zlib123/inflate.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/inflate.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inflate.c -o CMakeFiles/physfs-static.dir/zlib123/inflate.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inflate.c -o CMakeFiles/physfs-static.dir/zlib123/inflate.s
 
 CMakeFiles/physfs-static.dir/zlib123/inflate.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/inflate.o.requires
@@ -882,17 +882,17 @@ CMakeFiles/physfs-static.dir/zlib123/inflate.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/inftrees.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/inftrees.o: zlib123/inftrees.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_37)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_37)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/inftrees.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inftrees.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inftrees.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/inftrees.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inftrees.c
 
 CMakeFiles/physfs-static.dir/zlib123/inftrees.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/inftrees.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inftrees.c > CMakeFiles/physfs-static.dir/zlib123/inftrees.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inftrees.c > CMakeFiles/physfs-static.dir/zlib123/inftrees.i
 
 CMakeFiles/physfs-static.dir/zlib123/inftrees.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/inftrees.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/inftrees.c -o CMakeFiles/physfs-static.dir/zlib123/inftrees.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/inftrees.c -o CMakeFiles/physfs-static.dir/zlib123/inftrees.s
 
 CMakeFiles/physfs-static.dir/zlib123/inftrees.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/inftrees.o.requires
@@ -905,17 +905,17 @@ CMakeFiles/physfs-static.dir/zlib123/inftrees.o.provides.build: CMakeFiles/physf
 
 CMakeFiles/physfs-static.dir/zlib123/trees.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/trees.o: zlib123/trees.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_38)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_38)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/trees.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/trees.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/trees.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/trees.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/trees.c
 
 CMakeFiles/physfs-static.dir/zlib123/trees.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/trees.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/trees.c > CMakeFiles/physfs-static.dir/zlib123/trees.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/trees.c > CMakeFiles/physfs-static.dir/zlib123/trees.i
 
 CMakeFiles/physfs-static.dir/zlib123/trees.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/trees.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/trees.c -o CMakeFiles/physfs-static.dir/zlib123/trees.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/trees.c -o CMakeFiles/physfs-static.dir/zlib123/trees.s
 
 CMakeFiles/physfs-static.dir/zlib123/trees.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/trees.o.requires
@@ -928,17 +928,17 @@ CMakeFiles/physfs-static.dir/zlib123/trees.o.provides.build: CMakeFiles/physfs-s
 
 CMakeFiles/physfs-static.dir/zlib123/uncompr.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/uncompr.o: zlib123/uncompr.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_39)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_39)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/uncompr.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/uncompr.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/uncompr.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/uncompr.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/uncompr.c
 
 CMakeFiles/physfs-static.dir/zlib123/uncompr.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/uncompr.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/uncompr.c > CMakeFiles/physfs-static.dir/zlib123/uncompr.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/uncompr.c > CMakeFiles/physfs-static.dir/zlib123/uncompr.i
 
 CMakeFiles/physfs-static.dir/zlib123/uncompr.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/uncompr.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/uncompr.c -o CMakeFiles/physfs-static.dir/zlib123/uncompr.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/uncompr.c -o CMakeFiles/physfs-static.dir/zlib123/uncompr.s
 
 CMakeFiles/physfs-static.dir/zlib123/uncompr.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/uncompr.o.requires
@@ -951,17 +951,17 @@ CMakeFiles/physfs-static.dir/zlib123/uncompr.o.provides.build: CMakeFiles/physfs
 
 CMakeFiles/physfs-static.dir/zlib123/zutil.o: CMakeFiles/physfs-static.dir/flags.make
 CMakeFiles/physfs-static.dir/zlib123/zutil.o: zlib123/zutil.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_40)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_40)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/physfs-static.dir/zlib123/zutil.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/zutil.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/zutil.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/physfs-static.dir/zlib123/zutil.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/zutil.c
 
 CMakeFiles/physfs-static.dir/zlib123/zutil.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/physfs-static.dir/zlib123/zutil.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/zutil.c > CMakeFiles/physfs-static.dir/zlib123/zutil.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/zutil.c > CMakeFiles/physfs-static.dir/zlib123/zutil.i
 
 CMakeFiles/physfs-static.dir/zlib123/zutil.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/physfs-static.dir/zlib123/zutil.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/zlib123/zutil.c -o CMakeFiles/physfs-static.dir/zlib123/zutil.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/zlib123/zutil.c -o CMakeFiles/physfs-static.dir/zlib123/zutil.s
 
 CMakeFiles/physfs-static.dir/zlib123/zutil.o.requires:
 .PHONY : CMakeFiles/physfs-static.dir/zlib123/zutil.o.requires
@@ -1115,6 +1115,6 @@ CMakeFiles/physfs-static.dir/clean:
 .PHONY : CMakeFiles/physfs-static.dir/clean
 
 CMakeFiles/physfs-static.dir/depend:
-	cd /home/serengeor/Coding/ZombieGameProject/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/physfs-static.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/serengeor/Coding/ZombieProject/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/physfs-static.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/physfs-static.dir/depend
 

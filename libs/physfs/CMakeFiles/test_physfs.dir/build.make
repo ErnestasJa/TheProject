@@ -35,13 +35,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_physfs.dir/depend.make
@@ -54,17 +54,17 @@ include CMakeFiles/test_physfs.dir/flags.make
 
 CMakeFiles/test_physfs.dir/test/test_physfs.o: CMakeFiles/test_physfs.dir/flags.make
 CMakeFiles/test_physfs.dir/test/test_physfs.o: test/test_physfs.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/test_physfs.dir/test/test_physfs.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/test_physfs.dir/test/test_physfs.o   -c /home/serengeor/Coding/ZombieGameProject/libs/physfs/test/test_physfs.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/test_physfs.dir/test/test_physfs.o   -c /home/serengeor/Coding/ZombieProject/libs/physfs/test/test_physfs.c
 
 CMakeFiles/test_physfs.dir/test/test_physfs.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/test_physfs.dir/test/test_physfs.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieGameProject/libs/physfs/test/test_physfs.c > CMakeFiles/test_physfs.dir/test/test_physfs.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/serengeor/Coding/ZombieProject/libs/physfs/test/test_physfs.c > CMakeFiles/test_physfs.dir/test/test_physfs.i
 
 CMakeFiles/test_physfs.dir/test/test_physfs.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/test_physfs.dir/test/test_physfs.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieGameProject/libs/physfs/test/test_physfs.c -o CMakeFiles/test_physfs.dir/test/test_physfs.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/serengeor/Coding/ZombieProject/libs/physfs/test/test_physfs.c -o CMakeFiles/test_physfs.dir/test/test_physfs.s
 
 CMakeFiles/test_physfs.dir/test/test_physfs.o.requires:
 .PHONY : CMakeFiles/test_physfs.dir/test/test_physfs.o.requires
@@ -103,6 +103,6 @@ CMakeFiles/test_physfs.dir/clean:
 .PHONY : CMakeFiles/test_physfs.dir/clean
 
 CMakeFiles/test_physfs.dir/depend:
-	cd /home/serengeor/Coding/ZombieGameProject/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/test_physfs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/serengeor/Coding/ZombieProject/libs/physfs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/test_physfs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/test_physfs.dir/depend
 

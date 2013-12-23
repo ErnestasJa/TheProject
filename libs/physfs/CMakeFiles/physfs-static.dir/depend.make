@@ -15,7 +15,6 @@ CMakeFiles/physfs-static.dir/archivers/hog.o: physfs_internal.h
 
 CMakeFiles/physfs-static.dir/archivers/lzma.o: archivers/lzma.c
 CMakeFiles/physfs-static.dir/archivers/lzma.o: lzma/C/7zCrc.h
-CMakeFiles/physfs-static.dir/archivers/lzma.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/archivers/lzma.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/archivers/lzma.o: lzma/C/Archive/7z/7zBuffer.h
 CMakeFiles/physfs-static.dir/archivers/lzma.o: lzma/C/Archive/7z/7zExtract.h
@@ -49,17 +48,11 @@ CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/7zCrc.c
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/7zCrc.h
 CMakeFiles/physfs-static.dir/lzma/C/7zCrc.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Archive/7z/7zBuffer.c
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Archive/7z/7zBuffer.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zBuffer.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Compress/Branch/BranchTypes.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Compress/Branch/BranchX86.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Compress/Branch/BranchX86_2.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Compress/Lzma/LzmaDecode.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Compress/Lzma/LzmaTypes.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zBuffer.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zDecode.c
@@ -68,9 +61,14 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zH
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zIn.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zItem.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Archive/7z/7zMethodID.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Compress/Branch/BranchTypes.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Compress/Branch/BranchX86.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Compress/Branch/BranchX86_2.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Compress/Lzma/LzmaDecode.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Compress/Lzma/LzmaTypes.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zDecode.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/../../7zCrc.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/../../Types.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/7zCrc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zBuffer.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zDecode.h
@@ -80,13 +78,13 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7z
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zIn.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zItem.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Archive/7z/7zMethodID.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zExtract.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: lzma/C/Archive/7z/7zHeader.c
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: lzma/C/Archive/7z/7zHeader.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zHeader.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/../../7zCrc.h
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/../../Types.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/7zCrc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zBuffer.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zDecode.h
@@ -95,24 +93,25 @@ CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zIn.c
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zIn.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zItem.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Archive/7z/7zMethodID.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zIn.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zAlloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zBuffer.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zHeader.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zItem.c
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zItem.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Archive/7z/7zMethodID.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zItem.o: lzma/C/Types.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: lzma/C/Archive/7z/../../Types.h
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: lzma/C/Archive/7z/7zMethodID.c
 CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: lzma/C/Archive/7z/7zMethodID.h
+CMakeFiles/physfs-static.dir/lzma/C/Archive/7z/7zMethodID.o: lzma/C/Types.h
 
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o: lzma/C/Compress/Branch/BranchTypes.h
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o: lzma/C/Compress/Branch/BranchX86.c
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86.o: lzma/C/Compress/Branch/BranchX86.h
 
-CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Compress/Branch/../../Alloc.h
+CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Alloc.h
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Compress/Branch/BranchTypes.h
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Compress/Branch/BranchX86_2.c
 CMakeFiles/physfs-static.dir/lzma/C/Compress/Branch/BranchX86_2.o: lzma/C/Compress/Branch/BranchX86_2.h

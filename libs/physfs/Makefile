@@ -39,13 +39,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_SOURCE_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
+CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieProject/libs/physfs
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = /home/serengeor/Coding/ZombieGameProject/libs/physfs
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -113,9 +113,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -154,6 +154,19 @@ dist: cmake_check_build_system
 dist/fast:
 	$(MAKE) -f CMakeFiles/dist.dir/build.make CMakeFiles/dist.dir/build
 .PHONY : dist/fast
+
+#=============================================================================
+# Target rules for targets named docs
+
+# Build rule for target.
+docs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 docs
+.PHONY : docs
+
+# fast build rule for target.
+docs/fast:
+	$(MAKE) -f CMakeFiles/docs.dir/build.make CMakeFiles/docs.dir/build
+.PHONY : docs/fast
 
 #=============================================================================
 # Target rules for targets named physfs-static
@@ -803,6 +816,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... dist"
+	@echo "... docs"
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"

@@ -1,3 +1,4 @@
-/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/dist.dir
-/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/physfs-static.dir
-/home/serengeor/Coding/ZombieGameProject/libs/physfs/CMakeFiles/test_physfs.dir
+/home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/dist.dir
+/home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/docs.dir
+/home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/physfs-static.dir
+/home/serengeor/Coding/ZombieProject/libs/physfs/CMakeFiles/test_physfs.dir
