@@ -10,6 +10,8 @@
 #include "gui/gui_element.h"
 #include "gui/gui_test_element.h"
 
+#include "resources/texture_loader.h"
+
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
     //definitely a comment
@@ -48,6 +50,12 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     }
 
     delete loader;
+
+    texture_loader l;
+    texture * t = l.load("res/body.png");
+
+    if(!t)
+        return false;
 
     ///quad shaders
     char * vsh=NULL;
@@ -139,6 +147,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     glUniformMatrix4fv(sh->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
     glUniformMatrix3x4fv(sh->getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
 
+    t->set(0);
     mesh->set_frame(80);
     mesh->draw(false);
 

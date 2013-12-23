@@ -74,6 +74,7 @@
 			<Add directory="../../libs/glxw/include" />
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
+			<Add directory="../../libs/stb_image" />
 		</Compiler>
 		<Linker>
 			<Add directory="../../libs/glfw/src" />
@@ -126,8 +127,14 @@
 		<Unit filename="../../src/resources/iqmesh.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
+		<Unit filename="../../src/resources/itexture_loader.cpp" />
+		<Unit filename="../../src/resources/itexture_loader.h" />
 		<Unit filename="../../src/resources/mesh.h" />
+		<Unit filename="../../src/resources/png_loader.cpp" />
+		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />
+		<Unit filename="../../src/resources/texture_loader.cpp" />
+		<Unit filename="../../src/resources/texture_loader.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />

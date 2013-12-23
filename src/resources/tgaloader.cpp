@@ -55,12 +55,9 @@ texture * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)
     return tex;
 }
 
-bool tgaloader::checkByExtension(const std::string & ext)
+bool tgaloader::check_by_extension(const std::string & ext)
 {
-    if(ext=="tga")
-        return true;
-
-    return false;
+    return ext=="tga" || ext==".tga";
 }
 
 bool tgaloader::checkByHeader(void * hbuffer, const uint32_t hsize)

@@ -1,9 +1,9 @@
 #ifndef CTEXTURELOADERTGA_H
 #define CTEXTURELOADERTGA_H
 
-#include "opengl/texture.h"
+#include "itexture_loader.h"
 
-class tgaloader
+class tgaloader: public itexture_loader
 {
 protected:
 
@@ -40,7 +40,7 @@ public:
     virtual texture * generate(void * buffer, const uint32_t size);
 
     ///Check if the data is loadable
-    virtual bool checkByExtension(const std::string & ext);
+    virtual bool check_by_extension(const std::string & ext);
 
     virtual bool checkByHeader(void * hbuffer, const uint32_t hsize);
 

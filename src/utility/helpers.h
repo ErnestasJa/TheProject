@@ -1,16 +1,18 @@
 #pragma once
 
-inline bool read(const std::string & file, char *& buf)
+inline uint32_t read(const std::string & file, char *& buf)
 {
     PHYSFS_file* f = PHYSFS_openRead(file.c_str());
 
     if(!f)
-        return false;
+        return 0;
 
-    buf = new char[PHYSFS_fileLength(f)+1];
-    buf[PHYSFS_fileLength(f)]=0;
-    PHYSFS_read(f, buf, 1, PHYSFS_fileLength(f));
+    uint32_t len = PHYSFS_fileLength(f), ret = 0;
+
+    buf = new char[len+1];
+    buf[len] = 0;
+    ret = PHYSFS_read(f, buf, 1, len) * len;
     PHYSFS_close(f);
 
-    return true;
+    return ret;
 }

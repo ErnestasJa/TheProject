@@ -18,6 +18,7 @@ protected:
     std::vector<std::shared_ptr<shader> > * shader_cache;
     std::vector<std::shared_ptr<texture> > * tex_cache;
     std::vector<std::shared_ptr<frame_buffer_object> > * fbo_cache;
+
     uint32_t frame_count;
     uint32_t last_time;
 
