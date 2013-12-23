@@ -1,6 +1,6 @@
 #include "precomp.h"
-#include "gui_element.h"
-#include "logger.h"
+#include "gui/gui_element.h"
+#include "utility/logger.h"
 
 #include <iterator>
 

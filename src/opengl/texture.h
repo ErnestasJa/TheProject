@@ -1,7 +1,7 @@
 #pragma once
 #include "opengl_inc.h"
 #include "glm.hpp"
-#include "bit.h"
+#include "utility/bit.h"
 #include <string>
 
 struct image

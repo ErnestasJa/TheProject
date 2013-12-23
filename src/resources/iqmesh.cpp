@@ -2,7 +2,7 @@
 #include "iqmesh.h"
 #include "math/util.h"
 #include "resource_cache.h"
-#include "logger.h"
+#include "utility/logger.h"
 
 // TODO (serengeor#1#): Separate skeletal info from mesh
 

@@ -1,7 +1,7 @@
 #include "precomp.h"
-#include "vec2.h"
-#include "logger.h"
-#include "input_handler.h"
+#include "math/vec2.h"
+#include "utility/logger.h"
+#include "gui/input_handler.h"
 
 input_handler::input_handler(logger *log,GLFWwindow* win)
 {

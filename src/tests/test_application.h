@@ -1,13 +1,13 @@
 #pragma once
 
-#include "application.h"
-#include "resource_cache.h"
-#include "iqmesh.h"
-#include "texture.h"
-#include "frame_buffer_object.h"
-#include "shader.h"
-#include "quad.h"
-#include "gui_event_listener.h"
+#include "application/application.h"
+#include "resources/resource_cache.h"
+#include "resources/iqmesh.h"
+#include "opengl/texture.h"
+#include "opengl/frame_buffer_object.h"
+#include "opengl/shader.h"
+#include "opengl/quad.h"
+#include "gui/gui_event_listener.h"
 
 class gui_environment;
 class gui_element;

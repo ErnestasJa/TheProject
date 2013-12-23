@@ -1,5 +1,4 @@
-#ifndef UTIL_H_INCLUDED
-#define UTIL_H_INCLUDED
+#pragma once
 
 inline bool read(const std::string & file, char *& buf)
 {
@@ -15,5 +14,3 @@ inline bool read(const std::string & file, char *& buf)
 
     return true;
 }
-
-#endif // UTIL_H_INCLUDED

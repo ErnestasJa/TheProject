@@ -1,8 +1,8 @@
-#include "application.h"
-#include "test_application.h"
-#include "gui_and_fonts_application.h"
-#include "logger.h"
-#include "timer.h"
+#include "application/application.h"
+#include "tests/test_application.h"
+#include "tests/gui_and_fonts_application.h"
+#include "utility/logger.h"
+#include "utility/timer.h"
 
 int main(int argc, const char ** argv)
 {

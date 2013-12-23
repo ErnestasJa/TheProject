@@ -1,9 +1,9 @@
 #include "application.h"
 
-#include "window.h"
-#include "opengl_util.h"
-#include "timer.h"
-#include "logger.h"
+#include "application/window.h"
+#include "opengl/opengl_util.h"
+#include "utility/timer.h"
+#include "utility/logger.h"
 
 void application::output_versions()
 {

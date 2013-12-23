@@ -1,5 +1,5 @@
 #include "opengl_util.h"
-#include "logger.h"
+#include "utility/logger.h"
 
 
 #ifdef __MINGW32__

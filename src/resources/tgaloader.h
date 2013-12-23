@@ -1,7 +1,7 @@
 #ifndef CTEXTURELOADERTGA_H
 #define CTEXTURELOADERTGA_H
 
-#include "texture.h"
+#include "opengl/texture.h"
 
 class tgaloader
 {

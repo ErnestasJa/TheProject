@@ -1,7 +1,7 @@
 #pragma once
 
-#include "mesh.h"
-#include "shader.h"
+#include "resources/mesh.h"
+#include "opengl/shader.h"
 #include "precomp.h"
 
 

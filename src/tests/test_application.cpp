@@ -1,14 +1,14 @@
 #include "test_application.h"
 
-#include "iqmloader.h"
-#include "window.h"
-#include "timer.h"
-#include "logger.h"
-#include "quad.h"
-#include "gui_environment.h"
-#include "opengl_util.h"
-#include "gui_element.h"
-#include "gui_test_element.h"
+#include "resources/iqmloader.h"
+#include "application/window.h"
+#include "utility/timer.h"
+#include "utility/logger.h"
+#include "opengl/quad.h"
+#include "gui/gui_environment.h"
+#include "opengl/opengl_util.h"
+#include "gui/gui_element.h"
+#include "gui/gui_test_element.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {

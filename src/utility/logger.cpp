@@ -1,7 +1,7 @@
 #include "precomp.h"
-#include "logger.h"
-#include "application.h"
-#include "timer.h"
+#include "utility/logger.h"
+#include "application/application.h"
+#include "utility/timer.h"
 
 logger::logger(application *app,int verbosity)
 {

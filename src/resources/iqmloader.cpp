@@ -2,7 +2,7 @@
 #include "iqmloader.h"
 #include "iqmesh.h"
 #include "math/util.h"
-#include "logger.h"
+#include "utility/logger.h"
 
 iqmloader::iqmloader(logger *logger)
 {

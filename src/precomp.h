@@ -21,10 +21,10 @@
 #include "gtc/matrix_transform.hpp"
 #include "gtc/type_ptr.hpp"
 
-#include "bit.h"
+#include "utility/bit.h"
 
 #include "physfs.h"
 
-#include "util.h"
+#include "utility/helpers.h"
 
 #endif
