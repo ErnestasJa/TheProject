@@ -2,6 +2,13 @@
 
 #include "opengl/texture.h"
 
+enum FBO_TARGET
+{
+    FBO_READ = 0,
+    FBO_WRITE,
+    FBO_READ_AND_WRITE
+};
+
 struct frame_buffer_object
 {
     uint32_t id;
@@ -22,23 +29,33 @@ struct frame_buffer_object
         target = GL_FRAMEBUFFER;
     }
 
-    void enable(uint32_t buffer)
+    void enable_texture(uint32_t texture)
     {
+        if(texture > 8)
+            throw texture;
+
+        texture += GL_COLOR_ATTACHMENT0;
+
         for(uint8_t i = 0; i < ebc; i++)
         {
-            if(enabled_buffer[i]==buffer)
+            if(enabled_buffer[i]==texture)
                 return;
         }
 
-        enabled_buffer[ebc]=buffer;
+        enabled_buffer[ebc]=texture;
         ebc++;
     }
 
-    void disable(uint32_t buffer)
+    void disable_texture(uint32_t texture)
     {
+        if(texture > 8)
+            throw texture;
+
+        texture += GL_COLOR_ATTACHMENT0;
+
         for(uint8_t i = 0; i < ebc; i++)
         {
-            if(enabled_buffer[i]==buffer)
+            if(enabled_buffer[i]==texture)
             {
                 ebc--;
                 for(uint8_t j = i; j < ebc; j++)
@@ -53,11 +70,18 @@ struct frame_buffer_object
         return true;
     }
 
-    void set(uint32_t target)
+    void set(FBO_TARGET target)
     {
-        this->target = target;
-        glBindFramebuffer(target, id);
+        if(target == FBO_READ)
+            this->target = GL_READ_FRAMEBUFFER;
+        else if(target == FBO_WRITE)
+            this->target = GL_DRAW_FRAMEBUFFER;
+        else if(target == FBO_READ_AND_WRITE)
+            this->target = GL_FRAMEBUFFER;
+        else
+            throw target;
 
+        glBindFramebuffer(this->target, id);
         glDrawBuffers(ebc,enabled_buffer);
     }
 
@@ -66,36 +90,66 @@ struct frame_buffer_object
         glBindFramebuffer(target,0);
     }
 
-    void attach(uint32_t attachment_point, std::shared_ptr<texture> tex, uint32_t level=0)
+    void attach_depth_texture(std::shared_ptr<texture> tex, uint32_t level=0)
     {
-        glFramebufferTexture2D(target,attachment_point,tex->type,tex->obj,0);
-
-        if(attachment_point>=GL_COLOR_ATTACHMENT0 && attachment_point<GL_COLOR_ATTACHMENT0+8)
-            color_binding[attachment_point-GL_COLOR_ATTACHMENT0]=tex;
-        else if(attachment_point==GL_DEPTH_ATTACHMENT)
-            depth_buffer_binding=tex;
-        else if(attachment_point==GL_STENCIL_ATTACHMENT)
-            stencil_buffer_binding=tex;
-        else if(attachment_point==GL_DEPTH_STENCIL_ATTACHMENT)
-            depth_stencil_buffer_binding=tex;
-
+        glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,tex->type,tex->obj,level);
+        depth_buffer_binding=tex;
     }
 
-    void detach(uint32_t attachment_point)
+    void attach_stencil_texture(std::shared_ptr<texture> tex, uint32_t level=0)
     {
-        glFramebufferTexture2D(target,attachment_point,0,0,0);
-
-        if(attachment_point>=GL_COLOR_ATTACHMENT0 && attachment_point<GL_COLOR_ATTACHMENT0+8)
-            color_binding[attachment_point-GL_COLOR_ATTACHMENT0]=NULL;
-        else if(attachment_point==GL_DEPTH_ATTACHMENT)
-            depth_buffer_binding=NULL;
-        else if(attachment_point==GL_STENCIL_ATTACHMENT)
-            stencil_buffer_binding=NULL;
-        else if(attachment_point==GL_DEPTH_STENCIL_ATTACHMENT)
-            depth_stencil_buffer_binding=NULL;
+        glFramebufferTexture2D(target,GL_STENCIL_ATTACHMENT,tex->type,tex->obj,level);
+        stencil_buffer_binding=tex;
     }
 
-    uint32_t is_complete()
+    void attach_depth_stencil_texture(std::shared_ptr<texture> tex, uint32_t level=0)
+    {
+        glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,tex->type,tex->obj,level);
+        depth_stencil_buffer_binding=tex;
+    }
+
+    void attach_texture(uint32_t attachment_point, std::shared_ptr<texture> tex, uint32_t level=0)
+    {
+        if(attachment_point < 8)
+        {
+            color_binding[attachment_point]=tex;
+            glFramebufferTexture2D(target, attachment_point+GL_COLOR_ATTACHMENT0, tex->type, tex->obj, level);
+        }
+    }
+
+    void detach_texture(uint32_t attachment_point)
+    {
+        if(attachment_point < 8)
+        {
+            color_binding[attachment_point]=nullptr;
+            glFramebufferTexture2D(target,attachment_point+GL_COLOR_ATTACHMENT0,0,0,0);
+        }
+    }
+
+    void detach_depth_texture()
+    {
+        glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,0,0,0);
+        depth_buffer_binding=nullptr;
+    }
+
+    void detach_stencil_texture()
+    {
+        glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,0,0,0);
+        stencil_buffer_binding=nullptr;
+    }
+
+    void detach_depth_stencil_texture()
+    {
+        glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,0,0,0);
+        depth_stencil_buffer_binding=nullptr;
+    }
+
+    bool is_complete()
+    {
+        return glCheckFramebufferStatus(target)==GL_FRAMEBUFFER_COMPLETE;
+    }
+
+    uint32_t get_status()
     {
         return glCheckFramebufferStatus(target);
     }

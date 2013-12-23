@@ -95,30 +95,32 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	///prepare fbo, textures
 	tex = new texture();
 	ztex = new texture();
+
 	auto shared_tex = share(tex);
 	auto shared_ztex = share(ztex);
+
     tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
     ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024,0);
+
     tex_cache->push_back(shared_tex);
     tex_cache->push_back(shared_ztex);
+
     this->gl_util->check_and_output_errors();
 
     fbo = new frame_buffer_object();
     fbo->generate();
-    fbo->enable(GL_COLOR_ATTACHMENT0);
-    fbo->set(GL_FRAMEBUFFER);
+    fbo->enable_texture(0);
+    fbo->set(FBO_WRITE);
 
-    fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
-    uint32_t complete = fbo->is_complete();
+    fbo->attach_texture(0,shared_tex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
-    fbo->attach(GL_DEPTH_ATTACHMENT,shared_ztex);
-    complete = fbo->is_complete();
+    fbo->attach_depth_texture(shared_ztex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
     fbo_cache->push_back(share(fbo));
 

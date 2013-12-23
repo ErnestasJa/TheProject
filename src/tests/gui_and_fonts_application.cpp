@@ -64,20 +64,18 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     fbo = new frame_buffer_object();
     fbo->generate();
-    fbo->enable(GL_COLOR_ATTACHMENT0);
-    fbo->set(GL_FRAMEBUFFER);
+    fbo->enable_texture(0);
+    fbo->set(FBO_WRITE);
 
-    fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
-    uint32_t complete = fbo->is_complete();
+    fbo->attach_texture(0,shared_tex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
-    fbo->attach(GL_DEPTH_ATTACHMENT,shared_ztex);
-    complete = fbo->is_complete();
+    fbo->attach_depth_texture(shared_ztex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
     fbo_cache->push_back(share(fbo));
 
