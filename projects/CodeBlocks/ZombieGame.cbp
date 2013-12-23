@@ -118,7 +118,6 @@
 			<Option weight="0" />
 		</Unit>
 		<Unit filename="../../src/quad.h" />
-		<Unit filename="../../src/rect2d.h" />
 		<Unit filename="../../src/resource_cache.h" />
 		<Unit filename="../../src/shader.h" />
 		<Unit filename="../../src/test_application.cpp" />
@@ -129,7 +128,6 @@
 		<Unit filename="../../src/tgaloader.h" />
 		<Unit filename="../../src/timer.cpp" />
 		<Unit filename="../../src/timer.h" />
-		<Unit filename="../../src/vec2.h" />
 		<Unit filename="../../src/window.cpp" />
 		<Unit filename="../../src/window.h" />
 		<Extensions>

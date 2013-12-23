@@ -1461,7 +1461,7 @@
 	"gui_element.h"
 	"gui_environment.h"
 
-1387653839 source:/home/serengeor/Coding/ZombieProject/src/precomp.h
+1387758736 source:/home/serengeor/Coding/ZombieProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -1471,6 +1471,7 @@
 	<string.h>
 	<stdio.h>
 	<GLXW/glxw.h>
+	"GLFW/glfw3.h"
 	"glm.hpp"
 	"gtx/norm.hpp"
 	"gtc/matrix_transform.hpp"
@@ -1796,7 +1797,7 @@
 1387648387 /home/serengeor/Coding/ZombieProject/src/application.h
 	"precomp.h"
 
-1387653839 /home/serengeor/Coding/ZombieProject/src/precomp.h
+1387758736 /home/serengeor/Coding/ZombieProject/src/precomp.h
 	<stdint.h>
 	<iostream>
 	<iomanip>
@@ -1806,6 +1807,7 @@
 	<string.h>
 	<stdio.h>
 	<GLXW/glxw.h>
+	"GLFW/glfw3.h"
 	"glm.hpp"
 	"gtx/norm.hpp"
 	"gtc/matrix_transform.hpp"
@@ -1813,7 +1815,7 @@
 	"bit.h"
 	"physfs.h"
 
-1387719748 /home/serengeor/Coding/ZombieProject/src/window.h
+1387758736 /home/serengeor/Coding/ZombieProject/src/window.h
 	"precomp.h"
 	"GLFW/glfw3.h"
 	<functional>
@@ -1856,12 +1858,12 @@
 1387648387 /home/serengeor/Coding/ZombieProject/src/mesh.h
 	"precomp.h"
 
-1387667371 /home/serengeor/Coding/ZombieProject/src/math/util.h
+1387758736 /home/serengeor/Coding/ZombieProject/src/math/util.h
 
 1387648387 /home/serengeor/Coding/ZombieProject/src/resource_cache.h
 	"precomp.h"
 
-1387648387 source:/home/serengeor/Coding/ZombieProject/src/iqmloader.cpp
+1387756957 source:/home/serengeor/Coding/ZombieProject/src/iqmloader.cpp
 	"precomp.h"
 	"iqmloader.h"
 	"iqmesh.h"
@@ -1882,7 +1884,7 @@
 	"logger.h"
 	"timer.h"
 
-1387648387 /home/serengeor/Coding/ZombieProject/src/test_application.h
+1387756957 /home/serengeor/Coding/ZombieProject/src/test_application.h
 	"application.h"
 	"resource_cache.h"
 	"iqmesh.h"
@@ -1890,6 +1892,7 @@
 	"frame_buffer_object.h"
 	"shader.h"
 	"quad.h"
+	"gui_event_listener.h"
 
 1387653426 /home/serengeor/Coding/ZombieProject/src/texture.h
 	"opengl_inc.h"
@@ -1910,7 +1913,7 @@
 	"shader.h"
 	"precomp.h"
 
-1387717254 source:/home/serengeor/Coding/ZombieProject/src/opengl_util.cpp
+1387758736 source:/home/serengeor/Coding/ZombieProject/src/opengl_util.cpp
 	"opengl_util.h"
 	"logger.h"
 	<GLXW/glxw_wgl.h>
@@ -1938,14 +1941,17 @@
 	<stdint.h>
 	<inttypes.h>
 
-1387721435 source:/home/serengeor/Coding/ZombieProject/src/test_application.cpp
+1387758736 source:/home/serengeor/Coding/ZombieProject/src/test_application.cpp
 	"test_application.h"
 	"iqmloader.h"
 	"window.h"
 	"timer.h"
 	"logger.h"
 	"quad.h"
+	"gui_environment.h"
 	"opengl_util.h"
+	"gui_element.h"
+	"gui_test_element.h"
 
 1387648387 source:/home/serengeor/Coding/ZombieProject/src/texture.cpp
 	"texture.h"
@@ -2038,4 +2044,45 @@
 
 1387749321 c:\users\andrew\desktop\stuff\coding\zombiegameproject\src\opengl_inc.h
 	"GLXW/glxw.h"
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/gui_event_listener.h
+	"gui_event.h"
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/gui_event.h
+
+1387758736 /home/serengeor/Coding/ZombieProject/src/gui_environment.h
+	"gui_element.h"
+	"vec2.h"
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/gui_element.h
+	<vector>
+	"rect2d.h"
+	"gui_event_listener.h"
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/rect2d.h
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/vec2.h
+
+1387756957 /home/serengeor/Coding/ZombieProject/src/gui_test_element.h
+	"gui_element.h"
+	"gui_environment.h"
+
+1387756957 source:/home/serengeor/Coding/ZombieProject/src/gui_element.cpp
+	"precomp.h"
+	"gui_element.h"
+	"logger.h"
+	<iterator>
+
+1387758736 source:/home/serengeor/Coding/ZombieProject/src/gui_environment.cpp
+	"precomp.h"
+	"gui_environment.h"
+	"input_handler.h"
+
+1387758736 /home/serengeor/Coding/ZombieProject/src/input_handler.h
+
+1387758736 source:/home/serengeor/Coding/ZombieProject/src/input_handler.cpp
+	"precomp.h"
+	"vec2.h"
+	"logger.h"
+	"input_handler.h"
 
