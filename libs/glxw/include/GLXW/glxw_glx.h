@@ -4,8 +4,8 @@
 
 struct glxw_glx;
 
-#include "GL/glx.h"
-#include "GL/glxext.h"
+#include <GL/glx.h>
+#include <GL/glxext.h>
 
 
 #ifndef __gl_h_

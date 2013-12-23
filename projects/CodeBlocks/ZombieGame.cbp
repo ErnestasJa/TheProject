@@ -6,9 +6,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Linux-Debug">
-				<Option output="../../../Build/Debug/ZombieGame" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../../../Build/Debug" />
-				<Option object_output="../../../Build/Debug" />
+				<Option output="../../bin/Debug/ZombieGame" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin/Debug" />
+				<Option object_output="../../bin/Debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -25,7 +25,9 @@
 					<Add library="Xrandr" />
 					<Add library="Xi" />
 					<Add library="glfw3" />
-					<Add library="../../libs/physfs/libphysfs.a" />
+					<Add library="libphysfs" />
+					<Add directory="../../libs/glfw/lib" />
+					<Add directory="../../libs/physfs/lib" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
@@ -41,9 +43,9 @@
 				</Linker>
 			</Target>
 			<Target title="Win32-Debug">
-				<Option output="../../../Build/Debug/ZombieGame" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../../../Build/Debug" />
-				<Option object_output="../../../Build/Debug" />
+				<Option output="../../bin/Debug/ZombieGame" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin/Debug" />
+				<Option object_output="../../bin/Debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -51,11 +53,13 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="glfw" />
+					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
-					<Add library="../../libs/physfs/bins/libphysfs.a" />
-					<Add directory="../../libs/glfw/lib/win32" />
+					<Add library="gdi32" />
+					<Add library="libphysfs" />
+					<Add directory="../../libs/glfw/lib" />
+					<Add directory="../../libs/physfs" />
 				</Linker>
 			</Target>
 		</Build>
