@@ -15,6 +15,7 @@ typedef unsigned int uint;
 #ifdef swap
 #undef swap
 #endif
+
 template<class T>
 static inline void swap(T &a, T &b)
 {
@@ -22,17 +23,20 @@ static inline void swap(T &a, T &b)
     a = b;
     b = t;
 }
+
 #ifdef max
 #undef max
 #endif
 #ifdef min
 #undef min
 #endif
+
 template<class T>
 static inline T max(T a, T b)
 {
     return a > b ? a : b;
 }
+
 template<class T>
 static inline T min(T a, T b)
 {
@@ -47,8 +51,6 @@ static inline T clamp(T val, T minval, T maxval)
 {
     return max(minval, min(val, maxval));
 }
-
-
 
 inline bool islittleendian() { static const int val = 1; return *(const uchar *)&val != 0; }
 inline ushort endianswap16(ushort n) { return (n<<8) | (n>>8); }
