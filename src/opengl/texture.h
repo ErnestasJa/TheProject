@@ -1,5 +1,4 @@
 #pragma once
-#include "opengl_inc.h"
 
 struct image
 {

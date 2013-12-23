@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "itexture_loader.h"
 
 itexture_loader::itexture_loader()

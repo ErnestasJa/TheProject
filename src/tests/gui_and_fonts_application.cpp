@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "gui_and_fonts_application.h"
 
 #include "application/window.h"

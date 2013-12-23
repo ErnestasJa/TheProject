@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "texture.h"
 
 uint32_t texture::active_slot = 0;

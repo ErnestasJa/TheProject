@@ -1,6 +1,7 @@
+#include "precomp.h"
+
 #include "tgaloader.h"
 #include "glm.hpp"
-#include <string.h>
 
 
 tgaloader::tgaloader()

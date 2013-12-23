@@ -1,9 +1,8 @@
 #include "precomp.h"
+
 #include "texture_loader.h"
 #include "png_loader.h"
 #include "tgaloader.h"
-
-#include <algorithm>
 
 texture_loader::texture_loader()
 {

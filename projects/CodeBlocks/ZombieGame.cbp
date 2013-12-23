@@ -123,7 +123,10 @@
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
-		<Unit filename="../../src/precomp.h" />
+		<Unit filename="../../src/precomp.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/resources/iqmesh.cpp" />
 		<Unit filename="../../src/resources/iqmesh.h" />

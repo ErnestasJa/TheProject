@@ -2,8 +2,9 @@
 #define _PRECOMP_H_
 
 // C/C++ SUITE INCLUDES
-#include <stdint.h>
 #include <iostream>
+#include <stdio.h>
+#include <stdint.h>
 #include <iomanip>
 #include <fstream>
 #include <memory>
@@ -12,10 +13,15 @@
 #include <map>
 
 #include <string.h>
-#include <stdio.h>
 
 #include <sstream>
 #include <stdarg.h>
+
+#include <ctime>
+#include <chrono>
+
+#include <iterator>
+#include <algorithm>
 
 // OPENGL RELATED LIBS
 #include <GLXW/glxw.h>

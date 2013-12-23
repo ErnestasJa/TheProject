@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "window.h"
 
 std::map<GLFWwindow*, window*>   window::m_windows;

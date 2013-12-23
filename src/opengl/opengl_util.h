@@ -1,5 +1,4 @@
 #pragma once
-#include "precomp.h"
 
 class logger;
 class opengl_util

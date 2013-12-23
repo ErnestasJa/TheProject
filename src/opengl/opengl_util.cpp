@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "opengl_util.h"
 #include "utility/logger.h"
 

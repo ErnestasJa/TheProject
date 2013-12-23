@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "application/application.h"
 #include "tests/test_application.h"
 #include "tests/gui_and_fonts_application.h"

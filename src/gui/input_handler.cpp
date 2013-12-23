@@ -1,4 +1,5 @@
 #include "precomp.h"
+
 #include "math/vec2.h"
 #include "utility/logger.h"
 #include "gui/input_handler.h"

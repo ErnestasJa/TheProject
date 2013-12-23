@@ -1,4 +1,5 @@
 #include "precomp.h"
+
 #include "iqmesh.h"
 #include "math/util.h"
 #include "resource_cache.h"

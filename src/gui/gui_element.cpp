@@ -1,8 +1,7 @@
 #include "precomp.h"
+
 #include "gui/gui_element.h"
 #include "utility/logger.h"
-
-#include <iterator>
 
 gui_element::gui_element(int x, int y, int w, int h)
 {

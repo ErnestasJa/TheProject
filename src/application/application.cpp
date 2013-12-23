@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "application/window.h"
 #include "opengl/opengl_util.h"
 #include "utility/timer.h"

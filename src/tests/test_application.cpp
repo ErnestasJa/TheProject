@@ -1,3 +1,5 @@
+#include "precomp.h"
+
 #include "test_application.h"
 
 #include "application/window.h"

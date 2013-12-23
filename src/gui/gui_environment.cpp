@@ -1,4 +1,5 @@
 #include "precomp.h"
+
 #include "gui_environment.h"
 #include "input_handler.h"
 

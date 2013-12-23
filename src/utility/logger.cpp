@@ -1,4 +1,5 @@
 #include "precomp.h"
+
 #include "utility/logger.h"
 #include "application/application.h"
 #include "utility/timer.h"
