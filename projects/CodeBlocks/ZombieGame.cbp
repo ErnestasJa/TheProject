@@ -96,6 +96,8 @@
 		<Unit filename="../../src/application.h" />
 		<Unit filename="../../src/bit.h" />
 		<Unit filename="../../src/frame_buffer_object.h" />
+		<Unit filename="../../src/gui_and_fonts_application.cpp" />
+		<Unit filename="../../src/gui_and_fonts_application.h" />
 		<Unit filename="../../src/gui_element.cpp" />
 		<Unit filename="../../src/gui_element.h" />
 		<Unit filename="../../src/gui_environment.cpp" />
@@ -132,6 +134,7 @@
 		<Unit filename="../../src/tgaloader.h" />
 		<Unit filename="../../src/timer.cpp" />
 		<Unit filename="../../src/timer.h" />
+		<Unit filename="../../src/util.h" />
 		<Unit filename="../../src/window.cpp" />
 		<Unit filename="../../src/window.h" />
 		<Extensions>

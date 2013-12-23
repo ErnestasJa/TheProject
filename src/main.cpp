@@ -6,7 +6,7 @@
 
 int main(int argc, const char ** argv)
 {
-    application * app = new gui_and_fonts_application(argc,argv);
+    application * app = new test_application(argc,argv);
 
     if(app->init("test",1024,720))
     {
