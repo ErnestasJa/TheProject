@@ -1,16 +1,16 @@
 #pragma once
 
 #include "application/application.h"
-#include "resources/resource_cache.h"
-#include "resources/iqmesh.h"
-#include "opengl/texture.h"
-#include "opengl/frame_buffer_object.h"
-#include "opengl/shader.h"
-#include "opengl/quad.h"
 #include "gui/gui_event_listener.h"
 
+class iqmesh;
+class texture;
+class frame_buffer_object;
+class shader;
+class quad;
 class gui_environment;
 class gui_element;
+
 class gui_and_fonts_application: public application,gui_event_listener
 {
 protected:

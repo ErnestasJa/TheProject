@@ -1,5 +1,4 @@
-#ifndef ITEXTURE_LOADER_H
-#define ITEXTURE_LOADER_H
+#pragma once
 
 #include "opengl/texture.h"
 
@@ -15,5 +14,3 @@ class itexture_loader
     protected:
     private:
 };
-
-#endif // ITEXTURE_LOADER_H

@@ -1,10 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include <string>
-#include <sstream>
-#include <stdarg.h>
-
 template <typename T> static std::string tostr(const T& t) { std::ostringstream os; os<<t; return os.str(); } //magic..
 
 //logger levels

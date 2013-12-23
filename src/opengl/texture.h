@@ -1,8 +1,5 @@
 #pragma once
 #include "opengl_inc.h"
-#include "glm.hpp"
-#include "utility/bit.h"
-#include <string>
 
 struct image
 {

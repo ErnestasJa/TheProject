@@ -1,15 +1,16 @@
 #include "test_application.h"
 
-#include "resources/iqmloader.h"
 #include "application/window.h"
+#include "resources/resource_cache.h"
+#include "opengl/texture.h"
+#include "opengl/frame_buffer_object.h"
 #include "utility/timer.h"
 #include "utility/logger.h"
 #include "opengl/quad.h"
-#include "gui/gui_environment.h"
 #include "opengl/opengl_util.h"
-#include "gui/gui_element.h"
-#include "gui/gui_test_element.h"
 
+#include "resources/iqmloader.h"
+#include "resources/iqmesh.h"
 #include "resources/texture_loader.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
@@ -156,47 +157,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     int ww,hh;
     GLFWwindow * _window=wnd->getWindow();
     glfwGetWindowSize(_window,&ww,&hh);
-
-    env=new gui_environment(ww,hh,_window);
-    env->set_event_listener(this);
-    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
-    elem->set_event_listener(this);
-
-    gui_test_element *elem2=new gui_test_element(env,0,0,50,50);
-    elem2->set_parent(elem);
-    elem2->set_event_listener(this);
     return true;
-}
-
-void test_application::on_event(gui_event e)
-{
-    logger* _log=this->get_logger();
-    switch(e.get_type())
-    {
-    case element_focused:
-        _log->log(LOG_DEBUG,"Element %s got focused.",e.get_caller()->get_name().c_str());
-        break;
-    case element_focus_lost:
-        _log->log(LOG_DEBUG,"Element %s lost focus.",e.get_caller()->get_name().c_str());
-        break;
-    case element_hovered:
-        _log->log(LOG_DEBUG,"Element %s got hovered.",e.get_caller()->get_name().c_str());
-        break;
-    case element_exitted:
-        _log->log(LOG_DEBUG,"Element %s got exitted.",e.get_caller()->get_name().c_str());
-        break;
-    case mouse_pressed:
-        _log->log(LOG_DEBUG,"Mouse pressed on %s.",e.get_caller()->get_name().c_str());
-        break;
-    case mouse_released:
-        _log->log(LOG_DEBUG,"Mouse released on %s.",e.get_caller()->get_name().c_str());
-        break;
-    case mouse_dragged:
-        _log->log(LOG_DEBUG,"Mouse dragged on %s.",e.get_caller()->get_name().c_str());
-        break;
-    default:
-        break;
-    }
 }
 
 bool test_application::update()
@@ -205,8 +166,6 @@ bool test_application::update()
     {
         // Measure speed
         main_timer->tick();
-
-        //env->update(0);
 
         show_fps();
 

@@ -1,12 +1,5 @@
 #pragma once
 
-#include "precomp.h"
-
-#include "GLFW/glfw3.h"
-
-#include <functional>
-#include <map>
-
 class window_resize_callback
 {
 public:

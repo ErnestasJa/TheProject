@@ -1,7 +1,10 @@
-#ifndef __UTIL_H__
-#define __UTIL_H__
+#pragma once
 
+
+#ifndef M_PI
 #define M_PI 3.14159265359
+#endif
+
 
 #ifdef NULL
 #undef NULL
@@ -145,7 +148,4 @@ static glm::mat3x4 mul(const glm::mat3x4 & m1, const glm::mat3x4 & m2)
 
     return glm::mat3x4(v1,v2,v3);
 }
-
-
-#endif
 

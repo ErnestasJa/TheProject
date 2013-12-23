@@ -1,5 +1,4 @@
-#ifndef RECT2D_H
-#define RECT2D_H
+#pragma once
 
 template <typename T>
 class rect2d
@@ -59,5 +58,3 @@ class rect2d
             y2=y+h;
         }
 };
-
-#endif // RECT2D_H

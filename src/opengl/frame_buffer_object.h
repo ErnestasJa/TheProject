@@ -1,7 +1,6 @@
 #pragma once
 
-#include "texture.h"
-#include "precomp.h"
+#include "opengl/texture.h"
 
 struct frame_buffer_object
 {

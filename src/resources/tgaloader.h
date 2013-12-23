@@ -1,5 +1,4 @@
-#ifndef CTEXTURELOADERTGA_H
-#define CTEXTURELOADERTGA_H
+#pragma once
 
 #include "itexture_loader.h"
 
@@ -50,5 +49,3 @@ public:
 
 private:
 };
-
-#endif // CTEXTURELOADERTGA_H

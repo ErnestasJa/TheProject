@@ -1,6 +1,5 @@
 #pragma once
 
-#include "precomp.h"
 class window;
 class opengl_util;
 class timer;

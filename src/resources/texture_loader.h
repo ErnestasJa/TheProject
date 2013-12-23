@@ -1,5 +1,4 @@
-#ifndef TEXTURE_LOADER_H
-#define TEXTURE_LOADER_H
+#pragma once
 
 #include "itexture_loader.h"
 
@@ -14,5 +13,3 @@ public:
     virtual void add_loader(itexture_loader * loader);
     virtual texture * load(const std::string & file);
 };
-
-#endif // TEXTURE_LOADER_H

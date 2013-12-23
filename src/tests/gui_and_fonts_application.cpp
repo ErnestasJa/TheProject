@@ -1,6 +1,9 @@
 #include "gui_and_fonts_application.h"
 
 #include "application/window.h"
+#include "resources/resource_cache.h"
+#include "opengl/texture.h"
+#include "opengl/frame_buffer_object.h"
 #include "utility/timer.h"
 #include "utility/logger.h"
 #include "opengl/quad.h"

@@ -1,5 +1,4 @@
-#ifndef PNG_LOADER_H
-#define PNG_LOADER_H
+#pragma once
 
 #include "itexture_loader.h"
 
@@ -15,5 +14,3 @@ class png_loader: public itexture_loader
     protected:
     private:
 };
-
-#endif // PNG_LOADER_H

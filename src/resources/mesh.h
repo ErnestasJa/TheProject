@@ -1,6 +1,4 @@
-#ifndef MESH_H_INCLUDED
-#define MESH_H_INCLUDED
-#include "precomp.h"
+#pragma once
 
 struct mesh
 {
@@ -17,5 +15,3 @@ struct mesh
 
     }
 };
-
-#endif // MESH_H_INCLUDED

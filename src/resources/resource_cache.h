@@ -1,5 +1,4 @@
 #pragma once
-#include "precomp.h"
 
 template <class T>
 std::vector<std::shared_ptr<T> > * create_resource_cache()

@@ -1,5 +1,4 @@
 #pragma once
-#include <stdint.h>
 
 #define IQM_MAGIC "INTERQUAKEMODEL"
 #define IQM_VERSION 2

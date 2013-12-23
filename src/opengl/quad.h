@@ -2,10 +2,6 @@
 
 #include "resources/mesh.h"
 #include "opengl/shader.h"
-#include "precomp.h"
-
-
-
 
 class quad
 {
