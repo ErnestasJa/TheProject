@@ -25,4 +25,6 @@
 
 #include "physfs.h"
 
+#include "util.h"
+
 #endif

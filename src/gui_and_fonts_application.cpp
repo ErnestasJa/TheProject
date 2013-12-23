@@ -1,6 +1,5 @@
-#include "test_application.h"
+#include "gui_and_fonts_application.h"
 
-#include "iqmloader.h"
 #include "window.h"
 #include "timer.h"
 #include "logger.h"
@@ -10,44 +9,25 @@
 #include "gui_element.h"
 #include "gui_test_element.h"
 
-test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
+gui_and_fonts_application::gui_and_fonts_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
     //definitely a comment
 }
 
-test_application::~test_application()
+gui_and_fonts_application::~gui_and_fonts_application()
 {
 
 }
 
-bool test_application::init(const std::string & title, uint32_t width, uint32_t height)
+bool gui_and_fonts_application::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    mesh_cache = create_resource_cache<iqmesh>();
     shader_cache = create_resource_cache<shader>();
     tex_cache = create_resource_cache<texture>();
     fbo_cache = create_resource_cache<frame_buffer_object>();
 
     frame_count = 0;
     last_time = 0;
-
-    ///load our mesh
-    char * buffer;
-
-    if(!read("res/mrfixit.iqm",buffer))
-        return false;
-
-    iqmloader *loader=new iqmloader(this->get_logger());
-    iqmesh * mesh=loader->load(buffer);
-
-    if(mesh)
-    {
-        loader->loadiqmanims(mesh);
-        mesh->generate();
-        mesh_cache->push_back(share(mesh));
-    }
-
-    delete loader;
 
     ///quad shaders
     char * vsh=NULL;
@@ -65,21 +45,6 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
 	delete [] vsh;
 	delete [] fsh;
-
-
-    ///mesh shaders
-    if(!read("res/gpu_skin_normal.vert",vsh)) return false;
-    if(!read("res/gpu_skin_normal.frag",fsh)) return false;
-
-    sh = new shader("gpu_skin",vsh,fsh,qtex_binding,0);
-	sh->compile();
-	sh->link();
-	shader_cache->push_back(share(sh));
-
-	delete [] vsh;
-	delete [] fsh;
-
-
 
 	///prepare fbo, textures
 	tex = new texture();
@@ -134,14 +99,6 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    ///render to fbo
-    sh->set();
-    glUniformMatrix4fv(sh->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
-    glUniformMatrix3x4fv(sh->getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
-
-    mesh->set_frame(80);
-    mesh->draw(false);
-
     fbo->unset();
 
     int ww,hh;
@@ -159,7 +116,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     return true;
 }
 
-void test_application::on_event(gui_event e)
+void gui_and_fonts_application::on_event(gui_event e)
 {
     logger* _log=this->get_logger();
     switch(e.get_type())
@@ -190,7 +147,7 @@ void test_application::on_event(gui_event e)
     }
 }
 
-bool test_application::update()
+bool gui_and_fonts_application::update()
 {
     if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
     {
@@ -215,7 +172,7 @@ bool test_application::update()
     return false;
 }
 
-void test_application::show_fps()
+void gui_and_fonts_application::show_fps()
 {
     uint32_t currentTime = main_timer->get_time();
     frame_count++;
@@ -228,13 +185,12 @@ void test_application::show_fps()
     }
 }
 
-void test_application::exit()
+void gui_and_fonts_application::exit()
 {
     delete q;
     delete fbo_cache;
     delete tex_cache;
     delete shader_cache;
-    delete mesh_cache;
 
     application::exit();
 }
