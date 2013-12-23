@@ -1,5 +1,5 @@
 #include "png_loader.h"
-#include "stb_image.c"
+#include "stb_image.h"
 #include <iostream>
 
 png_loader::png_loader()

@@ -93,6 +93,10 @@
 			<Option compilerVar="CC" />
 			<Option target="Win32-Debug" />
 		</Unit>
+		<Unit filename="../../libs/stb_image/stb_image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../libs/stb_image/stb_image.h" />
 		<Unit filename="../../src/application/application.cpp" />
 		<Unit filename="../../src/application/application.h" />
 		<Unit filename="../../src/application/window.cpp" />
@@ -116,11 +120,9 @@
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
-		<Unit filename="../../src/opengl/rect2d.h" />
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
-		<Unit filename="../../src/opengl/vec2.h" />
 		<Unit filename="../../src/precomp.h" />
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/resources/iqmesh.cpp" />
