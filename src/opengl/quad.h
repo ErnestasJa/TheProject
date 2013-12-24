@@ -5,6 +5,8 @@
 
 class quad
 {
+private:
+    float m_size;
 public:
     glm::vec3 pos[4];
     glm::vec2 tex_coords[4];
@@ -14,12 +16,20 @@ public:
 
     static shader quad_shader_textured;
 
-    quad()
+    quad(float size=1.0f)
     {
-        pos[0]=glm::vec3(-1,-1,0);
-        pos[1]=glm::vec3(1,-1,0);
-        pos[2]=glm::vec3(1,1,0);
-        pos[3]=glm::vec3(-1,1,0);
+        this->m_size=size;
+    }
+
+
+    virtual ~quad(){};
+
+    virtual bool generate()
+    {
+        pos[0]=glm::vec3(-m_size,-m_size,0);
+        pos[1]=glm::vec3(m_size,-m_size,0);
+        pos[2]=glm::vec3(m_size,m_size,0);
+        pos[3]=glm::vec3(-m_size,m_size,0);
 
         tex_coords[0] = glm::vec2(0,0);
         tex_coords[1] = glm::vec2(1,0);
@@ -35,10 +45,7 @@ public:
         indices[5]=2;
 
         glmesh.buffers.resize(3);
-    }
 
-    bool generate()
-    {
         glGenVertexArrays(1,&glmesh.vao);
 
         glBindVertexArray(glmesh.vao);

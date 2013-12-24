@@ -49,7 +49,6 @@ bool opengl_util::check_and_output_errors()
 
 std::string opengl_util::gl_error_to_string(uint32_t error)
 {
-
     switch(error)
     {
         case 0:
@@ -59,7 +58,7 @@ std::string opengl_util::gl_error_to_string(uint32_t error)
         case 0x0501:
             return "GL_INVALID_VALUE";
         case 0x0502:
-            return "GL_INVALID_OPERATION";
+            return "GL_INVALID_OPERATION";;
         case 0x0503:
             return "GL_STACK_OVERFLOW";
         case 0x0504:
@@ -110,6 +109,7 @@ std::string opengl_util::gl_fbo_error_to_string(uint32_t error)
         r = "GL_BAD_ERROR_CODE: " + error; //fix this
         break;
     }
-
+    r+=__FILE__;
+    r+=__LINE__;
     return r;
 }

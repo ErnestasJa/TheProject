@@ -69,10 +69,11 @@ void gui_element::bring_to_front(gui_element *e)
 
 void gui_element::render_children()
 {
-    for(gui_element *e : children)
+    std::vector<gui_element*>::reverse_iterator i=children.rbegin();
+    for(;i!=children.rend();i++)
     {
-        if(e->is_visible())
-            e->render();
+        if((*i)->is_visible())
+            (*i)->render();
     }
 }
 

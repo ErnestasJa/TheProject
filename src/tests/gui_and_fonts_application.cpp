@@ -51,6 +51,21 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 	delete [] vsh;
 	delete [] fsh;
 
+	///GUI quad shaders
+    char * gvsh=NULL;
+    char * gfsh=NULL;
+
+    if(!read("res/gui_quad.vert",gvsh)) return false;
+    if(!read("res/gui_quad.frag",gfsh)) return false;
+
+    gqsh = new shader("gui_quad_shader",gvsh,gfsh,0,0);
+	gqsh->compile();
+	gqsh->link();
+	shader_cache->push_back(share(gqsh));
+
+	delete [] gvsh;
+	delete [] gfsh;
+
 	///prepare fbo, textures
 	tex = new texture();
 	ztex = new texture();
@@ -82,6 +97,9 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     q = new quad();
     q->generate();
 
+    q2 = new quad(0.3f);
+    q2->generate();
+
     ///set up matrices
 
     M = glm::mat4(1.0f);
@@ -110,12 +128,18 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     env=new gui_environment(ww,hh,_window);
     env->set_event_listener(this);
-    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
-    elem->set_event_listener(this);
 
-    gui_test_element *elem2=new gui_test_element(env,0,0,50,50);
+    gui_test_element *elem=new gui_test_element(env,0,0,100,100);
+    elem->set_event_listener(this);
+    elem->set_material(gqsh);
+    elem->set_color(glm::vec3(1,0,0));
+
+    gui_test_element *elem2=new gui_test_element(env,25,25,50,50);
     elem2->set_parent(elem);
     elem2->set_event_listener(this);
+    elem2->set_material(gqsh);
+    elem2->set_color(glm::vec3(0,1,0));
+
     return true;
 }
 
@@ -157,7 +181,8 @@ bool gui_and_fonts_application::update()
         // Measure speed
         main_timer->tick();
 
-        //env->update(0);
+        env->update(0);
+
 
         show_fps();
 
@@ -166,6 +191,8 @@ bool gui_and_fonts_application::update()
         qsh->set();
         tex->set(0);
         q->draw();
+
+        env->render();
 
         wnd->swap_buffers();
 
