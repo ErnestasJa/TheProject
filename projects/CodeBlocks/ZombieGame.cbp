@@ -116,7 +116,6 @@
 		<Unit filename="../../src/math/vec2.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
-		<Unit filename="../../src/opengl/opengl_inc.h" />
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />

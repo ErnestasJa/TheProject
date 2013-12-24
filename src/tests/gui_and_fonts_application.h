@@ -28,8 +28,10 @@ protected:
     texture             * tex;
     texture             * ztex;
     shader              * qsh;
+    shader              * gqsh;
     shader              * sh;
     quad                * q;
+    quad                * q2;
 
     gui_environment * env;
     gui_element *test;

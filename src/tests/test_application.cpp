@@ -77,7 +77,6 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	delete [] vsh;
 	delete [] fsh;
 
-
     ///mesh shaders
     if(!read("res/gpu_skin_normal.vert",vsh)) return false;
     if(!read("res/gpu_skin_normal.frag",fsh)) return false;

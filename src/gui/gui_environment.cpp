@@ -5,6 +5,7 @@
 
 gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(0,0,dispw,disph)
 {
+    this->window=win;
     this->input=new input_handler(nullptr,window);
     hover=last_hover=focus=last_focus=nullptr;
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
