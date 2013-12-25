@@ -13,7 +13,7 @@
 
 #include "resources/iqmloader.h"
 #include "resources/iqmesh.h"
-#include "resources/texture_loader.h"
+#include "resources/image_loader.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -54,8 +54,10 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     delete loader;
 
-    texture_loader l;
-    texture * t = l.load("res/body.png");
+    image_loader l;
+    std::shared_ptr<image> img = share(l.load("res/body.png"));
+    texture * t = new texture();
+    t->generate(img);
 
     if(!t)
         return false;
@@ -90,8 +92,6 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	delete [] vsh;
 	delete [] fsh;
 
-
-
 	///prepare fbo, textures
 	tex = new texture();
 	ztex = new texture();
@@ -100,7 +100,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	auto shared_ztex = share(ztex);
 
     tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
-    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024,0);
+    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
 
     tex_cache->push_back(shared_tex);
     tex_cache->push_back(shared_ztex);
@@ -112,6 +112,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     fbo->enable_texture(0);
     fbo->set(FBO_WRITE);
 
+    fbo->enable_texture(0);
     fbo->attach_texture(0,shared_tex);
 
     if(!fbo->is_complete())
@@ -127,25 +128,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     q = new quad();
     q->generate();
 
-    ///set up matrices
-
-    M = glm::mat4(1.0f);
-    M = glm::translate(M,glm::vec3(-10,5,-10));
-    M = glm::scale(M,glm::vec3(0.01,0.01,0.01));
-
-    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
-    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
-
-    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
-
-    MVP=P*V*M;
-
-    ///gl setup
-    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    init_gl();
 
     ///render to fbo
     sh->set();
@@ -162,6 +145,26 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     GLFWwindow * _window=wnd->getWindow();
     glfwGetWindowSize(_window,&ww,&hh);
     return true;
+}
+
+void test_application::init_gl()
+{
+    M = glm::mat4(1.0f);
+    M = glm::translate(M,glm::vec3(-10,5,-10));
+    M = glm::scale(M,glm::vec3(0.01,0.01,0.01));
+
+    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
+    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
+
+    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
+
+    MVP=P*V*M;
+
+    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
 bool test_application::update()

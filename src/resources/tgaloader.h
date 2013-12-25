@@ -1,8 +1,8 @@
 #pragma once
 
-#include "itexture_loader.h"
+#include "iimage_loader.h"
 
-class tgaloader: public itexture_loader
+class tgaloader: public iimage_loader
 {
 protected:
 
@@ -26,17 +26,16 @@ protected:
 
     #pragma pack(pop)   /* restore original alignment from stack */
 
-    virtual texture * loadUncompressedTGA(void * buffer, const uint32_t size);
+    virtual image * loadUncompressedTGA(void * buffer, const uint32_t size);
 
     HEADER m_header;
 
 public:
 
-
     tgaloader();
     virtual ~tgaloader();
 
-    virtual texture * generate(void * buffer, const uint32_t size);
+    virtual image * load(void * buffer, const uint32_t size);
 
     ///Check if the data is loadable
     virtual bool check_by_extension(const std::string & ext);
@@ -45,7 +44,6 @@ public:
 
     ///Header size might be used to check file header
     virtual uint32_t getHeaderSize();
-								// TGA header
 
 private:
 };

@@ -14,7 +14,7 @@ tgaloader::~tgaloader()
     //dtor
 }
 
-texture * tgaloader::generate(void * buffer, const uint32_t size)
+image * tgaloader::load(void * buffer, const uint32_t size)
 {
     memcpy(&m_header, buffer, this->getHeaderSize());
 
@@ -26,7 +26,7 @@ texture * tgaloader::generate(void * buffer, const uint32_t size)
     return NULL;
 }
 
-texture * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)
+image * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)
 {
     //memcpy(&tga.header, buffer, this->getHeaderSize());
     uint8_t components=m_header.bitsperpixel/8;
@@ -49,11 +49,17 @@ texture * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)
         data[i+2]=tmp;
     }
 
-    texture * tex = new texture();
+    if(data)
+    {
+        image * r = new image();
+        r->data = data;
+        r->num_channels = components;
+        r->width = m_header.width;
+        r->height = m_header.height;
+        return r;
+    }
 
-    tex->generate(data, GL_TEXTURE_2D, m_header.bitsperpixel==32?GL_RGBA:GL_RGB, GL_RGBA, m_header.width,m_header.height);
-
-    return tex;
+    return nullptr;
 }
 
 bool tgaloader::check_by_extension(const std::string & ext)

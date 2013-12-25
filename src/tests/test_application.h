@@ -30,11 +30,16 @@ protected:
     shader              * qsh;
     shader              * sh;
     quad                * q;
+
 public:
     test_application(uint32_t argc, const char ** argv);
     ~test_application();
+
     bool init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool update();
     void exit();
     void show_fps();
+
+protected:
+    void init_gl();
 };
