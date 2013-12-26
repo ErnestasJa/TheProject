@@ -17,7 +17,7 @@ gui_element::gui_element(int x, int y, int w, int h)
     this->parent = nullptr;
     this->event_listener = nullptr;
     this->environment = nullptr;
-    set_name("gui_element_"+tostr(rand()%65535));
+    set_name("gui_element_"+helpers::to_str(rand()%65535));
 }
 
 gui_element::~gui_element()
@@ -39,7 +39,9 @@ void gui_element::add_child(gui_element *e)
     e->parent=this;
     children.push_back(e);
     update_absolute_pos();
+    #ifdef GUI_DEBUG
     printf("ADD CHILD My bounds are: %i %i %i %i %i %i %i %i\n",e->absolute_rect.x,e->absolute_rect.y,e->absolute_rect.w,e->absolute_rect.h,e->relative_rect.x,e->relative_rect.y,e->relative_rect.w,e->relative_rect.h);
+    #endif
 }
 
 void gui_element::remove_child(gui_element *e)
@@ -56,24 +58,28 @@ void gui_element::remove_child(gui_element *e)
 void gui_element::bring_to_front(gui_element *e)
 {
     if(children.size()>0)
-    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
-        if(*i == e)
+    {
+        for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
         {
-            i=children.erase(i);
-            children.push_back(e);
-            return;
+
+            if(*i == e)
+            {
+                i=children.erase(i);
+                children.push_back(e);
+                return;
+            }
+            else
+                i++;
         }
-        else
-            i++;
+    }
 }
 
 void gui_element::render_children()
 {
-    std::vector<gui_element*>::reverse_iterator i=children.rbegin();
-    for(;i!=children.rend();i++)
+    for(gui_element* i : children)
     {
-        if((*i)->is_visible())
-            (*i)->render();
+        if(i->is_visible())
+            i->render();
     }
 }
 
@@ -131,10 +137,12 @@ void gui_element::set_listening(bool b)
 
 void gui_element::set_parent(gui_element *e)
 {
-    if(this->parent!=nullptr)
-        this->parent->remove_child(this);
     if(e!=nullptr)
+    {
+        if(this->parent!=nullptr)
+            this->parent->remove_child(this);
         e->add_child(this);
+    }
     else
         return;
 }

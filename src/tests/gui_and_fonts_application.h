@@ -10,6 +10,7 @@ class shader;
 class quad;
 class gui_environment;
 class gui_element;
+class font_renderer;
 
 class gui_and_fonts_application: public application,gui_event_listener
 {
@@ -35,6 +36,7 @@ protected:
 
     gui_environment * env;
     gui_element *test;
+    font_renderer *renderer;
 public:
     gui_and_fonts_application(uint32_t argc, const char ** argv);
     ~gui_and_fonts_application();

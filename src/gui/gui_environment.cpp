@@ -9,7 +9,9 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     this->input=new input_handler(nullptr,window);
     hover=last_hover=focus=last_focus=nullptr;
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
-    mouse_pos=last_mouse_pos=vec2<double>();
+    mouse_pos=last_mouse_pos=glm::vec2();
+    gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
+    this->set_name("GUI_ENVIRONMENT");
 }
 
 gui_environment::~gui_environment()
@@ -20,7 +22,7 @@ gui_environment::~gui_environment()
 void gui_environment::update(float delta)
 {
     //hovering
-    vec2<double> tm=input->get_mouse_pos();
+    glm::vec2 tm=input->get_mouse_pos();
     mouse_pos=input->get_mouse_pos();
     //printf("tm: %i %i c:%i %i old:%i %i\n",tm.x,tm.y,mouse_pos.x,mouse_pos.y,last_mouse_pos.x,last_mouse_pos.y);
 
@@ -130,4 +132,14 @@ void gui_environment::on_event(gui_event e)
     default:
         break;
     }
+}
+
+glm::vec2 gui_environment::get_mouse_pos()
+{
+    return this->input->get_mouse_pos();
+}
+
+glm::vec2 gui_environment::get_gui_scale()
+{
+    return gui_scale;
 }

@@ -13,6 +13,7 @@
 #include "opengl/opengl_util.h"
 #include "gui/gui_element.h"
 #include "gui/gui_test_element.h"
+#include "gui/font_renderer.h"
 
 gui_and_fonts_application::gui_and_fonts_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -40,8 +41,8 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     binding qtex_binding[]={{"tex",0},{"",-1}};
 
-    if(!read("res/quad.vert",vsh)) return false;
-    if(!read("res/quad.frag",fsh)) return false;
+    if(!helpers::read("res/quad.vert",vsh)) return false;
+    if(!helpers::read("res/quad.frag",fsh)) return false;
 
     qsh = new shader("quad_shader",vsh,fsh,qtex_binding,0);
 	qsh->compile();
@@ -55,8 +56,10 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     char * gvsh=NULL;
     char * gfsh=NULL;
 
-    if(!read("res/gui_quad.vert",gvsh)) return false;
-    if(!read("res/gui_quad.frag",gfsh)) return false;
+    if(!helpers::read("res/gui_quad.vert",gvsh)) return false;
+    if(!helpers::read("res/gui_quad.frag",gfsh)) return false;
+
+    printf("BUFFER TEST: %s\n",gvsh);
 
     gqsh = new shader("gui_quad_shader",gvsh,gfsh,0,0);
 	gqsh->compile();
@@ -127,9 +130,8 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     glfwGetWindowSize(_window,&ww,&hh);
 
     env=new gui_environment(ww,hh,_window);
-    env->set_event_listener(this);
 
-    gui_test_element *elem=new gui_test_element(env,0,0,100,100);
+    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
     elem->set_event_listener(this);
     elem->set_material(gqsh);
     elem->set_color(glm::vec3(1,0,0));
@@ -139,6 +141,8 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     elem2->set_event_listener(this);
     elem2->set_material(gqsh);
     elem2->set_color(glm::vec3(0,1,0));
+
+    renderer=new font_renderer(env);
 
     return true;
 }
@@ -169,6 +173,9 @@ void gui_and_fonts_application::on_event(gui_event e)
     case mouse_dragged:
         _log->log(LOG_DEBUG,"Mouse dragged on %s.",e.get_caller()->get_name().c_str());
         break;
+    case mouse_moved:
+        _log->log(LOG_DEBUG,"Mouse moved on %s.",e.get_caller()->get_name().c_str());
+        break;
     default:
         break;
     }
@@ -193,6 +200,8 @@ bool gui_and_fonts_application::update()
         q->draw();
 
         env->render();
+
+        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,0),glm::vec4(1,1,1,0.75));
 
         wnd->swap_buffers();
 
@@ -221,6 +230,7 @@ void gui_and_fonts_application::exit()
     delete fbo_cache;
     delete tex_cache;
     delete shader_cache;
+    delete renderer;
 
     application::exit();
 }
