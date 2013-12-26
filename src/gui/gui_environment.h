@@ -1,6 +1,5 @@
 #pragma once
 #include "gui_element.h"
-#include "vec2.h"
 // Stuff to still convert
 //!TODO (murloc992#1#): GUI Event
 //!TODO (murloc992#1#): GUI Event Listener
@@ -27,11 +26,14 @@ public:
     void on_event(gui_event e);
     bool is_on_hover(gui_element *e);
     bool is_on_focus(gui_element *e);
+
+    glm::vec2 get_mouse_pos();
+    glm::vec2 get_gui_scale();
 private:
     input_handler *input;
     GLFWwindow* window;
     gui_element *hover, *last_hover, *focus, *last_focus;
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
-    vec2<double> mouse_pos, last_mouse_pos;
+    glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:
 };

@@ -12,7 +12,9 @@ private:
 public:
     gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(x,y,w,h)
     {
+        #ifdef GUI_DEBUG
         printf("CONSTRUCT My bounds are: %i %i %i %i %i %i %i %i\n",absolute_rect.x,absolute_rect.y,absolute_rect.w,absolute_rect.h,relative_rect.x,relative_rect.y,relative_rect.w,relative_rect.h);
+        #endif
         this->set_parent(env);
         this->environment=env;
 
@@ -40,12 +42,13 @@ public:
                 this->event_listener->on_event(e);
                 break;
             case mouse_pressed:
-                this->event_listener->on_event(e);
+                this->event_listener->on_event(gui_event(mouse_pressed,this));
                 break;
             case mouse_released:
-                this->event_listener->on_event(e);
+                this->event_listener->on_event(gui_event(mouse_released,this));
                 break;
             case mouse_dragged:
+                this->set_position(environment->get_mouse_pos());
                 this->event_listener->on_event(gui_event(mouse_dragged,this));
                 break;
             default:
@@ -74,6 +77,7 @@ public:
             glBindTexture(GL_TEXTURE_2D,0);
             this->_pane->draw();
         }
+        this->render_children();
     }
 
     void set_material(shader* material)
@@ -84,6 +88,13 @@ public:
     void set_color(glm::vec3 col)
     {
         this->_color=col;
+    }
+
+    void set_position(glm::vec2 pos)
+    {
+        this->absolute_rect.x=pos.x;
+        this->absolute_rect.y=pos.y;
+        update_absolute_pos();
     }
 };
 

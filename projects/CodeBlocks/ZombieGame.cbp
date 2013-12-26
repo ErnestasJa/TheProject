@@ -26,8 +26,7 @@
 					<Add library="Xi" />
 					<Add library="glfw3" />
 					<Add library="libphysfs" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
+					<Add library="libfreetype" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
@@ -58,8 +57,7 @@
 					<Add library="glu32" />
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
+					<Add library="libfreetype" />
 				</Linker>
 			</Target>
 		</Build>
@@ -67,7 +65,6 @@
 			<Add option="-Wall" />
 			<Add option="-DGL3_PROTOTYPES" />
 			<Add directory="../../src" />
-			<Add directory="../../src/math" />
 			<Add directory="../../libs/bullet/src" />
 			<Add directory="../../libs/glfw/include" />
 			<Add directory="../../libs/glm" />
@@ -75,9 +72,12 @@
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
 			<Add directory="../../libs/stb_image" />
+			<Add directory="../../libs/freetype/include" />
 		</Compiler>
 		<Linker>
-			<Add directory="../../libs/glfw/src" />
+			<Add directory="../../libs/glfw/lib" />
+			<Add directory="../../libs/physfs/lib" />
+			<Add directory="../../libs/freetype/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -101,6 +101,9 @@
 		<Unit filename="../../src/application/application.h" />
 		<Unit filename="../../src/application/window.cpp" />
 		<Unit filename="../../src/application/window.h" />
+		<Unit filename="../../src/gui/font.h" />
+		<Unit filename="../../src/gui/font_renderer.cpp" />
+		<Unit filename="../../src/gui/font_renderer.h" />
 		<Unit filename="../../src/gui/gui_element.cpp" />
 		<Unit filename="../../src/gui/gui_element.h" />
 		<Unit filename="../../src/gui/gui_environment.cpp" />
@@ -113,7 +116,6 @@
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
-		<Unit filename="../../src/math/vec2.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
 		<Unit filename="../../src/opengl/opengl_util.cpp" />

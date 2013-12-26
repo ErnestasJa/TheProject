@@ -1,6 +1,5 @@
 #include "precomp.h"
 
-#include "math/vec2.h"
 #include "utility/logger.h"
 #include "gui/input_handler.h"
 
@@ -18,11 +17,12 @@ input_handler::~input_handler()
     //dtor
 }
 
-vec2<double> input_handler::get_mouse_pos()
+glm::vec2 input_handler::get_mouse_pos()
 {
-    vec2<double> temp;
+    glm::dvec2 temp;
     glfwGetCursorPos(window,&temp.x,&temp.y);
-    return temp;
+    glm::vec2 ret=glm::vec2(temp);
+    return ret;
 }
 
 bool input_handler::mouse_button(int btn)
