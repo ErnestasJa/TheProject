@@ -13,7 +13,7 @@
 
 #include "resources/iqmloader.h"
 #include "resources/iqmesh.h"
-#include "resources/texture_loader.h"
+#include "resources/image_loader.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -33,6 +33,9 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     tex_cache = create_resource_cache<texture>();
     fbo_cache = create_resource_cache<frame_buffer_object>();
 
+    img_loader = new image_loader();
+    iqm_loader = new iqmloader(this->get_logger());
+
     frame_count = 0;
     last_time = 0;
 
@@ -42,20 +45,17 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     if(!read("res/mrfixit.iqm",buffer))
         return false;
 
-    iqmloader *loader=new iqmloader(this->get_logger());
-    iqmesh * mesh=loader->load(buffer);
+    iqmesh * mesh=iqm_loader->load(buffer);
 
     if(mesh)
     {
-        loader->loadiqmanims(mesh);
         mesh->generate();
         mesh_cache->push_back(share(mesh));
     }
 
-    delete loader;
-
-    texture_loader l;
-    texture * t = l.load("res/body.png");
+    std::shared_ptr<image> img = share(img_loader->load("res/body.png"));
+    texture * t = new texture();
+    t->generate(img);
 
     if(!t)
         return false;
@@ -90,60 +90,42 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	delete [] vsh;
 	delete [] fsh;
 
-
-
 	///prepare fbo, textures
 	tex = new texture();
 	ztex = new texture();
+
 	auto shared_tex = share(tex);
 	auto shared_ztex = share(ztex);
+
     tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
-    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024,0);
+    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
+
     tex_cache->push_back(shared_tex);
     tex_cache->push_back(shared_ztex);
+
     this->gl_util->check_and_output_errors();
 
     fbo = new frame_buffer_object();
     fbo->generate();
-    fbo->enable(GL_COLOR_ATTACHMENT0);
-    fbo->set(GL_FRAMEBUFFER);
+    fbo->enable_texture(0);
+    fbo->set(FBO_WRITE);
 
-    fbo->attach(GL_COLOR_ATTACHMENT0,shared_tex);
-    uint32_t complete = fbo->is_complete();
+    fbo->attach_texture(0,shared_tex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
-    fbo->attach(GL_DEPTH_ATTACHMENT,shared_ztex);
-    complete = fbo->is_complete();
+    fbo->attach_depth_texture(shared_ztex);
 
-    if(complete!=GL_FRAMEBUFFER_COMPLETE)
-        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(complete).c_str());
+    if(!fbo->is_complete())
+        m_log->log(LOG_ERROR,"GL_FBO_ERROR: %s",gl_util->gl_fbo_error_to_string(fbo->get_status()).c_str());
 
     fbo_cache->push_back(share(fbo));
 
     q = new quad();
     q->generate();
 
-    ///set up matrices
-
-    M = glm::mat4(1.0f);
-    M = glm::translate(M,glm::vec3(-10,5,-10));
-    M = glm::scale(M,glm::vec3(0.01,0.01,0.01));
-
-    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
-    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
-
-    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
-
-    MVP=P*V*M;
-
-    ///gl setup
-    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    init_gl();
 
     ///render to fbo
     sh->set();
@@ -160,6 +142,26 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     GLFWwindow * _window=wnd->getWindow();
     glfwGetWindowSize(_window,&ww,&hh);
     return true;
+}
+
+void test_application::init_gl()
+{
+    M = glm::mat4(1.0f);
+    M = glm::translate(M,glm::vec3(-10,5,-10));
+    M = glm::scale(M,glm::vec3(0.01,0.01,0.01));
+
+    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
+    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
+
+    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
+
+    MVP=P*V*M;
+
+    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
 bool test_application::update()
@@ -200,6 +202,8 @@ void test_application::show_fps()
 
 void test_application::exit()
 {
+    delete img_loader;
+    delete iqm_loader;
     delete q;
     delete fbo_cache;
     delete tex_cache;

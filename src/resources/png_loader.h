@@ -1,14 +1,14 @@
 #pragma once
 
-#include "itexture_loader.h"
+#include "iimage_loader.h"
 
-class png_loader: public itexture_loader
+class png_loader: public iimage_loader
 {
     public:
         png_loader();
         virtual ~png_loader();
 
-        virtual texture * generate(void * buffer, const uint32_t size);
+        virtual image * load(void * buffer, const uint32_t size);
         virtual bool check_by_extension(const std::string & ext);
 
     protected:

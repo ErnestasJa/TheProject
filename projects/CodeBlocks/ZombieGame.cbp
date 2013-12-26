@@ -116,7 +116,6 @@
 		<Unit filename="../../src/math/vec2.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
-		<Unit filename="../../src/opengl/opengl_inc.h" />
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
@@ -127,19 +126,21 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="../../src/resources/iimage_loader.cpp" />
+		<Unit filename="../../src/resources/iimage_loader.h" />
+		<Unit filename="../../src/resources/image.cpp" />
+		<Unit filename="../../src/resources/image.h" />
+		<Unit filename="../../src/resources/image_loader.cpp" />
+		<Unit filename="../../src/resources/image_loader.h" />
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/resources/iqmesh.cpp" />
 		<Unit filename="../../src/resources/iqmesh.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
-		<Unit filename="../../src/resources/itexture_loader.cpp" />
-		<Unit filename="../../src/resources/itexture_loader.h" />
 		<Unit filename="../../src/resources/mesh.h" />
 		<Unit filename="../../src/resources/png_loader.cpp" />
 		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />
-		<Unit filename="../../src/resources/texture_loader.cpp" />
-		<Unit filename="../../src/resources/texture_loader.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
