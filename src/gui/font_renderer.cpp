@@ -15,11 +15,11 @@ font_renderer::font_renderer(gui_environment* env)
 
     if (err)
     {
-        printf("Error on init:%s\n",err);
+        printf("Error on init:%u\n",err);
         exit(-1);
     }
 
-    set_default_font(create_font("default","res/freesans.ttf",48));
+    set_default_font(create_font("default","res/freesans.ttf"));
     use_font();
     printf("Current font:%s\n",current_font->name.c_str());
 
@@ -36,6 +36,7 @@ font_renderer::~font_renderer()
         delete (*i);
     }
     fonts.clear();
+    FT_Done_FreeType(ft);
 }
 
 void font_renderer::create_shader()
@@ -57,6 +58,12 @@ void font_renderer::create_shader()
 
 font* font_renderer::create_font(std::string name, std::string filename, int32_t size)
 {
+    font* f=get_font(name);
+    if(f!=nullptr)
+    {
+        return f;
+    }
+
     char* buf=NULL;
 
     uint32_t fl=helpers::read(filename,buf);
@@ -64,11 +71,12 @@ font* font_renderer::create_font(std::string name, std::string filename, int32_t
     printf("BUF: %u\n",fl);
 
     if(fl<=0)
+    {
+        printf("Font file appears to be empty or corrupt.\n");
         exit(-1);
+    }
 
     FT_Error err=FT_New_Memory_Face(ft, reinterpret_cast<FT_Byte*>(buf), fl, 0, &ff);
-
-    //FT_Error err=FT_New_Face(ft, filename.c_str(), 0, &ff);
     if(err)
     {
         printf("Error on creating a font: %d\n",err);
@@ -81,14 +89,16 @@ font* font_renderer::create_font(std::string name, std::string filename, int32_t
 
     delete buf;
 
+    FT_Done_Face(ff);
+
     return temp;
 }
 
 bool font_renderer::remove_font(std::string font_to_remove)
 {
-    if(font_to_remove=="default")
+    if(font_to_remove==default_font->name)
     {
-        printf("Cannot remove the default font. Replace it instead by creating another one with the same name.\n");
+        printf("Cannot remove default font.\n");
         return false;
     }
 
@@ -109,6 +119,12 @@ bool font_renderer::remove_font(std::string font_to_remove)
 
 void font_renderer::use_font(std::string font_name)
 {
+    if(font_name=="default"&&default_font!=nullptr)
+    {
+        current_font=default_font;
+        return;
+    }
+
     for(fvi i=fonts.begin(); i!=fonts.end(); i++)
     {
         if((*i)->name==font_name)
@@ -116,13 +132,10 @@ void font_renderer::use_font(std::string font_name)
             current_font=(*i);
             return;
         }
-        else
-        {
-            current_font=default_font;
-            printf("Font named %s was not found.\n",font_name.c_str());
-            return;
-        }
     }
+
+    current_font=default_font;
+    return;
 }
 
 font* font_renderer::get_font(std::string name)
@@ -132,6 +145,7 @@ font* font_renderer::get_font(std::string name)
         if((*i)->name == name)
             return (*i);
     }
+
     return nullptr;
 }
 
@@ -147,14 +161,13 @@ void font_renderer::set_default_font(font* new_font)
 
 void font_renderer::render_string(std::string font_name,std::string text,glm::vec2 pos,glm::vec4 color)
 {
-    if(font_name!="default")
-        use_font(font_name);
+    use_font(font_name);
 
     glm::vec2 gs=m_env->get_gui_scale();
     float sx,sy; sx=gs.x; sy=gs.y;
 
     pos.x=-1+pos.x*sx;
-    pos.y=1-pos.y*sy-(float)current_font->height*sy;
+    pos.y=1-pos.y*sy-(float)((float)(current_font->avgheight)*sy);
 
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -215,18 +228,12 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
 
 void font_renderer::render_string(std::string text,glm::vec2 pos,glm::vec4 color)
 {
-    if(current_font!=nullptr)
-        render_string(current_font->name,text,pos,color);
-    else
-        render_string(default_font->name,text,pos,color);
+    render_string(default_font->name,text,pos,color);
 }
 
 void font_renderer::render_string(std::string text, glm::vec2 pos)
 {
-    if(current_font!=nullptr)
-        render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
-    else
-        render_string(default_font->name,text,pos,glm::vec4(1,1,1,1));
+    render_string(default_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
 void font_renderer::set_font_color(glm::vec4 color)

@@ -10,7 +10,7 @@ struct font
 
     int w;			// width of texture in pixels
     int h;			// height of texture in pixels
-    int height;
+    float avgheight;
 
     struct
     {
@@ -29,7 +29,7 @@ struct font
 
     font(FT_Face face, int height, std::string name)
     {
-        this->height=height;
+        this->avgheight=height;
         this->name=name;
 
         FT_Set_Pixel_Sizes(face, 0, height);
@@ -41,7 +41,6 @@ struct font
         h = 0;
 
         memset(c, 0, sizeof c);
-
         /* Find minimum size for a texture holding all visible ASCII characters */
         for (int i = 32; i < 128; i++)
         {
@@ -65,28 +64,28 @@ struct font
         h += rowh;
 
         /* Create a texture that will be used to hold all ASCII glyphs */
-        GL_CHECK(glGenTextures(1, &tex));
-        GL_CHECK(glBindTexture(GL_TEXTURE_2D, tex));
+        glGenTextures(1, &tex);
+        glBindTexture(GL_TEXTURE_2D, tex);
 
-        GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_BGR, GL_UNSIGNED_BYTE, 0));
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_BGR, GL_UNSIGNED_BYTE, 0);
 
         /* We require 1 byte alignment when uploading texture data */
-        GL_CHECK(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
         /* Clamping to edges is important to prevent artifacts when scaling */
-        GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-        GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         /* Linear filtering usually looks best for text */
-        GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-        GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         /* Paste all glyph bitmaps into the texture, remembering the offset */
         int ox = 0;
         int oy = 0;
 
         rowh = 0;
-
+        int cnth=0;
         for (int i = 32; i < 128; i++)
         {
             if (FT_Load_Char(face, i, FT_LOAD_RENDER))
@@ -94,14 +93,15 @@ struct font
                 fprintf(stderr, "Loading character %c failed!\n", i);
                 continue;
             }
-
+            avgheight+=g->bitmap.rows;
+            cnth++;
             if (ox + g->bitmap.width + 1 >= MAX_FONT_ATLAS_WIDTH)
             {
                 oy += rowh;
                 rowh = 0;
                 ox = 0;
             }
-            GL_CHECK(glTexSubImage2D(GL_TEXTURE_2D, 0, ox, oy, g->bitmap.width, g->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, g->bitmap.buffer));
+            glTexSubImage2D(GL_TEXTURE_2D, 0, ox, oy, g->bitmap.width, g->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, g->bitmap.buffer);
             c[i].ax = g->advance.x >> 6;
             c[i].ay = g->advance.y >> 6;
 
@@ -117,7 +117,7 @@ struct font
             rowh = std::max(rowh, g->bitmap.rows);
             ox += g->bitmap.width + 1;
         }
-        helpers::texturetofile(tex,"tex.tga",1024,256);
+        avgheight=avgheight/(float)cnth;
         fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h, w * h / 1024);
     }
 

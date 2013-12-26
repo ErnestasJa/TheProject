@@ -59,8 +59,6 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     if(!helpers::read("res/gui_quad.vert",gvsh)) return false;
     if(!helpers::read("res/gui_quad.frag",gfsh)) return false;
 
-    printf("BUFFER TEST: %s\n",gvsh);
-
     gqsh = new shader("gui_quad_shader",gvsh,gfsh,0,0);
 	gqsh->compile();
 	gqsh->link();
@@ -143,7 +141,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     elem2->set_color(glm::vec3(0,1,0));
 
     renderer=new font_renderer(env);
-
+    renderer->create_font("bits","res/bits.ttf",28);
     return true;
 }
 
@@ -201,7 +199,8 @@ bool gui_and_fonts_application::update()
 
         env->render();
 
-        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,0),glm::vec4(1,1,1,0.75));
+        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10));
+        renderer->render_string("bits","I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1));
 
         wnd->swap_buffers();
 
