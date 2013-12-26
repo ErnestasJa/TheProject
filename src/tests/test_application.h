@@ -8,6 +8,8 @@ class texture;
 class frame_buffer_object;
 class shader;
 class quad;
+class image_loader;
+class iqmloader;
 
 class test_application: public application
 {
@@ -16,6 +18,9 @@ protected:
     std::vector<std::shared_ptr<shader> > * shader_cache;
     std::vector<std::shared_ptr<texture> > * tex_cache;
     std::vector<std::shared_ptr<frame_buffer_object> > * fbo_cache;
+
+    image_loader * img_loader;
+    iqmloader * iqm_loader;
 
     uint32_t frame_count;
     uint32_t last_time;

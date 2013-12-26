@@ -105,6 +105,8 @@ iqmesh *iqmloader::load ( const char* data)
 
     output->data_header = head;
 
+    loadiqmanims(output);
+
     return output;
 }
 

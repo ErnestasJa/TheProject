@@ -39,6 +39,4 @@ struct texture
     void set_clamp(texture::CLAMP x, texture::CLAMP y);
     void set(uint8_t slot);
     void free();
-
-
 };

@@ -33,6 +33,9 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     tex_cache = create_resource_cache<texture>();
     fbo_cache = create_resource_cache<frame_buffer_object>();
 
+    img_loader = new image_loader();
+    iqm_loader = new iqmloader(this->get_logger());
+
     frame_count = 0;
     last_time = 0;
 
@@ -42,20 +45,15 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     if(!read("res/mrfixit.iqm",buffer))
         return false;
 
-    iqmloader *loader=new iqmloader(this->get_logger());
-    iqmesh * mesh=loader->load(buffer);
+    iqmesh * mesh=iqm_loader->load(buffer);
 
     if(mesh)
     {
-        loader->loadiqmanims(mesh);
         mesh->generate();
         mesh_cache->push_back(share(mesh));
     }
 
-    delete loader;
-
-    image_loader l;
-    std::shared_ptr<image> img = share(l.load("res/body.png"));
+    std::shared_ptr<image> img = share(img_loader->load("res/body.png"));
     texture * t = new texture();
     t->generate(img);
 
@@ -112,7 +110,6 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     fbo->enable_texture(0);
     fbo->set(FBO_WRITE);
 
-    fbo->enable_texture(0);
     fbo->attach_texture(0,shared_tex);
 
     if(!fbo->is_complete())
@@ -205,6 +202,8 @@ void test_application::show_fps()
 
 void test_application::exit()
 {
+    delete img_loader;
+    delete iqm_loader;
     delete q;
     delete fbo_cache;
     delete tex_cache;
