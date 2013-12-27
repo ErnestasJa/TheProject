@@ -31,8 +31,6 @@ iqmesh *iqmloader::load ( const char* data)
         return output;
     }
 
-
-
     output=new iqmesh(this->m_logger);
     output->data_buff = (uint8_t*)data;
 
@@ -111,7 +109,12 @@ iqmesh *iqmloader::load ( const char* data)
     for(uint32_t i=0; i<head.num_meshes; i++)
     {
         iqmmesh sm=output->submeshes[i];
-        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%i\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",sm.name,"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
+        sub_mesh m;
+        m.name = &texts[sm.name];
+        m.start = sm.first_triangle*3;
+        m.num_indices = sm.num_triangles*3;
+        output->glmesh->sub_meshes.push_back(m);
+        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",&texts[sm.name],"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
     output->data_header = head;

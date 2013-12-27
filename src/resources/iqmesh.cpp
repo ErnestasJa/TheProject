@@ -83,27 +83,7 @@ void iqmesh::set_interp_frame(float frame)
 
 void iqmesh::draw(bool whole)
 {
-	//bind the meshe's vertex array with its bound buffers
-	glBindVertexArray(glmesh->vao);
-
-	if(whole)
-	{
-		//draw mesh as one unit, saves draw calls.
-		glDrawElements(GL_TRIANGLES,data_header.num_triangles*3,GL_UNSIGNED_INT,0);
-	}
-	else
-	{
-		//draw each submesh separately, allows more customisation.
-		for(uint32_t i=0; i<data_header.num_meshes; i++)
-		{
-            //glBindTexture(GL_TEXTURE_2D,submeshes[i].mat.texid);
-            //draw all sub meshes using index offset
-            glDrawElements(GL_TRIANGLES,submeshes[i].num_triangles*3,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*submeshes[i].first_triangle*3));
-		}
-	}
-
-	//make sure to unbind the vertex array after using it
-	glBindVertexArray(0);
+	glmesh->render();
 }
 
 void iqmesh::free()
