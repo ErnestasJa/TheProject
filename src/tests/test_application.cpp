@@ -49,7 +49,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     if(mesh)
     {
-        mesh->generate();
+        DGL(mesh->generate();)
         mesh_cache->push_back(share(mesh));
     }
 

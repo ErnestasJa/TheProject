@@ -54,43 +54,54 @@ iqmesh *iqmloader::load ( const char* data)
     //aparently there's only one bounds entry(A bounding box), hence using [0]
     output->bounds=(iqmbounds*)&data[head.ofs_bounds];
 
+    output->indices.data.resize(head.num_triangles*3);
+    std::copy((uint32_t*)&data[head.ofs_triangles],(uint32_t*)&data[head.ofs_triangles+head.num_triangles*3*sizeof(uint32_t)],&output->indices.data[0]);
+
     for(uint32_t i=0; i<head.num_vertexarrays; i++)
     {
         iqmvertexarray va=output->vertexarrays[i];
+
         switch(va.type)
         {
         case IQM_POSITION:
-            output->positions=(glm::vec3*)&data[va.offset];
+            output->positions.data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->positions.data[0]);
 
             break;
 
         case IQM_TEXCOORD:
-            output->texcoords=(glm::vec2*)&data[va.offset];
+            output->texcoords.data.resize(head.num_vertexes);
+            std::copy((glm::vec2*)&data[va.offset],(glm::vec2*)&data[va.offset+head.num_vertexes*sizeof(glm::vec2)],&output->texcoords.data[0]);
 
             break;
 
         case IQM_NORMAL:
-            output->normals=(glm::vec3*)&data[va.offset];
+            output->normals.data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->normals.data[0]);
 
             break;
 
         case IQM_TANGENT:
-            output->tangents=(glm::vec4*)&data[va.offset];
+            output->tangents.data.resize(head.num_vertexes);
+            std::copy((glm::vec4*)&data[va.offset],(glm::vec4*)&data[va.offset+head.num_vertexes*sizeof(glm::vec4)],&output->tangents.data[0]);
 
             break;
 
         case IQM_BLENDINDEXES:
-            output->bindexes=(u8vec4*)&data[va.offset];
+            output->bindexes.data.resize(head.num_vertexes);
+            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&output->bindexes.data[0]);
 
             break;
 
         case IQM_BLENDWEIGHTS:
-            output->bweights=(u8vec4*)&data[va.offset];
+            output->bweights.data.resize(head.num_vertexes);
+            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&output->bweights.data[0]);
 
             break;
 
         case IQM_COLOR:
-            output->colors=(glm::vec3*)&data[va.offset];
+            output->colors.data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->colors.data[0]);
 
             break;
         }

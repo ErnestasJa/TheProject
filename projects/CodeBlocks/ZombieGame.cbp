@@ -114,8 +114,14 @@
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
 		<Unit filename="../../src/math/vec2.h" />
+		<Unit filename="../../src/opengl/buffer_object.cpp" />
+		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
+		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
+		<Unit filename="../../src/opengl/ibuffer_object.h" />
+		<Unit filename="../../src/opengl/mesh.cpp" />
+		<Unit filename="../../src/opengl/mesh.h" />
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
@@ -137,7 +143,6 @@
 		<Unit filename="../../src/resources/iqmesh.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
-		<Unit filename="../../src/resources/mesh.h" />
 		<Unit filename="../../src/resources/png_loader.cpp" />
 		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />

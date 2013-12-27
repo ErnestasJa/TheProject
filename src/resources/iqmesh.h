@@ -1,8 +1,8 @@
 #pragma once
 #include "iqm.h"
-#include "mesh.h"
+#include "opengl/mesh.h"
+#include "opengl/buffer_object.h"
 
-struct u8vec4{uint8_t v[4];};
 class logger;
 class iqmesh
 {
@@ -20,13 +20,14 @@ public:
 	iqmbounds* bounds; //IQM the bounding box
 
     /// data buffers
-	glm::vec3* positions;
-	glm::vec2* texcoords;
-	glm::vec3* normals;
-	glm::vec4* tangents;
-	u8vec4 * bindexes;
-	u8vec4 * bweights;
-	glm::vec3 * colors;
+	buffer_object<glm::vec3>    positions;
+	buffer_object<glm::vec2>    texcoords;
+	buffer_object<glm::vec3>    normals;
+	buffer_object<glm::vec4>    tangents;
+	buffer_object<u8vec4>       bindexes;
+	buffer_object<u8vec4>       bweights;
+	buffer_object<glm::vec3>    colors;
+	index_buffer_object<uint32_t> indices;
 
     ///animation
     iqmjoint* joints; //IQM joint info

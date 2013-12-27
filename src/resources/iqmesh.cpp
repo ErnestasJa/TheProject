@@ -4,6 +4,7 @@
 #include "math/util.h"
 #include "resource_cache.h"
 #include "utility/logger.h"
+#include "opengl/buffer_object.h"
 
 // TODO (serengeor#1#): Separate skeletal info from mesh
 
@@ -28,136 +29,20 @@ iqmesh::~iqmesh()
 
 bool iqmesh::generate()
 {
-	//set the buffers to invalid values
-	if(data_header.num_vertexarrays==0)
-        return false;
 
-	//create the VAO
-	glGenVertexArrays(1,&glmesh->vao);
-	glBindVertexArray(glmesh->vao);
+    glmesh->buffers[IQM_POSITION]   = &positions;
+    glmesh->buffers[IQM_TEXCOORD]   = &texcoords;
+    glmesh->buffers[IQM_NORMAL]     = &normals;
+    glmesh->buffers[IQM_TANGENT]    = &tangents;
+    glmesh->buffers[IQM_BLENDINDEXES]   = &bindexes;
+    glmesh->buffers[IQM_BLENDWEIGHTS]   = &bweights;
+    glmesh->buffers[IQM_COLOR]          = &colors;
+    glmesh->buffers[IQM_INDICES]          = &indices;
 
-	//keeping track on enabling attrib ids
-	uint32_t attribid=0;
-	//determine how many buffers we got and check their formats
-	for(uint32_t i=0; i<data_header.num_vertexarrays; i++)
-	{
-		iqmvertexarray va=vertexarrays[i];
-		switch(va.type)
-		{
-			case IQM_POSITION:
-			m_logger->log(LOG_DEBUG,"Got a position buffer.");
 
-			if(va.format!=IQM_FLOAT)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
+    glmesh->disable_empty_buffers();
+    glmesh->generate();
 
-			glGenBuffers(1,&glmesh->buffers[IQM_POSITION]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_POSITION]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(positions[0]),positions,GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
-
-			attribid++;
-			break;
-
-			case IQM_TEXCOORD:
-			m_logger->log(LOG_DEBUG,"Got a texcoord buffer.");
-
-			if(va.format!=IQM_FLOAT)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
-
-			glGenBuffers(1,&glmesh->buffers[IQM_TEXCOORD]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_TEXCOORD]);
-			glBufferData(GL_ARRAY_BUFFER, data_header.num_vertexes*sizeof(texcoords[0]),&texcoords[0],GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,2,GL_FLOAT,GL_FALSE,0,0);
-			attribid++;
-			break;
-
-			case IQM_NORMAL:
-			m_logger->log(LOG_DEBUG,"Got a normal buffer.");
-			if(va.format!=IQM_FLOAT)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
-			glGenBuffers(1,&glmesh->buffers[IQM_NORMAL]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_NORMAL]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(normals[0]),&normals[0],GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,3,GL_FLOAT,GL_FALSE,0,0);
-			attribid++;
-			break;
-
-			case IQM_TANGENT:
-			m_logger->log(LOG_DEBUG,"Got a tangent buffer.");
-			if(va.format!=IQM_FLOAT)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
-			glGenBuffers(1,&glmesh->buffers[IQM_TANGENT]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_TANGENT]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(tangents[0]),&tangents[0],GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,4,GL_FLOAT,GL_FALSE,0,0);
-			attribid++;
-			break;
-
-			case IQM_BLENDINDEXES:
-			m_logger->log(LOG_DEBUG,"Got a blendindex buffer.");
-			if(va.format!=IQM_UBYTE)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
-			glGenBuffers(1,&glmesh->buffers[IQM_BLENDINDEXES]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_BLENDINDEXES]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bindexes[0]),&bindexes[0],GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
-			attribid++;
-			break;
-
-			case IQM_BLENDWEIGHTS:
-			m_logger->log(LOG_DEBUG,"Got a blendweight buffer.");
-			if(va.format!=IQM_UBYTE)
-			{
-				m_logger->log(LOG_DEBUG,"Bad format. Cannot continue.");
-				return false;
-			}
-			glGenBuffers(1,&glmesh->buffers[IQM_BLENDWEIGHTS]);
-			glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[IQM_BLENDWEIGHTS]);
-			glBufferData(GL_ARRAY_BUFFER,data_header.num_vertexes*sizeof(bweights[0]),&bweights[0],GL_STATIC_DRAW);
-			glEnableVertexAttribArray(attribid);
-			glVertexAttribPointer(attribid,4,GL_UNSIGNED_BYTE,GL_FALSE,0,0);
-			attribid++;
-			break;
-
-			//whoever uses that.. :D
-			case IQM_COLOR:
-			m_logger->log(LOG_DEBUG,"Got a color buffer. Lol.");
-			break;
-		}
-	}
-	if(data_header.num_triangles>0)
-	{
-		glGenBuffers(1,&glmesh->buffers[IQM_INDICES]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,glmesh->buffers[IQM_INDICES]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,data_header.num_triangles*3*sizeof(uint32_t),&triangles[0],GL_STATIC_DRAW);
-	}
-	else
-    {
-        m_logger->log(LOG_DEBUG,"Mesh generation failed.");
-		return false;
-    }
-
-	glBindVertexArray(0);
 	return true;
 }
 
