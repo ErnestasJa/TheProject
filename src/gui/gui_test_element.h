@@ -56,7 +56,7 @@ public:
             mp=environment->get_mouse_pos();
             dif.x=mp.x-ds.x;
             dif.y=mp.y-ds.y;
-            this->move(glm::vec2(dif.x,dif.y));
+            this->move(glm::vec2(dif.x,dif.y),true);
             this->event_listener->on_event(gui_event(mouse_dragged,this));
             break;
         default:
@@ -98,10 +98,15 @@ public:
         this->_color=col;
     }
 
-    void move(glm::vec2 delta)
+    void move(glm::vec2 delta,bool clip)
     {
         this->relative_rect.x+=delta.x;
         this->relative_rect.y+=delta.y;
+        if(clip)
+        {
+            rect2d<int> par=parent->get_absolute_rect();
+            relative_rect.clip(par);
+        }
         update_absolute_pos();
         ds=environment->get_mouse_pos();
     }

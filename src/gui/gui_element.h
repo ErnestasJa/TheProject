@@ -60,6 +60,8 @@ public:
 
     gui_element *get_element_from_point(int x, int y);
 
+    rect2d<int> &get_absolute_rect();
+    rect2d<int> &get_relative_rect();
 private:
 protected:
     int disp_w, disp_h;

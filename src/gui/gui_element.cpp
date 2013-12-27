@@ -202,3 +202,13 @@ gui_element *gui_element::get_element_from_point(int x, int y)
         ret=this;
     return ret;
 }
+
+rect2d<int> &gui_element::get_absolute_rect()
+{
+    return absolute_rect;
+}
+
+rect2d<int> &gui_element::get_relative_rect()
+{
+    return relative_rect;
+}
