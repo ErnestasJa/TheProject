@@ -1,7 +1,8 @@
 #pragma once
-#include <vector>
 #include "math/rect2d.h"
 #include "gui_event_listener.h"
+
+#define GUI_DEBUG
 
 class gui_environment;
 class gui_element:public gui_event_listener
