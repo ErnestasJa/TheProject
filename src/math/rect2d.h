@@ -49,6 +49,13 @@ class rect2d
             calculate_bounds();
         }
 
+        std::string to_string()
+        {
+            char buf[256];
+            sprintf(buf,"RECT: %d %d %d %d\n",x,y,w,h);
+            return std::string(buf);
+        }
+
         T x, y, x2, y2, w, h;
     protected:
     private:

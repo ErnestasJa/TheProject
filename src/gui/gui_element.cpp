@@ -38,10 +38,10 @@ void gui_element::add_child(gui_element *e)
 
     e->parent=this;
     children.push_back(e);
+
+    e->relative_rect=e->absolute_rect;
+
     update_absolute_pos();
-    #ifdef GUI_DEBUG
-    printf("ADD CHILD My bounds are: %i %i %i %i %i %i %i %i\n",e->absolute_rect.x,e->absolute_rect.y,e->absolute_rect.w,e->absolute_rect.h,e->relative_rect.x,e->relative_rect.y,e->relative_rect.w,e->relative_rect.h);
-    #endif
 }
 
 void gui_element::remove_child(gui_element *e)
@@ -51,6 +51,7 @@ void gui_element::remove_child(gui_element *e)
         {
             e->parent=nullptr;
             children.erase(i);
+            (*i)->relative_rect=(*i)->absolute_rect;
             return;
         }
 }
@@ -86,13 +87,10 @@ void gui_element::render_children()
 void gui_element::update_absolute_pos()
 {
     if(this->parent!=nullptr)
-    {
-        this->relative_rect=this->parent->absolute_rect;
         this->absolute_rect=
-            rect2d<int>(this->absolute_rect.x+this->relative_rect.x,
-                            this->absolute_rect.y + this->relative_rect.y,
+            rect2d<int>(parent->absolute_rect.x+relative_rect.x,
+                            parent->absolute_rect.y+relative_rect.y,
                             this->absolute_rect.w, this->absolute_rect.h);
-    }
     for(gui_element *e : children)
         e->update_absolute_pos();
 }

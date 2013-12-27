@@ -129,12 +129,12 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     env=new gui_environment(ww,hh,_window);
 
-    gui_test_element *elem=new gui_test_element(env,100,0,100,100);
+    elem=new gui_test_element(env,500,200,100,100);
     elem->set_event_listener(this);
     elem->set_material(gqsh);
     elem->set_color(glm::vec3(1,0,0));
 
-    gui_test_element *elem2=new gui_test_element(env,25,25,50,50);
+    elem2=new gui_test_element(env,25,25,50,50);
     elem2->set_parent(elem);
     elem2->set_event_listener(this);
     elem2->set_material(gqsh);
