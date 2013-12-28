@@ -1,9 +1,40 @@
 #ifndef MESH_H
 #define MESH_H
 
+typedef std::vector<glm::mat3x4> frame;
+typedef std::vector<frame> frame_vec;
+
+struct bone
+{
+    int32_t parent;
+    std::string name;
+    glm::vec3 pos;
+    glm::quat rot;
+    glm::vec3 scale;
+};
+typedef std::vector<bone> bone_vec;
+
+struct animation_info
+{
+    std::string name;
+    uint32_t start, num;
+    float framerate;
+    bool loop;
+};
+typedef std::vector<animation_info> anim_info_vec;
 
 
+struct animation
+{
+    frame_vec       frames;
+    frame           current_frame;
+    anim_info_vec   info;
 
+    bone_vec        bones;
+
+    void set_frame(uint32_t frame);
+    void set_interp_frame(float frame);
+};
 
 struct sub_mesh
 {
@@ -29,7 +60,8 @@ struct mesh
 
     uint32_t vao;
     std::vector<ibuffer_object*> buffers;
-    std::vector<sub_mesh>   sub_meshes; // if size == 0 it's single mesh, draw everything.
+    std::vector<sub_mesh>   sub_meshes;
+    animation * anim;
 
     mesh();
 

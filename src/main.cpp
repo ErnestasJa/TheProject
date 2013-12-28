@@ -19,5 +19,7 @@ int main(int argc, const char ** argv)
         delete app;
     }
 
+    std::string s;
+    std::getline(std::cin,s);
     return 0;
 }

@@ -12,7 +12,6 @@
 #include "opengl/opengl_util.h"
 
 #include "resources/iqmloader.h"
-#include "resources/iqmesh.h"
 #include "resources/image_loader.h"
 
 test_application::test_application(uint32_t argc, const char ** argv): application(argc,argv)
@@ -28,7 +27,7 @@ test_application::~test_application()
 bool test_application::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    mesh_cache = create_resource_cache<iqmesh>();
+    mesh_cache = create_resource_cache<mesh>();
     shader_cache = create_resource_cache<shader>();
     tex_cache = create_resource_cache<texture>();
     fbo_cache = create_resource_cache<frame_buffer_object>();
@@ -45,12 +44,12 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     if(!read("res/mrfixit.iqm",buffer))
         return false;
 
-    iqmesh * mesh=iqm_loader->load(buffer);
+    std::shared_ptr<mesh> m=iqm_loader->load(buffer);
 
-    if(mesh)
+    if(m)
     {
-        DGL(mesh->generate();)
-        mesh_cache->push_back(share(mesh));
+        DGL(m->generate();)
+        mesh_cache->push_back(m);
     }
 
     std::shared_ptr<image> img = share(img_loader->load("res/body.png"));
@@ -127,14 +126,16 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     init_gl();
 
+    m_log->log(LOG_DEBUG,"Anim bone count: %u",m->anim->bones.size());
+
     ///render to fbo
     sh->set();
     glUniformMatrix4fv(sh->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
-    glUniformMatrix3x4fv(sh->getparam("bonemats"),mesh->data_header.num_joints,GL_FALSE,&mesh->current_frame[0][0].x);
+    glUniformMatrix3x4fv(sh->getparam("bonemats"),m->anim->bones.size(),GL_FALSE,&m->anim->current_frame[0][0].x);
 
     t->set(0);
-    mesh->set_frame(80);
-    mesh->draw(false);
+    m->anim->set_frame(80);
+    m->render();
 
     fbo->unset();
 

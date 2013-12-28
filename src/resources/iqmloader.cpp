@@ -1,7 +1,8 @@
 #include "precomp.h"
-
+#include "iqm.h"
 #include "iqmloader.h"
-#include "iqmesh.h"
+#include "opengl/mesh.h"
+#include "opengl/buffer_object.h"
 #include "math/util.h"
 #include "utility/logger.h"
 
@@ -15,9 +16,9 @@ void iqmloader::load_header(const char* data, iqmheader & header)
     memcpy((void*)&header,(void*)data,sizeof(header));
 }
 
-iqmesh *iqmloader::load ( const char* data)
+std::shared_ptr<mesh> iqmloader::load ( const char* data)
 {
-    iqmesh *output=nullptr;
+    std::shared_ptr<mesh> glmesh;
     iqmheader head;
 
     load_header(data,head);
@@ -28,136 +29,168 @@ iqmesh *iqmloader::load ( const char* data)
     else
     {
         m_logger->log(LOG_DEBUG,"IQM file is corrupt or invalid.");
-        return output;
+        return glmesh;
     }
 
-    output=new iqmesh(this->m_logger);
-    output->data_buff = (uint8_t*)data;
+    glmesh = std::shared_ptr<mesh>(new mesh());
+
+    auto positions = new buffer_object<glm::vec3>();
+	auto texcoords = new buffer_object<glm::vec2>();
+	auto normals = new buffer_object<glm::vec3>();
+	auto tangents = new buffer_object<glm::vec4>();
+	auto bindexes = new buffer_object<u8vec4>();
+	auto bweights = new buffer_object<u8vec4>();
+	auto colors  = new buffer_object<glm::vec3>();
+	auto indices = new index_buffer_object<uint32_t>();
+
+    iqmmesh         * submeshes;
+	iqmvertexarray  * vertexarrays; //IQM vertex array info
+
+	iqmbounds       * bounds; //IQM the bounding box
 
     ///big single line of null terminated >strings<
     const char* texts=(const char*)&data[head.ofs_text];
 
-    output->texts = new const char * [head.num_text];
+    submeshes   =(iqmmesh*)         &data[head.ofs_meshes];
+    vertexarrays=(iqmvertexarray*)  &data[head.ofs_vertexarrays];
+    bounds=(iqmbounds*)&data[head.ofs_bounds];
 
-    for(uint32_t i=0; i<head.num_text; i++)
-        output->texts[i]=&texts[i];
-
-    output->submeshes   =(iqmmesh*)         &data[head.ofs_meshes];
-    output->vertexarrays=(iqmvertexarray*)  &data[head.ofs_vertexarrays];
-    output->triangles   =(iqmtriangle*)     &data[head.ofs_triangles];
-    output->joints      =(iqmjoint*)        &data[head.ofs_joints];
-    output->poses       =(iqmpose*)         &data[head.ofs_poses];
-    output->anims       =(iqmanim*)         &data[head.ofs_anims];
-
-    //aparently there's only one bounds entry(A bounding box), hence using [0]
-    output->bounds=(iqmbounds*)&data[head.ofs_bounds];
-
-    output->indices.data.resize(head.num_triangles*3);
-    std::copy((uint32_t*)&data[head.ofs_triangles],(uint32_t*)&data[head.ofs_triangles+head.num_triangles*3*sizeof(uint32_t)],&output->indices.data[0]);
+    indices->data.resize(head.num_triangles*3);
+    std::copy((uint32_t*)&data[head.ofs_triangles],(uint32_t*)&data[head.ofs_triangles+head.num_triangles*3*sizeof(uint32_t)],&indices->data[0]);
 
     for(uint32_t i=0; i<head.num_vertexarrays; i++)
     {
-        iqmvertexarray va=output->vertexarrays[i];
+        iqmvertexarray va=vertexarrays[i];
 
         switch(va.type)
         {
         case IQM_POSITION:
-            output->positions.data.resize(head.num_vertexes);
-            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->positions.data[0]);
+            positions->data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&positions->data[0]);
 
             break;
 
         case IQM_TEXCOORD:
-            output->texcoords.data.resize(head.num_vertexes);
-            std::copy((glm::vec2*)&data[va.offset],(glm::vec2*)&data[va.offset+head.num_vertexes*sizeof(glm::vec2)],&output->texcoords.data[0]);
+            texcoords->data.resize(head.num_vertexes);
+            std::copy((glm::vec2*)&data[va.offset],(glm::vec2*)&data[va.offset+head.num_vertexes*sizeof(glm::vec2)],&texcoords->data[0]);
 
             break;
 
         case IQM_NORMAL:
-            output->normals.data.resize(head.num_vertexes);
-            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->normals.data[0]);
+            normals->data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&normals->data[0]);
 
             break;
 
         case IQM_TANGENT:
-            output->tangents.data.resize(head.num_vertexes);
-            std::copy((glm::vec4*)&data[va.offset],(glm::vec4*)&data[va.offset+head.num_vertexes*sizeof(glm::vec4)],&output->tangents.data[0]);
+            tangents->data.resize(head.num_vertexes);
+            std::copy((glm::vec4*)&data[va.offset],(glm::vec4*)&data[va.offset+head.num_vertexes*sizeof(glm::vec4)],&tangents->data[0]);
 
             break;
 
         case IQM_BLENDINDEXES:
-            output->bindexes.data.resize(head.num_vertexes);
-            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&output->bindexes.data[0]);
+            bindexes->data.resize(head.num_vertexes);
+            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&bindexes->data[0]);
 
             break;
 
         case IQM_BLENDWEIGHTS:
-            output->bweights.data.resize(head.num_vertexes);
-            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&output->bweights.data[0]);
+            bweights->data.resize(head.num_vertexes);
+            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&bweights->data[0]);
 
             break;
 
         case IQM_COLOR:
-            output->colors.data.resize(head.num_vertexes);
-            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&output->colors.data[0]);
+            colors->data.resize(head.num_vertexes);
+            std::copy((glm::vec3*)&data[va.offset],(glm::vec3*)&data[va.offset+head.num_vertexes*sizeof(glm::vec3)],&colors->data[0]);
 
             break;
         }
     }
 
+    glmesh->buffers[IQM_POSITION]       = positions;
+    glmesh->buffers[IQM_TEXCOORD]       = texcoords;
+    glmesh->buffers[IQM_NORMAL]         = normals;
+    glmesh->buffers[IQM_TANGENT]        = tangents;
+    glmesh->buffers[IQM_BLENDINDEXES]   = bindexes;
+    glmesh->buffers[IQM_BLENDWEIGHTS]   = bweights;
+    glmesh->buffers[IQM_COLOR]          = colors;
+    glmesh->buffers[IQM_INDICES]        = indices;
+
+    glmesh->sub_meshes.resize(head.num_meshes);
+
     //mesh info test
     for(uint32_t i=0; i<head.num_meshes; i++)
     {
-        iqmmesh sm=output->submeshes[i];
-        sub_mesh m;
+        iqmmesh sm=submeshes[i];
+        sub_mesh & m = glmesh->sub_meshes[i];
         m.name = &texts[sm.name];
         m.start = sm.first_triangle*3;
         m.num_indices = sm.num_triangles*3;
-        output->glmesh->sub_meshes.push_back(m);
+
         m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",&texts[sm.name],"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
-    output->data_header = head;
+    loadiqmanims(glmesh,data,head);
 
-    loadiqmanims(output);
-
-    return output;
+    return glmesh;
 }
 
-bool iqmloader::loadiqmanims(iqmesh * mesh)
+void iqmloader::loadiqmanims(std::shared_ptr<mesh> m, const char* data, iqmheader & header)
 {
-    iqmheader & hdr = mesh->data_header;
-    if(hdr.num_poses != hdr.num_joints) return false;
+    if(header.num_poses != header.num_joints) return;
 
-    mesh->frames = new glm::mat3x4[hdr.num_frames * hdr.num_poses];
-    mesh->base_frame = new glm::mat3x4[hdr.num_joints];
-    mesh->inverse_base_frame = new glm::mat3x4[hdr.num_joints];
-    mesh->current_frame = new glm::mat3x4[hdr.num_joints];
+    const char* texts=(const char*)&data[header.ofs_text];
+    iqmjoint*   joints  =(iqmjoint*) &data[header.ofs_joints];
+    iqmpose *   poses   =(iqmpose*)  &data[header.ofs_poses];
+    iqmanim *   anims   =(iqmanim*)  &data[header.ofs_anims];
+    uint16_t * frame_data = (uint16_t *)&data[header.ofs_frames];
 
-    for(uint32_t i = 0; i < hdr.num_joints; i++)
+
+    m->anim = new animation();
+    m->anim->frames.resize(header.num_frames);
+
+     for(uint32_t i = 0; i < header.num_frames; i++)
+        m->anim->frames[i].resize(header.num_joints);
+
+    m->anim->current_frame.resize(header.num_joints);
+    m->anim->bones.resize(header.num_joints);
+    m->anim->info.resize(header.num_anims);
+
+
+    auto base_frame = new glm::mat3x4[header.num_joints];
+    auto inverse_base_frame = new glm::mat3x4[header.num_joints];
+
+    for(uint32_t i = 0; i < header.num_joints; i++)
     {
-        iqmjoint &j = mesh->joints[i];
-        makeJointMatrix(mesh->base_frame[i],
+        iqmjoint &j = joints[i];
+
+        bone & b = m->anim->bones[i];
+        b.name = &texts[j.name];
+        b.parent = j.parent;
+        b.pos = glm::vec3(j.translate[0],j.translate[1],j.translate[2]);
+        b.scale = glm::vec3(j.scale[0],j.scale[1],j.scale[2]);
+        b.rot = glm::normalize(glm::quat(j.rotate[3],j.rotate[0],j.rotate[1],j.rotate[2]));
+
+        makeJointMatrix(base_frame[i],
                         glm::normalize(glm::quat(j.rotate[3],j.rotate[0],j.rotate[1],j.rotate[2])),
                         glm::vec3(j.translate[0],j.translate[1],j.translate[2]),
                         glm::vec3(j.scale[0],j.scale[1],j.scale[2]));
 
-        invert(mesh->inverse_base_frame[i],mesh->base_frame[i]);
+        invert(inverse_base_frame[i],base_frame[i]);
 
         if(j.parent >= 0)
         {
-            mesh->base_frame[i] = mul(mesh->base_frame[j.parent], mesh->base_frame[i]);
-            mesh->inverse_base_frame[i] = mul(mesh->inverse_base_frame[i],mesh->inverse_base_frame[j.parent]);
+            base_frame[i] = mul(base_frame[j.parent], base_frame[i]);
+            inverse_base_frame[i] = mul(inverse_base_frame[i],inverse_base_frame[j.parent]);
         }
     }
 
-    uint16_t * frame_data = (uint16_t *)&mesh->data_buff[hdr.ofs_frames];
-
-    for(int i = 0; i < (int)hdr.num_frames; i++)
+    for(int i = 0; i < (int)header.num_frames; i++)
     {
-        for(int j = 0; j < (int)hdr.num_poses; j++)
+        for(int j = 0; j < (int)header.num_poses; j++)
         {
-            iqmpose &p = mesh->poses[j];
+            iqmpose &p = poses[j];
             glm::quat rotate;
             glm::vec3 translate, scale;
             translate.x = p.channeloffset[0];
@@ -188,19 +221,23 @@ bool iqmloader::loadiqmanims(iqmesh * mesh)
             ///   parentPose * (parentInverseBasePose * parentBasePose) * childPose * childInverseBasePose =>
             ///   parentPose * childPose * childInverseBasePose
 
-            glm::mat3x4 m;
-            makeJointMatrix(m, glm::normalize(rotate), translate, scale);
+            glm::mat3x4 mat;
+            makeJointMatrix(mat, glm::normalize(rotate), translate, scale);
 
-            if(p.parent >= 0) mesh->frames[i*hdr.num_poses + j] = mul(mul(mesh->base_frame[p.parent],m), mesh->inverse_base_frame[j]);
-            else mesh->frames[i*hdr.num_poses + j] = mul(m, mesh->inverse_base_frame[j]);
+            if(p.parent >= 0) m->anim->frames[i][j] = mul(mul(base_frame[p.parent],mat), inverse_base_frame[j]);
+            else m->anim->frames[i][j] = mul(mat, inverse_base_frame[j]);
         }
+
     }
 
-    for(int i = 0; i < (int)hdr.num_anims; i++)
+    for(int i = 0; i < (int)header.num_anims; i++)
     {
-        iqmanim &a = mesh->anims[i];
-        m_logger->log(LOG_DEBUG,"Loaded anim: %s.", mesh->texts[a.name]);
-    }
+        animation_info & ai = m->anim->info[i];
+        iqmanim &a = anims[i];
+        ai.name = &texts[a.name];
+        ai.start = a.first_frame; ai.num = a.num_frames;
+        ai.loop = tbit(a.flags,IQM_LOOP);
 
-    return true;
+        m_logger->log(LOG_DEBUG,"Loaded anim: %s.", ai.name.c_str());
+    }
 }

@@ -10,11 +10,11 @@ class shader;
 class quad;
 class image_loader;
 class iqmloader;
-
+struct mesh;
 class test_application: public application
 {
 protected:
-    std::vector<std::shared_ptr<iqmesh> > * mesh_cache;
+    std::vector<std::shared_ptr<mesh> > * mesh_cache;
     std::vector<std::shared_ptr<shader> > * shader_cache;
     std::vector<std::shared_ptr<texture> > * tex_cache;
     std::vector<std::shared_ptr<frame_buffer_object> > * fbo_cache;

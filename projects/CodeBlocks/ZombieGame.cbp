@@ -139,8 +139,6 @@
 		<Unit filename="../../src/resources/image_loader.cpp" />
 		<Unit filename="../../src/resources/image_loader.h" />
 		<Unit filename="../../src/resources/iqm.h" />
-		<Unit filename="../../src/resources/iqmesh.cpp" />
-		<Unit filename="../../src/resources/iqmesh.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
 		<Unit filename="../../src/resources/png_loader.cpp" />

@@ -1,16 +1,18 @@
 #pragma once
-class iqmesh;
+class mesh;
 struct iqmheader;
 class logger;
 class iqmloader
 {
 private:
     void load_header(const char* data, iqmheader & header);
+    void loadiqmanims(std::shared_ptr<mesh> m, const char* data, iqmheader & header);
     logger *m_logger;
 public:
     iqmloader(logger *logger);
-	iqmesh *load(const char* data);
-	bool loadiqmanims(iqmesh * mesh);
+	std::shared_ptr<mesh> load(const char* data);
 
-protected:
+private:
+
+
 };

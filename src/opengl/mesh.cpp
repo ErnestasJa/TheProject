@@ -1,14 +1,52 @@
 #include "precomp.h"
 #include "mesh.h"
 #include "ibuffer_object.h"
+#include "math/util.h"
 
-mesh::mesh(): vao(0)
+void animation::set_frame(uint32_t frame)
+{
+    const uint32_t offset = (frame%this->frames.size());
+
+    for(uint32_t i = 0; i < this->bones.size(); i++)
+    {
+        if(this->bones[i].parent >= 0) current_frame[i] = mul(current_frame[this->bones[i].parent],frames[offset][i]);
+        else current_frame[i] = frames[offset][i];
+    }
+}
+
+void animation::set_interp_frame(float f)
+{
+    if(this->frames.size() <= 0) return;
+
+    int frame1 = (int)floor(f),
+        frame2 = frame1 + 1;
+
+    float frameoffset = f - frame1;
+    frame1 %= this->frames.size();
+    frame2 %= this->frames.size();
+    frame &mat1 = frames[frame1],
+              &mat2 = frames[frame2];
+    // Interpolate matrixes between the two closest frames and concatenate with parent matrix if necessary.
+    // Concatenate the result with the inverse of the base pose.
+    // You would normally do animation blending and inter-frame blending here in a 3D engine.
+
+    for(uint32_t i = 0; i < bones.size(); i++)
+    {
+        glm::mat3x4 mat = mat1[i]*(1 - frameoffset) + mat2[i]*frameoffset;
+        if(bones[i].parent >= 0) current_frame[i] = mul(current_frame[bones[i].parent],mat);
+        else current_frame[i] = mat;
+    }
+}
+
+mesh::mesh(): vao(0), anim(nullptr)
 {
     buffers.resize(BUFFER_COUNT);
 }
 
 void mesh::generate()
 {
+    disable_empty_buffers();
+
     glGenVertexArrays(1,&vao);
     glBindVertexArray(vao);
 
