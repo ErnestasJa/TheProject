@@ -23,14 +23,12 @@ struct animation_info
 };
 typedef std::vector<animation_info> anim_info_vec;
 
-
 struct animation
 {
     frame_vec       frames;
     frame           current_frame;
-    anim_info_vec   info;
-
     bone_vec        bones;
+    anim_info_vec   info;
 
     void set_frame(uint32_t frame);
     void set_interp_frame(float frame);
@@ -64,6 +62,7 @@ struct mesh
     animation * anim;
 
     mesh();
+    virtual ~mesh();
 
     void generate();
     void disable_empty_buffers();

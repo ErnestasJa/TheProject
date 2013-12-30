@@ -8,5 +8,8 @@ ibuffer_object::ibuffer_object(): id(0), enabled(true)
 
 ibuffer_object::~ibuffer_object()
 {
-
+    if(id!=0)
+    {
+        glDeleteBuffers(1,&id);
+    }
 }

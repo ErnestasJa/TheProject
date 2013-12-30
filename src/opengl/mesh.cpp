@@ -42,6 +42,11 @@ mesh::mesh(): vao(0), anim(nullptr)
 {
     buffers.resize(BUFFER_COUNT);
 }
+mesh::~mesh()
+{
+    for(ibuffer_object * b : buffers)
+        delete b;
+}
 
 void mesh::generate()
 {
