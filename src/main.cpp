@@ -3,12 +3,13 @@
 #include "application/application.h"
 #include "tests/test_application.h"
 #include "tests/gui_and_fonts_application.h"
+#include "tests/test_scenegraph.h"
 #include "utility/logger.h"
 #include "utility/timer.h"
 
 int main(int argc, const char ** argv)
 {
-    application * app = new test_application(argc,argv);
+    application * app = new test_scenegraph(argc,argv);
 
     if(app->init("test",1024,720))
     {

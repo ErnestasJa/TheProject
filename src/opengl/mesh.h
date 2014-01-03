@@ -72,5 +72,6 @@ struct mesh
     void free();
 };
 
+typedef std::shared_ptr<mesh> mesh_ptr;
 
 #endif // MESH_H

@@ -46,14 +46,12 @@ std::shared_ptr<mesh> iqmloader::load ( const char* data)
     iqmmesh         * submeshes;
 	iqmvertexarray  * vertexarrays; //IQM vertex array info
 
-	iqmbounds       * bounds; //IQM the bounding box
 
     ///big single line of null terminated >strings<
     const char* texts=(const char*)&data[head.ofs_text];
 
     submeshes   =(iqmmesh*)         &data[head.ofs_meshes];
     vertexarrays=(iqmvertexarray*)  &data[head.ofs_vertexarrays];
-    bounds=(iqmbounds*)&data[head.ofs_bounds];
 
     indices->data.resize(head.num_triangles*3);
     std::copy((uint32_t*)&data[head.ofs_triangles],(uint32_t*)&data[head.ofs_triangles+head.num_triangles*3*sizeof(uint32_t)],&indices->data[0]);

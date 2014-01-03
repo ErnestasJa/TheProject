@@ -3,7 +3,6 @@
 #include "application/application.h"
 #include "gui/gui_event_listener.h"
 
-class iqmesh;
 class texture;
 class frame_buffer_object;
 class shader;
@@ -11,6 +10,9 @@ class quad;
 class image_loader;
 class iqmloader;
 struct mesh;
+
+namespace sg{ class scenegraph;}
+
 class test_application: public application
 {
 protected:
