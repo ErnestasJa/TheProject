@@ -79,10 +79,10 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 void test_scenegraph::init_gl()
 {
     M = glm::mat4(1.0f);
-    M = glm::translate(M,glm::vec3(-10,5,-10));
-    M = glm::scale(M,glm::vec3(0.01,0.01,0.01));
 
-    V = glm::lookAt(glm::vec3(0,5,30),glm::vec3(0,5,0),glm::vec3(0,1,0));
+    M = glm::rotate<float>(M,-90,glm::vec3(1,0,0));
+
+    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
     V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
 
     P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
@@ -92,6 +92,7 @@ void test_scenegraph::init_gl()
     glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    glDisable(GL_CULL_FACE);
 }
 
 bool test_scenegraph::update()
@@ -100,6 +101,8 @@ bool test_scenegraph::update()
     {
         // Measure speed
         main_timer->tick();
+
+        cam_move();
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
         if (auto spt = m_shader.lock())
@@ -119,6 +122,29 @@ bool test_scenegraph::update()
     }
     return false;
 }
+
+void test_scenegraph::cam_move()
+{
+    if(wnd->get_key(GLFW_KEY_W))
+    {
+        V = glm::translate(V,glm::vec3(-2,0,0));
+    }
+    else if(wnd->get_key(GLFW_KEY_S))
+    {
+        V = glm::translate(V,glm::vec3(2,0,0));
+    }
+    else if(wnd->get_key(GLFW_KEY_A))
+    {
+        V = glm::rotate<float>(V,-5,glm::vec3(0,1,0));
+    }
+    else if(wnd->get_key(GLFW_KEY_D))
+    {
+        V = glm::rotate<float>(V,5,glm::vec3(0,1,0));
+    }
+
+    MVP=P*V*M;
+}
+
 
 void test_scenegraph::exit()
 {

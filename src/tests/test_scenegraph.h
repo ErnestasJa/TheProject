@@ -39,6 +39,7 @@ public:
 
 protected:
     void init_gl();
+    void cam_move();
 };
 
 

@@ -12,11 +12,6 @@ out vec2 UV;
 
 void main(void)
 {
-   vec4 mpos= vec4(pos,1);
-   gl_Position = MVP * mpos;
+   gl_Position = MVP * vec4(pos,1);
    UV = tex;
-   //mat3 madjtrans = mat3(cross(m[1].xyz, m[2].xyz), cross(m[2].xyz, m[0].xyz), cross(m[0].xyz, m[1].xyz));
-   //vec3 mnormal = normal * madjtrans;
-   //vec3 mtangent = vtangent.xyz * madjtrans; // tangent not used, just here as an example
-   //vec3 mbitangent = cross(mnormal, mtangent) * vtangent.w; // bitangent not used, just here as an example
 }
