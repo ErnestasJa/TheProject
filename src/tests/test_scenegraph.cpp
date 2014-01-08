@@ -39,7 +39,6 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 
     m_scenegraph = new sg::scenegraph();
 
-
     char * buf;
 
     if(!read("res/mrfixit.iqm",buf))
@@ -127,11 +126,11 @@ void test_scenegraph::cam_move()
 {
     if(wnd->get_key(GLFW_KEY_W))
     {
-        V = glm::translate(V,glm::vec3(-2,0,0));
+        V = glm::translate(V,glm::vec3(2,0,0));
     }
     else if(wnd->get_key(GLFW_KEY_S))
     {
-        V = glm::translate(V,glm::vec3(2,0,0));
+        V = glm::translate(V,glm::vec3(-2,0,0));
     }
     else if(wnd->get_key(GLFW_KEY_A))
     {
