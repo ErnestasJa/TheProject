@@ -166,6 +166,8 @@
 		<Unit filename="../../src/resources/png_loader.cpp" />
 		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />
+		<Unit filename="../../src/resources/shader_loader.cpp" />
+		<Unit filename="../../src/resources/shader_loader.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />
@@ -174,6 +176,8 @@
 		<Unit filename="../../src/scenegraph/scenegraph.h" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
+		<Unit filename="../../src/scenegraph/sg_material.cpp" />
+		<Unit filename="../../src/scenegraph/sg_material.h" />
 		<Unit filename="../../src/scenegraph/sg_mesh_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_mesh_object.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
