@@ -6,6 +6,7 @@ namespace sg
     enum SG_OBJECT_TYPE
     {
         SGO_MESH = 0,
+        SGO_CAMERA,
     };
 }
 

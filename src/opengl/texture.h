@@ -40,3 +40,5 @@ struct texture
     void set(uint8_t slot);
     void free();
 };
+
+typedef std::shared_ptr<texture> texture_ptr;

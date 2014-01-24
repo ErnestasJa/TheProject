@@ -1,5 +1,9 @@
 #pragma once
 
+#define loop(name, count) for(uint32_t name = 0; name < (count); name++)
+#define loopi(count) loop(i,(count))
+
+
 #define DGL(func)\
 if(gl_util->check_and_output_errors())\
 {\

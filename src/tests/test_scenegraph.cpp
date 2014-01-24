@@ -12,9 +12,11 @@
 #include "opengl/shader.h"
 
 #include "resources/iqmloader.h"
+#include "resources/shader_loader.h"
 #include "resources/image_loader.h"
 #include "scenegraph/scenegraph.h"
 #include "scenegraph/sg_mesh_object.h"
+#include "scenegraph/sg_camera_object.h"
 
 test_scenegraph::test_scenegraph(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -31,10 +33,10 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 {
     application::init(title,width,height);
     mesh_cache = create_resource_cache<mesh>();
-    shader_cache = create_resource_cache<shader>();
     tex_cache = create_resource_cache<texture>();
 
-    m_image_loader = new image_loader();
+    m_image_loader = new image_loader(this->get_logger());
+    m_shader_loader = new shader_loader();
     m_iqm_loader = new iqmloader(this->get_logger());
 
     m_scenegraph = new sg::scenegraph();
@@ -51,47 +53,30 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 
     m->generate();
 
-    m_scenegraph->add_object(sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m)));
+    sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+    m_scenegraph->add_object(obj);
 
-    char * vsh=NULL;
-    char * fsh=NULL;
+    shader_ptr sh = m_shader_loader->load("res/static_mesh");
 
-    binding qtex_binding[]={{"tex",0},{"",-1}};
+    if(!sh)
+        return false;
 
-    if(!read("res/static_mesh.vert",vsh)) return false;
-    if(!read("res/static_mesh.frag",fsh)) return false;
+    image_ptr img = m_image_loader->load("res/body.png");
+    texture_ptr tex = share(new texture());
+    tex->generate(img);
 
-    auto sh = share(new shader("gpu_skin",vsh,fsh,qtex_binding,0));
-    m_shader = sh;
-	sh->compile();
-	sh->link();
-	shader_cache->push_back(sh);
+    sg::sg_material & mat = obj->get_material(0);
+    mat.mat_shader = sh;
+    mat.mat_textures[0] = tex;
+    obj->get_material(1) = obj->get_material(0);
 
-	delete [] vsh;
-	delete [] fsh;
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
+    cam->get_transform() = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
+    cam->get_transform() = glm::rotate<float>(cam->get_transform(),-90,glm::vec3(0,1,0));
 
-    init_gl();
+    m_scenegraph->set_active_camera(cam);
 
     return !this->gl_util->check_and_output_errors();
-}
-
-void test_scenegraph::init_gl()
-{
-    M = glm::mat4(1.0f);
-
-    M = glm::rotate<float>(M,-90,glm::vec3(1,0,0));
-
-    V = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
-    V = glm::rotate<float>(V,-90,glm::vec3(0,1,0));
-
-    P = glm::perspective(45.f,4.f/3.f,1.0f,2048.f);
-
-    MVP=P*V*M;
-
-    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glDisable(GL_CULL_FACE);
 }
 
 bool test_scenegraph::update()
@@ -102,17 +87,8 @@ bool test_scenegraph::update()
         main_timer->tick();
 
         cam_move();
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-        if (auto spt = m_shader.lock())
-        {
-            spt->set();
-            glUniformMatrix4fv(spt->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
-
-            m_scenegraph->render_all();
-        }
-        else
-            return false;
+        m_scenegraph->render_all();
 
         wnd->swap_buffers();
 
@@ -124,24 +100,26 @@ bool test_scenegraph::update()
 
 void test_scenegraph::cam_move()
 {
-    if(wnd->get_key(GLFW_KEY_W))
+    if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
-        V = glm::translate(V,glm::vec3(2,0,0));
-    }
-    else if(wnd->get_key(GLFW_KEY_S))
-    {
-        V = glm::translate(V,glm::vec3(-2,0,0));
-    }
-    else if(wnd->get_key(GLFW_KEY_A))
-    {
-        V = glm::rotate<float>(V,-5,glm::vec3(0,1,0));
-    }
-    else if(wnd->get_key(GLFW_KEY_D))
-    {
-        V = glm::rotate<float>(V,5,glm::vec3(0,1,0));
-    }
 
-    MVP=P*V*M;
+        if(wnd->get_key(GLFW_KEY_W))
+        {
+            cam->get_transform() = glm::translate(cam->get_transform(),glm::vec3(2,0,0));
+        }
+        else if(wnd->get_key(GLFW_KEY_S))
+        {
+            cam->get_transform() = glm::translate(cam->get_transform(),glm::vec3(-2,0,0));
+        }
+        else if(wnd->get_key(GLFW_KEY_A))
+        {
+            cam->get_transform() = glm::rotate<float>(cam->get_transform(),-5,glm::vec3(0,1,0));
+        }
+        else if(wnd->get_key(GLFW_KEY_D))
+        {
+            cam->get_transform() = glm::rotate<float>(cam->get_transform(),5,glm::vec3(0,1,0));
+        }
+    }
 }
 
 
@@ -149,9 +127,9 @@ void test_scenegraph::exit()
 {
     delete m_image_loader;
     delete m_iqm_loader;
+    delete m_shader_loader;
 
     delete tex_cache;
-    delete shader_cache;
     delete mesh_cache;
 
     application::exit();

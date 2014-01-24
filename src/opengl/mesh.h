@@ -68,6 +68,7 @@ struct mesh
     void disable_empty_buffers();
 
     void render();
+    void render(uint32_t sub_mesh_index);
 
     void free();
 };

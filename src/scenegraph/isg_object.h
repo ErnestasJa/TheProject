@@ -2,10 +2,11 @@
 #define ISG_OBJECT_H
 
 #include "sg_object_types.h"
+#include "sg_material.h"
 
 namespace sg
 {
-
+class scenegraph;
 class isg_object
 {
 protected:
@@ -21,11 +22,14 @@ public:
 
 public:
     virtual uint32_t get_type() = 0;
-    virtual void render()=0;
+    virtual void render(scenegraph * sg)=0;
+    virtual void on_set_shader_constants(shader_ptr shader)=0;
+
+    virtual sg_material & get_material(uint32_t index)=0;
+    virtual uint32_t get_material_count()=0;
 };
 
 typedef std::shared_ptr<isg_object> sg_object_ptr;
-
 }
 
 #endif // ISG_OBJECT_H

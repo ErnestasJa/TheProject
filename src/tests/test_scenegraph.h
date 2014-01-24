@@ -3,31 +3,24 @@
 
 #include "application/application.h"
 
-namespace sg{ class scenegraph;}
+namespace sg{ class scenegraph; struct sg_material;}
 
-
-class texture;
-struct shader;
-class image_loader;
-class iqmloader;
-struct mesh;
+struct shader; class shader_loader;
+class texture; class image_loader;
+class iqmloader; struct mesh;
 
 class test_scenegraph: public application
 {
 protected:
     std::vector<std::shared_ptr<mesh> > * mesh_cache;
-    std::vector<std::shared_ptr<shader> > * shader_cache;
     std::vector<std::shared_ptr<texture> > * tex_cache;
 
     ///matrices
-    glm::mat4 M, V, P, MVP;
-
     image_loader *  m_image_loader;
     iqmloader *     m_iqm_loader;
+    shader_loader * m_shader_loader;
 
     sg::scenegraph * m_scenegraph;
-
-    std::weak_ptr<shader> m_shader;
 
 public:
     test_scenegraph(uint32_t argc, const char ** argv);
@@ -38,7 +31,6 @@ public:
     void exit();
 
 protected:
-    void init_gl();
     void cam_move();
 };
 

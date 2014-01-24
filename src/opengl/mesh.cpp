@@ -80,6 +80,15 @@ void mesh::disable_empty_buffers()
         buffers[i]->enabled = false;
 }
 
+void mesh::render(uint32_t sub_mesh_index)
+{
+    glBindVertexArray(vao);
+
+    glDrawElements(GL_TRIANGLES,sub_meshes[sub_mesh_index].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sub_meshes[sub_mesh_index].start));
+
+    glBindVertexArray(0);
+}
+
 void mesh::render()
 {
     glBindVertexArray(vao);
