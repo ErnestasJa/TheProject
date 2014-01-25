@@ -36,41 +36,79 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
     tex_cache = create_resource_cache<texture>();
 
     m_image_loader = new image_loader(this->get_logger());
-    m_shader_loader = new shader_loader();
+    m_shader_loader = new shader_loader(this->get_logger());
     m_mesh_loader = new mesh_loader(this->get_logger());
     m_scenegraph = new sg::scenegraph();
 
-
-    mesh_ptr m=m_mesh_loader->load("res/mrfixit.iqm");
-
-    if(!m)
+    if(!init_scene())
         return false;
 
+    return !this->gl_util->check_and_output_errors();
+}
+
+bool test_scenegraph::init_scene()
+{
+    sg::sg_mesh_object_ptr obj;
+    shader_ptr sh;
+    mesh_ptr m;
+
+    ///load model
+    m=m_mesh_loader->load("res/wood_tower.iqm");
+    if(!m) return false;
     m->init();
 
-    sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+    sh = m_shader_loader->load("res/static_mesh");
+
+    if(!sh) return false;
+    {
+        sg::sg_material & mat = obj->get_material(0);
+        mat.mat_shader = sh;
+        mat.mat_textures[0] = m_image_loader->load_to_texture("res/wood_tower_color.png");
+    }
+
     m_scenegraph->add_object(obj);
+    ///done loading
 
-    shader_ptr sh = m_shader_loader->load("res/static_mesh");
+    ///load model
+    m=m_mesh_loader->load("res/trashcan.iqm");
+    if(!m) return false;
+    m->init();
 
-    if(!sh)
-        return false;
+    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+    sh = m_shader_loader->load("res/static_mesh");
 
-    image_ptr img_body = m_image_loader->load("res/body.png");
-    texture_ptr tex = share(new texture());
-    tex->init(img_body);
+    if(!sh) return false;
+    {
+        sg::sg_material & mat = obj->get_material(0);
+        mat.mat_shader = sh;
+        mat.mat_textures[0] = m_image_loader->load_to_texture("res/trashcan_diffuse.png");
+    }
 
-    image_ptr img_head = m_image_loader->load("res/Head.tga");
-    texture_ptr tex_head = share(new texture());
-    tex_head->init(img_head);
+    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,5));
+    m_scenegraph->add_object(obj);
+    ///done loading
 
-    sg::sg_material & mat = obj->get_material(0);
-    mat.mat_shader = sh;
-    mat.mat_textures[0] = tex;
+    ///load model
+    m=m_mesh_loader->load("res/terrain.iqm");
+    if(!m) return false;
+    m->init();
 
-    sg::sg_material & mat_head = obj->get_material(1);
-    mat_head.mat_shader = sh;
-    mat_head.mat_textures[0] = tex_head;
+    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+    sh = m_shader_loader->load("res/static_mesh");
+
+    if(!sh) return false;
+    {
+        sg::sg_material & mat = obj->get_material(0);
+        mat.mat_shader = sh;
+        mat.mat_textures[0] = m_image_loader->load_to_texture("res/terrain.png");
+    }
+
+    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,5));
+    obj->get_transform() = glm::scale(obj->get_transform(),glm::vec3(0.2,0.2,0.2));
+
+    m_scenegraph->add_object(obj);
+    ///done loading
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
     cam->get_transform() = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
@@ -78,7 +116,7 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 
     m_scenegraph->set_active_camera(cam);
 
-    return !this->gl_util->check_and_output_errors();
+    return true;
 }
 
 bool test_scenegraph::update()

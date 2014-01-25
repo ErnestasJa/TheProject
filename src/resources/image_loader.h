@@ -2,6 +2,8 @@
 
 #include "iimage_loader.h"
 #include "resource_cache.h"
+
+struct texture; typedef std::shared_ptr<texture> texture_ptr;
 class logger;
 class image_loader: public resource_cache<image>
 {
@@ -14,4 +16,5 @@ public:
 
     virtual void add_loader(iimage_loader * loader);
     virtual image_ptr load(const std::string & file);
+    virtual texture_ptr load_to_texture(const std::string & file);
 };

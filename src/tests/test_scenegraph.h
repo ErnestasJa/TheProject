@@ -30,6 +30,8 @@ public:
     virtual bool update();
     void exit();
 
+    bool init_scene();
+
 protected:
     void cam_move();
 };
