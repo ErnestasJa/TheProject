@@ -160,9 +160,13 @@
 		<Unit filename="../../src/resources/image.h" />
 		<Unit filename="../../src/resources/image_loader.cpp" />
 		<Unit filename="../../src/resources/image_loader.h" />
+		<Unit filename="../../src/resources/imesh_loader.cpp" />
+		<Unit filename="../../src/resources/imesh_loader.h" />
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
+		<Unit filename="../../src/resources/mesh_loader.cpp" />
+		<Unit filename="../../src/resources/mesh_loader.h" />
 		<Unit filename="../../src/resources/png_loader.cpp" />
 		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />

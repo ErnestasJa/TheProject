@@ -32,8 +32,8 @@ struct texture
     texture();
     ~texture();
 
-    void generate(std::shared_ptr<image> img);
-    void generate(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h);
+    void init(std::shared_ptr<image> img);
+    void init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h);
 
     void set_filters(texture::FILTER_MIN fmin, texture::FILTER_MAG fmag);
     void set_clamp(texture::CLAMP x, texture::CLAMP y);

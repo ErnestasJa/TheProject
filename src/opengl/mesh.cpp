@@ -48,7 +48,7 @@ mesh::~mesh()
         delete b;
 }
 
-void mesh::generate()
+void mesh::init()
 {
     disable_empty_buffers();
 
@@ -60,7 +60,7 @@ void mesh::generate()
         if(buffers[i]->enabled)
         {
             std::cout << (buffers[i]->get_type()==ibuffer_object::DATA?"data buffer":"index buffer") << std::endl;
-            buffers[i]->generate();
+            buffers[i]->init();
 
             if(buffers[i]->get_type()==ibuffer_object::DATA)
             {

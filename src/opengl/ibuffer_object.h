@@ -15,7 +15,7 @@ struct ibuffer_object
     ibuffer_object();
     virtual ~ibuffer_object();
 
-    virtual void generate() = 0;
+    virtual void init() = 0;
 
     virtual ibuffer_object::IBO_TYPE get_type() = 0;
     virtual uint32_t get_data_type() = 0;

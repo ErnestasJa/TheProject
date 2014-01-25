@@ -16,7 +16,12 @@ void iqmloader::load_header(const char* data, iqmheader & header)
     memcpy((void*)&header,(void*)data,sizeof(header));
 }
 
-std::shared_ptr<mesh> iqmloader::load ( const char* data)
+bool iqmloader::check_by_extension(const std::string & ext)
+{
+    return ext == "iqm" || ext == ".iqm";
+}
+
+std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
 {
     std::shared_ptr<mesh> glmesh;
     iqmheader head;

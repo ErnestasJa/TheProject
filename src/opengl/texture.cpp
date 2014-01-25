@@ -17,7 +17,7 @@ texture::~texture()
     free();
 }
 
-void texture::generate(std::shared_ptr<image> img)
+void texture::init(std::shared_ptr<image> img)
 {
     type = GL_TEXTURE_2D;
 
@@ -58,7 +58,7 @@ void texture::generate(std::shared_ptr<image> img)
  * @param filter
  * bit0 = linear, bit1 = mipmap
  */
-void texture::generate(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h)
+void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h)
 {
     type = target;
 
@@ -93,7 +93,7 @@ void texture::generate(const uint8_t * data, uint32_t target, uint32_t image_for
 
     glTexImage2D(type,0,internal_format,w,h,0,image_format,image_format==GL_DEPTH_COMPONENT?GL_UNSIGNED_INT:GL_UNSIGNED_BYTE,data);
 
-    //glGenerateMipmap(type);
+    //glinitMipmap(type);
 
     glBindTexture(type,current);
 }

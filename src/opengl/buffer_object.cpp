@@ -14,7 +14,7 @@ uint32_t index_buffer_object<uint8_t>::get_component_count()
 }
 
 template <>
-void index_buffer_object<uint8_t>::generate()
+void index_buffer_object<uint8_t>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
@@ -34,7 +34,7 @@ uint32_t index_buffer_object<uint32_t>::get_component_count()
 }
 
 template <>
-void index_buffer_object<uint32_t>::generate()
+void index_buffer_object<uint32_t>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
@@ -54,7 +54,7 @@ uint32_t buffer_object<uint8_t>::get_component_count()
 }
 
 template <>
-void buffer_object<uint8_t>::generate()
+void buffer_object<uint8_t>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
@@ -74,7 +74,7 @@ uint32_t buffer_object<u8vec4>::get_component_count()
 }
 
 template <>
-void buffer_object<u8vec4>::generate()
+void buffer_object<u8vec4>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
@@ -94,7 +94,7 @@ uint32_t buffer_object<uint32_t>::get_component_count()
 }
 
 template <>
-void buffer_object<uint32_t>::generate()
+void buffer_object<uint32_t>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
@@ -115,7 +115,7 @@ uint32_t buffer_object<glm::vec4>::get_component_count()
 
 
 template <>
-void buffer_object<glm::vec4>::generate()
+void buffer_object<glm::vec4>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
@@ -137,7 +137,7 @@ uint32_t buffer_object<glm::vec3>::get_component_count()
 
 
 template <>
-void buffer_object<glm::vec3>::generate()
+void buffer_object<glm::vec3>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
@@ -159,7 +159,7 @@ uint32_t buffer_object<glm::vec2>::get_component_count()
 
 
 template <>
-void buffer_object<glm::vec2>::generate()
+void buffer_object<glm::vec2>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);

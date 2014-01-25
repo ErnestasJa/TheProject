@@ -64,7 +64,7 @@ struct mesh
     mesh();
     virtual ~mesh();
 
-    void generate();
+    void init();
     void disable_empty_buffers();
 
     void render();

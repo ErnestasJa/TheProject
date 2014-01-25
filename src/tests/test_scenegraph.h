@@ -7,7 +7,7 @@ namespace sg{ class scenegraph; struct sg_material;}
 
 struct shader; class shader_loader;
 class texture; class image_loader;
-class iqmloader; struct mesh;
+class mesh_loader; struct mesh;
 
 class test_scenegraph: public application
 {
@@ -17,7 +17,7 @@ protected:
 
     ///matrices
     image_loader *  m_image_loader;
-    iqmloader *     m_iqm_loader;
+    mesh_loader *   m_mesh_loader;
     shader_loader * m_shader_loader;
 
     sg::scenegraph * m_scenegraph;

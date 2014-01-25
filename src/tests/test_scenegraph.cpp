@@ -11,7 +11,7 @@
 #include "opengl/mesh.h"
 #include "opengl/shader.h"
 
-#include "resources/iqmloader.h"
+#include "resources/mesh_loader.h"
 #include "resources/shader_loader.h"
 #include "resources/image_loader.h"
 #include "scenegraph/scenegraph.h"
@@ -37,21 +37,22 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
 
     m_image_loader = new image_loader(this->get_logger());
     m_shader_loader = new shader_loader();
-    m_iqm_loader = new iqmloader(this->get_logger());
+    m_mesh_loader = new mesh_loader(this->get_logger());
 
     m_scenegraph = new sg::scenegraph();
 
-    char * buf;
+    char * buffer;
+    uint32_t len = read("res/mrfixit.iqm",buffer);
 
-    if(!read("res/mrfixit.iqm",buf))
+    if(!len)
         return false;
 
-    mesh_ptr m=m_iqm_loader->load(buf);
+    mesh_ptr m=m_mesh_loader->load("res/mrfixit.iqm");
 
     if(!m)
         return false;
 
-    m->generate();
+    m->init();
 
     sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
     m_scenegraph->add_object(obj);
@@ -61,14 +62,21 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
     if(!sh)
         return false;
 
-    image_ptr img = m_image_loader->load("res/body.png");
+    image_ptr img_body = m_image_loader->load("res/body.png");
     texture_ptr tex = share(new texture());
-    tex->generate(img);
+    tex->init(img_body);
+
+    image_ptr img_head = m_image_loader->load("res/Head.tga");
+    texture_ptr tex_head = share(new texture());
+    tex_head->init(img_head);
 
     sg::sg_material & mat = obj->get_material(0);
     mat.mat_shader = sh;
     mat.mat_textures[0] = tex;
-    obj->get_material(1) = obj->get_material(0);
+
+    sg::sg_material & mat_head = obj->get_material(1);
+    mat_head.mat_shader = sh;
+    mat_head.mat_textures[0] = tex_head;
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
     cam->get_transform() = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
@@ -105,19 +113,36 @@ void test_scenegraph::cam_move()
 
         if(wnd->get_key(GLFW_KEY_W))
         {
-            cam->get_transform() = glm::translate(cam->get_transform(),glm::vec3(2,0,0));
+            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,2)) * cam->get_transform();
         }
         else if(wnd->get_key(GLFW_KEY_S))
         {
-            cam->get_transform() = glm::translate(cam->get_transform(),glm::vec3(-2,0,0));
+            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,-2)) * cam->get_transform();
         }
         else if(wnd->get_key(GLFW_KEY_A))
         {
-            cam->get_transform() = glm::rotate<float>(cam->get_transform(),-5,glm::vec3(0,1,0));
+            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(2,0,0)) * cam->get_transform();
         }
         else if(wnd->get_key(GLFW_KEY_D))
         {
-            cam->get_transform() = glm::rotate<float>(cam->get_transform(),5,glm::vec3(0,1,0));
+            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(-2,0,0)) * cam->get_transform();
+        }
+
+        if(wnd->get_key(GLFW_KEY_LEFT))
+        {
+            cam->get_transform() = glm::rotate<float>(glm::mat4(),-2,glm::vec3(0,1,0)) * cam->get_transform();
+        }
+        else if(wnd->get_key(GLFW_KEY_RIGHT))
+        {
+            cam->get_transform() = glm::rotate<float>(glm::mat4(),2,glm::vec3(0,1,0)) * cam->get_transform();
+        }
+        else if(wnd->get_key(GLFW_KEY_UP))
+        {
+            cam->get_transform() = glm::rotate<float>(glm::mat4(),-2,glm::vec3(1,0,0)) * cam->get_transform();
+        }
+        else if(wnd->get_key(GLFW_KEY_DOWN))
+        {
+            cam->get_transform() = glm::rotate<float>(glm::mat4(),2,glm::vec3(1,0,0)) * cam->get_transform();
         }
     }
 }
@@ -126,7 +151,7 @@ void test_scenegraph::cam_move()
 void test_scenegraph::exit()
 {
     delete m_image_loader;
-    delete m_iqm_loader;
+    delete m_mesh_loader;
     delete m_shader_loader;
 
     delete tex_cache;

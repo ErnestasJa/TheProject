@@ -46,9 +46,9 @@ public:
         glmesh->buffers[2] = indices;
     }
 
-    bool generate()
+    bool init()
     {
-        glmesh->generate();
+        glmesh->init();
         return true;
     }
 
