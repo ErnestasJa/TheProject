@@ -38,14 +38,8 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
     m_image_loader = new image_loader(this->get_logger());
     m_shader_loader = new shader_loader();
     m_mesh_loader = new mesh_loader(this->get_logger());
-
     m_scenegraph = new sg::scenegraph();
 
-    char * buffer;
-    uint32_t len = read("res/mrfixit.iqm",buffer);
-
-    if(!len)
-        return false;
 
     mesh_ptr m=m_mesh_loader->load("res/mrfixit.iqm");
 
