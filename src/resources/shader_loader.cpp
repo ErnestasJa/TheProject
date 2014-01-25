@@ -1,9 +1,10 @@
 #include "precomp.h"
 #include "shader_loader.h"
+#include "utility/logger.h"
 
-shader_loader::shader_loader()
+shader_loader::shader_loader(logger * l)
 {
-    //ctor
+    m_logger = l;
 }
 
 shader_loader::~shader_loader()
@@ -14,6 +15,14 @@ shader_loader::~shader_loader()
 shader_ptr shader_loader::load(const std::string & file)
 {
     resource<shader> res;
+
+    res = this->get_resource(file);
+
+    if(res.resource)
+    {
+        m_logger->log(LOG_LOG, "Found shader in cache, skipping loading.");
+        return res.resource;
+    }
 
     char * vsh=NULL;
     char * fsh=NULL;
