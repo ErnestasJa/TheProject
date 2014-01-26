@@ -31,6 +31,38 @@ struct shader
         free();
     }
 
+    static shader * load_shader(const std::string & name, const binding *attribs = NULL, const binding *texs = NULL)
+    {
+        char * vsh=NULL;
+        char * fsh=NULL;
+
+        uint32_t l1 = helpers::read(name+".vert",vsh);
+
+        if(l1==0)
+            return nullptr;
+
+        uint32_t l2 = helpers::read(name+".frag",fsh);
+
+        if(l2==0)
+            return nullptr;
+
+        shader * sh = new shader(name,vsh,fsh,attribs,texs);
+
+        sh->compile();
+        sh->link();
+
+        delete [] vsh;
+        delete [] fsh;
+
+        if(sh->program==0)
+        {
+            delete sh;
+            return nullptr;
+        }
+
+        return sh;
+    }
+
     static void showinfo ( uint32_t obj, const std::string & tname, const std::string & name )
     {
         int32_t length = 0;

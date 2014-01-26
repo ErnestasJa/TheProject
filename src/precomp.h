@@ -13,6 +13,7 @@
 #include <map>
 
 #include <string.h>
+#include <string>
 
 #include <sstream>
 #include <stdarg.h>

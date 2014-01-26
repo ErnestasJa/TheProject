@@ -22,15 +22,6 @@ public:
 
         calculate_bounds();
     }
-    rect2d(rect2d &other)
-    {
-        this->x=other.x;
-        this->y=other.y;
-        this->w=other.w;
-        this->h=other.h;
-
-        calculate_bounds();
-    }
     ~rect2d() {};
     bool is_point_inside(T x, T y)
     {

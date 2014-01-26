@@ -1,9 +1,8 @@
 #include "precomp.h"
 
 #include "gui/gui_element.h"
-#include "utility/logger.h"
 
-gui_element::gui_element(int x, int y, int w, int h)
+gui_element::gui_element(gui_environment* env, int x, int y, int w, int h)
 {
     absolute_rect = rect2d<int>(x, y, w, h);
     relative_rect = rect2d<int>(x, y, w, h);
@@ -16,13 +15,20 @@ gui_element::gui_element(int x, int y, int w, int h)
 
     this->parent = nullptr;
     this->event_listener = nullptr;
-    this->environment = nullptr;
+    this->environment = env;
     set_name("gui_element_"+helpers::to_str(rand()%65535));
 }
 
 gui_element::~gui_element()
 {
+    destroy_children();
+}
 
+void gui_element::destroy_children()
+{
+    for(gui_element* e:children)
+        delete e;
+    children.clear();
 }
 
 void gui_element::render()

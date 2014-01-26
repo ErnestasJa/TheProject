@@ -1,7 +1,6 @@
 #pragma once
 
 #include "application/application.h"
-#include "gui/gui_event_listener.h"
 
 class iqmesh;
 class texture;

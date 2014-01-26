@@ -25,8 +25,6 @@ private:
 
     shader* font_shader;
 
-    void create_shader();
-
     void set_font_color(glm::vec4 color);
 
     GLuint vao;

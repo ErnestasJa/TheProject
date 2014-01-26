@@ -58,7 +58,6 @@
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
 					<Add library="libfreetype" />
-					<Add directory="../../libs/freetype/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -78,6 +77,7 @@
 		<Linker>
 			<Add directory="../../libs/glfw/lib" />
 			<Add directory="../../libs/physfs/lib" />
+			<Add directory="../../libs/freetype/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -110,6 +110,8 @@
 		<Unit filename="../../src/gui/gui_environment.h" />
 		<Unit filename="../../src/gui/gui_event.h" />
 		<Unit filename="../../src/gui/gui_event_listener.h" />
+		<Unit filename="../../src/gui/gui_static_text.cpp" />
+		<Unit filename="../../src/gui/gui_static_text.h" />
 		<Unit filename="../../src/gui/gui_test_element.h" />
 		<Unit filename="../../src/gui/input_handler.cpp" />
 		<Unit filename="../../src/gui/input_handler.h" />

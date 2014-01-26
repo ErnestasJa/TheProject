@@ -3,42 +3,23 @@
 #include "application/application.h"
 #include "gui/gui_event_listener.h"
 
-class iqmesh;
-class texture;
 class frame_buffer_object;
-class shader;
-class quad;
 class gui_environment;
-class gui_element;
-class gui_test_element;
 class font_renderer;
-
+class gui_static_text;
 class gui_and_fonts_application: public application,gui_event_listener
 {
 protected:
-    std::vector<std::shared_ptr<shader> > * shader_cache;
-    std::vector<std::shared_ptr<texture> > * tex_cache;
-    std::vector<std::shared_ptr<frame_buffer_object> > * fbo_cache;
     uint32_t frame_count;
     uint32_t last_time;
 
     ///matrices
     glm::mat4 M, V, P, MVP;
 
-    ///these normally should not be in this class and should not be raw pointers, but we want them to be destroyed at exit and not class destructor
-    frame_buffer_object * fbo;
-    texture             * tex;
-    texture             * ztex;
-    shader              * qsh;
-    shader              * gqsh;
-    shader              * sh;
-    quad                * q;
-    quad                * q2;
-
     gui_environment * env;
-    gui_test_element *test;
-    gui_test_element *elem;
-    gui_test_element *elem2;
+    gui_static_text * test1;
+    gui_static_text * test2;
+
     font_renderer *renderer;
 public:
     gui_and_fonts_application(uint32_t argc, const char ** argv);

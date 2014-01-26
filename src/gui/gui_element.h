@@ -1,14 +1,11 @@
 #pragma once
-#include "math/rect2d.h"
 #include "gui_event_listener.h"
-
-#define GUI_DEBUG
-
+#include "math/rect2d.h"
 class gui_environment;
 class gui_element:public gui_event_listener
 {
 public:
-    gui_element(int x, int y, int w, int h);
+    gui_element(gui_environment* env, int x, int y, int w, int h);
 
     ~gui_element();
 
@@ -64,6 +61,9 @@ public:
     rect2d<int> &get_relative_rect();
 private:
 protected:
+
+    void destroy_children();
+
     int disp_w, disp_h;
     std::string name;
     gui_element *parent;

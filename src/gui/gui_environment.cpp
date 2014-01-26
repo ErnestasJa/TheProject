@@ -1,9 +1,9 @@
 #include "precomp.h"
 
 #include "gui_environment.h"
-#include "input_handler.h"
+#include "opengl/shader.h"
 
-gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(0,0,dispw,disph)
+gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, 0,0,dispw,disph)
 {
     this->window=win;
     this->input=new input_handler(nullptr,window);
@@ -12,11 +12,17 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     mouse_pos=last_mouse_pos=glm::vec2();
     gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
     this->set_name("GUI_ENVIRONMENT");
+
+    gui_shader=shader::load_shader("res/gui_quad");
+
+    m_font_renderer=new font_renderer(this);
 }
 
 gui_environment::~gui_environment()
 {
-
+    delete m_font_renderer;
+    delete gui_shader;
+    destroy_children();
 }
 
 void gui_environment::update(float delta)
@@ -142,4 +148,9 @@ glm::vec2 gui_environment::get_mouse_pos()
 glm::vec2 gui_environment::get_gui_scale()
 {
     return gui_scale;
+}
+
+font_renderer* gui_environment::get_font_renderer()
+{
+    return m_font_renderer;
 }

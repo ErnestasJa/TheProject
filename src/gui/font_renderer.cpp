@@ -26,7 +26,7 @@ font_renderer::font_renderer(gui_environment* env)
     glGenVertexArrays(1,&vao);
     glGenBuffers(1,&vbo);
 
-    create_shader();
+    font_shader=shader::load_shader("res/font");
 }
 
 font_renderer::~font_renderer()
@@ -37,23 +37,6 @@ font_renderer::~font_renderer()
     }
     fonts.clear();
     FT_Done_FreeType(ft);
-}
-
-void font_renderer::create_shader()
-{
-    ///Load font shader
-    char * vs=NULL;
-    char * fs=NULL;
-
-    if(!helpers::read("res/font.vert",vs)) return;
-    if(!helpers::read("res/font.frag",fs)) return;
-
-    font_shader = new shader("font_shader",vs,fs,0,0);
-	font_shader->compile();
-	font_shader->link();
-
-	delete [] vs;
-	delete [] fs;
 }
 
 font* font_renderer::create_font(std::string name, std::string filename, int32_t size)

@@ -1,5 +1,5 @@
 #pragma once
-#include "gui_element.h"
+
 // Stuff to still convert
 //!TODO (murloc992#1#): GUI Event
 //!TODO (murloc992#1#): GUI Event Listener
@@ -7,14 +7,21 @@
 //!TODO (murloc992#1#): Vec2
 //!TODO (murloc992#1#): GUI Element
 //!TODO (murloc992#1#): GUI Environment
+//!TODO (murloc992#1#): Font Renderer
+//TODO (murloc992#1#): GUI Static Text
 //TODO (murloc992#1#): GUI Button
 //TODO (murloc992#1#): GUI Window
-//TODO (murloc992#1#): GUI Static Text
 //TODO (murloc992#1#): GUI Text Field
 //TODO (murloc992#1#): GUI Slider
 
-class input_handler;
+#include "gui_element.h"
+#include "input_handler.h"
+#include "gui_event.h"
+#include "gui_event_listener.h"
 
+#include "font_renderer.h"
+
+class shader;
 class gui_environment : public gui_element
 {
 public:
@@ -29,7 +36,11 @@ public:
 
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
+
+    font_renderer *get_font_renderer();
 private:
+    shader* gui_shader;
+    font_renderer* m_font_renderer;
     input_handler *input;
     GLFWwindow* window;
     gui_element *hover, *last_hover, *focus, *last_focus;

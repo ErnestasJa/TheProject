@@ -1,5 +1,6 @@
 #ifndef GUI_TEST_ELEMENT_H_INCLUDED
 #define GUI_TEST_ELEMENT_H_INCLUDED
+
 #include "gui_element.h"
 #include "gui_environment.h"
 class gui_test_element:public gui_element
@@ -12,10 +13,9 @@ private:
     glm::vec2 mp,ds,dif;
     bool dragging;
 public:
-    gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(x,y,w,h)
+    gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(env,x,y,w,h)
     {
         this->set_parent(env);
-        this->environment=env;
 
         this->_pane=new quad();
         _pane->generate();
@@ -68,8 +68,8 @@ public:
     {
         this->_transform=glm::mat4(1.0f);
 
-        float gsx=2.0/1024.0;
-        float gsy=2.0/768.0;
+        float gsx=environment->get_gui_scale().x;
+        float gsy=environment->get_gui_scale().y;
         float px=-1+absolute_rect.x*gsx+absolute_rect.w/2*gsx;
         float py=1-absolute_rect.y*gsy-absolute_rect.h/2*gsy;
         float sx=absolute_rect.w/2*gsx;
