@@ -15,8 +15,7 @@
 #include "resources/shader_loader.h"
 #include "resources/image_loader.h"
 #include "scenegraph/scenegraph.h"
-#include "scenegraph/sg_mesh_object.h"
-#include "scenegraph/sg_camera_object.h"
+#include "scenegraph/sg_objects.h"
 
 test_scenegraph::test_scenegraph(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -32,7 +31,6 @@ test_scenegraph::~test_scenegraph()
 bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    mesh_cache = create_resource_cache<mesh>();
     tex_cache = create_resource_cache<texture>();
 
     m_image_loader = new image_loader(this->get_logger());
@@ -187,7 +185,6 @@ void test_scenegraph::exit()
     delete m_shader_loader;
 
     delete tex_cache;
-    delete mesh_cache;
 
     application::exit();
 }

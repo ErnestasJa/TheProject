@@ -3,6 +3,7 @@
 
 #include "sg_object_types.h"
 #include "sg_material.h"
+#include "sg_aabb.h"
 
 namespace sg
 {
@@ -27,6 +28,8 @@ public:
 
     virtual sg_material & get_material(uint32_t index)=0;
     virtual uint32_t get_material_count()=0;
+
+    virtual sg_aabb get_aabb();
 };
 
 typedef std::shared_ptr<isg_object> sg_object_ptr;

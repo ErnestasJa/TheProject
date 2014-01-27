@@ -4,12 +4,13 @@
 #include "tests/test_application.h"
 #include "tests/gui_and_fonts_application.h"
 #include "tests/test_scenegraph.h"
+#include "tests/game/test_game.h"
 #include "utility/logger.h"
 #include "utility/timer.h"
 
 int main(int argc, const char ** argv)
 {
-    application * app = new test_scenegraph(argc,argv);
+    application * app = new test_game(argc,argv);
 
     if(app->init("test",1024,720))
     {
@@ -20,7 +21,5 @@ int main(int argc, const char ** argv)
         delete app;
     }
 
-    std::string s;
-    std::getline(std::cin,s);
     return 0;
 }

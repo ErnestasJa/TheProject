@@ -46,5 +46,8 @@ shader_ptr shader_loader::load(const std::string & file)
 	delete [] vsh;
 	delete [] fsh;
 
+	if(res.resource)
+        m_logger->log(LOG_LOG, "Shader '%s' loaded.",file.c_str());
+
     return res.resource;
 }

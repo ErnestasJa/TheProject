@@ -23,5 +23,9 @@ std::string & isg_object::get_name()
 {
     return m_name;
 }
+sg_aabb isg_object::get_aabb()
+{
+    return sg_aabb(glm::vec3(),glm::vec3());
+}
 
 }

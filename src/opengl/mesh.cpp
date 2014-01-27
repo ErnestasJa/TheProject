@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "mesh.h"
 #include "ibuffer_object.h"
+#include "buffer_object.h"
 #include "math/util.h"
 
 void animation::set_frame(uint32_t frame)
@@ -41,11 +42,15 @@ void animation::set_interp_frame(float f)
 mesh::mesh(): vao(0), anim(nullptr)
 {
     buffers.resize(BUFFER_COUNT);
+
+    loopi(BUFFER_COUNT)
+        buffers[i]=nullptr;
 }
 mesh::~mesh()
 {
     for(ibuffer_object * b : buffers)
-        delete b;
+        if(b)
+            delete b;
 }
 
 void mesh::init()
@@ -57,7 +62,7 @@ void mesh::init()
 
     for(uint32_t i = 0; i < buffers.size(); i++)
     {
-        if(buffers[i]->enabled)
+        if(buffers[i] && buffers[i]->enabled)
         {
             std::cout << (buffers[i]->get_type()==ibuffer_object::DATA?"data buffer":"index buffer") << std::endl;
             buffers[i]->init();
@@ -76,7 +81,7 @@ void mesh::init()
 void mesh::disable_empty_buffers()
 {
     for(uint32_t i = 0; i < buffers.size(); i++)
-    if(buffers[i]->get_size()==0)
+    if(buffers[i] && buffers[i]->get_size()==0)
         buffers[i]->enabled = false;
 }
 
@@ -84,7 +89,10 @@ void mesh::render(uint32_t sub_mesh_index)
 {
     glBindVertexArray(vao);
 
-    glDrawElements(GL_TRIANGLES,sub_meshes[sub_mesh_index].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sub_meshes[sub_mesh_index].start));
+    if(sub_meshes.size()!=0)
+        glDrawElements(GL_TRIANGLES,sub_meshes[sub_mesh_index].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sub_meshes[sub_mesh_index].start));
+    else
+        glDrawElements(GL_TRIANGLES,static_cast<index_buffer_object<uint32_t>*>(buffers[INDICES])->data.size(),GL_UNSIGNED_INT,(void*)(0));
 
     glBindVertexArray(0);
 }
@@ -104,6 +112,15 @@ void mesh::render()
     {
         glDrawElements(GL_TRIANGLES,buffers[INDICES]->get_size(),GL_UNSIGNED_INT,0);
     }
+
+    glBindVertexArray(0);
+}
+
+void mesh::render_lines()
+{
+    glBindVertexArray(vao);
+
+    glDrawElements(GL_LINES,buffers[INDICES]->get_size(),GL_UNSIGNED_INT,(void*)(0));
 
     glBindVertexArray(0);
 }

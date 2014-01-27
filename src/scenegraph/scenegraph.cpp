@@ -10,6 +10,8 @@ scenegraph::scenegraph()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glDisable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
     glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
 }
 

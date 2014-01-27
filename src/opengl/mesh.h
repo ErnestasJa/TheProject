@@ -70,6 +70,8 @@ struct mesh
     void render();
     void render(uint32_t sub_mesh_index);
 
+    void render_lines();
+
     void free();
 };
 
