@@ -37,6 +37,7 @@ struct animation
 struct sub_mesh
 {
     std::string name;
+    std::string material_name;
     uint32_t start, num_indices;
 };
 

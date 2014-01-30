@@ -12,7 +12,7 @@ struct sg_material;
 struct shader;
 class shader_loader;
 class texture;
-class image_loader;
+class graphics_manager;
 class mesh_loader;
 struct mesh;
 
@@ -22,11 +22,7 @@ class PhysicsManager;
 class test_game: public application
 {
 protected:
-    std::vector<std::shared_ptr<texture> > * tex_cache;
-
-    image_loader    *   m_image_loader;
-    mesh_loader     *   m_mesh_loader;
-    shader_loader   *   m_shader_loader;
+    graphics_manager*   m_graphics_manager;
     sg::scenegraph  *   m_scenegraph;
     PhysicsManager  *   m_physics_manager;
 

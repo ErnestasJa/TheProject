@@ -128,10 +128,11 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
         iqmmesh sm=submeshes[i];
         sub_mesh & m = glmesh->sub_meshes[i];
         m.name = &texts[sm.name];
+        m.material_name = &texts[sm.material];
         m.start = sm.first_triangle*3;
         m.num_indices = sm.num_triangles*3;
 
-        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",&texts[sm.name],"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
+        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",m.name.c_str(),m.material_name.c_str(),sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
     loadiqmanims(glmesh,data,head);
@@ -153,7 +154,7 @@ void iqmloader::loadiqmanims(std::shared_ptr<mesh> m, const char* data, iqmheade
     m->anim = new animation();
     m->anim->frames.resize(header.num_frames);
 
-     for(uint32_t i = 0; i < header.num_frames; i++)
+    for(uint32_t i = 0; i < header.num_frames; i++)
         m->anim->frames[i].resize(header.num_joints);
 
     m->anim->current_frame.resize(header.num_joints);

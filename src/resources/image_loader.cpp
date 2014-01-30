@@ -64,17 +64,3 @@ image_ptr image_loader::load(const std::string & file)
 
     return nullptr;
 }
-
-texture_ptr image_loader::load_to_texture(const std::string & file)
-{
-    texture_ptr tex;
-    image_ptr img = load(file);
-
-    if(img)
-    {
-        tex = texture_ptr(new texture());
-        tex->init(img);
-    }
-
-    return tex;
-}

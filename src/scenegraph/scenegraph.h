@@ -4,6 +4,10 @@
 #include "sg_objects.h"
 #include "sg_material.h"
 
+class image_loader;
+class mesh_loader;
+struct texture;
+
 namespace sg
 {
 
@@ -13,6 +17,11 @@ public:
     scenegraph();
     virtual ~scenegraph();
 
+public:
+    image_loader    * get_image_loader();
+    mesh_loader     * get_mesh_loader();
+
+public:
     virtual void add_object(sg_object_ptr obj);
     virtual void render_all();
 

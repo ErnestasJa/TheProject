@@ -10,6 +10,7 @@
 #include "opengl/opengl_util.h"
 #include "opengl/mesh.h"
 #include "opengl/shader.h"
+#include "opengl/graphics_manager.h"
 
 #include "resources/mesh_loader.h"
 #include "resources/shader_loader.h"
@@ -31,11 +32,8 @@ test_game::~test_game()
 bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    tex_cache = create_resource_cache<texture>();
 
-    m_image_loader = new image_loader(this->get_logger());
-    m_shader_loader = new shader_loader(this->get_logger());
-    m_mesh_loader = new mesh_loader(this->get_logger());
+    m_graphics_manager = new graphics_manager(this->get_logger());
     m_scenegraph = new sg::scenegraph();
 
     m_physics_manager = new PhysicsManager(btVector3(0,-9.83f,0));
@@ -76,11 +74,8 @@ bool test_game::update()
 
 void test_game::exit()
 {
-    delete m_image_loader;
-    delete m_mesh_loader;
-    delete m_shader_loader;
+    delete m_graphics_manager;
 
-    delete tex_cache;
     delete m_scenegraph;
     delete m_physics_manager;
 
@@ -94,77 +89,67 @@ bool test_game::init_scene()
     mesh_ptr m;
 
     ///load model
-    m=m_mesh_loader->load("res/wood_tower.iqm");
+    m=m_graphics_manager->get_mesh_loader()->load("res/wood_tower.iqm");
     if(!m) return false;
     m->init();
 
     obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
-    sh = m_shader_loader->load("res/static_mesh");
+    sh = m_graphics_manager->get_shader_loader()->load("res/static_mesh");
 
     if(!sh) return false;
     {
         sg::sg_material & mat = obj->get_material(0);
         mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/wood_tower_color.png");
+        mat.mat_textures[0] = m_graphics_manager->load_texture("res/wood_tower_color.png");
     }
 
-    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,5,0));
+    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,5.25,-5));
     m_scenegraph->add_object(obj);
     m_physics_manager->createTrimeshBody(obj,btVector3(1,1,1));
 
     {
-    sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
-    sg::sg_material & wmat = wireframe->get_material(0);
-    wmat.mat_shader = m_shader_loader->load("res/line");
-    m_scenegraph->add_object(wireframe);
+        sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
+        sg::sg_material & wmat = wireframe->get_material(0);
+        wmat.mat_shader = m_graphics_manager->get_shader_loader()->load("res/line");
+        m_scenegraph->add_object(wireframe);
     }
     ///done loading
 
     loopi(5)
     {
-    ///load model
-    m=m_mesh_loader->load("res/trashcan.iqm");
-    if(!m) return false;
-    m->init();
+        ///load model
+        m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
+        if(!m) return false;
+        m->init();
 
-    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
-    sh = m_shader_loader->load("res/static_mesh");
+        obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+        sh = m_graphics_manager->get_shader_loader()->load("res/static_mesh");
 
-    if(!sh) return false;
-    {
-        sg::sg_material & mat = obj->get_material(0);
-        mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/trashcan_diffuse.png");
+        if(!sh) return false;
+        {
+            sg::sg_material & mat = obj->get_material(0);
+            mat.mat_shader = sh;
+            mat.mat_textures[0] = m_graphics_manager->load_texture("res/trashcan_diffuse.png");
+        }
+
+        obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(i*2,15,-7));
+        m_scenegraph->add_object(obj);
+        m_physics_manager->createBox(obj,10.0f);
+
+        {
+            sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
+            sg::sg_material & wmat = wireframe->get_material(0);
+            wmat.mat_shader = m_graphics_manager->get_shader_loader()->load("res/line");
+            m_scenegraph->add_object(wireframe);
+        }
+        ///done loading
     }
 
-    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,5+i*2,0));
-    m_scenegraph->add_object(obj);
-    m_physics_manager->createBox(obj,10.0f);
+    ///load map
+    sg::sg_material lvl_mat;
+    lvl_mat.mat_shader = m_graphics_manager->get_shader_loader()->load("res/static_mesh");
 
-    {
-    sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
-    sg::sg_material & wmat = wireframe->get_material(0);
-    wmat.mat_shader = m_shader_loader->load("res/line");
-    m_scenegraph->add_object(wireframe);
-    }
-    ///done loading
-    }
-
-    ///load model
-    m=m_mesh_loader->load("res/terrain.iqm");
-    if(!m) return false;
-    m->init();
-
-    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
-    sh = m_shader_loader->load("res/static_mesh");
-
-    if(!sh) return false;
-    {
-        sg::sg_material & mat = obj->get_material(0);
-        mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/terrain.png");
-    }
-
+    obj=m_graphics_manager->load_mesh_object("res/maps/cs_assault/cs_assault.iqm",lvl_mat,true);
     obj->get_transform() = glm::scale(obj->get_transform(),glm::vec3(1,1,1));
 
     m_scenegraph->add_object(obj);
@@ -172,8 +157,7 @@ bool test_game::init_scene()
     ///done loading
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
-    cam->get_transform() = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
-    cam->get_transform() = glm::rotate<float>(cam->get_transform(),-90,glm::vec3(0,1,0));
+    cam->get_transform() = glm::lookAt(glm::vec3(0,18,-20),glm::vec3(0,5,-5),glm::vec3(0,1,0));
 
     m_scenegraph->set_active_camera(cam);
 

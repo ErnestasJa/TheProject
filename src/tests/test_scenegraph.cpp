@@ -10,6 +10,7 @@
 #include "opengl/opengl_util.h"
 #include "opengl/mesh.h"
 #include "opengl/shader.h"
+#include "opengl/graphics_manager.h"
 
 #include "resources/mesh_loader.h"
 #include "resources/shader_loader.h"
@@ -31,9 +32,8 @@ test_scenegraph::~test_scenegraph()
 bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    tex_cache = create_resource_cache<texture>();
 
-    m_image_loader = new image_loader(this->get_logger());
+    m_graphics_manager = new graphics_manager(this->get_logger());
     m_shader_loader = new shader_loader(this->get_logger());
     m_mesh_loader = new mesh_loader(this->get_logger());
     m_scenegraph = new sg::scenegraph();
@@ -62,7 +62,7 @@ bool test_scenegraph::init_scene()
     {
         sg::sg_material & mat = obj->get_material(0);
         mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/wood_tower_color.png");
+        mat.mat_textures[0] = m_graphics_manager->load_texture("res/wood_tower_color.png");
     }
 
     m_scenegraph->add_object(obj);
@@ -80,7 +80,7 @@ bool test_scenegraph::init_scene()
     {
         sg::sg_material & mat = obj->get_material(0);
         mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/trashcan_diffuse.png");
+        mat.mat_textures[0] = m_graphics_manager->load_texture("res/trashcan_diffuse.png");
     }
 
     obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,5));
@@ -99,7 +99,7 @@ bool test_scenegraph::init_scene()
     {
         sg::sg_material & mat = obj->get_material(0);
         mat.mat_shader = sh;
-        mat.mat_textures[0] = m_image_loader->load_to_texture("res/terrain.png");
+        mat.mat_textures[0] = m_graphics_manager->load_texture("res/terrain.png");
     }
 
     obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,5));
@@ -180,11 +180,9 @@ void test_scenegraph::cam_move()
 
 void test_scenegraph::exit()
 {
-    delete m_image_loader;
+    delete m_graphics_manager;
     delete m_mesh_loader;
     delete m_shader_loader;
-
-    delete tex_cache;
 
     application::exit();
 }

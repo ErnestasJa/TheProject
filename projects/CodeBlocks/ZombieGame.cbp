@@ -79,6 +79,7 @@
 					<Add library="glu32" />
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
+					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 				</Linker>
@@ -96,6 +97,7 @@
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
 			<Add directory="../../libs/stb_image" />
+			<Add directory="../../libs/libsigc++/sigc++" />
 		</Compiler>
 		<Linker>
 			<Add library="libBulletSoftBody.a" />
@@ -104,6 +106,7 @@
 			<Add library="libLinearMath.a" />
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/bullet/lib" />
+			<Add directory="../../libs/libsigc++/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -145,6 +148,8 @@
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
+		<Unit filename="../../src/opengl/graphics_manager.cpp" />
+		<Unit filename="../../src/opengl/graphics_manager.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
 		<Unit filename="../../src/opengl/ibuffer_object.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />

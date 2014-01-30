@@ -56,7 +56,7 @@ void scenegraph::on_set_material(const sg_material & mat)
         m_current_material = mat;
         m_current_material.set();
 
-            //m_current_material->m_shader
+        //m_current_material->m_shader
     }
 
     if(m_current_material.mat_shader)

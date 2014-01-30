@@ -16,5 +16,4 @@ public:
 
     virtual void add_loader(iimage_loader * loader);
     virtual image_ptr load(const std::string & file);
-    virtual texture_ptr load_to_texture(const std::string & file);
 };

@@ -6,15 +6,13 @@
 namespace sg{ class scenegraph; struct sg_material;}
 
 struct shader; class shader_loader;
-class texture; class image_loader;
+class texture; class graphics_manager;
 class mesh_loader; struct mesh;
 
 class test_scenegraph: public application
 {
 protected:
-    std::vector<std::shared_ptr<texture> > * tex_cache;
-
-    image_loader    *   m_image_loader;
+    graphics_manager*   m_graphics_manager;
     mesh_loader     *   m_mesh_loader;
     shader_loader   *   m_shader_loader;
     sg::scenegraph  *   m_scenegraph;
