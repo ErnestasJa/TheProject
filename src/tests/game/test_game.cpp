@@ -36,7 +36,7 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
     m_graphics_manager = new graphics_manager(this->get_logger());
     m_scenegraph = new sg::scenegraph();
 
-    m_physics_manager = new PhysicsManager(btVector3(0,-9.83f,0));
+    m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
 
     if(!init_scene())
         return false;
@@ -105,7 +105,7 @@ bool test_game::init_scene()
 
     obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,5.25,-5));
     m_scenegraph->add_object(obj);
-    m_physics_manager->createTrimeshBody(obj,btVector3(1,1,1));
+    m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
 
     {
         sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
@@ -134,7 +134,7 @@ bool test_game::init_scene()
 
         obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(i*2,15,-7));
         m_scenegraph->add_object(obj);
-        m_physics_manager->createBox(obj,10.0f);
+        m_physics_manager->create_box(obj,10.0f);
 
         {
             sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
@@ -153,7 +153,7 @@ bool test_game::init_scene()
     obj->get_transform() = glm::scale(obj->get_transform(),glm::vec3(1,1,1));
 
     m_scenegraph->add_object(obj);
-    m_physics_manager->createTrimeshBody(obj,btVector3(1,1,1));
+    m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));

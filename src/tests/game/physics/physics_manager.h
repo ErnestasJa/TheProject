@@ -9,27 +9,27 @@
 #include <string>
 
 
-class ICollisionHandler;
+class icollision_handler;
 
-class CMotionState;
+class cmotion_state;
 class btSoftBodyRigidBodyCollisionConfiguration;
 
 
-class PhysicsManager
+class physics_manager
 {
 public:
-    PhysicsManager(btVector3 Gravity);
-    ~PhysicsManager();
+    physics_manager(btVector3 Gravity);
+    ~physics_manager();
     ///update stuff
     void update(float delta_time);
-    void updateNodeTransformations();
-    void updateRender(btRigidBody* body);
+    void update_node_transformations();
+    void update_render(btRigidBody* body);
 
     ///rope rendering is mostly for debug purposes, would need to extend somehow softbody implementation to add custom materials.
     ///Also should use triangles to render them instead of lines.
-    void renderRopes();
+    void render_ropes();
 
-    void getCollidingBodies(btDynamicsWorld *world);
+    void get_colliding_bodies(btDynamicsWorld *world);
 
     ///Conversion
     btTriangleMesh* convert_mesh_to_bullet_trimesh(mesh_ptr pmesh, const btVector3 & scaling);
@@ -53,27 +53,28 @@ public:
     }
 
     ///Physics body creation/destruction
-    btRigidBody* createBox          (sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static=false, bool is_kinematic=false);
-    btRigidBody* createSphere       (sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static=false, bool is_kinematic=false);
-    btRigidBody* createTrimeshBody  (sg::sg_mesh_object_ptr mesh_obj, const btVector3 & scale);
-    btSoftBody * createRope         (const btVector3 & start, const btVector3 & end, const btScalar nodes, int fixeds=1);
-    void destroyBody(btRigidBody * body);
+    btRigidBody* create_box          (sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static=false, bool is_kinematic=false);
+    btRigidBody* create_sphere       (sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static=false, bool is_kinematic=false);
+    btRigidBody* create_trimesh_body  (sg::sg_mesh_object_ptr mesh_obj, const btVector3 & scale);
+    btSoftBody * create_rope         (const btVector3 & start, const btVector3 & end, const btScalar nodes, int fixeds=1);
+    void destroy_body(btRigidBody * body);
+
+
+    void add_object_back_to_simulation(btCollisionObject * obj);
 
     ///removes body from simulation but does not delete it.
-    void addObjectBackToSimulation(btCollisionObject * obj);
-    ///removes body from simulation but does not delete it.
-    void removeObjectFromSimulation(btCollisionObject * obj);
+    void remove_object_from_simulation(btCollisionObject * obj);
     ///removes body from simulation and deletes it.
-    void removeAndDeleteObject(btCollisionObject * obj);
+    void remove_and_delete_object(btCollisionObject * obj);
 
     ///Setters
-    void setCollisionHandler(ICollisionHandler * handler)
+    void set_collision_handler(icollision_handler * handler)
     {
         m_handler=handler;
     }
 
     ///Geters
-    btSoftRigidDynamicsWorld * getWorld();
+    btSoftRigidDynamicsWorld * get_world();
     std::vector<btRigidBody *> & getObjectList();
 
     ///RayCast
@@ -88,7 +89,7 @@ private:
     std::vector<btRigidBody *> m_rigidObjects;
     std::vector<btSoftBody *> m_softObjects;
 
-    ICollisionHandler                           * m_handler;
+    icollision_handler                           * m_handler;
 
     btSoftRigidDynamicsWorld                    * m_world;
     btCollisionDispatcher                       * m_dispatcher;

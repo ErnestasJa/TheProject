@@ -4,10 +4,10 @@
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 
-class ICollisionHandler
+class icollision_handler
 {
 public:
-    virtual void onBodyCollide(const btRigidBody*body1, const btRigidBody*body2)=0;
+    virtual void on_body_collide(const btRigidBody*body1, const btRigidBody*body2)=0;
 protected:
 private:
 };

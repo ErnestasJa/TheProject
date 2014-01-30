@@ -17,14 +17,14 @@ class mesh_loader;
 struct mesh;
 
 ///physics predeclares
-class PhysicsManager;
+class physics_manager;
 
 class test_game: public application
 {
 protected:
     graphics_manager*   m_graphics_manager;
     sg::scenegraph  *   m_scenegraph;
-    PhysicsManager  *   m_physics_manager;
+    physics_manager  *   m_physics_manager;
 
     uint32_t m_last_time, m_current_time;
 

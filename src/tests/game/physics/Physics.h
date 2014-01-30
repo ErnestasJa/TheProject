@@ -14,7 +14,7 @@ enum collisiontypes
 };
 
 
-#include "CMotionState.h"
-#include "ICollisionHandler.h"
-#include "PhysicsManager.h"
+#include "cmotion_state.h"
+#include "icollision_handler.h"
+#include "physics_manager.h"
 #endif

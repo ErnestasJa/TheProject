@@ -10,10 +10,10 @@
 ///like game object class that is related to the body using this motion state.
 ///this way you won't need to use 'user pointer'.
 
-class CMotionState: public btMotionState
+class cmotion_state: public btMotionState
 {
 public:
-    CMotionState(const btTransform & trans, sg::sg_object_ptr obj)
+    cmotion_state(const btTransform & trans, sg::sg_object_ptr obj)
     {
         m_obj = obj;
         m_trans = trans;
@@ -21,7 +21,7 @@ public:
         trans.getOpenGLMatrix(&m_obj->get_transform()[0][0]);
     }
 
-    virtual ~CMotionState()
+    virtual ~cmotion_state()
     {
     }
 
