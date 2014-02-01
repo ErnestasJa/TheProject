@@ -41,6 +41,9 @@ texture_ptr graphics_manager::load_texture(std::string file)
         m_texture_cache.add_resource(res);
     }
 
+    if(!res.resource)
+        m_logger->log(LOG_ERROR, "Could not load '%s' texture.", file.c_str());
+
     return res.resource;
 }
 
@@ -55,6 +58,9 @@ sg::sg_mesh_object_ptr graphics_manager::load_mesh_object(std::string file, sg::
     {
         pmesh->init();
         ret = share(new sg::sg_mesh_object(pmesh));
+
+        std::string texture_path = file.substr(0,file.rfind("/")+1);
+        m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
 
         loopi(ret->get_material_count())
         {
@@ -71,7 +77,7 @@ sg::sg_mesh_object_ptr graphics_manager::load_mesh_object(std::string file, sg::
             m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
 
             if(load_textures)
-                mat.mat_textures[0] = load_texture("res/maps/cs_assault/" + image_path);
+                mat.mat_textures[0] = load_texture(texture_path + image_path);
         }
     }
 

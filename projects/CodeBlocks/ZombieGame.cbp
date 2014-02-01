@@ -97,7 +97,7 @@
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
 			<Add directory="../../libs/stb_image" />
-			<Add directory="../../libs/libsigc++/sigc++" />
+			<Add directory="../../libs/libsigc++" />
 		</Compiler>
 		<Linker>
 			<Add library="libBulletSoftBody.a" />

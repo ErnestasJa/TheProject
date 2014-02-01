@@ -27,6 +27,8 @@ protected:
     physics_manager  *   m_physics_manager;
 
     uint32_t m_last_time, m_current_time;
+    glm::ivec2 m_last_mouse_pos, m_current_mouse_pos, m_window_size;
+    glm::vec3 m_cam_rot;
 
 public:
     test_game(uint32_t argc, const char ** argv);
@@ -39,6 +41,10 @@ public:
     bool init_scene();
     bool init_physics();
     void cam_move();
+
+public:
+    void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
+    void on_mouse_move(double x, double y);
 };
 
 #endif // TEST_GAME_H

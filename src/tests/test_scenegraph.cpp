@@ -108,9 +108,7 @@ bool test_scenegraph::init_scene()
     m_scenegraph->add_object(obj);
     ///done loading
 
-    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
-    cam->get_transform() = glm::lookAt(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0));
-    cam->get_transform() = glm::rotate<float>(cam->get_transform(),-90,glm::vec3(0,1,0));
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
 

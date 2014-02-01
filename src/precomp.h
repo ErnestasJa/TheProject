@@ -35,6 +35,7 @@
 
 // OTHER LIBRARIES
 #include "physfs.h"
+#include "sigc++/sigc++.h"
 
 // PROJECT INCLUDES
 #include "utility/bit.h"

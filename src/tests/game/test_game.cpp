@@ -32,6 +32,9 @@ test_game::~test_game()
 bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
+    wnd->sig_key_event().connect(sigc::mem_fun(this,&test_game::on_key_event));
+    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
+
 
     m_graphics_manager = new graphics_manager(this->get_logger());
     m_scenegraph = new sg::scenegraph();
@@ -149,63 +152,49 @@ bool test_game::init_scene()
     sg::sg_material lvl_mat;
     lvl_mat.mat_shader = m_graphics_manager->get_shader_loader()->load("res/static_mesh");
 
-    obj=m_graphics_manager->load_mesh_object("res/maps/cs_assault/cs_assault.iqm",lvl_mat,true);
+    obj=m_graphics_manager->load_mesh_object("res/maps/nuke/nuke.iqm",lvl_mat,true);
     obj->get_transform() = glm::scale(obj->get_transform(),glm::vec3(1,1,1));
 
     m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
-    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(4.f/3.f,45.f,1.0f,2048.f));
-    cam->get_transform() = glm::lookAt(glm::vec3(0,18,-20),glm::vec3(0,5,-5),glm::vec3(0,1,0));
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
+
+    wnd->set_mouse_pos(m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2);
+    wnd->set_cursor_disabled(true);
 
     return true;
 }
 
 bool test_game::init_physics()
 {
+    return true;
+}
 
+void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
+{
+    if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
+    {
+            cam->key_pressed(key, scan_code, action, modifier);
+    }
+}
+
+void test_game::on_mouse_move(double x, double y)
+{
+    m_last_mouse_pos = m_current_mouse_pos;
+    m_current_mouse_pos = glm::ivec2(x,y);
+    glm::ivec2 delta_pos =  m_current_mouse_pos - m_last_mouse_pos;
+
+    if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
+    {
+        cam->mouse_moved(-delta_pos.x/100.0f,-delta_pos.y/100.0f);
+    }
 }
 
 void test_game::cam_move()
 {
-    if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
-    {
 
-        if(wnd->get_key(GLFW_KEY_W))
-        {
-            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,2)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_S))
-        {
-            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,0,-2)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_A))
-        {
-            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(2,0,0)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_D))
-        {
-            cam->get_transform() = glm::translate(glm::mat4(),glm::vec3(-2,0,0)) * cam->get_transform();
-        }
-
-        if(wnd->get_key(GLFW_KEY_LEFT))
-        {
-            cam->get_transform() = glm::rotate<float>(glm::mat4(),-2,glm::vec3(0,1,0)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_RIGHT))
-        {
-            cam->get_transform() = glm::rotate<float>(glm::mat4(),2,glm::vec3(0,1,0)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_UP))
-        {
-            cam->get_transform() = glm::rotate<float>(glm::mat4(),-2,glm::vec3(1,0,0)) * cam->get_transform();
-        }
-        else if(wnd->get_key(GLFW_KEY_DOWN))
-        {
-            cam->get_transform() = glm::rotate<float>(glm::mat4(),2,glm::vec3(1,0,0)) * cam->get_transform();
-        }
-    }
 }

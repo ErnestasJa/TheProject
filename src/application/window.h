@@ -1,32 +1,28 @@
 #pragma once
 
-class window_resize_callback
-{
-public:
-    virtual void on_resize(int32_t w, int32_t h)=0;
-};
+void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
+void mouse_move(GLFWwindow * wnd, double x, double y);
+void window_resize(GLFWwindow * wnd, int32_t w, int32_t h);
+void window_close(GLFWwindow * wnd);
 
 class window
 {
 protected:
+    static std::map<GLFWwindow*, window*> m_windows;
     GLFWwindow * m_window;
 
-    static std::map<GLFWwindow*, window*> m_windows;
+    sigc::signal<void, double, double> m_sig_mouse_moved;
+    sigc::signal<void, int32_t, int32_t> m_sig_window_resized;
+    sigc::signal<void, window*> m_sig_window_closed;
+    sigc::signal<void, int32_t, int32_t, int32_t, int32_t> m_sig_key_event;
 
-    static void on_close(GLFWwindow * w)
-    {
-        m_windows[w]->m_window = nullptr;
-    }
-
-    static void on_resize(GLFWwindow * w, int32_t width, int32_t height )
-    {
-        if(resize_callback)
-            resize_callback(width, height);
-    }
-
-    static std::function< void(int32_t,int32_t) > resize_callback;
+    friend void mouse_move(GLFWwindow * wnd, double x, double y);
+    friend void window_resize(GLFWwindow * wnd, int32_t x, int32_t y);
+    friend void window_close(GLFWwindow * wnd);
+    friend void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
 
 public:
+
     window()
     {
         m_window = nullptr;
@@ -62,8 +58,10 @@ public:
 
         glfwMakeContextCurrent(m_window);
 
-        glfwSetWindowSizeCallback(m_window, &window::on_resize);
-        glfwSetWindowCloseCallback(m_window,&window::on_close);
+        glfwSetWindowSizeCallback(m_window, &window_resize);
+        glfwSetWindowCloseCallback(m_window,&window_close);
+        glfwSetCursorPosCallback(m_window, &mouse_move);
+        glfwSetKeyCallback(m_window, &key_event);
 
         m_windows[m_window]=this;
         return true;
@@ -74,9 +72,53 @@ public:
         return glfwGetKey(m_window,key);
     }
 
+    glm::ivec2 get_mouse_pos()
+    {
+        double x, y;
+        glfwGetCursorPos(m_window,&x,&y);
+        return glm::ivec2(x,y);
+    }
+
+    glm::ivec2 get_window_size()
+    {
+        int32_t x, y;
+        glfwGetWindowSize(m_window,&x,&y);
+        return glm::ivec2(x,y);
+    }
+
+    void set_mouse_pos(const glm::ivec2 & pos)
+    {
+        glfwSetCursorPos(m_window,pos.x,pos.y);
+    }
+
+    void set_cursor_disabled(bool disabled)
+    {
+        glfwSetInputMode(m_window,GLFW_CURSOR,disabled?GLFW_CURSOR_DISABLED:GLFW_CURSOR_NORMAL);
+    }
+
     GLFWwindow *getWindow()
     {
         return m_window;
+    }
+
+    sigc::signal<void, double, double> & sig_mouse_moved()
+    {
+        return m_sig_mouse_moved;
+    }
+
+    sigc::signal<void, double, double> & sig_window_resized()
+    {
+        return m_sig_mouse_moved;
+    }
+
+    sigc::signal<void, window*> & sig_window_closed()
+    {
+        return m_sig_window_closed;
+    }
+
+    sigc::signal<void, int32_t, int32_t, int32_t, int32_t> & sig_key_event()
+    {
+        return m_sig_key_event;
     }
 
     bool update()
