@@ -37,7 +37,7 @@ application::~application()
 
 bool application::init(const std::string  &title, uint32_t width, uint32_t height)
 {
-    this->main_timer = new timer();
+    this->main_timer = timer_ptr(new timer());
     if (!PHYSFS_init(argv[0]))
     {
         std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
@@ -100,7 +100,7 @@ void application::exit()
     if (!PHYSFS_deinit())
         std::cout<< "PHYSFS_deinit() failed!\n reason: " << PHYSFS_getLastError() << "." << std::endl;
 
-    delete main_timer;
+    main_timer = nullptr;
 }
 
 logger *application::get_logger()
@@ -108,7 +108,7 @@ logger *application::get_logger()
     return m_log;
 }
 
-timer *application::get_timer()
+timer_ptr application::get_timer()
 {
     return main_timer;
 }

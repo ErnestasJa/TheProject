@@ -9,7 +9,7 @@ namespace sg
 class sg_camera_object: public isg_object
 {
 public:
-    sg_camera_object(const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=16.0f/9.0f, float field_of_view=45.0f, float near_z=0.1f, float far_z=4096.0f);
+    sg_camera_object(const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=1.777777f, float field_of_view=45.0f, float near_z=1.0f, float far_z=4096.0f);
     virtual ~sg_camera_object();
 
     virtual uint32_t get_type();
@@ -21,19 +21,36 @@ public:
 
     virtual glm::mat4 & get_projection();
 
+    void set_position(const glm::vec3 v);
+	const glm::vec3 get_position() const;
+	const glm::vec3 get_look() const;
 
-    virtual void mouse_moved(double delta_x, double delta_y);
-    // FIXME (Ernestas#1#): Need to have some sort of state saving for keyboard keys and execute movement code every frame.
-    virtual void key_pressed(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
+	glm::mat4 get_matrix(const float yaw, const float pitch, const float roll);
+
+	const float get_fov() const;
+	const float get_aspect_ratio() const;
+
+    virtual void update(scenegraph * sg);
+
+public:
+	void rotate(const float yaw, const float pitch, const float roll);
+	void walk(const float amount);
+	void strafe(const float amount);
+	void lift(const float amount);
 
 protected:
-    float m_fov, m_aspect;
-    glm::mat4 m_projection;
+    float m_fov, m_aspect_ratio;
+	static glm::vec3 UP;
+	glm::vec3 m_look;
+	glm::vec3 m_up;
+	glm::vec3 m_right;
+	glm::vec3 m_position;
+	glm::mat4 m_P; //projection matrix
 
-    glm::vec3 position,target,up;
-    glm::vec3 direction, right;
-    double horizontalAngle,verticalAngle,speed,mouseSpeed;
-    sg_material m_mat;
+	float m_yaw, m_pitch, m_roll;
+	glm::vec3 m_translation;
+
+	sg_material m_mat;
 };
 
 typedef std::shared_ptr<sg_camera_object> sg_camera_object_ptr;

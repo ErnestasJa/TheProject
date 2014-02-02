@@ -3,6 +3,8 @@
 
 #include "sg_objects.h"
 #include "sg_material.h"
+#include "utility/timer.h"
+
 
 class image_loader;
 class mesh_loader;
@@ -14,7 +16,7 @@ namespace sg
 class scenegraph
 {
 public:
-    scenegraph();
+    scenegraph(timer_ptr app_timer);
     virtual ~scenegraph();
 
 public:
@@ -30,15 +32,19 @@ public:
 
     void on_set_material(const sg_material & mat);
 
+    timer_ptr get_timer();
+
 protected:
     virtual void pre_render();
     virtual void post_render();
+
+    timer_ptr m_timer;
 
     sg_camera_object_ptr        m_active_camera;
     std::vector<sg_object_ptr>  m_objects;
     sg_material                 m_current_material;
 
-    glm::mat4 VP, MVP;
+    glm::mat4 M, V, P, VP, MVP;
 };
 
 }

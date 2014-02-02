@@ -37,7 +37,7 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 
 
     m_graphics_manager = new graphics_manager(this->get_logger());
-    m_scenegraph = new sg::scenegraph();
+    m_scenegraph = new sg::scenegraph(this->get_timer());
 
     m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
 
@@ -178,7 +178,54 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
 {
     if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
-            cam->key_pressed(key, scan_code, action, modifier);
+        if(action==GLFW_PRESS || action == GLFW_REPEAT )
+        {
+            if(key==GLFW_KEY_W)
+                cam->walk(1);
+            if(key==GLFW_KEY_S)
+                cam->walk(-1);
+            if(key==GLFW_KEY_A)
+                cam->strafe(-1);
+            if(key==GLFW_KEY_D)
+                cam->strafe(1);
+        }
+
+        if(action==GLFW_PRESS)
+        {
+            if(key==GLFW_KEY_SPACE)
+            {
+                glm::vec3 pos = cam->get_position();
+                glm::vec3 look = glm::normalize(cam->get_look());
+
+                ///load model
+                mesh_ptr m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
+                if(!m) return;
+                m->init();
+
+                sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m));
+                shader_ptr sh = m_graphics_manager->get_shader_loader()->load("res/static_mesh");
+
+                if(!sh) return ;
+                {
+                    sg::sg_material & mat = obj->get_material(0);
+                    mat.mat_shader = sh;
+                    mat.mat_textures[0] = m_graphics_manager->load_texture("res/trashcan_diffuse.png");
+                }
+
+                obj->get_transform() = glm::translate(glm::mat4(),pos);
+                m_scenegraph->add_object(obj);
+                btRigidBody * body = m_physics_manager->create_box(obj,10.0f);
+                body->setLinearVelocity(m_physics_manager->glm_to_bt(look*10.0f));
+
+                {
+                    sg::sg_aabb_wireframe_object_ptr wireframe = share(new sg::sg_aabb_wireframe_object(obj));
+                    sg::sg_material & wmat = wireframe->get_material(0);
+                    wmat.mat_shader = m_graphics_manager->get_shader_loader()->load("res/line");
+                    m_scenegraph->add_object(wireframe);
+                }
+            }
+
+        }
     }
 }
 
@@ -190,7 +237,10 @@ void test_game::on_mouse_move(double x, double y)
 
     if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
-        cam->mouse_moved(-delta_pos.x/100.0f,-delta_pos.y/100.0f);
+        if(delta_pos.x!=0 || delta_pos.y!=0)
+        {
+            cam->rotate(-x/10.0f,y/10.0f,0);
+        }
     }
 }
 

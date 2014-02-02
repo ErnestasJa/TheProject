@@ -36,7 +36,7 @@ bool test_scenegraph::init(const std::string & title, uint32_t width, uint32_t h
     m_graphics_manager = new graphics_manager(this->get_logger());
     m_shader_loader = new shader_loader(this->get_logger());
     m_mesh_loader = new mesh_loader(this->get_logger());
-    m_scenegraph = new sg::scenegraph();
+    m_scenegraph = new sg::scenegraph(this->get_timer());
 
     if(!init_scene())
         return false;
