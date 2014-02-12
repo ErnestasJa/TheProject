@@ -53,3 +53,14 @@ shader_ptr shader_loader::load(const std::string & file)
 
     return res.resource;
 }
+
+shader_ptr shader_loader::get_shader_by_name(const std::string & name)
+{
+    for(resource<shader> & res: m_resources)
+    {
+        if(res.resource->name == name)
+            return res.resource;
+    }
+
+    return shader_ptr();
+}

@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "mesh_loader.h"
 #include "iqmloader.h"
+#include "opengl/mesh.h"
 #include "utility/logger.h"
 
 mesh_loader::mesh_loader(logger * l)
@@ -54,6 +55,7 @@ mesh_ptr mesh_loader::load(const std::string & file)
                 res.path = file;
                 res.resource = mesh_ptr(l->load(buf,len));
                 this->add_resource(res);
+                res.resource->init();
                 return res.resource;
             }
             else

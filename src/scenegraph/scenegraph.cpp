@@ -1,11 +1,14 @@
 #include "precomp.h"
 #include "scenegraph.h"
+#include "sg_graphics_manager.h"
 #include "opengl/shader.h"
+#include "opengl/mesh.h"
+#include "utility/logger.h"
 
 namespace sg
 {
 
-scenegraph::scenegraph(timer_ptr app_timer)
+scenegraph::scenegraph(logger * l, timer_ptr app_timer)
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -13,6 +16,9 @@ scenegraph::scenegraph(timer_ptr app_timer)
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
     glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
+
+    m_logger = l;
+    m_graphics_manager = share(new sg_graphics_manager(l));
     m_timer = app_timer;
 }
 
@@ -47,38 +53,28 @@ void scenegraph::render_all()
     for(uint32_t i = 0; i < m_objects.size(); i++)
     {
         M = m_objects[i]->get_transform();
-        MVP = VP * M;
+        MVP = P*(V*M);
         m_objects[i]->render(this);
     }
 
     post_render();
 }
 
-void scenegraph::on_set_material(const sg_material & mat)
+void scenegraph::on_set_material(sg_material_ptr mat)
 {
-    if(m_current_material != mat)
-    {
-        m_current_material = mat;
-        m_current_material.set();
-    }
+    m_current_material = nullptr;
+    m_current_material = mat;
+    m_current_material->set(this);
+}
 
-    if(m_current_material.mat_shader)
-    {
-        glUniformMatrix4fv(m_current_material.mat_shader->getparam("MVP"),1,GL_FALSE,glm::value_ptr(MVP));
+glm::mat4x4 & scenegraph::get_view_projection_matrix()
+{
+    return VP;
+}
 
-        if(m_current_material.mat_shader->name=="static_mesh")
-        {
-            glm::mat4 pMV = V * M;
-            glm::vec3 light_pos = glm::vec3(200,50,400);
-            glm::vec3 cam_pos = m_active_camera->get_position();
-
-            glUniformMatrix4fv(m_current_material.mat_shader->getparam("MV"), 1, GL_FALSE, glm::value_ptr(pMV));
-            glUniformMatrix3fv(m_current_material.mat_shader->getparam("N"), 1, GL_FALSE, glm::value_ptr(glm::inverseTranspose(glm::mat3(pMV))));
-
-            glUniform3fv(m_current_material.mat_shader->getparam("light_position"),1,&(light_pos.x));
-            glUniform3fv(m_current_material.mat_shader->getparam("camera_position"),1,&(cam_pos.x));
-        }
-    }
+sg_graphics_manager_ptr scenegraph::get_graphics_manager()
+{
+    return m_graphics_manager;
 }
 
 sg_camera_object_ptr scenegraph::get_active_camera()
@@ -94,6 +90,50 @@ void scenegraph::set_active_camera(sg_camera_object_ptr cam)
 void scenegraph::post_render()
 {
 
+}
+
+
+/// LOADING
+#include "opengl/mesh.h"
+sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_textures)
+{
+    sg::sg_mesh_object_ptr ret;
+    mesh_ptr pmesh;
+
+    pmesh = m_graphics_manager->get_mesh_loader()->load(file);
+
+    if(pmesh)
+    {
+        ret = share(new sg::sg_mesh_object(this,pmesh));
+
+        std::string texture_path = file.substr(0,file.rfind("/")+1);
+        m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
+
+        loopi(ret->get_material_count())
+        {
+            std::string mat_name, image_path;
+            uint32_t pos = pmesh->sub_meshes[i].material_name.find("|");
+            mat_name = pmesh->sub_meshes[i].material_name.substr(0,pos-1);
+            image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
+
+            m_logger->log(LOG_LOG, "pos =%u", pos);
+            m_logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
+            m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
+
+            if(load_textures)
+            {
+                sg::sg_material_ptr mat = ret->get_material(i);
+                if(mat->mat_type == SGMT_STATIC_MESH)
+                {
+                    sg_material_static_mesh * sm_mat = static_cast<sg_material_static_mesh*>(mat.get());
+                    sm_mat->mat_texture = m_graphics_manager->load_texture(texture_path + image_path);
+
+                }
+            }
+        }
+    }
+
+    return ret;
 }
 
 }

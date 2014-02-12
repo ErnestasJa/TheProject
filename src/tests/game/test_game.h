@@ -7,12 +7,14 @@ namespace sg
 {
 class scenegraph;
 struct sg_material;
+class sg_graphics_manager;
+typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
 }
 
 struct shader;
 class shader_loader;
 class texture;
-class graphics_manager;
+
 class mesh_loader;
 struct mesh;
 
@@ -22,9 +24,9 @@ class physics_manager;
 class test_game: public application
 {
 protected:
-    graphics_manager*   m_graphics_manager;
-    sg::scenegraph  *   m_scenegraph;
-    physics_manager  *   m_physics_manager;
+    sg::sg_graphics_manager_ptr m_graphics_manager;
+    sg::scenegraph*             m_scenegraph;
+    physics_manager*            m_physics_manager;
 
     uint32_t m_last_time, m_current_time;
     glm::ivec2 m_last_mouse_pos, m_current_mouse_pos, m_window_size;

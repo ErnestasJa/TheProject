@@ -13,7 +13,7 @@ protected:
 
     sigc::signal<void, double, double> m_sig_mouse_moved;
     sigc::signal<void, int32_t, int32_t> m_sig_window_resized;
-    sigc::signal<void, window*> m_sig_window_closed;
+    sigc::signal<void> m_sig_window_closed;
     sigc::signal<void, int32_t, int32_t, int32_t, int32_t> m_sig_key_event;
 
     friend void mouse_move(GLFWwindow * wnd, double x, double y);
@@ -26,6 +26,16 @@ public:
     window()
     {
         m_window = nullptr;
+    }
+
+    ~window()
+    {
+        m_sig_mouse_moved.clear();
+        m_sig_window_resized.clear();
+        m_sig_window_closed.clear();
+        m_sig_key_event.clear();
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
     }
 
     bool init(const std::string  &title, uint32_t width, uint32_t height, uint32_t r=8, uint32_t g=8, uint32_t b=8, uint32_t alpha=8, uint32_t depth=24, uint32_t stencil=8)
@@ -111,7 +121,7 @@ public:
         return m_sig_mouse_moved;
     }
 
-    sigc::signal<void, window*> & sig_window_closed()
+    sigc::signal<void> & sig_window_closed()
     {
         return m_sig_window_closed;
     }

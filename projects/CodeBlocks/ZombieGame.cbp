@@ -58,6 +58,7 @@
 					<Add library="glu32" />
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
+					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 				</Linker>
@@ -148,8 +149,6 @@
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
-		<Unit filename="../../src/opengl/graphics_manager.cpp" />
-		<Unit filename="../../src/opengl/graphics_manager.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
 		<Unit filename="../../src/opengl/ibuffer_object.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />
@@ -194,12 +193,19 @@
 		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.h" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
+		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
+		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_material.cpp" />
 		<Unit filename="../../src/scenegraph/sg_material.h" />
+		<Unit filename="../../src/scenegraph/sg_material_types.h" />
 		<Unit filename="../../src/scenegraph/sg_mesh_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_mesh_object.h" />
+		<Unit filename="../../src/scenegraph/sg_mvar.cpp" />
+		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
+		<Unit filename="../../src/scenegraph/sg_sprite.h" />
 		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.h" />
@@ -212,8 +218,6 @@
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
 		<Unit filename="../../src/tests/test_application.cpp" />
 		<Unit filename="../../src/tests/test_application.h" />
-		<Unit filename="../../src/tests/test_scenegraph.cpp" />
-		<Unit filename="../../src/tests/test_scenegraph.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.h" />
 		<Unit filename="../../src/utility/logger.cpp" />

@@ -4,9 +4,9 @@
 namespace sg
 {
 
-isg_object::isg_object()
+isg_object::isg_object(scenegraph * sg)
 {
-    //ctor
+    m_scenegraph=sg;
 }
 
 isg_object::~isg_object()

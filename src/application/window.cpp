@@ -16,7 +16,7 @@ void window_resize(GLFWwindow * wnd, int32_t w, int32_t h)
 
 void window_close(GLFWwindow * wnd)
 {
-    window::m_windows[wnd]->sig_window_closed().emit(window::m_windows[wnd]);
+    window::m_windows[wnd]->sig_window_closed().emit();
     window::m_windows[wnd] = nullptr;
 }
 
