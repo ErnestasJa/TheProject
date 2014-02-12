@@ -9,6 +9,10 @@ public:
 
     ~gui_element();
 
+    void set_id(uint32_t);
+
+    uint32_t get_id();
+
     //each element handles it's own rendering
     virtual void render();
 
@@ -63,7 +67,7 @@ private:
 protected:
 
     void destroy_children();
-
+    uint32_t id;
     int disp_w, disp_h;
     std::string name;
     gui_element *parent;

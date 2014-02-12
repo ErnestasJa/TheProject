@@ -209,14 +209,18 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
 	glDisable(GL_BLEND);
 }
 
-void font_renderer::render_string(std::string text,glm::vec2 pos,glm::vec4 color)
+void font_renderer::render_string(std::string text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
 {
-    render_string(default_font->name,text,pos,color);
+    if(drawshadow)
+        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
+    render_string(current_font->name,text,pos,color);
 }
 
-void font_renderer::render_string(std::string text, glm::vec2 pos)
+void font_renderer::render_string(std::string text, glm::vec2 pos,bool drawshadow)
 {
-    render_string(default_font->name,text,pos,glm::vec4(1,1,1,1));
+    if(drawshadow)
+        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
+    render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
 void font_renderer::set_font_color(glm::vec4 color)
@@ -230,7 +234,7 @@ glm::vec2 font_renderer::get_text_dimensions(const std::string & text,const std:
 
     int len=0;
     int maxh=0;
-    for(char gl:text)
+    for(uint8_t gl:text)
     {
         len+=a->c[gl].bw;
         if(a->c[gl].bh>maxh)

@@ -157,5 +157,5 @@ font_renderer* gui_environment::get_font_renderer()
 
 void gui_environment::draw_gui_quad(rect2d<int> size)
 {
-
 }
+

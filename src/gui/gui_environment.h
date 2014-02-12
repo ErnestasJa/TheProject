@@ -43,6 +43,21 @@ public:
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
 
+    template <typename T>
+    rect2d<T> scale_gui_rect(rect2d<T> unscaled)
+    {
+        T gsx=get_gui_scale().x;
+        T gsy=get_gui_scale().y;
+        T px=-1+unscaled.x*gsx+unscaled.w/2*gsx;
+        T py=1-unscaled.y*gsy-unscaled.h/2*gsy;
+        T sx=unscaled.w/2*gsx;
+        T sy=unscaled.h/2*gsy;
+
+        rect2d<T> ret=rect2d<T>(px,py,sx,sy);
+
+        return ret;
+    }
+
     font_renderer *get_font_renderer();
 private:
     shader* gui_shader;

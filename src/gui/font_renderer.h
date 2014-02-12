@@ -46,11 +46,11 @@ public:
 
     void set_default_font(font* new_font);
 
-    void render_string(std::string font_name, std::string text, glm::vec2 pos, glm::vec4 color);
+    void render_string(std::string font_name, std::string text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1));
 
-    void render_string(std::string text, glm::vec2 pos,glm::vec4 color);
+    void render_string(std::string text, glm::vec2 pos,glm::vec4 color,bool drawshadow);
 
-    void render_string(std::string text, glm::vec2 pos);
+    void render_string(std::string text, glm::vec2 pos,bool drawshadow);
 
     glm::vec2 get_text_dimensions(const std::string & text,const std::string &font_name="default");
 };

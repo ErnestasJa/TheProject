@@ -8,6 +8,7 @@
 #include "gui/gui_environment.h"
 #include "gui/gui_static_text.h"
 #include "gui/gui_button.h"
+#include "gui/gui_checkbox.h"
 
 #include "gui_and_fonts_application.h"
 
@@ -16,6 +17,7 @@
 gui_and_fonts_application::gui_and_fonts_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
     //definitely a comment
+    running=true;
 }
 
 gui_and_fonts_application::~gui_and_fonts_application()
@@ -55,10 +57,23 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     glfwGetWindowSize(_window,&ww,&hh);
 
     env=new gui_environment(ww,hh,_window);
-    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(0,0,0,1),true);
-    env->add_child(test1);
-    test2=new gui_button(env,rect2d<int>(200,100,100,50),"buttons!");
+    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1));
+    test2=new gui_button(env,rect2d<int>(200,100,100,20),"buttons!");
     test2->set_event_listener(this);
+    test2->set_id(1);
+
+    gui_button* swit=new gui_button(env,rect2d<int>(300,100,20,20),"X");
+    swit->set_event_listener(this);
+    swit->set_id(2);
+
+
+    for(uint8_t i=0; i<10; i++)
+    {
+        gui_checkbox* c=new gui_checkbox(env,rect2d<int>(400,100+i*20,20,20),i%2==0);
+        c->set_event_listener(this);
+        c->set_id(10+i);
+        gui_static_text* lab=new gui_static_text(env,rect2d<int>(420,100+i*20+4,100,20),"label",glm::vec4(1,1,1,1));
+    }
 
     renderer=env->get_font_renderer();
     renderer->create_font("bits","res/bits.ttf",28);
@@ -84,7 +99,22 @@ void gui_and_fonts_application::on_event(gui_event e)
         break;
 
     case button_pressed:
+        switch(e.get_caller()->get_id())
+        {
+        case 1:
+            this->running=false;
+            break;
+        case 2:
+            test2->set_enabled(!test2->is_enabled());
+            break;
+        default:
+            break;
+        }
         _log->log(LOG_DEBUG,"Button pressed on %s.",e.get_caller()->get_name().c_str());
+        break;
+
+    case checkbox_state_changed:
+        _log->log(LOG_DEBUG,"Checkbox %i state changed.",e.get_caller()->get_id());
         break;
 
     case button_released:
@@ -110,7 +140,7 @@ void gui_and_fonts_application::on_event(gui_event e)
 
 bool gui_and_fonts_application::update()
 {
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
+    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE) && this->running)
     {
         // Measure speed
         main_timer->tick();
@@ -123,8 +153,10 @@ bool gui_and_fonts_application::update()
 
         env->render();
 
-        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10));
-        renderer->render_string("bits","I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1));
+        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10),false);
+        renderer->use_font("bits");
+        renderer->render_string("I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),true);
+        renderer->use_font();
 
         wnd->swap_buffers();
 

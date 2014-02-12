@@ -7,6 +7,9 @@ enum gui_event_type
     // button events
     button_pressed, button_released,
 
+    // checky boxy
+    checkbox_state_changed,
+
     // scrollbar events
     scrollbar_changed,
 

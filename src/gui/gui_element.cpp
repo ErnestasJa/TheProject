@@ -7,6 +7,8 @@ gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
     absolute_rect = dimensions;
     relative_rect = dimensions;
 
+    id=-1;
+
     hovered = false;
     visible = true;
     focused = false;
@@ -22,6 +24,16 @@ gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 gui_element::~gui_element()
 {
     destroy_children();
+}
+
+void gui_element::set_id(uint32_t id)
+{
+    this->id=id;
+}
+
+uint32_t gui_element::get_id()
+{
+    return this->id;
 }
 
 void gui_element::destroy_children()
@@ -52,32 +64,25 @@ void gui_element::add_child(gui_element *e)
 
 void gui_element::remove_child(gui_element *e)
 {
-    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
-        if((gui_element*)(&i)==e)
-        {
-            e->parent=nullptr;
-            children.erase(i);
-            (*i)->relative_rect=(*i)->absolute_rect;
-            return;
-        }
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
+    {
+        e->parent=nullptr;
+        i=children.erase(i);
+        (*i)->relative_rect=(*i)->absolute_rect;
+        children.push_back(e);
+        return;
+    }
 }
 
 void gui_element::bring_to_front(gui_element *e)
 {
-    if(children.size()>0)
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
     {
-        for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
-        {
-
-            if(*i == e)
-            {
-                i=children.erase(i);
-                children.push_back(e);
-                return;
-            }
-            else
-                i++;
-        }
+        i=children.erase(i);
+        children.push_back(e);
+        return;
     }
 }
 

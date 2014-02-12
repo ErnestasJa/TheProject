@@ -22,6 +22,7 @@ protected:
     gui_button * test2;
 
     font_renderer *renderer;
+    bool running;
 public:
     gui_and_fonts_application(uint32_t argc, const char ** argv);
     ~gui_and_fonts_application();

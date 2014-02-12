@@ -58,6 +58,11 @@ public:
         if(y<=0)
             y=0;
     }
+    template <typename B>
+    rect2d<B> as()
+    {
+        return rect2d<B>(x,y,w,h);
+    }
 
     T x, y, x2, y2, w, h;
 protected:

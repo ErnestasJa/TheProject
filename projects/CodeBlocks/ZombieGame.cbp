@@ -106,6 +106,8 @@
 		<Unit filename="../../src/gui/font_renderer.h" />
 		<Unit filename="../../src/gui/gui_button.cpp" />
 		<Unit filename="../../src/gui/gui_button.h" />
+		<Unit filename="../../src/gui/gui_checkbox.cpp" />
+		<Unit filename="../../src/gui/gui_checkbox.h" />
 		<Unit filename="../../src/gui/gui_element.cpp" />
 		<Unit filename="../../src/gui/gui_element.h" />
 		<Unit filename="../../src/gui/gui_environment.cpp" />
