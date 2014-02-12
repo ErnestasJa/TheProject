@@ -51,4 +51,6 @@ public:
     void render_string(std::string text, glm::vec2 pos,glm::vec4 color);
 
     void render_string(std::string text, glm::vec2 pos);
+
+    glm::vec2 get_text_dimensions(const std::string & text,const std::string &font_name="default");
 };

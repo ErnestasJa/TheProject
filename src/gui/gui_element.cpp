@@ -2,10 +2,10 @@
 
 #include "gui/gui_element.h"
 
-gui_element::gui_element(gui_environment* env, int x, int y, int w, int h)
+gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 {
-    absolute_rect = rect2d<int>(x, y, w, h);
-    relative_rect = rect2d<int>(x, y, w, h);
+    absolute_rect = dimensions;
+    relative_rect = dimensions;
 
     hovered = false;
     visible = true;

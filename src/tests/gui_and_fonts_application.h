@@ -7,6 +7,7 @@ class frame_buffer_object;
 class gui_environment;
 class font_renderer;
 class gui_static_text;
+class gui_button;
 class gui_and_fonts_application: public application,gui_event_listener
 {
 protected:
@@ -18,7 +19,7 @@ protected:
 
     gui_environment * env;
     gui_static_text * test1;
-    gui_static_text * test2;
+    gui_button * test2;
 
     font_renderer *renderer;
 public:

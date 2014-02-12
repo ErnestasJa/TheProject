@@ -13,6 +13,7 @@ private:
     glm::vec4 m_text_color;
     bool m_draw_background;
 
+    shader* _material;
     quad* m_background;//background
     glm::mat4 m_transform;
 public:
@@ -22,6 +23,11 @@ public:
     void render();
 
     void set_text(const std::string &text);
+
+    const std::string &get_text()
+    {
+        return m_text;
+    }
 
     //this does not do any events
     void on_event(gui_event e)

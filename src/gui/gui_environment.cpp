@@ -3,7 +3,7 @@
 #include "gui_environment.h"
 #include "opengl/shader.h"
 
-gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, 0,0,dispw,disph)
+gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
     this->window=win;
     this->input=new input_handler(nullptr,window);
@@ -153,4 +153,9 @@ glm::vec2 gui_environment::get_gui_scale()
 font_renderer* gui_environment::get_font_renderer()
 {
     return m_font_renderer;
+}
+
+void gui_environment::draw_gui_quad(rect2d<int> size)
+{
+
 }

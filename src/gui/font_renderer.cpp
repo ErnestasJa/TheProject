@@ -223,3 +223,18 @@ void font_renderer::set_font_color(glm::vec4 color)
 {
     glUniform4fv(font_shader->getparam("color"),1,glm::value_ptr(color));
 }
+
+glm::vec2 font_renderer::get_text_dimensions(const std::string & text,const std::string &font_name)
+{
+    font* a=get_font(font_name);
+
+    int len=0;
+    int maxh=0;
+    for(char gl:text)
+    {
+        len+=a->c[gl].bw;
+        if(a->c[gl].bh>maxh)
+            maxh=a->h;
+    }
+    return glm::vec2(len,maxh);
+}

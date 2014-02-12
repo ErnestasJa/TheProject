@@ -5,7 +5,7 @@ class gui_environment;
 class gui_element:public gui_event_listener
 {
 public:
-    gui_element(gui_environment* env, int x, int y, int w, int h);
+    gui_element(gui_environment* env,rect2d<int> dimensions);
 
     ~gui_element();
 

@@ -7,6 +7,7 @@
 
 #include "gui/gui_environment.h"
 #include "gui/gui_static_text.h"
+#include "gui/gui_button.h"
 
 #include "gui_and_fonts_application.h"
 
@@ -54,8 +55,10 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     glfwGetWindowSize(_window,&ww,&hh);
 
     env=new gui_environment(ww,hh,_window);
-    test1=new gui_static_text(env,rect2d<int>(900,10,100,20),"testtext");
+    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(0,0,0,1),true);
     env->add_child(test1);
+    test2=new gui_button(env,rect2d<int>(200,100,100,50),"buttons!");
+    test2->set_event_listener(this);
 
     renderer=env->get_font_renderer();
     renderer->create_font("bits","res/bits.ttf",28);
@@ -79,6 +82,15 @@ void gui_and_fonts_application::on_event(gui_event e)
     case element_exitted:
         _log->log(LOG_DEBUG,"Element %s got exitted.",e.get_caller()->get_name().c_str());
         break;
+
+    case button_pressed:
+        _log->log(LOG_DEBUG,"Button pressed on %s.",e.get_caller()->get_name().c_str());
+        break;
+
+    case button_released:
+        _log->log(LOG_DEBUG,"Button released on %s.",e.get_caller()->get_name().c_str());
+        break;
+
     case mouse_pressed:
         _log->log(LOG_DEBUG,"Mouse pressed on %s.",e.get_caller()->get_name().c_str());
         break;

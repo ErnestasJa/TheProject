@@ -34,6 +34,12 @@ public:
     bool is_on_hover(gui_element *e);
     bool is_on_focus(gui_element *e);
 
+    shader* get_quad_shader()
+    {
+        return this->gui_shader;
+    }
+    void draw_gui_quad(rect2d<int> size);
+
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
 

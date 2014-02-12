@@ -30,7 +30,14 @@ inline uint32_t read(const std::string & file, char *& buf)
     return ret;
 }
 
+inline const glm::vec4 color255(uint8_t r=255,uint8_t g=255,uint8_t b=255,uint8_t a=255)
+{
+    return glm::vec4((float)r/255,(float)g/255,(float)b/255,(float)a/255);
 }
+
+}
+
+
 
 ///TO IMPLEMENT!
 inline void CheckOpenGLError(const char* stmt, const char* fname, int line)
