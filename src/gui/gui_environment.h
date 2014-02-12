@@ -22,6 +22,7 @@
 #include "font_renderer.h"
 
 class shader;
+class quad;
 class gui_environment : public gui_element
 {
 public:
@@ -38,7 +39,7 @@ public:
     {
         return this->gui_shader;
     }
-    void draw_gui_quad(rect2d<int> size);
+    void draw_gui_quad(rect2d<int> size, glm::vec4 col=glm::vec4(1));
 
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
@@ -61,6 +62,7 @@ public:
     font_renderer *get_font_renderer();
 private:
     shader* gui_shader;
+    quad* gui_quad;
     font_renderer* m_font_renderer;
     input_handler *input;
     GLFWwindow* window;

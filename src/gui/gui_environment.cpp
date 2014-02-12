@@ -2,6 +2,7 @@
 
 #include "gui_environment.h"
 #include "opengl/shader.h"
+#include "opengl/quad.h"
 
 gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
@@ -14,6 +15,8 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     this->set_name("GUI_ENVIRONMENT");
 
     gui_shader=shader::load_shader("res/gui_quad");
+    gui_quad=new quad();
+    gui_quad->generate();
 
     m_font_renderer=new font_renderer(this);
 }
@@ -155,7 +158,20 @@ font_renderer* gui_environment::get_font_renderer()
     return m_font_renderer;
 }
 
-void gui_environment::draw_gui_quad(rect2d<int> size)
+void gui_environment::draw_gui_quad(rect2d<int> dims,glm::vec4 col)
 {
+    rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    gui_shader->set();
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform3fv(gui_shader->getparam("C"),1,glm::value_ptr(col));
+
+    gui_quad->draw();
 }
 

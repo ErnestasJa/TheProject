@@ -53,7 +53,7 @@ void gui_static_text::render()
         glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(m_transform));
         glUniform3fv(_material->getparam("C"),1,glm::value_ptr(glm::vec4(0.5f)));
         glBindTexture(GL_TEXTURE_2D,0);
-        this->m_background->draw();
+        environment->draw_gui_quad(absolute_rect);
     }
     this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+1,this->absolute_rect.y+2),this->m_text_color,false);
 

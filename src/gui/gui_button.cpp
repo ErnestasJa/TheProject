@@ -53,7 +53,7 @@ void gui_button::render()
     glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(m_transform));
     glUniform3fv(_material->getparam("C"),1,glm::value_ptr(cur_col));
     glBindTexture(GL_TEXTURE_2D,0);
-    this->m_background->draw();
+    environment->draw_gui_quad(absolute_rect,cur_col);
 
     glm::vec2 dm=this->environment->get_font_renderer()->get_text_dimensions(this->m_text);
     this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+absolute_rect.h/2-dm.y/2),this->col_text,true);

@@ -55,7 +55,7 @@ void gui_checkbox::render()
     glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(m_transform));
     glUniform3fv(_material->getparam("C"),1,glm::value_ptr(cur_col));
     glBindTexture(GL_TEXTURE_2D,0);
-    this->m_background->draw();
+    environment->draw_gui_quad(absolute_rect,cur_col);
     if(this->checked)
     {
         glm::vec2 dm=this->environment->get_font_renderer()->get_text_dimensions(this->cross);
