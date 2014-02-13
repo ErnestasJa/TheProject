@@ -7,11 +7,12 @@
 
 #include "gui_static_text.h"
 
-gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground):gui_element(env,dimensions)
+gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
 {
     environment=env;
 
     m_draw_background=drawbackground;
+    draw_shadow = drawshadow;
 
     if(drawbackground)
     {
@@ -55,7 +56,7 @@ void gui_static_text::render()
         glBindTexture(GL_TEXTURE_2D,0);
         environment->draw_gui_quad(absolute_rect);
     }
-    this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+1,this->absolute_rect.y+2),this->m_text_color,false);
+    this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+1,this->absolute_rect.y+2),this->m_text_color,draw_shadow);
 
     this->render_children();
 }

@@ -46,7 +46,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     MVP=P*V*M;
 
     ///gl setup
-    glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
+    glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
@@ -57,7 +57,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     glfwGetWindowSize(_window,&ww,&hh);
 
     env=new gui_environment(ww,hh,_window);
-    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1));
+    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1),false,true);
     test2=new gui_button(env,rect2d<int>(200,100,100,20),"buttons!");
     test2->set_event_listener(this);
     test2->set_id(1);
@@ -69,10 +69,10 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     for(uint8_t i=0; i<10; i++)
     {
-        gui_checkbox* c=new gui_checkbox(env,rect2d<int>(400,100+i*20,20,20),i%2==0);
+        gui_checkbox* c=new gui_checkbox(env,rect2d<int>(400,100+i*22,20,20),i%2==0);
         c->set_event_listener(this);
         c->set_id(10+i);
-        gui_static_text* lab=new gui_static_text(env,rect2d<int>(420,100+i*20+4,100,20),"label",glm::vec4(1,1,1,1));
+        gui_static_text* lab=new gui_static_text(env,rect2d<int>(420,100+i*22+4,100,20),"checkbox label",glm::vec4(1,1,1,1));
     }
 
     renderer=env->get_font_renderer();
@@ -155,7 +155,8 @@ bool gui_and_fonts_application::update()
 
         renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10),false);
         renderer->use_font("bits");
-        renderer->render_string("I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),true);
+        renderer->render_string("I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),false);
+        renderer->render_string("I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,0.5,0.5,1),true);
         renderer->use_font();
 
         wnd->swap_buffers();
