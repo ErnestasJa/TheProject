@@ -40,6 +40,26 @@ public:
         calculate_bounds();
     }
 
+    rect2d<T> shrink(T w, T h)
+    {
+        rect2d<T> ret=*this;
+        if(ret.w>0+2*w && ret.y2>0+2*h)
+        {
+            ret.x+=w;
+            ret.y+=h;
+            ret.w-=2*w;
+            ret.h-=2*h;
+            ret.calculate_bounds();
+        }
+
+        return ret;
+    }
+
+    rect2d<T> shrink(T s)
+    {
+        return shrink(s,s);
+    }
+
     std::string to_string()
     {
         char buf[256];

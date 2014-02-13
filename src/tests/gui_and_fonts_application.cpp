@@ -156,7 +156,7 @@ bool gui_and_fonts_application::update()
         renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10),false);
         renderer->use_font("bits");
         renderer->render_string("I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),false);
-        renderer->render_string("I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,0.5,0.5,1),true);
+        renderer->render_string("I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
         renderer->use_font();
 
         wnd->swap_buffers();

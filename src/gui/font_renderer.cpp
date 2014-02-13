@@ -212,7 +212,7 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
 void font_renderer::render_string(std::string text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
 {
     if(drawshadow)
-        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
+        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
     render_string(current_font->name,text,pos,color);
 }
 
