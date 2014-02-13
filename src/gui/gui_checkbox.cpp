@@ -27,11 +27,6 @@ gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool che
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
-    m_background=new quad();
-    m_background->generate();
-
-    _material=env->get_quad_shader();
-
     this->set_parent(env);
 }
 
@@ -44,22 +39,12 @@ void gui_checkbox::render()
 {
     if(!enabled)
         cur_col=col_disabled;
-    this->m_transform=glm::mat4(1.0f);
 
-    rect2d<float> scaled=environment->scale_gui_rect<float>(absolute_rect.as<float>());
-
-    this->m_transform=glm::translate(this->m_transform,glm::vec3(scaled.x,scaled.y,0));
-    this->m_transform=glm::scale(this->m_transform,glm::vec3(scaled.w,scaled.h,0));
-
-    _material->set();
-    glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(m_transform));
-    glUniform3fv(_material->getparam("C"),1,glm::value_ptr(cur_col));
-    glBindTexture(GL_TEXTURE_2D,0);
     environment->draw_gui_quad(absolute_rect,cur_col);
     if(this->checked)
     {
         glm::vec2 dm=this->environment->get_font_renderer()->get_text_dimensions(this->cross);
-        this->environment->get_font_renderer()->render_string(this->cross,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+absolute_rect.h/2-dm.y/2),this->col_text,true);
+        this->environment->get_font_renderer()->render_string(this->cross,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+absolute_rect.h/2-dm.y/2),col_text,true);
     }
 }
 

@@ -14,12 +14,6 @@ class gui_button:public gui_element
 private:
     std::string m_text;
 
-    shader* _material;
-
-    quad* m_background;//background
-
-    glm::mat4 m_transform;
-
     glm::vec4 col_active,col_hover,col_clicked,col_disabled,col_text,cur_col;
 public:
     gui_button(gui_environment* env, rect2d<int> dimensions, std::string text="text");

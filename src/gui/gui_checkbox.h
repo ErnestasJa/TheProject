@@ -13,13 +13,8 @@ class gui_checkbox:public gui_element
 {
 private:
     std::string cross;
+
     bool checked;
-
-    shader* _material;
-
-    quad* m_background;//background
-
-    glm::mat4 m_transform;
 
     glm::vec4 col_active,col_hover,col_clicked,col_disabled,col_text,cur_col;
 public:
