@@ -25,7 +25,7 @@ gui_environment::~gui_environment()
 {
     delete m_font_renderer;
     delete gui_shader;
-    destroy_children();
+    delete gui_quad;
 }
 
 void gui_environment::update(float delta)

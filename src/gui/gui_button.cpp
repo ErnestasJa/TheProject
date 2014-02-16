@@ -30,7 +30,6 @@ gui_button::gui_button(gui_environment* env, rect2d<int> dimensions, std::string
 
 gui_button::~gui_button()
 {
-    destroy_children();
 }
 
 void gui_button::render()

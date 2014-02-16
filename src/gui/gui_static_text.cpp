@@ -14,45 +14,25 @@ gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, s
     m_draw_background=drawbackground;
     draw_shadow = drawshadow;
 
-    if(drawbackground)
-    {
-        m_background=new quad();
-        m_background->generate();
-    }
-    else
-        m_background=nullptr;
-
-
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
     m_text=text;
     m_text_color=text_color;
 
-    _material=env->get_quad_shader();
-
     this->set_parent(env);
 }
 
 gui_static_text::~gui_static_text()
 {
-    destroy_children();
 }
 
 void gui_static_text::render()
 {
-    this->m_transform=glm::mat4(1.0f);
-
     rect2d<float> scaled=environment->scale_gui_rect<float>(absolute_rect.as<float>());
-
-    this->m_transform=glm::translate(this->m_transform,glm::vec3(scaled.x,scaled.y,0));
-    this->m_transform=glm::scale(this->m_transform,glm::vec3(scaled.w,scaled.h,0));
 
     if(this->m_draw_background)
     {
-        _material->set();
-        glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(m_transform));
-        glUniform3fv(_material->getparam("C"),1,glm::value_ptr(glm::vec4(0.5f)));
         glBindTexture(GL_TEXTURE_2D,0);
         environment->draw_gui_quad(absolute_rect);
     }

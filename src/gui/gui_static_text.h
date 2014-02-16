@@ -13,8 +13,6 @@ private:
     glm::vec4 m_text_color;
     bool m_draw_background;
 
-    shader* _material;
-    quad* m_background;//background
     bool draw_shadow;
     glm::mat4 m_transform;
 public:

@@ -38,9 +38,11 @@ uint32_t gui_element::get_id()
 
 void gui_element::destroy_children()
 {
-    for(gui_element* e:children)
-        delete e;
-    children.clear();
+    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end();)
+    {
+        delete *i;
+        i=children.erase(i);
+    }
 }
 
 void gui_element::render()
@@ -50,9 +52,9 @@ void gui_element::render()
 
 void gui_element::add_child(gui_element *e)
 {
-    for(gui_element *i : children)
-        if(i==e)
-            return;
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
+        return;
 
     e->parent=this;
     children.push_back(e);
@@ -70,7 +72,6 @@ void gui_element::remove_child(gui_element *e)
         e->parent=nullptr;
         i=children.erase(i);
         (*i)->relative_rect=(*i)->absolute_rect;
-        children.push_back(e);
         return;
     }
 }

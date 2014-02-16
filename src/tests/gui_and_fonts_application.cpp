@@ -6,6 +6,7 @@
 #include "opengl/opengl_util.h"
 
 #include "gui/gui_environment.h"
+#include "gui/gui_pane.h"
 #include "gui/gui_static_text.h"
 #include "gui/gui_button.h"
 #include "gui/gui_checkbox.h"
@@ -57,22 +58,29 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     glfwGetWindowSize(_window,&ww,&hh);
 
     env=new gui_environment(ww,hh,_window);
+
+    gui_pane* mainpaine=new gui_pane(env,rect2d<int>(200,200,400,400));
+
     test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1),false,true);
-    test2=new gui_button(env,rect2d<int>(200,100,100,20),"buttons!");
+    test2=new gui_button(env,rect2d<int>(120,0,100,20),"buttons!");
     test2->set_event_listener(this);
     test2->set_id(1);
+    test2->set_parent(mainpaine);
 
-    gui_button* swit=new gui_button(env,rect2d<int>(300,100,20,20),"X");
+    gui_button* swit=new gui_button(env,rect2d<int>(220,0,20,20),"X");
     swit->set_event_listener(this);
     swit->set_id(2);
+    swit->set_parent(mainpaine);
 
 
     for(uint8_t i=0; i<10; i++)
     {
-        gui_checkbox* c=new gui_checkbox(env,rect2d<int>(400,100+i*22,20,20),i%2==0);
+        gui_checkbox* c=new gui_checkbox(env,rect2d<int>(0,0+i*22,20,20),i%2==0);
         c->set_event_listener(this);
         c->set_id(10+i);
-        gui_static_text* lab=new gui_static_text(env,rect2d<int>(420,100+i*22+4,100,20),"checkbox label",glm::vec4(1,1,1,1));
+        c->set_parent(mainpaine);
+        gui_static_text* lab=new gui_static_text(env,rect2d<int>(20,0+i*22+4,100,20),"checkbox label",glm::vec4(1,1,1,1));
+        lab->set_parent(mainpaine);
     }
 
     renderer=env->get_font_renderer();

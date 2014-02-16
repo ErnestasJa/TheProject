@@ -32,7 +32,6 @@ gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool che
 
 gui_checkbox::~gui_checkbox()
 {
-    destroy_children();
 }
 
 void gui_checkbox::render()
