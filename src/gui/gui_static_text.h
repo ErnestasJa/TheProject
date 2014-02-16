@@ -14,7 +14,6 @@ private:
     bool m_draw_background;
 
     bool draw_shadow;
-    glm::mat4 m_transform;
 public:
     gui_static_text(gui_environment* env, rect2d<int> dimensions, std::string text="text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
     virtual ~gui_static_text();

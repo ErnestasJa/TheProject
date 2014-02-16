@@ -10,9 +10,6 @@ class gui_pane:public gui_element
 {
 private:
     bool m_draw;
-
-    bool draw_shadow;
-    glm::mat4 m_transform;
 public:
     gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw=true);
     virtual ~gui_pane();

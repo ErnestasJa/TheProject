@@ -43,6 +43,7 @@ void gui_element::destroy_children()
         delete *i;
         i=children.erase(i);
     }
+    children.clear();
 }
 
 void gui_element::render()

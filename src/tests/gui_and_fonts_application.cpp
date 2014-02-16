@@ -6,6 +6,7 @@
 #include "opengl/opengl_util.h"
 
 #include "gui/gui_environment.h"
+#include "gui/gui_window.h"
 #include "gui/gui_pane.h"
 #include "gui/gui_static_text.h"
 #include "gui/gui_button.h"
@@ -59,7 +60,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     env=new gui_environment(ww,hh,_window);
 
-    gui_pane* mainpaine=new gui_pane(env,rect2d<int>(200,200,400,400));
+    gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),"Tis but a window",true,true,false);
 
     test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1),false,true);
     test2=new gui_button(env,rect2d<int>(120,0,100,20),"buttons!");
@@ -82,6 +83,13 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
         gui_static_text* lab=new gui_static_text(env,rect2d<int>(20,0+i*22+4,100,20),"checkbox label",glm::vec4(1,1,1,1));
         lab->set_parent(mainpaine);
     }
+
+    rect2d<int> testrect=rect2d<int>(0,0,100,100);
+    bool a=testrect.is_point_inside(50,50);
+    bool b=testrect.is_point_inside(99,99);
+    bool c=testrect.is_point_inside(101,101);
+
+    printf("%d %d %d\n",a,b,c);
 
     renderer=env->get_font_renderer();
     renderer->create_font("bits","res/bits.ttf",28);

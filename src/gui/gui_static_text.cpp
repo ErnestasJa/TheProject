@@ -29,8 +29,6 @@ gui_static_text::~gui_static_text()
 
 void gui_static_text::render()
 {
-    rect2d<float> scaled=environment->scale_gui_rect<float>(absolute_rect.as<float>());
-
     if(this->m_draw_background)
     {
         glBindTexture(GL_TEXTURE_2D,0);

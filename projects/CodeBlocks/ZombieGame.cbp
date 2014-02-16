@@ -119,6 +119,8 @@
 		<Unit filename="../../src/gui/gui_static_text.cpp" />
 		<Unit filename="../../src/gui/gui_static_text.h" />
 		<Unit filename="../../src/gui/gui_test_element.h" />
+		<Unit filename="../../src/gui/gui_window.cpp" />
+		<Unit filename="../../src/gui/gui_window.h" />
 		<Unit filename="../../src/gui/input_handler.cpp" />
 		<Unit filename="../../src/gui/input_handler.h" />
 		<Unit filename="../../src/main.cpp" />

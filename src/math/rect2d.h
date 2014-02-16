@@ -23,9 +23,9 @@ public:
         calculate_bounds();
     }
     ~rect2d() {};
-    bool is_point_inside(T x, T y)
+    bool is_point_inside(T ox, T oy)
     {
-        return x>=this->x&&y>=this->y&&x<=this->x2&&y<=this->y2;
+        return ox>this->x&&oy>this->y&&ox<this->x2&&oy<this->y2;
     }
     void resize(int new_w, int new_h)
     {
@@ -63,7 +63,7 @@ public:
     std::string to_string()
     {
         char buf[256];
-        sprintf(buf,"RECT: %d %d %d %d\n",x,y,w,h);
+        sprintf(buf,"RECT: X %d Y %d X2 %d Y2 %d W %d H %d\n",x,y,x2,y2,w,h);
         return std::string(buf);
     }
 
@@ -77,6 +77,7 @@ public:
             y=other.h-h;
         if(y<=0)
             y=0;
+        calculate_bounds();
     }
     template <typename B>
     rect2d<B> as()
