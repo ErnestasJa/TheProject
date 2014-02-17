@@ -123,6 +123,11 @@ struct gui_skin
         return new glm::vec2[4]{uvs[style*4],uvs[style*4+1],uvs[style*4+2],uvs[style*4+3]};
     }
 
+    glm::vec2 get_style_metrics(uint32_t style)
+    {
+        return glm::vec2(rects[style].w,rects[style].h);
+    }
+
     void print()
     {
         for(uint32_t i=0; i<gui_skin_style_count; i++)
