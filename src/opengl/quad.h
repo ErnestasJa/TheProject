@@ -14,8 +14,6 @@ public:
 
     mesh glmesh;
 
-    static shader quad_shader_textured;
-
     quad(float size=1.0f)
     {
         this->m_size=size;
@@ -58,7 +56,7 @@ public:
 
         glGenBuffers(1, &glmesh.buffers[1]);
         glBindBuffer(GL_ARRAY_BUFFER, glmesh.buffers[1]);
-        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(tex_coords[0]), &tex_coords[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(tex_coords[0]), &tex_coords[0], GL_DYNAMIC_DRAW);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -69,6 +67,12 @@ public:
         glBindVertexArray(0);
 
         return true;
+    }
+
+    void set_uv(glm::vec2* uvs)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[1]);
+        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
     }
 
     void draw()

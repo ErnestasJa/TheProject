@@ -19,7 +19,12 @@ public:
     //this does not do any events
     void on_event(gui_event e)
     {
-        return;
+        if(this->event_listener)
+        {
+            event_listener->on_event(e);
+            return;
+
+        }
     }
 protected:
 };

@@ -5,5 +5,5 @@ out vec4 FragColor;
 uniform vec3 C;
 void main()
 {
-    FragColor = vec4(C,1);
+    FragColor = texture(tex,UV);
 }

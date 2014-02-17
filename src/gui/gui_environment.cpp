@@ -3,7 +3,10 @@
 #include "gui_environment.h"
 #include "opengl/shader.h"
 #include "opengl/quad.h"
-
+#include "gui_skin.h"
+#include "resources/image.h"
+#include "resources/image_loader.h"
+#include "opengl/texture.h"
 gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
     this->window=win;
@@ -17,6 +20,15 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     gui_shader=shader::load_shader("res/gui_quad");
     gui_quad=new quad();
     gui_quad->generate();
+
+    skin=new gui_skin();
+
+    skin->load("../../res/skin_default.xml");
+
+    skin_atlas=new texture();
+    image_loader* imgl=new image_loader();
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    skin_atlas->generate(img);
 
     m_font_renderer=new font_renderer(this);
 }
@@ -158,11 +170,16 @@ font_renderer* gui_environment::get_font_renderer()
     return m_font_renderer;
 }
 
-void gui_environment::draw_gui_quad(rect2d<int> dims,glm::vec4 col)
+void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style)
 {
     rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
+    glEnable(GL_BLEND);
+
     gui_shader->set();
+    skin_atlas->set(0);
+
+    gui_quad->set_uv(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -170,8 +187,10 @@ void gui_environment::draw_gui_quad(rect2d<int> dims,glm::vec4 col)
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
-    glUniform3fv(gui_shader->getparam("C"),1,glm::value_ptr(col));
 
     gui_quad->draw();
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,0);
 }
 

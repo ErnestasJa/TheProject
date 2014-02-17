@@ -13,7 +13,7 @@ class gui_button:public gui_element
 {
 private:
     std::string m_text;
-
+    uint32_t cur_style;
     glm::vec4 col_active,col_hover,col_clicked,col_disabled,col_text,cur_col;
 public:
     gui_button(gui_environment* env, rect2d<int> dimensions, std::string text="text");

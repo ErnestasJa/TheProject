@@ -25,12 +25,9 @@ gui_pane::~gui_pane()
 
 void gui_pane::render()
 {
-    rect2d<float> scaled=environment->scale_gui_rect<float>(absolute_rect.as<float>());
-
     if(this->m_draw)
     {
-        glBindTexture(GL_TEXTURE_2D,0);
-        environment->draw_gui_quad(absolute_rect,glm::vec4(0.6,0.6,0.8,1));
+        environment->draw_gui_quad(absolute_rect);
     }
 
     this->render_children();

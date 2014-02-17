@@ -19,10 +19,12 @@
 #include "gui_event.h"
 #include "gui_event_listener.h"
 
+#include "gui_skin.h"
 #include "font_renderer.h"
 
 class shader;
 class quad;
+class texture;
 class gui_environment : public gui_element
 {
 public:
@@ -39,7 +41,9 @@ public:
     {
         return this->gui_shader;
     }
-    void draw_gui_quad(rect2d<int> size, glm::vec4 col=glm::vec4(1));
+    void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background);
+
+    void set_skin(gui_skin* skin);
 
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
@@ -61,6 +65,8 @@ public:
 
     font_renderer *get_font_renderer();
 private:
+    gui_skin* skin;
+    texture* skin_atlas;
     shader* gui_shader;
     quad* gui_quad;
     font_renderer* m_font_renderer;

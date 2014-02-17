@@ -16,7 +16,7 @@ private:
 
     bool checked;
 
-    glm::vec4 col_active,col_hover,col_clicked,col_disabled,col_text,cur_col;
+    uint32_t cur_style;
 public:
     gui_checkbox(gui_environment* env, rect2d<int> dimensions, bool checked);
     virtual ~gui_checkbox();

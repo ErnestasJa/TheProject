@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<skin name="default" atlas_name="default.png" atlas_size="256">
+	<background x="0" y="0" w="32" h="32"/>
+	
+	<input>
+		<active x="32" y="0" w="32" h="32"/>
+		<hover x="64" y="0" w="32" h="32"/>
+		<disabled x="96" y="0" w="32" h="32"/>
+	</input>
+	
+	<button>
+		<active x="128" y="0" w="32" h="32"/>
+		<hover x="160" y="0" w="32" h="32"/>
+		<click x="192" y="0" w="32" h="32"/>
+		<disabled x="224" y="0" w="32" h="32"/>
+	</button>
+	
+	<checkbox_u>
+		<active x="6" y="38" w="20" h="20"/>
+		<hover x="38" y="38" w="20" h="20"/>
+		<click x="70" y="38" w="20" h="20"/>
+		<disabled x="102" y="38" w="20" h="20"/>
+	</checkbox_u>
+	
+	<checkbox_c>
+		<active x="134" y="38" w="20" h="20"/>
+		<hover x="166" y="38" w="20" h="20"/>
+		<click x="198" y="38" w="20" h="20"/>
+		<disabled x="230" y="38" w="20" h="20"/>
+	</checkbox_c>
+	
+	<radio_u>
+		<active x="0" y="64" w="32" h="32"/>
+		<hover x="32" y="64" w="32" h="32"/>
+		<click x="64" y="64" w="32" h="32"/>
+		<disabled x="96" y="64" w="32" h="32"/>
+	</radio_u>
+	
+	<radio_c>
+		<active x="128" y="64" w="32" h="32"/>
+		<hover x="160" y="64" w="32" h="32"/>
+		<click x="192" y="64" w="32" h="32"/>
+		<disabled x="224" y="64" w="32" h="32"/>
+	</radio_c>
+	
+	<progress_h>
+		<bg x="0" y="96" w="32" h="32"/>
+		<bar x="32" y="96" w="32" h="32"/>
+	</progress_h>
+	
+	<scroll_h>
+		<active x="64" y="96" w="32" h="32"/>
+		<hover x="96" y="96" w="32" h="32"/>
+	</scroll_h>
+	
+	<scroll_v>
+		<active x="128" y="96" w="32" h="32"/>
+		<hover x="160" y="96" w="32" h="32"/>
+	</scroll_v>
+	
+	<titlebar x="192" y="96" w="32" h="32"/>
+	
+	<colors>
+		<text x="0" y="250" w="8" h="8"/>
+		<text_disabled x="0" y="258" w="8" h="8"/>
+	</colors>
+</skin>

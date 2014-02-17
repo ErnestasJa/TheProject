@@ -36,6 +36,7 @@
 
 // OTHER LIBRARIES
 #include "physfs.h"
+#include "tinyxml2.h"
 
 // PROJECT INCLUDES
 #include "utility/bit.h"
