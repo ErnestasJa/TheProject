@@ -1,12 +1,13 @@
 #include "precomp.h"
 
 #include "gui/gui_element.h"
-#include "utility/logger.h"
 
-gui_element::gui_element(int x, int y, int w, int h)
+gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 {
-    absolute_rect = rect2d<int>(x, y, w, h);
-    relative_rect = rect2d<int>(x, y, w, h);
+    absolute_rect = dimensions;
+    relative_rect = dimensions;
+
+    id=-1;
 
     hovered = false;
     visible = true;
@@ -16,13 +17,33 @@ gui_element::gui_element(int x, int y, int w, int h)
 
     this->parent = nullptr;
     this->event_listener = nullptr;
-    this->environment = nullptr;
-    set_name("gui_element_"+tostr(rand()%65535));
+    this->environment = env;
+    set_name("gui_element_"+helpers::to_str(rand()%65535));
 }
 
 gui_element::~gui_element()
 {
+    destroy_children();
+}
 
+void gui_element::set_id(uint32_t id)
+{
+    this->id=id;
+}
+
+uint32_t gui_element::get_id()
+{
+    return this->id;
+}
+
+void gui_element::destroy_children()
+{
+    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end();)
+    {
+        delete *i;
+        i=children.erase(i);
+    }
+    children.clear();
 }
 
 void gui_element::render()
@@ -32,60 +53,57 @@ void gui_element::render()
 
 void gui_element::add_child(gui_element *e)
 {
-    for(gui_element *i : children)
-        if(i==e)
-            return;
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
+        return;
 
     e->parent=this;
     children.push_back(e);
+
+    e->relative_rect=e->absolute_rect;
+
     update_absolute_pos();
-    printf("ADD CHILD My bounds are: %i %i %i %i %i %i %i %i\n",e->absolute_rect.x,e->absolute_rect.y,e->absolute_rect.w,e->absolute_rect.h,e->relative_rect.x,e->relative_rect.y,e->relative_rect.w,e->relative_rect.h);
 }
 
 void gui_element::remove_child(gui_element *e)
 {
-    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
-        if((gui_element*)(&i)==e)
-        {
-            e->parent=nullptr;
-            children.erase(i);
-            return;
-        }
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
+    {
+        e->parent=nullptr;
+        i=children.erase(i);
+        (*i)->relative_rect=(*i)->absolute_rect;
+        return;
+    }
 }
 
 void gui_element::bring_to_front(gui_element *e)
 {
-    if(children.size()>0)
-    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end(); i++)
-        if(*i == e)
-        {
-            i=children.erase(i);
-            children.push_back(e);
-            return;
-        }
-        else
-            i++;
+    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    if(i!=children.end())
+    {
+        i=children.erase(i);
+        children.push_back(e);
+        return;
+    }
 }
 
 void gui_element::render_children()
 {
-    for(gui_element *e : children)
+    for(gui_element* i : children)
     {
-        if(e->is_visible())
-            e->render();
+        if(i->is_visible())
+            i->render();
     }
 }
 
 void gui_element::update_absolute_pos()
 {
     if(this->parent!=nullptr)
-    {
-        this->relative_rect=this->parent->absolute_rect;
         this->absolute_rect=
-            rect2d<int>(this->absolute_rect.x+this->relative_rect.x,
-                            this->absolute_rect.y + this->relative_rect.y,
+            rect2d<int>(parent->absolute_rect.x+relative_rect.x,
+                            parent->absolute_rect.y+relative_rect.y,
                             this->absolute_rect.w, this->absolute_rect.h);
-    }
     for(gui_element *e : children)
         e->update_absolute_pos();
 }
@@ -130,10 +148,12 @@ void gui_element::set_listening(bool b)
 
 void gui_element::set_parent(gui_element *e)
 {
-    if(this->parent!=nullptr)
-        this->parent->remove_child(this);
     if(e!=nullptr)
+    {
+        if(this->parent!=nullptr)
+            this->parent->remove_child(this);
         e->add_child(this);
+    }
     else
         return;
 }
@@ -194,4 +214,14 @@ gui_element *gui_element::get_element_from_point(int x, int y)
     if(this->is_visible()&&absolute_rect.is_point_inside(x,y))
         ret=this;
     return ret;
+}
+
+rect2d<int> &gui_element::get_absolute_rect()
+{
+    return absolute_rect;
+}
+
+rect2d<int> &gui_element::get_relative_rect()
+{
+    return relative_rect;
 }

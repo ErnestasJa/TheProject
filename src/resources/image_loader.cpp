@@ -37,7 +37,7 @@ image *   image_loader::load(const std::string & file)
         if(l->check_by_extension(ext))
         {
             char * buf;
-            uint32_t len = read(file,buf);
+            uint32_t len = helpers::read(file,buf);
 
             if(len!=0)
             {

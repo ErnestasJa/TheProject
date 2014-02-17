@@ -1,7 +1,5 @@
 #pragma once
 
-template <typename T> static std::string tostr(const T& t) { std::ostringstream os; os<<t; return os.str(); } //magic..
-
 //logger levels
 enum loglevel
 {

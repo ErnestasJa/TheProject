@@ -1,15 +1,17 @@
 #pragma once
-#include <vector>
-#include "math/rect2d.h"
 #include "gui_event_listener.h"
-
+#include "math/rect2d.h"
 class gui_environment;
 class gui_element:public gui_event_listener
 {
 public:
-    gui_element(int x, int y, int w, int h);
+    gui_element(gui_environment* env,rect2d<int> dimensions);
 
     ~gui_element();
+
+    void set_id(uint32_t);
+
+    uint32_t get_id();
 
     //each element handles it's own rendering
     virtual void render();
@@ -59,8 +61,13 @@ public:
 
     gui_element *get_element_from_point(int x, int y);
 
+    rect2d<int> &get_absolute_rect();
+    rect2d<int> &get_relative_rect();
 private:
 protected:
+
+    void destroy_children();
+    uint32_t id;
     int disp_w, disp_h;
     std::string name;
     gui_element *parent;

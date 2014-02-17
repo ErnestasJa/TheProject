@@ -5,6 +5,8 @@
 
 class quad
 {
+private:
+    float m_size;
 public:
     glm::vec3 pos[4];
     glm::vec2 tex_coords[4];
@@ -12,14 +14,20 @@ public:
 
     mesh glmesh;
 
-    static shader quad_shader_textured;
-
-    quad()
+    quad(float size=1.0f)
     {
-        pos[0]=glm::vec3(-1,-1,0);
-        pos[1]=glm::vec3(1,-1,0);
-        pos[2]=glm::vec3(1,1,0);
-        pos[3]=glm::vec3(-1,1,0);
+        this->m_size=size;
+    }
+
+
+    virtual ~quad(){};
+
+    virtual bool generate()
+    {
+        pos[0]=glm::vec3(-m_size,-m_size,0);
+        pos[1]=glm::vec3(m_size,-m_size,0);
+        pos[2]=glm::vec3(m_size,m_size,0);
+        pos[3]=glm::vec3(-m_size,m_size,0);
 
         tex_coords[0] = glm::vec2(0,0);
         tex_coords[1] = glm::vec2(1,0);
@@ -35,10 +43,7 @@ public:
         indices[5]=2;
 
         glmesh.buffers.resize(3);
-    }
 
-    bool generate()
-    {
         glGenVertexArrays(1,&glmesh.vao);
 
         glBindVertexArray(glmesh.vao);
@@ -51,7 +56,7 @@ public:
 
         glGenBuffers(1, &glmesh.buffers[1]);
         glBindBuffer(GL_ARRAY_BUFFER, glmesh.buffers[1]);
-        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(tex_coords[0]), &tex_coords[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(tex_coords[0]), &tex_coords[0], GL_DYNAMIC_DRAW);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -62,6 +67,12 @@ public:
         glBindVertexArray(0);
 
         return true;
+    }
+
+    void set_uv(glm::vec2* uvs)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[1]);
+        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
     }
 
     void draw()

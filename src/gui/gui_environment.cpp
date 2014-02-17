@@ -1,25 +1,49 @@
 #include "precomp.h"
 
 #include "gui_environment.h"
-#include "input_handler.h"
-
-gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(0,0,dispw,disph)
+#include "opengl/shader.h"
+#include "opengl/quad.h"
+#include "gui_skin.h"
+#include "resources/image.h"
+#include "resources/image_loader.h"
+#include "opengl/texture.h"
+gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
+    this->window=win;
     this->input=new input_handler(nullptr,window);
     hover=last_hover=focus=last_focus=nullptr;
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
-    mouse_pos=last_mouse_pos=vec2<double>();
+    mouse_pos=last_mouse_pos=glm::vec2();
+    gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
+    this->set_name("GUI_ENVIRONMENT");
+
+    gui_shader=shader::load_shader("res/gui_quad");
+    gui_quad=new quad();
+    gui_quad->generate();
+
+    skin=new gui_skin();
+
+    skin->load("../../res/skin_default.xml");
+
+    skin_atlas=new texture();
+    image_loader* imgl=new image_loader();
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    skin_atlas->generate(img);
+
+    m_font_renderer=new font_renderer(this);
 }
 
 gui_environment::~gui_environment()
 {
-
+    delete m_font_renderer;
+    delete gui_shader;
+    delete gui_quad;
 }
 
 void gui_environment::update(float delta)
 {
     //hovering
-    vec2<double> tm=input->get_mouse_pos();
+    glm::vec2 tm=input->get_mouse_pos();
     mouse_pos=input->get_mouse_pos();
     //printf("tm: %i %i c:%i %i old:%i %i\n",tm.x,tm.y,mouse_pos.x,mouse_pos.y,last_mouse_pos.x,last_mouse_pos.y);
 
@@ -130,3 +154,43 @@ void gui_environment::on_event(gui_event e)
         break;
     }
 }
+
+glm::vec2 gui_environment::get_mouse_pos()
+{
+    return this->input->get_mouse_pos();
+}
+
+glm::vec2 gui_environment::get_gui_scale()
+{
+    return gui_scale;
+}
+
+font_renderer* gui_environment::get_font_renderer()
+{
+    return m_font_renderer;
+}
+
+void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style)
+{
+    rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    glEnable(GL_BLEND);
+
+    gui_shader->set();
+    skin_atlas->set(0);
+
+    gui_quad->set_uv(skin->get_uv(style));
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+
+    gui_quad->draw();
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,0);
+}
+

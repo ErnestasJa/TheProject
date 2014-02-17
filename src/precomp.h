@@ -13,6 +13,7 @@
 #include <map>
 
 #include <string.h>
+#include <string>
 
 #include <sstream>
 #include <stdarg.h>
@@ -35,6 +36,7 @@
 
 // OTHER LIBRARIES
 #include "physfs.h"
+#include "tinyxml2.h"
 
 // PROJECT INCLUDES
 #include "utility/bit.h"
