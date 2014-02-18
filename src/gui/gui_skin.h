@@ -150,10 +150,10 @@ private:
         {
             rect2d<float> ir=rects[i].as<float>();
 
-            uvs[j]=glm::vec2(ir.x/256.f,ir.y2/256.f);
+            uvs[j+3]=glm::vec2(ir.x/256.f,ir.y/256.f);
+            uvs[j+2]=glm::vec2(ir.x2/256.f,ir.y/256.f);
             uvs[j+1]=glm::vec2(ir.x2/256.f,ir.y2/256.f);
-            uvs[j+2]=glm::vec2(ir.x/256.f,ir.y/256.f);
-            uvs[j+3]=glm::vec2(ir.x2/256.f,ir.y/256.f);
+            uvs[j+0]=glm::vec2(ir.x/256.f,ir.y2/256.f);
 
             j+=4;
         }

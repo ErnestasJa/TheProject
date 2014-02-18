@@ -8,7 +8,8 @@
 #include "resources/image.h"
 #include "resources/image_loader.h"
 #include "opengl/texture.h"
-gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
+#include "utility/logger.h"
+gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win,logger*log):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
     this->window=win;
     this->input=new input_handler(nullptr,window);
@@ -30,7 +31,7 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     skin->load("../../res/skin_default.xml");
 
     skin_atlas=new texture();
-    image_loader* imgl=new image_loader(nullptr);
+    image_loader* imgl=new image_loader(log);
     std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
     skin_atlas->init(img);
     //skin_atlas->set_filters(texture::FILTER_MIN::FILTER_MIN_NEAREST,texture::FILTER_MAG::FILTER_MAG_NEAREST_MIPMAP);
@@ -184,7 +185,7 @@ void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
     gui_shader->set();
     skin_atlas->set(0);
 
-    //gui_quad->set_uv(skin->get_uv(style));
+    gui_quad->set_uv(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 

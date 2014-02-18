@@ -26,10 +26,11 @@ class shader;
 class quad;
 class sliced_gui_quad;
 class texture;
+class logger;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(int dispw, int disph, GLFWwindow* win);
+    gui_environment(int dispw, int disph, GLFWwindow* win,logger* log);
     ~gui_environment();
     void update(float delta);
     void render();

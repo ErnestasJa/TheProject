@@ -75,7 +75,6 @@ glm::mat4x4 isg_object::get_relative_transform()
     rt = glm::rotate(rt,m_rotation.y,glm::vec3(0,1,0));
     rt = glm::rotate(rt,m_rotation.z,glm::vec3(0,0,1));
     rt = glm::translate(rt,m_position);
-    rt = glm::scale(rt,m_position);
     return rt;
 }
 

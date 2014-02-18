@@ -37,11 +37,9 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
 
-    env=new gui_environment(1024,768,this->wnd->getWindow());
+    env=new gui_environment(1024,768,this->wnd->getWindow(),this->get_logger());
 
-    gui_pane* pane=new gui_pane(env,rect2d<int>(0,0,400,400));
-
-    gui_button* btn=new gui_button(env,rect2d<int>(0,0,128,32),"");
+    gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,32),"HOLA");
 
     gui_checkbox* cb=new gui_checkbox(env,rect2d<int>(0,64,20,20),false);
     cb=new gui_checkbox(env,rect2d<int>(0,96,20,20),true);
