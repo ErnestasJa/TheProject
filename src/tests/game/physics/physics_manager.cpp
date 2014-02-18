@@ -155,8 +155,8 @@ btRigidBody* physics_manager::create_box(sg::sg_mesh_object_ptr mesh_obj, const 
 
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_transform()[3]));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_transform())));
+    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
+    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
 
     cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
     btCollisionShape *Shape = new btBoxShape(HalfExtents);
@@ -195,8 +195,8 @@ btRigidBody* physics_manager::create_sphere(sg::sg_mesh_object_ptr mesh_obj, con
 
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_transform()[3]));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_transform())));
+    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
+    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
 
     cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
     btCollisionShape *Shape = new btSphereShape(mesh_obj->get_aabb().get_extent().x*0.5f);
@@ -227,8 +227,8 @@ btRigidBody* physics_manager::create_trimesh_body(sg::sg_mesh_object_ptr mesh_ob
 
     btTransform Transform;
     Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_transform()[3]));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_transform())));
+    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
+    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
 
     cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
 

@@ -1,15 +1,13 @@
 #version 330 core
 
-layout(location=0) out vec4 vFragColor; // fragment shader output
+///uniforms
+uniform sampler2D tex;
 
-//input from the vertex shader
-smooth in vec4 vSmoothColor;	//lienarly interpolated particle colour
-
-uniform sampler2D textureMap;	//particle texture 
+///outputs
+layout(location=0) out vec4 vFragColor;
+in vec2 UV;
 
 void main()
 { 
-	//use the particle smooth colour alpha value to fade the colour obtained
-	//from the texture lookup 
-	vFragColor = texture(textureMap, gl_PointCoord)* vSmoothColor.a;  
+	vFragColor = texture(tex, UV);  
 }

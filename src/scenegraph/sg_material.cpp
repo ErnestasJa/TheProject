@@ -41,4 +41,26 @@ void sg_material_static_mesh::set(scenegraph * sg)
     camera_pos.set(mat_shader);
 }
 
+sg_material_point_sprite::sg_material_point_sprite()
+{
+    mat_type = SGMT_POINT_SPRITE;
+    vp.name="VP";
+    cam_up.name="cam_up";
+    cam_right.name="cam_right";
+    pos.name="bpos";
+    size.name="size";
+}
+
+void sg_material_point_sprite::set(scenegraph * sg)
+{
+    mat_shader->set();
+    mat_texture->set(0);
+    vp.set(mat_shader);
+    cam_up.set(mat_shader);
+    cam_right.set(mat_shader);
+    pos.set(mat_shader);
+    size.set(mat_shader);
+
+}
+
 }

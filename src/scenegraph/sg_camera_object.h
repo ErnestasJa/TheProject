@@ -33,7 +33,6 @@ public:
     virtual void update(scenegraph * sg);
 
 public:
-	void rotate(const float yaw, const float pitch, const float roll);
 	void walk(const float amount);
 	void strafe(const float amount);
 	void lift(const float amount);
@@ -44,7 +43,6 @@ protected:
 	glm::vec3 m_look;
 	glm::vec3 m_up;
 	glm::vec3 m_right;
-	glm::vec3 m_position;
 	glm::mat4 m_P; //projection matrix
 
 	float m_yaw, m_pitch, m_roll;

@@ -18,7 +18,13 @@ public:
         m_obj = obj;
         m_trans = trans;
 
-        trans.getOpenGLMatrix(&m_obj->get_transform()[0][0]);
+
+        btQuaternion quat = trans.getRotation();
+        btVector3 pos = trans.getOrigin();
+        glm::quat gquat(quat.getW(),quat.getX(),quat.getY(),quat.getZ());
+
+        m_obj->set_rotation(glm::eulerAngles(gquat));
+        m_obj->set_position(glm::vec3(pos.getX(),pos.getY(),pos.getZ()));
     }
 
     virtual ~cmotion_state()
@@ -30,11 +36,16 @@ public:
         worldTrans = m_trans;
     }
 
-    virtual void setWorldTransform(const btTransform &worldTrans)
+    virtual void setWorldTransform(const btTransform &trans)
     {
         if(!m_obj) return;
 
-        worldTrans.getOpenGLMatrix(&m_obj->get_transform()[0][0]);
+        btQuaternion quat = trans.getRotation();
+        btVector3 pos = trans.getOrigin();
+        glm::quat gquat(quat.getW(),quat.getX(),quat.getY(),quat.getZ());
+
+        m_obj->set_rotation(glm::eulerAngles(gquat));
+        m_obj->set_position(glm::vec3(pos.getX(),pos.getY(),pos.getZ()));
     }
 
     sg::sg_object_ptr get_sg_obj()

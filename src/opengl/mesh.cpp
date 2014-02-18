@@ -124,3 +124,12 @@ void mesh::render_lines()
 
     glBindVertexArray(0);
 }
+
+void mesh::render_triangle_strip()
+{
+    glBindVertexArray(vao);
+
+    glDrawArrays(GL_TRIANGLES,0,buffers[POSITION]->get_size());
+
+    glBindVertexArray(0);
+}

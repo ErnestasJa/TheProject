@@ -1,23 +1,21 @@
-#ifndef SG_SPRITE_H
-#define SG_SPRITE_H
+#ifndef SG_LIGHT_OBJECT_H
+#define SG_LIGHT_OBJECT_H
 
 #include "isg_object.h"
 
-class mesh;
-typedef std::shared_ptr<mesh> mesh_ptr;
 
 namespace sg
 {
 
-class sg_sprite: public isg_object
+class sg_light_object: public isg_object
 {
 public:
-    sg_sprite(scenegraph * sg);
-    virtual ~sg_sprite();
+    sg_light_object(scenegraph * sg);
+    virtual ~sg_light_object();
 
 public:
-
     virtual void            render(scenegraph * sg);
+
     virtual sg_aabb         get_aabb();
     virtual uint32_t        get_type();
 
@@ -28,10 +26,8 @@ public:
 
 protected:
     sg_aabb m_aabb;
-    mesh_ptr m_mesh;
-    sg_material_point_sprite_ptr m_material;
 };
-typedef std::shared_ptr<sg_sprite> sg_sprite_ptr;
+typedef std::shared_ptr<sg_light_object> sg_light_object_ptr;
 }
 
-#endif // SG_SPRITE_H
+#endif // SG_LIGHT_OBJECT_H

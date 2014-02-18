@@ -23,7 +23,7 @@ public:
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 
-    virtual glm::mat4x4 & get_transform();
+    virtual const glm::mat4x4 & get_absolute_transform();
 
 protected:
     sg_mesh_object_ptr m_obj;

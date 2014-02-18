@@ -22,41 +22,40 @@ public:
     scenegraph(logger * l, timer_ptr app_timer);
     virtual ~scenegraph();
 
-public:
+    void add_object(sg_object_ptr obj);
+    sg_light_object_ptr add_light_object();
+
     sg_graphics_manager_ptr get_graphics_manager();
-
-public:
-    virtual void add_object(sg_object_ptr obj);
-    virtual void render_all();
-
+    timer_ptr get_timer();
+    std::vector<sg_light_object_ptr> & get_lights();
     sg_camera_object_ptr get_active_camera();
+
     void set_active_camera(sg_camera_object_ptr cam);
 
-    timer_ptr get_timer();
-
-    virtual void on_set_material(sg_material_ptr mat);
 ///loading
 public:
     sg::sg_mesh_object_ptr load_mesh_object(std::string file, bool load_textures);
 
+///rendering
+    void render_all();
+    void on_set_material(sg_material_ptr mat);
+
 ///matrix
-public:
     glm::mat4x4 & get_view_projection_matrix();
 
 protected:
-    virtual void pre_render();
+    void pre_render();
+    void post_render();
 
-    virtual void post_render();
-
-protected:
     timer_ptr m_timer;
 
     logger * m_logger;
     sg_graphics_manager_ptr     m_graphics_manager;
 
-    sg_camera_object_ptr        m_active_camera;
     std::vector<sg_object_ptr>  m_objects;
+    std::vector<sg_light_object_ptr>  m_lights;
     sg_material_ptr             m_current_material;
+    sg_camera_object_ptr        m_active_camera;
 
     glm::mat4 M, V, P, VP, MVP;
 };

@@ -8,6 +8,8 @@ namespace sg
         SGO_MESH = 0,
         SGO_CAMERA,
         SGO_AABB_WIREFRAME_OBJECT,
+        SGO_POINT_SPRITE,
+        SGO_LIGHT
     };
 }
 

@@ -64,7 +64,7 @@ const glm::vec3 sg_camera_object::get_look() const
 
 void sg_camera_object::update(scenegraph * sg)
 {
-    glm::mat4 R = get_matrix(m_yaw,m_pitch,m_roll);
+    glm::mat4 R = get_matrix(m_rotation.x,m_rotation.y,m_rotation.z);
 	m_position+=m_translation;
 	m_translation=glm::vec3(0);
 
@@ -72,14 +72,8 @@ void sg_camera_object::update(scenegraph * sg)
 	glm::vec3 tgt  = m_position+m_look;
 	m_up   = glm::vec3(R*glm::vec4(0,1,0,0));
 	m_right = glm::cross(m_look, m_up);
-	m_transform = glm::lookAt(m_position, tgt, m_up);
-}
 
-
-void sg_camera_object::rotate(const float y, const float p, const float r) {
-	m_yaw=y;
-	m_pitch=p;
-	m_roll=r;
+	m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
 void sg_camera_object::walk(const float amount) {

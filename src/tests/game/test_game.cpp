@@ -103,7 +103,7 @@ bool test_game::init_scene()
     sm_mat->mat_texture= m_graphics_manager->load_texture("res/wood_tower_color.png");
 
 
-    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,5.25,-5));
+    obj->set_position(glm::vec3(0,5.25,-5));
     m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
@@ -121,37 +121,30 @@ bool test_game::init_scene()
         sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
         sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
 
-        obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(i*2,15,-7));
+        obj->set_position(glm::vec3(i*2,15,-7));
         m_scenegraph->add_object(obj);
         m_physics_manager->create_box(obj,10.0f);
         ///done loading
     }
 
-    ///load trashcan
-    m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
+    ///load sprite
+    sg::sg_sprite_ptr sobj = sg::sg_sprite_ptr(new sg::sg_sprite(m_scenegraph));
 
-    if(!m)
-        return false;
+    sg::sg_material_point_sprite* psm_mat = static_cast<sg::sg_material_point_sprite*>(sobj->get_material(0).get());
+    psm_mat->mat_texture= m_graphics_manager->load_texture("res/light.png");
 
-    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_scenegraph,m));
-
-    sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
-    sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
-
-
-    obj->get_transform() = glm::translate(glm::mat4(),glm::vec3(0,20,100));
-    m_scenegraph->add_object(obj);
+    obj->set_position(glm::vec3(0,20,100));
+    m_scenegraph->add_object(sobj);
     ///done loading
 
     ///load map
     obj=m_scenegraph->load_mesh_object("res/maps/nuke/nuke.iqm",true);
-    obj->get_transform() = glm::scale(obj->get_transform(),glm::vec3(1,1,1));
 
     m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
-    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,5,0),glm::vec3(0,1,0)));
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
 
@@ -194,7 +187,7 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
                 if(!m) return;
 
                 sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_scenegraph,m));
-                obj->get_transform() = glm::translate(glm::mat4(),pos);
+                obj->set_position(pos);
 
                 sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
                 sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
@@ -219,7 +212,12 @@ void test_game::on_mouse_move(double x, double y)
     {
         if(delta_pos.x!=0 || delta_pos.y!=0)
         {
-            cam->rotate(-x/10.0f,y/10.0f,0);
+            glm::vec3 r = cam->get_rotation();
+
+            r.x -= x/10.0f;
+            r.y -= y/10.0f;
+
+            cam->set_rotation(r);
         }
     }
 }

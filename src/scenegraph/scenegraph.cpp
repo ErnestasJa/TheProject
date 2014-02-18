@@ -32,6 +32,13 @@ void scenegraph::add_object(sg_object_ptr obj)
     m_objects.push_back(obj);
 }
 
+sg_light_object_ptr scenegraph::add_light_object()
+{
+    sg_light_object_ptr obj = share(new sg_light_object(this));
+    m_lights.push_back(obj);
+    return obj;
+}
+
 void scenegraph::pre_render()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -39,9 +46,9 @@ void scenegraph::pre_render()
     if(m_active_camera)
     {
         m_active_camera->update(this);
-        V = m_active_camera->get_transform();
+        V = m_active_camera->get_absolute_transform();
         P = m_active_camera->get_projection();
-        VP = m_active_camera->get_projection() * m_active_camera->get_transform();
+        VP = m_active_camera->get_projection() * m_active_camera->get_absolute_transform();
         //m_active_camera->
     }
 }
@@ -52,7 +59,7 @@ void scenegraph::render_all()
 
     for(uint32_t i = 0; i < m_objects.size(); i++)
     {
-        M = m_objects[i]->get_transform();
+        M = m_objects[i]->get_absolute_transform();
         MVP = P*(V*M);
         m_objects[i]->render(this);
     }
@@ -75,6 +82,11 @@ glm::mat4x4 & scenegraph::get_view_projection_matrix()
 sg_graphics_manager_ptr scenegraph::get_graphics_manager()
 {
     return m_graphics_manager;
+}
+
+std::vector<sg_light_object_ptr> & scenegraph::get_lights()
+{
+    return m_lights;
 }
 
 sg_camera_object_ptr scenegraph::get_active_camera()

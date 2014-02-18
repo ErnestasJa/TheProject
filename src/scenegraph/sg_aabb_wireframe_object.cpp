@@ -68,9 +68,9 @@ void sg_aabb_wireframe_object::render(scenegraph * sg)
 }
 
 
-glm::mat4x4 & sg_aabb_wireframe_object::get_transform()
+const glm::mat4x4 & sg_aabb_wireframe_object::get_absolute_transform()
 {
-    return m_obj->get_transform();
+    return m_obj->get_absolute_transform();
 }
 
 sg_material_ptr sg_aabb_wireframe_object::get_material(uint32_t index)

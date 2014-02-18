@@ -30,7 +30,6 @@ struct sg_material
 struct sg_material_static_mesh: public sg_material
 {
     sg_material_static_mesh();
-    sg_material_static_mesh(const sg_material_static_mesh & other);
 
     virtual void set(scenegraph * sg);
 
@@ -42,8 +41,21 @@ struct sg_material_static_mesh: public sg_material
     texture_ptr mat_texture;
 };
 
+struct sg_material_point_sprite: public sg_material
+{
+    sg_material_point_sprite();
+
+    virtual void set(scenegraph * sg);
+
+    ///-------------------------------------
+    sg_mvar<glm::mat4x4> vp;
+    sg_mvar<glm::vec3> cam_up, cam_right, pos, size;
+    texture_ptr mat_texture;
+};
+
 typedef std::shared_ptr<sg_material> sg_material_ptr;
 typedef std::shared_ptr<sg_material_static_mesh> sg_material_static_mesh_ptr;
+typedef std::shared_ptr<sg_material_point_sprite> sg_material_point_sprite_ptr;
 
 }
 
