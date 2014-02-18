@@ -46,7 +46,7 @@ mesh_ptr mesh_loader::load(const std::string & file)
         {
             found_usable_loader = true;
             char * buf;
-            uint32_t len = read(file,buf);
+            uint32_t len = helpers::read(file,buf);
 
             if(len!=0)
             {

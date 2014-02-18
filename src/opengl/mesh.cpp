@@ -43,7 +43,7 @@ mesh::mesh(): vao(0), anim(nullptr)
 {
     buffers.resize(BUFFER_COUNT);
 
-    loopi(BUFFER_COUNT)
+    for(uint32_t i=0; i<BUFFER_COUNT; i++)
         buffers[i]=nullptr;
 }
 mesh::~mesh()

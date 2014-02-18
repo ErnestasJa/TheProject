@@ -3,6 +3,7 @@
 #include "opengl/mesh.h"
 #include "opengl/shader.h"
 #include "opengl/buffer_object.h"
+#include "resources/resource_cache.h"
 
 class quad
 {
@@ -53,6 +54,8 @@ public:
         glmesh->buffers[0] = pos;
         glmesh->buffers[1] = tex_coords;
         glmesh->buffers[2] = indices;
+
+        return true;
     }
 
     bool init()
@@ -61,11 +64,11 @@ public:
         return true;
     }
 
-    void set_uv(glm::vec2* uvs)
-    {
-        glBindBuffer(GL_ARRAY_BUFFER,glmesh.buffers[1]);
-        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
-    }
+//    void set_uv(glm::vec2* uvs)
+//    {
+//        glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[1].id);
+//        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
+//    }
 
     void draw()
     {

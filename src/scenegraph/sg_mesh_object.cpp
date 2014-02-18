@@ -16,7 +16,7 @@ sg_mesh_object::sg_mesh_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg)
         recalculate_aabb();
 
         m_materials.resize(ptr->sub_meshes.size());
-        loopi(ptr->sub_meshes.size())
+        for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
             m_materials[i]=std::static_pointer_cast<sg_material_static_mesh>(this->m_scenegraph->get_graphics_manager()->create_material(SGMT_STATIC_MESH));
         }

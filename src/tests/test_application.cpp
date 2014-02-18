@@ -40,7 +40,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     ///load our mesh
     char * buffer;
-    uint32_t len = read("res/mrfixit.iqm",buffer);
+    uint32_t len = helpers::read("res/mrfixit.iqm",buffer);
     if(!len)
         return false;
 

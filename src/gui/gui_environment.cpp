@@ -26,9 +26,9 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     skin->load("../../res/skin_default.xml");
 
     skin_atlas=new texture();
-    image_loader* imgl=new image_loader();
+    image_loader* imgl=new image_loader(nullptr);
     std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
-    skin_atlas->generate(img);
+    skin_atlas->init(img);
 
     m_font_renderer=new font_renderer(this);
 }
@@ -179,7 +179,7 @@ void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style)
     gui_shader->set();
     skin_atlas->set(0);
 
-    gui_quad->set_uv(skin->get_uv(style));
+    //gui_quad->set_uv(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 

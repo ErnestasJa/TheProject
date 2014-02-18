@@ -43,8 +43,8 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
 	auto texcoords = new buffer_object<glm::vec2>();
 	auto normals = new buffer_object<glm::vec3>();
 	auto tangents = new buffer_object<glm::vec4>();
-	auto bindexes = new buffer_object<u8vec4>();
-	auto bweights = new buffer_object<u8vec4>();
+	auto bindexes = new buffer_object<helpers::u8vec4>();
+	auto bweights = new buffer_object<helpers::u8vec4>();
 	auto colors  = new buffer_object<glm::vec3>();
 	auto indices = new index_buffer_object<uint32_t>();
 
@@ -93,13 +93,13 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
 
         case IQM_BLENDINDEXES:
             bindexes->data.resize(head.num_vertexes);
-            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&bindexes->data[0]);
+            std::copy((helpers::u8vec4*)&data[va.offset],(helpers::u8vec4*)&data[va.offset+head.num_vertexes*sizeof(helpers::u8vec4)],&bindexes->data[0]);
 
             break;
 
         case IQM_BLENDWEIGHTS:
             bweights->data.resize(head.num_vertexes);
-            std::copy((u8vec4*)&data[va.offset],(u8vec4*)&data[va.offset+head.num_vertexes*sizeof(u8vec4)],&bweights->data[0]);
+            std::copy((helpers::u8vec4*)&data[va.offset],(helpers::u8vec4*)&data[va.offset+head.num_vertexes*sizeof(helpers::u8vec4)],&bweights->data[0]);
 
             break;
 

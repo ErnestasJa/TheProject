@@ -108,7 +108,7 @@ bool test_game::init_scene()
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
-    loopi(5)
+    for(uint32_t i=0; i<5; i++)
     {
         ///load trashcan
         m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");

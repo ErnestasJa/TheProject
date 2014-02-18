@@ -121,7 +121,7 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
         std::string texture_path = file.substr(0,file.rfind("/")+1);
         m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
 
-        loopi(ret->get_material_count())
+        for(uint32_t i=0; i<ret->get_material_count(); i++)
         {
             std::string mat_name, image_path;
             uint32_t pos = pmesh->sub_meshes[i].material_name.find("|");

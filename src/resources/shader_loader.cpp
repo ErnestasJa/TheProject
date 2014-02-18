@@ -29,8 +29,8 @@ shader_ptr shader_loader::load(const std::string & file)
 
     static binding default_texture_binding[] = {{"tex",0}, {"",-1}};
 
-    if(!read(file + ".vert",vsh)) return shader_ptr();
-    if(!read(file + ".frag",fsh)) return shader_ptr();
+    if(!helpers::read(file + ".vert",vsh)) return shader_ptr();
+    if(!helpers::read(file + ".frag",fsh)) return shader_ptr();
 
     std::string sh_name = file.substr(file.rfind("/")+1);
     m_logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());

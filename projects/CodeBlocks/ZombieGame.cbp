@@ -105,14 +105,14 @@
 			<Add directory="../../libs/tinyxml2/src" />
 		</Compiler>
 		<Linker>
-			<Add directory="../../libs/glfw/lib" />
-			<Add directory="../../libs/physfs/lib" />
-			<Add directory="../../libs/freetype/lib" />
-			<Add directory="../../libs/tinyxml2/lib" />
 			<Add library="libBulletSoftBody.a" />
 			<Add library="libBulletDynamics.a" />
 			<Add library="libBulletCollision.a" />
 			<Add library="libLinearMath.a" />
+			<Add directory="../../libs/glfw/lib" />
+			<Add directory="../../libs/physfs/lib" />
+			<Add directory="../../libs/freetype/lib" />
+			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/bullet/lib" />
 			<Add directory="../../libs/libsigc++/lib" />
@@ -167,7 +167,6 @@
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
-		<Unit filename="../../src/math/vec2.h" />
 		<Unit filename="../../src/opengl/buffer_object.cpp" />
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
@@ -180,6 +179,7 @@
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
 		<Unit filename="../../src/opengl/shader.h" />
+		<Unit filename="../../src/opengl/sliced_gui_quad.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
 		<Unit filename="../../src/precomp.h">
@@ -231,10 +231,11 @@
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
+		<Unit filename="../../src/tests/game/physics/Physics.h" />
+		<Unit filename="../../src/tests/game/physics/Physics.h" />
 		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.h" />
-		<Unit filename="../../src/tests/game/physics/physics.h" />
 		<Unit filename="../../src/tests/game/physics/physics_manager.cpp" />
 		<Unit filename="../../src/tests/game/physics/physics_manager.h" />
 		<Unit filename="../../src/tests/game/test_game.cpp" />

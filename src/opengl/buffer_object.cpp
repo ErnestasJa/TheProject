@@ -62,23 +62,23 @@ void buffer_object<uint8_t>::init()
 }
 
 template <>
-uint32_t buffer_object<u8vec4>::get_data_type()
+uint32_t buffer_object<helpers::u8vec4>::get_data_type()
 {
     return GL_UNSIGNED_BYTE;
 }
 
 template <>
-uint32_t buffer_object<u8vec4>::get_component_count()
+uint32_t buffer_object<helpers::u8vec4>::get_component_count()
 {
     return 4;
 }
 
 template <>
-void buffer_object<u8vec4>::init()
+void buffer_object<helpers::u8vec4>::init()
 {
     glGenBuffers(1, &this->id);
     glBindBuffer(GL_ARRAY_BUFFER, this->id);
-    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(u8vec4),&data[0],GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(helpers::u8vec4),&data[0],GL_STATIC_DRAW);
 }
 
 template <>
