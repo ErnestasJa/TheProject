@@ -3,8 +3,9 @@
 #include "tgaloader.h"
 #include "glm.hpp"
 
+#include "utility/logger.h"
 
-tgaloader::tgaloader()
+tgaloader::tgaloader(logger * l): m_logger(l)
 {
 
 }
@@ -14,16 +15,16 @@ tgaloader::~tgaloader()
     //dtor
 }
 
-image * tgaloader::load(void * buffer, const uint32_t size)
+image_ptr tgaloader::load(void * buffer, const uint32_t size)
 {
     memcpy(&m_header, buffer, this->getHeaderSize());
 
     if(m_header.datatypecode==2)/// load the uncompressed TGA
-        return this->loadUncompressedTGA(buffer,size);
+        return image_ptr(this->loadUncompressedTGA(buffer,size));
     else
         printf("bad tga header: %i\n",(int)m_header.datatypecode);
 
-    return NULL;
+    return image_ptr(NULL);
 }
 
 image * tgaloader::loadUncompressedTGA(void * buffer, const uint32_t size)

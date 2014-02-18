@@ -186,5 +186,6 @@ struct shader
     {
         glDeleteProgram(program);
     }
-
 };
+
+typedef std::shared_ptr<shader> shader_ptr;

@@ -2,18 +2,20 @@
 
 #include "application/application.h"
 
-class iqmesh;
 class texture;
 class frame_buffer_object;
 class shader;
 class quad;
 class image_loader;
 class iqmloader;
+struct mesh;
+
+namespace sg{ class scenegraph;}
 
 class test_application: public application
 {
 protected:
-    std::vector<std::shared_ptr<iqmesh> > * mesh_cache;
+    std::vector<std::shared_ptr<mesh> > * mesh_cache;
     std::vector<std::shared_ptr<shader> > * shader_cache;
     std::vector<std::shared_ptr<texture> > * tex_cache;
     std::vector<std::shared_ptr<frame_buffer_object> > * fbo_cache;

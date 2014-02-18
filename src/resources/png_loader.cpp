@@ -3,7 +3,9 @@
 #include "png_loader.h"
 #include "stb_image.h"
 
-png_loader::png_loader()
+#include "utility/logger.h"
+
+png_loader::png_loader(logger * l): m_logger(l)
 {
     //ctor
 }
@@ -13,12 +15,12 @@ png_loader::~png_loader()
     //dtor
 }
 
-image * png_loader::load(void * buffer, const uint32_t size)
+image_ptr png_loader::load(void * buffer, const uint32_t size)
 {
     int32_t x = 0, y=0,comp = 0;
     uint8_t * data = stbi_load_from_memory((const uint8_t*)buffer,size, &x, &y, &comp, 0);
 
-    std::cout << "Image loaded. w=" << x << "; h=" << y << "; "  << " comp=" << comp << ";"<< std::endl;
+    m_logger->log(LOG_LOG, "Image loaded: w=%u; h=%u; comp=%u;", x, y, comp);
 
     if(data)
     {
@@ -27,10 +29,10 @@ image * png_loader::load(void * buffer, const uint32_t size)
         r->num_channels = comp;
         r->width = x;
         r->height = y;
-        return r;
+        return image_ptr(r);
     }
 
-    return nullptr;
+    return image_ptr(nullptr);
 }
 
 bool png_loader::check_by_extension(const std::string & ext)

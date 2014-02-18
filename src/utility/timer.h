@@ -23,3 +23,5 @@ public:
 
     void tick();
 };
+
+typedef std::shared_ptr<timer> timer_ptr;
