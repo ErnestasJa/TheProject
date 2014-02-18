@@ -3,6 +3,7 @@
 #include "gui_environment.h"
 #include "opengl/shader.h"
 #include "opengl/quad.h"
+#include "opengl/sliced_gui_quad.h"
 #include "gui_skin.h"
 #include "resources/image.h"
 #include "resources/image_loader.h"
@@ -21,6 +22,9 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     gui_quad=new quad();
     gui_quad->generate();
 
+    sliced_quad=new sliced_gui_quad();
+    sliced_quad->generate();
+
     skin=new gui_skin();
 
     skin->load("../../res/skin_default.xml");
@@ -29,6 +33,7 @@ gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win):gui_elem
     image_loader* imgl=new image_loader(nullptr);
     std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
     skin_atlas->init(img);
+    //skin_atlas->set_filters(texture::FILTER_MIN::FILTER_MIN_NEAREST,texture::FILTER_MAG::FILTER_MAG_NEAREST_MIPMAP);
 
     m_font_renderer=new font_renderer(this);
 }
@@ -170,7 +175,7 @@ font_renderer* gui_environment::get_font_renderer()
     return m_font_renderer;
 }
 
-void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style)
+void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
 {
     rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
@@ -194,3 +199,27 @@ void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style)
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
+
+void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
+{
+    rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    glEnable(GL_BLEND);
+
+    gui_shader->set();
+    skin_atlas->set(0);
+
+    sliced_quad->set_tcoords(skin->get_uv(style));
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+
+    sliced_quad->draw();
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,0);
+}

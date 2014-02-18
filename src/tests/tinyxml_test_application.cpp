@@ -12,6 +12,7 @@
 #include "gui/gui_environment.h"
 #include "gui/gui_button.h"
 #include "gui/gui_checkbox.h"
+#include "gui/gui_pane.h"
 
 tinyxml_test_application::tinyxml_test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -38,7 +39,9 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     env=new gui_environment(1024,768,this->wnd->getWindow());
 
-    gui_button* btn=new gui_button(env,rect2d<int>(0,0,32,32),"");
+    gui_pane* pane=new gui_pane(env,rect2d<int>(0,0,400,400));
+
+    gui_button* btn=new gui_button(env,rect2d<int>(0,0,128,32),"");
 
     gui_checkbox* cb=new gui_checkbox(env,rect2d<int>(0,64,20,20),false);
     cb=new gui_checkbox(env,rect2d<int>(0,96,20,20),true);
