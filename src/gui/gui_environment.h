@@ -24,11 +24,13 @@
 
 class shader;
 class quad;
+class sliced_gui_quad;
 class texture;
+class logger;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(int dispw, int disph, GLFWwindow* win);
+    gui_environment(int dispw, int disph, GLFWwindow* win,logger* log);
     ~gui_environment();
     void update(float delta);
     void render();
@@ -41,7 +43,8 @@ public:
     {
         return this->gui_shader;
     }
-    void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background);
+    void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_sliced_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
 
     void set_skin(gui_skin* skin);
 
@@ -69,6 +72,7 @@ private:
     texture* skin_atlas;
     shader* gui_shader;
     quad* gui_quad;
+    sliced_gui_quad* sliced_quad;
     font_renderer* m_font_renderer;
     input_handler *input;
     GLFWwindow* window;

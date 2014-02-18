@@ -55,6 +55,8 @@ public:
         glmesh->buffers[1] = tex_coords;
         glmesh->buffers[2] = indices;
 
+
+        init();
         return true;
     }
 
@@ -64,11 +66,12 @@ public:
         return true;
     }
 
-//    void set_uv(glm::vec2* uvs)
-//    {
-//        glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[1].id);
-//        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
-//    }
+    void set_uv(glm::vec2* uvs)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[1]->id);
+        glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 
     void draw()
     {

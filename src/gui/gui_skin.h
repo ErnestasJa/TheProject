@@ -135,9 +135,10 @@ struct gui_skin
             printf("%s",rects[i].to_string().c_str());
         }
     }
+    glm::vec2 uvs[gui_skin_style_count*4];
 private:
     rect2d<int> rects[gui_skin_style_count];
-    glm::vec2 uvs[gui_skin_style_count*4];
+
 
     std::string name,atlas;
     uint32_t atlas_size;
@@ -152,7 +153,7 @@ private:
             uvs[j+3]=glm::vec2(ir.x/256.f,ir.y/256.f);
             uvs[j+2]=glm::vec2(ir.x2/256.f,ir.y/256.f);
             uvs[j+1]=glm::vec2(ir.x2/256.f,ir.y2/256.f);
-            uvs[j]=glm::vec2(ir.x/256.f,ir.y2/256.f);
+            uvs[j+0]=glm::vec2(ir.x/256.f,ir.y2/256.f);
 
             j+=4;
         }
