@@ -3,11 +3,14 @@
 #include "image_loader.h"
 #include "png_loader.h"
 #include "tgaloader.h"
+#include "opengl/texture.h"
 
-image_loader::image_loader()
+#include "utility/logger.h"
+
+image_loader::image_loader(logger * l): m_logger(l)
 {
-    add_loader(new png_loader());
-    add_loader(new tgaloader());
+    add_loader(new png_loader(l));
+    add_loader(new tgaloader(l));
 }
 
 image_loader::~image_loader()
@@ -17,7 +20,7 @@ image_loader::~image_loader()
 }
 
 
-void        image_loader::add_loader(iimage_loader * loader)
+void image_loader::add_loader(iimage_loader * loader)
 {
     auto it = std::find_if(m_loaders.begin(), m_loaders.end(), [&loader](iimage_loader * l){return l==loader;});
 
@@ -25,11 +28,19 @@ void        image_loader::add_loader(iimage_loader * loader)
         m_loaders.push_back(loader);
 }
 
-image *   image_loader::load(const std::string & file)
+image_ptr image_loader::load(const std::string & file)
 {
-    std::string ext = file.substr(file.find_last_of('.'));
+    resource<image> res;
+    res = this->get_resource(file);
 
-    std::cout << "Image extension: '" << ext << "'." << std::endl;
+    if(res.resource)
+    {
+        m_logger->log(LOG_LOG, "Found image in cache, skipping loading.");
+        return res.resource;
+    }
+
+    std::string ext = file.substr(file.find_last_of('.'));
+    m_logger->log(LOG_LOG, "Image extension: '%s'", ext.c_str());
 
     if(PHYSFS_exists(file.c_str()))
     for(iimage_loader * l : m_loaders)
@@ -41,8 +52,12 @@ image *   image_loader::load(const std::string & file)
 
             if(len!=0)
             {
-                std::cout << "Trying to load, file size: " << len << std::endl;
-                return l->load(buf,len);
+                m_logger->log(LOG_LOG, "Image file size: %u", len);
+
+                res.path = file;
+                res.resource = image_ptr(l->load(buf,len));
+                this->add_resource(res);
+                return res.resource;
             }
         }
     }

@@ -56,14 +56,14 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 	ztex = new texture();
 	auto shared_tex = share(tex);
 	auto shared_ztex = share(ztex);
-    tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
-    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
+    tex->init(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
+    ztex->init(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
     tex_cache->push_back(shared_tex);
     tex_cache->push_back(shared_ztex);
     this->gl_util->check_and_output_errors();
 
     fbo = new frame_buffer_object();
-    fbo->generate();
+    fbo->init();
     fbo->enable_texture(0);
     fbo->set(FBO_WRITE);
 
@@ -80,7 +80,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     fbo_cache->push_back(share(fbo));
 
     q = new quad();
-    q->generate();
+    q->init();
 
     ///set up matrices
 

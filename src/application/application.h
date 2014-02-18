@@ -2,7 +2,7 @@
 
 class window;
 class opengl_util;
-class timer;
+class timer; typedef std::shared_ptr<timer> timer_ptr;
 class logger;
 
 class application
@@ -10,7 +10,7 @@ class application
 protected:
     window * wnd;
     opengl_util * gl_util;
-    timer * main_timer;
+    timer_ptr main_timer;
     logger * m_log;
 
     int32_t argc;
@@ -25,5 +25,5 @@ public:
     virtual bool update() = 0;
     virtual void exit();
     virtual logger * get_logger();
-    virtual timer  * get_timer();
+    virtual timer_ptr get_timer();
 };

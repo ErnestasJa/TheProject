@@ -8,8 +8,8 @@ struct buffer_object: public ibuffer_object
 {
     std::vector<T> data;
 
-    //void generate_buffers();
-    virtual void generate();
+    //void init_buffers();
+    virtual void init();
 
     virtual ibuffer_object::IBO_TYPE get_type(){return ibuffer_object::DATA;}
     virtual uint32_t get_data_type();
@@ -22,8 +22,8 @@ struct index_buffer_object: public ibuffer_object
 {
     std::vector<T> data;
 
-    //void generate_buffers();
-    virtual void generate();
+    //void init_buffers();
+    virtual void init();
 
     virtual ibuffer_object::IBO_TYPE get_type(){return ibuffer_object::INDEX;}
     virtual uint32_t get_data_type();

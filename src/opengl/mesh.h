@@ -23,14 +23,12 @@ struct animation_info
 };
 typedef std::vector<animation_info> anim_info_vec;
 
-
 struct animation
 {
     frame_vec       frames;
     frame           current_frame;
-    anim_info_vec   info;
-
     bone_vec        bones;
+    anim_info_vec   info;
 
     void set_frame(uint32_t frame);
     void set_interp_frame(float frame);
@@ -39,6 +37,7 @@ struct animation
 struct sub_mesh
 {
     std::string name;
+    std::string material_name;
     uint32_t start, num_indices;
 };
 
@@ -64,14 +63,20 @@ struct mesh
     animation * anim;
 
     mesh();
+    virtual ~mesh();
 
-    void generate();
+    void init();
     void disable_empty_buffers();
 
     void render();
+    void render(uint32_t sub_mesh_index);
+
+    void render_lines();
+    void render_triangle_strip();
 
     void free();
 };
 
+typedef std::shared_ptr<mesh> mesh_ptr;
 
 #endif // MESH_H

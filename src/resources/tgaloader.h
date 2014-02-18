@@ -1,7 +1,7 @@
 #pragma once
 
 #include "iimage_loader.h"
-
+class logger;
 class tgaloader: public iimage_loader
 {
 protected:
@@ -30,12 +30,14 @@ protected:
 
     HEADER m_header;
 
+    logger * m_logger;
+
 public:
 
-    tgaloader();
+    tgaloader(logger * l);
     virtual ~tgaloader();
 
-    virtual image * load(void * buffer, const uint32_t size);
+    virtual image_ptr load(void * buffer, const uint32_t size);
 
     ///Check if the data is loadable
     virtual bool check_by_extension(const std::string & ext);

@@ -58,6 +58,29 @@
 					<Add library="glu32" />
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
+					<Add library="libsigc++.a" />
+					<Add directory="../../libs/glfw/lib" />
+					<Add directory="../../libs/physfs/lib" />
+				</Linker>
+			</Target>
+			<Target title="Win32-Release">
+				<Option output="../../bin/Release/ZombieGame" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin/Release" />
+				<Option object_output="../../bin/Release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add library="glfw3_win32" />
+					<Add library="opengl32" />
+					<Add library="glu32" />
+					<Add library="gdi32" />
+					<Add library="libphysfs_win32" />
+					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 				</Linker>
@@ -75,9 +98,16 @@
 			<Add directory="../../libs/glxw/src" />
 			<Add directory="../../libs/physfs" />
 			<Add directory="../../libs/stb_image" />
+			<Add directory="../../libs/libsigc++" />
 		</Compiler>
 		<Linker>
+			<Add library="libBulletSoftBody.a" />
+			<Add library="libBulletDynamics.a" />
+			<Add library="libBulletCollision.a" />
+			<Add library="libLinearMath.a" />
 			<Add directory="../../libs/glfw/src" />
+			<Add directory="../../libs/bullet/lib" />
+			<Add directory="../../libs/libsigc++/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -92,6 +122,7 @@
 		<Unit filename="../../libs/glxw/src/glxw_wgl.c">
 			<Option compilerVar="CC" />
 			<Option target="Win32-Debug" />
+			<Option target="Win32-Release" />
 		</Unit>
 		<Unit filename="../../libs/stb_image/stb_image.c">
 			<Option compilerVar="CC" />
@@ -138,14 +169,53 @@
 		<Unit filename="../../src/resources/image.h" />
 		<Unit filename="../../src/resources/image_loader.cpp" />
 		<Unit filename="../../src/resources/image_loader.h" />
+		<Unit filename="../../src/resources/imesh_loader.cpp" />
+		<Unit filename="../../src/resources/imesh_loader.h" />
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/resources/iqmloader.cpp" />
 		<Unit filename="../../src/resources/iqmloader.h" />
+		<Unit filename="../../src/resources/mesh_loader.cpp" />
+		<Unit filename="../../src/resources/mesh_loader.h" />
 		<Unit filename="../../src/resources/png_loader.cpp" />
 		<Unit filename="../../src/resources/png_loader.h" />
 		<Unit filename="../../src/resources/resource_cache.h" />
+		<Unit filename="../../src/resources/shader_loader.cpp" />
+		<Unit filename="../../src/resources/shader_loader.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
+		<Unit filename="../../src/scenegraph/isg_object.cpp" />
+		<Unit filename="../../src/scenegraph/isg_object.h" />
+		<Unit filename="../../src/scenegraph/scenegraph.cpp" />
+		<Unit filename="../../src/scenegraph/scenegraph.h" />
+		<Unit filename="../../src/scenegraph/sg_aabb.cpp" />
+		<Unit filename="../../src/scenegraph/sg_aabb.h" />
+		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.h" />
+		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
+		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
+		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
+		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_light_object.h" />
+		<Unit filename="../../src/scenegraph/sg_material.cpp" />
+		<Unit filename="../../src/scenegraph/sg_material.h" />
+		<Unit filename="../../src/scenegraph/sg_material_types.h" />
+		<Unit filename="../../src/scenegraph/sg_mesh_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_mesh_object.h" />
+		<Unit filename="../../src/scenegraph/sg_mvar.cpp" />
+		<Unit filename="../../src/scenegraph/sg_mvar.h" />
+		<Unit filename="../../src/scenegraph/sg_object_types.h" />
+		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
+		<Unit filename="../../src/scenegraph/sg_sprite.h" />
+		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
+		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
+		<Unit filename="../../src/tests/game/physics/icollision_handler.h" />
+		<Unit filename="../../src/tests/game/physics/physics.h" />
+		<Unit filename="../../src/tests/game/physics/physics_manager.cpp" />
+		<Unit filename="../../src/tests/game/physics/physics_manager.h" />
+		<Unit filename="../../src/tests/game/test_game.cpp" />
+		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
 		<Unit filename="../../src/tests/test_application.cpp" />

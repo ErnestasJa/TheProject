@@ -11,6 +11,11 @@ inline bool tbit(uint32_t b, uint32_t b2)
 	return (b&b2)==b2;
 }
 
+inline void rmbit(uint32_t & b, uint32_t b2)
+{
+    b &= ~b2;
+}
+
 enum BITS
 {
 	BIT0 = bit<0>(),

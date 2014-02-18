@@ -64,7 +64,7 @@ struct frame_buffer_object
         }
     }
 
-    bool generate()
+    bool init()
     {
         glGenFramebuffers(1,&id);
         return true;

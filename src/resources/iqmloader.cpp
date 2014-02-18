@@ -16,7 +16,12 @@ void iqmloader::load_header(const char* data, iqmheader & header)
     memcpy((void*)&header,(void*)data,sizeof(header));
 }
 
-std::shared_ptr<mesh> iqmloader::load ( const char* data)
+bool iqmloader::check_by_extension(const std::string & ext)
+{
+    return ext == "iqm" || ext == ".iqm";
+}
+
+std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
 {
     std::shared_ptr<mesh> glmesh;
     iqmheader head;
@@ -46,14 +51,12 @@ std::shared_ptr<mesh> iqmloader::load ( const char* data)
     iqmmesh         * submeshes;
 	iqmvertexarray  * vertexarrays; //IQM vertex array info
 
-	iqmbounds       * bounds; //IQM the bounding box
 
     ///big single line of null terminated >strings<
     const char* texts=(const char*)&data[head.ofs_text];
 
     submeshes   =(iqmmesh*)         &data[head.ofs_meshes];
     vertexarrays=(iqmvertexarray*)  &data[head.ofs_vertexarrays];
-    bounds=(iqmbounds*)&data[head.ofs_bounds];
 
     indices->data.resize(head.num_triangles*3);
     std::copy((uint32_t*)&data[head.ofs_triangles],(uint32_t*)&data[head.ofs_triangles+head.num_triangles*3*sizeof(uint32_t)],&indices->data[0]);
@@ -125,10 +128,11 @@ std::shared_ptr<mesh> iqmloader::load ( const char* data)
         iqmmesh sm=submeshes[i];
         sub_mesh & m = glmesh->sub_meshes[i];
         m.name = &texts[sm.name];
+        m.material_name = &texts[sm.material];
         m.start = sm.first_triangle*3;
         m.num_indices = sm.num_triangles*3;
 
-        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",&texts[sm.name],"NYI",sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
+        m_logger->log(LOG_DEBUG,"TEST MESH LOADER INFO:\nName:%s\nMaterial:%s\nF.Vert:%i\nN.Verts:%i\nF.Ind:%i\nN.Inds:%i",m.name.c_str(),m.material_name.c_str(),sm.first_vertex,sm.num_vertexes,sm.first_triangle*3,sm.num_triangles*3);
     }
 
     loadiqmanims(glmesh,data,head);
@@ -150,7 +154,7 @@ void iqmloader::loadiqmanims(std::shared_ptr<mesh> m, const char* data, iqmheade
     m->anim = new animation();
     m->anim->frames.resize(header.num_frames);
 
-     for(uint32_t i = 0; i < header.num_frames; i++)
+    for(uint32_t i = 0; i < header.num_frames; i++)
         m->anim->frames[i].resize(header.num_joints);
 
     m->anim->current_frame.resize(header.num_joints);

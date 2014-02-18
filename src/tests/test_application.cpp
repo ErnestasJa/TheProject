@@ -32,7 +32,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     tex_cache = create_resource_cache<texture>();
     fbo_cache = create_resource_cache<frame_buffer_object>();
 
-    img_loader = new image_loader();
+    img_loader = new image_loader(this->get_logger());
     iqm_loader = new iqmloader(this->get_logger());
 
     frame_count = 0;
@@ -40,21 +40,21 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 
     ///load our mesh
     char * buffer;
-
-    if(!read("res/mrfixit.iqm",buffer))
+    uint32_t len = read("res/mrfixit.iqm",buffer);
+    if(!len)
         return false;
 
-    std::shared_ptr<mesh> m=iqm_loader->load(buffer);
+    std::shared_ptr<mesh> m=iqm_loader->load(buffer,len);
 
     if(m)
     {
-        DGL(m->generate();)
+        DGL(m->init();)
         mesh_cache->push_back(m);
     }
 
-    std::shared_ptr<image> img = share(img_loader->load("res/body.png"));
+    std::shared_ptr<image> img = img_loader->load("res/body.png");
     texture * t = new texture();
-    t->generate(img);
+    t->init(img);
 
     if(!t)
         return false;
@@ -96,8 +96,8 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
 	auto shared_tex = share(tex);
 	auto shared_ztex = share(ztex);
 
-    tex->generate(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
-    ztex->generate(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
+    tex->init(NULL,GL_TEXTURE_2D,GL_RGBA,GL_RGBA,1024,1024);
+    ztex->init(NULL,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT24,1024,1024);
 
     tex_cache->push_back(shared_tex);
     tex_cache->push_back(shared_ztex);
@@ -105,7 +105,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     this->gl_util->check_and_output_errors();
 
     fbo = new frame_buffer_object();
-    fbo->generate();
+    fbo->init();
     fbo->enable_texture(0);
     fbo->set(FBO_WRITE);
 
@@ -122,7 +122,7 @@ bool test_application::init(const std::string & title, uint32_t width, uint32_t 
     fbo_cache->push_back(share(fbo));
 
     q = new quad();
-    q->generate();
+    q->init();
 
     init_gl();
 

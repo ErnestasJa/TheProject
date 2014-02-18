@@ -19,4 +19,6 @@ struct image
     }
 };
 
+typedef std::shared_ptr<image> image_ptr;
+
 #endif // IMAGE_H
