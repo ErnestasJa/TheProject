@@ -38,7 +38,7 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
 
-    env=new gui_environment(this->wnd->get_window_size().x,this->wnd->get_window_size().y,this->wnd,this->get_logger());
+    env=new gui_environment(this->wnd,this->get_logger());
 
     gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,64),"HOLA");
 
@@ -47,7 +47,7 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     cb=new gui_checkbox(env,rect2d<int>(0,128,20,20),true);
     cb=new gui_checkbox(env,rect2d<int>(0,160,20,20),false);
 
-    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,100,20),"",glm::vec4(1,1,1,1),false,false);
+    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
 
     return true;
 }
@@ -71,5 +71,6 @@ bool tinyxml_test_application::update()
 
 void tinyxml_test_application::exit()
 {
+    delete env;
     application::exit();
 }

@@ -8,15 +8,15 @@
 #include "resources/image.h"
 #include "resources/image_loader.h"
 #include "opengl/texture.h"
-#include "utility/logger.h"
 #include "application/window.h"
 
-gui_environment::gui_environment(window* win)
+gui_environment::gui_environment(window* win,logger* log):gui_element(nullptr, rect2d<int>(0,0,win->get_window_size().x,win->get_window_size().y))
 {
-    win->sig_mouse_moved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved);
-    win->sig_mouse_button().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button);
-    win->sig_mouse_scroll().connect(sigc::mem_fun(this,&gui_environment::on_mouse_scroll);
-    win->sig_key_event().connect(sigc::mem_fun(this,&gui_environment::on_key_event);
+    _sig_mouse_move=win->sig_mouse_moved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved));
+    _sig_mouse_button=win->sig_mouse_key().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button));
+    _sig_mouse_scroll=win->sig_mouse_scroll().connect(sigc::mem_fun(this,&gui_environment::on_mouse_scroll));
+    _sig_key=win->sig_key_event().connect(sigc::mem_fun(this,&gui_environment::on_key_event));
+    _sig_text=win->sig_text_event().connect(sigc::mem_fun(this,&gui_environment::on_char_typed));
 
     this->m_window=win;
 
@@ -24,15 +24,13 @@ gui_environment::gui_environment(window* win)
     this->disp_w=win_dims.x;
     this->disp_h=win_dims.y;
 
-    gui_element(nullptr, rect2d<int>(0,0,disp_w,disp_h));
-
     hover=last_hover=focus=last_focus=nullptr;
 
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
 
     mouse_pos=last_mouse_pos=glm::vec2();
 
-    gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
+    gui_scale=glm::vec2(2.0/(float)disp_w,2.0/(float)disp_h);
 
     this->set_name("GUI_ENVIRONMENT");
     last_char=' ';
@@ -58,6 +56,11 @@ gui_environment::gui_environment(window* win)
 
 gui_environment::~gui_environment()
 {
+    _sig_mouse_move.disconnect();
+    _sig_mouse_button.disconnect();
+    _sig_mouse_scroll.disconnect();
+    _sig_key.disconnect();
+    _sig_text.disconnect();
     delete m_font_renderer;
     delete gui_shader;
     delete gui_quad;
@@ -65,93 +68,6 @@ gui_environment::~gui_environment()
 
 void gui_environment::update(float delta)
 {
-    //hovering
-    glm::vec2 tm=input->get_mouse_pos();
-    mouse_pos=input->get_mouse_pos();
-
-    gui_element *target = get_element_from_point(tm.x, tm.y);
-
-    //only update elements which are enabled,visible and accept events
-    if (target != nullptr)
-        if (target->is_enabled() && target->is_visible() && target->accepts_events())
-        {
-
-            if (target != hover && target != nullptr && m_mouse_dragged == false)
-            {
-                if (hover != nullptr)
-                {
-                    last_hover = hover;
-                    last_hover->on_event(gui_event(
-                                             gui_event_type::element_exitted,
-                                             last_hover));
-                                             last_hover->set_hovered(false);
-                }
-                hover = target;
-                hover->on_event(gui_event(
-                                    gui_event_type::element_hovered, hover));
-                                    hover->set_hovered(true);
-            }
-
-            //focusing
-            if (input->mouse_button(0) && hover != focus
-                    && m_mouse_dragged == false)
-            {
-                if (focus != nullptr)
-                {
-                    last_focus = focus;
-                    last_focus->on_event(gui_event(
-                                             gui_event_type::element_focus_lost,
-                                             last_focus));
-                                             last_focus->set_focused(false);
-                }
-                focus = hover;
-                if (hover != this)
-                {
-                    focus->on_event(gui_event(
-                                        gui_event_type::element_focused, focus));
-                                        focus->set_focused(true);
-                    focus->get_parent()->bring_to_front(focus);
-                }
-                else
-                    focus = nullptr;
-            }
-
-            if (input->mouse_button(0) && focus != nullptr
-                    && m_mouse_down == false)
-            {
-                focus->on_event(gui_event(
-                                    gui_event_type::mouse_pressed, this));
-                m_mouse_down = true;
-            }
-
-            if (!input->mouse_button(0) && m_mouse_down && focus != nullptr)
-            {
-                focus->on_event(gui_event(
-                                    gui_event_type::mouse_released, this));
-                m_mouse_down = false;
-            }
-
-            if (mouse_pos != last_mouse_pos)
-            {
-                m_mouse_moved = true;
-                last_mouse_pos=mouse_pos;
-                //printf("mouse has moved..\n");
-                if (input->mouse_button(0))
-                    m_mouse_dragged = true;
-                else
-                    m_mouse_dragged = false;
-            }
-            else
-                m_mouse_moved = false;
-
-            if (m_mouse_moved && focus != nullptr && !mouse_dragged)
-                focus->on_event(gui_event(
-                                    gui_event_type::mouse_moved, this));
-
-            if (m_mouse_down && m_mouse_moved && focus != nullptr)
-                focus->on_event(gui_event(
-                                    gui_event_type::mouse_dragged, this));
-        }
 }
 
 void gui_environment::render()
@@ -171,16 +87,117 @@ void gui_environment::on_event(gui_event e)
     }
 }
 
-void gui_environment::on_key_pressed(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
+void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
+{
+    this->last_key=key;
+    if(focus!=nullptr)
+        if(action==GLFW_PRESS || action==GLFW_REPEAT)
+            focus->on_event(gui_event(key_pressed,this));
+}
+
+void gui_environment::on_char_typed(int32_t scan_code)
 {
     this->last_char=scan_code;
     if(focus!=nullptr)
         focus->on_event(gui_event(key_typed,this));
 }
 
+void gui_environment::on_mouse_moved(double x, double y)
+{
+    mouse_pos=glm::vec2(x,y);
+
+    gui_element *target = get_element_from_point(mouse_pos.x, mouse_pos.y);
+
+    //only update elements which are enabled,visible and accept events
+    if (target != nullptr)
+        if (target->is_enabled() && target->is_visible() && target->accepts_events())
+        {
+            if (target != hover)
+            {
+                if (hover != nullptr)
+                {
+                    last_hover = hover;
+                    last_hover->on_event(gui_event(
+                        gui_event_type::element_exitted,
+                        last_hover));
+                    last_hover->set_hovered(false);
+                }
+                hover = target;
+                hover->on_event(gui_event(
+                                    gui_event_type::element_hovered, hover));
+                hover->set_hovered(true);
+            }
+
+            if(focus!=nullptr)
+                if(focus->get_absolute_rect().is_point_inside(x,y)&&m_mouse_down)
+                    focus->on_event(gui_event(mouse_dragged,this));
+        }
+
+
+}
+
+void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mod)
+{
+    switch(button)
+    {
+    case GLFW_MOUSE_BUTTON_LEFT:
+        switch(action)
+        {
+        case GLFW_PRESS:
+            m_mouse_down=true;
+
+            //focusing
+            if (hover != focus)
+            {
+                if (focus != nullptr)
+                {
+                    last_focus = focus;
+                    last_focus->on_event(gui_event(
+                                             gui_event_type::element_focus_lost,
+                                             last_focus));
+                    last_focus->set_focused(false);
+                }
+                focus = hover;
+                if (hover != this)
+                {
+                    focus->on_event(gui_event(
+                                        gui_event_type::element_focused, focus));
+                    focus->set_focused(true);
+                    focus->get_parent()->bring_to_front(focus);
+                }
+                else
+                    focus = nullptr;
+            }
+
+            if(focus!=nullptr)
+                focus->on_event(gui_event(mouse_pressed,this));
+            break;
+        case GLFW_RELEASE:
+            m_mouse_down=false;
+            if(focus!=nullptr)
+                focus->on_event(gui_event(mouse_released,this));
+            break;
+        default:
+            break;
+        }
+        break;
+    case GLFW_MOUSE_BUTTON_RIGHT:
+        break;
+    case GLFW_MOUSE_BUTTON_MIDDLE:
+        break;
+    default:
+        break;
+    }
+}
+
+void gui_environment::on_mouse_scroll(double sx, double sy)
+{
+    return;
+}
+
 glm::vec2 gui_environment::get_mouse_pos()
 {
-    return this->input->get_mouse_pos();
+    return mouse_pos;
 }
 
 glm::vec2 gui_environment::get_gui_scale()

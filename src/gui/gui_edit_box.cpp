@@ -1,6 +1,7 @@
 #include "precomp.h"
 
 #include "gui_environment.h"
+#include "font_renderer.h"
 
 #include "gui_edit_box.h"
 
@@ -32,12 +33,18 @@ void gui_edit_box::render()
     environment->draw_gui_quad(absolute_rect);
 
     glEnable(GL_SCISSOR_TEST);
-    glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
+    glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w+1, absolute_rect.h);
 
     if (fr->get_text_dimensions(m_text).x > absolute_rect.w)
+    {
         fr->render_string(m_text,glm::vec2(absolute_rect.x - sx, absolute_rect.y + (absolute_rect.h - 12) / 2), m_text_color,false);
+        fr->render_string("l",glm::vec2(absolute_rect.x - sx + fr->get_text_dimensions(m_text).x+1,absolute_rect.y + (absolute_rect.h - 12) / 2),m_text_color,false);
+    }
     else
+    {
         fr->render_string(m_text,glm::vec2(absolute_rect.x, absolute_rect.y + (absolute_rect.h - 12) / 2), m_text_color,false);
+        fr->render_string("l",glm::vec2(absolute_rect.x+fr->get_text_dimensions(m_text).x+1,absolute_rect.y + (absolute_rect.h - 12) / 2),m_text_color,false);
+    }
 
     //if (blink && focused)
     //	fnt.drawString(
@@ -68,6 +75,18 @@ void gui_edit_box::on_event(gui_event e)
         if(environment->get_font_renderer()->get_text_dimensions(m_text).x>absolute_rect.w)
             sx+=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
         break;
+
+    case key_pressed:
+        switch(environment->get_last_key())
+        {
+        case GLFW_KEY_BACKSPACE:
+            if(environment->get_font_renderer()->get_text_dimensions(m_text).x>absolute_rect.w)
+                sx-=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
+            m_text=m_text.substr(0,m_text.length()-1);
+            break;
+        default:
+            break;
+        }
 
     default:
         break;

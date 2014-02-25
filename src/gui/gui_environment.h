@@ -16,6 +16,7 @@
 
 #include "gui_element.h"
 #include "gui_skin.h"
+#include "font_renderer.h"
 
 class shader;
 class quad;
@@ -23,10 +24,11 @@ class sliced_gui_quad;
 class texture;
 class window;
 class gui_skin;
+class logger;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(window* win);
+    gui_environment(window* win, logger* log);
     ~gui_environment();
 
     void update(float delta);
@@ -48,10 +50,16 @@ public:
     void on_mouse_button(int32_t button, int32_t action, int32_t mod);
     void on_mouse_scroll(double sx, double sy);
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
+    void on_char_typed(int32_t scan_code);
 
     char get_last_char()
     {
         return last_char;
+    }
+
+    int32_t get_last_key()
+    {
+        return last_key;
     }
 
     template <typename T>
@@ -70,6 +78,16 @@ public:
     }
 
     font_renderer *get_font_renderer();
+
+
+    ///GUI ELEMENTS
+//    gui_static_text *add_gui_static_text();
+//    gui_button *add_gui_button();
+//    gui_checkbox *add_gui_checkbox();
+//    gui_edit_box *add_gui_edit_box();
+//
+//    gui_window *add_gui_window();
+//    gui_pane* add_gui_pane();
 private:
     gui_skin* skin;
     texture* skin_atlas;
@@ -80,6 +98,8 @@ private:
 
     font_renderer* m_font_renderer;
     window* m_window;
+
+    sigc::connection _sig_mouse_move,_sig_mouse_button,_sig_mouse_scroll,_sig_key,_sig_text;
 
     gui_element *hover, *last_hover, *focus, *last_focus;
 

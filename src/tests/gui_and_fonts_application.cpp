@@ -58,7 +58,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
     GLFWwindow * _window=wnd->getWindow();
     glfwGetWindowSize(_window,&ww,&hh);
 
-    env=new gui_environment(ww,hh,wnd,this->get_logger());
+    env=new gui_environment(wnd,this->get_logger());
 
     gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),"Tis but a window",true,true,false);
 
