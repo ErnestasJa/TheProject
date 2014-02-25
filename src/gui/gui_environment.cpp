@@ -9,15 +9,19 @@
 #include "resources/image_loader.h"
 #include "opengl/texture.h"
 #include "utility/logger.h"
-gui_environment::gui_environment(int dispw, int disph, GLFWwindow* win,logger*log):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
+#include "application/window.h"
+
+gui_environment::gui_environment(int dispw, int disph, window* win,logger*log):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
 {
-    this->window=win;
-    this->input=new input_handler(nullptr,window);
+    this->m_window=win->getWindow();
+    win->sig_text_event().connect(sigc::mem_fun(this,&gui_environment::on_key_typed));
+    this->input=new input_handler(nullptr,m_window);
     hover=last_hover=focus=last_focus=nullptr;
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
     mouse_pos=last_mouse_pos=glm::vec2();
     gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
     this->set_name("GUI_ENVIRONMENT");
+    last_char=' ';
 
     gui_shader=shader::load_shader("res/gui_quad");
     gui_quad=new quad();
@@ -115,12 +119,6 @@ void gui_environment::update(float delta)
                 m_mouse_down = false;
             }
 
-            //TODO: keyboard typing
-//            if(focus!=null&&Keyboard.next()&&Keyboard.getEventCharacter()!=Keyboard.CHAR_NONE)
-//            {
-//                focus.onEvent(new GUIEvent(GUIEvent.GUIEventType.KeyTyped, this));
-//            }
-
             if (mouse_pos != last_mouse_pos)
             {
                 m_mouse_moved = true;
@@ -159,6 +157,13 @@ void gui_environment::on_event(gui_event e)
     default:
         break;
     }
+}
+
+void gui_environment::on_key_typed(uint32_t scan_code)
+{
+    this->last_char=scan_code;
+    if(focus!=nullptr)
+        focus->on_event(gui_event(key_typed,this));
 }
 
 glm::vec2 gui_environment::get_mouse_pos()
@@ -210,7 +215,7 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     gui_shader->set();
     skin_atlas->set(0);
 
-    sliced_quad->set_tcoords(skin->get_uv(style));
+    //sliced_quad->set_tcoords(skin->get_uv(gui_skin_input_active));
 
     glm::mat4 M=glm::mat4(1.0f);
 

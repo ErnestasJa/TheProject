@@ -4,6 +4,7 @@ void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action,
 void mouse_move(GLFWwindow * wnd, double x, double y);
 void window_resize(GLFWwindow * wnd, int32_t w, int32_t h);
 void window_close(GLFWwindow * wnd);
+void text_event(GLFWwindow * wnd, uint32_t scan_code);
 
 class window
 {
@@ -15,11 +16,13 @@ protected:
     sigc::signal<void, int32_t, int32_t> m_sig_window_resized;
     sigc::signal<void> m_sig_window_closed;
     sigc::signal<void, int32_t, int32_t, int32_t, int32_t> m_sig_key_event;
+    sigc::signal<void, uint32_t > m_sig_text_event;
 
     friend void mouse_move(GLFWwindow * wnd, double x, double y);
     friend void window_resize(GLFWwindow * wnd, int32_t x, int32_t y);
     friend void window_close(GLFWwindow * wnd);
     friend void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
+    friend void text_event(GLFWwindow * wnd, uint32_t scan_code);
 
 public:
 
@@ -34,6 +37,7 @@ public:
         m_sig_window_resized.clear();
         m_sig_window_closed.clear();
         m_sig_key_event.clear();
+        m_sig_text_event.clear();
         glfwDestroyWindow(m_window);
         glfwTerminate();
     }
@@ -72,6 +76,7 @@ public:
         glfwSetWindowCloseCallback(m_window,&window_close);
         glfwSetCursorPosCallback(m_window, &mouse_move);
         glfwSetKeyCallback(m_window, &key_event);
+        glfwSetCharCallback(m_window, &text_event);
 
         m_windows[m_window]=this;
         return true;
@@ -129,6 +134,11 @@ public:
     sigc::signal<void, int32_t, int32_t, int32_t, int32_t> & sig_key_event()
     {
         return m_sig_key_event;
+    }
+
+    sigc::signal<void, uint32_t> & sig_text_event()
+    {
+        return m_sig_text_event;
     }
 
     bool update()

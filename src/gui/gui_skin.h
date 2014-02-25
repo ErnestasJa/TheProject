@@ -56,6 +56,8 @@ struct gui_skin
 {
     gui_skin()
     {
+        rects.resize(gui_skin_style_count);
+        uvs.resize(gui_skin_style_count*4);
     }
 
     void load(std::string filename)
@@ -118,9 +120,15 @@ struct gui_skin
         rects[style]=atlas_info;
     }
 
-    glm::vec2* get_uv(uint32_t style)
+    std::vector<glm::vec2> get_uv(uint32_t style)
     {
-        return new glm::vec2[4]{uvs[style*4],uvs[style*4+1],uvs[style*4+2],uvs[style*4+3]};
+        std::vector<glm::vec2> ret;
+        ret.resize(4);
+        ret[0]=uvs[style*4];
+        ret[1]=uvs[style*4+1];
+        ret[2]=uvs[style*4+2];
+        ret[3]=uvs[style*4+3];
+        return ret;
     }
 
     glm::vec2 get_style_metrics(uint32_t style)
@@ -130,14 +138,10 @@ struct gui_skin
 
     void print()
     {
-        for(uint32_t i=0; i<gui_skin_style_count; i++)
-        {
-            printf("%s",rects[i].to_string().c_str());
-        }
     }
-    glm::vec2 uvs[gui_skin_style_count*4];
 private:
-    rect2d<int> rects[gui_skin_style_count];
+    std::vector<rect2d<int> > rects;
+    std::vector<glm::vec2> uvs;
 
 
     std::string name,atlas;
@@ -150,10 +154,10 @@ private:
         {
             rect2d<float> ir=rects[i].as<float>();
 
-            uvs[j+3]=glm::vec2(ir.x/256.f,ir.y/256.f);
-            uvs[j+2]=glm::vec2(ir.x2/256.f,ir.y/256.f);
-            uvs[j+1]=glm::vec2(ir.x2/256.f,ir.y2/256.f);
             uvs[j+0]=glm::vec2(ir.x/256.f,ir.y2/256.f);
+            uvs[j+1]=glm::vec2(ir.x2/256.f,ir.y2/256.f);
+            uvs[j+2]=glm::vec2(ir.x2/256.f,ir.y/256.f);
+            uvs[j+3]=glm::vec2(ir.x/256.f,ir.y/256.f);
 
             j+=4;
         }

@@ -8,9 +8,9 @@
 //!TODO (murloc992#1#): GUI Element
 //!TODO (murloc992#1#): GUI Environment
 //!TODO (murloc992#1#): Font Renderer
-//TODO (murloc992#1#): GUI Static Text
-//TODO (murloc992#1#): GUI Button
-//TODO (murloc992#1#): GUI Window
+//!TODO (murloc992#1#): GUI Static Text
+//!TODO (murloc992#1#): GUI Button
+//!TODO (murloc992#1#): GUI Window
 //TODO (murloc992#1#): GUI Text Field
 //TODO (murloc992#1#): GUI Slider
 
@@ -27,10 +27,11 @@ class quad;
 class sliced_gui_quad;
 class texture;
 class logger;
+class window;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(int dispw, int disph, GLFWwindow* win,logger* log);
+    gui_environment(int dispw, int disph, window* win,logger* log);
     ~gui_environment();
     void update(float delta);
     void render();
@@ -50,6 +51,12 @@ public:
 
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
+
+    void on_key_typed(uint32_t scan_code);
+    char get_last_char()
+    {
+        return last_char;
+    }
 
     template <typename T>
     rect2d<T> scale_gui_rect(rect2d<T> unscaled)
@@ -75,9 +82,10 @@ private:
     sliced_gui_quad* sliced_quad;
     font_renderer* m_font_renderer;
     input_handler *input;
-    GLFWwindow* window;
+    GLFWwindow* m_window;
     gui_element *hover, *last_hover, *focus, *last_focus;
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
+    char last_char;
     glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:
 };

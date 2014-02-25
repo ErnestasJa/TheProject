@@ -24,3 +24,8 @@ void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action,
 {
     window::m_windows[wnd]->sig_key_event().emit(key,scan_code,action,modifiers);
 }
+
+void text_event(GLFWwindow * wnd, uint32_t scan_code)
+{
+    window::m_windows[wnd]->sig_text_event().emit(scan_code);
+}

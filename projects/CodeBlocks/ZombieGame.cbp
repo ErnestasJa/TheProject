@@ -147,6 +147,8 @@
 		<Unit filename="../../src/gui/gui_button.h" />
 		<Unit filename="../../src/gui/gui_checkbox.cpp" />
 		<Unit filename="../../src/gui/gui_checkbox.h" />
+		<Unit filename="../../src/gui/gui_edit_box.cpp" />
+		<Unit filename="../../src/gui/gui_edit_box.h" />
 		<Unit filename="../../src/gui/gui_element.cpp" />
 		<Unit filename="../../src/gui/gui_element.h" />
 		<Unit filename="../../src/gui/gui_environment.cpp" />
@@ -231,7 +233,6 @@
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
-		<Unit filename="../../src/tests/game/physics/Physics.h" />
 		<Unit filename="../../src/tests/game/physics/Physics.h" />
 		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
