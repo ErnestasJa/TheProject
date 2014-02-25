@@ -11,15 +11,29 @@
 #include "utility/logger.h"
 #include "application/window.h"
 
-gui_environment::gui_environment(int dispw, int disph, window* win,logger*log):gui_element(nullptr, rect2d<int>(0,0,dispw,disph))
+gui_environment::gui_environment(window* win)
 {
-    this->m_window=win->getWindow();
-    win->sig_text_event().connect(sigc::mem_fun(this,&gui_environment::on_key_typed));
-    this->input=new input_handler(nullptr,m_window);
+    win->sig_mouse_moved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved);
+    win->sig_mouse_button().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button);
+    win->sig_mouse_scroll().connect(sigc::mem_fun(this,&gui_environment::on_mouse_scroll);
+    win->sig_key_event().connect(sigc::mem_fun(this,&gui_environment::on_key_event);
+
+    this->m_window=win;
+
+    glm::ivec2 win_dims=m_window->get_window_size();
+    this->disp_w=win_dims.x;
+    this->disp_h=win_dims.y;
+
+    gui_element(nullptr, rect2d<int>(0,0,disp_w,disp_h));
+
     hover=last_hover=focus=last_focus=nullptr;
+
     m_mouse_down=m_mouse_dragged=m_mouse_moved=false;
+
     mouse_pos=last_mouse_pos=glm::vec2();
+
     gui_scale=glm::vec2(2.0/(float)dispw,2.0/(float)disph);
+
     this->set_name("GUI_ENVIRONMENT");
     last_char=' ';
 
@@ -38,7 +52,6 @@ gui_environment::gui_environment(int dispw, int disph, window* win,logger*log):g
     image_loader* imgl=new image_loader(log);
     std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
     skin_atlas->init(img);
-    //skin_atlas->set_filters(texture::FILTER_MIN::FILTER_MIN_NEAREST,texture::FILTER_MAG::FILTER_MAG_NEAREST_MIPMAP);
 
     m_font_renderer=new font_renderer(this);
 }
@@ -55,7 +68,6 @@ void gui_environment::update(float delta)
     //hovering
     glm::vec2 tm=input->get_mouse_pos();
     mouse_pos=input->get_mouse_pos();
-    //printf("tm: %i %i c:%i %i old:%i %i\n",tm.x,tm.y,mouse_pos.x,mouse_pos.y,last_mouse_pos.x,last_mouse_pos.y);
 
     gui_element *target = get_element_from_point(tm.x, tm.y);
 
@@ -159,7 +171,7 @@ void gui_environment::on_event(gui_event e)
     }
 }
 
-void gui_environment::on_key_typed(uint32_t scan_code)
+void gui_environment::on_key_pressed(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
 {
     this->last_char=scan_code;
     if(focus!=nullptr)

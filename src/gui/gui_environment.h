@@ -15,24 +15,20 @@
 //TODO (murloc992#1#): GUI Slider
 
 #include "gui_element.h"
-#include "input_handler.h"
-#include "gui_event.h"
-#include "gui_event_listener.h"
-
 #include "gui_skin.h"
-#include "font_renderer.h"
 
 class shader;
 class quad;
 class sliced_gui_quad;
 class texture;
-class logger;
 class window;
+class gui_skin;
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(int dispw, int disph, window* win,logger* log);
+    gui_environment(window* win);
     ~gui_environment();
+
     void update(float delta);
     void render();
 
@@ -40,10 +36,6 @@ public:
     bool is_on_hover(gui_element *e);
     bool is_on_focus(gui_element *e);
 
-    shader* get_quad_shader()
-    {
-        return this->gui_shader;
-    }
     void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
     void draw_sliced_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
 
@@ -52,7 +44,11 @@ public:
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
 
-    void on_key_typed(uint32_t scan_code);
+    void on_mouse_moved(double x, double y);
+    void on_mouse_button(int32_t button, int32_t action, int32_t mod);
+    void on_mouse_scroll(double sx, double sy);
+    void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
+
     char get_last_char()
     {
         return last_char;
@@ -78,14 +74,20 @@ private:
     gui_skin* skin;
     texture* skin_atlas;
     shader* gui_shader;
+
     quad* gui_quad;
     sliced_gui_quad* sliced_quad;
+
     font_renderer* m_font_renderer;
-    input_handler *input;
-    GLFWwindow* m_window;
+    window* m_window;
+
     gui_element *hover, *last_hover, *focus, *last_focus;
+
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
+
     char last_char;
+    int32_t last_key;
+
     glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:
 };
