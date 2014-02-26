@@ -7,7 +7,10 @@ class rect2d;
 class gui_edit_box:public gui_element
 {
 private:
-    int blinktimer,curspos,lastkey,reptimer,sx;
+    int blinktimer,curspos,reptimer,sx,font_size;
+    float _mx,_mw,_my,_mh; //margins for drawing
+    char lastkey;
+    bool blink;
     std::string m_text,disp_text;
     glm::vec4 m_text_color;
 public:
