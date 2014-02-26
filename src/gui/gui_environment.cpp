@@ -169,12 +169,12 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
                     focus = nullptr;
             }
 
-            if(focus!=nullptr)
+            if(focus!=nullptr&&hover==focus)
                 focus->on_event(gui_event(mouse_pressed,this));
             break;
         case GLFW_RELEASE:
             m_mouse_down=false;
-            if(focus!=nullptr)
+            if(focus!=nullptr&&hover==focus)
                 focus->on_event(gui_event(mouse_released,this));
             break;
         default:

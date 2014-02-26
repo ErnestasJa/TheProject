@@ -37,7 +37,7 @@ void gui_button::render()
     environment->draw_gui_quad(absolute_rect,cur_style);
 
     glm::vec2 dm=this->environment->get_font_renderer()->get_text_dimensions(this->m_text);
-    this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+absolute_rect.h/2-dm.y/2),glm::vec4(1),true);
+    this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+((this->absolute_rect.h-10)/2)),glm::vec4(1),true);
 }
 
 void gui_button::set_text(const std::string &text)

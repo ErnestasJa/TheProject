@@ -60,7 +60,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     env=new gui_environment(wnd,this->get_logger());
 
-    gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),"Tis but a window",true,true,false);
+    gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),"Tis but a window",false,true,false);
 
     test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1),false,true);
     test2=new gui_button(env,rect2d<int>(120,0,100,20),"buttons!");
