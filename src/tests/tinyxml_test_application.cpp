@@ -49,6 +49,8 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
 
+    glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
+    printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
     return true;
 }
 
