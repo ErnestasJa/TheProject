@@ -126,9 +126,9 @@ void gui_edit_box::on_event(gui_event e)
         default:
             break;
         }
+        break;
 
     case text_paste:
-        printf("paste.\n");
         if(curspos>0&&curspos<m_text.length())
             m_text=m_text.substr(0,curspos-1)+environment->get_clipboard()+m_text.substr(curspos,m_text.length());
         else if(curspos>=m_text.length())
