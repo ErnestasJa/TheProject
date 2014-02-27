@@ -17,31 +17,31 @@ private:
 
         pos->data.resize(16);
 
-        pos->data[0]=glm::vec3(-m_size,-m_size,0);
-        pos->data[1]=glm::vec3(-m_size+m_margin,-m_size,0);
-        pos->data[4]=glm::vec3(-m_size,-m_size+m_margin,0);
-        pos->data[5]=glm::vec3(-m_size+m_margin,-m_size+m_margin,0);
+        pos->data[0]=glm::vec3(-m_size,m_size,0);
+        pos->data[1]=glm::vec3(-m_size+m_margin,m_size,0);
+        pos->data[4]=glm::vec3(-m_size,m_size-m_margin,0);
+        pos->data[5]=glm::vec3(-m_size+m_margin,m_size-m_margin,0);
 
-        pos->data[2]=glm::vec3(m_size-m_margin,-m_size,0);
-        pos->data[3]=glm::vec3(m_size,-m_size,0);
-        pos->data[6]=glm::vec3(m_size-m_margin,-m_size+m_margin,0);
-        pos->data[7]=glm::vec3(m_size,-m_size+m_margin,0);
+        pos->data[2]=glm::vec3(m_size-m_margin,m_size,0);
+        pos->data[3]=glm::vec3(m_size,m_size,0);
+        pos->data[6]=glm::vec3(m_size-m_margin,m_size-m_margin,0);
+        pos->data[7]=glm::vec3(m_size,m_size-m_margin,0);
 
-        pos->data[8]=glm::vec3(-m_size,m_size-m_margin,0);
-        pos->data[9]=glm::vec3(-m_size+m_margin,m_size-m_margin,0);
-        pos->data[12]=glm::vec3(-m_size,m_size,0);
-        pos->data[13]=glm::vec3(-m_size+m_margin,m_size,0);
+        pos->data[8]=glm::vec3(-m_size,-m_size+m_margin,0);
+        pos->data[9]=glm::vec3(-m_size+m_margin,-m_size+m_margin,0);
+        pos->data[12]=glm::vec3(-m_size,-m_size,0);
+        pos->data[13]=glm::vec3(-m_size+m_margin,-m_size,0);
 
-        pos->data[10]=glm::vec3(m_size-m_margin,m_size-m_margin,0);
-        pos->data[11]=glm::vec3(m_size,m_size-m_margin,0);
-        pos->data[14]=glm::vec3(m_size-m_margin,m_size,0);
-        pos->data[15]=glm::vec3(m_size,m_size,0);
+        pos->data[10]=glm::vec3(m_size-m_margin,-m_size+m_margin,0);
+        pos->data[11]=glm::vec3(m_size,-m_size+m_margin,0);
+        pos->data[14]=glm::vec3(m_size-m_margin,-m_size,0);
+        pos->data[15]=glm::vec3(m_size,-m_size,0);
     }
 
     void create_inds()
     {
 
-        indices->data=std::vector<uint32_t>({4,0,1,5,4,1,5,1,2,6,5,2,6,2,3,7,6,3,8,4,5,9,8,5,9,5,6,10,9,6,10,6,7,11,10,7,12,8,9,13,12,9,13,9,10,14,13,10,14,10,11,15,14,11});
+        indices->data=std::vector<uint32_t>({4,5,0,0,5,1,5,6,1,1,6,2,6,7,2,2,7,3,8,9,4,4,9,5,9,10,5,5,10,6,10,11,6,6,11,7,12,13,8,8,13,9,13,14,9,9,14,10,14,15,10,10,15,11});
     }
 public:
     buffer_object<glm::vec3> *pos;
@@ -69,29 +69,29 @@ public:
 
         float tm = 1.f/256.f*2.f;
 
-        glm::vec2 a=uvs[0];
-        glm::vec2 b=uvs[1];
-        glm::vec2 c=uvs[3];
-        glm::vec2 d=uvs[2];
+        glm::vec2 a=glm::vec2(helpers::limit(uvs[0].x,0.f,1.f),helpers::limit(uvs[0].y,0.f,1.f));
+        glm::vec2 b=glm::vec2(helpers::limit(uvs[1].x,0.f,1.f),helpers::limit(uvs[1].y,0.f,1.f));
+        glm::vec2 c=glm::vec2(helpers::limit(uvs[2].x,0.f,1.f),helpers::limit(uvs[2].y,0.f,1.f));
+        glm::vec2 d=glm::vec2(helpers::limit(uvs[3].x,0.f,1.f),helpers::limit(uvs[3].y,0.f,1.f));
 
         tex_coords->data[0] = glm::vec2(a.x,a.y);
-        tex_coords->data[1] = glm::vec2(a.x+tm,a.y);
-        tex_coords->data[4] = glm::vec2(a.x,a.y+tm);
-        tex_coords->data[5] = glm::vec2(a.x+tm,a.y+tm);
+        tex_coords->data[1] = glm::vec2(a.x,a.y);
+        tex_coords->data[4] = glm::vec2(a.x,a.y);
+        tex_coords->data[5] = glm::vec2(a.x,a.y);
 
-        tex_coords->data[2] = glm::vec2(b.x-tm,b.y);
+        tex_coords->data[2] = glm::vec2(b.x,b.y);
         tex_coords->data[3] = glm::vec2(b.x,b.y);
-        tex_coords->data[6] = glm::vec2(b.x-tm,b.y+tm);
-        tex_coords->data[7] = glm::vec2(b.x,b.y+tm);
+        tex_coords->data[6] = glm::vec2(b.x,b.y);
+        tex_coords->data[7] = glm::vec2(b.x,b.y);
 
-        tex_coords->data[8] = glm::vec2(c.x,c.y-tm);
-        tex_coords->data[9] = glm::vec2(c.x+tm,c.y-tm);
+        tex_coords->data[8] = glm::vec2(c.x,c.y);
+        tex_coords->data[9] = glm::vec2(c.x,c.y);
         tex_coords->data[12] = glm::vec2(c.x,c.y);
-        tex_coords->data[13] = glm::vec2(c.x+tm,c.y);
+        tex_coords->data[13] = glm::vec2(c.x,c.y);
 
-        tex_coords->data[10] = glm::vec2(d.x-tm,d.y-tm);
-        tex_coords->data[11] = glm::vec2(d.x,d.y-tm);
-        tex_coords->data[14] = glm::vec2(d.x-tm,d.y);
+        tex_coords->data[10] = glm::vec2(d.x,d.y);
+        tex_coords->data[11] = glm::vec2(d.x,d.y);
+        tex_coords->data[14] = glm::vec2(d.x,d.y);
         tex_coords->data[15] = glm::vec2(d.x,d.y);
     }
 

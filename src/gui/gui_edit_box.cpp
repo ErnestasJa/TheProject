@@ -58,13 +58,13 @@ void gui_edit_box::render()
     {
         fr->render_string(m_text,glm::vec2(_mx - sx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx - sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
+            fr->render_string("l",glm::vec2(_mx-1 - sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
     }
     else
     {
         fr->render_string(m_text,glm::vec2(_mx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx +fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
+            fr->render_string("l",glm::vec2(_mx-1 +fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
     }
 
     glDisable(GL_SCISSOR_TEST);
