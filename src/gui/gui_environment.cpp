@@ -89,33 +89,36 @@ void gui_environment::on_event(gui_event e)
 
 void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
 {
-    bool _copy=(mod==GLFW_MOD_CONTROL&&key==GLFW_KEY_C&&action==GLFW_RELEASE);
-    bool _paste=(mod==GLFW_MOD_CONTROL&&key==GLFW_KEY_V&&action==GLFW_PRESS);
-    bool _select_all=mod==GLFW_MOD_CONTROL&&(key==GLFW_KEY_A&&action==GLFW_PRESS);
+    printf("Key event: Key:%i SC:%i Action:%i Mod:%i\n",key,scan_code,action,mod);
 
     this->last_key=key;
+
+    bool modcombo=false;
+
+    bool _copy=false,_paste=false,_select_all=false;
+
     if(focus!=nullptr)
     {
-        if(action==GLFW_PRESS || action==GLFW_REPEAT)
+        switch(action)
         {
+        case GLFW_PRESS:
+            if(key!=mod && mod!=0)
+                modcombo=true;
+            else
+                modcombo=false;
+
+            if(modcombo)
+                printf("Mod Combo!\n");
             focus->on_event(gui_event(key_pressed,this));
-            return;
-        }
-        if(_copy&&action!=GLFW_REPEAT)
-        {
-            focus->on_event(gui_event(text_copy, this));
-            return;
-        }
-        if(_paste==true&&action!=GLFW_REPEAT)
-        {
-            clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
-            focus->on_event(gui_event(text_paste,this));
-            return;
-        }
-        if(_select_all)
-        {
-            focus->on_event(gui_event(text_select,this));
-            return;
+            break;
+        case GLFW_REPEAT:
+            focus->on_event(gui_event(key_pressed,this));
+            break;
+        case GLFW_RELEASE:
+            break;
+
+        default:
+            break;
         }
     }
 }
