@@ -13,6 +13,7 @@
 #include "gui/gui_button.h"
 #include "gui/gui_checkbox.h"
 #include "gui/gui_pane.h"
+#include "gui/gui_edit_box.h"
 
 tinyxml_test_application::tinyxml_test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -37,15 +38,19 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
 
-    env=new gui_environment(1024,768,this->wnd->getWindow(),this->get_logger());
+    env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,32),"HOLA");
+    gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,64),"HOLA");
 
     gui_checkbox* cb=new gui_checkbox(env,rect2d<int>(0,64,20,20),false);
     cb=new gui_checkbox(env,rect2d<int>(0,96,20,20),true);
     cb=new gui_checkbox(env,rect2d<int>(0,128,20,20),true);
     cb=new gui_checkbox(env,rect2d<int>(0,160,20,20),false);
 
+    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
+
+    glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
+    printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
     return true;
 }
 
@@ -68,5 +73,6 @@ bool tinyxml_test_application::update()
 
 void tinyxml_test_application::exit()
 {
+    delete env;
     application::exit();
 }

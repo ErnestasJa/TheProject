@@ -233,12 +233,9 @@ glm::vec2 font_renderer::get_text_dimensions(const std::string & text,const std:
     font* a=get_font(font_name);
 
     int len=0;
-    int maxh=0;
     for(uint8_t gl:text)
     {
-        len+=a->c[gl].bw;
-        if(a->c[gl].bh>maxh)
-            maxh=a->h;
+        len+=a->c[gl].ax;
     }
-    return glm::vec2(len,maxh);
+    return glm::vec2(len,a->avgheight);
 }

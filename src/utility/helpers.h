@@ -10,7 +10,6 @@ template <typename T> inline std::string to_str(const T& t)
     return os.str();
 }
 
-
 #define DGL(func)\
 if(gl_util->check_and_output_errors())\
 {\
@@ -20,6 +19,20 @@ func \
 if(gl_util->check_and_output_errors())\
 {\
     std::cout << "Error happened after " << #func << std::endl; \
+}
+
+template <typename T>
+inline T limit(T val, T min, T max)
+{
+    T ret;
+    if(val<min)
+        ret=min;
+    else if(val>max)
+        ret=max;
+    else
+        ret=val;
+
+    return ret;
 }
 
 struct u8vec4{uint8_t v[4];};

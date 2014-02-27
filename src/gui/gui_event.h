@@ -20,7 +20,7 @@ enum gui_event_type
     mouse_pressed, mouse_released, mouse_moved, mouse_dragged,
 
     // GUI Keyboard events
-    key_typed
+    key_typed, key_pressed
 };
 
 class gui_element;
