@@ -43,7 +43,7 @@ void gui_edit_box::render()
     }
 
     _mx=absolute_rect.x + 5;
-    _mw=absolute_rect.w - font_size - 5;
+    _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
 
     font_renderer* fr=this->environment->get_font_renderer();
@@ -115,7 +115,9 @@ void gui_edit_box::on_event(gui_event e)
             break;
         case GLFW_KEY_LEFT:
             if(curspos>0)
+            {
                 curspos--;
+            }
             break;
         case GLFW_KEY_RIGHT:
             if(curspos<m_text.length())
@@ -124,6 +126,17 @@ void gui_edit_box::on_event(gui_event e)
         default:
             break;
         }
+
+    case text_paste:
+        printf("paste.\n");
+        if(curspos>0&&curspos<m_text.length())
+            m_text=m_text.substr(0,curspos-1)+environment->get_clipboard()+m_text.substr(curspos,m_text.length());
+        else if(curspos>=m_text.length())
+            m_text+=environment->get_clipboard();
+        else
+            m_text=environment->get_clipboard();
+        curspos+=environment->get_clipboard().length();
+        break;
 
     default:
         break;

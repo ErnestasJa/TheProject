@@ -89,10 +89,35 @@ void gui_environment::on_event(gui_event e)
 
 void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
 {
+    bool _copy=(mod==GLFW_MOD_CONTROL&&key==GLFW_KEY_C&&action==GLFW_RELEASE);
+    bool _paste=(mod==GLFW_MOD_CONTROL&&key==GLFW_KEY_V&&action==GLFW_PRESS);
+    bool _select_all=mod==GLFW_MOD_CONTROL&&(key==GLFW_KEY_A&&action==GLFW_PRESS);
+
     this->last_key=key;
     if(focus!=nullptr)
+    {
         if(action==GLFW_PRESS || action==GLFW_REPEAT)
+        {
             focus->on_event(gui_event(key_pressed,this));
+            return;
+        }
+        if(_copy&&action!=GLFW_REPEAT)
+        {
+            focus->on_event(gui_event(text_copy, this));
+            return;
+        }
+        if(_paste==true&&action!=GLFW_REPEAT)
+        {
+            clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
+            focus->on_event(gui_event(text_paste,this));
+            return;
+        }
+        if(_select_all)
+        {
+            focus->on_event(gui_event(text_select,this));
+            return;
+        }
+    }
 }
 
 void gui_environment::on_char_typed(int32_t scan_code)

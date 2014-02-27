@@ -20,7 +20,10 @@ enum gui_event_type
     mouse_pressed, mouse_released, mouse_moved, mouse_dragged,
 
     // GUI Keyboard events
-    key_typed, key_pressed
+    key_typed, key_pressed,
+
+    // copy, paste, select
+    text_copy, text_paste, text_select
 };
 
 class gui_element;
