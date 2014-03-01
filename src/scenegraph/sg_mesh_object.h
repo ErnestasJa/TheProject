@@ -18,14 +18,12 @@ public:
     virtual mesh_ptr get_mesh();
 
 public:
-    virtual uint32_t get_type();
 
     virtual void render(scenegraph * sg);
 
-
+    virtual uint32_t get_type();
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
-
     virtual sg_aabb get_aabb();
 
     virtual void recalculate_aabb();

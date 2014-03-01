@@ -210,6 +210,8 @@
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />
 		<Unit filename="../../src/scenegraph/isg_object.h" />
+		<Unit filename="../../src/scenegraph/isg_render_queue.cpp" />
+		<Unit filename="../../src/scenegraph/isg_render_queue.h" />
 		<Unit filename="../../src/scenegraph/scenegraph.cpp" />
 		<Unit filename="../../src/scenegraph/scenegraph.h" />
 		<Unit filename="../../src/scenegraph/sg_aabb.cpp" />
@@ -218,6 +220,8 @@
 		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.h" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
+		<Unit filename="../../src/scenegraph/sg_default_render_queue.cpp" />
+		<Unit filename="../../src/scenegraph/sg_default_render_queue.h" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
@@ -231,6 +235,8 @@
 		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
+		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
 		<Unit filename="../../src/tests/game/physics/Physics.h" />

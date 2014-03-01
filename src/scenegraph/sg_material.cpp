@@ -18,23 +18,21 @@ sg_material::~sg_material()
 
 sg_material_static_mesh::sg_material_static_mesh()
 {
-    mat_type = SGMT_STATIC_MESH;
+    mat_type = SGM_STATIC_MESH;
 
-    m.name="M";
-    mv.name="MV";
-    mvp.name="MVP";
-    n.name="N";
+    m.name="m";
+    mvp.name="mvp";
+    n.name="n";
     light_pos.name="light_pos";
     camera_pos.name="camera_pos";
 }
 
-void sg_material_static_mesh::set(scenegraph * sg)
+void sg_material_static_mesh::set()
 {
     mat_shader->set();
 
     mat_texture->set(0);
     m.set(mat_shader);
-    mv.set(mat_shader);
     mvp.set(mat_shader);
     n.set(mat_shader);
     light_pos.set(mat_shader);
@@ -43,15 +41,16 @@ void sg_material_static_mesh::set(scenegraph * sg)
 
 sg_material_point_sprite::sg_material_point_sprite()
 {
-    mat_type = SGMT_POINT_SPRITE;
-    vp.name="VP";
+    mat_type = SGM_POINT_SPRITE;
+    vp.name="vp";
     cam_up.name="cam_up";
     cam_right.name="cam_right";
     pos.name="bpos";
     size.name="size";
+    size=glm::vec3(1,1,1);
 }
 
-void sg_material_point_sprite::set(scenegraph * sg)
+void sg_material_point_sprite::set()
 {
     mat_shader->set();
     mat_texture->set(0);

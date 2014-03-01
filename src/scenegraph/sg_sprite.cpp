@@ -2,6 +2,7 @@
 #include "sg_sprite.h"
 #include "scenegraph.h"
 #include "sg_graphics_manager.h"
+#include "isg_render_queue.h"
 #include "opengl/mesh.h"
 #include "opengl/buffer_object.h"
 namespace sg
@@ -23,7 +24,7 @@ sg_sprite::sg_sprite(scenegraph * sg): isg_object(sg)
 
     m_mesh->init();
 
-    m_material=std::static_pointer_cast<sg_material_point_sprite>(this->m_scenegraph->get_graphics_manager()->create_material(SGMT_POINT_SPRITE));
+    m_material=std::static_pointer_cast<sg_material_point_sprite>(this->m_scenegraph->get_graphics_manager()->create_material(SGM_POINT_SPRITE));
 }
 
 sg_sprite::~sg_sprite()
@@ -32,18 +33,7 @@ sg_sprite::~sg_sprite()
 }
 void sg_sprite::render(scenegraph * sg)
 {
-    sg_material_point_sprite * mat = m_material.get();
-    glm::mat4x4 ViewMatrix = sg->get_active_camera()->get_absolute_transform();
-    const glm::mat4x4 & bpos = get_absolute_transform();
-
-    ///set uniforms
-    mat->vp = sg->get_active_camera()->get_projection() * sg->get_active_camera()->get_absolute_transform();
-    mat->cam_right  = glm::vec3(glm::vec4(1,0,0,1)*ViewMatrix);
-    mat->cam_up     = glm::vec3(glm::vec4(0,1,0,1)*ViewMatrix);
-    mat->pos        = glm::vec3(bpos[3][0], bpos[3][1], bpos[3][2] );
-    mat->size       = glm::vec3(5,5,5);
-
-    sg->on_set_material(m_material);
+    sg->get_render_queue()->set_material(this,m_material);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

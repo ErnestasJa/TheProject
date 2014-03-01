@@ -18,23 +18,21 @@ struct sg_material
     sg_material();
     ~sg_material();
 
-    virtual void set(scenegraph * sg)=0;
+    virtual void set()=0;
 
     ///-------------------------------------
     uint32_t    mat_type;
     shader_ptr  mat_shader;
 };
 
-
-
 struct sg_material_static_mesh: public sg_material
 {
     sg_material_static_mesh();
 
-    virtual void set(scenegraph * sg);
+    virtual void set();
 
     ///-------------------------------------
-    sg_mvar<glm::mat4x4> mvp, mv,m;
+    sg_mvar<glm::mat4x4> mvp, m;
     sg_mvar<glm::mat3x3> n;
     sg_mvar<glm::vec3> light_pos, camera_pos;
 
@@ -45,7 +43,7 @@ struct sg_material_point_sprite: public sg_material
 {
     sg_material_point_sprite();
 
-    virtual void set(scenegraph * sg);
+    virtual void set();
 
     ///-------------------------------------
     sg_mvar<glm::mat4x4> vp;

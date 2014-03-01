@@ -2,6 +2,7 @@
 #include "scenegraph.h"
 #include "sg_mesh_object.h"
 #include "sg_graphics_manager.h"
+#include "isg_render_queue.h"
 #include "opengl/mesh.h"
 #include "opengl/buffer_object.h"
 namespace sg
@@ -18,7 +19,7 @@ sg_mesh_object::sg_mesh_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg)
         m_materials.resize(ptr->sub_meshes.size());
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
-            m_materials[i]=std::static_pointer_cast<sg_material_static_mesh>(this->m_scenegraph->get_graphics_manager()->create_material(SGMT_STATIC_MESH));
+            m_materials[i]=std::static_pointer_cast<sg_material_static_mesh>(this->m_scenegraph->get_graphics_manager()->create_material(SGM_STATIC_MESH));
         }
     }
 }
@@ -39,21 +40,7 @@ void sg_mesh_object::render(scenegraph * sg)
     {
         if(i<this->get_material_count())
         {
-            sg_material_static_mesh * mat = m_materials[i].get();
-            mat->m = this->get_absolute_transform();
-            mat->mv = sg->get_active_camera()->get_absolute_transform()*this->get_absolute_transform();
-            mat->mvp = sg->get_active_camera()->get_projection() * mat->mv.value;
-            mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
-
-            if(sg->get_lights().size()==0)
-                mat->light_pos = glm::vec3(0,100,0);
-            else
-                mat->light_pos = glm::vec3(0,100,0);
-
-            mat->camera_pos = sg->get_active_camera()->get_position();
-
-            sg->on_set_material(m_materials[i]);
-
+            sg->get_render_queue()->set_material(this,m_materials[i]);
             m_mesh->render(i);
         }
     }

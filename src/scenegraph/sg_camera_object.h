@@ -21,11 +21,7 @@ public:
 
     virtual glm::mat4 & get_projection();
 
-    void set_position(const glm::vec3 v);
-	const glm::vec3 get_position() const;
 	const glm::vec3 get_look() const;
-
-	glm::mat4 get_matrix(const float yaw, const float pitch, const float roll);
 
 	const float get_fov() const;
 	const float get_aspect_ratio() const;
@@ -36,6 +32,7 @@ public:
 	void walk(const float amount);
 	void strafe(const float amount);
 	void lift(const float amount);
+	virtual glm::mat4x4 get_relative_transform();
 
 protected:
     float m_fov, m_aspect_ratio;
@@ -45,7 +42,6 @@ protected:
 	glm::vec3 m_right;
 	glm::mat4 m_P; //projection matrix
 
-	float m_yaw, m_pitch, m_roll;
 	glm::vec3 m_translation;
 
 	sg_material_ptr m_mat;
