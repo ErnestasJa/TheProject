@@ -21,10 +21,10 @@ public:
 
         btQuaternion quat = trans.getRotation();
         btVector3 pos = trans.getOrigin();
-        glm::quat gquat(quat.getW(),quat.getX(),quat.getY(),quat.getZ());
 
-        m_obj->set_rotation(glm::eulerAngles(gquat));
+        m_obj->set_rotation(glm::quat(quat.getW(),quat.getX(),quat.getY(),quat.getZ()));
         m_obj->set_position(glm::vec3(pos.getX(),pos.getY(),pos.getZ()));
+        m_obj->update_absolute_transform();
     }
 
     virtual ~cmotion_state()
@@ -42,10 +42,10 @@ public:
 
         btQuaternion quat = trans.getRotation();
         btVector3 pos = trans.getOrigin();
-        glm::quat gquat(quat.getW(),quat.getX(),quat.getY(),quat.getZ());
 
-        m_obj->set_rotation(glm::eulerAngles(gquat));
+        m_obj->set_rotation(glm::quat(quat.getW(),quat.getX(),quat.getY(),quat.getZ()));
         m_obj->set_position(glm::vec3(pos.getX(),pos.getY(),pos.getZ()));
+        m_obj->update_absolute_transform();
     }
 
     sg::sg_object_ptr get_sg_obj()

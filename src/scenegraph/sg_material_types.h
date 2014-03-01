@@ -5,9 +5,9 @@ namespace sg
 {
 enum SG_MATERIAL_TYPE
 {
-    SGMT_STATIC_MESH,
-    SGMT_LINE,
-    SGMT_POINT_SPRITE
+    SGM_STATIC_MESH,
+    SGM_LINE,
+    SGM_POINT_SPRITE
 };
 }
 

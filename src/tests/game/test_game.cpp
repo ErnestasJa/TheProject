@@ -36,7 +36,6 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
     wnd->sig_key_event().connect(sigc::mem_fun(this,&test_game::on_key_event));
     wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
 
-
     m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
 
@@ -65,6 +64,7 @@ bool test_game::update()
         cam_move();
 
         m_physics_manager->update(delta_time);
+        m_scenegraph->update(delta_time);
         m_scenegraph->render_all();
 
         wnd->swap_buffers();
@@ -104,7 +104,7 @@ bool test_game::init_scene()
 
 
     obj->set_position(glm::vec3(0,5.25,-5));
-    m_scenegraph->add_object(obj);
+    m_scenegraph->add_child(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
@@ -122,10 +122,15 @@ bool test_game::init_scene()
         sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
 
         obj->set_position(glm::vec3(i*2,15,-7));
-        m_scenegraph->add_object(obj);
+        m_scenegraph->add_child(obj);
         m_physics_manager->create_box(obj,10.0f);
         ///done loading
     }
+
+    ///add light
+    sg::sg_light_object_ptr lobj = m_scenegraph->add_light_object();
+    lobj->set_position(glm::vec3(0,20,100));
+    ///done loading
 
     ///load sprite
     sg::sg_sprite_ptr sobj = sg::sg_sprite_ptr(new sg::sg_sprite(m_scenegraph));
@@ -133,20 +138,20 @@ bool test_game::init_scene()
     sg::sg_material_point_sprite* psm_mat = static_cast<sg::sg_material_point_sprite*>(sobj->get_material(0).get());
     psm_mat->mat_texture= m_graphics_manager->load_texture("res/light.png");
 
-    obj->set_position(glm::vec3(0,20,100));
-    m_scenegraph->add_object(sobj);
+    lobj->add_child(sobj);
     ///done loading
 
     ///load map
     obj=m_scenegraph->load_mesh_object("res/maps/nuke/nuke.iqm",true);
 
-    m_scenegraph->add_object(obj);
+    m_scenegraph->add_child(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
+    m_scenegraph->add_child(cam);
 
     wnd->set_mouse_pos(m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2);
     wnd->set_cursor_disabled(true);
@@ -192,7 +197,7 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
                 sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
                 sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
 
-                m_scenegraph->add_object(obj);
+                m_scenegraph->add_child(obj);
 
                 btRigidBody * body = m_physics_manager->create_box(obj,10.0f);
                 body->setLinearVelocity(m_physics_manager->glm_to_bt(look*10.0f));
@@ -212,10 +217,12 @@ void test_game::on_mouse_move(double x, double y)
     {
         if(delta_pos.x!=0 || delta_pos.y!=0)
         {
-            glm::vec3 r = cam->get_rotation();
+            glm::quat r = cam->get_rotation();
 
-            r.x -= x/10.0f;
-            r.y -= y/10.0f;
+            glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(delta_pos.y/100.0f,0,0));
+
+            r= rot_x * r;
+            r= r * rot_y;
 
             cam->set_rotation(r);
         }

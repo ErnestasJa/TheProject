@@ -1,9 +1,8 @@
 #version 330
 
-uniform mat4 MVP;
-uniform mat4 MV;
-uniform mat4 M;
-uniform mat3 N;
+uniform mat4 mvp;
+uniform mat4 m;
+uniform mat3 n;
 uniform vec3 light_pos;
 uniform vec3 camera_pos;
 
@@ -18,9 +17,9 @@ smooth out vec3 vEyeSpacePosition;
 
 void main(void)
 {
-	vEyeSpacePosition = (M*vec4(pos,1)).xyz;
-	vEyeSpaceNormal = N*normal;
+	vEyeSpacePosition = (m*vec4(pos,1)).xyz;
+	vEyeSpaceNormal = n*normal;
 	
-	gl_Position = MVP * vec4(pos,1);
+	gl_Position = mvp * vec4(pos,1);
 	UV = tex;
 }

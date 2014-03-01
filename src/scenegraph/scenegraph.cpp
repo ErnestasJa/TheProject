@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "scenegraph.h"
 #include "sg_graphics_manager.h"
+#include "sg_default_render_queue.h"
 #include "opengl/shader.h"
 #include "opengl/mesh.h"
 #include "utility/logger.h"
@@ -8,7 +9,7 @@
 namespace sg
 {
 
-scenegraph::scenegraph(logger * l, timer_ptr app_timer)
+scenegraph::scenegraph(logger * l, timer_ptr app_timer):isg_object(nullptr), m_render_queue(nullptr)
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -20,6 +21,7 @@ scenegraph::scenegraph(logger * l, timer_ptr app_timer)
     m_logger = l;
     m_graphics_manager = share(new sg_graphics_manager(l));
     m_timer = app_timer;
+    m_render_queue = share(new sg_default_render_queue(this));
 }
 
 scenegraph::~scenegraph()
@@ -27,15 +29,10 @@ scenegraph::~scenegraph()
     //dtor
 }
 
-void scenegraph::add_object(sg_object_ptr obj)
-{
-    m_objects.push_back(obj);
-}
-
 sg_light_object_ptr scenegraph::add_light_object()
 {
     sg_light_object_ptr obj = share(new sg_light_object(this));
-    m_lights.push_back(obj);
+    add_child(obj);
     return obj;
 }
 
@@ -46,37 +43,33 @@ void scenegraph::pre_render()
     if(m_active_camera)
     {
         m_active_camera->update(this);
-        V = m_active_camera->get_absolute_transform();
-        P = m_active_camera->get_projection();
-        VP = m_active_camera->get_projection() * m_active_camera->get_absolute_transform();
-        //m_active_camera->
+        sg_shared_mat_vars & v = m_shared_mat_vars;
+        v.view = m_active_camera->get_absolute_transform();
+        v.proj = m_active_camera->get_projection();
+        v.view_proj = v.proj.value * v.view.value;
     }
 }
+
+bool scenegraph::register_for_rendering()
+{
+    sg_render_queue_ptr rq = this->get_render_queue();
+
+    for(sg_object_ptr obj: m_children)
+        rq->add_object(obj.get());
+
+    return true;
+}
+
 
 void scenegraph::render_all()
 {
     pre_render();
 
-    for(uint32_t i = 0; i < m_objects.size(); i++)
-    {
-        M = m_objects[i]->get_absolute_transform();
-        MVP = P*(V*M);
-        m_objects[i]->render(this);
-    }
+    register_for_rendering();
+    m_render_queue->render_all();
+    m_render_queue->clear();
 
     post_render();
-}
-
-void scenegraph::on_set_material(sg_material_ptr mat)
-{
-    m_current_material = nullptr;
-    m_current_material = mat;
-    m_current_material->set(this);
-}
-
-glm::mat4x4 & scenegraph::get_view_projection_matrix()
-{
-    return VP;
 }
 
 sg_graphics_manager_ptr scenegraph::get_graphics_manager()
@@ -84,9 +77,9 @@ sg_graphics_manager_ptr scenegraph::get_graphics_manager()
     return m_graphics_manager;
 }
 
-std::vector<sg_light_object_ptr> & scenegraph::get_lights()
+sg_render_queue_ptr scenegraph::get_render_queue()
 {
-    return m_lights;
+    return m_render_queue;
 }
 
 sg_camera_object_ptr scenegraph::get_active_camera()
@@ -135,7 +128,7 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
             if(load_textures)
             {
                 sg::sg_material_ptr mat = ret->get_material(i);
-                if(mat->mat_type == SGMT_STATIC_MESH)
+                if(mat->mat_type == SGM_STATIC_MESH)
                 {
                     sg_material_static_mesh * sm_mat = static_cast<sg_material_static_mesh*>(mat.get());
                     sm_mat->mat_texture = m_graphics_manager->load_texture(texture_path + image_path);
@@ -146,6 +139,31 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
     }
 
     return ret;
+}
+
+uint32_t scenegraph::get_type()
+{
+    return SGO_SCENEGRAPH;
+}
+
+void scenegraph::render(scenegraph * sg)
+{
+
+}
+
+sg_material_ptr scenegraph::get_material(uint32_t index)
+{
+    return sg_material_ptr();
+}
+
+uint32_t scenegraph::get_material_count()
+{
+    return 0;
+}
+
+const sg_shared_mat_vars & scenegraph::get_shared_mat_vars() const
+{
+    return m_shared_mat_vars;
 }
 
 }

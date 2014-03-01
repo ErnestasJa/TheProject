@@ -1,12 +1,13 @@
 #include "precomp.h"
 #include "isg_object.h"
+#include "isg_render_queue.h"
+#include "scenegraph.h"
 
 namespace sg
 {
 
-isg_object::isg_object(scenegraph * sg)
+isg_object::isg_object(scenegraph * sg):m_scenegraph(sg), m_scale(1,1,1), m_rotation(1,0,0,0), m_parent(0), m_flags(SGOF_TRANSFORM_OUTDATED)
 {
-    m_scenegraph=sg;
 }
 
 isg_object::~isg_object()
@@ -18,7 +19,6 @@ const glm::mat4x4 & isg_object::get_absolute_transform()
 {
     if(m_flags&SGOF_TRANSFORM_OUTDATED)
     {
-        rmbit(m_flags,SGOF_TRANSFORM_OUTDATED);
         update_absolute_transform();
     }
 
@@ -40,7 +40,7 @@ const glm::vec3 &  isg_object::get_position() const
     return m_position;
 }
 
-const glm::vec3 &  isg_object::get_rotation() const
+const glm::quat &  isg_object::get_rotation() const
 {
     return m_rotation;
 }
@@ -56,7 +56,7 @@ void isg_object::set_position(const glm::vec3 & v)
     m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
-void isg_object::set_rotation(const glm::vec3 & v)
+void isg_object::set_rotation(const glm::quat & v)
 {
     m_rotation = v;
     m_flags |= SGOF_TRANSFORM_OUTDATED;
@@ -70,17 +70,74 @@ void isg_object::set_scale(const glm::vec3 & v)
 
 glm::mat4x4 isg_object::get_relative_transform()
 {
-    glm::mat4x4 rt(1.0);
-    rt = glm::rotate(rt,m_rotation.x,glm::vec3(1,0,0));
-    rt = glm::rotate(rt,m_rotation.y,glm::vec3(0,1,0));
-    rt = glm::rotate(rt,m_rotation.z,glm::vec3(0,0,1));
-    rt = glm::translate(rt,m_position);
+    glm::mat4x4 rt = glm::translate(glm::mat4(),m_position) * glm::toMat4(m_rotation);
     return rt;
 }
 
 void isg_object::update_absolute_transform()
 {
+    if(m_parent)
+        m_absolute_transform = get_relative_transform() * m_parent->get_absolute_transform();
+    else
         m_absolute_transform = get_relative_transform();
+
+    rmbit(m_flags,SGOF_TRANSFORM_OUTDATED);
+}
+
+void isg_object::update(float delta_time)
+{
+    this->update_absolute_transform();
+
+    for(sg_object_ptr child: m_children)
+    {
+        child->update(delta_time);
+    }
+}
+
+bool isg_object::register_for_rendering()
+{
+    sg_render_queue_ptr rq = this->m_scenegraph->get_render_queue();
+    rq->add_object(this);
+
+    for(sg_object_ptr obj: m_children)
+        rq->add_object(obj.get());
+
+    return true;
+}
+
+void isg_object::add_child(sg_object_ptr child)
+{
+    if(child->get_parent())
+    {
+        child->get_parent()->remove_child(child);
+    }
+
+    m_children.push_back(child);
+    child->set_parent(this);
+    child->update_absolute_transform();
+}
+
+void isg_object::remove_child(sg_object_ptr child)
+{
+    auto it = std::find(m_children.begin(), m_children.end(), child);
+
+    if(it!=m_children.end())
+        m_children.erase(it);
+}
+
+isg_object * isg_object::get_parent()
+{
+    return m_parent;
+}
+
+void isg_object::set_parent(isg_object * parent)
+{
+    m_parent = parent;
+}
+
+const std::vector<sg_object_ptr> & isg_object::get_children()
+{
+    return m_children;
 }
 
 }

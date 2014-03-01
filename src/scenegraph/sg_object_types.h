@@ -5,7 +5,8 @@ namespace sg
 {
     enum SG_OBJECT_TYPE
     {
-        SGO_MESH = 0,
+        SGO_SCENEGRAPH =0,
+        SGO_MESH,
         SGO_CAMERA,
         SGO_AABB_WIREFRAME_OBJECT,
         SGO_POINT_SPRITE,

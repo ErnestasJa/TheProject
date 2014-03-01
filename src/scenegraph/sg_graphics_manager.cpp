@@ -54,7 +54,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type)
 {
     switch(type)
     {
-    case SGMT_STATIC_MESH:
+    case SGM_STATIC_MESH:
         {
             sg_material_static_mesh * mat = new sg_material_static_mesh();
             mat->mat_shader=m_shader_loader->load("res/static_mesh");
@@ -65,7 +65,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type)
             mat->mat_texture=load_texture("res/no_tex.png");
             return share(mat);
         }
-    case SGMT_POINT_SPRITE:
+    case SGM_POINT_SPRITE:
         {
             sg_material_point_sprite * mat = new sg_material_point_sprite();
             mat->mat_shader=m_shader_loader->load("res/shaders/point_sprite/point_sprite");
