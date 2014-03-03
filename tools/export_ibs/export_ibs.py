@@ -11,6 +11,7 @@ from xml.dom.minidom import parseString
 import mathutils
 from math import radians, degrees
 import iqm_export
+import copy
 
 def new_prettify(fw,str):
 	reparsed = parseString(str)
@@ -24,6 +25,9 @@ def save(operator,
 
 	scene = context.scene
 	
+	###going to modify selected objects to export individual iqm meshes
+	selected_objects = list(context.selected_objects)
+	bpy.ops.object.select_all(action='DESELECT')
 	
 	file = open(filepath, "w", encoding="utf8", newline="\n")
 	fw = file.write
@@ -44,6 +48,10 @@ def save(operator,
 		
 	new_prettify(fw,ET.tostring(root, 'utf-8'))
 	file.close()
+	
+	###restore selected objects
+	for obj in selected_objects:
+		obj.select = True
 
 	return {'FINISHED'}
 	
@@ -54,8 +62,9 @@ def save_object(context, filepath, xml_element,
 				):
 
 	#axis rotation
-	old_mat = object.matrix_world;
-	object.matrix_world = (global_matrix * object.matrix_world)
+	
+	old_mat = copy.deepcopy(object.matrix_world);
+	object.matrix_world = ( global_matrix * object.matrix_world)
 	
 	el = ET.Element("object",
 	{
@@ -74,17 +83,17 @@ def save_object(context, filepath, xml_element,
 	if object.rotation_mode == 'QUATERNION':
 		rot = ET.Element("quat_rotation",
 		{
-			"x":str(object.rotation_quaternion.x),
-			"y":str(object.rotation_quaternion.y),
-			"z":str(object.rotation_quaternion.z),
-			"w":str(object.rotation_quaternion.w),
+			"x":'%.6f'% object.rotation_quaternion.x,
+			"y":'%.6f'% object.rotation_quaternion.y,
+			"z":'%.6f'% object.rotation_quaternion.z,
+			"w":'%.6f'% object.rotation_quaternion.w,
 		})
 	else:
 		rot = ET.Element("rotation",
 		{
-			"x":str(degrees(object.rotation_euler.x)),
-			"y":str(degrees(object.rotation_euler.y)),
-			"z":str(degrees(object.rotation_euler.z)),
+			"x":'%.6f'%(object.rotation_euler.x),
+			"y":'%.6f'%(object.rotation_euler.y),
+			"z":'%.6f'%(object.rotation_euler.z),
 		})
 	el.append(rot)
 	
@@ -106,7 +115,10 @@ def save_object(context, filepath, xml_element,
 		iqm_filename =  object.name + ".iqm"
 		iqm_fullname = iqm_path + "/" + iqm_filename
 		
+		object.select = True 				### select the current object before trying to export it
 		iqm_export.exportIQM(context, iqm_fullname, usemesh = True, useskel = False, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False)
+		
+		object.select = False
 		
 		iqm_path = ET.Element("iqm_file",
 				{

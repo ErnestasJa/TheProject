@@ -235,6 +235,8 @@
 		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.cpp" />
+		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.h" />
 		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
 		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />

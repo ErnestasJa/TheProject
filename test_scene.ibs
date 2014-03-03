@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Torus" type="MESH">
+    <position x="0.0" y="0.0" z="3.0"/>
+    <rotation x="-90.00000933466734" y="0.0" z="0.0"/>
+    <iqm_file name="Torus.iqm"/>
+  </object>
+  <object name="Suzanne" type="MESH">
+    <position x="0.0" y="0.0" z="3.0"/>
+    <rotation x="-90.00000933466734" y="0.0" z="0.0"/>
+    <iqm_file name="Suzanne.iqm"/>
+  </object>
+  <object name="Plane" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-90.00000933466734" y="0.0" z="0.0"/>
+    <iqm_file name="Plane.iqm"/>
+  </object>
+  <object name="Cube" type="MESH">
+    <position x="0.0" y="0.0" z="1.0"/>
+    <rotation x="-90.00000933466734" y="0.0" z="0.0"/>
+    <iqm_file name="Cube.iqm"/>
+  </object>
+  <object name="Lamp" type="LAMP">
+    <position x="4.076245307922363" y="1.0054539442062378" z="5.903861999511719"/>
+    <rotation x="-52.738950506416614" y="3.163707124726529" z="106.93631032517104"/>
+  </object>
+  <object name="Camera" type="CAMERA">
+    <position x="7.481131553649902" y="-6.5076398849487305" z="5.34366512298584"/>
+    <rotation x="-26.440702173420494" y="0.6197670430578729" z="46.691944977583375"/>
+  </object>
+</scene>

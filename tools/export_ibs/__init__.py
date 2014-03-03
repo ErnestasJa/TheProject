@@ -43,7 +43,7 @@ class ExportIBS(bpy.types.Operator, ExportHelper):
                    ('-Y', "-Y Forward", ""),
                    ('-Z', "-Z Forward", ""),
                    ),
-            default='Y',
+            default='-Z',
             )
     axis_up = EnumProperty(
             name="Up",
@@ -54,7 +54,7 @@ class ExportIBS(bpy.types.Operator, ExportHelper):
                    ('-Y', "-Y Up", ""),
                    ('-Z', "-Z Up", ""),
                    ),
-            default='Z',
+            default='Y',
             )
     global_scale = FloatProperty(
             name="Scale",
