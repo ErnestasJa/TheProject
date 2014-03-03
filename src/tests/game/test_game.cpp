@@ -17,6 +17,7 @@
 #include "resources/image_loader.h"
 #include "scenegraph/sg_graphics_manager.h"
 #include "scenegraph/scenegraph.h"
+#include "scenegraph/sg_scenegraph_loader.h"
 #include "scenegraph/sg_objects.h"
 #include "physics/Physics.h"
 
@@ -108,7 +109,7 @@ bool test_game::init_scene()
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
-    for(uint32_t i=0; i<5; i++)
+    /*for(uint32_t i=0; i<5; i++)
     {
         ///load trashcan
         m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
@@ -125,14 +126,14 @@ bool test_game::init_scene()
         m_scenegraph->add_child(obj);
         m_physics_manager->create_box(obj,10.0f);
         ///done loading
-    }
+    }*/
 
     ///add light
     sg::sg_light_object_ptr lobj = m_scenegraph->add_light_object();
     lobj->set_position(glm::vec3(0,20,100));
     ///done loading
 
-    ///load sprite
+   /* ///load sprite
     sg::sg_sprite_ptr sobj = sg::sg_sprite_ptr(new sg::sg_sprite(m_scenegraph));
 
     sg::sg_material_point_sprite* psm_mat = static_cast<sg::sg_material_point_sprite*>(sobj->get_material(0).get());
@@ -146,7 +147,10 @@ bool test_game::init_scene()
 
     m_scenegraph->add_child(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
-    ///done loading
+    ///done loading*/
+
+    sg::sg_scenegraph_loader sg_loader;
+    sg_loader.load_scene(m_scenegraph,"untitled.ibs");
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
