@@ -41,15 +41,22 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
                 sg::sg_mesh_object_ptr  obj = sg->load_mesh_object(file->Attribute("name"),false);
                 sg->add_child(obj);
 
-                tinyxml2::XMLElement * pos;
-                if(pos = object->FirstChildElement("position"))
+                if(tinyxml2::XMLElement * pos = object->FirstChildElement("position"))
                 {
                     obj->set_position(glm::vec3(pos->FloatAttribute("x"),pos->FloatAttribute("y"),pos->FloatAttribute("z")));
                 }
+
                 if(tinyxml2::XMLElement * rot = object->FirstChildElement("rotation"))
                 {
-                    obj->set_rotation(glm::quat(glm::vec3(pos->FloatAttribute("x"),pos->FloatAttribute("y"),pos->FloatAttribute("z"))));
+                    obj->set_rotation(glm::quat(glm::vec3(rot->FloatAttribute("x"),rot->FloatAttribute("y"),rot->FloatAttribute("z"))));
                 }
+
+                if(tinyxml2::XMLElement * scale = object->FirstChildElement("scale"))
+                {
+                    obj->set_scale(glm::vec3(scale->FloatAttribute("x"),scale->FloatAttribute("y"),scale->FloatAttribute("z")));
+                }
+
+
             }
         }
 

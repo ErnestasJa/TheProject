@@ -70,7 +70,7 @@ void isg_object::set_scale(const glm::vec3 & v)
 
 glm::mat4x4 isg_object::get_relative_transform()
 {
-    glm::mat4x4 rt = glm::translate(glm::mat4(),m_position) * glm::toMat4(m_rotation);
+    glm::mat4x4 rt = glm::translate(glm::mat4(),m_position) * glm::toMat4(m_rotation) * glm::scale(glm::mat4(),m_scale);
     return rt;
 }
 
