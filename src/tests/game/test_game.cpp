@@ -150,7 +150,7 @@ bool test_game::init_scene()
     ///done loading*/
 
     sg::sg_scenegraph_loader sg_loader;
-    sg_loader.load_scene(m_scenegraph,"untitled.ibs");
+    sg_loader.load_scene(m_scenegraph,"test_scene.ibs");
 
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 

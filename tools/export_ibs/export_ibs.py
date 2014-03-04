@@ -64,7 +64,7 @@ def save_object(context, filepath, xml_element,
 	#axis rotation
 	
 	old_mat = copy.deepcopy(object.matrix_world);
-	object.matrix_world = ( global_matrix * object.matrix_world)
+	object.matrix_world = (global_matrix * object.matrix_world)
 	
 	el = ET.Element("object",
 	{
@@ -88,7 +88,7 @@ def save_object(context, filepath, xml_element,
 			"z":'%.6f'% object.rotation_quaternion.z,
 			"w":'%.6f'% object.rotation_quaternion.w,
 		})
-	else:
+	elif object.rotation_mode == 'XYZ':
 		rot = ET.Element("rotation",
 		{
 			"x":'%.6f'%(object.rotation_euler.x),
@@ -96,6 +96,14 @@ def save_object(context, filepath, xml_element,
 			"z":'%.6f'%(object.rotation_euler.z),
 		})
 	el.append(rot)
+	
+	scale = ET.Element("scale",
+	{
+		"x":str(object.scale.x),
+		"y":str(object.scale.y),
+		"z":str(object.scale.z),
+	})  
+	el.append(scale)
 	
 	if object.type == "MESH":
 		if object.library != None:
@@ -116,6 +124,8 @@ def save_object(context, filepath, xml_element,
 		iqm_fullname = iqm_path + "/" + iqm_filename
 		
 		object.select = True 				### select the current object before trying to export it
+		from mathutils import Matrix
+		object.matrix_world = Matrix.Identity(4);
 		iqm_export.exportIQM(context, iqm_fullname, usemesh = True, useskel = False, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False)
 		
 		object.select = False
