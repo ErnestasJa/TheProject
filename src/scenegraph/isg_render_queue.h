@@ -16,7 +16,6 @@ class isg_render_queue
         virtual void clear()=0;
 
         virtual void render_all()=0;
-
     protected:
     private:
 };

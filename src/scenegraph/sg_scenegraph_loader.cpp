@@ -17,6 +17,9 @@ sg_scenegraph_loader::~sg_scenegraph_loader()
 
 bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filename)
 {
+    std::string scene_path = filename.substr(0,filename.rfind("/")+1);
+    std::cout << "scene_path =" << scene_path.c_str() << std::endl;
+
     tinyxml2::XMLDocument doc;
     uint32_t len; char * buf;
     len = helpers::read(filename, buf);
@@ -38,7 +41,7 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
             {
                 std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
 
-                sg::sg_mesh_object_ptr  obj = sg->load_mesh_object(file->Attribute("name"),false);
+                sg::sg_mesh_object_ptr  obj = sg->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
                 sg->add_child(obj);
 
                 if(tinyxml2::XMLElement * pos = object->FirstChildElement("position"))
