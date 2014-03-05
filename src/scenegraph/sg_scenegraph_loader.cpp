@@ -42,7 +42,7 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
                 std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
 
                 sg::sg_mesh_object_ptr  obj = sg->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
-                sg->add_child(obj);
+                sg->add_object(obj);
 
                 if(tinyxml2::XMLElement * pos = object->FirstChildElement("position"))
                 {

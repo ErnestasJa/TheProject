@@ -65,7 +65,7 @@ bool test_game::update()
         cam_move();
 
         m_physics_manager->update(delta_time);
-        m_scenegraph->update(delta_time);
+        m_scenegraph->update_all(delta_time);
         m_scenegraph->render_all();
 
         wnd->swap_buffers();
@@ -93,7 +93,7 @@ bool test_game::init_scene()
     mesh_ptr m;
 
     ///load model
-    m=m_graphics_manager->get_mesh_loader()->load("res/wood_tower.iqm");
+    /*m=m_graphics_manager->get_mesh_loader()->load("res/wood_tower.iqm");
 
     if(!m)
         return false;
@@ -105,11 +105,11 @@ bool test_game::init_scene()
 
 
     obj->set_position(glm::vec3(0,5.25,-5));
-    m_scenegraph->add_child(obj);
+    m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
     ///done loading
 
-    /*for(uint32_t i=0; i<5; i++)
+    for(uint32_t i=0; i<5; i++)
     {
         ///load trashcan
         m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
@@ -155,7 +155,7 @@ bool test_game::init_scene()
     sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
-    m_scenegraph->add_child(cam);
+    m_scenegraph->add_object(cam);
 
     wnd->set_mouse_pos(m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2);
     wnd->set_cursor_disabled(true);
@@ -201,7 +201,7 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
                 sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
                 sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
 
-                m_scenegraph->add_child(obj);
+                m_scenegraph->add_object(obj);
 
                 btRigidBody * body = m_physics_manager->create_box(obj,10.0f);
                 body->setLinearVelocity(m_physics_manager->glm_to_bt(look*10.0f));

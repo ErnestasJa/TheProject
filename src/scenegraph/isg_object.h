@@ -51,15 +51,6 @@ public:
     virtual glm::mat4x4 get_relative_transform();
     void update_absolute_transform();
 
-public:
-    void add_child(sg_object_ptr child);
-    void remove_child(sg_object_ptr child);
-    isg_object * get_parent();
-    const std::vector<sg_object_ptr> & get_children();
-
-private:
-    void set_parent(isg_object * child);
-
 protected:
     scenegraph * m_scenegraph;
 
@@ -70,9 +61,6 @@ protected:
     sg_aabb     m_aabb;
 
     std::string m_name;
-
-    isg_object * m_parent; ///backlink to parent is just raw ptr.
-    std::vector<sg_object_ptr> m_children;
 };
 
 }
