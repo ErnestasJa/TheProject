@@ -90,28 +90,15 @@ void gui_edit_box::on_event(gui_event e)
         break;
 
     case key_typed:
-        curspos++;
         lastkey=environment->get_last_char();
-        if(m_text.length()>0)
-            m_text=m_text.substr(0,curspos-1)+lastkey+m_text.substr(curspos-1,m_text.length());
-        else
-            m_text+=lastkey;
-        if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-            sx+=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
+        add_text(curspos,std::string(&lastkey));
         break;
 
     case key_pressed:
         switch(environment->get_last_key())
         {
         case GLFW_KEY_BACKSPACE:
-            if(curspos>0)
-            {
-                m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
-                curspos--;
-            }
-
-            if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-                sx-=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
+            remove_text(curspos,1);
             break;
         case GLFW_KEY_LEFT:
             if(curspos>0)
@@ -132,7 +119,11 @@ void gui_edit_box::on_event(gui_event e)
         if(curspos>0&&curspos<m_text.length())
             m_text=m_text.substr(0,curspos-1)+environment->get_clipboard()+m_text.substr(curspos,m_text.length());
         else if(curspos>=m_text.length())
+        {
             m_text+=environment->get_clipboard();
+            curspos+=environment->get_clipboard().length();
+            sx+=environment->get_font_renderer()->get_text_dimensions(environment->get_clipboard()).x;
+        }
         else
             m_text=environment->get_clipboard();
         curspos+=environment->get_clipboard().length();
@@ -141,4 +132,42 @@ void gui_edit_box::on_event(gui_event e)
     default:
         break;
     }
+}
+
+void gui_edit_box::add_text(int32_t index,std::string text)
+{
+    curspos=index;
+
+    if(m_text.length()>0)
+    {
+        m_text=m_text.substr(0,curspos)+text+m_text.substr(curspos,m_text.length());
+        curspos+=text.length();
+    }
+    else
+    {
+        m_text+=text;
+        curspos++;
+    }
+
+    if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
+        sx+=environment->get_font_renderer()->get_text_dimensions(text).x;
+}
+
+void gui_edit_box::remove_text(int32_t index, int32_t length)
+{
+    curspos=index;
+
+    if(curspos-length>=0)
+    {
+        m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
+        curspos-=length;
+    }
+    else if(curspos>0)
+    {
+        m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
+        curspos--;
+    }
+
+    if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
+        sx-=environment->get_font_renderer()->get_text_dimensions(m_text.substr(index-1,length)).x;
 }
