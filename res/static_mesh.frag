@@ -20,6 +20,11 @@ const float shininess = 256.0f;
 
 void main()
 {
+	vec4 tex_color = texture2D(tex,UV);
+	
+	if(tex_color.a<0.2)
+		discard;
+	
 	vec3 vEyeSpaceLightPosition=light_pos;
 	vec3 vEyeSpaceCameraPosition=camera_pos;
 	
@@ -32,5 +37,5 @@ void main()
 	float specular = max(0, pow(dot(N, H), shininess));
 	
 	FragColor = diffuse*vec4(diffuse_color,1) + specular * vec4(specular_color,1);
-    FragColor *= texture2D(tex,UV);
+    FragColor *= tex_color;
 }

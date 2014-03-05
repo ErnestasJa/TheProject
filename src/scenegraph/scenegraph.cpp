@@ -9,7 +9,7 @@
 namespace sg
 {
 
-scenegraph::scenegraph(logger * l, timer_ptr app_timer):isg_object(nullptr), m_render_queue(nullptr)
+scenegraph::scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nullptr)
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -29,10 +29,19 @@ scenegraph::~scenegraph()
     //dtor
 }
 
+sg_object_ptr scenegraph::add_object(sg_object_ptr object)
+{
+    if(object->get_type()==SGO_CAMERA && !m_active_camera)
+        m_active_camera = std::static_pointer_cast<sg_camera_object>(object);
+
+    m_objects.push_back(object);
+    return object;
+}
+
 sg_light_object_ptr scenegraph::add_light_object()
 {
     sg_light_object_ptr obj = share(new sg_light_object(this));
-    add_child(obj);
+    add_object(obj);
     return obj;
 }
 
@@ -50,11 +59,11 @@ void scenegraph::pre_render()
     }
 }
 
-bool scenegraph::register_for_rendering()
+bool scenegraph::register_objects_for_rendering()
 {
     sg_render_queue_ptr rq = this->get_render_queue();
 
-    for(sg_object_ptr obj: m_children)
+    for(sg_object_ptr obj: m_objects)
         rq->add_object(obj.get());
 
     return true;
@@ -65,11 +74,17 @@ void scenegraph::render_all()
 {
     pre_render();
 
-    register_for_rendering();
+    register_objects_for_rendering();
     m_render_queue->render_all();
     m_render_queue->clear();
 
     post_render();
+}
+
+void scenegraph::update_all(float delta_time)
+{
+    for(sg_object_ptr obj: m_objects)
+        obj->update(delta_time);
 }
 
 sg_graphics_manager_ptr scenegraph::get_graphics_manager()
@@ -142,26 +157,6 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
     }
 
     return ret;
-}
-
-uint32_t scenegraph::get_type()
-{
-    return SGO_SCENEGRAPH;
-}
-
-void scenegraph::render(scenegraph * sg)
-{
-
-}
-
-sg_material_ptr scenegraph::get_material(uint32_t index)
-{
-    return sg_material_ptr();
-}
-
-uint32_t scenegraph::get_material_count()
-{
-    return 0;
 }
 
 const sg_shared_mat_vars & scenegraph::get_shared_mat_vars() const
