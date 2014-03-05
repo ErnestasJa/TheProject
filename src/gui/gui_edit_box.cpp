@@ -46,6 +46,10 @@ void gui_edit_box::render()
     _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
 
+    sx=_mw-1-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
+    if(sx>0)
+        sx=0;
+
     font_renderer* fr=this->environment->get_font_renderer();
 
     // RECT
@@ -54,18 +58,9 @@ void gui_edit_box::render()
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
-    if (fr->get_text_dimensions(m_text).x > _mw)
-    {
-        fr->render_string(m_text,glm::vec2(_mx - sx, _my), m_text_color,false);
+        fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 - sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
-    }
-    else
-    {
-        fr->render_string(m_text,glm::vec2(_mx, _my), m_text_color,false);
-        if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 +fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
-    }
+            fr->render_string("l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
 
     glDisable(GL_SCISSOR_TEST);
 
@@ -122,7 +117,6 @@ void gui_edit_box::on_event(gui_event e)
         {
             m_text+=environment->get_clipboard();
             curspos+=environment->get_clipboard().length();
-            sx+=environment->get_font_renderer()->get_text_dimensions(environment->get_clipboard()).x;
         }
         else
             m_text=environment->get_clipboard();
@@ -148,9 +142,6 @@ void gui_edit_box::add_text(int32_t index,std::string text)
         m_text+=text;
         curspos++;
     }
-
-    if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-        sx+=environment->get_font_renderer()->get_text_dimensions(text).x;
 }
 
 void gui_edit_box::remove_text(int32_t index, int32_t length)
@@ -167,7 +158,4 @@ void gui_edit_box::remove_text(int32_t index, int32_t length)
         m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
         curspos--;
     }
-
-    if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-        sx-=environment->get_font_renderer()->get_text_dimensions(m_text.substr(index-1,length)).x;
 }
