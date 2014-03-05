@@ -42,10 +42,11 @@ public:
 public:
     virtual bool register_for_rendering();
     virtual void render(scenegraph * sg)=0;
+    virtual void update(float delta_time);
+
     virtual sg_material_ptr get_material(uint32_t index)=0;
     virtual uint32_t get_material_count()=0;
 
-    virtual void update(float delta_time);
 
     virtual glm::mat4x4 get_relative_transform();
     void update_absolute_transform();

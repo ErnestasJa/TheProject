@@ -119,9 +119,11 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
             std::string mat_name, image_path;
             uint32_t pos = pmesh->sub_meshes[i].material_name.find("|");
             mat_name = pmesh->sub_meshes[i].material_name.substr(0,pos-1);
-            image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
 
-            m_logger->log(LOG_LOG, "pos =%u", pos);
+            if(pos+1<pmesh->sub_meshes[i].material_name.length())
+                image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
+
+            m_logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
             m_logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
             m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
 
@@ -131,8 +133,9 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
                 if(mat->mat_type == SGM_STATIC_MESH)
                 {
                     sg_material_static_mesh * sm_mat = static_cast<sg_material_static_mesh*>(mat.get());
-                    sm_mat->mat_texture = m_graphics_manager->load_texture(texture_path + image_path);
 
+                    if(image_path.length()!=0)
+                        sm_mat->mat_texture = m_graphics_manager->load_texture(texture_path + image_path);
                 }
             }
         }
