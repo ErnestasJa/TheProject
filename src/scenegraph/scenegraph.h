@@ -15,8 +15,11 @@ struct texture;
 
 namespace sg
 {
-class sg_graphics_manager; typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
-class isg_render_queue; typedef std::shared_ptr<isg_render_queue> sg_render_queue_ptr;
+class sg_graphics_manager;
+typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
+
+class isg_render_queue;
+typedef std::shared_ptr<isg_render_queue> sg_render_queue_ptr;
 
 class scenegraph
 {
@@ -26,18 +29,16 @@ public:
 
     sg_object_ptr add_object(sg_object_ptr object);
     sg_light_object_ptr add_light_object();
+    sg::sg_mesh_object_ptr load_mesh_object(std::string file, bool load_textures);
 
     sg_graphics_manager_ptr get_graphics_manager();
     timer_ptr get_timer();
+
     sg_camera_object_ptr get_active_camera();
-    const sg_shared_mat_vars & get_shared_mat_vars() const;
-    sg_render_queue_ptr get_render_queue();
-
     void set_active_camera(sg_camera_object_ptr cam);
+    sg_render_queue_ptr get_render_queue();
+    const sg_shared_mat_vars & get_shared_mat_vars() const;
 
-///loading
-public:
-    sg::sg_mesh_object_ptr load_mesh_object(std::string file, bool load_textures);
 
 ///rendering
     virtual bool register_objects_for_rendering();
