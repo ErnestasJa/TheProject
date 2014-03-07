@@ -39,29 +39,21 @@ public:
     sg_render_queue_ptr get_render_queue();
     const sg_shared_mat_vars & get_shared_mat_vars() const;
 
-
 ///rendering
     virtual bool register_objects_for_rendering();
     void render_all();
     void update_all(float delta_time);
 
-///matrix
-    glm::mat4x4 & get_view_projection_matrix();
-
 protected:
     void pre_render();
     void post_render();
 
-    timer_ptr m_timer;
-    logger * m_logger;
-
+    timer_ptr                   m_timer;
+    logger*                     m_logger;
     sg_render_queue_ptr         m_render_queue;
-
     sg_graphics_manager_ptr     m_graphics_manager;
-
     sg_material_ptr             m_current_material;
     sg_camera_object_ptr        m_active_camera;
-
     sg_shared_mat_vars          m_shared_mat_vars;
 
     std::vector<sg_object_ptr> m_objects;
