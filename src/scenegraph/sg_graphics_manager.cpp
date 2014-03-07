@@ -45,7 +45,10 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     }
 
     if(!res.resource)
-        m_logger->log(LOG_ERROR, "Could not load '%s' texture.", file.c_str());
+        m_logger->log(LOG_ERROR, "Texture '%s' could not be loaded.", file.c_str());
+    else
+        m_logger->log(LOG_LOG, "Texture '%s' loaded.", file.c_str());
+
 
     return res.resource;
 }

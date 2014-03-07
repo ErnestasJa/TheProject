@@ -47,18 +47,17 @@ public:
     virtual sg_material_ptr get_material(uint32_t index)=0;
     virtual uint32_t get_material_count()=0;
 
-
     virtual glm::mat4x4 get_relative_transform();
     void update_absolute_transform();
 
 protected:
-    scenegraph * m_scenegraph;
-
-    uint32_t m_flags;
-    glm::vec3 m_position, m_scale;
-    glm::quat m_rotation;
-    glm::mat4x4 m_absolute_transform;
-    sg_aabb     m_aabb;
+    scenegraph*     m_scenegraph;
+    uint32_t        m_flags;
+    glm::vec3       m_position,
+                    m_scale;
+    glm::quat       m_rotation;
+    glm::mat4x4     m_absolute_transform;
+    sg_aabb         m_aabb;
 
     std::string m_name;
 };
