@@ -81,8 +81,10 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="libphysfs_win32" />
+					<Add library="physfs_win32" />
 					<Add library="libsigc++.a" />
+					<Add library="freetype" />
+					<Add library="tinyxml2" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 				</Linker>

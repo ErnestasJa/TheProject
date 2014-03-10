@@ -1,3 +1,8 @@
+"""
+Features:
+Object type, position, rotation, scale, mesh export
+"""
+
 bl_info = {
     "name": "Inter blender scene",
     "blender": (2, 69, 0),
