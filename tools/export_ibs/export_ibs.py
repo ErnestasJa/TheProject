@@ -120,15 +120,19 @@ def save_object(context, filepath, xml_element,
 			el.append(mesh_path)
 
 		iqm_path = os.path.dirname(filepath)
-		iqm_filename =  object.name + ".iqm"
+		iqm_filename = object.data.name + ".iqm"
 		iqm_fullname = iqm_path + "/" + iqm_filename
 		
-		object.select = True 				### select the current object before trying to export it
-		from mathutils import Matrix
-		object.matrix_world = Matrix.Identity(4);
-		iqm_export.exportIQM(context, iqm_fullname, usemesh = True, useskel = False, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False)
-		
-		object.select = False
+		""" instead of modifying iqm exported we work around it"""
+		if os.path.exists(iqm_fullname) == False:
+			### select only the current object and reset ir's trasformations
+			object.select = True	
+			
+			from mathutils import Matrix
+			object.matrix_world = Matrix.Identity(4);
+			iqm_export.exportIQM(context, iqm_fullname, usemesh = True, useskel = False, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False)
+			
+			object.select = False
 		
 		iqm_path = ET.Element("iqm_file",
 				{
