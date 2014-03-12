@@ -74,6 +74,7 @@ void gui_edit_box::set_text(const std::string &text)
 
 void gui_edit_box::on_event(gui_event e)
 {
+    std::string temp;
     switch(e.get_type())
     {
     case element_focused:
@@ -86,7 +87,9 @@ void gui_edit_box::on_event(gui_event e)
 
     case key_typed:
         lastkey=environment->get_last_char();
-        add_text(curspos,std::string(&lastkey));
+        temp="";
+        temp+=lastkey;
+        add_text(curspos,temp);
         break;
 
     case key_pressed:
@@ -97,9 +100,7 @@ void gui_edit_box::on_event(gui_event e)
             break;
         case GLFW_KEY_LEFT:
             if(curspos>0)
-            {
                 curspos--;
-            }
             break;
         case GLFW_KEY_RIGHT:
             if(curspos<m_text.length())
@@ -111,16 +112,8 @@ void gui_edit_box::on_event(gui_event e)
         break;
 
     case text_paste:
-        if(curspos>0&&curspos<m_text.length())
+        add_text(curspos,environment->get_clipboard());
             m_text=m_text.substr(0,curspos-1)+environment->get_clipboard()+m_text.substr(curspos,m_text.length());
-        else if(curspos>=m_text.length())
-        {
-            m_text+=environment->get_clipboard();
-            curspos+=environment->get_clipboard().length();
-        }
-        else
-            m_text=environment->get_clipboard();
-        curspos+=environment->get_clipboard().length();
         break;
 
     default:
