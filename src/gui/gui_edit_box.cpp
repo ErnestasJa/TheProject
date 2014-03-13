@@ -113,7 +113,6 @@ void gui_edit_box::on_event(gui_event e)
 
     case text_paste:
         add_text(curspos,environment->get_clipboard());
-            m_text=m_text.substr(0,curspos-1)+environment->get_clipboard()+m_text.substr(curspos,m_text.length());
         break;
 
     default:
@@ -126,15 +125,11 @@ void gui_edit_box::add_text(int32_t index,std::string text)
     curspos=index;
 
     if(m_text.length()>0)
-    {
         m_text=m_text.substr(0,curspos)+text+m_text.substr(curspos,m_text.length());
-        curspos+=text.length();
-    }
     else
-    {
         m_text+=text;
-        curspos++;
-    }
+
+    curspos+=text.length();
 }
 
 void gui_edit_box::remove_text(int32_t index, int32_t length)
