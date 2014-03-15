@@ -53,25 +53,106 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     return res.resource;
 }
 
-sg_material_ptr sg_graphics_manager::create_material(uint32_t type)
+sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::string & vert_shader, const std::string & frag_shader)
 {
     switch(type)
     {
     case SGM_STATIC_MESH:
         {
             sg_material_static_mesh * mat = new sg_material_static_mesh();
-            mat->mat_shader=m_shader_loader->load("res/static_mesh");
+            mat->mat_shader=m_shader_loader->load("res/shaders/static_mesh/static_mesh");
 
             if(!mat->mat_shader)
-                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/static_mesh");
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/static_mesh/static_mesh");
+                 delete mat;
+                 return sg_material_ptr();
+            }
 
             mat->mat_texture=load_texture("res/no_tex.png");
+
+            if(sg_material_static_mesh::bindings[0].index==-1)
+            {
+                mat->mat_shader->set();
+                mat->mat_shader->query_binding_locations(sg_material_static_mesh::bindings);
+                sg_material_static_mesh::init_bindings();
+            }
+
+            return share(mat);
+        }
+    case SGM_VSM_FIRST_PASS:
+        {
+            sg_material_vsm_first_pass * mat = new sg_material_vsm_first_pass();
+            mat->mat_shader=m_shader_loader->load("res/shaders/vsm/firstStep");
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/vsm/firstStep");
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            if(sg_material_vsm_first_pass::bindings[0].index==-1)
+            {
+                mat->mat_shader->set();
+                mat->mat_shader->query_binding_locations(sg_material_vsm_first_pass::bindings);
+            }
+
+            return share(mat);
+        }
+    case SGM_VSM_FINAL_PASS:
+        {
+            sg_material_vsm_final_pass * mat = new sg_material_vsm_final_pass();
+            mat->mat_shader=m_shader_loader->load("res/shaders/vsm/VarianceShadowMapping");
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/vsm/VarianceShadowMapping");
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            mat->texture0=load_texture("res/no_tex.png");
+            mat->texture1=load_texture("res/no_tex.png");
+
+            if(sg_material_vsm_final_pass::bindings[0].index==-1)
+            {
+                mat->mat_shader->set();
+                mat->mat_shader->query_binding_locations(sg_material_vsm_final_pass::bindings);
+                sg_material_vsm_final_pass::init_bindings();
+            }
+
+
+
+            return share(mat);
+        }
+    case SGM_TEXTURE_FILTER:
+        {
+            sg_material_texture_filter * mat = new sg_material_texture_filter();
+            mat->mat_shader=m_shader_loader->load(vert_shader,frag_shader);
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s', '%s' shaders.", vert_shader.c_str(), frag_shader.c_str());
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            mat->texture0=load_texture("res/no_tex.png");
+
+            if(sg_material_texture_filter::bindings[0].index==-1)
+            {
+                mat->mat_shader->set();
+                mat->mat_shader->query_binding_locations(sg_material_texture_filter::bindings);
+            }
+
             return share(mat);
         }
     case SGM_POINT_SPRITE:
         {
             sg_material_point_sprite * mat = new sg_material_point_sprite();
             mat->mat_shader=m_shader_loader->load("res/shaders/point_sprite/point_sprite");
+
             mat->mat_texture=load_texture("res/no_tex.png");
             return share(mat);
         }

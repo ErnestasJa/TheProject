@@ -50,9 +50,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-std=c++11" />
+					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
@@ -179,6 +181,8 @@
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
+		<Unit filename="../../src/opengl/gl_object.cpp" />
+		<Unit filename="../../src/opengl/gl_object.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
 		<Unit filename="../../src/opengl/ibuffer_object.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />
@@ -186,6 +190,8 @@
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
+		<Unit filename="../../src/opengl/render_buffer_object.cpp" />
+		<Unit filename="../../src/opengl/render_buffer_object.h" />
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/sliced_gui_quad.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
@@ -241,6 +247,8 @@
 		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_quad.cpp" />
+		<Unit filename="../../src/scenegraph/sg_quad.h" />
 		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.cpp" />
 		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.h" />
 		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
@@ -257,7 +265,6 @@
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
-		<Unit filename="../../src/tests/test_application.cpp" />
 		<Unit filename="../../src/tests/test_application.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />

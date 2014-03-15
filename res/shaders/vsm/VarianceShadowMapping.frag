@@ -1,12 +1,12 @@
-#version 330 core
+#version 330
 
 layout(location=0) out vec4 vFragColor;	//fragment shader output
 
 //shader uniforms
-uniform mat4 MV;					//modelview matrix
-uniform sampler2D  shadowMap;		//shadowmap texture
+uniform mat4 mv;					//modelview matrix
+uniform sampler2D  texture0;		//shadowmap texture
 uniform vec3 light_position;		//light position in object space
-uniform vec3 diffuse_color;			//surface's diffuse colour
+const vec3 diffuse_color = vec3(1,1,1);			//surface's diffuse colour
 									 
 //inputs from the vertex shader		 
 smooth in vec3 vEyeSpaceNormal;		//interpolated eye space normal
@@ -21,7 +21,7 @@ const float k2 = 0.0;	//quadratic attenuation
 void main() {   
 
 	//get light position in eye space
-	vec4 vEyeSpaceLightPosition = (MV*vec4(light_position,1));
+	vec4 vEyeSpaceLightPosition = (mv*vec4(light_position,1));
 	
 	//get the light vector
 	vec3 L = (vEyeSpaceLightPosition.xyz-vEyeSpacePosition);
@@ -49,7 +49,7 @@ void main() {
 		float depth = uv.z;
 		
 		//read the moments from the shadow map texture
-		vec4 moments = texture(shadowMap, uv.xy); 
+		vec4 moments = texture(texture0, uv.xy); 
 
 		//calculate variance from the moments
 		float E_x2 = moments.y;

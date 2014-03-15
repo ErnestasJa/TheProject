@@ -164,4 +164,14 @@ const sg_shared_mat_vars & scenegraph::get_shared_mat_vars() const
     return m_shared_mat_vars;
 }
 
+sg_material_ptr scenegraph::get_override_material()
+{
+    return m_override_material;
+}
+
+void scenegraph::set_override_material( sg_material_ptr material)
+{
+    m_override_material = material;
+}
+
 }
