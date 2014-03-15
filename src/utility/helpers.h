@@ -62,6 +62,41 @@ inline const glm::vec4 color255(uint8_t r=255,uint8_t g=255,uint8_t b=255,uint8_
     return glm::vec4((float)r/255,(float)g/255,(float)b/255,(float)a/255);
 }
 
+#define ROUNDING_ERROR 0.000001f
+
+template <class T>
+bool equals(const T & v1, const T & v2);
+
+template <>
+inline bool equals(const float & v1, const float & v2)
+{
+    return (v1 + ROUNDING_ERROR >= v2) && (v1 - ROUNDING_ERROR <= v2);
+}
+
+template <>
+inline bool equals(const glm::vec3 & v1, const glm::vec3 & v2)
+{
+    return equals(v1.x,v2.x) && equals(v1.y,v2.y) && equals(v1.z,v2.z);
+}
+
+template <>
+inline bool equals(const glm::vec4 & v1, const glm::vec4 & v2)
+{
+    return equals(v1.x,v2.x) && equals(v1.y,v2.y) && equals(v1.z,v2.z) && equals(v1.w,v2.w);
+}
+
+template <>
+inline bool equals(const glm::mat4 & v1, const glm::mat4 & v2)
+{
+    return equals(v1[0],v2[0]) && equals(v1[1],v2[1]) && equals(v1[2],v2[2]) && equals(v1[3],v2[3]);
+}
+
+template <>
+inline bool equals(const glm::mat3 & v1, const glm::mat3 & v2)
+{
+    return equals(v1[0],v2[0]) && equals(v1[1],v2[1]) && equals(v1[2],v2[2]);
+}
+
 }
 
 

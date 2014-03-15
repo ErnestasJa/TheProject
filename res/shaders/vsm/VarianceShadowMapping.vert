@@ -1,36 +1,36 @@
-#version 330 core
+#version 330
+
   
 layout(location=0) in vec3 vVertex;			 	//per-vertex position
-layout(location=1) in vec3 vNormal;  		 	//per-vertex normal
+layout(location=1) in vec3 vnormal;  		 	//per-vertex normal
 
 //shader uniforms
-uniform mat4 MVP;	//modelview projection matrix
-uniform mat4 MV;	//modelview matrix
-uniform mat4 M;		//model matrix
-uniform mat3 N;		//normal matrix
-uniform mat4 S;		//shadow matrix
+uniform mat4 mvp;	//modelview projection matrix
+uniform mat4 mv;	//modelview matrix
+uniform mat4 m;		//model matrix
+uniform mat3 n;		//normal matrix
+uniform mat4 s;		//shadow matrix
 
 //shader outputs to the fragment shader
-smooth out vec3 vEyeSpaceNormal;		//eye space normal
-smooth out vec3 vEyeSpacePosition;		//eye space position
-smooth out vec4 vShadowCoords;			//shadow coordinates
+smooth out vec3 vEyespacenormal;		//eye space normal
+smooth out vec3 vEyespacePosition;		//eye space position
+smooth out vec4 vshadowCoords;			//shadow coordinates
 
 void main()
 { 	
 	//multiply the object space vertex position with the modelview matrix 
 	//to get the eye space vertex position
-	vEyeSpacePosition = (MV*vec4(vVertex,1)).xyz; 
+	vEyespacePosition = (mv*vec4(vVertex,1)).xyz; 
 
 	//multiply the object space normal with the normal matrix 
 	//to get the eye space normal
-	vEyeSpaceNormal   = N*vNormal;
+	vEyespacenormal   = n*vnormal;
 
 	//multiply the world space vertex position with the shadow matrix 
 	//to get the shadow coordinates
-	vShadowCoords     = S*(M*vec4(vVertex,1));
+	vshadowCoords     = s*(m*vec4(vVertex,1));
 
 	//multiply the combined modelview projection matrix with the object space vertex
 	//position to get the clip space position
-    gl_Position       = MVP*vec4(vVertex,1); 
+    gl_Position       = mvp*vec4(vVertex,1); 
 }
- 

@@ -10,6 +10,7 @@ namespace sg
         SGO_CAMERA,
         SGO_AABB_WIREFRAME_OBJECT,
         SGO_POINT_SPRITE,
+        SGO_QUAD,
         SGO_LIGHT
     };
 }

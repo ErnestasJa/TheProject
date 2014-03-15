@@ -14,7 +14,7 @@ struct sg_mvar
     sg_mvar(std::string name, T val);
     sg_mvar(std::string name);
 
-    void set(shader_ptr pshader) const;
+    void set(int32_t binding_index) const;
     sg_mvar & operator = (const T & val);
 
 ///-------------------------------
@@ -33,16 +33,19 @@ template <class T>
 sg_mvar<T>::sg_mvar(std::string name){this->name=name;}
 
 template <>
-void sg_mvar<float>::set(shader_ptr pshader) const;
+void sg_mvar<float>::set(int32_t binding_index) const;
 
 template <>
-void sg_mvar<glm::mat4x4>::set(shader_ptr pshader) const;
+void sg_mvar<int32_t>::set(int32_t binding_index) const;
 
 template <>
-void sg_mvar<glm::mat3x3>::set(shader_ptr pshader) const;
+void sg_mvar<glm::mat4x4>::set(int32_t binding_index) const;
 
 template <>
-void sg_mvar<glm::vec3>::set(shader_ptr pshader) const;
+void sg_mvar<glm::mat3x3>::set(int32_t binding_index) const;
+
+template <>
+void sg_mvar<glm::vec3>::set(int32_t binding_index) const;
 
 template <class T>
 sg_mvar<T> & sg_mvar<T>::operator = (const T & val)

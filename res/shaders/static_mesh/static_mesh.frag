@@ -1,7 +1,7 @@
 #version 330
 
 //uniforms
-uniform sampler2D tex;
+uniform sampler2D texture0;
 uniform vec3 camera_pos;
 uniform vec3 light_pos;
 
@@ -20,7 +20,7 @@ const float shininess = 256.0f;
 
 void main()
 {
-	vec4 tex_color = texture2D(tex,UV);
+	vec4 tex_color = texture2D(texture0,UV);
 	
 	if(tex_color.a<0.2)
 		discard;

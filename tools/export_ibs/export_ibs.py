@@ -123,7 +123,7 @@ def save_object(context, filepath, xml_element,
 		iqm_filename = object.data.name + ".iqm"
 		iqm_fullname = iqm_path + "/" + iqm_filename
 		
-		""" instead of modifying iqm exported we work around it"""
+		""" instead of modifying iqm exporter we work around it"""
 		if os.path.exists(iqm_fullname) == False:
 			### select only the current object and reset ir's trasformations
 			object.select = True	
