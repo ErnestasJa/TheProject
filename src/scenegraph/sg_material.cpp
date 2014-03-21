@@ -118,21 +118,21 @@ void sg_material_texture_filter::set()
 binding sg_material_vsm_final_pass::bindings[]=
 {
     {"texture0",-1},
-    {"texture1",-1},
     {"m",-1},
-    {"mv",-1},
+    {"m",-1},
     {"mvp",-1},
     {"s",-1},
-    {"n",-1},
-    {"light_pos",-1},
-    {"camera_pos",-1},
+    {"m",-1},
+    {"m",-1},
+    //{"camera_pos",-1},
     {"",-1}
 };
 
 void sg_material_vsm_final_pass::init_bindings()
 {
-    sg_mvar<int32_t>("texture0",2).set(bindings[0].index);
-    sg_mvar<int32_t>("texture1",1).set(bindings[1].index);
+    sg_mvar<int32_t>("texture0",0).set(bindings[0].index);
+    //sg_mvar<int32_t>("texture1",1).set(bindings[1].index);
+
 }
 
 sg_material_vsm_final_pass::sg_material_vsm_final_pass()
@@ -144,7 +144,7 @@ sg_material_vsm_final_pass::sg_material_vsm_final_pass()
     mvp.name="mvp";
     s.name="s";
     n.name="n";
-    light_pos.name="light_pos";
+    light_pos.name="light_position";
     camera_pos.name="camera_pos";
 
 }
@@ -152,16 +152,16 @@ sg_material_vsm_final_pass::sg_material_vsm_final_pass()
 void sg_material_vsm_final_pass::set()
 {
     mat_shader->set();
-    m.set(bindings[2].index);
-    mv.set(bindings[3].index);
-    mvp.set(bindings[4].index);
-    s.set(bindings[5].index);
-    n.set(bindings[6].index);
-    light_pos.set(bindings[7].index);
-    camera_pos.set(bindings[8].index);
+    m.set(bindings[1].index);
+    //mv.set(bindings[2].index);
+    mvp.set(bindings[3].index);
+    s.set(bindings[4].index);
+    //n.set(bindings[5].index);
+    //light_pos.set(bindings[6].index);
+    //camera_pos.set(bindings[7].index);
 
     texture0->set(0);
-    texture1->set(1);
+    //texture1->set(1);
 }
 
 ///----------------------------------------------------------

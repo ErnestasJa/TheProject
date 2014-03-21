@@ -45,7 +45,10 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     }
 
     if(!res.resource)
+    {
         m_logger->log(LOG_ERROR, "Texture '%s' could not be loaded.", file.c_str());
+        throw "Texture not loaded.";
+    }
     else
         m_logger->log(LOG_LOG, "Texture '%s' loaded.", file.c_str());
 
@@ -112,7 +115,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            mat->texture0=load_texture("res/no_tex.png");
+            //mat->texture0=load_texture("res/no_tex.png");
             mat->texture1=load_texture("res/no_tex.png");
 
             if(sg_material_vsm_final_pass::bindings[0].index==-1)
@@ -138,7 +141,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            mat->texture0=load_texture("res/no_tex.png");
+            //mat->texture0=load_texture("res/no_tex.png");
 
             if(sg_material_texture_filter::bindings[0].index==-1)
             {

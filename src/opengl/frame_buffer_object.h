@@ -121,7 +121,6 @@ struct frame_buffer_object: public gl_object
     void unset()
     {
         glBindFramebuffer(target,0);
-        glDrawBuffer(GL_BACK_LEFT);
     }
 
     void attach_depth_texture(gl_object_ptr obj, uint32_t level=0)

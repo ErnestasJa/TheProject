@@ -20,10 +20,14 @@
 #include "resources/image_loader.h"
 #include "scenegraph/sg_graphics_manager.h"
 #include "scenegraph/scenegraph.h"
+#include "scenegraph/isg_render_queue.h"
 #include "scenegraph/sg_scenegraph_loader.h"
 #include "scenegraph/sg_objects.h"
 #include "scenegraph/sg_material.h"
 #include "physics/Physics.h"
+
+//shadowmap texture dimensions
+const int SHADOWMAP_DIMENSIONS = 512;
 
 test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -39,7 +43,7 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
     wnd->sig_key_event().connect(sigc::mem_fun(this,&test_game::on_key_event));
-    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
+
 
     m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
@@ -58,26 +62,23 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 
 bool test_game::init_scene()
 {
-    sg::sg_mesh_object_ptr obj;
-    mesh_ptr m;
-
-    ///add light
-    sg::sg_light_object_ptr lobj = m_scenegraph->add_light_object();
-    lobj->set_position(glm::vec3(0,100,0));
-
-    ///add cam
-    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
-
-    m_scenegraph->set_active_camera(cam);
-    m_scenegraph->add_object(cam);
-
     ///hide cursor
-    wnd->set_mouse_pos(m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2);
+    m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2;
+    m_log->log(LOG_LOG, "Window half size: [%i, %i]", m_current_mouse_pos.x, m_current_mouse_pos.y);
+
     wnd->set_cursor_disabled(true);
+    ///for some reason this doulbe update is required in order not to have mouse pos jump at first mouse input events
+    wnd->set_mouse_pos(m_current_mouse_pos);
+    wnd->update();
+    wnd->set_mouse_pos(m_current_mouse_pos);
+    wnd->update();
+    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
+
 
     ///load scene
     sg::sg_scenegraph_loader sg_loader;
-    sg_loader.load_scene(m_scenegraph,"res/test_scene/test_scene.ibs");
+    sg_loader.load_scene(m_scenegraph,"res/test_scene/test_scene3.ibs");
+
     if(this->gl_util->check_and_output_errors())return false;
 
     ///shadow shit starts here
@@ -90,34 +91,46 @@ bool test_game::init_scene()
 
     //prepare fbos
     uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
+    glViewport(0,0,w,h);
+
+
+    ///create textures
+    texture * shadow_tex = new texture();
+    texture_ptr shadow_tex_ptr(shadow_tex);
+    shadow_tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
+    shadow_tex->set(0);
+    shadow_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR_MIPMAP,texture::FILTER_MAG::FILTER_MAG_LINEAR);
+    shadow_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
+    shadow_tex->set_border_color(glm::vec4(1,0,0,0));
+    shadow_tex->init_mipmap(0,4);
+    shadow_tex->unset(0);
+    m_shadow_tex = shadow_tex_ptr;
+
+    texture * filter_tex = new texture();
+    texture_ptr filter_tex_ptr(filter_tex);
+    filter_tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
+    filter_tex->set(0);
+    filter_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR,texture::FILTER_MAG::FILTER_MAG_LINEAR);
+    filter_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
+    filter_tex->set_border_color(glm::vec4(1,0,0,0));
+    filter_tex->unset(0);
+
+    render_buffer_object * rbo = new render_buffer_object();
+    render_buffer_object_ptr rbo_ptr(rbo);
+    rbo->init(GL_DEPTH_COMPONENT32,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
+
 
     if(this->gl_util->check_and_output_errors())return false;
 
+    ///prep fbos
     frame_buffer_object * fbo = new frame_buffer_object();
     frame_buffer_object_ptr fbo_ptr(fbo);
     m_shadow_fbo = fbo_ptr;
     fbo->init();
     fbo->set();
 
-    {
-        render_buffer_object * rbo = new render_buffer_object();
-        render_buffer_object_ptr rbo_ptr(rbo);
-        rbo->init(GL_DEPTH_COMPONENT32,w,h);
-        fbo->attach_depth_texture(rbo_ptr);
-    }
-
-    {
-        texture * tex = new texture();
-        texture_ptr tex_ptr(tex);
-        tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,w,h);
-        tex->set(0);
-        tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR_MIPMAP,texture::FILTER_MAG::FILTER_MAG_LINEAR);
-        tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
-        tex->set_border_color(glm::vec4(1,0,0,0));
-        tex->init_mipmap(0,4);
-        fbo->attach_texture(0,tex_ptr);
-    }
-
+    fbo->attach_depth_texture(rbo_ptr);
+    fbo->attach_texture(0,shadow_tex_ptr);
 
     if(!fbo->is_complete())
     {
@@ -135,40 +148,31 @@ bool test_game::init_scene()
     fbo2->init();
     fbo2->set();
 
-    {
-        texture * tex = new texture();
-        texture_ptr tex_ptr(tex);
-        uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
-        tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,w,h);
-        tex->set(1);
-        tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR,texture::FILTER_MAG::FILTER_MAG_LINEAR);
-        tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
-        tex->set_border_color(glm::vec4(1,0,0,0));
-        fbo2->attach_texture(0,tex_ptr);
-    }
-
-    {
-        texture * tex = new texture();
-        texture_ptr tex_ptr(tex);
-        uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
-        tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,w,h);
-        tex->set(2);
-        tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR,texture::FILTER_MAG::FILTER_MAG_LINEAR);
-        tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
-        tex->set_border_color(glm::vec4(1,0,0,0));
-        fbo2->attach_texture(1,tex_ptr);
-    }
+    fbo2->attach_texture(0,filter_tex_ptr);
+    fbo2->attach_texture(1,shadow_tex_ptr);
 
     if(!fbo2->is_complete())
     {
         m_log->log(LOG_CRITICAL,"[FBO2] FUCK THIS SHIT, I QUIT!..");
         return false;
     }
+
+    fbo2->unset();
+
+    static_cast<sg::sg_material_texture_filter*>(m_mat_gauss_v.get())->texture0=shadow_tex_ptr;
+    static_cast<sg::sg_material_texture_filter*>(m_mat_gauss_h.get())->texture0=filter_tex_ptr;
+    static_cast<sg::sg_material_vsm_final_pass*>(m_mat_final_pass.get())->texture0=shadow_tex_ptr;
+
     if(this->gl_util->check_and_output_errors())return false;
 
     m_shadow_filter = fbo2_ptr;
 
     m_quad = share(new sg::sg_quad(m_scenegraph));
+
+    //enable depth testing and culling
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
     return true;
 }
@@ -183,54 +187,59 @@ bool test_game::update()
         m_current_time = main_timer->get_real_time();
         float delta_time = ((float)(m_current_time - m_last_time)) / 1000.0f;
 
-        cam_move();
-
         m_physics_manager->update(delta_time);
         m_scenegraph->update_all(delta_time);
 
-        if(this->gl_util->check_and_output_errors())return false;
+        //m_scenegraph->validate_transforms();
+
 
         ///first pass
+        glViewport(0, 0, SHADOWMAP_DIMENSIONS ,SHADOWMAP_DIMENSIONS);
+        glClearColor(1,0,0,0);
+
         m_shadow_fbo->set();
+        m_shadow_fbo->enable_buffer(0);
+
         m_scenegraph->set_override_material(m_mat_first_pass);
 
             m_scenegraph->render_all();
 
         m_scenegraph->set_override_material(nullptr);
-
-        if(this->gl_util->check_and_output_errors())return false;
+        m_shadow_fbo->unset();
 
         ///filter first pass results
         //vertical blur
         m_shadow_filter->set();
         m_quad->set_material(m_mat_gauss_v);
+        m_shadow_filter->disable_buffer(1);
+        m_shadow_filter->enable_buffer(0);
+
+
         m_quad->register_for_rendering();
-
-            m_scenegraph->render_all();
-
-        m_scenegraph->set_override_material(nullptr);
-
-        if(this->gl_util->check_and_output_errors())return false;
+        m_scenegraph->get_render_queue()->render_all();
 
         //horizontal blur
         m_quad->set_material(m_mat_gauss_h);
+        m_shadow_filter->disable_buffer(0);
+        m_shadow_filter->enable_buffer(1);
+
         m_quad->register_for_rendering();
+        m_scenegraph->get_render_queue()->render_all();
 
-            m_scenegraph->render_all();
-
-        m_scenegraph->set_override_material(nullptr);
         m_shadow_filter->unset();
+        m_shadow_tex->update_mipmaps();
 
-        if(this->gl_util->check_and_output_errors())return false;
 
-        ///draw scene "normally"
+        ///draw scene "normally"*/
+
+        uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
+        glViewport(0,0,w,h);
+        glClearColor(0.2,0.8,0.2,0);
         m_scenegraph->set_override_material(m_mat_final_pass);
 
             m_scenegraph->render_all();
 
         m_scenegraph->set_override_material(nullptr);
-
-        if(this->gl_util->check_and_output_errors())return false;
 
         wnd->swap_buffers();
 
@@ -305,19 +314,26 @@ void test_game::on_mouse_move(double x, double y)
     m_current_mouse_pos = glm::ivec2(x,y);
     glm::ivec2 delta_pos =  m_current_mouse_pos - m_last_mouse_pos;
 
+    if(glm::abs(delta_pos.x)>100||glm::abs(delta_pos.y)>100) ///probably some random shit happened, discard
+        return;
+
     if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
-        if(delta_pos.x!=0 || delta_pos.y!=0)
-        {
             glm::quat r = cam->get_rotation();
+            glm::vec3 rot_deg = glm::eulerAngles(r);
+            m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
+            m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
 
-            glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(delta_pos.y/100.0f,0,0));
+            glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
 
             r= rot_x * r;
             r= r * rot_y;
 
             cam->set_rotation(r);
-        }
+
+            r = cam->get_rotation();
+            rot_deg = glm::eulerAngles(r);
+            m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
     }
 }
 

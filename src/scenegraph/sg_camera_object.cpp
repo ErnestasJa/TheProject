@@ -6,7 +6,10 @@ namespace sg
 
 sg_camera_object::sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(sg)
 {
-    this->m_position=pos;
+    this->set_position(pos);
+    this->set_rotation(glm::toQuat(glm::lookAt(pos,target,up)));
+    this->update_absolute_transform();
+
     this->m_look=pos-target;
     this->m_up=up;
 
@@ -53,28 +56,31 @@ void sg_camera_object::update(scenegraph * sg)
 {
 	m_position+=m_translation;
 	m_translation=glm::vec3(0);
-
-	m_look  = glm::vec3(m_rotation*glm::vec4(0,0,1,0));
-	m_up    = glm::vec3(m_rotation*glm::vec4(0,1,0,0));
-	m_right = glm::cross(m_look, m_up);
-
-	m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
 void sg_camera_object::walk(const float amount) {
 	m_translation += (m_look*amount);
+    m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
 void sg_camera_object::strafe(const float amount) {
 	m_translation += (m_right*amount);
+    m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
 void sg_camera_object::lift(const float amount) {
 	m_translation += (m_up*amount);
+    m_flags |= SGOF_TRANSFORM_OUTDATED;
 }
 
 glm::mat4x4 sg_camera_object::get_relative_transform()
 {
+    //return isg_object::get_relative_transform();
+    m_look  = glm::vec3(m_rotation*glm::vec3(0,0,-1));
+	m_up    = glm::vec3(m_rotation*glm::vec3(0,1,0));
+
+	m_right = glm::cross(m_look, m_up);
+
     return glm::lookAt(m_position,m_position+m_look,m_up);
 }
 

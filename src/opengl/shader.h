@@ -167,8 +167,12 @@ struct shader
 
     void query_binding_locations(binding * v)
     {
-        for ( binding *t = v; t->name.size(); t++ )
+        for ( binding *t = v; t->name.size()>0; t++ )
+        {
             t->index = glGetUniformLocation ( program, t->name.c_str() );
+            if(t->index==-1)
+            throw *t;
+        }
     }
 };
 

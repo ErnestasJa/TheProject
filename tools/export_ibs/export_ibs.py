@@ -130,6 +130,7 @@ def save_object(context, filepath, xml_element,
 			
 			from mathutils import Matrix
 			object.matrix_world = Matrix.Identity(4);
+			#object.matrix_world = global_matrix;
 			iqm_export.exportIQM(context, iqm_fullname, usemesh = True, useskel = False, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False)
 			
 			object.select = False

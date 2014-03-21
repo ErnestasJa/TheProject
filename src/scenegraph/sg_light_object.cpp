@@ -6,7 +6,8 @@ namespace sg
 
 sg_light_object::sg_light_object(scenegraph * sg): isg_object(sg)
 {
-    //ctor
+    m_look = glm::vec3(0,0,-1);
+    m_up = glm::vec3(0,1,0);
 }
 
 sg_light_object::~sg_light_object()
@@ -43,4 +44,14 @@ void sg_light_object::recalculate_aabb()
 {
 
 }
+
+glm::mat4x4 sg_light_object::get_relative_transform()
+{
+    m_look  = glm::vec3(m_rotation*glm::vec3(0,0,-1));
+	m_up    = glm::vec3(m_rotation*glm::vec3(0,1,0));
+	m_right = glm::cross(m_look, m_up);
+
+    return glm::lookAt(m_position,m_position+m_look,m_up);
+}
+
 }

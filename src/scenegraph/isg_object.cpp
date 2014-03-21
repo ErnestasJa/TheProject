@@ -6,8 +6,9 @@
 namespace sg
 {
 
-isg_object::isg_object(scenegraph * sg):m_scenegraph(sg), m_scale(1,1,1), m_rotation(1,0,0,0), m_flags(SGOF_TRANSFORM_OUTDATED)
+isg_object::isg_object(scenegraph * sg):m_scenegraph(sg), m_scale(1,1,1), m_rotation(1,0,0,0)
 {
+    update_absolute_transform();
 }
 
 isg_object::~isg_object()
@@ -28,6 +29,11 @@ const glm::mat4x4 & isg_object::get_absolute_transform()
 std::string & isg_object::get_name()
 {
     return m_name;
+}
+
+void isg_object::set_name(const std::string & name)
+{
+    m_name = name;
 }
 
 const sg_aabb & isg_object::get_aabb()
@@ -83,7 +89,7 @@ void isg_object::update_absolute_transform()
 
 void isg_object::update(float delta_time)
 {
-    this->update_absolute_transform();
+
 }
 
 bool isg_object::register_for_rendering()

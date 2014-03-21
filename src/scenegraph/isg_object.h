@@ -35,6 +35,7 @@ public:
 
     const glm::mat4x4 & get_absolute_transform();
 
+    void set_name(const std::string & name);
     std::string &   get_name();
     const sg_aabb & get_aabb();
     virtual uint32_t get_type() = 0;

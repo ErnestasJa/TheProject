@@ -1,40 +1,17 @@
-#version 330
+#version 330 core
 
 layout(location=0) out vec4 vFragColor;	//fragment shader output
 
 //shader uniforms
-uniform mat4 mv;					//modelview matrix
-uniform sampler2D  texture0;		//shadowmap texture
-uniform vec3 light_position;		//light position in object space
-const vec3 diffuse_color = vec3(1,1,1);			//surface's diffuse colour
+uniform sampler2D texture0;
+const vec3 diffuse_color = vec3(0.8,0.8,0.8);
 									 
-//inputs from the vertex shader		 
-smooth in vec3 vEyeSpaceNormal;		//interpolated eye space normal
-smooth in vec3 vEyeSpacePosition;	//interpolated eye space position
 smooth in vec4 vShadowCoords;		//interpolated shadow coordinates
-
-//shader constants
-const float k0 = 1.0;	//constant attenuation
-const float k1 = 0.0;	//linear attenuation
-const float k2 = 0.0;	//quadratic attenuation
 
 void main() {   
 
-	//get light position in eye space
-	vec4 vEyeSpaceLightPosition = (mv*vec4(light_position,1));
-	
-	//get the light vector
-	vec3 L = (vEyeSpaceLightPosition.xyz-vEyeSpacePosition);
-	
-	//get the distance of the light source
-	float d = length(L);
+	float diffuse = 1;
 
-	//normalize the light vector
- 	L = normalize(L);
-
-	//calculate the diffuse component and apply light attenuation 
-	float attenuationAmount = 1.0/(k0 + (k1*d) + (k2*d*d));
-	float diffuse = max(0, dot(vEyeSpaceNormal, L)) * attenuationAmount;	
 	  
 	//if the homogeneous coordinate is > 1, we are in the forward half
 	//so we should cast shadows. If this check is removed, you will see 
@@ -57,7 +34,7 @@ void main() {
 		float var = E_x2-Ex_2;
 
 		//bias the variance
-		var = max(var, 0.00002);
+		var = max(var, 0.000002);
 
 		//subtract the fragment depth from the  first moment
 		//divide variance by the squared difference value

@@ -10,6 +10,7 @@ texture::texture()
 {
     id = -1;
     type = GL_TEXTURE_2D;
+
 }
 
 texture::~texture()
@@ -161,10 +162,30 @@ void texture::init_mipmap(uint32_t base, uint32_t max)
     glBindTexture(type,current);
 }
 
+void texture::update_mipmaps()
+{
+    if(current!=id)
+    glBindTexture(type,id);
+
+    glGenerateMipmap(type);
+
+    if(current!=id)
+    glBindTexture(type,current);
+}
+
 void texture::set(uint8_t slot)
 {
     glActiveTexture(GL_TEXTURE0+slot);
     glBindTexture(type,id);
+
+    active_slot = slot;
+    current = id;
+}
+
+void texture::unset(uint8_t slot)
+{
+    glActiveTexture(GL_TEXTURE0+slot);
+    glBindTexture(type,0);
 
     active_slot = slot;
     current = id;
