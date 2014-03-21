@@ -1,6 +1,6 @@
-#version 330
-
-layout(location=0) out vec4 FragColor;
+#version 330 core
+ 
+layout(location=0) out vec4 vFragColor;//fragment shader output
 
 smooth in vec2 vUV;	//input interpolated texture coordinate
 
@@ -27,5 +27,5 @@ void main()
 	}
 	  
 	//return the filtered colour as fragment output
-    FragColor =  vec4(color.xy,0,0);	
+    vFragColor =  vec4(color.xy,0,0);	
 }

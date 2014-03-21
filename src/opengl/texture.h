@@ -42,7 +42,9 @@ struct texture: public gl_object
     void set_border_color(const glm::vec4 & color);
     void init_mipmap(uint32_t base, uint32_t max);
     void init_mipmap();
+    void update_mipmaps();
     void set(uint8_t slot);
+    void unset(uint8_t slot);
     void free();
     virtual GLO_TYPE get_type();
 };

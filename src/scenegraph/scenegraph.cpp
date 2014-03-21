@@ -57,6 +57,43 @@ void scenegraph::pre_render()
         v.proj = m_active_camera->get_projection();
         v.view_proj = v.proj.value * v.view.value;
     }
+    else
+        throw "At least one camera is required";
+}
+
+bool scenegraph::validate_transforms()
+{
+    bool success = true;
+
+    for(sg_object_ptr o: m_objects)
+    {
+        isg_object * obj = o.get();
+
+        glm::vec3 pos = obj->get_position();
+        glm::quat rot = obj->get_rotation();
+        //glm::vec3 scale = obj->get_scale();
+        glm::mat4 transf = obj->get_absolute_transform();
+
+        glm::vec3 pos2(transf[3].x,transf[3].y,transf[3].z);
+        transf[3]=glm::vec4(0,0,0,0);
+
+        glm::quat rot2 = glm::toQuat(transf);
+
+        if(!helpers::equals(pos,pos2))
+        {
+            m_logger->log(LOG_WARN,"{%s}(pos)[%f,%f,%f]!=[%f,%f,%f]",obj->get_name().c_str(),pos.x,pos.y,pos.z,pos2.x,pos2.y,pos2.z);
+            success = false;
+        }
+
+        if(!helpers::equals(rot,rot2) && !helpers::equals(rot,-1.0f*rot2))
+        {
+            m_logger->log(LOG_WARN,"{%s}(rot)[%f,%f,%f,%f]!=[%f,%f,%f,%f]",obj->get_name().c_str(),rot.x,rot.y,rot.z,rot.w,rot2.x,rot2.y,rot2.z,rot2.w);
+            success = false;
+        }
+
+    }
+
+    return success;
 }
 
 bool scenegraph::register_objects_for_rendering()
@@ -126,7 +163,7 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
     {
         ret = share(new sg::sg_mesh_object(this,pmesh));
 
-        std::string texture_path = file.substr(0,file.rfind("/")+1);
+        std::string texture_path = file.substr(0,file.rfind("/"));
         m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
 
         for(uint32_t i=0; i<ret->get_material_count(); i++)

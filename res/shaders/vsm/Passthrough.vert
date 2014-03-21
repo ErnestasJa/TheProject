@@ -1,6 +1,6 @@
-#version 330
-
-layout (location=0) in vec3 vVertex;		//object space vertex position
+#version 330 core
+  
+layout(location=0) in vec3 vVertex;		//object space vertex position
 
 //vertex shader output to fragment shader
 smooth out vec2 vUV;					//texture coordinates

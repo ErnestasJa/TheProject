@@ -23,9 +23,13 @@ public:
     virtual uint32_t        get_material_count();
 
     virtual void            recalculate_aabb();
+    virtual glm::mat4x4     get_relative_transform();
 
 protected:
     sg_aabb m_aabb;
+    glm::vec3 m_look;
+	glm::vec3 m_up;
+	glm::vec3 m_right;
 };
 typedef std::shared_ptr<sg_light_object> sg_light_object_ptr;
 }

@@ -2,6 +2,7 @@
 
 namespace helpers
 {
+#define loopi(count) for(uint32_t i = 0; i < (count); i++)
 
 template <typename T> inline std::string to_str(const T& t)
 {
@@ -62,7 +63,7 @@ inline const glm::vec4 color255(uint8_t r=255,uint8_t g=255,uint8_t b=255,uint8_
     return glm::vec4((float)r/255,(float)g/255,(float)b/255,(float)a/255);
 }
 
-#define ROUNDING_ERROR 0.000001f
+#define ROUNDING_ERROR 0.00001f
 
 template <class T>
 bool equals(const T & v1, const T & v2);
@@ -81,6 +82,12 @@ inline bool equals(const glm::vec3 & v1, const glm::vec3 & v2)
 
 template <>
 inline bool equals(const glm::vec4 & v1, const glm::vec4 & v2)
+{
+    return equals(v1.x,v2.x) && equals(v1.y,v2.y) && equals(v1.z,v2.z) && equals(v1.w,v2.w);
+}
+
+template <>
+inline bool equals(const glm::quat & v1, const glm::quat & v2)
 {
     return equals(v1.x,v2.x) && equals(v1.y,v2.y) && equals(v1.z,v2.z) && equals(v1.w,v2.w);
 }

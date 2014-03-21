@@ -18,6 +18,7 @@ struct shader;
 typedef std::shared_ptr<shader> shader_ptr;
 class shader_loader;
 class texture;
+typedef std::shared_ptr<texture> texture_ptr;
 class frame_buffer_object;
 typedef std::shared_ptr<frame_buffer_object> frame_buffer_object_ptr;
 
@@ -40,6 +41,7 @@ protected:
 
     ///shadows
     frame_buffer_object_ptr m_shadow_fbo, m_shadow_filter;
+    texture_ptr m_shadow_tex;
     sg::sg_material_ptr m_mat_gauss_v, m_mat_gauss_h, m_mat_first_pass, m_mat_final_pass;
     sg::sg_quad_ptr m_quad;
 

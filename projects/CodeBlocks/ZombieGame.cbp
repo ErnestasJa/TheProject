@@ -28,6 +28,9 @@
 					<Add library="physfs" />
 					<Add library="freetype" />
 					<Add library="tinyxml2" />
+					<Add library="sigc-2.0" />
+					<Add directory="../../libs/tinyxml2/lib/linux" />
+					<Add directory="../../libs/bullet/lib/linux" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
@@ -54,6 +57,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg" />
 					<Add option="-pg -lgmon" />
 					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
@@ -65,6 +69,8 @@
 					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
+					<Add directory="../../libs/bullet/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
@@ -89,6 +95,8 @@
 					<Add library="tinyxml2" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
+					<Add directory="../../libs/bullet/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -115,12 +123,11 @@
 			<Add library="libLinearMath.a" />
 			<Add directory="../../libs/glfw/lib" />
 			<Add directory="../../libs/physfs/lib" />
-			<Add directory="../../libs/freetype/lib" />
 			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
-			<Add directory="../../libs/bullet/lib" />
 			<Add directory="../../libs/libsigc++/lib" />
 		</Linker>
+		<Unit filename="../../ideas.txt" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
 		<Unit filename="../../libs/glxw/src/glxw.c">

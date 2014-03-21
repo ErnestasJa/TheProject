@@ -33,7 +33,7 @@ logger::~logger()
 
 void logger::log(loglevel lev,const char* st, ...)
 {
-   /* m_app->get_timer()->tick();
+    m_app->get_timer()->tick();
     char buf[256];
     va_list l;
     va_start(l,st);
@@ -71,7 +71,7 @@ void logger::log(loglevel lev,const char* st, ...)
     //outputs.push_back(p);
     PHYSFS_write(m_logfile,message.c_str(),message.size(),1);
     PHYSFS_flush(m_logfile);
-    printf("%s",message.c_str());*/
+    printf("%s",message.c_str());
 }
 
 std::string logger::timestamp()

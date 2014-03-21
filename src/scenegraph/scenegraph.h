@@ -42,7 +42,7 @@ public:
     void set_override_material(sg_material_ptr material);
     sg_material_ptr get_override_material();
 
-///rendering
+    virtual bool validate_transforms();
     virtual bool register_objects_for_rendering();
     void render_all();
     void update_all(float delta_time);

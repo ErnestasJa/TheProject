@@ -18,7 +18,7 @@ sg_default_render_queue::~sg_default_render_queue()
 
 void sg_default_render_queue::add_object(isg_object * obj)
 {
-    if(obj->get_type()==SGO_MESH)
+    if(obj->get_type()==SGO_MESH || obj->get_type() == SGO_QUAD)
     {
         m_objects.push_back(obj);
     }
@@ -45,10 +45,9 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
             mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
             mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
 
-            if(m_lights.size()>0)
-                mat->light_pos=m_lights[0]->get_position();
-            else
-                mat->light_pos=glm::vec3();
+
+            mat->light_pos=m_lights[0]->get_position();
+
 
             if(m_current_material && m_current_material->mat_type==SGM_STATIC_MESH)
             {
@@ -79,24 +78,13 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
         {
             sg_material_vsm_first_pass * mat = static_cast<sg_material_vsm_first_pass *>(material.get());
 
-            glm::mat4 MV_L;
-
-            if(m_lights.size()>0)
-            {
-                MV_L=m_lights[0]->get_absolute_transform();
-            }
-
             glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 50.0f);
-            glm::mat4 B    = glm::scale(glm::translate(glm::mat4(1),glm::vec3(0.5,0.5,0.5)), glm::vec3(0.5,0.5,0.5));
-            glm::mat4 BP   = B*P_L;
-
-            mat->mvp = (BP * MV_L) * obj->get_absolute_transform();
+            mat->mvp = P_L * m_lights[0]->get_absolute_transform() * obj->get_absolute_transform();
 
             break;
         }
         case SGM_TEXTURE_FILTER:
         {
-
             break;
         }
         case SGM_VSM_FINAL_PASS:
@@ -105,20 +93,16 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
             mat->m = obj->get_absolute_transform();
             mat->mv = m_scenegraph->get_shared_mat_vars().view.value * mat->m.value;
             mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
-            mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
-            glm::mat4 MV_L;
+            mat->n = glm::inverseTranspose(glm::mat3(m_scenegraph->get_shared_mat_vars().view.value * mat->m.value));
 
-            if(m_lights.size()>0)
-            {
-                mat->light_pos=m_lights[0]->get_position();
-                MV_L=m_lights[0]->get_absolute_transform();
-            }
+            mat->light_pos=m_lights[0]->get_position();
 
             glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 50.0f);
             glm::mat4 B    = glm::scale(glm::translate(glm::mat4(1),glm::vec3(0.5,0.5,0.5)), glm::vec3(0.5,0.5,0.5));
             glm::mat4 BP   = B*P_L;
 
-            mat->s = BP * MV_L;
+            //mat->s = BP * MV_L;
+            mat->s = BP * m_lights[0]->get_absolute_transform();
 
             break;
         }
