@@ -57,20 +57,21 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
 					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
 					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
 					<Add library="physfs_win32" />
 					<Add library="freetype" />
-					<Add library="tinyxml2" />
+					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
-					<Add directory="../../libs/bullet/lib" />
+					<Add directory="../../libs/bullet/lib/win32" />
+					<Add directory="../../libs/tinyxml2/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
