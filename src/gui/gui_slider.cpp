@@ -19,7 +19,14 @@ gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, int min, in
     m_min=min;
     m_max=max;
     m_cur_value=m_old_value=pos;
-    m_slider_pos=(int)(dimensions.w*(pos/(max-min)));
+    if(vertical)
+    {
+        m_slider_pos=(int)(absolute_rect.y-((pos-absolute_rect.h)/(max-min)));
+    }
+    else
+    {
+        m_slider_pos=(int)(dimensions.w*(pos/(max-min)));
+    }
     m_vertical=vertical;
 
     this->set_parent(env);
