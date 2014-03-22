@@ -159,6 +159,8 @@
 		<Unit filename="../../src/gui/gui_pane.h" />
 		<Unit filename="../../src/gui/gui_skin.cpp" />
 		<Unit filename="../../src/gui/gui_skin.h" />
+		<Unit filename="../../src/gui/gui_slider.cpp" />
+		<Unit filename="../../src/gui/gui_slider.h" />
 		<Unit filename="../../src/gui/gui_static_text.cpp" />
 		<Unit filename="../../src/gui/gui_static_text.h" />
 		<Unit filename="../../src/gui/gui_test_element.h" />

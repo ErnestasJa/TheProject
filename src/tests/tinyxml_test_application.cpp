@@ -14,6 +14,8 @@
 #include "gui/gui_checkbox.h"
 #include "gui/gui_pane.h"
 #include "gui/gui_edit_box.h"
+#include "gui/gui_window.h"
+#include "gui/gui_slider.h"
 
 tinyxml_test_application::tinyxml_test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -49,8 +51,11 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
 
+    gui_window* testwin= new gui_window(env,rect2d<int>(400,400,200,200),"Testiest window everrrr");
     glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
     printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
+
+    gui_slider* slid=new gui_slider(env,rect2d<int>(0,200,200,20),1,2,1);
     return true;
 }
 
