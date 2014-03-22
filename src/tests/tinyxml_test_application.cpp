@@ -55,7 +55,8 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
     printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
 
-    gui_slider* slid=new gui_slider(env,rect2d<int>(0,200,200,20),1,2,1);
+    gui_slider* slid=new gui_slider(env,rect2d<int>(10,200,200,20),0,1000,20,false);
+    gui_slider* slidvert=new gui_slider(env,rect2d<int>(210,200,20,200),0,1000,20,true);
     return true;
 }
 
