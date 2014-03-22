@@ -43,8 +43,12 @@ void gui_edit_box::render()
     }
 
     _mx=absolute_rect.x + 5;
-    _mw=absolute_rect.w - font_size - 5;
+    _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
+
+    sx=_mw-1-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
+    if(sx>0)
+        sx=0;
 
     font_renderer* fr=this->environment->get_font_renderer();
 
@@ -54,18 +58,9 @@ void gui_edit_box::render()
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
-    if (fr->get_text_dimensions(m_text).x > _mw)
-    {
-        fr->render_string(m_text,glm::vec2(_mx - sx, _my), m_text_color,false);
+        fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 - sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
-    }
-    else
-    {
-        fr->render_string(m_text,glm::vec2(_mx, _my), m_text_color,false);
-        if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 +fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
-    }
+            fr->render_string("l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
 
     glDisable(GL_SCISSOR_TEST);
 
@@ -79,6 +74,7 @@ void gui_edit_box::set_text(const std::string &text)
 
 void gui_edit_box::on_event(gui_event e)
 {
+    std::string temp;
     switch(e.get_type())
     {
     case element_focused:
@@ -90,28 +86,17 @@ void gui_edit_box::on_event(gui_event e)
         break;
 
     case key_typed:
-        curspos++;
         lastkey=environment->get_last_char();
-        if(m_text.length()>0)
-            m_text=m_text.substr(0,curspos-1)+lastkey+m_text.substr(curspos-1,m_text.length());
-        else
-            m_text+=lastkey;
-        if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-            sx+=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
+        temp="";
+        temp+=lastkey;
+        add_text(curspos,temp);
         break;
 
     case key_pressed:
         switch(environment->get_last_key())
         {
         case GLFW_KEY_BACKSPACE:
-            if(curspos>0)
-            {
-                m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
-                curspos--;
-            }
-
-            if(environment->get_font_renderer()->get_text_dimensions(m_text).x>_mw)
-                sx-=environment->get_font_renderer()->get_text_dimensions(m_text.substr(m_text.length()-1)).x;
+            remove_text(curspos,1);
             break;
         case GLFW_KEY_LEFT:
             if(curspos>0)
@@ -124,8 +109,41 @@ void gui_edit_box::on_event(gui_event e)
         default:
             break;
         }
+        break;
+
+    case text_paste:
+        add_text(curspos,environment->get_clipboard());
+        break;
 
     default:
         break;
+    }
+}
+
+void gui_edit_box::add_text(int32_t index,std::string text)
+{
+    curspos=index;
+
+    if(m_text.length()>0)
+        m_text=m_text.substr(0,curspos)+text+m_text.substr(curspos,m_text.length());
+    else
+        m_text+=text;
+
+    curspos+=text.length();
+}
+
+void gui_edit_box::remove_text(int32_t index, int32_t length)
+{
+    curspos=index;
+
+    if(curspos-length>=0)
+    {
+        m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
+        curspos-=length;
+    }
+    else if(curspos>0)
+    {
+        m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
+        curspos--;
     }
 }

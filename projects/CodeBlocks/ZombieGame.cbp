@@ -155,10 +155,14 @@
 		<Unit filename="../../src/gui/gui_environment.h" />
 		<Unit filename="../../src/gui/gui_event.h" />
 		<Unit filename="../../src/gui/gui_event_listener.h" />
+		<Unit filename="../../src/gui/gui_image.cpp" />
+		<Unit filename="../../src/gui/gui_image.h" />
 		<Unit filename="../../src/gui/gui_pane.cpp" />
 		<Unit filename="../../src/gui/gui_pane.h" />
 		<Unit filename="../../src/gui/gui_skin.cpp" />
 		<Unit filename="../../src/gui/gui_skin.h" />
+		<Unit filename="../../src/gui/gui_slider.cpp" />
+		<Unit filename="../../src/gui/gui_slider.h" />
 		<Unit filename="../../src/gui/gui_static_text.cpp" />
 		<Unit filename="../../src/gui/gui_static_text.h" />
 		<Unit filename="../../src/gui/gui_test_element.h" />

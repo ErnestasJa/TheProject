@@ -89,10 +89,49 @@ void gui_environment::on_event(gui_event e)
 
 void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
 {
+    //printf("Key event: Key:%i SC:%i Action:%i Mod:%i\n",key,scan_code,action,mod);
+
     this->last_key=key;
+
     if(focus!=nullptr)
-        if(action==GLFW_PRESS || action==GLFW_REPEAT)
+    {
+        switch(action)
+        {
+        case GLFW_PRESS:
+            switch(mod)
+            {
+            case GLFW_MOD_CONTROL:
+                switch(key)
+                {
+                case GLFW_KEY_A:
+                    break;
+                case GLFW_KEY_X:
+                    break;
+                case GLFW_KEY_C:
+                    break;
+                case GLFW_KEY_V:
+                    this->clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
+                    focus->on_event(gui_event(text_paste,this));
+                    break;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
             focus->on_event(gui_event(key_pressed,this));
+            break;
+        case GLFW_REPEAT:
+            focus->on_event(gui_event(key_pressed,this));
+            break;
+        case GLFW_RELEASE:
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
 void gui_environment::on_char_typed(int32_t scan_code)
@@ -210,6 +249,30 @@ font_renderer* gui_environment::get_font_renderer()
     return m_font_renderer;
 }
 
+void gui_environment::draw_gui_quad(rect2d<int> dims,std::shared_ptr<texture> tex,bool tile)
+{
+    rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    glEnable(GL_BLEND);
+
+    gui_shader->set();
+    tex->set(0);
+
+    gui_quad->set_uv(skin->get_uv(gui_skin_whole_texture));
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+
+    gui_quad->draw();
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,0);
+}
+
 void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
 {
     rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
@@ -234,6 +297,30 @@ void gui_environment::draw_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
+
+void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,std::shared_ptr<texture> tex,bool tile)
+{
+    rect2d<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    glEnable(GL_BLEND);
+
+    gui_shader->set();
+    tex->set(0);
+
+    //sliced_quad->set_tcoords(skin->get_uv(gui_skin_background));
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+
+    sliced_quad->draw();
+
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D,0);
+}
 
 void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool tile)
 {

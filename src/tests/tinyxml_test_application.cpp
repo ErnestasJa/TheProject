@@ -4,6 +4,8 @@
 #include "utility/timer.h"
 #include "utility/logger.h"
 #include "opengl/opengl_util.h"
+#include "opengl/texture.h"
+#include "resources/image_loader.h"
 
 #include "tinyxml_test_application.h"
 
@@ -14,6 +16,9 @@
 #include "gui/gui_checkbox.h"
 #include "gui/gui_pane.h"
 #include "gui/gui_edit_box.h"
+#include "gui/gui_window.h"
+#include "gui/gui_image.h"
+#include "gui/gui_slider.h"
 
 tinyxml_test_application::tinyxml_test_application(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -49,8 +54,19 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
 
+    std::shared_ptr<texture> test_img=std::shared_ptr<texture>(new texture());
+    image_loader* imgl=new image_loader(this->get_logger());
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    test_img->init(img);
+
+    gui_image* imagagae=new gui_image(env,rect2d<int>(400,0,256,256),test_img);
+
+    gui_window* testwin= new gui_window(env,rect2d<int>(400,400,200,200),"Testiest window everrrr");
     glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
     printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
+
+    gui_slider* slid=new gui_slider(env,rect2d<int>(10,200,200,20),0,1000,20,false);
+    gui_slider* slidvert=new gui_slider(env,rect2d<int>(210,200,20,200),0,1000,20,true);
     return true;
 }
 

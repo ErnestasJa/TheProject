@@ -4,6 +4,8 @@ using namespace tinyxml2;
 
 enum gui_style
 {
+    gui_skin_whole_texture,
+
     gui_skin_background,
 
     gui_skin_input_active,
@@ -69,7 +71,7 @@ struct gui_skin
         printf("Loading a skin %s (%s) %i\n",root->Attribute("name"),root->Attribute("atlas_name"),root->IntAttribute("atlas_size"));
 
         XMLElement* e=root->FirstChildElement();
-        uint32_t i=0;
+        uint32_t i=1;
         while(e!=nullptr)
         {
             if(e->NoChildren())
@@ -149,8 +151,13 @@ private:
 
     void generate_uv()
     {
-        uint32_t j=0;
-        for(int32_t i=0; i<gui_skin_style_count; i++)
+        uvs[0]=glm::vec2(0,1);
+        uvs[1]=glm::vec2(1,1);
+        uvs[2]=glm::vec2(1,0);
+        uvs[3]=glm::vec2(0,0);
+
+        uint32_t j=4;
+        for(int32_t i=1; i<gui_skin_style_count; i++)
         {
             rect2d<float> ir=rects[i].as<float>();
 

@@ -38,7 +38,9 @@ public:
     bool is_on_hover(gui_element *e);
     bool is_on_focus(gui_element *e);
 
+    void draw_gui_quad(rect2d<int> size, std::shared_ptr<texture> tex, bool tile=false);
     void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_sliced_gui_quad(rect2d<int> size, std::shared_ptr<texture> tex, bool tile=false);
     void draw_sliced_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
 
     void set_skin(gui_skin* skin);
@@ -51,6 +53,11 @@ public:
     void on_mouse_scroll(double sx, double sy);
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
     void on_char_typed(int32_t scan_code);
+
+    const std::string &get_clipboard()
+    {
+        return clipboard_string;
+    }
 
     char get_last_char()
     {
@@ -106,7 +113,8 @@ private:
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
 
     char last_char;
-    int32_t last_key;
+    int32_t last_key,last_mod;
+    std::string clipboard_string;
 
     glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:
