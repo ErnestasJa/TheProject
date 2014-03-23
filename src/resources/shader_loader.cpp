@@ -17,7 +17,7 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
     resource<shader> res;
 
     ///not sure about this one.
-    std::string res_name = vertex_file.substr(0,vertex_file.rfind('.')) + vertex_file.substr(0,vertex_file.rfind('.'));
+    std::string res_name = vertex_file.substr(0,vertex_file.rfind('.')) + fragment_file.substr(0,fragment_file.rfind('.'));
 
     res = this->get_resource(res_name);
 

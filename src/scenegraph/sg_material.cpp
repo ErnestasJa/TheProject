@@ -22,11 +22,6 @@ binding sg_material_static_mesh::bindings[]=
     {"",-1}
 };
 
-void sg_material_static_mesh::init_bindings()
-{
-    sg_mvar<int32_t>("texture0",0).set(bindings[0].index);
-}
-
 sg_material_static_mesh::sg_material_static_mesh()
 {
     mat_type = SGM_STATIC_MESH;
@@ -43,11 +38,11 @@ void sg_material_static_mesh::set()
     mat_shader->set();
 
     mat_texture->set(0);
-    mvp.set(bindings[1].index);
-    m.set(bindings[2].index);
-    n.set(bindings[3].index);
-    light_pos.set(bindings[4].index);
-    camera_pos.set(bindings[5].index);
+    mvp.set(mat_shader->bindings[1].index);
+    m.set(mat_shader->bindings[2].index);
+    n.set(mat_shader->bindings[3].index);
+    light_pos.set(mat_shader->bindings[4].index);
+    camera_pos.set(mat_shader->bindings[5].index);
 }
 
 void sg_material_static_mesh::set(sg_material_static_mesh * last)
@@ -56,20 +51,20 @@ void sg_material_static_mesh::set(sg_material_static_mesh * last)
         mat_texture->set(0);
 
     if(!helpers::equals(last->mvp.value, mvp.value))
-        mvp.set(bindings[1].index);
+        mvp.set(mat_shader->bindings[1].index);
 
     if(!helpers::equals(last->m.value, m.value))
-        m.set(bindings[2].index);
+        m.set(mat_shader->bindings[2].index);
 
     if(!helpers::equals(last->n.value, n.value))
-        n.set(bindings[3].index);
+        n.set(mat_shader->bindings[3].index);
 
     ///these should not even need chaning if last material set those.
     if(!helpers::equals(last->light_pos.value, light_pos.value))
-        light_pos.set(bindings[4].index);
+        light_pos.set(mat_shader->bindings[4].index);
 
     if(!helpers::equals(last->camera_pos.value, camera_pos.value))
-        camera_pos.set(bindings[5].index);
+        camera_pos.set(mat_shader->bindings[5].index);
 }
 
 ///----------------------------------------------------------
@@ -88,20 +83,17 @@ sg_material_vsm_first_pass::sg_material_vsm_first_pass()
 void sg_material_vsm_first_pass::set()
 {
     mat_shader->set();
-    mvp.set(bindings[0].index);
+    mvp.set(mat_shader->bindings[0].index);
 }
 
 ///----------------------------------------------------------
+// FIXME (serengeor#1#): static bindings bad if multiple shaders use same material, then can't get locations for secondary shaders.
+
 binding sg_material_texture_filter::bindings[]=
 {
     {"texture0",-1},
     {"",-1}
 };
-
-void sg_material_texture_filter::init_bindings()
-{
-    sg_mvar<int32_t>("texture0",0).set(bindings[0].index);
-}
 
 sg_material_texture_filter::sg_material_texture_filter()
 {
@@ -128,13 +120,6 @@ binding sg_material_vsm_final_pass::bindings[]=
     {"",-1}
 };
 
-void sg_material_vsm_final_pass::init_bindings()
-{
-    sg_mvar<int32_t>("texture0",0).set(bindings[0].index);
-    //sg_mvar<int32_t>("texture1",1).set(bindings[1].index);
-
-}
-
 sg_material_vsm_final_pass::sg_material_vsm_final_pass()
 {
     mat_type = SGM_VSM_FINAL_PASS;
@@ -152,10 +137,10 @@ sg_material_vsm_final_pass::sg_material_vsm_final_pass()
 void sg_material_vsm_final_pass::set()
 {
     mat_shader->set();
-    m.set(bindings[1].index);
+    m.set(mat_shader->bindings[1].index);
     //mv.set(bindings[2].index);
-    mvp.set(bindings[3].index);
-    s.set(bindings[4].index);
+    mvp.set(mat_shader->bindings[3].index);
+    s.set(mat_shader->bindings[4].index);
     //n.set(bindings[5].index);
     //light_pos.set(bindings[6].index);
     //camera_pos.set(bindings[7].index);
@@ -191,11 +176,11 @@ void sg_material_point_sprite::set()
 {
     mat_shader->set();
     mat_texture->set(0);
-    vp.set(bindings[1].index);
-    cam_up.set(bindings[2].index);
-    cam_right.set(bindings[3].index);
-    pos.set(bindings[4].index);
-    size.set(bindings[5].index);
+    vp.set(mat_shader->bindings[1].index);
+    cam_up.set(mat_shader->bindings[2].index);
+    cam_right.set(mat_shader->bindings[3].index);
+    pos.set(mat_shader->bindings[4].index);
+    size.set(mat_shader->bindings[5].index);
 
 }
 

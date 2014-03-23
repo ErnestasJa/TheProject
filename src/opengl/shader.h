@@ -21,6 +21,7 @@ struct shader
 {
     std::string name, vsstr, psstr;
     uint32_t program, vsobj, psobj;
+    std::vector<binding> bindings;
 
     shader ( const std::string & name, const std::string & vsstr = nullptr, const std::string & psstr = nullptr)
         : name ( name ), vsstr ( vsstr ), psstr ( psstr ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
@@ -160,18 +161,33 @@ struct shader
         glUseProgram ( program );
     }
 
+// @deprecated (serengeor#1#):
     int32_t getparam ( const std::string & pname )
     {
         return  glGetUniformLocation ( program, pname.c_str() );
     }
 
-    void query_binding_locations(binding * v)
+    void query_binding_locations()
+    {
+        for ( binding &t : bindings)
+        {
+            t.index = glGetUniformLocation ( program, t.name.c_str() );
+            if(t.index==-1)
+            throw t;
+        }
+
+        for ( binding &t : bindings)
+        {
+            if(t.index==-1)
+            throw t;
+        }
+    }
+
+    void copy_bindings(binding * v)
     {
         for ( binding *t = v; t->name.size()>0; t++ )
         {
-            t->index = glGetUniformLocation ( program, t->name.c_str() );
-            if(t->index==-1)
-            throw *t;
+            bindings.push_back(*t);
         }
     }
 };

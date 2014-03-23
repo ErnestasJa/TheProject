@@ -35,7 +35,7 @@ struct sg_material_static_mesh: public sg_material
 
     ///-------------------------------------
     static binding bindings[];
-    static void init_bindings();
+
     sg_mvar<glm::mat4x4> mvp, m;
     sg_mvar<glm::mat3x3> n;
     sg_mvar<glm::vec3> light_pos, camera_pos;
@@ -64,7 +64,6 @@ struct sg_material_vsm_final_pass: public sg_material
     virtual void set();
 
     ///-------------------------------------
-    static void init_bindings();
     static binding bindings[];
     sg_mvar<glm::mat4x4> mvp, mv, m, s;
     sg_mvar<glm::mat3x3> n;
@@ -81,7 +80,6 @@ struct sg_material_texture_filter: public sg_material
     virtual void set();
 
     ///-------------------------------------
-    static void init_bindings();
     static binding bindings[];
     texture_ptr texture0;
 };

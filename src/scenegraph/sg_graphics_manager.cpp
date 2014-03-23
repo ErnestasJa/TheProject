@@ -74,11 +74,12 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 
             mat->mat_texture=load_texture("res/no_tex.png");
 
-            if(sg_material_static_mesh::bindings[0].index==-1)
+            if(mat->mat_shader->bindings.size()==0)
             {
+                mat->mat_shader->copy_bindings(sg_material_static_mesh::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations(sg_material_static_mesh::bindings);
-                sg_material_static_mesh::init_bindings();
+                mat->mat_shader->query_binding_locations();
+                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
             }
 
             return share(mat);
@@ -95,10 +96,11 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            if(sg_material_vsm_first_pass::bindings[0].index==-1)
+            if(mat->mat_shader->bindings.size()==0)
             {
+                mat->mat_shader->copy_bindings(sg_material_vsm_first_pass::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations(sg_material_vsm_first_pass::bindings);
+                mat->mat_shader->query_binding_locations();
             }
 
             return share(mat);
@@ -115,16 +117,17 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            //mat->texture0=load_texture("res/no_tex.png");
-            mat->texture1=load_texture("res/no_tex.png");
-
-            if(sg_material_vsm_final_pass::bindings[0].index==-1)
+            if(mat->mat_shader->bindings.size()==0)
             {
+                mat->mat_shader->copy_bindings(sg_material_vsm_final_pass::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations(sg_material_vsm_final_pass::bindings);
-                sg_material_vsm_final_pass::init_bindings();
+                mat->mat_shader->query_binding_locations();
+                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
             }
 
+
+            //mat->texture0=load_texture("res/no_tex.png");
+            //mat->texture1=load_texture("res/no_tex.png");
 
 
             return share(mat);
@@ -141,12 +144,12 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            //mat->texture0=load_texture("res/no_tex.png");
-
-            if(sg_material_texture_filter::bindings[0].index==-1)
+            if(mat->mat_shader->bindings.size()==0)
             {
+                mat->mat_shader->copy_bindings(sg_material_texture_filter::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations(sg_material_texture_filter::bindings);
+                mat->mat_shader->query_binding_locations();
+                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
             }
 
             return share(mat);
