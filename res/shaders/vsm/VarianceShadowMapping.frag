@@ -34,7 +34,7 @@ void main() {
 		float var = E_x2-Ex_2;
 
 		//bias the variance
-		var = max(var, 0.000002);
+		var = max(var, 0.000001);
 
 		//subtract the fragment depth from the  first moment
 		//divide variance by the squared difference value

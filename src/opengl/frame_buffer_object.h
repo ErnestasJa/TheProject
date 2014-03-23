@@ -75,22 +75,16 @@ struct frame_buffer_object: public gl_object
         glDrawBuffers(enabled_buffer_count,enabled_buffer);
     }
 
-    void disable_all_buffers()
+    void enable_single_buffer(uint32_t texture)
     {
-        for(uint8_t j = 0; j < 8; j++)
-            enabled_buffer[j]=GL_NONE;
+        if(texture > 8)
+            throw texture;
 
-        glDrawBuffers(8,enabled_buffer);
-    }
+        texture += GL_COLOR_ATTACHMENT0;
+        enabled_buffer_count = 1;
+        enabled_buffer[0]=texture;
 
-    void set_buffer(uint32_t buffer)
-    {
-        if(buffer > 8)
-            throw buffer;
-
-        buffer += GL_COLOR_ATTACHMENT0;
-
-        glDrawBuffer(buffer);
+        glDrawBuffers(1,enabled_buffer);
     }
 
     bool init()

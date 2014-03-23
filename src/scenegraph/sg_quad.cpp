@@ -69,6 +69,7 @@ sg_material_ptr sg_quad::get_material(uint32_t index)
 
 void sg_quad::set_material(sg_material_ptr mat)
 {
+    m_material = nullptr;
     m_material = mat;
 }
 

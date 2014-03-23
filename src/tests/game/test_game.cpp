@@ -84,8 +84,11 @@ bool test_game::init_scene()
     ///shadow shit starts here
     //load all materials
     m_mat_first_pass = m_graphics_manager->create_material(sg::SGM_VSM_FIRST_PASS);
+    if(this->gl_util->check_and_output_errors())return false;
     m_mat_final_pass = m_graphics_manager->create_material(sg::SGM_VSM_FINAL_PASS);
+    if(this->gl_util->check_and_output_errors())return false;
     m_mat_gauss_v = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussV.frag");
+    if(this->gl_util->check_and_output_errors())return false;
     m_mat_gauss_h = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussH.frag");
     if(this->gl_util->check_and_output_errors())return false;
 
@@ -97,7 +100,7 @@ bool test_game::init_scene()
     ///create textures
     texture * shadow_tex = new texture();
     texture_ptr shadow_tex_ptr(shadow_tex);
-    shadow_tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
+    shadow_tex->init(nullptr,GL_TEXTURE_2D,GL_RG,GL_RG32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
     shadow_tex->set(0);
     shadow_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR_MIPMAP,texture::FILTER_MAG::FILTER_MAG_LINEAR);
     shadow_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
@@ -108,7 +111,7 @@ bool test_game::init_scene()
 
     texture * filter_tex = new texture();
     texture_ptr filter_tex_ptr(filter_tex);
-    filter_tex->init(nullptr,GL_TEXTURE_2D,GL_RGBA,GL_RGBA32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
+    filter_tex->init(nullptr,GL_TEXTURE_2D,GL_RG,GL_RG32F,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
     filter_tex->set(0);
     filter_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR,texture::FILTER_MAG::FILTER_MAG_LINEAR);
     filter_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
@@ -177,6 +180,9 @@ bool test_game::init_scene()
     return true;
 }
 
+bool vblur = false;
+bool hblur = false;
+
 bool test_game::update()
 {
     if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
@@ -209,28 +215,33 @@ bool test_game::update()
 
         ///filter first pass results
         //vertical blur
+        glCullFace(GL_FRONT);
         m_shadow_filter->set();
-        m_quad->set_material(m_mat_gauss_v);
-        m_shadow_filter->disable_buffer(1);
-        m_shadow_filter->enable_buffer(0);
 
+        if(vblur)
+        {
+            m_quad->set_material(m_mat_gauss_v);
+            m_shadow_filter->enable_single_buffer(0);
 
-        m_quad->register_for_rendering();
-        m_scenegraph->get_render_queue()->render_all();
+            m_quad->register_for_rendering();
+            m_scenegraph->get_render_queue()->render_all();
+        }
 
-        //horizontal blur
-        m_quad->set_material(m_mat_gauss_h);
-        m_shadow_filter->disable_buffer(0);
-        m_shadow_filter->enable_buffer(1);
+        if(hblur)
+        {
+            m_quad->set_material(m_mat_gauss_h);
+            m_shadow_filter->enable_single_buffer(1);
 
-        m_quad->register_for_rendering();
-        m_scenegraph->get_render_queue()->render_all();
+            m_quad->register_for_rendering();
+            m_scenegraph->get_render_queue()->render_all();
+        }
 
         m_shadow_filter->unset();
+        glCullFace(GL_BACK);
+
         m_shadow_tex->update_mipmaps();
 
-
-        ///draw scene "normally"*/
+        ///draw scene "normally"
 
         uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
         glViewport(0,0,w,h);
@@ -267,6 +278,22 @@ bool test_game::init_physics()
 
 void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
 {
+    if(action==GLFW_PRESS)
+    {
+        if(key==GLFW_KEY_1)
+        {
+            vblur=!vblur;
+            m_log->log(LOG_LOG,"v-blur: %i, h-blur: %i",(int)vblur, (int)hblur);
+        }
+
+        if(key==GLFW_KEY_2)
+        {
+            hblur=!hblur;
+            m_log->log(LOG_LOG,"v-blur: %i, h-blur: %i",(int)vblur, (int)hblur);
+        }
+
+    }
+
     if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
         if(action==GLFW_PRESS || action == GLFW_REPEAT )
