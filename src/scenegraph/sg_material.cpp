@@ -111,11 +111,9 @@ binding sg_material_vsm_final_pass::bindings[]=
 {
     {"texture0",-1},
     {"m",-1},
-    {"m",-1},
     {"mvp",-1},
     {"s",-1},
-    {"m",-1},
-    {"m",-1},
+
     //{"camera_pos",-1},
     {"",-1}
 };
@@ -138,9 +136,9 @@ void sg_material_vsm_final_pass::set()
 {
     mat_shader->set();
     m.set(mat_shader->bindings[1].index);
+    mvp.set(mat_shader->bindings[2].index);
+    s.set(mat_shader->bindings[3].index);
     //mv.set(bindings[2].index);
-    mvp.set(mat_shader->bindings[3].index);
-    s.set(mat_shader->bindings[4].index);
     //n.set(bindings[5].index);
     //light_pos.set(bindings[6].index);
     //camera_pos.set(bindings[7].index);

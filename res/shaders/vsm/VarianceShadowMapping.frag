@@ -17,8 +17,8 @@ void main() {
 	//so we should cast shadows. If this check is removed, you will see 
 	//shadows on both sides of the light when the light is very close to 
 	//the plane. Try removing this to see what I mean.
-	if(vShadowCoords.w>1) {
-		
+	if(vShadowCoords.w>1)
+	{
 		//divide the shadow coordinate by homogeneous coordinate
 		vec3 uv = vShadowCoords.xyz/vShadowCoords.w;
 		
@@ -34,7 +34,7 @@ void main() {
 		float var = E_x2-Ex_2;
 
 		//bias the variance
-		var = max(var, 0.000001);
+		var = max(var, 0.00002);
 
 		//subtract the fragment depth from the  first moment
 		//divide variance by the squared difference value
