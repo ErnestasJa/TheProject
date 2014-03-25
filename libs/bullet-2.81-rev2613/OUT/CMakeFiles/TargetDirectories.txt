@@ -1,4 +1,0 @@
-/home/serengeor/Coding/ZombieProject/libs/bullet-2.81-rev2613/OUT/src/BulletCollision/CMakeFiles/BulletCollision.dir
-/home/serengeor/Coding/ZombieProject/libs/bullet-2.81-rev2613/OUT/src/BulletDynamics/CMakeFiles/BulletDynamics.dir
-/home/serengeor/Coding/ZombieProject/libs/bullet-2.81-rev2613/OUT/src/BulletSoftBody/CMakeFiles/BulletSoftBody.dir
-/home/serengeor/Coding/ZombieProject/libs/bullet-2.81-rev2613/OUT/src/LinearMath/CMakeFiles/LinearMath.dir
