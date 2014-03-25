@@ -78,7 +78,7 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
         {
             sg_material_vsm_first_pass * mat = static_cast<sg_material_vsm_first_pass *>(material.get());
 
-            glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 50.0f);
+            glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 100.0f);
             mat->mvp = P_L * m_lights[0]->get_absolute_transform() * obj->get_absolute_transform();
 
             break;
@@ -97,7 +97,7 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
 
             mat->light_pos=m_lights[0]->get_position();
 
-            glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 50.0f);
+            glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 100.0f);
             glm::mat4 B    = glm::scale(glm::translate(glm::mat4(1),glm::vec3(0.5,0.5,0.5)), glm::vec3(0.5,0.5,0.5));
             glm::mat4 BP   = B*P_L;
 

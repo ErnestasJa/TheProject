@@ -27,7 +27,8 @@
 #include "physics/Physics.h"
 
 //shadowmap texture dimensions
-const int SHADOWMAP_DIMENSIONS = 512;
+const int SHADOWMAP_DIMENSIONS = 1024
+;
 
 test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -104,7 +105,7 @@ bool test_game::init_scene()
     shadow_tex->set(0);
     shadow_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR_MIPMAP,texture::FILTER_MAG::FILTER_MAG_LINEAR);
     shadow_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
-    shadow_tex->set_border_color(glm::vec4(1,0,0,0));
+    shadow_tex->set_border_color(glm::vec4(1,1,0,0));
     shadow_tex->init_mipmap(0,4);
     shadow_tex->unset(0);
     m_shadow_tex = shadow_tex_ptr;
@@ -115,13 +116,12 @@ bool test_game::init_scene()
     filter_tex->set(0);
     filter_tex->set_filters(texture::FILTER_MIN::FILTER_MIN_LINEAR,texture::FILTER_MAG::FILTER_MAG_LINEAR);
     filter_tex->set_clamp(texture::CLAMP::CLAMP_BORDER,texture::CLAMP::CLAMP_BORDER);
-    filter_tex->set_border_color(glm::vec4(1,0,0,0));
+    filter_tex->set_border_color(glm::vec4(1,1,0,0));
     filter_tex->unset(0);
 
     render_buffer_object * rbo = new render_buffer_object();
     render_buffer_object_ptr rbo_ptr(rbo);
     rbo->init(GL_DEPTH_COMPONENT32,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
-
 
     if(this->gl_util->check_and_output_errors())return false;
 
@@ -172,7 +172,7 @@ bool test_game::init_scene()
 
     m_quad = share(new sg::sg_quad(m_scenegraph));
 
-    //enable depth testing and culling
+    ///enable depth testing and culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -180,6 +180,7 @@ bool test_game::init_scene()
     return true;
 }
 
+///only works if both are enabled, cause of fbo setup
 bool vblur = false;
 bool hblur = false;
 
@@ -201,7 +202,7 @@ bool test_game::update()
 
         ///first pass
         glViewport(0, 0, SHADOWMAP_DIMENSIONS ,SHADOWMAP_DIMENSIONS);
-        glClearColor(1,0,0,0);
+        glClearColor(1,1,0,0);
 
         m_shadow_fbo->set();
         m_shadow_fbo->enable_buffer(0);
@@ -242,7 +243,6 @@ bool test_game::update()
         m_shadow_tex->update_mipmaps();
 
         ///draw scene "normally"
-
         uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
         glViewport(0,0,w,h);
         glClearColor(0.2,0.8,0.2,0);
