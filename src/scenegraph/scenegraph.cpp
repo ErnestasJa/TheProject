@@ -58,6 +58,7 @@ void scenegraph::pre_render()
         v.view_proj = v.proj.value * v.view.value;
     }
     else
+
         throw "At least one camera is required";
 }
 

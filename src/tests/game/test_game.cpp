@@ -78,7 +78,7 @@ bool test_game::init_scene()
 
     ///load scene
     sg::sg_scenegraph_loader sg_loader;
-    sg_loader.load_scene(m_scenegraph,"res/test_scene/test_scene3.ibs");
+    sg_loader.load_scene(m_scenegraph,"res/test_scene/test_scene2.ibs");
 
     if(this->gl_util->check_and_output_errors())return false;
 
@@ -181,8 +181,8 @@ bool test_game::init_scene()
 }
 
 ///only works if both are enabled, cause of fbo setup
-bool vblur = false;
-bool hblur = false;
+bool blur = false;
+bool physics = true;
 
 bool test_game::update()
 {
@@ -194,7 +194,9 @@ bool test_game::update()
         m_current_time = main_timer->get_real_time();
         float delta_time = ((float)(m_current_time - m_last_time)) / 1000.0f;
 
-        m_physics_manager->update(delta_time);
+        if(physics)
+            m_physics_manager->update(delta_time);
+
         m_scenegraph->update_all(delta_time);
 
         //m_scenegraph->validate_transforms();
@@ -219,17 +221,14 @@ bool test_game::update()
         glCullFace(GL_FRONT);
         m_shadow_filter->set();
 
-        if(vblur)
+        if(blur)
         {
             m_quad->set_material(m_mat_gauss_v);
             m_shadow_filter->enable_single_buffer(0);
 
             m_quad->register_for_rendering();
             m_scenegraph->get_render_queue()->render_all();
-        }
 
-        if(hblur)
-        {
             m_quad->set_material(m_mat_gauss_h);
             m_shadow_filter->enable_single_buffer(1);
 
@@ -282,14 +281,14 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
     {
         if(key==GLFW_KEY_1)
         {
-            vblur=!vblur;
-            m_log->log(LOG_LOG,"v-blur: %i, h-blur: %i",(int)vblur, (int)hblur);
+            blur=!blur;
+            m_log->log(LOG_LOG,"blur: %i", (int)blur);
         }
 
         if(key==GLFW_KEY_2)
         {
-            hblur=!hblur;
-            m_log->log(LOG_LOG,"v-blur: %i, h-blur: %i",(int)vblur, (int)hblur);
+            physics=!physics;
+            m_log->log(LOG_LOG,"physics: %i", (int)physics);
         }
 
     }
