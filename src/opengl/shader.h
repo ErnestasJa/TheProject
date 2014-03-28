@@ -175,12 +175,6 @@ struct shader
             if(t.index==-1)
             throw t;
         }
-
-        for ( binding &t : bindings)
-        {
-            if(t.index==-1)
-            throw t;
-        }
     }
 
     void copy_bindings(binding * v)
