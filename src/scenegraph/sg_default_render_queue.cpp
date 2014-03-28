@@ -93,16 +93,22 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
             mat->m = obj->get_absolute_transform();
             mat->mv = m_scenegraph->get_shared_mat_vars().view.value * mat->m.value;
             mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
-            mat->n = glm::inverseTranspose(glm::mat3(m_scenegraph->get_shared_mat_vars().view.value * mat->m.value));
-
-            mat->light_pos=m_lights[0]->get_position();
+            //mat->n = glm::inverseTranspose(glm::mat3(m_scenegraph->get_shared_mat_vars().view.value * mat->m.value));
+            mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
 
             glm::mat4 P_L  = glm::perspective(50.0f,1.0f,1.0f, 100.0f);
             glm::mat4 B    = glm::scale(glm::translate(glm::mat4(1),glm::vec3(0.5,0.5,0.5)), glm::vec3(0.5,0.5,0.5));
             glm::mat4 BP   = B*P_L;
 
-            //mat->s = BP * MV_L;
             mat->s = BP * m_lights[0]->get_absolute_transform();
+
+            mat->light_pos=m_lights[0]->get_position();
+            mat->camera_pos = m_scenegraph->get_active_camera()->get_position();
+
+
+
+            //mat->s = BP * MV_L;
+
 
             break;
         }
