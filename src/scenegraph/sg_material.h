@@ -102,6 +102,7 @@ typedef std::shared_ptr<sg_material> sg_material_ptr;
 typedef std::shared_ptr<sg_material_static_mesh> sg_material_static_mesh_ptr;
 typedef std::shared_ptr<sg_material_point_sprite> sg_material_point_sprite_ptr;
 typedef std::shared_ptr<sg_material_vsm_first_pass> sg_material_vsm_first_pass_ptr;
+typedef std::shared_ptr<sg_material_vsm_final_pass> sg_material_vsm_final_pass_ptr;
 
 }
 

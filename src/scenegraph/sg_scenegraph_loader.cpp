@@ -62,6 +62,11 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
 
                 sg->add_object(obj);
         }
+        else
+        {
+            object = object->NextSiblingElement();
+            continue;
+        }
 
         o->set_name(object->Attribute("name"));
 

@@ -1,0 +1,523 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Camera.001" type="CAMERA">
+    <position x="-4.24725341796875" y="7.269818305969238" z="-7.301872253417969"/>
+    <rotation x="-1.932001" y="0.084000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="0.9999999403953552"/>
+  </object>
+  <object name="BSP_Object.model_71.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_71.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_70.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_70.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_19.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_19.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_18.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_18.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_39.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_39.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_74.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_74.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_77.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_77.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_76.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_76.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_35.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_35.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_34.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_34.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_11.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_11.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_36.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_36.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_17.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_17.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_30.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_30.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_33.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_33.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_14.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_14.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_73.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_73.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_75.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_75.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_9.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_9.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_8.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_8.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_7.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_7.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_6.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_6.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_5.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_5.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_4.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_4.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_3.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_3.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_2.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_2.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_1.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_1.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_0.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_0.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_64.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_64.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_92.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_92.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_91.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_91.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_90.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_90.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_79.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_79.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_59.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_59.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_58.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_58.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_57.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_57.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_56.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_56.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_12.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_12.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_54.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_54.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_53.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_53.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_52.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_52.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_51.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_51.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_50.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_50.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_31.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_31.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_63.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_63.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_60.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_60.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_61.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_61.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_66.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_66.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_67.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_67.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_10.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_10.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_29.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_29.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_27.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_27.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_24.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_24.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_25.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_25.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_22.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_22.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_23.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_23.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_20.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_20.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_21.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_21.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_16.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_16.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_15.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_15.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_62.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_62.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_72.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_72.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_32.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_32.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_55.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_55.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_68.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_68.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_88.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_88.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_89.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_89.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_84.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_84.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_85.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_85.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_86.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_86.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_87.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_87.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_80.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_80.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_81.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_81.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_82.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_82.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_83.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_83.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_48.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_48.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_49.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_49.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_37.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_37.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_40.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_40.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_41.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_41.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_42.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_42.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_43.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_43.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_44.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_44.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_46.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_46.001.iqm"/>
+  </object>
+  <object name="BSP_Object.model_47.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-3.141593" y="-0.000000" z="0.000000"/>
+    <scale x="0.018999993801116943" y="0.018999993801116943" z="0.018999993801116943"/>
+    <iqm_file name="BSP_Object.model_47.001.iqm"/>
+  </object>
+  <object name="Lamp" type="LAMP">
+    <position x="29.7424373626709" y="-100.3381576538086" z="-52.767906188964844"/>
+    <rotation x="-0.417441" y="2.066440" z="-1.726221"/>
+    <scale x="0.9999998807907104" y="1.0" z="1.0"/>
+  </object>
+</scene>

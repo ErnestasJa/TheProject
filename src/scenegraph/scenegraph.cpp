@@ -183,12 +183,12 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
             if(load_textures)
             {
                 sg::sg_material_ptr mat = ret->get_material(i);
-                if(mat->mat_type == SGM_STATIC_MESH)
+                if(mat->mat_type == SGM_VSM_FINAL_PASS)
                 {
-                    sg_material_static_mesh * sm_mat = static_cast<sg_material_static_mesh*>(mat.get());
+                    sg_material_vsm_final_pass * sm_mat = static_cast<sg_material_vsm_final_pass*>(mat.get());
 
                     if(image_path.length()!=0)
-                        sm_mat->mat_texture = m_graphics_manager->load_texture(texture_path + image_path);
+                        sm_mat->texture1 = m_graphics_manager->load_texture(texture_path + image_path);
                 }
             }
         }

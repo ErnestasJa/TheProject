@@ -42,6 +42,8 @@ protected:
     shader_loader   * m_shader_loader;
 
     resource_cache<texture> m_texture_cache;
+
+    texture_ptr       m_default_tex;
 };
 
 typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
