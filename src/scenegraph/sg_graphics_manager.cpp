@@ -15,6 +15,8 @@ sg_graphics_manager::sg_graphics_manager(logger * l)
     m_image_loader = new image_loader(l);
     m_mesh_loader = new mesh_loader(l);
     m_shader_loader = new shader_loader(l);
+
+    m_default_tex = load_texture("res/no_tex.png");
 }
 
 sg_graphics_manager::~sg_graphics_manager()
@@ -72,7 +74,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
                  return sg_material_ptr();
             }
 
-            mat->mat_texture=load_texture("res/no_tex.png");
+            mat->mat_texture=m_default_tex;
 
             if(mat->mat_shader->bindings.size()==0)
             {
@@ -126,8 +128,8 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
             }
 
 
-            //mat->texture0=load_texture("res/no_tex.png");
-            //mat->texture1=load_texture("res/no_tex.png");
+            mat->texture0=m_default_tex;
+            mat->texture1=m_default_tex;
 
 
             return share(mat);
@@ -159,7 +161,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
             sg_material_point_sprite * mat = new sg_material_point_sprite();
             mat->mat_shader=m_shader_loader->load("res/shaders/point_sprite/point_sprite");
 
-            mat->mat_texture=load_texture("res/no_tex.png");
+            mat->mat_texture=m_default_tex;
             return share(mat);
         }
         default:

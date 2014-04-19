@@ -1,9 +1,11 @@
 #version 330 core
 
 layout(location=0) out vec4 vFragColor;	//fragment shader output
+in vec2 UV;
 
 //shader uniforms
 uniform sampler2D texture0;
+uniform sampler2D texture1;
 uniform vec3 camera_pos;
 uniform vec3 light_pos;
 
@@ -41,6 +43,11 @@ void light_func(
 void main() {   
 	float diffuse = 1;
 	float specular = 1;
+
+	vec4 tex_color = texture(texture1, UV); 
+
+	if(tex_color.a<0.2)
+		discard;
 	
 	light_func(diffuse,specular,light_pos,camera_pos,vEyeSpacePosition,vEyeSpaceNormal);
 	  
@@ -58,7 +65,7 @@ void main() {
 		
 		//read the moments from the shadow map texture
 		vec4 moments = texture(texture0, uv.xy); 
-
+	
 		//calculate variance from the moments
 		float E_x2 = moments.y;
 		float Ex_2 = moments.x*moments.x;
@@ -80,5 +87,5 @@ void main() {
 		diffuse *= max(p_max, (depth<=moments.x)?1.0:0.2); 
 	}
 	//return the final colour by multiplying the diffuse colour with the diffuse component
-	vFragColor = diffuse*vec4(diffuse_color, 1) + specular*vec4(specular_color, 1);	 
+	vFragColor = diffuse*vec4(tex_color.xyz, 1) + specular*vec4(specular_color, 1);	 
 }

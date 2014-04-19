@@ -15,6 +15,7 @@ uniform mat4 s;		//shadow matrix
 smooth out vec4 vShadowCoords;			//shadow coordinates
 smooth out vec3 vEyeSpacePosition;		//eye space position
 smooth out vec3 vEyeSpaceNormal;
+out vec2 UV;
 
 void main()
 {
@@ -26,6 +27,7 @@ void main()
 
 	//multiply the combined modelview projection matrix with the object space vertex
 	//position to get the clip space position
-    gl_Position       = mvp*vec4(vVertex,1); 
+    gl_Position       = mvp*vec4(vVertex,1);
+	UV = vTex;
 }
  

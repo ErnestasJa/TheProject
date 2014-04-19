@@ -129,7 +129,10 @@ void sg_default_render_queue::pre_render()
     std::sort(m_objects.begin(),m_objects.end(),[](isg_object *  a, isg_object *  b)
     {
         if(a->get_material_count()==0)
-                return false;
+            return false;
+
+        if(b->get_material_count()==0)
+            return true;
 
         return a->get_material(0)->mat_type<b->get_material(0)->mat_type;
     });

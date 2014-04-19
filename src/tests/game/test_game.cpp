@@ -78,18 +78,15 @@ bool test_game::init_scene()
 
     ///load scene
     sg::sg_scenegraph_loader sg_loader;
-    sg_loader.load_scene(m_scenegraph,"res/test_scene/test_scene2.ibs");
+    sg_loader.load_scene(m_scenegraph,"res/maps/cs_assault/cs_assault.ibs");
 
-    if(this->gl_util->check_and_output_errors())return false;
+    if(this->gl_util->check_and_output_errors()) return false;
 
     ///shadow shit starts here
     //load all materials
     m_mat_first_pass = m_graphics_manager->create_material(sg::SGM_VSM_FIRST_PASS);
-    if(this->gl_util->check_and_output_errors())return false;
     m_mat_final_pass = m_graphics_manager->create_material(sg::SGM_VSM_FINAL_PASS);
-    if(this->gl_util->check_and_output_errors())return false;
     m_mat_gauss_v = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussV.frag");
-    if(this->gl_util->check_and_output_errors())return false;
     m_mat_gauss_h = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussH.frag");
     if(this->gl_util->check_and_output_errors())return false;
 
