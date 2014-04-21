@@ -31,7 +31,7 @@ public:
 protected:
     sg_aabb m_aabb;
     mesh_ptr m_mesh;
-    std::vector<sg_material_vsm_final_pass_ptr> m_materials;
+    std::vector<sg_material_static_mesh_ptr> m_materials;
 };
 
 typedef std::shared_ptr<sg_mesh_object> sg_mesh_object_ptr;

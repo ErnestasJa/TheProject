@@ -40,22 +40,22 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
         case SGM_STATIC_MESH:
         {
             sg_material_static_mesh * mat = static_cast<sg_material_static_mesh *>(material.get());
-            mat->camera_pos = m_scenegraph->get_active_camera()->get_position();
+
             mat->m = obj->get_absolute_transform();
             mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
             mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
 
-
+            mat->camera_pos = m_scenegraph->get_active_camera()->get_position();
             mat->light_pos=m_lights[0]->get_position();
 
 
-            if(m_current_material && m_current_material->mat_type==SGM_STATIC_MESH)
+            /*if(m_current_material && m_current_material->mat_type==SGM_STATIC_MESH)
             {
                 sg_material_static_mesh * cmat = static_cast< sg_material_static_mesh* >(m_current_material.get());
                 m_current_material = material;
                 mat->set(cmat);
                 return;
-            }
+            }*/
 
             break;
         }
