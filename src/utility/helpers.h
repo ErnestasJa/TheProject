@@ -11,17 +11,6 @@ template <typename T> inline std::string to_str(const T& t)
     return os.str();
 }
 
-#define DGL(func)\
-if(gl_util->check_and_output_errors())\
-{\
-    std::cout << "Error happened before " << #func << std::endl;\
-}\
-func \
-if(gl_util->check_and_output_errors())\
-{\
-    std::cout << "Error happened after " << #func << std::endl; \
-}
-
 template <typename T>
 inline T limit(T val, T min, T max)
 {
@@ -107,7 +96,7 @@ inline bool equals(const glm::mat3 & v1, const glm::mat3 & v2)
 }
 
 
-
+#include <assert.h>
 ///TO IMPLEMENT!
 inline void CheckOpenGLError(const char* stmt, const char* fname, int line)
 {

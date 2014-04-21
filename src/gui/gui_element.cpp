@@ -102,8 +102,8 @@ void gui_element::update_absolute_pos()
     if(this->parent!=nullptr)
         this->absolute_rect=
             rect2d<int>(parent->absolute_rect.x+relative_rect.x,
-                            parent->absolute_rect.y+relative_rect.y,
-                            this->absolute_rect.w, this->absolute_rect.h);
+                        parent->absolute_rect.y+relative_rect.y,
+                        this->absolute_rect.w, this->absolute_rect.h);
     for(gui_element *e : children)
         e->update_absolute_pos();
 }
@@ -202,13 +202,13 @@ gui_element *gui_element::get_element_from_point(int x, int y)
 {
     gui_element *ret=nullptr;
     std::vector<gui_element*>::reverse_iterator i=children.rbegin();
-    for(;i!=children.rend();i++)
+    for(; i!=children.rend(); i++)
     {
         if(*i!=nullptr)
         {
-        ret=(*i)->get_element_from_point(x,y);
-        if(ret!=nullptr)
-            return ret;
+            ret=(*i)->get_element_from_point(x,y);
+            if(ret!=nullptr)
+                return ret;
         }
     }
     if(this->is_visible()&&absolute_rect.is_point_inside(x,y))

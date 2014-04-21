@@ -12,6 +12,8 @@
 #include "GL/glxext.h"
 #endif
 
+#include <assert.h>
+
 opengl_util::opengl_util(logger * l)
 {
     m_logger = l;
@@ -41,6 +43,9 @@ bool opengl_util::check_and_output_errors()
     {
         m_logger->log(LOG_ERROR,"GL_ERROR: %s",gl_error_to_string(err).c_str());
 
+        ///
+        assert(err==GL_NO_ERROR);
+
         ret = true;
     }
 
@@ -58,7 +63,7 @@ std::string opengl_util::gl_error_to_string(uint32_t error)
         case 0x0501:
             return "GL_INVALID_VALUE";
         case 0x0502:
-            return "GL_INVALID_OPERATION";;
+            return "GL_INVALID_OPERATION";
         case 0x0503:
             return "GL_STACK_OVERFLOW";
         case 0x0504:
