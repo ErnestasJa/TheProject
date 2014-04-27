@@ -3,7 +3,7 @@
 #include "application/application.h"
 #include "tests/gui_and_fonts_application.h"
 #include "tests/tinyxml_test_application.h"
-#include "tests/test_kursinis.h"
+#include "tests/kursinis/test_kursinis.h"
 #include "tests/game/test_game.h"
 #include "utility/logger.h"
 #include "utility/timer.h"

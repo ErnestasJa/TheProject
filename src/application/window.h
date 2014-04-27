@@ -141,9 +141,9 @@ public:
         return m_sig_mouse_scroll;
     }
 
-    sigc::signal<void, double, double> & sig_window_resized()
+    sigc::signal<void, int32_t, int32_t> & sig_window_resized()
     {
-        return m_sig_mouse_moved;
+        return m_sig_window_resized;
     }
 
     sigc::signal<void> & sig_window_closed()

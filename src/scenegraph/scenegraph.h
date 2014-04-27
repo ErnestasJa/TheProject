@@ -33,6 +33,7 @@ public:
 
     sg_graphics_manager_ptr get_graphics_manager();
     timer_ptr get_timer();
+    logger * get_logger();
 
     sg_camera_object_ptr get_active_camera();
     void set_active_camera(sg_camera_object_ptr cam);
