@@ -1,4 +1,6 @@
 #include "precomp.h"
+#include "scenegraph.h"
+#include "utility/logger.h"
 #include "sg_camera_object.h"
 
 namespace sg
@@ -7,15 +9,20 @@ namespace sg
 sg_camera_object::sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(sg)
 {
     this->set_position(pos);
-    this->set_rotation(glm::toQuat(glm::lookAt(pos,target,up)));
-    this->update_absolute_transform();
+    this->set_rotation(glm::toQuat(glm::inverse(glm::lookAt(pos,target,up))));
 
     this->m_look=pos-target;
     this->m_up=up;
 
-    m_P = glm::perspective(field_of_view, aspect_ratio, near_z, far_z);
     m_fov = field_of_view;
     m_aspect_ratio = aspect_ratio;
+
+    m_P = glm::perspective(field_of_view, aspect_ratio, near_z, far_z);
+
+    this->update_absolute_transform();
+
+    sg->get_logger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
+    sg->get_logger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
 }
 
 sg_camera_object::~sg_camera_object()

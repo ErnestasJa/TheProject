@@ -271,8 +271,10 @@
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
-		<Unit filename="../../src/tests/test_kursinis.cpp" />
-		<Unit filename="../../src/tests/test_kursinis.h" />
+		<Unit filename="../../src/tests/kursinis/Objektas.cpp" />
+		<Unit filename="../../src/tests/kursinis/Objektas.h" />
+		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
+		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />
 		<Unit filename="../../src/utility/bit.h" />

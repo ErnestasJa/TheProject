@@ -45,6 +45,11 @@ sg_light_object_ptr scenegraph::add_light_object()
     return obj;
 }
 
+logger * scenegraph::get_logger()
+{
+    return m_logger;
+}
+
 void scenegraph::pre_render()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
