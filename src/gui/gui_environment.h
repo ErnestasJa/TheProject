@@ -54,6 +54,11 @@ public:
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
     void on_char_typed(int32_t scan_code);
 
+    const std::string &get_clipboard()
+    {
+        return clipboard_string;
+    }
+
     char get_last_char()
     {
         return last_char;
@@ -108,7 +113,8 @@ private:
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
 
     char last_char;
-    int32_t last_key;
+    int32_t last_key,last_mod;
+    std::string clipboard_string;
 
     glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:

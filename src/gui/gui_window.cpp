@@ -32,14 +32,6 @@ gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::string
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);
 
-    gui_pane* pane=new gui_pane(env,rect2d<int>(0,200,400,200),true);
-    pane->set_parent(this);
-    pane->set_event_listener(this);
-
-    gui_button *testpane=new gui_button(env,rect2d<int>(0,0,200,200),"testpanes!");
-    testpane->set_parent(pane);
-    testpane->set_event_listener(this);
-
     close_btn=new gui_button(env,rect2d<int>(tbr.w-18,2,16,16),"X");
     close_btn->set_parent(this);
     close_btn->set_event_listener(this);

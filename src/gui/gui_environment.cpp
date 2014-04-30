@@ -89,10 +89,49 @@ void gui_environment::on_event(gui_event e)
 
 void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
 {
+    //printf("Key event: Key:%i SC:%i Action:%i Mod:%i\n",key,scan_code,action,mod);
+
     this->last_key=key;
+
     if(focus!=nullptr)
-        if(action==GLFW_PRESS || action==GLFW_REPEAT)
+    {
+        switch(action)
+        {
+        case GLFW_PRESS:
+            switch(mod)
+            {
+            case GLFW_MOD_CONTROL:
+                switch(key)
+                {
+                case GLFW_KEY_A:
+                    break;
+                case GLFW_KEY_X:
+                    break;
+                case GLFW_KEY_C:
+                    break;
+                case GLFW_KEY_V:
+                    this->clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
+                    focus->on_event(gui_event(text_paste,this));
+                    break;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
             focus->on_event(gui_event(key_pressed,this));
+            break;
+        case GLFW_REPEAT:
+            focus->on_event(gui_event(key_pressed,this));
+            break;
+        case GLFW_RELEASE:
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
 void gui_environment::on_char_typed(int32_t scan_code)
