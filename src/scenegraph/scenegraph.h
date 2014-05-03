@@ -48,6 +48,9 @@ public:
     void render_all();
     void update_all(float delta_time);
 
+   sg_object_ptr object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h);
+   glm::vec3 window_coords_to_world(int32_t x, int32_t y, int32_t w, int32_t h);
+
 protected:
     void pre_render();
     void post_render();

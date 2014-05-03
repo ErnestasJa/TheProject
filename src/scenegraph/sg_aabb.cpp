@@ -32,6 +32,17 @@ void sg_aabb::add_point(glm::vec3 point)
     if (point.z<m_min_point.z) m_min_point.z = point.z;
 }
 
+bool sg_aabb::is_point_inside(glm::vec3 point) const
+{
+    return
+    m_min_point.x <= point.x &&
+    m_min_point.y <= point.y &&
+    m_min_point.z <= point.z &&
+    m_max_point.x >= point.x &&
+    m_max_point.y >= point.y &&
+    m_max_point.z >= point.z;
+}
+
 glm::vec3 sg_aabb::get_extent() const
 {
     return m_max_point - m_min_point;

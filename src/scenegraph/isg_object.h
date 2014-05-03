@@ -46,6 +46,7 @@ public:
     virtual void update(float delta_time);
 
     virtual sg_material_ptr get_material(uint32_t index)=0;
+    virtual bool set_material(uint32_t index, sg_material_ptr mat)=0;
     virtual uint32_t get_material_count()=0;
 
     virtual glm::mat4x4 get_relative_transform();

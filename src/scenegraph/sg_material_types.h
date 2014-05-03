@@ -5,6 +5,7 @@ namespace sg
 {
 enum SG_MATERIAL_TYPE
 {
+    SGM_ABSTRACT_MATERIAL,
     SGM_STATIC_MESH,
     SGM_LINE,
     SGM_POINT_SPRITE,

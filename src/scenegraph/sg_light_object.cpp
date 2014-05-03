@@ -35,6 +35,11 @@ sg_material_ptr sg_light_object::get_material(uint32_t index)
     return sg_material_ptr();
 }
 
+bool sg_light_object::set_material(uint32_t index, sg_material_ptr mat)
+{
+    return false;
+}
+
 uint32_t sg_light_object::get_material_count()
 {
     return 0;

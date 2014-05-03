@@ -4,6 +4,7 @@ struct binding
 {
     std::string name;
     int32_t index;
+    uint32_t type;
 };
 
 /**
@@ -140,6 +141,7 @@ struct shader
             {
                 glDetachShader(program, vsobj);
                 glDetachShader(program, psobj);
+                query_all_binding_locations();
             }
         }
     }
@@ -167,6 +169,17 @@ struct shader
         return  glGetUniformLocation ( program, pname.c_str() );
     }
 
+    binding get_binding ( const std::string & pname )
+    {
+        for ( binding &t : bindings)
+        {
+            if(t.name==pname)
+                return t;
+        }
+
+        return binding();
+    }
+
     void query_binding_locations()
     {
         for ( binding &t : bindings)
@@ -177,11 +190,32 @@ struct shader
         }
     }
 
-    void copy_bindings(binding * v)
+    void query_all_binding_locations()
     {
-        for ( binding *t = v; t->name.size()>0; t++ )
+        bindings.clear();
+        binding b;
+
+        int32_t total = -1;
+        glGetProgramiv( program, GL_ACTIVE_UNIFORMS, &total );
+
+        printf ( "Binding count: %i\n", total);
+
+        for(int i=0; i<total; ++i)
         {
-            bindings.push_back(*t);
+            int name_len=-1, num=-1;
+            GLenum type = GL_ZERO;
+            char name[100];
+            glGetActiveUniform( program, GLuint(i), sizeof(name)-1,
+                &name_len, &num, &type, name );
+            name[name_len] = 0;
+            GLuint location = glGetUniformLocation( program, name );
+
+            b.index = location;
+            b.name = name;
+            b.type = type;
+            bindings.push_back(b);
+
+            printf ( "Binding index=%i; name='%s'; type=%i;\n",  b.index, b.name.c_str(), b.type);
         }
     }
 };

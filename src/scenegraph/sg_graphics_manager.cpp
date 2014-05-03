@@ -62,14 +62,26 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 {
     switch(type)
     {
-    case SGM_STATIC_MESH:
+    case SGM_ABSTRACT_MATERIAL:
         {
-            sg_material_static_mesh * mat = new sg_material_static_mesh();
-            mat->mat_shader=m_shader_loader->load("res/shaders/static_mesh/static_mesh");
+            sg_abstract_material * mat = new sg_abstract_material(m_shader_loader->load(vert_shader,frag_shader));
 
             if(!mat->mat_shader)
             {
-                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/static_mesh/static_mesh");
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", (vert_shader+" "+frag_shader).c_str());
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            return share(mat);
+        }
+    case SGM_STATIC_MESH:
+        {
+            sg_material_static_mesh * mat = new sg_material_static_mesh(m_shader_loader->load("res/shaders/static_mesh/static_mesh"));
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/static_mesh/static_mesh");
                  delete mat;
                  return sg_material_ptr();
             }
@@ -78,18 +90,15 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 
             if(mat->mat_shader->bindings.size()==0)
             {
-                mat->mat_shader->copy_bindings(sg_material_static_mesh::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations();
-                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
             }
 
             return share(mat);
         }
     case SGM_VSM_FIRST_PASS:
         {
-            sg_material_vsm_first_pass * mat = new sg_material_vsm_first_pass();
-            mat->mat_shader=m_shader_loader->load("res/shaders/vsm/firstStep");
+            sg_material_vsm_first_pass * mat = new sg_material_vsm_first_pass(m_shader_loader->load("res/shaders/vsm/firstStep"));
 
             if(!mat->mat_shader)
             {
@@ -100,17 +109,15 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 
             if(mat->mat_shader->bindings.size()==0)
             {
-                mat->mat_shader->copy_bindings(sg_material_vsm_first_pass::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations();
             }
 
             return share(mat);
         }
     case SGM_VSM_FINAL_PASS:
         {
-            sg_material_vsm_final_pass * mat = new sg_material_vsm_final_pass();
-            mat->mat_shader=m_shader_loader->load("res/shaders/vsm/VarianceShadowMapping");
+            sg_material_vsm_final_pass * mat = new sg_material_vsm_final_pass(m_shader_loader->load("res/shaders/vsm/VarianceShadowMapping"));
+
 
             if(!mat->mat_shader)
             {
@@ -121,10 +128,8 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 
             if(mat->mat_shader->bindings.size()==0)
             {
-                mat->mat_shader->copy_bindings(sg_material_vsm_final_pass::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations();
-                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
             }
 
 
@@ -136,8 +141,7 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
         }
     case SGM_TEXTURE_FILTER:
         {
-            sg_material_texture_filter * mat = new sg_material_texture_filter();
-            mat->mat_shader=m_shader_loader->load(vert_shader,frag_shader);
+            sg_material_texture_filter * mat = new sg_material_texture_filter(m_shader_loader->load(vert_shader,frag_shader));
 
             if(!mat->mat_shader)
             {
@@ -148,18 +152,15 @@ sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::s
 
             if(mat->mat_shader->bindings.size()==0)
             {
-                mat->mat_shader->copy_bindings(sg_material_texture_filter::bindings);
                 mat->mat_shader->set();
-                mat->mat_shader->query_binding_locations();
-                sg_mvar<int32_t>("texture0",0).set(mat->mat_shader->bindings[0].index);
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
             }
 
             return share(mat);
         }
     case SGM_POINT_SPRITE:
         {
-            sg_material_point_sprite * mat = new sg_material_point_sprite();
-            mat->mat_shader=m_shader_loader->load("res/shaders/point_sprite/point_sprite");
+            sg_material_point_sprite * mat = new sg_material_point_sprite(m_shader_loader->load("res/shaders/point_sprite/point_sprite"));
 
             mat->mat_texture=m_default_tex;
             return share(mat);

@@ -62,6 +62,16 @@ void sg_quad::render(scenegraph * sg)
     m_mesh->render(0);
 }
 
+bool sg_quad::set_material(uint32_t index, sg_material_ptr material)
+{
+    if(index==0)
+    {
+        m_material = material;
+        return true;
+    }
+    return false;
+}
+
 sg_material_ptr sg_quad::get_material(uint32_t index)
 {
     return m_material;

@@ -19,7 +19,7 @@ sg_mesh_object::sg_mesh_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg)
         m_materials.resize(ptr->sub_meshes.size());
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
-            m_materials[i]=std::static_pointer_cast<sg_material_static_mesh>(this->m_scenegraph->get_graphics_manager()->create_material(SGM_STATIC_MESH));
+            m_materials[i]=this->m_scenegraph->get_graphics_manager()->create_material(SGM_STATIC_MESH);
         }
     }
 }
@@ -49,6 +49,16 @@ void sg_mesh_object::render(scenegraph * sg)
 mesh_ptr sg_mesh_object::get_mesh()
 {
     return m_mesh;
+}
+
+bool sg_mesh_object::set_material(uint32_t index, sg_material_ptr mat)
+{
+    if(index < m_materials.size())
+    {
+        m_materials[index]=mat;
+        return true;
+    }
+    return false;
 }
 
 sg_material_ptr sg_mesh_object::get_material(uint32_t index)

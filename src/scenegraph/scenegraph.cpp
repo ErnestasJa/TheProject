@@ -130,6 +130,41 @@ void scenegraph::update_all(float delta_time)
         obj->update(delta_time);
 }
 
+sg_object_ptr scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h)
+{
+    float winz=0.0f;
+    glReadPixels( x, h-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
+    glm::vec3 objPt = glm::unProject(glm::vec3(x,h-y,winz), this->get_active_camera()->get_absolute_transform(), this->get_active_camera()->get_projection(), glm::vec4(0,0,w, h));
+
+
+    std::vector<sg_object_ptr> aabb_test_pass(m_objects);
+    /*for(sg_object_ptr obj: this->m_objects)
+    {
+        if(obj->get_aabb().is_point_inside(objPt))
+            aabb_test_pass.push_back(obj);
+    }*/
+
+    std::sort(aabb_test_pass.begin(), aabb_test_pass.end(), [&objPt] (sg_object_ptr o1, sg_object_ptr o2)
+              {
+                  return glm::distance(o1->get_position(),objPt) < glm::distance(o2->get_position(),objPt);
+              });
+
+
+    if(aabb_test_pass.size()&&glm::distance(aabb_test_pass[0]->get_position(),objPt)<2.0f)
+        return aabb_test_pass[0];
+    else
+        return sg_object_ptr();
+}
+
+glm::vec3 scenegraph::window_coords_to_world(int32_t x, int32_t y, int32_t w, int32_t h)
+{
+    float winz=0.0f;
+    glReadPixels( x, h-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
+    glm::vec3 objPt = glm::unProject(glm::vec3(x,h-y,winz), this->get_active_camera()->get_absolute_transform(), this->get_active_camera()->get_projection(), glm::vec4(0,0,w, h));
+
+    return objPt;
+}
+
 sg_graphics_manager_ptr scenegraph::get_graphics_manager()
 {
     return m_graphics_manager;

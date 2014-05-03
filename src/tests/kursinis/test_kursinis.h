@@ -26,6 +26,11 @@ protected:
     sg::scenegraph*             m_scenegraph;
     gui_environment* env;
 
+    ///select obj
+    sg::sg_object_ptr selected_obj;
+    glm::vec2 mouse_start;
+    glm::vec3 obj_start;
+
     ///3 kunai
     Objektas * obj[3];
     bool simuliuoti;
@@ -40,6 +45,7 @@ public:
     void exit();
 
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
+    void on_mouse_key_event(int32_t button, int32_t action, int32_t mod);
     void on_mouse_move(double x, double y);
     void on_resize(int32_t x, int32_t y);
     virtual void on_event(gui_event e);

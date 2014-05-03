@@ -76,7 +76,7 @@ shader_ptr shader_loader::load(const std::string & file)
     m_logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());
     shader * sh = new shader(sh_name,vsh,fsh);
 	sh->compile();
-	sh->link();
+	//sh->link();
 
 	if(sh->program)
     {

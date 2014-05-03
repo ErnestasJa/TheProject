@@ -20,6 +20,7 @@ public:
     virtual uint32_t        get_type();
 
     virtual sg_material_ptr get_material(uint32_t index);
+    virtual bool set_material(uint32_t index, sg_material_ptr mat);
     virtual uint32_t        get_material_count();
 
     virtual void            recalculate_aabb();

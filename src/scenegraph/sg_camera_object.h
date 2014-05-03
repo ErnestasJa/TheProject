@@ -16,6 +16,7 @@ public:
     virtual void render(scenegraph * sg);
     virtual void on_set_shader_constants(shader_ptr shader);
 
+    virtual bool set_material(uint32_t index, sg_material_ptr mat);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 

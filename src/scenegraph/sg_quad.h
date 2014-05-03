@@ -18,6 +18,7 @@ public:
     virtual void render(scenegraph * sg);
 
     virtual uint32_t get_type();
+    virtual bool set_material(uint32_t index, sg_material_ptr material);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual void set_material(sg_material_ptr mat);
     virtual uint32_t get_material_count();
