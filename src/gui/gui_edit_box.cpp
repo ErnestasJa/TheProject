@@ -96,7 +96,8 @@ void gui_edit_box::on_event(gui_event e)
         switch(environment->get_last_key())
         {
         case GLFW_KEY_BACKSPACE:
-            remove_text(curspos,1);
+            if(m_text.length()>0)
+                remove_text(curspos,1);
             break;
         case GLFW_KEY_LEFT:
             if(curspos>0)
@@ -136,7 +137,7 @@ void gui_edit_box::remove_text(int32_t index, int32_t length)
 {
     curspos=index;
 
-    if(curspos-length>=0)
+    if(curspos-length>0)
     {
         m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
         curspos-=length;
