@@ -6,7 +6,7 @@
 #include "gui_edit_box.h"
 #include "font.h"
 
-gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
+gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {
     environment=env;
 
@@ -22,6 +22,8 @@ gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::st
     _mx=absolute_rect.x + 5;
     _mw=absolute_rect.w - font_size - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
+
+    this->clearonsubmit=clearonsubmit;
 
     this->set_parent(env);
 }
@@ -95,6 +97,17 @@ void gui_edit_box::on_event(gui_event e)
     case key_pressed:
         switch(environment->get_last_key())
         {
+        case GLFW_KEY_ENTER:
+            if(this->event_listener)
+            {
+                this->event_listener->on_event(gui_event(textbox_submit,this));
+            }
+            if(clearonsubmit)
+            {
+                this->m_text.clear();
+            }
+            this->set_focused(false);
+            break;
         case GLFW_KEY_BACKSPACE:
             if(m_text.length()>0)
                 remove_text(curspos,1);

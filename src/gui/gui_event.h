@@ -23,7 +23,10 @@ enum gui_event_type
     key_typed, key_pressed,
 
     // copy, paste, select
-    text_copy, text_paste, text_select
+    text_copy, text_paste, text_select,
+
+    // textbox submit
+    textbox_submit
 };
 
 class gui_element;
