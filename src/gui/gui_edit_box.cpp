@@ -98,15 +98,16 @@ void gui_edit_box::on_event(gui_event e)
         switch(environment->get_last_key())
         {
         case GLFW_KEY_ENTER:
-            if(this->event_listener)
-            {
-                this->event_listener->on_event(gui_event(textbox_submit,this));
-            }
             if(clearonsubmit)
             {
                 this->m_text.clear();
             }
             this->set_focused(false);
+            if(this->event_listener)
+            {
+                this->event_listener->on_event(gui_event(textbox_submit,this));
+                this->event_listener->on_event(gui_event(element_focus_lost,this));
+            }
             break;
         case GLFW_KEY_BACKSPACE:
             if(m_text.length()>0)
