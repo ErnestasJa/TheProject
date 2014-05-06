@@ -25,6 +25,7 @@ class texture;
 class window;
 class gui_skin;
 class logger;
+
 class gui_environment : public gui_element
 {
 public:

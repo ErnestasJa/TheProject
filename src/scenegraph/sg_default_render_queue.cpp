@@ -41,7 +41,9 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
         {
             sg_abstract_material * mat = static_cast<sg_abstract_material*>(material.get());
 
-            mat->set_mat4("m",obj->get_absolute_transform());
+            //mat->set_mat4("m",obj->get_absolute_transform());
+            mat->set_mat4("mvp",m_scenegraph->get_shared_mat_vars().view_proj.value * obj->get_absolute_transform());
+
             /*mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
             mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
 

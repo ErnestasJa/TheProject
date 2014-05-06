@@ -156,13 +156,13 @@ sg_object_ptr scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int
         return sg_object_ptr();
 }
 
-glm::vec3 scenegraph::window_coords_to_world(int32_t x, int32_t y, int32_t w, int32_t h)
+glm::vec3 scenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h)
 {
-    float winz=0.0f;
-    glReadPixels( x, h-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
-    glm::vec3 objPt = glm::unProject(glm::vec3(x,h-y,winz), this->get_active_camera()->get_absolute_transform(), this->get_active_camera()->get_projection(), glm::vec4(0,0,w, h));
+    glm::vec4 viewport = glm::vec4(0, 0, w, h);
+    glm::vec3 wincoord = glm::vec3(x, h - y - 1, depth);
+    glm::vec3 objcoord = glm::unProject(wincoord, this->get_active_camera()->get_absolute_transform(), this->get_active_camera()->get_projection(), viewport);
 
-    return objPt;
+    return objcoord;
 }
 
 sg_graphics_manager_ptr scenegraph::get_graphics_manager()

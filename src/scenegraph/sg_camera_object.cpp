@@ -15,6 +15,8 @@ sg_camera_object::sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const g
     this->m_up=up;
 
     m_fov = field_of_view;
+    m_far = far_z;
+    m_near = near_z;
     m_aspect_ratio = aspect_ratio;
 
     m_P = glm::perspective(field_of_view, aspect_ratio, near_z, far_z);
@@ -47,6 +49,16 @@ glm::mat4 & sg_camera_object::get_projection()
 }
 
 const float sg_camera_object::get_fov() const
+{
+    return m_fov;
+}
+
+const float sg_camera_object::get_far() const
+{
+    return m_fov;
+}
+
+const float sg_camera_object::get_near() const
 {
     return m_fov;
 }

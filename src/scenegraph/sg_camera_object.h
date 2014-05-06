@@ -24,6 +24,8 @@ public:
 
 	const glm::vec3 get_look() const;
 
+	const float get_far() const;
+	const float get_near() const;
 	const float get_fov() const;
 	const float get_aspect_ratio() const;
 
@@ -36,7 +38,7 @@ public:
 	virtual glm::mat4x4 get_relative_transform();
 
 protected:
-    float m_fov, m_aspect_ratio;
+    float m_fov, m_aspect_ratio, m_far, m_near;
 	static glm::vec3 UP;
 	glm::vec3 m_look;
 	glm::vec3 m_up;

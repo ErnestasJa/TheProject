@@ -20,6 +20,7 @@
 #include "gui/gui_skin.h"
 #include "gui/gui_environment.h"
 #include "gui/gui_button.h"
+#include "gui/gui_static_text.h"
 #include "gui/gui_checkbox.h"
 #include "gui/gui_pane.h"
 #include "gui/gui_edit_box.h"
@@ -62,21 +63,36 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
 
     gui_window * wnd = new gui_window(env,rect2d<int>(10,10,200,400),"Kool windou");
 
-    gui_button* btn=new gui_button(env,rect2d<int>(10,30,64,20),"HOLA");
-    btn->set_name("hola_btn");
+    gui_button* btn = sim_btn = new gui_button(env,rect2d<int>(10,30,64,20),"Simuliuoti");
+    btn->set_name("sim_btn");
     btn->set_event_listener(this);
     btn->set_parent(wnd);
 
+    ///masiu ivedimas
+    #define init_eb(x) x->set_parent(wnd); x->set_event_listener(this)
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,65,40,20),"mass[0]");
+    tb->set_parent(wnd);
+    eb[0]=new gui_edit_box(env,rect2d<int>(60,60,120,20),"",glm::vec4(1,1,1,1),false,false);
 
-    gui_checkbox* cb=new gui_checkbox(env,rect2d<int>(10,96,20,20),false);
-    cb->set_parent(wnd);
-    cb=new gui_checkbox(env,rect2d<int>(10,128,20,20),true);
-    cb->set_parent(wnd);
-    cb=new gui_checkbox(env,rect2d<int>(10,160,20,20),false);
-    cb->set_parent(wnd);
 
-    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(10,60,180,20),"",glm::vec4(1,1,1,1),false,false);
-    eb->set_parent(wnd);
+    tb = new gui_static_text(env,rect2d<int>(10,65+30,40,20),"mass[1]");
+    tb->set_parent(wnd);
+    eb[1]=new gui_edit_box(env,rect2d<int>(60,60+30,120,20),"",glm::vec4(1,1,1,1),false,false);
+
+
+    tb = new gui_static_text(env,rect2d<int>(10,65+60,40,20),"mass[2]");
+    tb->set_parent(wnd);
+    eb[2]=new gui_edit_box(env,rect2d<int>(60,60+60,120,20),"",glm::vec4(1,1,1,1),false,false);
+
+    init_eb(eb[0]);
+    init_eb(eb[1]);
+    init_eb(eb[2]);
+
+    env->set_event_listener(this);
+
+
+
+    update_ui();
 
     glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
     printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
@@ -84,9 +100,32 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
     return true;
 }
 
+#include <sstream>
+void test_kursinis::update_ui()
+{
+    loopi(3)
+    {
+        Objektas * o = obj[i];
+        gui_edit_box * e = eb[i];
+
+        std::stringstream ss;
+        ss << o->get_mass();
+        e->set_text(ss.str());
+    }
+}
+
 float saules_mase = 1988550.0;
 float zemes_mase = 5.972f;
 float menulio_mase = 0.07346f;
+
+void init_obj(Objektas * obj, sg::sg_graphics_manager_ptr gmgr, glm::vec3 color, glm::vec3 pos)
+{
+    auto m = gmgr->create_material(sg::SGM_ABSTRACT_MATERIAL,"res/shaders/kursinis/color_mat.vert","res/shaders/kursinis/color_mat.frag");
+    sg::sg_abstract_material* mat = static_cast<sg::sg_abstract_material*>(m.get());
+    obj->get_object()->set_material(0,m);
+    obj->get_object()->set_position(pos);
+    mat->set_vec3f("color",color);
+}
 
 bool test_kursinis::init_scene()
 {
@@ -98,9 +137,8 @@ bool test_kursinis::init_scene()
     ///saule
     {
         obj[0] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),saules_mase,glm::vec3(0.0,0.0,0.0));
-        obj[0]->get_object()->set_material(0,this->m_graphics_manager->create_material(sg::SGM_ABSTRACT_MATERIAL,"res/shaders/static_mesh/static_mesh.vert","res/shaders/static_mesh/static_mesh.frag"));
         m_scenegraph->add_object(obj[0]->get_object());
-        obj[0]->get_object()->set_position(glm::vec3(0.0,0.0,0.0));
+        init_obj(obj[0],this->m_graphics_manager, glm::vec3(1,0,0), glm::vec3(0,0,0));
     }
 
     ///obj1
@@ -108,7 +146,7 @@ bool test_kursinis::init_scene()
     {
         obj[1] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),zemes_mase,glm::vec3(-4.0,0.0,0.0));
         m_scenegraph->add_object(obj[1]->get_object());
-        obj[1]->get_object()->set_position(glm::vec3(0.0,0.0,-150.0));
+        init_obj(obj[1],this->m_graphics_manager, glm::vec3(0,1,0), glm::vec3(0,0,-150));
     }
 
     ///obj2
@@ -116,7 +154,7 @@ bool test_kursinis::init_scene()
     {
         obj[2] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),menulio_mase,glm::vec3(-4.0,0.0,0.0));
         m_scenegraph->add_object(obj[2]->get_object());
-        obj[2]->get_object()->set_position(glm::vec3(0.0,0.0,-155.0));
+        init_obj(obj[2],this->m_graphics_manager, glm::vec3(0,0,1), glm::vec3(0,0,-155));
     }
 
 
@@ -224,10 +262,7 @@ void test_kursinis::on_mouse_move(double x, double y)
 
     if(selected_obj)
     {
-        int32_t w = this->wnd->get_window_size().x, h = this->wnd->get_window_size().y;
-        glm::vec3 pos = this->m_scenegraph->window_coords_to_world(x,y,w,h);
-        this->m_log->log(LOG_LOG, "World pos: (%f, %f, %f);",pos.x ,pos.y ,pos.z);
-        selected_obj->set_position(obj_start + glm::vec3(mouse_delta.x,0,mouse_delta.y));
+        selected_obj->set_position(selected_obj->get_position()+glm::vec3(mouse_delta.x,0,mouse_delta.y));
     }
 }
 
@@ -267,16 +302,83 @@ void test_kursinis::on_event(gui_event e)
             m_log->log(LOG_LOG, "Got event type: %i; button_pressed: %i.",e.get_type() , button_pressed);
             m_log->log(LOG_LOG, "Element name: '%s'.", e.get_caller()->get_name().c_str());
 
-            if( e.get_caller()->get_name() == "hola_btn" )
+            if( e.get_caller()->get_name() == "sim_btn" )
             {
                 simuliuoti = !simuliuoti;
 
                 if(simuliuoti)
                     selected_obj = nullptr;
 
+                sim_btn->set_text(simuliuoti?"Sustabdyti":"Testi");
+
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
             }
+            break;
         }
+        case key_pressed:
+            {
+                m_log->log(LOG_LOG,"key_pressed");
+                if(!env->get_last_key()==GLFW_KEY_ENTER)
+                    break;
+
+                m_log->log(LOG_LOG,"Enter pressed");
+
+                if(e.get_caller()==eb[0])
+                {
+                    std::stringstream ss;
+                    float mass=0;
+
+                    ss << eb[0]->get_text();
+
+                    if(ss >> mass)
+                    {
+                        obj[0]->set_mass(mass);
+                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                    }
+                    else
+                    {
+                        update_ui();
+                    }
+                }
+                else if(e.get_caller()==eb[1])
+                {
+                    std::stringstream ss;
+                    float mass=0;
+
+                    ss << eb[1]->get_text();
+
+                    if(ss >> mass)
+                    {
+                        obj[1]->set_mass(mass);
+                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                    }
+                    else
+                    {
+                        update_ui();
+                    }
+                }
+                else if(e.get_caller()==eb[2])
+                {
+                    std::stringstream ss;
+                    float mass=0;
+
+                    ss << eb[2]->get_text();
+
+                    if(ss >> mass)
+                    {
+                        obj[2]->set_mass(mass);
+                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                    }
+                    else
+                    {
+                        update_ui();
+                    }
+                }
+
+                break;
+            }
+        default:
+            break;
     }
 }
 

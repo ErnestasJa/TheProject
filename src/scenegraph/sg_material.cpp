@@ -100,7 +100,7 @@ glm::mat3 sg_abstract_material::get_mat3(const std::string & name)
 }
 
 #undef get_attr
-#define set_attr(x,y) for(x attr: y) {if(attr.name==name) { attr.value = value;}}
+#define set_attr(x,y) for(x & attr: y) {if(attr.name==name) { attr.value = value; return;}} assert(false);
 //#define set_attr(x,y) for(x attr: y) {if(attr.name==name) { attr.value = value; attr.set(mat_shader->get_binding(name).index);}}
 
 void sg_abstract_material::set_int(const std::string & name, int32_t value)

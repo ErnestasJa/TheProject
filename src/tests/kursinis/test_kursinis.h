@@ -19,6 +19,8 @@ typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
 
 
 class gui_environment;
+class gui_edit_box;
+class gui_button;
 class test_kursinis: public application, public gui_event_listener
 {
 protected:
@@ -33,6 +35,8 @@ protected:
 
     ///3 kunai
     Objektas * obj[3];
+    gui_edit_box * eb[3];
+    gui_button * sim_btn;
     bool simuliuoti;
 public:
     test_kursinis(uint32_t argc, const char ** argv);
@@ -43,6 +47,8 @@ public:
     bool init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool update();
     void exit();
+
+    void update_ui();
 
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
     void on_mouse_key_event(int32_t button, int32_t action, int32_t mod);

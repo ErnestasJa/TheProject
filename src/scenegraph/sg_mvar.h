@@ -18,7 +18,11 @@ struct sg_mvar
     void set() const;
     void set(int32_t binding_index) const;
 
-    sg_mvar & operator = (const T & val);
+    T get();
+    const T & get() const;
+
+
+    sg_mvar<T> & operator = (const T & val);
 
 ///-------------------------------
     std::string name;
