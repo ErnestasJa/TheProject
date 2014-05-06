@@ -16,7 +16,6 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="freetype-config --libs" />
 					<Add library="dl" />
 					<Add library="pthread" />
 					<Add library="Xext" />
@@ -29,6 +28,7 @@
 					<Add library="physfs" />
 					<Add library="tinyxml2" />
 					<Add library="sigc-2.0" />
+					<Add library="freetype" />
 					<Add directory="../../libs/libsigc++/lib/linux" />
 				</Linker>
 			</Target>
@@ -65,6 +65,7 @@
 					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
@@ -87,6 +88,7 @@
 					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -113,7 +115,6 @@
 			<Add library="libLinearMath.a" />
 			<Add directory="../../libs/glfw/lib" />
 			<Add directory="../../libs/physfs/lib" />
-			<Add directory="../../libs/freetype/lib" />
 			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/bullet/lib" />
