@@ -16,6 +16,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add option="freetype-config --libs" />
 					<Add library="dl" />
 					<Add library="pthread" />
 					<Add library="Xext" />
@@ -26,8 +27,9 @@
 					<Add library="Xi" />
 					<Add library="glfw3" />
 					<Add library="physfs" />
-					<Add library="freetype" />
 					<Add library="tinyxml2" />
+					<Add library="sigc-2.0" />
+					<Add directory="../../libs/libsigc++/lib/linux" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
