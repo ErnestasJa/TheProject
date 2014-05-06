@@ -61,7 +61,7 @@
 					<Add library="gdi32" />
 					<Add library="physfs_win32" />
 					<Add library="freetype" />
-					<Add library="tinyxml2" />
+					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
@@ -86,6 +86,7 @@
 					<Add library="gdi32" />
 					<Add library="libphysfs_win32" />
 					<Add library="libsigc++.a" />
+					<Add library="tinyxml2_win32" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
