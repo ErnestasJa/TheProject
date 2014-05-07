@@ -61,39 +61,43 @@ void gui_window::render()
 
 bool gui_window::on_event(const gui_event & e)
 {
-    switch(e.get_type())
-    {
-    case mouse_pressed:
-        ds=environment->get_mouse_pos();
-        if(dragging==false&&tbr.is_point_inside((int)ds.x,(int)ds.y)==true)
-            dragging=true;
-        break;
-    case mouse_released:
-        if(dragging) dragging=false;
-        break;
-    case mouse_dragged:
-        if(dragging)
+    GUI_BEGIN_ON_EVENT(e)
+
+        switch(e.get_type())
         {
+        case mouse_pressed:
+            ds=environment->get_mouse_pos();
+            if(dragging==false&&tbr.is_point_inside((int)ds.x,(int)ds.y)==true)
+                dragging=true;
+            break;
+        case mouse_released:
+            if(dragging) dragging=false;
+            break;
+        case mouse_dragged:
+            if(dragging)
+            {
+                mp=environment->get_mouse_pos();
+                dif.x=mp.x-ds.x;
+                dif.y=mp.y-ds.y;
+                this->move(glm::vec2(dif.x,dif.y));
+            }
+            break;
+        case mouse_moved:
             mp=environment->get_mouse_pos();
-            dif.x=mp.x-ds.x;
-            dif.y=mp.y-ds.y;
-            this->move(glm::vec2(dif.x,dif.y));
+
+            break;
+        case button_pressed:
+
+            break;
+        case button_released:
+            if(e.get_caller()==this->close_btn)
+                environment->remove_child(this);
+            break;
+        default:
+            break;
         }
-        break;
-    case mouse_moved:
-        mp=environment->get_mouse_pos();
 
-        break;
-    case button_pressed:
-
-        break;
-    case button_released:
-        if(e.get_caller()==this->close_btn)
-            environment->remove_child(this);
-        break;
-    default:
-        break;
-    }
+    GUI_END_ON_EVENT(e)
 }
 
 void gui_window::move(glm::vec2 delta)

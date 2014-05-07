@@ -77,6 +77,8 @@ void gui_environment::render()
 
 bool gui_environment::on_event(const gui_event & e)
 {
+    GUI_BEGIN_ON_EVENT(e)
+
     switch(e.get_type())
     {
     case element_focused:
@@ -85,6 +87,8 @@ bool gui_environment::on_event(const gui_event & e)
     default:
         break;
     }
+
+    GUI_END_ON_EVENT(e)
 }
 
 void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod)
