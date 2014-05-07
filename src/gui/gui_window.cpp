@@ -59,7 +59,7 @@ void gui_window::render()
     update_absolute_pos();
 }
 
-void gui_window::on_event(gui_event e)
+bool gui_window::on_event(const gui_event & e)
 {
     switch(e.get_type())
     {
@@ -88,7 +88,8 @@ void gui_window::on_event(gui_event e)
 
         break;
     case button_released:
-        environment->remove_child(this);
+        if(e.get_caller()==this->close_btn)
+            environment->remove_child(this);
         break;
     default:
         break;

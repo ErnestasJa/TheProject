@@ -10,14 +10,14 @@ private:
     uint32_t blinktimer,curspos,reptimer,sx,font_size;
     float _mx,_mw,_my,_mh; //margins for drawing
     char lastkey;
-    bool blink;
+    bool blink,clearonsubmit;
     std::string m_text,disp_text;
     glm::vec4 m_text_color;
 
     void add_text(int32_t index,std::string text);
     void remove_text(int32_t index, int32_t length);
 public:
-    gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text="text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
+    gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text="text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
     virtual ~gui_edit_box();
 
     void render();
@@ -29,6 +29,6 @@ public:
         return m_text;
     }
 
-    void on_event(gui_event e);
+    bool on_event(const gui_event & e);
 protected:
 };

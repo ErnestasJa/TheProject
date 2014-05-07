@@ -35,7 +35,7 @@ public:
     void update(float delta);
     void render();
 
-    void on_event(gui_event e);
+    virtual bool on_event(const gui_event & e);
     bool is_on_hover(gui_element *e);
     bool is_on_focus(gui_element *e);
 

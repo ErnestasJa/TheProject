@@ -18,7 +18,7 @@ public:
 
     virtual void render();
 
-    void on_event(gui_event e);
+    bool on_event(const gui_event & e);
 
     int get_value() const
     {

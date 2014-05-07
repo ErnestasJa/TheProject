@@ -52,8 +52,10 @@ void gui_slider::render()
     this->render_children();
 }
 
-void gui_slider::on_event(gui_event e)
+bool gui_slider::on_event(const gui_event & e)
 {
+    GUI_BEGIN_ON_EVENT(e)
+
     switch(e.get_type())
     {
     case mouse_pressed:
@@ -61,7 +63,7 @@ void gui_slider::on_event(gui_event e)
         if(this->event_listener)
             if(m_cur_value!=m_old_value)
             {
-                this->event_listener->on_event(gui_event(scrollbar_changed,this));
+                GUI_FIRE_EVENT(gui_event(scrollbar_changed,this))
                 m_old_value=m_cur_value;
             }
 
@@ -71,13 +73,15 @@ void gui_slider::on_event(gui_event e)
         if(this->event_listener)
             if(m_cur_value!=m_old_value)
             {
-                this->event_listener->on_event(gui_event(scrollbar_changed,this));
+                GUI_FIRE_EVENT(gui_event(scrollbar_changed,this))
                 m_old_value=m_cur_value;
             }
         break;
     default:
         break;
     }
+
+    GUI_END_ON_EVENT(e)
 }
 
 void gui_slider::handle_mouse()

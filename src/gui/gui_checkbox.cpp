@@ -39,32 +39,33 @@ void gui_checkbox::render()
     environment->draw_gui_quad(absolute_rect,cur_style);
 }
 
-void gui_checkbox::on_event(gui_event e)
+bool gui_checkbox::on_event(const gui_event & e)
 {
-    switch(e.get_type())
-    {
-    case gui_event_type::element_hovered:
-        cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(element_hovered,this));
-        break;
+    GUI_BEGIN_ON_EVENT(e)
 
-    case gui_event_type::element_exitted:
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(element_exitted,this));
-        break;
+        switch(e.get_type())
+        {
+        case gui_event_type::element_hovered:
+            cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
+            GUI_FIRE_EVENT(gui_event(element_hovered,this))
+            break;
 
-    case gui_event_type::mouse_pressed:
-        cur_style=this->checked?gui_skin_checkbox_c_click:gui_skin_checkbox_u_click;
-        break;
+        case gui_event_type::element_exitted:
+            GUI_FIRE_EVENT(gui_event(element_exitted,this));
+            break;
 
-    case gui_event_type::mouse_released:
-        checked=!checked;
-        cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(checkbox_state_changed,this));
-        break;
-    default:
-        break;
-    }
+        case gui_event_type::mouse_pressed:
+            cur_style=this->checked?gui_skin_checkbox_c_click:gui_skin_checkbox_u_click;
+            break;
+
+        case gui_event_type::mouse_released:
+            checked=!checked;
+            cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
+            GUI_FIRE_EVENT(gui_event(checkbox_state_changed,this))
+            break;
+        default:
+            break;
+        }
+
+    GUI_END_ON_EVENT(e)
 }

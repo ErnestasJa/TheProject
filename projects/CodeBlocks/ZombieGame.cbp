@@ -26,10 +26,10 @@
 					<Add library="Xi" />
 					<Add library="glfw3" />
 					<Add library="physfs" />
-					<Add library="freetype" />
 					<Add library="tinyxml2" />
 					<Add library="sigc-2.0" />
-					<Add directory="../../libs/tinyxml2/lib/linux" />
+					<Add library="freetype" />
+					<Add directory="../../libs/libsigc++/lib/linux" />
 					<Add directory="../../libs/bullet/lib/linux" />
 				</Linker>
 			</Target>
@@ -53,12 +53,9 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-std=c++11" />
-					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
-					<Add option="-pg" />
 					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
@@ -71,7 +68,6 @@
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
 					<Add directory="../../libs/bullet/lib/win32" />
-					<Add directory="../../libs/tinyxml2/lib" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
@@ -90,14 +86,13 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs_win32" />
+					<Add library="libphysfs_win32" />
 					<Add library="libsigc++.a" />
-					<Add library="freetype" />
-					<Add library="tinyxml2" />
+					<Add library="tinyxml2_win32" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
-					<Add directory="../../libs/bullet/lib" />
+					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
 			</Target>
 		</Build>
@@ -128,7 +123,6 @@
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/libsigc++/lib" />
 		</Linker>
-		<Unit filename="../../ideas.txt" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
 		<Unit filename="../../libs/glxw/src/glxw.c">
@@ -189,8 +183,6 @@
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
-		<Unit filename="../../src/opengl/gl_object.cpp" />
-		<Unit filename="../../src/opengl/gl_object.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
 		<Unit filename="../../src/opengl/ibuffer_object.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />
@@ -198,8 +190,6 @@
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
-		<Unit filename="../../src/opengl/render_buffer_object.cpp" />
-		<Unit filename="../../src/opengl/render_buffer_object.h" />
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/sliced_gui_quad.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
@@ -230,8 +220,6 @@
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />
 		<Unit filename="../../src/scenegraph/isg_object.h" />
-		<Unit filename="../../src/scenegraph/isg_render_queue.cpp" />
-		<Unit filename="../../src/scenegraph/isg_render_queue.h" />
 		<Unit filename="../../src/scenegraph/scenegraph.cpp" />
 		<Unit filename="../../src/scenegraph/scenegraph.h" />
 		<Unit filename="../../src/scenegraph/sg_aabb.cpp" />
@@ -240,8 +228,6 @@
 		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.h" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
-		<Unit filename="../../src/scenegraph/sg_default_render_queue.cpp" />
-		<Unit filename="../../src/scenegraph/sg_default_render_queue.h" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
@@ -255,12 +241,6 @@
 		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
-		<Unit filename="../../src/scenegraph/sg_quad.cpp" />
-		<Unit filename="../../src/scenegraph/sg_quad.h" />
-		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.cpp" />
-		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.h" />
-		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
-		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
 		<Unit filename="../../src/tests/game/physics/Physics.h" />
@@ -273,10 +253,8 @@
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
-		<Unit filename="../../src/tests/kursinis/Objektas.cpp" />
-		<Unit filename="../../src/tests/kursinis/Objektas.h" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
+		<Unit filename="../../src/tests/test_application.cpp" />
+		<Unit filename="../../src/tests/test_application.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />
 		<Unit filename="../../src/utility/bit.h" />

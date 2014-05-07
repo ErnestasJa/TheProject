@@ -28,9 +28,9 @@ public:
     }
 
     //this does not do any events
-    void on_event(gui_event e)
+    virtual bool on_event(const gui_event & e)
     {
-        return;
+        return false;
     }
 protected:
 };

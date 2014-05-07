@@ -23,7 +23,7 @@ public:
 
     void render();
 
-    void on_event(gui_event e);
+    bool on_event(const gui_event & e);
 
     bool is_checked()
     {

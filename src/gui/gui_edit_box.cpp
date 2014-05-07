@@ -6,7 +6,7 @@
 #include "gui_edit_box.h"
 #include "font.h"
 
-gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
+gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {
     environment=env;
 
@@ -22,6 +22,8 @@ gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::st
     _mx=absolute_rect.x + 5;
     _mw=absolute_rect.w - font_size - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
+
+    this->clearonsubmit=clearonsubmit;
 
     this->set_parent(env);
 }
@@ -72,52 +74,69 @@ void gui_edit_box::set_text(const std::string &text)
     this->m_text=text;
 }
 
-void gui_edit_box::on_event(gui_event e)
+bool gui_edit_box::on_event(const gui_event & e)
 {
-    std::string temp;
-    switch(e.get_type())
-    {
-    case element_focused:
-        break;
+    GUI_BEGIN_ON_EVENT(e)
 
-    case mouse_pressed:
-        //glm::vec2 mpos=environment->get_mouse_pos();
-
-        break;
-
-    case key_typed:
-        lastkey=environment->get_last_char();
-        temp="";
-        temp+=lastkey;
-        add_text(curspos,temp);
-        break;
-
-    case key_pressed:
-        switch(environment->get_last_key())
+        std::string temp;
+        switch(e.get_type())
         {
-        case GLFW_KEY_BACKSPACE:
-            remove_text(curspos,1);
+        case element_focused:
             break;
-        case GLFW_KEY_LEFT:
-            if(curspos>0)
-                curspos--;
+
+        case mouse_pressed:
+            //glm::vec2 mpos=environment->get_mouse_pos();
+
             break;
-        case GLFW_KEY_RIGHT:
-            if(curspos<m_text.length())
-                curspos++;
+
+        case key_typed:
+            lastkey=environment->get_last_char();
+            temp="";
+            temp+=lastkey;
+            add_text(curspos,temp);
             break;
+
+        case key_pressed:
+            switch(environment->get_last_key())
+            {
+            case GLFW_KEY_ENTER:
+                if(clearonsubmit)
+                {
+                    this->m_text.clear();
+                }
+                this->set_focused(false);
+                if(this->event_listener)
+                {
+                    GUI_FIRE_EVENT(gui_event(textbox_submit,this))
+                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this))
+                }
+                break;
+            case GLFW_KEY_BACKSPACE:
+                if(m_text.length()>0)
+                    remove_text(curspos,1);
+                break;
+            case GLFW_KEY_LEFT:
+                if(curspos>0)
+                    curspos--;
+                break;
+            case GLFW_KEY_RIGHT:
+                if(curspos<m_text.length())
+                    curspos++;
+                break;
+            default:
+                break;
+            }
+            break;
+
+        case text_paste:
+            add_text(curspos,environment->get_clipboard());
+            break;
+
         default:
             break;
         }
-        break;
 
-    case text_paste:
-        add_text(curspos,environment->get_clipboard());
-        break;
-
-    default:
-        break;
-    }
+    GUI_END_ON_EVENT(e)
 }
 
 void gui_edit_box::add_text(int32_t index,std::string text)
@@ -136,7 +155,7 @@ void gui_edit_box::remove_text(int32_t index, int32_t length)
 {
     curspos=index;
 
-    if(curspos-length>=0)
+    if(curspos-length>0)
     {
         m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
         curspos-=length;
