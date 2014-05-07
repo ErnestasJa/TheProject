@@ -45,34 +45,35 @@ void gui_button::set_text(const std::string &text)
     this->m_text=text;
 }
 
-void gui_button::on_event(gui_event e)
+bool gui_button::on_event(const gui_event & e)
 {
-    switch(e.get_type())
-    {
-    case gui_event_type::element_hovered:
-        cur_style=gui_skin_button_hover;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(element_hovered,this));
-        break;
+    GUI_BEGIN_ON_EVENT(e)
 
-    case gui_event_type::element_exitted:
-        cur_style=this->enabled?gui_skin_button_active:gui_skin_button_disabled;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(element_exitted,this));
-        break;
+        switch(e.get_type())
+        {
+        case gui_event_type::element_hovered:
+            cur_style=gui_skin_button_hover;
+            GUI_FIRE_EVENT(gui_event(element_hovered,this))
+            break;
 
-    case gui_event_type::mouse_pressed:
-        cur_style=gui_skin_button_click;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(button_pressed,this));
-        break;
+        case gui_event_type::element_exitted:
+            cur_style=this->enabled?gui_skin_button_active:gui_skin_button_disabled;
+            GUI_FIRE_EVENT(gui_event(element_exitted,this))
+            break;
 
-    case gui_event_type::mouse_released:
-        cur_style=hovered?gui_skin_button_hover:gui_skin_button_active;
-        if(this->event_listener)
-            this->event_listener->on_event(gui_event(button_released,this));
-        break;
-    default:
-        break;
-    }
+        case gui_event_type::mouse_pressed:
+            cur_style=gui_skin_button_click;
+            GUI_FIRE_EVENT(gui_event(button_pressed,this))
+            break;
+
+        case gui_event_type::mouse_released:
+            cur_style=hovered?gui_skin_button_hover:gui_skin_button_active;
+            GUI_FIRE_EVENT(gui_event(button_released,this))
+            break;
+
+        default:
+            break;
+        }
+
+    GUI_END_ON_EVENT(e)
 }

@@ -30,6 +30,7 @@
 					<Add library="sigc-2.0" />
 					<Add library="freetype" />
 					<Add directory="../../libs/libsigc++/lib/linux" />
+					<Add directory="../../libs/bullet/lib/linux" />
 				</Linker>
 			</Target>
 			<Target title="(UNUSED)Release">
@@ -66,6 +67,7 @@
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
+					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
 			</Target>
 			<Target title="Win32-Release">
@@ -90,6 +92,7 @@
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
+					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
 			</Target>
 		</Build>
@@ -118,7 +121,6 @@
 			<Add directory="../../libs/physfs/lib" />
 			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
-			<Add directory="../../libs/bullet/lib" />
 			<Add directory="../../libs/libsigc++/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />

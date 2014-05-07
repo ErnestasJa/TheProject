@@ -118,6 +118,14 @@ void gui_element::set_event_listener(gui_event_listener *listener)
     this->event_listener=listener;
 }
 
+bool gui_element::on_event(const gui_event & e)
+{
+    if(this->event_listener && this->event_listener->on_event(e))
+        return true;
+
+    return parent ? parent->on_event(e) : false;
+}
+
 void gui_element::set_enabled(bool b)
 {
     this->enabled=b;

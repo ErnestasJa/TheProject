@@ -75,7 +75,7 @@ void gui_environment::render()
     this->render_children();
 }
 
-void gui_environment::on_event(gui_event e)
+bool gui_environment::on_event(const gui_event & e)
 {
     switch(e.get_type())
     {

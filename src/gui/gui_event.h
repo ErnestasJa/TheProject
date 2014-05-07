@@ -29,6 +29,10 @@ enum gui_event_type
     textbox_submit
 };
 
+#define GUI_BEGIN_ON_EVENT(e)  if(this->event_listener)  {if(this->event_listener->on_event(e)) return true;}
+#define GUI_END_ON_EVENT(e)    if(this->parent)    {if(this->parent->on_event(e)) return true;} return false;
+#define GUI_FIRE_EVENT(e)  if(this->event_listener) {if(this->event_listener->on_event(e)) return true;} if(this->parent){if(this->parent->on_event(e)) return true;}
+
 class gui_element;
 struct gui_event
 {
@@ -39,12 +43,12 @@ public:
         this->caller=caller;
     }
 
-    gui_event_type get_type()
+    gui_event_type get_type() const
     {
         return this->type;
     }
 
-    gui_element *get_caller()
+    gui_element *get_caller() const
     {
         return this->caller;
     }

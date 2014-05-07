@@ -26,6 +26,6 @@ public:
 
     void render();
 
-    void on_event(gui_event e);
+    virtual bool on_event(const gui_event & e);
 protected:
 };

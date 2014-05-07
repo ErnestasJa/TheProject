@@ -74,65 +74,69 @@ void gui_edit_box::set_text(const std::string &text)
     this->m_text=text;
 }
 
-void gui_edit_box::on_event(gui_event e)
+bool gui_edit_box::on_event(const gui_event & e)
 {
-    std::string temp;
-    switch(e.get_type())
-    {
-    case element_focused:
-        break;
+    GUI_BEGIN_ON_EVENT(e)
 
-    case mouse_pressed:
-        //glm::vec2 mpos=environment->get_mouse_pos();
-
-        break;
-
-    case key_typed:
-        lastkey=environment->get_last_char();
-        temp="";
-        temp+=lastkey;
-        add_text(curspos,temp);
-        break;
-
-    case key_pressed:
-        switch(environment->get_last_key())
+        std::string temp;
+        switch(e.get_type())
         {
-        case GLFW_KEY_ENTER:
-            if(clearonsubmit)
+        case element_focused:
+            break;
+
+        case mouse_pressed:
+            //glm::vec2 mpos=environment->get_mouse_pos();
+
+            break;
+
+        case key_typed:
+            lastkey=environment->get_last_char();
+            temp="";
+            temp+=lastkey;
+            add_text(curspos,temp);
+            break;
+
+        case key_pressed:
+            switch(environment->get_last_key())
             {
-                this->m_text.clear();
+            case GLFW_KEY_ENTER:
+                if(clearonsubmit)
+                {
+                    this->m_text.clear();
+                }
+                this->set_focused(false);
+                if(this->event_listener)
+                {
+                    GUI_FIRE_EVENT(gui_event(textbox_submit,this))
+                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this))
+                }
+                break;
+            case GLFW_KEY_BACKSPACE:
+                if(m_text.length()>0)
+                    remove_text(curspos,1);
+                break;
+            case GLFW_KEY_LEFT:
+                if(curspos>0)
+                    curspos--;
+                break;
+            case GLFW_KEY_RIGHT:
+                if(curspos<m_text.length())
+                    curspos++;
+                break;
+            default:
+                break;
             }
-            this->set_focused(false);
-            if(this->event_listener)
-            {
-                this->event_listener->on_event(gui_event(textbox_submit,this));
-                this->event_listener->on_event(gui_event(element_focus_lost,this));
-            }
             break;
-        case GLFW_KEY_BACKSPACE:
-            if(m_text.length()>0)
-                remove_text(curspos,1);
+
+        case text_paste:
+            add_text(curspos,environment->get_clipboard());
             break;
-        case GLFW_KEY_LEFT:
-            if(curspos>0)
-                curspos--;
-            break;
-        case GLFW_KEY_RIGHT:
-            if(curspos<m_text.length())
-                curspos++;
-            break;
+
         default:
             break;
         }
-        break;
 
-    case text_paste:
-        add_text(curspos,environment->get_clipboard());
-        break;
-
-    default:
-        break;
-    }
+    GUI_END_ON_EVENT(e)
 }
 
 void gui_edit_box::add_text(int32_t index,std::string text)

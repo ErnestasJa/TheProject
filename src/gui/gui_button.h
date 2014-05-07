@@ -23,7 +23,7 @@ public:
 
     void set_text(const std::string &text);
 
-    void on_event(gui_event e);
+    virtual bool on_event(const gui_event & e);
 protected:
 };
 

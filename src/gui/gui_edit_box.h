@@ -29,6 +29,6 @@ public:
         return m_text;
     }
 
-    void on_event(gui_event e);
+    bool on_event(const gui_event & e);
 protected:
 };

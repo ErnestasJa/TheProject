@@ -30,6 +30,8 @@ public:
 
     void set_event_listener(gui_event_listener *listener);
 
+    virtual bool on_event(const gui_event & e);
+
     void set_enabled(bool b);
 
     void set_focused(bool b);
