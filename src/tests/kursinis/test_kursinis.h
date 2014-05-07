@@ -54,5 +54,5 @@ public:
     void on_mouse_key_event(int32_t button, int32_t action, int32_t mod);
     void on_mouse_move(double x, double y);
     void on_resize(int32_t x, int32_t y);
-    virtual void on_event(gui_event e);
+    virtual bool on_event(const gui_event & e);
 };

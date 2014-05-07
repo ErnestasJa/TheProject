@@ -183,6 +183,8 @@
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
 		<Unit filename="../../src/opengl/frame_buffer_object.h" />
+		<Unit filename="../../src/opengl/gl_object.cpp" />
+		<Unit filename="../../src/opengl/gl_object.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
 		<Unit filename="../../src/opengl/ibuffer_object.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />
@@ -190,6 +192,8 @@
 		<Unit filename="../../src/opengl/opengl_util.cpp" />
 		<Unit filename="../../src/opengl/opengl_util.h" />
 		<Unit filename="../../src/opengl/quad.h" />
+		<Unit filename="../../src/opengl/render_buffer_object.cpp" />
+		<Unit filename="../../src/opengl/render_buffer_object.h" />
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/sliced_gui_quad.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
@@ -220,6 +224,8 @@
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />
 		<Unit filename="../../src/scenegraph/isg_object.h" />
+		<Unit filename="../../src/scenegraph/isg_render_queue.cpp" />
+		<Unit filename="../../src/scenegraph/isg_render_queue.h" />
 		<Unit filename="../../src/scenegraph/scenegraph.cpp" />
 		<Unit filename="../../src/scenegraph/scenegraph.h" />
 		<Unit filename="../../src/scenegraph/sg_aabb.cpp" />
@@ -228,6 +234,8 @@
 		<Unit filename="../../src/scenegraph/sg_aabb_wireframe_object.h" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
+		<Unit filename="../../src/scenegraph/sg_default_render_queue.cpp" />
+		<Unit filename="../../src/scenegraph/sg_default_render_queue.h" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
@@ -241,6 +249,12 @@
 		<Unit filename="../../src/scenegraph/sg_mvar.h" />
 		<Unit filename="../../src/scenegraph/sg_object_types.h" />
 		<Unit filename="../../src/scenegraph/sg_objects.h" />
+		<Unit filename="../../src/scenegraph/sg_quad.cpp" />
+		<Unit filename="../../src/scenegraph/sg_quad.h" />
+		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.cpp" />
+		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.h" />
+		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
+		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
 		<Unit filename="../../src/tests/game/physics/Physics.h" />
@@ -253,7 +267,10 @@
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
-		<Unit filename="../../src/tests/test_application.cpp" />
+		<Unit filename="../../src/tests/kursinis/Objektas.cpp" />
+		<Unit filename="../../src/tests/kursinis/Objektas.h" />
+		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
+		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
 		<Unit filename="../../src/tests/test_application.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />

@@ -293,7 +293,7 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
     }
 }
 
-void test_kursinis::on_event(gui_event e)
+bool test_kursinis::on_event(const gui_event & e)
 {
     switch(e.get_type())
     {
