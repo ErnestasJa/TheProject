@@ -115,6 +115,10 @@ bool gui_edit_box::on_event(const gui_event & e)
                 if(m_text.length()>0)
                     remove_text(curspos,1);
                 break;
+            case GLFW_KEY_DELETE:
+                if(curspos+1<m_text.length())
+                    remove_text(curspos+1,1);
+                break;
             case GLFW_KEY_LEFT:
                 if(curspos>0)
                     curspos--;
