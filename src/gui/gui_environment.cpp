@@ -115,7 +115,7 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
                     break;
                 case GLFW_KEY_V:
                     this->clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
-                    focus->on_event(gui_event(text_paste,this));
+                    focus->on_event(gui_event(text_paste,focus));
                     break;
                 default:
                     break;
@@ -124,10 +124,10 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
             default:
                 break;
             }
-            focus->on_event(gui_event(key_pressed,this));
+            focus->on_event(gui_event(key_pressed,focus));
             break;
         case GLFW_REPEAT:
-            focus->on_event(gui_event(key_pressed,this));
+            focus->on_event(gui_event(key_pressed,focus));
             break;
         case GLFW_RELEASE:
             break;
@@ -142,7 +142,7 @@ void gui_environment::on_char_typed(int32_t scan_code)
 {
     this->last_char=scan_code;
     if(focus!=nullptr)
-        focus->on_event(gui_event(key_typed,this));
+        focus->on_event(gui_event(key_typed,focus));
 }
 
 void gui_environment::on_mouse_moved(double x, double y)
@@ -173,7 +173,7 @@ void gui_environment::on_mouse_moved(double x, double y)
 
             if(focus!=nullptr)
                 if(focus->get_absolute_rect().is_point_inside(x,y)&&m_mouse_down)
-                    focus->on_event(gui_event(mouse_dragged,this));
+                    focus->on_event(gui_event(mouse_dragged,focus));
         }
 
 
@@ -213,12 +213,12 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
             }
 
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_pressed,this));
+                focus->on_event(gui_event(mouse_pressed,focus));
             break;
         case GLFW_RELEASE:
             m_mouse_down=false;
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_released,this));
+                focus->on_event(gui_event(mouse_released,focus));
             break;
         default:
             break;
