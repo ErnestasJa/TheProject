@@ -56,46 +56,98 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
 
     main_timer->tick();
 
+
+    return init_gui(width, height);
+}
+
+
+bool test_kursinis::init_gui(uint32_t width, uint32_t height)
+{
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wnd = new gui_window(env,rect2d<int>(10,10,200,400),"Kool windou");
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,64),"Main window");
 
+    #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
     gui_button* btn = sim_btn = new gui_button(env,rect2d<int>(10,30,64,20),"Simuliuoti");
     btn->set_name("sim_btn");
-    btn->set_event_listener(this);
-    btn->set_parent(wnd);
+    init_e(btn);
 
-    ///masiu ivedimas
-    #define init_eb(x) x->set_parent(wnd); x->set_event_listener(this)
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,65,40,20),"mass[0]");
-    tb->set_parent(wnd);
-    eb[0]=new gui_edit_box(env,rect2d<int>(60,60,120,20),"",glm::vec4(1,1,1,1),false,false);
-
-
-    tb = new gui_static_text(env,rect2d<int>(10,65+30,40,20),"mass[1]");
-    tb->set_parent(wnd);
-    eb[1]=new gui_edit_box(env,rect2d<int>(60,60+30,120,20),"",glm::vec4(1,1,1,1),false,false);
-
-
-    tb = new gui_static_text(env,rect2d<int>(10,65+60,40,20),"mass[2]");
-    tb->set_parent(wnd);
-    eb[2]=new gui_edit_box(env,rect2d<int>(60,60+60,120,20),"",glm::vec4(1,1,1,1),false,false);
-
-    init_eb(eb[0]);
-    init_eb(eb[1]);
-    init_eb(eb[2]);
+    btn = pos_btn = new gui_button(env,rect2d<int>(84,30,64,20),"Init");
+    btn->set_name("pos_btn");
+    init_e(btn);
 
     env->set_event_listener(this);
 
-
-
-    update_ui();
-
     glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions("bybys raibas");
     printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
+
+    ///init wnd
+    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,96,256,400),"Init");
+    pos_wnd->set_visible(false);
+
+    int32_t start_h = 24;
+    loopi(3)
+    {
+        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,start_h+5
+                                                                    + (i * 32),48,20),"pos(x,y,z)");
+        tb->set_parent(wnd);
+
+        pos_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+
+        init_e(pos_eb[i][0]);
+        init_e(pos_eb[i][1]);
+        init_e(pos_eb[i][2]);
+    }
+
+    start_h = 128;
+
+    loopi(3)
+    {
+        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10, start_h+5 + (i * 32),48,20),"vel(x,y,z)");
+        tb->set_parent(wnd);
+
+        vel_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+
+        init_e(vel_eb[i][0]);
+        init_e(vel_eb[i][1]);
+        init_e(vel_eb[i][2]);
+    }
+
+    start_h = 224;
+
+    ///masiu ivedimas
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),"mass[0]");
+    tb->set_parent(wnd);
+    eb[0]=new gui_edit_box(env,rect2d<int>(60,start_h,120,20),"",glm::vec4(1,1,1,1),false,false);
+
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+30,40,20),"mass[1]");
+    tb->set_parent(wnd);
+    eb[1]=new gui_edit_box(env,rect2d<int>(60,start_h+30,120,20),"",glm::vec4(1,1,1,1),false,false);
+
+
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+60,40,20),"mass[2]");
+    tb->set_parent(wnd);
+    eb[2]=new gui_edit_box(env,rect2d<int>(60,start_h+60,120,20),"",glm::vec4(1,1,1,1),false,false);
+
+    init_e(eb[0]);
+    init_e(eb[1]);
+    init_e(eb[2]);
+
+    btn = pos_btn = new gui_button(env,rect2d<int>(180,370,64,20),"Refresh");
+    btn->set_name("refresh_btn");
+    init_e(btn);
+
+    btn = pos_btn = new gui_button(env,rect2d<int>(148,370,32,20),"Set");
+    btn->set_name("set_btn");
+    init_e(btn);
+
 
     return true;
 }
@@ -103,14 +155,105 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
 #include <sstream>
 void test_kursinis::update_ui()
 {
+
+}
+
+void test_kursinis::update_ui_init()
+{
     loopi(3)
     {
         Objektas * o = obj[i];
-        gui_edit_box * e = eb[i];
+        const glm::vec3 & vel = o->get_velocity();
+        const glm::vec3 & pos = o->get_object()->get_position();
 
         std::stringstream ss;
+
+        ///pos
+        ss<<pos.x;
+        pos_eb[i][0]->set_text(ss.str());
+        ss.str(std::string());
+
+        ss<<pos.y;
+        pos_eb[i][1]->set_text(ss.str());
+        ss.str(std::string());
+
+        ss<<pos.z;
+        pos_eb[i][2]->set_text(ss.str());
+        ss.str(std::string());
+
+
+        ///vel
+        ss<<vel.x;
+        vel_eb[i][0]->set_text(ss.str());
+        ss.str(std::string());
+
+        ss<<vel.y;
+        vel_eb[i][1]->set_text(ss.str());
+        ss.str(std::string());
+
+        ss<<vel.z;
+        vel_eb[i][2]->set_text(ss.str());
+        ss.str(std::string());
+
         ss << o->get_mass();
-        e->set_text(ss.str());
+        eb[i]->set_text(ss.str());
+        ss.str(std::string());
+    }
+}
+
+void test_kursinis::set_object_values_from_ui()
+{
+    float v = 0;
+
+    loopi(3)
+    {
+        Objektas * o = obj[i];
+        glm::vec3 vel;
+        glm::vec3 pos;
+        float mass;
+
+        std::stringstream ss;
+
+        ///pos
+        ss<<pos_eb[i][0]->get_text();
+        if(ss>>v) pos.x = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ss<<pos_eb[i][1]->get_text();
+        if(ss>>v) pos.y = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ss<<pos_eb[i][2]->get_text();
+        if(ss>>v) pos.z = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ///vel
+        ss<<vel_eb[i][0]->get_text();
+        if(ss>>v) vel.x = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ss<<vel_eb[i][1]->get_text();
+        if(ss>>v) vel.y = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ss<<vel_eb[i][2]->get_text();
+        if(ss>>v) vel.z = v;
+        ss.str(std::string());
+        ss.clear();
+
+        ss<<eb[i]->get_text();
+        ss>>mass;
+        ss.str(std::string());
+        ss.clear();
+
+        o->get_object()->set_position(pos);
+        o->set_velocity(vel);
+        o->set_mass(mass);
     }
 }
 
@@ -272,6 +415,8 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
     {
         if(action==GLFW_PRESS || action == GLFW_REPEAT )
         {
+
+
             if(key==GLFW_KEY_W)
                 cam->walk(1);
             if(key==GLFW_KEY_S)
@@ -284,11 +429,10 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
 
         if(action==GLFW_PRESS)
         {
-            if(key==GLFW_KEY_SPACE)
+            if(key==GLFW_KEY_F1)
             {
-
+                main_wnd->set_visible(!main_wnd->is_visible());
             }
-
         }
     }
 }
@@ -299,10 +443,18 @@ bool test_kursinis::on_event(const gui_event & e)
     {
         case button_pressed:
         {
-            m_log->log(LOG_LOG, "Got event type: %i; button_pressed: %i.",e.get_type() , button_pressed);
-            m_log->log(LOG_LOG, "Element name: '%s'.", e.get_caller()->get_name().c_str());
+            m_log->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_caller()->get_name().c_str());
 
-            if( e.get_caller()->get_name() == "sim_btn" )
+            if( e.get_caller()->get_name() == "pos_btn" )
+            {
+                pos_wnd->set_visible(!pos_wnd->is_visible());
+
+                if(pos_wnd->is_visible())
+                    update_ui_init();
+
+                return true;
+            }
+            else if( e.get_caller()->get_name() == "sim_btn" )
             {
                 simuliuoti = !simuliuoti;
 
@@ -314,12 +466,23 @@ bool test_kursinis::on_event(const gui_event & e)
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
                 return true;
             }
+            else if( e.get_caller()->get_name() == "refresh_btn" )
+            {
+                update_ui_init();
+
+                return true;
+            }
+            else if( e.get_caller()->get_name() == "set_btn" )
+            {
+                set_object_values_from_ui();
+
+                return true;
+            }
             break;
         }
         case key_pressed:
             {
-
-                if(env->get_last_key()==GLFW_KEY_ENTER)
+                /*if(env->get_last_key()==GLFW_KEY_ENTER)
                 {
                     m_log->log(LOG_LOG,"Enter pressed");
 
@@ -380,7 +543,7 @@ bool test_kursinis::on_event(const gui_event & e)
                         }
                         return true;
                     }
-                }
+                }*/
 
                 break;
             }
