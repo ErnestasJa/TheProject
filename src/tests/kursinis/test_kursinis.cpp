@@ -312,66 +312,73 @@ bool test_kursinis::on_event(const gui_event & e)
                 sim_btn->set_text(simuliuoti?"Sustabdyti":"Testi");
 
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
+                return true;
             }
             break;
         }
         case key_pressed:
             {
-                m_log->log(LOG_LOG,"key_pressed");
-                if(!env->get_last_key()==GLFW_KEY_ENTER)
-                    break;
 
-                m_log->log(LOG_LOG,"Enter pressed");
-
-                if(e.get_caller()==eb[0])
+                if(env->get_last_key()==GLFW_KEY_ENTER)
                 {
-                    std::stringstream ss;
-                    float mass=0;
+                    m_log->log(LOG_LOG,"Enter pressed");
 
-                    ss << eb[0]->get_text();
-
-                    if(ss >> mass)
+                    if(e.get_caller()==eb[0])
                     {
-                        obj[0]->set_mass(mass);
-                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                        m_log->log(LOG_LOG,"eb[0]");
+                        std::stringstream ss;
+                        float mass=0;
+
+                        ss << eb[0]->get_text();
+
+                        if(ss >> mass)
+                        {
+                            obj[0]->set_mass(mass);
+                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                        }
+                        else
+                        {
+                            update_ui();
+                        }
+                        return true;
                     }
-                    else
+                    else if(e.get_caller()==eb[1])
                     {
-                        update_ui();
-                    }
-                }
-                else if(e.get_caller()==eb[1])
-                {
-                    std::stringstream ss;
-                    float mass=0;
+                        m_log->log(LOG_LOG,"eb[1]");
+                        std::stringstream ss;
+                        float mass=0;
 
-                    ss << eb[1]->get_text();
+                        ss << eb[1]->get_text();
 
-                    if(ss >> mass)
-                    {
-                        obj[1]->set_mass(mass);
-                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                        if(ss >> mass)
+                        {
+                            obj[1]->set_mass(mass);
+                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                        }
+                        else
+                        {
+                            update_ui();
+                        }
+                        return true;
                     }
-                    else
+                    else if(e.get_caller()==eb[2])
                     {
-                        update_ui();
-                    }
-                }
-                else if(e.get_caller()==eb[2])
-                {
-                    std::stringstream ss;
-                    float mass=0;
+                        m_log->log(LOG_LOG,"eb[2]");
+                        std::stringstream ss;
+                        float mass=0;
 
-                    ss << eb[2]->get_text();
+                        ss << eb[2]->get_text();
 
-                    if(ss >> mass)
-                    {
-                        obj[2]->set_mass(mass);
-                        m_log->log(LOG_LOG,"Mass changed: %f",mass);
-                    }
-                    else
-                    {
-                        update_ui();
+                        if(ss >> mass)
+                        {
+                            obj[2]->set_mass(mass);
+                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
+                        }
+                        else
+                        {
+                            update_ui();
+                        }
+                        return true;
                     }
                 }
 
@@ -380,6 +387,7 @@ bool test_kursinis::on_event(const gui_event & e)
         default:
             break;
     }
+    return false;
 }
 
 void test_kursinis::on_resize(int32_t w, int32_t h)
