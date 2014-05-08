@@ -91,7 +91,7 @@ bool gui_window::on_event(const gui_event & e)
             break;
         case button_released:
             if(e.get_caller()==this->close_btn)
-                environment->remove_child(this);
+                this->set_visible(false);
             break;
         default:
             break;
