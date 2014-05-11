@@ -26,6 +26,7 @@
 #include "gui/gui_edit_box.h"
 #include "gui/gui_image.h"
 #include "gui/gui_window.h"
+#include "gui/gui_slider.h"
 
 test_kursinis::test_kursinis(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -68,7 +69,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,64),"Main window");
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,128),"Main window");
 
     #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
     gui_button* btn = sim_btn = new gui_button(env,rect2d<int>(10,30,64,20),"Simuliuoti");
@@ -78,6 +79,13 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     btn = pos_btn = new gui_button(env,rect2d<int>(84,30,64,20),"Init");
     btn->set_name("pos_btn");
     init_e(btn);
+
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,75,48,20),"Camera dist.:");
+    init_e(tb);
+
+    cam_distance_slider = new gui_slider(env,rect2d<int>(96,70,64,20),0,2000,0);
+    cam_distance_slider->set_name("cam_dist_slider");
+    init_e(cam_distance_slider);
 
     env->set_event_listener(this);
 
@@ -123,7 +131,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     start_h = 224;
 
     ///masiu ivedimas
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),"mass[0]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),"mass[0]");
     tb->set_parent(wnd);
     eb[0]=new gui_edit_box(env,rect2d<int>(60,start_h,120,20),"",glm::vec4(1,1,1,1),false,false);
 
@@ -257,10 +265,6 @@ void test_kursinis::set_object_values_from_ui()
     }
 }
 
-float saules_mase = 1988550.0;
-float zemes_mase = 5.972f;
-float menulio_mase = 0.07346f;
-
 void init_obj(Objektas * obj, sg::sg_graphics_manager_ptr gmgr, glm::vec3 color, glm::vec3 pos)
 {
     auto m = gmgr->create_material(sg::SGM_ABSTRACT_MATERIAL,"res/shaders/kursinis/color_mat.vert","res/shaders/kursinis/color_mat.frag");
@@ -279,7 +283,7 @@ bool test_kursinis::init_scene()
     ///obj0
     ///saule
     {
-        obj[0] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),saules_mase,glm::vec3(0.0,0.0,0.0));
+        obj[0] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),1,glm::vec3(0.0,0.0,0.0));
         m_scenegraph->add_object(obj[0]->get_object());
         init_obj(obj[0],this->m_graphics_manager, glm::vec3(1,0,0), glm::vec3(0,0,0));
     }
@@ -287,17 +291,17 @@ bool test_kursinis::init_scene()
     ///obj1
     ///zeme
     {
-        obj[1] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),zemes_mase,glm::vec3(-4.0,0.0,0.0));
+        obj[1] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),1,glm::vec3(-4.0,0.0,0.0));
         m_scenegraph->add_object(obj[1]->get_object());
-        init_obj(obj[1],this->m_graphics_manager, glm::vec3(0,1,0), glm::vec3(0,0,-150));
+        init_obj(obj[1],this->m_graphics_manager, glm::vec3(0,1,0), glm::vec3(0,0,2));
     }
 
     ///obj2
     ///menulis
     {
-        obj[2] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),menulio_mase,glm::vec3(-4.0,0.0,0.0));
+        obj[2] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false),1,glm::vec3(-4.0,0.0,0.0));
         m_scenegraph->add_object(obj[2]->get_object());
-        init_obj(obj[2],this->m_graphics_manager, glm::vec3(0,0,1), glm::vec3(0,0,-155));
+        init_obj(obj[2],this->m_graphics_manager, glm::vec3(0,0,1), glm::vec3(0,0,4));
     }
 
 
@@ -480,73 +484,18 @@ bool test_kursinis::on_event(const gui_event & e)
             }
             break;
         }
-        case key_pressed:
+        case scrollbar_changed:
+        {
+            if(e.get_caller()->get_name()=="cam_dist_slider")
             {
-                /*if(env->get_last_key()==GLFW_KEY_ENTER)
-                {
-                    m_log->log(LOG_LOG,"Enter pressed");
-
-                    if(e.get_caller()==eb[0])
-                    {
-                        m_log->log(LOG_LOG,"eb[0]");
-                        std::stringstream ss;
-                        float mass=0;
-
-                        ss << eb[0]->get_text();
-
-                        if(ss >> mass)
-                        {
-                            obj[0]->set_mass(mass);
-                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
-                        }
-                        else
-                        {
-                            update_ui();
-                        }
-                        return true;
-                    }
-                    else if(e.get_caller()==eb[1])
-                    {
-                        m_log->log(LOG_LOG,"eb[1]");
-                        std::stringstream ss;
-                        float mass=0;
-
-                        ss << eb[1]->get_text();
-
-                        if(ss >> mass)
-                        {
-                            obj[1]->set_mass(mass);
-                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
-                        }
-                        else
-                        {
-                            update_ui();
-                        }
-                        return true;
-                    }
-                    else if(e.get_caller()==eb[2])
-                    {
-                        m_log->log(LOG_LOG,"eb[2]");
-                        std::stringstream ss;
-                        float mass=0;
-
-                        ss << eb[2]->get_text();
-
-                        if(ss >> mass)
-                        {
-                            obj[2]->set_mass(mass);
-                            m_log->log(LOG_LOG,"Mass changed: %f",mass);
-                        }
-                        else
-                        {
-                            update_ui();
-                        }
-                        return true;
-                    }
-                }*/
-
-                break;
+                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                glm::vec3 pos = m_scenegraph->get_active_camera()->get_position();
+                pos.y = s->get_value();
+                m_scenegraph->get_active_camera()->set_position(pos);
             }
+
+            break;
+        }
         default:
             break;
     }

@@ -21,6 +21,7 @@ typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
 class gui_environment;
 class gui_edit_box;
 class gui_button;
+class gui_slider;
 class gui_window;
 class test_kursinis: public application, public gui_event_listener
 {
@@ -43,6 +44,7 @@ protected:
     gui_edit_box * pos_eb[3][3];
     gui_edit_box * vel_eb[3][3];
     gui_button * sim_btn, * pos_btn, * refresh_init_wnd;
+    gui_slider * cam_distance_slider;
     gui_window * main_wnd, * pos_wnd;
 public:
     test_kursinis(uint32_t argc, const char ** argv);
