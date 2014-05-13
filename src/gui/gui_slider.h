@@ -20,9 +20,7 @@ public:
 
     bool on_event(const gui_event & e);
 
-    int get_value() const
-    {
-        return m_cur_value;
-    }
+    int get_value() const;
+    void set_value(int value);
 protected:
 };
