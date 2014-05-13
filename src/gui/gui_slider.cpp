@@ -1,5 +1,6 @@
 #include "precomp.h"
 
+#include "math/util.h"
 #include "opengl/quad.h"
 #include "opengl/shader.h"
 
@@ -115,4 +116,14 @@ void gui_slider::handle_mouse()
         m_cur_value = glm::clamp(m_cur_value,m_min,m_max);
     }
     printf("value: %d\n",m_cur_value);
+}
+
+int gui_slider::get_value() const
+{
+    return m_cur_value;
+}
+
+void gui_slider::set_value(int value)
+{
+    m_cur_value = clamp(value,m_min,m_max);
 }
