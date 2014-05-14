@@ -156,6 +156,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     btn->set_name("set_btn");
     init_e(btn);
 
+    update_ui();
 
     return true;
 }
@@ -163,7 +164,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 #include <sstream>
 void test_kursinis::update_ui()
 {
-
+    this->cam_distance_slider->set_value((int)this->m_scenegraph->get_active_camera()->get_position().y);
 }
 
 void test_kursinis::update_ui_init()
@@ -306,7 +307,7 @@ bool test_kursinis::init_scene()
 
 
 
-    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,600,1),glm::vec3(0,0,0),glm::vec3(0,1,0))));
+    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,100,1),glm::vec3(0,0,0),glm::vec3(0,1,0))));
     auto light = m_scenegraph->add_light_object();
     light->set_position(glm::vec3(0,10,0));
 
@@ -419,16 +420,14 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
     {
         if(action==GLFW_PRESS || action == GLFW_REPEAT )
         {
-
-
-            if(key==GLFW_KEY_W)
+            /*if(key==GLFW_KEY_W)
                 cam->walk(1);
             if(key==GLFW_KEY_S)
                 cam->walk(-1);
             if(key==GLFW_KEY_A)
                 cam->strafe(-1);
             if(key==GLFW_KEY_D)
-                cam->strafe(1);
+                cam->strafe(1);*/
         }
 
         if(action==GLFW_PRESS)
