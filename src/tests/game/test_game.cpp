@@ -97,19 +97,22 @@ bool test_game::init_scene()
     glm::vec3 look  = glm::normalize(cam->get_look());
 
     ///load model
-    mesh_ptr m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
+    mesh_ptr m=m_graphics_manager->get_mesh_loader()->load("res/quadcopter.iqm");
     if(!m) return false;
 
     obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_scenegraph,m));
-    obj->set_position(pos);
+    obj->set_position(glm::vec3(0,10,20));
 
     sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
     sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
 
     m_scenegraph->add_object(obj);
 
-    btRigidBody * body = m_physics_manager->create_box(obj,10.0f);
-    body->setLinearVelocity(m_physics_manager->glm_to_bt(look*10.0f));
+    m_quadcopter = m_physics_manager->create_box(obj,25.0f);
+    btVector3 abmin,abmax;
+    m_quadcopter->getAabb(abmin,abmax);
+    btVector3 ext1;
+    //m_quadcopter->setLinearVelocity(m_physics_manager->glm_to_bt(look*1.0f));
 
     ///done loading
 
@@ -278,12 +281,41 @@ bool test_game::update()
         glClearColor(0.2,0.8,0.2,0);
         m_scenegraph->set_override_material(m_mat_final_pass);
 
-            m_scenegraph->render_all();
+        m_scenegraph->render_all();
 
         m_scenegraph->set_override_material(nullptr);
 
         wnd->swap_buffers();
 
+        trans=m_quadcopter->getCenterOfMassPosition();
+        torq=btVector3(1,1,1)*m_quadcopter->getOrientation().getAxis()*m_quadcopter->getOrientation().getAngle();
+        printf("TORQ %f %f %f\n",torq.x(),torq.y(),torq.y());
+        if(trans.y()<10)
+        {
+            float transDelta=trans.y()-oldTrans.y();
+            //printf("DELTA %f %f %f\n",torqDelta.x(),torqDelta.y(),torqDelta.y());
+            btVector3 force(0,-(9.83f)*25,0);
+            float diff=trans.y()-10;
+            force*=diff;
+            transDelta*=diff;
+            transDelta*=100*25;
+
+            //printf("TRANSDELTA: %f %f %f\n",transDelta.x(),transDelta.y(),transDelta.z());
+            m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,1));
+            m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(1,-1,1));
+            m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,-1));
+            m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(1,-1,-1));
+            //m_quadcopter->applyTorqueImpulse((normalTorq+torqDelta)*100*25*9.83*delta_time);
+            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,trans+btVector3(-1,-1,0));
+            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,trans+btVector3(-1,-1,0));
+            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,btVector3(-1,-1,-1));
+            oldTrans=trans;
+            oldTorq=torq;
+        }
+        else
+        {
+
+        }
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
     }

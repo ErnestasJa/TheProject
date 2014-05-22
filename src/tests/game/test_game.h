@@ -2,6 +2,7 @@
 #define TEST_GAME_H
 
 #include "application/application.h"
+#include "LinearMath/btVector3.h"
 
 namespace sg
 {
@@ -27,7 +28,7 @@ struct mesh;
 
 ///physics predeclares
 class physics_manager;
-
+class btRigidBody;
 class test_game: public application
 {
 protected:
@@ -45,6 +46,12 @@ protected:
     sg::sg_material_ptr m_mat_gauss_v, m_mat_gauss_h, m_mat_first_pass, m_mat_final_pass, m_mat_static_mesh;
     sg::sg_quad_ptr m_quad;
 
+    btRigidBody* m_quadcopter;
+    btVector3 oldTrans;
+    btVector3 trans;
+    btVector3 torq;
+    btVector3 oldTorq;
+    uint32_t mHeight;
 
 public:
     test_game(uint32_t argc, const char ** argv);
