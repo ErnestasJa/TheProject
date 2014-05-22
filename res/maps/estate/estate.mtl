@@ -1,0 +1,418 @@
+newmtl material_0
+Kd 1.0000 1.0000 1.0000
+illum 0
+
+# woodz
+newmtl material_1
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_1.tga
+
+# egypt_large
+newmtl material_2
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_2.tga
+
+# greybrick_lg
+newmtl material_3
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_3.tga
+
+# brick24
+newmtl material_4
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_4.tga
+
+# britegrass01
+newmtl material_5
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_5.tga
+
+# estatewall
+newmtl material_6
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_6.tga
+
+# out_treetopsm
+newmtl material_7
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_7.tga
+
+# flor_wood_lt_r3
+newmtl material_8
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_8.tga
+
+# museumwall3
+newmtl material_9
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_9.tga
+
+# carpet
+newmtl material_10
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_10.tga
+
+# museumwall2
+newmtl material_11
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_11.tga
+
+# nolight
+newmtl material_12
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_12.tga
+
+# stoneground
+newmtl material_13
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_13.tga
+
+# bathwall
+newmtl material_14
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_14.tga
+
+# flor_wood_dk_r4
+newmtl material_15
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_15.tga
+
+# starrynight
+newmtl material_16
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_16.tga
+
+# nra_marble
+newmtl material_17
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_17.tga
+
+# dirt01
+newmtl material_18
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_18.tga
+
+# outbricki
+newmtl material_19
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_19.tga
+
+# conc11
+newmtl material_20
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_20.tga
+
+# woodflra
+newmtl material_21
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_21.tga
+
+# conc09
+newmtl material_22
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_22.tga
+
+# paint30
+newmtl material_23
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_23.tga
+
+# 06_chaleti_woo
+newmtl material_24
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_24.tga
+
+# pooltable
+newmtl material_25
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_25.tga
+
+# museumflr1
+newmtl material_26
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_26.tga
+
+# eggtofu
+newmtl material_27
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_27.tga
+
+# egg1
+newmtl material_28
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_28.tga
+
+# mikegg
+newmtl material_29
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_29.tga
+
+# concrete_slabsc
+newmtl material_30
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_30.tga
+
+# c_brick04
+newmtl material_31
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_31.tga
+
+# hockey
+newmtl material_32
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_32.tga
+
+# bed_side
+newmtl material_33
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_33.tga
+
+# gold
+newmtl material_34
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_34.tga
+
+# bed_top
+newmtl material_35
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_35.tga
+
+# ctbook
+newmtl material_36
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_36.tga
+
+# blinds3
+newmtl material_37
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_37.tga
+
+# estatewalltop
+newmtl material_38
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_38.tga
+
+# zaphod
+newmtl material_39
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_39.tga
+
+# brick27
+newmtl material_40
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_40.tga
+
+# conc05
+newmtl material_41
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_41.tga
+
+# killhouse_woodf
+newmtl material_42
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_42.tga
+
+# rust02
+newmtl material_43
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_43.tga
+
+# oakdoor
+newmtl material_44
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_44.tga
+
+# ceilng_tray_fnc
+newmtl material_45
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_45.tga
+
+# noclight
+newmtl material_46
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_46.tga
+
+# {greentree7
+newmtl material_47
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_47.tga
+
+# estaterug2
+newmtl material_48
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_48.tga
+
+# fabricblue
+newmtl material_49
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_49.tga
+
+# olddoor
+newmtl material_50
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_50.tga
+
+# fusebox
+newmtl material_51
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_51.tga
+
+# bookcase1
+newmtl material_52
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_52.tga
+
+# wood05
+newmtl material_53
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_53.tga
+
+# worldposter
+newmtl material_54
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_54.tga
+
+# flowers
+newmtl material_55
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_55.tga
+
+# estatespeaks
+newmtl material_56
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_56.tga
+
+# estatetv
+newmtl material_57
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_57.tga
+
+# blinds1
+newmtl material_58
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_58.tga
+
+# mags1
+newmtl material_59
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_59.tga
+
+# joec
+newmtl material_60
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_60.tga
+
+# tsunami
+newmtl material_61
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_61.tga
+
+# beddoor
+newmtl material_62
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_62.tga
+
+# estaterug1
+newmtl material_63
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_63.tga
+
+# terrbook
+newmtl material_64
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_64.tga
+
+# paintc
+newmtl material_65
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_65.tga
+
+# paint36p
+newmtl material_66
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_66.tga
+
+# japflr
+newmtl material_67
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_67.tga
+
+# museumflr5
+newmtl material_68
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_68.tga
+
+# mm_toilet1
+newmtl material_69
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd estate_material_69.tga
+

@@ -77,8 +77,41 @@ bool test_game::init_scene()
 
 
     ///load scene
-    sg::sg_scenegraph_loader sg_loader;
-    sg_loader.load_scene(m_scenegraph,"res/maps/cs_assault/cs_assault.ibs");
+    //sg::sg_scenegraph_loader sg_loader;
+    //sg_loader.load_scene(m_scenegraph,"res/maps/estate/estate.ibs");
+
+    ///load map
+    sg::sg_mesh_object_ptr obj=m_scenegraph->load_mesh_object("res/maps/nuke/nuke.iqm",true);
+
+    m_scenegraph->add_object(obj);
+    m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
+
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
+
+    m_scenegraph->set_active_camera(cam);
+
+    sg::sg_light_object_ptr light = m_scenegraph->add_light_object();
+    light->set_position(glm::vec3(0,20,0));
+
+    glm::vec3 pos   = cam->get_position();
+    glm::vec3 look  = glm::normalize(cam->get_look());
+
+    ///load model
+    mesh_ptr m=m_graphics_manager->get_mesh_loader()->load("res/trashcan.iqm");
+    if(!m) return false;
+
+    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_scenegraph,m));
+    obj->set_position(pos);
+
+    sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
+    sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
+
+    m_scenegraph->add_object(obj);
+
+    btRigidBody * body = m_physics_manager->create_box(obj,10.0f);
+    body->setLinearVelocity(m_physics_manager->glm_to_bt(look*10.0f));
+
+    ///done loading
 
     if(this->gl_util->check_and_output_errors()) return false;
 
@@ -88,6 +121,7 @@ bool test_game::init_scene()
     m_mat_final_pass = m_graphics_manager->create_material(sg::SGM_VSM_FINAL_PASS);
     m_mat_gauss_v = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussV.frag");
     m_mat_gauss_h = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussH.frag");
+
     if(this->gl_util->check_and_output_errors())return false;
 
     //prepare fbos
@@ -344,8 +378,8 @@ void test_game::on_mouse_move(double x, double y)
     {
             glm::quat r = cam->get_rotation();
             glm::vec3 rot_deg = glm::eulerAngles(r);
-            m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
-            m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+            //m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
+            //m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
 
             glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
 
@@ -356,7 +390,7 @@ void test_game::on_mouse_move(double x, double y)
 
             r = cam->get_rotation();
             rot_deg = glm::eulerAngles(r);
-            m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+            //m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
     }
 }
 
