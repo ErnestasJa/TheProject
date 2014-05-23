@@ -287,9 +287,33 @@ bool test_game::update()
 
         wnd->swap_buffers();
 
+        btTransform forScience=m_quadcopter->getCenterOfMassTransform();
+
+        btMatrix3x3 rotmat;
+        rotmat.setIdentity();
+        rotmat=forScience.getBasis();
+        float rz,ry,rx;
+        rotmat.getEulerZYX(rz,ry,rx);
+
+        torq=btVector3(rx,ry,rz);
+        printf("TORQ %f %f %f\n",torq.x(),torq.y(),torq.z());
+        btVector3 torqForce=btVector3(25*9.83,25*9.83,25*9.83);
+        btVector3 deltaTorq=btVector3(25*9.83,25*9.83,25*9.83);
+        deltaTorq*=25;
+        btVector3 dt=btVector3(30*glm::pi<float>()/180,30*glm::pi<float>()/180,0)-torq;
+        btVector3 odt=btVector3(30*glm::pi<float>()/180,30*glm::pi<float>()/180,0)-oldTorq;
+
+        deltaTorq*=dt-odt;
+
+        torqForce*=dt;
+
+        //m_quadcopter->getInvInertiaTensorWorld().inverse()*(m_quadcopter->getWorldTransform().getBasis()*torque);
+
+        m_quadcopter->applyTorqueImpulse((torqForce+deltaTorq)*delta_time);
+
+        oldTorq=torq;
+
         trans=m_quadcopter->getCenterOfMassPosition();
-        torq=btVector3(1,1,1)*m_quadcopter->getOrientation().getAxis()*m_quadcopter->getOrientation().getAngle();
-        printf("TORQ %f %f %f\n",torq.x(),torq.y(),torq.y());
         if(trans.y()<10)
         {
             float transDelta=trans.y()-oldTrans.y();
@@ -310,7 +334,6 @@ bool test_game::update()
             //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,trans+btVector3(-1,-1,0));
             //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,btVector3(-1,-1,-1));
             oldTrans=trans;
-            oldTorq=torq;
         }
         else
         {
