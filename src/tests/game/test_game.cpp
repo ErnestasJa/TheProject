@@ -298,7 +298,7 @@ bool test_game::update()
             float diff=trans.y()-10;
             force*=diff;
             transDelta*=diff;
-            transDelta*=100*25;
+            transDelta*=100*25*9.83;
 
             //printf("TRANSDELTA: %f %f %f\n",transDelta.x(),transDelta.y(),transDelta.z());
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,1));
