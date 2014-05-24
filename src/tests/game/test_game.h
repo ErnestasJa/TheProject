@@ -3,6 +3,7 @@
 
 #include "application/application.h"
 #include "LinearMath/btVector3.h"
+#include "gui/gui_event_listener.h"
 
 namespace sg
 {
@@ -29,7 +30,9 @@ struct mesh;
 ///physics predeclares
 class physics_manager;
 class btRigidBody;
-class test_game: public application
+class gui_environment;
+class gui_static_text;
+class test_game: public application,public gui_event_listener
 {
 protected:
     sg::sg_graphics_manager_ptr m_graphics_manager;
@@ -47,11 +50,27 @@ protected:
     sg::sg_quad_ptr m_quad;
 
     btRigidBody* m_quadcopter;
-    btVector3 oldTrans;
-    btVector3 trans;
-    btVector3 torq;
-    btVector3 oldTorq;
-    uint32_t mHeight;
+
+    btVector3
+    rot,
+    oldRot,
+    trgRot,
+    trans,
+    oldTrans;
+
+    float m_quad_height;
+
+    gui_environment *env;
+
+    bool m_cam_fps;
+
+    gui_static_text
+    *quad_dir,
+    *quad_height,
+    *quad_torq,
+    *quad_torqd,
+    *quad_force,
+    *quad_forced;
 
 public:
     test_game(uint32_t argc, const char ** argv);
@@ -61,6 +80,7 @@ public:
     virtual bool update();
     void exit();
 
+    bool init_gui();
     bool init_scene();
     bool init_physics();
     void cam_move();
@@ -68,6 +88,7 @@ public:
 public:
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
     void on_mouse_move(double x, double y);
+    virtual bool on_event(const gui_event & e);
 };
 
 #endif // TEST_GAME_H

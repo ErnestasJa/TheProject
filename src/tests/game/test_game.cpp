@@ -26,6 +26,18 @@
 #include "scenegraph/sg_material.h"
 #include "physics/Physics.h"
 
+#include "math/rect2d.h"
+#include "gui/gui_skin.h"
+#include "gui/gui_environment.h"
+#include "gui/gui_button.h"
+#include "gui/gui_static_text.h"
+#include "gui/gui_checkbox.h"
+#include "gui/gui_pane.h"
+#include "gui/gui_edit_box.h"
+#include "gui/gui_image.h"
+#include "gui/gui_window.h"
+#include "gui/gui_slider.h"
+
 //shadowmap texture dimensions
 const int SHADOWMAP_DIMENSIONS = 1024
 ;
@@ -58,7 +70,87 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 
     m_current_time = m_last_time = main_timer->get_real_time();
 
+    init_gui();
+
+    m_cam_fps=true;
+
     return !this->gl_util->check_and_output_errors();
+}
+
+bool test_game::init_gui()
+{
+    gui_skin s=gui_skin();
+    s.load("../../res/skin_default.xml");
+
+    env=new gui_environment(this->wnd,this->get_logger());
+
+    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,200,128),"Main window");
+
+    #define init_e(x) x->set_parent(wind); x->set_event_listener(this)
+
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),"Height:");
+    init_e(tb);
+
+    gui_slider* slider = new gui_slider(env,rect2d<int>(96,30,64,20),0,10,10);
+    slider->set_name("quad_height_slider");
+    init_e(slider);
+    m_quad_height=slider->get_value();
+
+    tb = new gui_static_text(env,rect2d<int>(10,50,48,20),"XRot:");
+    init_e(tb);
+
+    slider = new gui_slider(env,rect2d<int>(96,50,64,20),-3.14/180*30,3.14/180*30,0);
+    slider->set_name("quad_rot_x_slider");
+    init_e(slider);
+    trgRot.setX(slider->get_value());
+
+    tb = new gui_static_text(env,rect2d<int>(10,70,48,20),"YRot:");
+    init_e(tb);
+
+    slider = new gui_slider(env,rect2d<int>(96,70,64,20),-3.14,3.14,0);
+    slider->set_name("quad_rot_y_slider");
+    init_e(slider);
+    trgRot.setY(slider->get_value());
+
+    tb = new gui_static_text(env,rect2d<int>(10,90,48,20),"ZRot:");
+    init_e(tb);
+
+    slider = new gui_slider(env,rect2d<int>(96,90,64,20),-3.14/180*30,3.14/180*30,0);
+    slider->set_name("quad_rot_z_slider");
+    init_e(slider);
+    trgRot.setZ(slider->get_value());
+
+    tb = new gui_static_text(env,rect2d<int>(200,20,48,20),"Direction:");
+    init_e(tb);
+    quad_dir = new gui_static_text(env,rect2d<int>(250,20,48,20),"");
+    init_e(quad_dir);
+
+    tb = new gui_static_text(env,rect2d<int>(200,40,48,20),"Height:");
+    init_e(tb);
+    quad_height = new gui_static_text(env,rect2d<int>(250,40,48,20),"");
+    init_e(quad_height);
+
+    tb = new gui_static_text(env,rect2d<int>(200,60,48,20),"Torque:");
+    init_e(tb);
+    quad_torq = new gui_static_text(env,rect2d<int>(250,60,48,20),"");
+    init_e(quad_torq);
+
+    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),"DeltaTorque:");
+    init_e(tb);
+    quad_torqd = new gui_static_text(env,rect2d<int>(250,80,48,20),"");
+    init_e(quad_torqd);
+
+    tb = new gui_static_text(env,rect2d<int>(200,100,48,20),"Force:");
+    init_e(tb);
+    quad_force = new gui_static_text(env,rect2d<int>(250,100,48,20),"");
+    init_e(quad_force);
+
+    tb = new gui_static_text(env,rect2d<int>(200,120,48,20),"DeltaForce:");
+    init_e(tb);
+    quad_forced = new gui_static_text(env,rect2d<int>(250,120,48,20),"");
+    init_e(quad_forced);
+
+    env->set_event_listener(this);
 }
 
 bool test_game::init_scene()
@@ -67,7 +159,7 @@ bool test_game::init_scene()
     m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2;
     m_log->log(LOG_LOG, "Window half size: [%i, %i]", m_current_mouse_pos.x, m_current_mouse_pos.y);
 
-    wnd->set_cursor_disabled(true);
+    //wnd->set_cursor_disabled(true);
     ///for some reason this doulbe update is required in order not to have mouse pos jump at first mouse input events
     wnd->set_mouse_pos(m_current_mouse_pos);
     wnd->update();
@@ -285,60 +377,58 @@ bool test_game::update()
 
         m_scenegraph->set_override_material(nullptr);
 
+        glDisable(GL_CULL_FACE);
+        env->update(0);
+        env->render();
+        glEnable(GL_CULL_FACE);
+
         wnd->swap_buffers();
 
-        btTransform forScience=m_quadcopter->getCenterOfMassTransform();
+        ///QUADCOPTER STUFF
+        btTransform tr=m_quadcopter->getCenterOfMassTransform();
+        btQuaternion quat=tr.getRotation();
+        quat.setEuler(trgRot.y(),trgRot.x(),trgRot.z()); //or quat.setEulerZYX depending on the ordering you want
+        tr.setRotation(quat);
 
-        btMatrix3x3 rotmat;
-        rotmat.setIdentity();
-        rotmat=forScience.getBasis();
-        float rz,ry,rx;
-        rotmat.getEulerZYX(rz,ry,rx);
+        m_quadcopter->setAngularFactor(0);
 
-        torq=btVector3(rx,ry,rz);
-        printf("TORQ %f %f %f\n",torq.x(),torq.y(),torq.z());
-        btVector3 torqForce=btVector3(25*9.83,25*9.83,25*9.83);
-        btVector3 deltaTorq=btVector3(25*9.83,25*9.83,25*9.83);
-        deltaTorq*=25;
-        btVector3 dt=btVector3(30*glm::pi<float>()/180,30*glm::pi<float>()/180,0)-torq;
-        btVector3 odt=btVector3(30*glm::pi<float>()/180,30*glm::pi<float>()/180,0)-oldTorq;
-
-        deltaTorq*=dt-odt;
-
-        torqForce*=dt;
-
-        //m_quadcopter->getInvInertiaTensorWorld().inverse()*(m_quadcopter->getWorldTransform().getBasis()*torque);
-
-        m_quadcopter->applyTorqueImpulse((torqForce+deltaTorq)*delta_time);
-
-        oldTorq=torq;
 
         trans=m_quadcopter->getCenterOfMassPosition();
-        if(trans.y()<10)
+        if(trans.y()<=m_quad_height)
         {
             float transDelta=trans.y()-oldTrans.y();
-            //printf("DELTA %f %f %f\n",torqDelta.x(),torqDelta.y(),torqDelta.y());
+
             btVector3 force(0,-(9.83f)*25,0);
-            float diff=trans.y()-10;
+            btVector3 b=btVector3(trgRot.x(),trgRot.y(),trgRot.z());
+            //b=btVector3(b.z(),b.y(),b.x());
+            b.safeNormalize();
+            //force*=b;
+            std::stringstream ss;
+            ss<<b.x()<<","<<b.y()<<","<<b.z()<<";";
+            quad_dir->set_text(ss.str().c_str());
+
+            ss.clear();
+            ss<<trgRot.x()<<","<<trgRot.y()<<","<<trgRot.z()<<";";
+            quad_torq->set_text(ss.str().c_str());
+            //m_quadcopter->setLinearVelocity(b);
+
+            float diff=trans.y()-m_quad_height;
             force*=diff;
             transDelta*=diff;
-            transDelta*=100*25*9.83;
+            transDelta*=25*9.83*50;
 
-            //printf("TRANSDELTA: %f %f %f\n",transDelta.x(),transDelta.y(),transDelta.z());
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,1));
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(1,-1,1));
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,-1));
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(1,-1,-1));
-            //m_quadcopter->applyTorqueImpulse((normalTorq+torqDelta)*100*25*9.83*delta_time);
-            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,trans+btVector3(-1,-1,0));
-            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,trans+btVector3(-1,-1,0));
-            //m_quadcopter->applyImpulse(btVector3(0,2,0)*delta_time,btVector3(-1,-1,-1));
             oldTrans=trans;
         }
         else
         {
 
         }
+        m_quadcopter->setCenterOfMassTransform(tr);
+        m_quadcopter->getMotionState()->setWorldTransform(tr);
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
     }
@@ -359,6 +449,46 @@ void test_game::exit()
 bool test_game::init_physics()
 {
     return true;
+}
+
+bool test_game::on_event(const gui_event & e)
+{
+    switch(e.get_type())
+    {
+        case button_pressed:
+        {
+            m_log->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_caller()->get_name().c_str());
+            break;
+        }
+        case scrollbar_changed:
+        {
+            if(e.get_caller()->get_name()=="quad_height_slider")
+            {
+                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                m_quad_height = s->get_value();
+            }
+            if(e.get_caller()->get_name()=="quad_rot_x_slider")
+            {
+                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                trgRot.setX(s->get_value());
+            }
+            if(e.get_caller()->get_name()=="quad_rot_y_slider")
+            {
+                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                trgRot.setY(s->get_value());
+            }
+            if(e.get_caller()->get_name()=="quad_rot_z_slider")
+            {
+                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                trgRot.setZ(s->get_value());
+            }
+
+            break;
+        }
+        default:
+            break;
+    }
+    return false;
 }
 
 void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
@@ -417,11 +547,21 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
             }
 
         }
+
+        if(action==GLFW_RELEASE)
+        {
+            if(key==GLFW_KEY_F)
+            {
+                m_cam_fps=!m_cam_fps;
+            }
+        }
     }
 }
 
 void test_game::on_mouse_move(double x, double y)
 {
+    if(m_cam_fps)
+    {
     m_last_mouse_pos = m_current_mouse_pos;
     m_current_mouse_pos = glm::ivec2(x,y);
     glm::ivec2 delta_pos =  m_current_mouse_pos - m_last_mouse_pos;
@@ -446,6 +586,8 @@ void test_game::on_mouse_move(double x, double y)
             r = cam->get_rotation();
             rot_deg = glm::eulerAngles(r);
             //m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+    }
+
     }
 }
 
