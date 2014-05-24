@@ -38,6 +38,8 @@
 #include "gui/gui_window.h"
 #include "gui/gui_slider.h"
 
+#include "network/network_manager_win32.h"
+
 //shadowmap texture dimensions
 const int SHADOWMAP_DIMENSIONS = 1024
 ;
@@ -50,6 +52,8 @@ test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 test_game::~test_game()
 {
     //dtor
+    //delete m_netwman;
+    delete env;
 }
 
 bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
@@ -66,13 +70,23 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
     if(!init_scene())
         return false;
 
+    init_gui();
+
+    m_cam_fps=false;
+
+    m_netwman=new network_manager_win32();
+
+    if(!m_netwman->init())
+    {
+        printf("NETWMAN: Init failed.\n");
+        return false;
+    }
+
+    //m_netwman->start_thread();
+
     main_timer->tick();
 
     m_current_time = m_last_time = main_timer->get_real_time();
-
-    init_gui();
-
-    m_cam_fps=true;
 
     return !this->gl_util->check_and_output_errors();
 }
@@ -312,8 +326,9 @@ bool physics = true;
 
 bool test_game::update()
 {
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
+    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE) && m_netwman->is_receiving())
     {
+        //if(!m_netwman->update()){printf("Could not update..\n");return false;}
         // Measure speed
         main_timer->tick();
         m_last_time = m_current_time;
@@ -385,52 +400,62 @@ bool test_game::update()
         wnd->swap_buffers();
 
         ///QUADCOPTER STUFF
+        glm::vec3 accel=m_netwman->get_accelerometer_data();
+        glm::vec3 accelScaled=accel/10.f;
+        if(accelScaled.x*10>0.25||accelScaled.x*10<-0.25)
+            trgRot.setX(-accelScaled.x);
+        if(accelScaled.y*10>0.25||accelScaled.y*10<-0.25)
+            trgRot.setZ(accelScaled.y);
+        trgRot.setY(trgRot.y()+(float)(m_netwman->get_rot_diff()*2*delta_time));
+
+        rot=trgRot-oldRot;
+
         btTransform tr=m_quadcopter->getCenterOfMassTransform();
         btQuaternion quat=tr.getRotation();
-        quat.setEuler(trgRot.y(),trgRot.x(),trgRot.z()); //or quat.setEulerZYX depending on the ordering you want
+        quat.setEuler(trgRot.y(),trgRot.x()+rot.x()/10,trgRot.z()+rot.z()/10); //or quat.setEulerZYX depending on the ordering you want
         tr.setRotation(quat);
 
         m_quadcopter->setAngularFactor(0);
 
+        btVector3 b=btVector3(trgRot.x(),trgRot.y(),trgRot.z());
+        //b=btVector3(b.z(),b.y(),b.x());
+        b.safeNormalize();
+        //force*=b;
+        std::stringstream ss;
+        ss<<b.x()<<","<<b.y()<<","<<b.z()<<";";
+        quad_dir->set_text(ss.str().c_str());
 
+        ss.str("");
+        ss<<trgRot.x()<<","<<trgRot.y()<<","<<trgRot.z()<<";";
+        quad_torq->set_text(ss.str().c_str());
+
+        glm::vec3 dircalc(cos(trgRot.x())*sin(trgRot.y()),
+        sin(trgRot.x()),
+        cos(trgRot.x())*cos(trgRot.y()));
+        glm::vec3 right(sin(trgRot.y()-3.14/2.f),0,cos(trgRot.y()-3.14/2.f));
+
+        ss.str("");
+        ss<<dircalc.x<<","<<dircalc.y<<","<<dircalc.z<<";";
+        quad_torqd->set_text(ss.str().c_str());
+
+        ss.str("");
+        ss<<right.x<<","<<right.y<<","<<right.z<<";";
+        quad_force->set_text(ss.str().c_str());
+
+
+        m_quad_height+=m_netwman->get_height_diff()*5*delta_time;
         trans=m_quadcopter->getCenterOfMassPosition();
+        float transDelta=trans.y()-oldTrans.y();
         if(trans.y()<m_quad_height)
         {
-            float transDelta=trans.y()-oldTrans.y();
-
-            btVector3 b=btVector3(trgRot.x(),trgRot.y(),trgRot.z());
-            //b=btVector3(b.z(),b.y(),b.x());
-            b.safeNormalize();
-            //force*=b;
-            std::stringstream ss;
-            ss<<b.x()<<","<<b.y()<<","<<b.z()<<";";
-            quad_dir->set_text(ss.str().c_str());
-
-            ss.str("");
-            ss<<trgRot.x()<<","<<trgRot.y()<<","<<trgRot.z()<<";";
-            quad_torq->set_text(ss.str().c_str());
-
-            glm::vec3 dircalc(cos(trgRot.x())*sin(trgRot.y()),
-                              sin(trgRot.x()),
-                              cos(trgRot.x())*cos(trgRot.y()));
-            glm::vec3 right(sin(trgRot.y()-3.14/2.f),0,cos(trgRot.y()-3.14/2.f));
-
-            ss.str("");
-            ss<<dircalc.x<<","<<dircalc.y<<","<<dircalc.z<<";";
-            quad_torqd->set_text(ss.str().c_str());
-
-            ss.str("");
-            ss<<right.x<<","<<right.y<<","<<right.z<<";";
-            quad_force->set_text(ss.str().c_str());
-
             //m_quadcopter->setLinearVelocity(btVector3(dircalc.x,dircalc.y,dircalc.z));
             btVector3 force(25*9.83,-(9.83f)*25,25*9.83);
             force*=btVector3(dircalc.x*-trgRot.x(),1,dircalc.z*-trgRot.x());
             force+=btVector3(-right.x*25*9.83*trgRot.z(),1,-right.z*25*9.83*trgRot.z());
             float diff=trans.y()-m_quad_height;
             force*=diff;
+            transDelta*=25*9.83*25;
             transDelta*=diff;
-            transDelta*=25*9.83*50;
 
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(-1,-1,1));
             m_quadcopter->applyImpulse((force+btVector3(0,transDelta,0))*delta_time,btVector3(1,-1,1));
@@ -444,6 +469,11 @@ bool test_game::update()
         }
         m_quadcopter->setCenterOfMassTransform(tr);
         m_quadcopter->getMotionState()->setWorldTransform(tr);
+        oldRot=trgRot;
+        sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera();
+        if(!m_cam_fps)
+        cam->orbit(physics_manager::bt_to_glm(trans),5,60,180+trgRot.y()*180.f/glm::pi<float>());
+
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
     }

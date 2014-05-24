@@ -32,6 +32,7 @@ class physics_manager;
 class btRigidBody;
 class gui_environment;
 class gui_static_text;
+class network_manager_win32;
 class test_game: public application,public gui_event_listener
 {
 protected:
@@ -71,6 +72,8 @@ protected:
     *quad_torqd,
     *quad_force,
     *quad_forced;
+
+    network_manager_win32* m_netwman;
 
 public:
     test_game(uint32_t argc, const char ** argv);
