@@ -135,7 +135,7 @@ bool test_game::init_gui()
     quad_torq = new gui_static_text(env,rect2d<int>(250,60,48,20),"");
     init_e(quad_torq);
 
-    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),"DeltaTorque:");
+    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),"Calc:");
     init_e(tb);
     quad_torqd = new gui_static_text(env,rect2d<int>(250,80,48,20),"");
     init_e(quad_torqd);
@@ -394,11 +394,10 @@ bool test_game::update()
 
 
         trans=m_quadcopter->getCenterOfMassPosition();
-        if(trans.y()<=m_quad_height)
+        if(trans.y()<m_quad_height)
         {
             float transDelta=trans.y()-oldTrans.y();
 
-            btVector3 force(0,-(9.83f)*25,0);
             btVector3 b=btVector3(trgRot.x(),trgRot.y(),trgRot.z());
             //b=btVector3(b.z(),b.y(),b.x());
             b.safeNormalize();
@@ -407,11 +406,27 @@ bool test_game::update()
             ss<<b.x()<<","<<b.y()<<","<<b.z()<<";";
             quad_dir->set_text(ss.str().c_str());
 
-            ss.clear();
+            ss.str("");
             ss<<trgRot.x()<<","<<trgRot.y()<<","<<trgRot.z()<<";";
             quad_torq->set_text(ss.str().c_str());
-            //m_quadcopter->setLinearVelocity(b);
 
+            glm::vec3 dircalc(cos(trgRot.x())*sin(trgRot.y()),
+                              sin(trgRot.x()),
+                              cos(trgRot.x())*cos(trgRot.y()));
+            glm::vec3 right(sin(trgRot.y()-3.14/2.f),0,cos(trgRot.y()-3.14/2.f));
+
+            ss.str("");
+            ss<<dircalc.x<<","<<dircalc.y<<","<<dircalc.z<<";";
+            quad_torqd->set_text(ss.str().c_str());
+
+            ss.str("");
+            ss<<right.x<<","<<right.y<<","<<right.z<<";";
+            quad_force->set_text(ss.str().c_str());
+
+            //m_quadcopter->setLinearVelocity(btVector3(dircalc.x,dircalc.y,dircalc.z));
+            btVector3 force(25*9.83,-(9.83f)*25,25*9.83);
+            force*=btVector3(dircalc.x*-trgRot.x(),1,dircalc.z*-trgRot.x());
+            force+=btVector3(-right.x*25*9.83*trgRot.z(),1,-right.z*25*9.83*trgRot.z());
             float diff=trans.y()-m_quad_height;
             force*=diff;
             transDelta*=diff;
