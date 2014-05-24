@@ -52,7 +52,7 @@ test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 test_game::~test_game()
 {
     //dtor
-    //delete m_netwman;
+    delete m_netwman;
     delete env;
 }
 

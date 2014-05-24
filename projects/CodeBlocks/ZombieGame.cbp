@@ -65,6 +65,7 @@
 					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
 					<Add library="Ws2_32" />
+					<Add library="pthread" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
