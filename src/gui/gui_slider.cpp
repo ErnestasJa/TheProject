@@ -10,7 +10,7 @@
 
 #include "gui_slider.h"
 
-gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, int min, int max, int pos, bool vertical):gui_element(env,dimensions)
+gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, float min, float max, float pos, bool vertical):gui_element(env,dimensions)
 {
     environment=env;
 
@@ -22,11 +22,12 @@ gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, int min, in
     m_cur_value=m_old_value=pos;
     if(vertical)
     {
-        m_slider_pos=(int)(absolute_rect.y-((pos-absolute_rect.h)/(max-min)));
+        m_slider_pos=absolute_rect.y-((pos-absolute_rect.h)/(max-min));
     }
     else
     {
-        m_slider_pos=(int)(dimensions.w*(pos/(max-min)));
+        float f=(absolute_rect.w-12)/range();
+        m_slider_pos=(m_cur_value-m_min)*f+absolute_rect.h/2;
     }
     m_vertical=vertical;
 
@@ -98,7 +99,7 @@ void gui_slider::handle_mouse()
             m_slider_pos = 0;
 
 
-        m_cur_value = glm::roundEven((float)(((m_max - m_min) * (absolute_rect.y-m_slider_pos)) / absolute_rect.h));
+        m_cur_value = ((m_max - m_min) * (absolute_rect.y-m_slider_pos)) / absolute_rect.h;
         m_cur_value = glm::clamp(m_cur_value,m_min,m_max);
     }
     else
@@ -111,19 +112,19 @@ void gui_slider::handle_mouse()
         if (m_slider_pos < 0)
             m_slider_pos = 0;
 
-
-        m_cur_value = glm::roundEven((float)(((m_max - m_min) * m_slider_pos) / absolute_rect.w));
+        //m_cur_value = ((m_max - m_min) * m_slider_pos) / absolute_rect.w;
+        m_cur_value =  m_slider_pos/absolute_rect.w * range() + m_min;
         m_cur_value = glm::clamp(m_cur_value,m_min,m_max);
     }
-    printf("value: %d\n",m_cur_value);
+    //printf("value: %f\n",m_cur_value);
 }
 
-int gui_slider::get_value() const
+float gui_slider::get_value() const
 {
     return m_cur_value;
 }
 
-void gui_slider::set_value(int value)
+void gui_slider::set_value(float value)
 {
     m_cur_value = clamp(value,m_min,m_max);
 }
