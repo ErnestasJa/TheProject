@@ -1,0 +1,228 @@
+# AzTrim
+newmtl material_0
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_0.tga
+
+# -1AzWll
+newmtl material_1
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_1.tga
+
+# pi_bigbrk
+newmtl material_2
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_2.tga
+
+# -0AzMoss
+newmtl material_3
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_3.tga
+
+# pi_ground
+newmtl material_4
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_4.tga
+
+# barrel2b
+newmtl material_5
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_5.tga
+
+# pi_outwall2
+newmtl material_6
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_6.tga
+
+# Core_Urban_151
+newmtl material_7
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_7.tga
+
+# AzStatA
+newmtl material_8
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_8.tga
+
+# AzStatC
+newmtl material_9
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_9.tga
+
+# -0AzWll
+newmtl material_10
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_10.tga
+
+# cxwoodl
+newmtl material_11
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_11.tga
+
+# out_dirt2
+newmtl material_12
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_12.tga
+
+# -1cstrike_fj2dk
+newmtl material_13
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_13.tga
+
+# -1AzMoss
+newmtl material_14
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_14.tga
+
+# tnnl_flr1a
+newmtl material_15
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_15.tga
+
+# azwall_b
+newmtl material_16
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_16.tga
+
+# AzStatB
+newmtl material_17
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_17.tga
+
+# generic035
+newmtl material_18
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_18.tga
+
+# !watergreen
+newmtl material_19
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_19.tga
+
+# azwall_a
+newmtl material_20
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_20.tga
+
+# generic64b
+newmtl material_21
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_21.tga
+
+# {rustyrungs
+newmtl material_22
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_22.tga
+
+# trrm_wood
+newmtl material_23
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_23.tga
+
+# generic039
+newmtl material_24
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_24.tga
+
+# +0~tnnl_lgt2
+newmtl material_25
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_25.tga
+
+# +a~tnnl_lgt1
+newmtl material_26
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_26.tga
+
+# {blue
+newmtl material_27
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_27.tga
+
+# {vine1
+newmtl material_28
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_28.tga
+
+# c3a2b_reac
+newmtl material_29
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_29.tga
+
+# c3a2b_reac1e
+newmtl material_30
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_30.tga
+
+# c3a2b_reac1d
+newmtl material_31
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_31.tga
+
+# subway_lights
+newmtl material_32
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_32.tga
+
+# cstrike_oe4vent
+newmtl material_33
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_33.tga
+
+# generic68
+newmtl material_34
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_34.tga
+
+# cxcnstrcttarpb
+newmtl material_35
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_35.tga
+
+# cxwoodm
+newmtl material_36
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_36.tga
+
+# black
+newmtl material_37
+Kd 1.0000 1.0000 1.0000
+illum 0
+map_Kd aztec_bsp_material_37.tga
+

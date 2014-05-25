@@ -40,9 +40,10 @@
 
 #include "network/network_manager_win32.h"
 
+#define NETWORKING
+
 //shadowmap texture dimensions
-const int SHADOWMAP_DIMENSIONS = 1024
-;
+const int SHADOWMAP_DIMENSIONS = 1024;
 
 test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 {
@@ -52,7 +53,9 @@ test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 test_game::~test_game()
 {
     //dtor
+    #ifdef NETWORKING
     delete m_netwman;
+    #endif // NETWORKING
     delete env;
 }
 
@@ -76,11 +79,13 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 
     m_netwman=new network_manager_win32();
 
+    #ifdef NETWORKING
     if(!m_netwman->init())
     {
         printf("NETWMAN: Init failed.\n");
         return false;
     }
+    #endif // NETWORKING
 
     //m_netwman->start_thread();
 
@@ -105,7 +110,7 @@ bool test_game::init_gui()
     gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),"Height:");
     init_e(tb);
 
-    gui_slider* slider = new gui_slider(env,rect2d<int>(96,30,64,20),0,10,10);
+    gui_slider* slider = new gui_slider(env,rect2d<int>(96,30,64,20),0,20,20);
     slider->set_name("quad_height_slider");
     init_e(slider);
     m_quad_height=slider->get_value();
@@ -187,7 +192,7 @@ bool test_game::init_scene()
     //sg_loader.load_scene(m_scenegraph,"res/maps/estate/estate.ibs");
 
     ///load map
-    sg::sg_mesh_object_ptr obj=m_scenegraph->load_mesh_object("res/maps/nuke/nuke.iqm",true);
+    sg::sg_mesh_object_ptr obj=m_scenegraph->load_mesh_object("res/maps/aztec/aztec_map.iqm",true);
 
     m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
@@ -197,7 +202,7 @@ bool test_game::init_scene()
     m_scenegraph->set_active_camera(cam);
 
     sg::sg_light_object_ptr light = m_scenegraph->add_light_object();
-    light->set_position(glm::vec3(0,20,0));
+    light->set_position(glm::vec3(0,100,0));
 
     glm::vec3 pos   = cam->get_position();
     glm::vec3 look  = glm::normalize(cam->get_look());
@@ -207,7 +212,7 @@ bool test_game::init_scene()
     if(!m) return false;
 
     obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_scenegraph,m));
-    obj->set_position(glm::vec3(0,10,20));
+    obj->set_position(glm::vec3(0,20,0));
 
     sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
     sm_mat->mat_texture= m_graphics_manager->load_texture("res/no_tex.png");
@@ -385,8 +390,8 @@ bool test_game::update()
         ///draw scene "normally"
         uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
         glViewport(0,0,w,h);
-        glClearColor(0.2,0.8,0.2,0);
-        m_scenegraph->set_override_material(m_mat_final_pass);
+        glClearColor(0.6,0.2,0.2,0);
+        m_scenegraph->set_override_material(m_mat_static_mesh);
 
         m_scenegraph->render_all();
 
@@ -472,7 +477,7 @@ bool test_game::update()
         oldRot=trgRot;
         sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera();
         if(!m_cam_fps)
-        cam->orbit(physics_manager::bt_to_glm(trans),5,60,180+trgRot.y()*180.f/glm::pi<float>());
+        cam->orbit(physics_manager::bt_to_glm(trans),5,80,180+trgRot.y()*180.f/glm::pi<float>());
 
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
