@@ -114,7 +114,7 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
                 case GLFW_KEY_C:
                     break;
                 case GLFW_KEY_V:
-                    this->clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
+                    this->clipboard_string=helpers::to_wstr(glfwGetClipboardString(this->m_window->getWindow()));
                     focus->on_event(gui_event(text_paste,focus));
                     break;
                 default:

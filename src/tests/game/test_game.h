@@ -63,7 +63,7 @@ protected:
 
     gui_environment *env;
 
-    bool m_cam_fps;
+    bool m_cam_fps,m_awaiting_connection;
 
     gui_static_text
     *quad_dir,

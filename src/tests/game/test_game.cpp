@@ -40,7 +40,7 @@
 
 #include "network/network_manager_win32.h"
 
-#define NETWORKING
+#define NETWORKINGS
 
 //shadowmap texture dimensions
 const int SHADOWMAP_DIMENSIONS = 1024;
@@ -103,11 +103,11 @@ bool test_game::init_gui()
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,200,128),"Main window");
+    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,200,128),L"Ðûdukas àèæëáðøûþ");
 
     #define init_e(x) x->set_parent(wind); x->set_event_listener(this)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),"Height:");
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),L"Height:");
     init_e(tb);
 
     gui_slider* slider = new gui_slider(env,rect2d<int>(96,30,64,20),0,20,20);
@@ -115,7 +115,7 @@ bool test_game::init_gui()
     init_e(slider);
     m_quad_height=slider->get_value();
 
-    tb = new gui_static_text(env,rect2d<int>(10,50,48,20),"XRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,50,48,20),L"XRot:");
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,50,64,20),-3.14/180*30,3.14/180*30,0);
@@ -123,7 +123,7 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setX(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(10,70,48,20),"YRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,70,48,20),L"YRot:");
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,70,64,20),-3.14,3.14,0);
@@ -131,7 +131,7 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setY(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(10,90,48,20),"ZRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,90,48,20),L"ZRot:");
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,90,64,20),-3.14/180*30,3.14/180*30,0);
@@ -139,34 +139,34 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setZ(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(200,20,48,20),"Direction:");
+    tb = new gui_static_text(env,rect2d<int>(200,20,48,20),L"Direction:");
     init_e(tb);
-    quad_dir = new gui_static_text(env,rect2d<int>(250,20,48,20),"");
+    quad_dir = new gui_static_text(env,rect2d<int>(250,20,48,20),L"");
     init_e(quad_dir);
 
-    tb = new gui_static_text(env,rect2d<int>(200,40,48,20),"Height:");
+    tb = new gui_static_text(env,rect2d<int>(200,40,48,20),L"Height:");
     init_e(tb);
-    quad_height = new gui_static_text(env,rect2d<int>(250,40,48,20),"");
+    quad_height = new gui_static_text(env,rect2d<int>(250,40,48,20),L"");
     init_e(quad_height);
 
-    tb = new gui_static_text(env,rect2d<int>(200,60,48,20),"Torque:");
+    tb = new gui_static_text(env,rect2d<int>(200,60,48,20),L"Torque:");
     init_e(tb);
-    quad_torq = new gui_static_text(env,rect2d<int>(250,60,48,20),"");
+    quad_torq = new gui_static_text(env,rect2d<int>(250,60,48,20),L"");
     init_e(quad_torq);
 
-    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),"Calc:");
+    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),L"Calc:");
     init_e(tb);
-    quad_torqd = new gui_static_text(env,rect2d<int>(250,80,48,20),"");
+    quad_torqd = new gui_static_text(env,rect2d<int>(250,80,48,20),L"");
     init_e(quad_torqd);
 
-    tb = new gui_static_text(env,rect2d<int>(200,100,48,20),"Force:");
+    tb = new gui_static_text(env,rect2d<int>(200,100,48,20),L"Force:");
     init_e(tb);
-    quad_force = new gui_static_text(env,rect2d<int>(250,100,48,20),"");
+    quad_force = new gui_static_text(env,rect2d<int>(250,100,48,20),L"");
     init_e(quad_force);
 
-    tb = new gui_static_text(env,rect2d<int>(200,120,48,20),"DeltaForce:");
+    tb = new gui_static_text(env,rect2d<int>(200,120,48,20),L"DeltaForce:");
     init_e(tb);
-    quad_forced = new gui_static_text(env,rect2d<int>(250,120,48,20),"");
+    quad_forced = new gui_static_text(env,rect2d<int>(250,120,48,20),L"");
     init_e(quad_forced);
 
     env->set_event_listener(this);
@@ -331,7 +331,11 @@ bool physics = true;
 
 bool test_game::update()
 {
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE) && m_netwman->is_receiving())
+    #ifdef NETWORKING
+    if(!m_netwman->is_receiving())
+        return false;
+    #endif // NETWORKING
+    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
     {
         //if(!m_netwman->update()){printf("Could not update..\n");return false;}
         // Measure speed
@@ -407,13 +411,16 @@ bool test_game::update()
         ///QUADCOPTER STUFF
         glm::vec3 accel=m_netwman->get_accelerometer_data();
         glm::vec3 accelScaled=accel/10.f;
-        if(accelScaled.x*10>0.25||accelScaled.x*10<-0.25)
+        //if(accelScaled.x*10>0.25||accelScaled.x*10<-0.25)
             trgRot.setX(-accelScaled.x);
-        if(accelScaled.y*10>0.25||accelScaled.y*10<-0.25)
+        //if(accelScaled.y*10>0.25||accelScaled.y*10<-0.25)
             trgRot.setZ(accelScaled.y);
         trgRot.setY(trgRot.y()+(float)(m_netwman->get_rot_diff()*2*delta_time));
 
-        rot=trgRot-oldRot;
+        rot=btVector3(0,0,0);
+        rot.setX(helpers::coslerp(oldRot.x(),trgRot.x(),0.5f));
+        rot.setX(helpers::coslerp(oldRot.y(),trgRot.y(),0.5f));
+        rot.setX(helpers::coslerp(oldRot.z(),trgRot.z(),0.5f));
 
         btTransform tr=m_quadcopter->getCenterOfMassTransform();
         btQuaternion quat=tr.getRotation();
@@ -426,12 +433,12 @@ bool test_game::update()
         //b=btVector3(b.z(),b.y(),b.x());
         b.safeNormalize();
         //force*=b;
-        std::stringstream ss;
-        ss<<b.x()<<","<<b.y()<<","<<b.z()<<";";
+        std::wstringstream ss;
+        ss<<b.x()<<L","<<b.y()<<L","<<b.z()<<L";";
         quad_dir->set_text(ss.str().c_str());
 
-        ss.str("");
-        ss<<trgRot.x()<<","<<trgRot.y()<<","<<trgRot.z()<<";";
+        ss.str(L"");
+        ss<<trgRot.x()<<L","<<trgRot.y()<<L","<<trgRot.z()<<L";";
         quad_torq->set_text(ss.str().c_str());
 
         glm::vec3 dircalc(cos(trgRot.x())*sin(trgRot.y()),
@@ -439,12 +446,12 @@ bool test_game::update()
         cos(trgRot.x())*cos(trgRot.y()));
         glm::vec3 right(sin(trgRot.y()-3.14/2.f),0,cos(trgRot.y()-3.14/2.f));
 
-        ss.str("");
-        ss<<dircalc.x<<","<<dircalc.y<<","<<dircalc.z<<";";
+        ss.str(L"");
+        ss<<dircalc.x<<L","<<dircalc.y<<L","<<dircalc.z<<L";";
         quad_torqd->set_text(ss.str().c_str());
 
-        ss.str("");
-        ss<<right.x<<","<<right.y<<","<<right.z<<";";
+        ss.str(L"");
+        ss<<right.x<<L","<<right.y<<L","<<right.z<<L";";
         quad_force->set_text(ss.str().c_str());
 
 

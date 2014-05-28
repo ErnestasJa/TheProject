@@ -142,7 +142,7 @@ void font_renderer::set_default_font(font* new_font)
     default_font=new_font;
 }
 
-void font_renderer::render_string(std::string font_name,std::string text,glm::vec2 pos,glm::vec4 color)
+void font_renderer::render_string(std::string font_name,std::wstring text,glm::vec2 pos,glm::vec4 color)
 {
     use_font(font_name);
 
@@ -158,7 +158,7 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
     font_shader->set();
     set_font_color(color);
 
-    const uint8_t *p;
+    const uint16_t *p;
 
 	/* Use the texture containing the atlas */
 	GL_CHECK(glBindTexture(GL_TEXTURE_2D, current_font->tex));
@@ -176,7 +176,7 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
     font* a=current_font;
 
 	/* Loop through all characters */
-	for (p = (const uint8_t *)text.c_str(); *p; p++) {
+	for (p = (const uint16_t *)text.c_str(); *p; p++) {
 		/* Calculate the vertex and texture coordinates */
 		float x2 = pos.x + a->c[*p].bl * sx;
 		float y2 = -pos.y - a->c[*p].bt * sy;
@@ -209,14 +209,14 @@ void font_renderer::render_string(std::string font_name,std::string text,glm::ve
 	glDisable(GL_BLEND);
 }
 
-void font_renderer::render_string(std::string text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
+void font_renderer::render_string(std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
 {
     if(drawshadow)
         render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
     render_string(current_font->name,text,pos,color);
 }
 
-void font_renderer::render_string(std::string text, glm::vec2 pos,bool drawshadow)
+void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshadow)
 {
     if(drawshadow)
         render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
@@ -228,12 +228,12 @@ void font_renderer::set_font_color(glm::vec4 color)
     glUniform4fv(font_shader->getparam("color"),1,glm::value_ptr(color));
 }
 
-glm::vec2 font_renderer::get_text_dimensions(const std::string & text,const std::string &font_name)
+glm::vec2 font_renderer::get_text_dimensions(const std::wstring & text,const std::string &font_name)
 {
     font* a=get_font(font_name);
 
     int len=0;
-    for(uint8_t gl:text)
+    for(uint16_t gl:text)
     {
         len+=a->c[gl].ax;
     }

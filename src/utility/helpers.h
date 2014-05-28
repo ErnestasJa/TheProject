@@ -11,6 +11,13 @@ template <typename T> inline std::string to_str(const T& t)
     return os.str();
 }
 
+template <typename T> inline std::wstring to_wstr(const T& t)
+{
+    std::wostringstream os;    //magic..
+    os<<t;
+    return os.str();
+}
+
 template <typename T>
 inline T limit(T val, T min, T max)
 {
@@ -91,6 +98,14 @@ template <>
 inline bool equals(const glm::mat3 & v1, const glm::mat3 & v2)
 {
     return equals(v1[0],v2[0]) && equals(v1[1],v2[1]) && equals(v1[2],v2[2]);
+}
+
+inline float coslerp(float y1,float y2,float mu)
+{
+   float mu2;
+
+   mu2 = (1-glm::cos(mu*glm::pi<float>()))/2;
+   return(y1*(1-mu2)+y2*mu2);
 }
 
 }
