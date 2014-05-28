@@ -240,6 +240,8 @@
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
 		<Unit filename="../../src/scenegraph/sg_light_object.h" />
+		<Unit filename="../../src/scenegraph/sg_line_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_line_object.h" />
 		<Unit filename="../../src/scenegraph/sg_material.cpp" />
 		<Unit filename="../../src/scenegraph/sg_material.h" />
 		<Unit filename="../../src/scenegraph/sg_material_types.h" />

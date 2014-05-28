@@ -9,13 +9,22 @@ struct ibuffer_object
         INDEX
     };
 
+    enum USAGE_HINT
+    {
+        STATIC = 0,
+        DYNAMIC,
+        STREAM
+    };
+
     uint32_t id;
-    bool enabled;
+    uint32_t usage_hint;
+    //bool enabled;
 
     ibuffer_object();
     virtual ~ibuffer_object();
 
     virtual void init() = 0;
+    virtual void upload() = 0;
 
     virtual ibuffer_object::IBO_TYPE get_type() = 0;
     virtual uint32_t get_data_type() = 0;

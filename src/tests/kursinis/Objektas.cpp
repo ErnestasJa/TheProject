@@ -17,9 +17,10 @@ glm::vec3 Objektas::calc_force(Objektas * obj1, Objektas * obj2)
     return a;
 }
 
-Objektas::Objektas(sg::sg_object_ptr obj, float mass, glm::vec3 vel)
+Objektas::Objektas(sg::sg_object_ptr obj, sg::sg_line_object_ptr line_obj, float mass, glm::vec3 vel)
 {
     m_obj = obj;
+    m_line_obj = line_obj;
     m_mass = mass;
     m_velocity = vel;
 }
@@ -57,4 +58,9 @@ float Objektas::get_mass()
 sg::sg_object_ptr Objektas::get_object()
 {
     return m_obj;
+}
+
+sg::sg_line_object_ptr Objektas::get_line_object()
+{
+    return m_line_obj;
 }

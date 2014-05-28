@@ -62,16 +62,20 @@ void mesh::init()
 
     for(uint32_t i = 0; i < buffers.size(); i++)
     {
-        if(buffers[i] && buffers[i]->enabled)
+        if(buffers[i])
         {
-            std::cout << (buffers[i]->get_type()==ibuffer_object::DATA?"data buffer":"index buffer") << std::endl;
             buffers[i]->init();
+
+            if(buffers[i]->get_size())
+                buffers[i]->upload();
 
             if(buffers[i]->get_type()==ibuffer_object::DATA)
             {
                 glEnableVertexAttribArray(i);
                 glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
             }
+
+
         }
     }
 
@@ -80,9 +84,7 @@ void mesh::init()
 
 void mesh::disable_empty_buffers()
 {
-    for(uint32_t i = 0; i < buffers.size(); i++)
-    if(buffers[i] && buffers[i]->get_size()==0)
-        buffers[i]->enabled = false;
+
 }
 
 void mesh::render(uint32_t sub_mesh_index)
@@ -120,7 +122,10 @@ void mesh::render_lines()
 {
     glBindVertexArray(vao);
 
-    glDrawElements(GL_LINES,buffers[INDICES]->get_size(),GL_UNSIGNED_INT,(void*)(0));
+    uint32_t size = buffers[POSITION]->get_size();
+
+    if(buffers[POSITION]&&buffers[POSITION]->get_size())
+        glDrawArrays(GL_LINES,0,size);
 
     glBindVertexArray(0);
 }
@@ -131,5 +136,21 @@ void mesh::render_triangle_strip()
 
     glDrawArrays(GL_TRIANGLES,0,buffers[POSITION]->get_size());
 
+    glBindVertexArray(0);
+}
+
+void mesh::upload_buffers()
+{
+    glBindVertexArray(vao);
+
+    for(uint32_t i = 0; i < buffers.size(); i++)
+    {
+        if(buffers[i])
+        {
+            ///enable on upload. MIGHT NOT BE A REALLY GOOD SOLUTION
+            if(buffers[i]->get_size()>0)
+                buffers[i]->upload();
+        }
+    }
     glBindVertexArray(0);
 }
