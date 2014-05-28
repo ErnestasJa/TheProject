@@ -349,3 +349,30 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }
+
+gui_element * search_elements(gui_element * el, const std::string & name)
+{
+    if(el->get_name()==name)
+    {
+        std::cout<<"FOUND IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
+        return el;
+    }
+
+    loopi(el->get_children().size())
+    {
+        gui_element * e = search_elements(el->get_children()[i],name);
+
+        if(e)
+        {
+            std::cout<<"FOUND IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
+            return e;
+        }
+    }
+
+    return nullptr;
+}
+
+gui_element * gui_environment::get_element_by_name(const std::string & name)
+{
+    return search_elements(this,name);
+}

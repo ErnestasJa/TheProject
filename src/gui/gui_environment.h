@@ -26,6 +26,8 @@ class window;
 class gui_skin;
 class logger;
 
+gui_element * search_elements(gui_element * el, const std::string & name);
+
 class gui_environment : public gui_element
 {
 public:
@@ -89,6 +91,12 @@ public:
 
 
     ///GUI ELEMENTS
+    gui_element * get_element_by_name(const std::string & name);
+
+    template<class T> T * get_element_by_name_t(const std::string & name)
+    {
+        return dynamic_cast<T*>(search_elements(this,name));
+    }
 //    gui_static_text *add_gui_static_text();
 //    gui_button *add_gui_button();
 //    gui_checkbox *add_gui_checkbox();

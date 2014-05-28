@@ -59,6 +59,8 @@ public:
 
     gui_element *get_parent();
 
+    std::vector<gui_element *> & get_children();
+
     std::string get_name();
 
     gui_element *get_element_from_point(int x, int y);

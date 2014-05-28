@@ -183,8 +183,22 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 void test_kursinis::update_ui()
 {
     std::stringstream ss;
+
     ss<<fixed_time_step;
     fixed_time_step_eb->set_text(ss.str().c_str());
+    ss.str(std::string());
+
+
+    gui_slider * s = this->env->get_element_by_name_t<gui_slider>("cam_dist_slider");
+
+    if(s)
+    {
+        s->set_value(this->m_scenegraph->get_active_camera()->get_position().y);
+        s->update_absolute_pos();
+        this->get_logger()->log(LOG_LOG, "SLIDER value = %i; cam y = %f",s->get_value(),this->m_scenegraph->get_active_camera()->get_position().y);
+    }
+
+
 }
 
 void test_kursinis::update_ui_init()
