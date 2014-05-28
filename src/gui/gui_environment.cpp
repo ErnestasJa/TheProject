@@ -172,7 +172,7 @@ void gui_environment::on_mouse_moved(double x, double y)
             }
 
             if(focus!=nullptr)
-                if(focus->get_absolute_rect().is_point_inside(x,y)&&m_mouse_down)
+                if(m_mouse_down)
                     focus->on_event(gui_event(mouse_dragged,focus));
         }
 
