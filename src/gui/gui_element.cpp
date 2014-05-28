@@ -201,6 +201,11 @@ gui_element *gui_element::get_parent()
     return this->parent;
 }
 
+std::vector<gui_element *> & gui_element::get_children()
+{
+    return this->children;
+}
+
 std::string gui_element::get_name()
 {
     return this->name;

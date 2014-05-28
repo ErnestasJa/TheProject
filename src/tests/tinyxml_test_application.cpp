@@ -39,7 +39,7 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     gui_skin s=gui_skin();
-    s.load("../../res/skin_default.xml");
+    s.load("res/skin_default.xml");
 
     env=new gui_environment(this->wnd,this->get_logger());
 

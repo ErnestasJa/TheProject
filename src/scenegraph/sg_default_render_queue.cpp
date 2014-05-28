@@ -18,7 +18,7 @@ sg_default_render_queue::~sg_default_render_queue()
 
 void sg_default_render_queue::add_object(isg_object * obj)
 {
-    if(obj->get_type()==SGO_MESH || obj->get_type() == SGO_QUAD)
+    if(obj->get_type()==SGO_MESH || obj->get_type() == SGO_QUAD || obj->get_type() == SGO_LINE_OBJECT)
     {
         m_objects.push_back(obj);
     }
