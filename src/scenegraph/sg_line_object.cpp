@@ -62,6 +62,13 @@ void sg_line_object::add_segment(glm::vec3 p0, glm::vec3 p1)
     verts->data.push_back(p1);
 }
 
+void sg_line_object::clear_segments()
+{
+    verts->data.clear();
+    m_mesh->upload_buffers();
+}
+
+
 void sg_line_object::update_mesh()
 {
     m_mesh->upload_buffers();

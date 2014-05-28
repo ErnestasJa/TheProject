@@ -79,13 +79,18 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     btn->set_name("sim_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(132,30,64,20),"Obj. param.");
-    btn->set_name("pos_btn");
-    init_e(btn);
-
     btn = new gui_button(env,rect2d<int>(70,30,64,20),"Nustatyti");
     btn->set_name("init_set_btn");
     init_e(btn);
+
+    btn = new gui_button(env,rect2d<int>(5,55,64,20),"Obj. param.");
+    btn->set_name("pos_btn");
+    init_e(btn);
+
+    btn = new gui_button(env,rect2d<int>(70,55,110,20),"Isvalyti trajektorijas");
+    btn->set_name("clear_trajectories");
+    init_e(btn);
+
 
     #define ADD_SLIDER(text,name,y,min,max)\
     {gui_static_text * txt = new gui_static_text(env,rect2d<int>(10,(y)+5,100,20),(text));\
@@ -94,11 +99,11 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     slider->set_name((name));\
     init_e(slider);}
 
-    ADD_SLIDER("Camera dist.:","cam_dist_slider",70,0,2000)
-    ADD_SLIDER("Sub steps:","sub_step_slider",95,1,10)
+    ADD_SLIDER("Camera dist.:","cam_dist_slider",95,0,2000)
+    ADD_SLIDER("Sub steps:","sub_step_slider",125,1,10)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,125,40,20),"Laiko zingsnis (ms):");
-    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,120,64,20),"",glm::vec4(1,1,1,1),false,false);
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,155,40,20),"Laiko zingsnis (ms):");
+    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,150,64,20),"",glm::vec4(1,1,1,1),false,false);
     init_e(fixed_time_step_eb);
     init_e(tb);
 
@@ -371,6 +376,12 @@ bool test_kursinis::update()
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
         float sub_step_time = ((delta_time * fixed_time_step) / sub_steps);
+
+        glm::vec3 _pos[3];
+
+        loopi(3)
+            _pos[i] = obj[i]->get_object()->get_position();
+
         loopi(sub_steps)
         {
 
@@ -401,20 +412,19 @@ bool test_kursinis::update()
                 obj[2]->set_velocity(v2 + dv2);
                 glm::vec3 dp2 = v2*sub_step_time;
 
-                ///draw/update paths
-                obj[0]->get_line_object()->add_segment(obj[0]->get_object()->get_position(),obj[0]->get_object()->get_position()+dp0);
-                obj[1]->get_line_object()->add_segment(obj[1]->get_object()->get_position(),obj[1]->get_object()->get_position()+dp1);
-                obj[2]->get_line_object()->add_segment(obj[2]->get_object()->get_position(),obj[2]->get_object()->get_position()+dp2);
-
-                obj[0]->get_line_object()->update_mesh();
-                obj[1]->get_line_object()->update_mesh();
-                obj[2]->get_line_object()->update_mesh();
-
                 obj[0]->get_object()->set_position(obj[0]->get_object()->get_position()+dp0);
                 obj[1]->get_object()->set_position(obj[1]->get_object()->get_position()+dp1);
                 obj[2]->get_object()->set_position(obj[2]->get_object()->get_position()+dp2);
 
+            }
+        }
 
+        if(simuliuoti)
+        {
+            loopi(3)
+            {
+                obj[i]->get_line_object()->add_segment(_pos[i],obj[i]->get_object()->get_position());
+                obj[i]->get_line_object()->update_mesh();
             }
         }
 
@@ -541,6 +551,13 @@ bool test_kursinis::on_event(const gui_event & e)
             else if( e.get_caller()->get_name() == "set_btn" )
             {
                 set_object_values_from_ui();
+
+                return true;
+            }
+            else if( e.get_caller()->get_name() == "clear_trajectories" )
+            {
+                loopi(3)
+                    obj[i]->get_line_object()->clear_segments();
 
                 return true;
             }

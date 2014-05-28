@@ -26,6 +26,7 @@ public:
     virtual uint32_t get_material_count();
 
     virtual void add_segment(glm::vec3 p0, glm::vec3 p1);
+    virtual void clear_segments();
     virtual void update_mesh();
 
 protected:

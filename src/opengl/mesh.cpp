@@ -66,6 +66,7 @@ void mesh::init()
         {
             buffers[i]->init();
 
+
             if(buffers[i]->get_size())
                 buffers[i]->upload();
 
@@ -74,7 +75,6 @@ void mesh::init()
                 glEnableVertexAttribArray(i);
                 glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
             }
-
 
         }
     }
@@ -149,7 +149,16 @@ void mesh::upload_buffers()
         {
             ///enable on upload. MIGHT NOT BE A REALLY GOOD SOLUTION
             if(buffers[i]->get_size()>0)
+            {
+
                 buffers[i]->upload();
+
+                if(buffers[i]->get_type()==ibuffer_object::DATA)
+                {
+                    glEnableVertexAttribArray(i);
+                    glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
+                }
+            }
         }
     }
     glBindVertexArray(0);
