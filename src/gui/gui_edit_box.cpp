@@ -19,6 +19,8 @@ gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::st
     m_text=text;
     m_text_color=text_color;
 
+    curspos=text.length();
+
     _mx=absolute_rect.x + 5;
     _mw=absolute_rect.w - font_size - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
@@ -72,6 +74,7 @@ void gui_edit_box::render()
 void gui_edit_box::set_text(const std::string &text)
 {
     this->m_text=text;
+    curspos=text.length();
 }
 
 bool gui_edit_box::on_event(const gui_event & e)
