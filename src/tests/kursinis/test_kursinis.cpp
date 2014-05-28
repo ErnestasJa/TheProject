@@ -99,7 +99,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     slider->set_name((name));\
     init_e(slider);}
 
-    ADD_SLIDER("Camera dist.:","cam_dist_slider",95,0,2000)
+    ADD_SLIDER("Camera dist.:","cam_dist_slider",95,60,2000)
     ADD_SLIDER("Sub steps:","sub_step_slider",125,1,10)
 
     gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,155,40,20),"Laiko zingsnis (ms):");
@@ -194,11 +194,9 @@ void test_kursinis::update_ui()
     if(s)
     {
         s->set_value(this->m_scenegraph->get_active_camera()->get_position().y);
-        s->update_absolute_pos();
-        this->get_logger()->log(LOG_LOG, "SLIDER value = %i; cam y = %f",s->get_value(),this->m_scenegraph->get_active_camera()->get_position().y);
+
+        this->get_logger()->log(LOG_LOG, "SLIDER value = %f; cam y = %f",s->get_value(),this->m_scenegraph->get_active_camera()->get_position().y);
     }
-
-
 }
 
 void test_kursinis::update_ui_init()
