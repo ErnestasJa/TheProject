@@ -11,20 +11,20 @@ private:
     float _mx,_mw,_my,_mh; //margins for drawing
     char lastkey;
     bool blink,clearonsubmit;
-    std::string m_text,disp_text;
+    std::wstring m_text,disp_text;
     glm::vec4 m_text_color;
 
-    void add_text(int32_t index,std::string text);
+    void add_text(int32_t index,std::wstring text);
     void remove_text(int32_t index, int32_t length);
 public:
-    gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text="text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
+    gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
     virtual ~gui_edit_box();
 
     void render();
 
-    void set_text(const std::string &text);
+    void set_text(const std::wstring &text);
 
-    const std::string &get_text()
+    const std::wstring &get_text()
     {
         return m_text;
     }

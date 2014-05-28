@@ -60,15 +60,15 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
 
     env=new gui_environment(wnd,this->get_logger());
 
-    gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),"Tis but a window",false,true,false);
+    gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),L"Tis but a window",false,true,false);
 
-    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),"testtext",glm::vec4(1,1,1,1),false,true);
-    test2=new gui_button(env,rect2d<int>(120,0,100,20),"buttons!");
+    test1=new gui_static_text(env,rect2d<int>(900,10,125,12),L"testtext",glm::vec4(1,1,1,1),false,true);
+    test2=new gui_button(env,rect2d<int>(120,0,100,20),L"buttons!");
     test2->set_event_listener(this);
     test2->set_id(1);
     test2->set_parent(mainpaine);
 
-    gui_button* swit=new gui_button(env,rect2d<int>(220,0,20,20),"X");
+    gui_button* swit=new gui_button(env,rect2d<int>(220,0,20,20),L"X");
     swit->set_event_listener(this);
     swit->set_id(2);
     swit->set_parent(mainpaine);
@@ -80,7 +80,7 @@ bool gui_and_fonts_application::init(const std::string & title, uint32_t width, 
         c->set_event_listener(this);
         c->set_id(10+i);
         c->set_parent(mainpaine);
-        gui_static_text* lab=new gui_static_text(env,rect2d<int>(20,0+i*22+4,100,20),"checkbox label",glm::vec4(1,1,1,1));
+        gui_static_text* lab=new gui_static_text(env,rect2d<int>(20,0+i*22+4,100,20),L"checkbox label",glm::vec4(1,1,1,1));
         lab->set_parent(mainpaine);
     }
 
@@ -169,10 +169,10 @@ bool gui_and_fonts_application::update()
 
         env->render();
 
-        renderer->render_string("TCHOFF tchoff PHYSFS!",glm::vec2(0,10),false);
+        renderer->render_string(L"TCHOFF tchoff PHYSFS!",glm::vec2(0,10),false);
         renderer->use_font("bits");
-        renderer->render_string("I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),false);
-        renderer->render_string("I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
+        renderer->render_string(L"I am le lcd machine!",glm::vec2(0,100),glm::vec4(1,1,1,1),false);
+        renderer->render_string(L"I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
         renderer->use_font();
 
         wnd->swap_buffers();
@@ -191,7 +191,7 @@ void gui_and_fonts_application::show_fps()
     {
         m_log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
 
-        test1->set_text("FPS: "+helpers::to_str<int>(frame_count)+" "+helpers::to_str(1000.0/double(frame_count))+"ms");
+        test1->set_text(L"FPS: "+helpers::to_wstr<int>(frame_count)+L" "+helpers::to_wstr(1000.0/double(frame_count))+L"ms");
 
         frame_count = 0;
         last_time = currentTime;

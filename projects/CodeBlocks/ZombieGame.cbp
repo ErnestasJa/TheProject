@@ -64,6 +64,8 @@
 					<Add library="freetype" />
 					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
+					<Add library="Ws2_32" />
+					<Add library="pthread" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
@@ -97,6 +99,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-DGL3_PROTOTYPES" />
 			<Add directory="../../src" />
@@ -179,6 +182,14 @@
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
+		<Unit filename="../../src/network/network_manager_win32.cpp">
+			<Option target="Win32-Debug" />
+			<Option target="Win32-Release" />
+		</Unit>
+		<Unit filename="../../src/network/network_manager_win32.h">
+			<Option target="Win32-Debug" />
+			<Option target="Win32-Release" />
+		</Unit>
 		<Unit filename="../../src/opengl/buffer_object.cpp" />
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
@@ -273,7 +284,6 @@
 		<Unit filename="../../src/tests/kursinis/Objektas.h" />
 		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
 		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
-		<Unit filename="../../src/tests/test_application.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />
 		<Unit filename="../../src/utility/bit.h" />

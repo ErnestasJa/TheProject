@@ -36,6 +36,7 @@ public:
 	void strafe(const float amount);
 	void lift(const float amount);
 	virtual glm::mat4x4 get_relative_transform();
+	void orbit(glm::vec3 point,float distance,float angleX,float angleY);
 
 protected:
     float m_fov, m_aspect_ratio, m_far, m_near;

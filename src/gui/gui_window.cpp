@@ -10,7 +10,7 @@
 #include "gui_pane.h"
 #include "gui_button.h"
 
-gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::string titlebar_text, bool clip, bool showclose, bool modal):gui_element(env,dimensions)
+gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal):gui_element(env,dimensions)
 {
     environment=env;
 
@@ -32,7 +32,7 @@ gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::string
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);
 
-    close_btn=new gui_button(env,rect2d<int>(tbr.w-18,2,16,16),"X");
+    close_btn=new gui_button(env,rect2d<int>(tbr.w-18,2,16,16),L"X");
     close_btn->set_parent(this);
     close_btn->set_event_listener(this);
     close_btn->set_visible(showclose);
