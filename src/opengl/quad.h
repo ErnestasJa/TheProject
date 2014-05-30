@@ -28,10 +28,10 @@ public:
         glmesh = share(new mesh());
         pos = new buffer_object<glm::vec3>();
         pos->data.resize(4);
-        pos->data[0]=glm::vec3(-1,-1,0);
-        pos->data[1]=glm::vec3(1,-1,0);
-        pos->data[2]=glm::vec3(1,1,0);
-        pos->data[3]=glm::vec3(-1,1,0);
+        pos->data[0]=glm::vec3(-1,-1,0); /// LL
+        pos->data[1]=glm::vec3(1,-1,0); /// LR
+        pos->data[2]=glm::vec3(1,1,0); /// UR
+        pos->data[3]=glm::vec3(-1,1,0); /// UL
 
         tex_coords = new buffer_object<glm::vec2>();
         tex_coords->data.resize(4);
@@ -43,11 +43,11 @@ public:
         indices = new index_buffer_object<uint32_t>();
         indices->data.resize(6);
         indices->data[0]=0;
-        indices->data[1]=1;
-        indices->data[2]=3;
+        indices->data[1]=3;
+        indices->data[2]=1;
 
-        indices->data[3]=3;
-        indices->data[4]=1;
+        indices->data[3]=1;
+        indices->data[4]=3;
         indices->data[5]=2;
 
         glmesh->buffers.resize(3);

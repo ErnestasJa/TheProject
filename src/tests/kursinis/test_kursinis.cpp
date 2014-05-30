@@ -72,22 +72,22 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,200),"Simuliacijos langas");
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,200),L"Simuliacijos langas");
 
     #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
-    gui_button* btn = new gui_button(env,rect2d<int>(5,30,64,20),"Simuliuoti");
+    gui_button* btn = new gui_button(env,rect2d<int>(5,30,64,20),L"Simuliuoti");
     btn->set_name("sim_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(70,30,64,20),"Nustatyti");
+    btn = new gui_button(env,rect2d<int>(70,30,64,20),L"Nustatyti");
     btn->set_name("init_set_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(5,55,64,20),"Obj. param.");
+    btn = new gui_button(env,rect2d<int>(5,55,64,20),L"Obj. param.");
     btn->set_name("pos_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(70,55,110,20),"Isvalyti trajektorijas");
+    btn = new gui_button(env,rect2d<int>(70,55,110,20),L"Isvalyti trajektorijas");
     btn->set_name("clear_trajectories");
     init_e(btn);
 
@@ -99,30 +99,30 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     slider->set_name((name));\
     init_e(slider);}
 
-    ADD_SLIDER("Camera dist.:","cam_dist_slider",95,60,2000)
-    ADD_SLIDER("Sub steps:","sub_step_slider",125,1,10)
+    ADD_SLIDER(L"Camera dist.:","cam_dist_slider",95,60,2000)
+    ADD_SLIDER(L"Sub steps:","sub_step_slider",125,1,10)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,155,40,20),"Laiko zingsnis (ms):");
-    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,150,64,20),"",glm::vec4(1,1,1,1),false,false);
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,155,40,20),L"Laiko zingsnis (ms):");
+    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,150,64,20),L"",glm::vec4(1,1,1,1),false,false);
     init_e(fixed_time_step_eb);
     init_e(tb);
 
     env->set_event_listener(this);
 
     ///init wnd
-    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),"Objektu parametrai");
+    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),L"Objektu parametrai");
     pos_wnd->set_visible(false);
 
     int32_t start_h = 24;
     loopi(3)
     {
         gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,start_h+5
-                                                                    + (i * 32),48,20),"pos(x,y,z)");
+                                                                    + (i * 32),48,20),L"pos(x,y,z)");
         tb->set_parent(wnd);
 
-        pos_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
-        pos_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
-        pos_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
 
         init_e(pos_eb[i][0]);
         init_e(pos_eb[i][1]);
@@ -133,12 +133,12 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     loopi(3)
     {
-        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10, start_h+5 + (i * 32),48,20),"vel(x,y,z)");
+        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10, start_h+5 + (i * 32),48,20),L"vel(x,y,z)");
         tb->set_parent(wnd);
 
-        vel_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
-        vel_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
-        vel_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
 
         init_e(vel_eb[i][0]);
         init_e(vel_eb[i][1]);
@@ -148,28 +148,28 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     start_h = 224;
 
     ///masiu ivedimas
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),"mass[0]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),L"mass[0]");
     tb->set_parent(wnd);
-    eb[0]=new gui_edit_box(env,rect2d<int>(60,start_h,120,20),"",glm::vec4(1,1,1,1),false,false);
+    eb[0]=new gui_edit_box(env,rect2d<int>(60,start_h,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+30,40,20),"mass[1]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+30,40,20),L"mass[1]");
     tb->set_parent(wnd);
-    eb[1]=new gui_edit_box(env,rect2d<int>(60,start_h+30,120,20),"",glm::vec4(1,1,1,1),false,false);
+    eb[1]=new gui_edit_box(env,rect2d<int>(60,start_h+30,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
 
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+60,40,20),"mass[2]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+60,40,20),L"mass[2]");
     tb->set_parent(wnd);
-    eb[2]=new gui_edit_box(env,rect2d<int>(60,start_h+60,120,20),"",glm::vec4(1,1,1,1),false,false);
+    eb[2]=new gui_edit_box(env,rect2d<int>(60,start_h+60,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
     init_e(eb[0]);
     init_e(eb[1]);
     init_e(eb[2]);
 
-    btn = new gui_button(env,rect2d<int>(160,370,84,20),"Atnaujinti");
+    btn = new gui_button(env,rect2d<int>(160,370,84,20),L"Atnaujinti");
     btn->set_name("refresh_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(84,370,84,20),"Nustatyti");
+    btn = new gui_button(env,rect2d<int>(84,370,84,20),L"Nustatyti");
     btn->set_name("set_btn");
     init_e(btn);
 
@@ -182,11 +182,11 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 #include <sstream>
 void test_kursinis::update_ui()
 {
-    std::stringstream ss;
+    std::wstringstream ss;
 
     ss<<fixed_time_step;
     fixed_time_step_eb->set_text(ss.str().c_str());
-    ss.str(std::string());
+    ss.str(std::wstring());
 
 
     gui_slider * s = this->env->get_element_by_name_t<gui_slider>("cam_dist_slider");
@@ -207,38 +207,38 @@ void test_kursinis::update_ui_init()
         const glm::vec3 & vel = o->get_velocity();
         const glm::vec3 & pos = o->get_object()->get_position();
 
-        std::stringstream ss;
+        std::wstringstream ss;
 
         ///pos
         ss<<pos.x;
         pos_eb[i][0]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
         ss<<pos.y;
         pos_eb[i][1]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
         ss<<pos.z;
         pos_eb[i][2]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
 
         ///vel
         ss<<vel.x;
         vel_eb[i][0]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
         ss<<vel.y;
         vel_eb[i][1]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
         ss<<vel.z;
         vel_eb[i][2]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
 
         ss << o->get_mass();
         eb[i]->set_text(ss.str());
-        ss.str(std::string());
+        ss.str(std::wstring());
     }
 }
 
@@ -253,43 +253,43 @@ void test_kursinis::set_object_values_from_ui()
         glm::vec3 pos;
         float mass;
 
-        std::stringstream ss;
+        std::wstringstream ss;
 
         ///pos
         ss<<pos_eb[i][0]->get_text();
         if(ss>>v) pos.x = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ss<<pos_eb[i][1]->get_text();
         if(ss>>v) pos.y = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ss<<pos_eb[i][2]->get_text();
         if(ss>>v) pos.z = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ///vel
         ss<<vel_eb[i][0]->get_text();
         if(ss>>v) vel.x = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ss<<vel_eb[i][1]->get_text();
         if(ss>>v) vel.y = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ss<<vel_eb[i][2]->get_text();
         if(ss>>v) vel.z = v;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         ss<<eb[i]->get_text();
         ss>>mass;
-        ss.str(std::string());
+        ss.str(std::wstring());
         ss.clear();
 
         o->get_object()->set_position(pos);
@@ -301,13 +301,13 @@ void test_kursinis::set_object_values_from_ui()
 void test_kursinis::set_simulation_values_from_ui()
 {
     float fts=0.0;
-    std::stringstream ss;
+    std::wstringstream ss;
     ss<<this->fixed_time_step_eb->get_text();
 
     if(ss>>fts)
         fixed_time_step=fts;
 
-    ss.str(std::string());
+    ss.str(std::wstring());
     ss.clear();
 
 
@@ -549,7 +549,7 @@ bool test_kursinis::on_event(const gui_event & e)
                     selected_obj = nullptr;
 
                 gui_button * btn = static_cast< gui_button *>(e.get_caller());
-                btn->set_text(simuliuoti?"Sustabdyti":"Testi");
+                btn->set_text(simuliuoti?L"Sustabdyti":L"Testi");
 
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
                 return true;

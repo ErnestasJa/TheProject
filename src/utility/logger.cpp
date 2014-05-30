@@ -33,45 +33,45 @@ logger::~logger()
 
 void logger::log(loglevel lev,const char* st, ...)
 {
-    m_app->get_timer()->tick();
-    char buf[256];
-    va_list l;
-    va_start(l,st);
-    vsnprintf(buf,256,st,l);
-    va_end(l);
-    std::string message="";
-
-    //message+="["+timestamp()+"] ";
-    message+=helpers::to_str(m_app->get_timer()->get_time())+" ";
-    //add importance info
-    switch(lev)
-    {
-    case LOG_LOG:
-        message+="LOG: ";
-        break;
-    case LOG_DEBUG:
-        message+="DEBUG: ";
-        break;
-    case LOG_WARN:
-        message+="WARNING: ";
-        break;
-    case LOG_ERROR:
-        message+="ERROR: ";
-        break;
-    case LOG_CRITICAL:
-        message+="CRITICAL: ";
-        break;
-    default:
-        break;
-    }
-
-    message.append(buf);
-    message.append("\n");
-    //std::pair<debuglevel,std::string> p(lev,message);
-    //outputs.push_back(p);
-    PHYSFS_write(m_logfile,message.c_str(),message.size(),1);
-    PHYSFS_flush(m_logfile);
-    printf("%s",message.c_str());
+//    m_app->get_timer()->tick();
+//    char buf[256];
+//    va_list l;
+//    va_start(l,st);
+//    vsnprintf(buf,256,st,l);
+//    va_end(l);
+//    std::string message="";
+//
+//    //message+="["+timestamp()+"] ";
+//    message+=helpers::to_str(m_app->get_timer()->get_time())+" ";
+//    //add importance info
+//    switch(lev)
+//    {
+//    case LOG_LOG:
+//        message+="LOG: ";
+//        break;
+//    case LOG_DEBUG:
+//        message+="DEBUG: ";
+//        break;
+//    case LOG_WARN:
+//        message+="WARNING: ";
+//        break;
+//    case LOG_ERROR:
+//        message+="ERROR: ";
+//        break;
+//    case LOG_CRITICAL:
+//        message+="CRITICAL: ";
+//        break;
+//    default:
+//        break;
+//    }
+//
+//    message.append(buf);
+//    message.append("\n");
+//    //std::pair<debuglevel,std::string> p(lev,message);
+//    //outputs.push_back(p);
+//    PHYSFS_write(m_logfile,message.c_str(),message.size(),1);
+//    PHYSFS_flush(m_logfile);
+//    printf("%s",message.c_str());
 }
 
 std::string logger::timestamp()

@@ -6,7 +6,7 @@
 #include "gui_edit_box.h"
 #include "font.h"
 
-gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
+gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {
     environment=env;
 
@@ -57,21 +57,33 @@ void gui_edit_box::render()
     font_renderer* fr=this->environment->get_font_renderer();
 
     // RECT
-    environment->draw_gui_quad(absolute_rect);
+    if(this->is_focused())
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_hover);
+    }
+    else if(this->is_enabled()==false)
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_disabled);
+    }
+    else
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_active);
+    }
+
 
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
         fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
+            fr->render_string(L"l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
 
     glDisable(GL_SCISSOR_TEST);
 
     this->render_children();
 }
 
-void gui_edit_box::set_text(const std::string &text)
+void gui_edit_box::set_text(const std::wstring &text)
 {
     this->m_text=text;
     curspos=text.length();
@@ -81,7 +93,7 @@ bool gui_edit_box::on_event(const gui_event & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
-        std::string temp;
+        std::wstring temp;
         switch(e.get_type())
         {
         case element_focused:
@@ -94,7 +106,7 @@ bool gui_edit_box::on_event(const gui_event & e)
 
         case key_typed:
             lastkey=environment->get_last_char();
-            temp="";
+            temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);
             break;
@@ -146,7 +158,7 @@ bool gui_edit_box::on_event(const gui_event & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_edit_box::add_text(int32_t index,std::string text)
+void gui_edit_box::add_text(int32_t index,std::wstring text)
 {
     curspos=index;
 

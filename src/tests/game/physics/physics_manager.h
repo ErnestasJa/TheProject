@@ -33,6 +33,30 @@ public:
 
     ///Conversion
     btTriangleMesh* convert_mesh_to_bullet_trimesh(mesh_ptr pmesh, const btVector3 & scaling);
+
+    static void QuaternionToEulerXYZ(const btQuaternion &quat,btVector3 &euler)
+    {
+        float w=quat.getW();
+        float x=quat.getX();
+        float y=quat.getY();
+        float z=quat.getZ();
+        double sqw = w*w;
+        double sqx = x*x;
+        double sqy = y*y;
+        double sqz = z*z;
+        euler.setZ((atan2(2.0 * (x*y + z*w),(sqx - sqy - sqz + sqw))));
+        euler.setX((atan2(2.0 * (y*z + x*w),(-sqx - sqy + sqz + sqw))));
+        euler.setY((asin(-2.0 * (x*z - y*w))));
+    }
+
+    static void EulerXYZToQuaternion(btVector3 &euler, btQuaternion &quat)
+    {
+        btMatrix3x3 mat;
+        mat.setIdentity();
+        mat.setEulerZYX(euler.getX(), euler.getY(), euler.getZ());
+        mat.getRotation(quat);
+    }
+
     static const glm::vec3 bt_to_glm(const btVector3 & vec)
     {
         return glm::vec3(vec.getX(),vec.getY(),vec.getZ());
