@@ -77,7 +77,7 @@ struct font
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         /* Linear filtering usually looks best for text */
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         /* Paste all glyph bitmaps into the texture, remembering the offset */
@@ -121,6 +121,7 @@ struct font
         }
         avgheight=avgheight/(float)cnth;
         fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h, w * h / 1024);
+        glGenerateMipmap(GL_TEXTURE_2D);
     }
 
     ~font()
