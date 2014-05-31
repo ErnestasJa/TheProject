@@ -43,14 +43,14 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,64),"HOLA");
+    gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,64),L"HOLA");
 
     gui_checkbox* cb=new gui_checkbox(env,rect2d<int>(0,64,20,20),false);
     cb=new gui_checkbox(env,rect2d<int>(0,96,20,20),true);
     cb=new gui_checkbox(env,rect2d<int>(0,128,20,20),true);
     cb=new gui_checkbox(env,rect2d<int>(0,160,20,20),false);
 
-    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),"",glm::vec4(1,1,1,1),false,false);
+    gui_edit_box* eb=new gui_edit_box(env,rect2d<int>(200,0,200,20),L"",glm::vec4(1,1,1,1),false,false);
 
     std::shared_ptr<texture> test_img=std::shared_ptr<texture>(new texture());
     image_loader* imgl=new image_loader(this->get_logger());

@@ -195,16 +195,14 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
                 if (focus != nullptr)
                 {
                     last_focus = focus;
-                    last_focus->on_event(gui_event(
-                                             gui_event_type::element_focus_lost,
-                                             last_focus));
+                    GUI_FIRE_ELEMENT_EVENT(last_focus,gui_event(gui_event_type::element_focus_lost, last_focus))
                     last_focus->set_focused(false);
                 }
                 focus = hover;
                 if (hover != this)
                 {
-                    focus->on_event(gui_event(
-                                        gui_event_type::element_focused, focus));
+                    GUI_FIRE_ELEMENT_EVENT(focus,gui_event(gui_event_type::element_focused, focus))
+                    //focus->on_event(gui_event(gui_event_type::element_focused, focus));
                     focus->set_focused(true);
                     focus->get_parent()->bring_to_front(focus);
                 }
@@ -355,7 +353,6 @@ gui_element * search_elements(gui_element * el, const std::string & name)
 {
     if(el->get_name()==name)
     {
-        std::cout<<"FOUND IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
         return el;
     }
 
@@ -365,7 +362,6 @@ gui_element * search_elements(gui_element * el, const std::string & name)
 
         if(e)
         {
-            std::cout<<"FOUND IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
             return e;
         }
     }

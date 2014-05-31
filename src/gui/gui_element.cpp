@@ -118,6 +118,11 @@ void gui_element::set_event_listener(gui_event_listener *listener)
     this->event_listener=listener;
 }
 
+gui_event_listener * gui_element::get_event_listener()
+{
+    return this->event_listener;
+}
+
 bool gui_element::on_event(const gui_event & e)
 {
     if(this->event_listener && this->event_listener->on_event(e))

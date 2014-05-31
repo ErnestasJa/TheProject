@@ -103,7 +103,7 @@ bool test_game::init_gui()
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,256,512),L"Ğûdukas àèæëáğøûş");
+    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,256,512),L"Ä…ÄÄ™Ä—Ä¯Å¡Å«Å¾");
 
     #define init_e(x) x->set_parent(wind); x->set_event_listener(this)
 
