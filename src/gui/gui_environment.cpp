@@ -39,7 +39,7 @@ gui_environment::gui_environment(window* win,logger* log):gui_element(nullptr, r
     gui_quad=new quad();
     gui_quad->generate();
 
-    sliced_quad=new sliced_gui_quad();
+    sliced_quad=new sliced_gui_quad(1,0.125);
     sliced_quad->generate();
 
     skin=new gui_skin();
@@ -335,7 +335,7 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     gui_shader->set();
     skin_atlas->set(0);
 
-    sliced_quad->set_tcoords(skin->get_uv(gui_skin_background));
+    sliced_quad->set_tcoords(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -344,8 +344,9 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
 
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     sliced_quad->draw();
-
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }

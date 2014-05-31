@@ -7,7 +7,8 @@ class rect2d;
 class gui_edit_box:public gui_element
 {
 private:
-    uint32_t blinktimer,curspos,reptimer,sx,font_size;
+    uint32_t blinktimer,curspos,reptimer,font_size;
+    int32_t sx;
     float _mx,_mw,_my,_mh; //margins for drawing
     char lastkey;
     bool blink,clearonsubmit;

@@ -40,7 +40,7 @@
 
 #include "network/network_manager_win32.h"
 
-#define NETWORKINGS
+#define NETWORKINGs
 
 //shadowmap texture dimensions
 const int SHADOWMAP_DIMENSIONS = 1024;
@@ -103,11 +103,11 @@ bool test_game::init_gui()
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,200,128),L"Ðûdukas àèæëáðøûþ");
+    gui_window * wind  = new gui_window(env,rect2d<int>(10,10,256,512),L"Ðûdukas àèæëáðøûþ");
 
     #define init_e(x) x->set_parent(wind); x->set_event_listener(this)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),L"Height:");
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,30,48,20),L"Height:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
 
     gui_slider* slider = new gui_slider(env,rect2d<int>(96,30,64,20),0,20,20);
@@ -115,7 +115,7 @@ bool test_game::init_gui()
     init_e(slider);
     m_quad_height=slider->get_value();
 
-    tb = new gui_static_text(env,rect2d<int>(10,50,48,20),L"XRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,50,48,20),L"XRot:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,50,64,20),-3.14/180*30,3.14/180*30,0);
@@ -123,7 +123,7 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setX(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(10,70,48,20),L"YRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,70,48,20),L"YRot:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,70,64,20),-3.14,3.14,0);
@@ -131,7 +131,7 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setY(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(10,90,48,20),L"ZRot:");
+    tb = new gui_static_text(env,rect2d<int>(10,90,48,20),L"ZRot:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
 
     slider = new gui_slider(env,rect2d<int>(96,90,64,20),-3.14/180*30,3.14/180*30,0);
@@ -139,35 +139,41 @@ bool test_game::init_gui()
     init_e(slider);
     trgRot.setZ(slider->get_value());
 
-    tb = new gui_static_text(env,rect2d<int>(200,20,48,20),L"Direction:");
+    tb = new gui_static_text(env,rect2d<int>(10,110,48,20),L"Direction:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_dir = new gui_static_text(env,rect2d<int>(250,20,48,20),L"");
+    quad_dir = new gui_static_text(env,rect2d<int>(60,110,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_dir);
 
-    tb = new gui_static_text(env,rect2d<int>(200,40,48,20),L"Height:");
+    tb = new gui_static_text(env,rect2d<int>(10,130,48,20),L"Height:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_height = new gui_static_text(env,rect2d<int>(250,40,48,20),L"");
+    quad_height = new gui_static_text(env,rect2d<int>(60,130,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_height);
 
-    tb = new gui_static_text(env,rect2d<int>(200,60,48,20),L"Torque:");
+    tb = new gui_static_text(env,rect2d<int>(10,150,48,20),L"Torque:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_torq = new gui_static_text(env,rect2d<int>(250,60,48,20),L"");
+    quad_torq = new gui_static_text(env,rect2d<int>(60,150,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_torq);
 
-    tb = new gui_static_text(env,rect2d<int>(200,80,48,20),L"Calc:");
+    tb = new gui_static_text(env,rect2d<int>(10,170,48,20),L"Calc:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_torqd = new gui_static_text(env,rect2d<int>(250,80,48,20),L"");
+    quad_torqd = new gui_static_text(env,rect2d<int>(60,170,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_torqd);
 
-    tb = new gui_static_text(env,rect2d<int>(200,100,48,20),L"Force:");
+    tb = new gui_static_text(env,rect2d<int>(10,190,48,20),L"Force:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_force = new gui_static_text(env,rect2d<int>(250,100,48,20),L"");
+    quad_force = new gui_static_text(env,rect2d<int>(60,190,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_force);
 
-    tb = new gui_static_text(env,rect2d<int>(200,120,48,20),L"DeltaForce:");
+    tb = new gui_static_text(env,rect2d<int>(10,210,48,20),L"DeltaForce:",glm::vec4(0,0,0,1),false,false);
     init_e(tb);
-    quad_forced = new gui_static_text(env,rect2d<int>(250,120,48,20),L"");
+    quad_forced = new gui_static_text(env,rect2d<int>(60,210,48,20),L"",glm::vec4(0,0,0,1),false,false);
     init_e(quad_forced);
+
+    gui_edit_box *eb=new gui_edit_box(env,rect2d<int>(10,230,200,200),L"",glm::vec4(0,0,0,1),false,false,false);
+    init_e(eb);
+
+    gui_button *btn=new gui_button(env,rect2d<int>(10,450,200,20),L"Yep, a button");
+    init_e(btn);
 
     env->set_event_listener(this);
 }
@@ -401,10 +407,10 @@ bool test_game::update()
 
         m_scenegraph->set_override_material(nullptr);
 
-        glDisable(GL_CULL_FACE);
+        //glDisable(GL_CULL_FACE);
         env->update(0);
         env->render();
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
 
         wnd->swap_buffers();
 

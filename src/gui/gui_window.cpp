@@ -48,9 +48,9 @@ void gui_window::render()
 {
     glBindTexture(GL_TEXTURE_2D,0);
 
-    environment->draw_gui_quad(tbr);
-    environment->draw_gui_quad(bgr);
-    environment->get_font_renderer()->render_string(titlebar_text,glm::vec2(tbr.x+5,tbr.y+5),true);
+    environment->draw_sliced_gui_quad(tbr,gui_skin_titlebar);
+    environment->draw_sliced_gui_quad(bgr);
+    environment->get_font_renderer()->render_string(titlebar_text,glm::vec2(tbr.x+6,tbr.y+6),glm::vec4(0,0,0,1),false);
 
     this->absolute_rect.move(0,20);
     update_absolute_pos();

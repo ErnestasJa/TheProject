@@ -3,16 +3,16 @@
 	<background x="0" y="0" w="32" h="32"/>
 	
 	<input>
-		<active x="32" y="0" w="32" h="32"/>
-		<hover x="64" y="0" w="32" h="32"/>
-		<disabled x="96" y="0" w="32" h="32"/>
+		<active x="36" y="4" w="24" h="24"/>
+		<hover x="68" y="4" w="24" h="24"/>
+		<disabled x="100" y="4" w="24" h="24"/>
 	</input>
 	
 	<button>
-		<active x="131" y="3" w="26" h="26"/>
-		<hover x="163" y="3" w="26" h="26"/>
-		<click x="195" y="3" w="26" h="26"/>
-		<disabled x="227" y="3" w="26" h="26"/>
+		<active x="132" y="4" w="24" h="24"/>
+		<hover x="164" y="4" w="24" h="24"/>
+		<click x="196" y="4" w="24" h="24"/>
+		<disabled x="228" y="4" w="24" h="24"/>
 	</button>
 	
 	<checkbox_u>
@@ -49,8 +49,8 @@
 	</progress_h>
 	
 	<scroll_h>
-		<active x="64" y="96" w="32" h="32"/>
-		<hover x="96" y="96" w="32" h="32"/>
+		<bg x="68" y="104" w="20" h="16"/>
+		<bar x="104" y="104" w="20" h="16"/>
 	</scroll_h>
 	
 	<scroll_v>

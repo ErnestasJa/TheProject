@@ -50,14 +50,26 @@ void gui_edit_box::render()
     _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
 
-    sx=_mw-1-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
+    sx=_mw-8-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
     if(sx>0)
         sx=0;
 
     font_renderer* fr=this->environment->get_font_renderer();
 
     // RECT
-    environment->draw_gui_quad(absolute_rect);
+    if(this->is_focused())
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_hover);
+    }
+    else if(this->is_enabled()==false)
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_disabled);
+    }
+    else
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_active);
+    }
+
 
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
@@ -97,6 +109,7 @@ bool gui_edit_box::on_event(const gui_event & e)
             temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);
+
             break;
 
         case key_pressed:

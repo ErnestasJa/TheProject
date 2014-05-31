@@ -54,6 +54,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-finput-charset=windows-1257" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />

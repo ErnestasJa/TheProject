@@ -10,7 +10,7 @@
 
 int main(int argc, const char ** argv)
 {
-    application * app = new test_game(argc,argv);
+    application * app = new test_kursinis(argc,argv);
 
     if(app->init("test",1280,720))
     {
