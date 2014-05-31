@@ -26,6 +26,7 @@ class scenegraph
 public:
     scenegraph(logger * l, timer_ptr app_timer);
     virtual ~scenegraph();
+    void clear();
 
     sg_object_ptr add_object(sg_object_ptr object);
     sg_light_object_ptr add_light_object();

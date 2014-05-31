@@ -23,6 +23,8 @@ gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 
 gui_element::~gui_element()
 {
+    if(parent)
+        parent->remove_child(this);
     destroy_children();
 }
 
