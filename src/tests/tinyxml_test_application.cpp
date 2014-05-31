@@ -59,8 +59,6 @@ bool tinyxml_test_application::init(const std::string & title, uint32_t width, u
 
     gui_image* imagagae=new gui_image(env,rect2d<int>(400,0,256,256),test_img);
 
-    glm::vec2 aaa=env->get_font_renderer()->get_text_dimensions(L"bybys raibas");
-    printf("Dimensions of bybys raibas: %f %f\n",aaa.x,aaa.y);
     return true;
 }
 

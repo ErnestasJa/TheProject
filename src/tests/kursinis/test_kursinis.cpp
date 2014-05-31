@@ -1,4 +1,4 @@
-#include "precomp.h"
+﻿#include "precomp.h"
 
 #include "application/window.h"
 #include "utility/timer.h"
@@ -72,22 +72,18 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,200),L"Simuliacijos langas");
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,200),L"Simuliacijos valdymo langas");
 
     #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
-    gui_button* btn = new gui_button(env,rect2d<int>(5,30,64,20),L"Simuliuoti");
+    gui_button* btn = new gui_button(env,rect2d<int>(5,120,190,20),L"Simuliuoti");
     btn->set_name("sim_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(70,30,64,20),L"Nustatyti");
-    btn->set_name("init_set_btn");
-    init_e(btn);
-
-    btn = new gui_button(env,rect2d<int>(5,55,64,20),L"Obj. param.");
+    btn = new gui_button(env,rect2d<int>(5,145,190,20),L"Objektų param.");
     btn->set_name("pos_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(70,55,110,20),L"Isvalyti trajektorijas");
+    btn = new gui_button(env,rect2d<int>(5,170,190,20),L"Išvalyti trajektorijas");
     btn->set_name("clear_trajectories");
     init_e(btn);
 
@@ -99,18 +95,19 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     slider->set_name((name));\
     init_e(slider);}
 
-    ADD_SLIDER(L"Camera dist.:","cam_dist_slider",95,60,2000)
-    ADD_SLIDER(L"Sub steps:","sub_step_slider",125,1,10)
+    ADD_SLIDER(L"Kameros nuotolis:","cam_dist_slider",30,60,2000)
+    ADD_SLIDER(L"Požingsnių kiekis:","sub_step_slider",55,1,20)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,155,40,20),L"Laiko zingsnis (ms):");
-    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,150,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,85,40,20),L"Laiko žingsnis (ms):");
+    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,80,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    fixed_time_step_eb->set_name("fixed_time_step_eb");
     init_e(fixed_time_step_eb);
     init_e(tb);
 
     env->set_event_listener(this);
 
     ///init wnd
-    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),L"Objektu parametrai");
+    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),L"Objektų parametrų langas");
     pos_wnd->set_visible(false);
 
     int32_t start_h = 24;
@@ -549,7 +546,7 @@ bool test_kursinis::on_event(const gui_event & e)
                     selected_obj = nullptr;
 
                 gui_button * btn = static_cast< gui_button *>(e.get_caller());
-                btn->set_text(simuliuoti?L"Sustabdyti":L"Testi");
+                btn->set_text(simuliuoti?L"Sustabdyti":L"Simuliuoti");
 
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
                 return true;
@@ -573,12 +570,6 @@ bool test_kursinis::on_event(const gui_event & e)
 
                 return true;
             }
-            else if( e.get_caller()->get_name() == "init_set_btn" )
-            {
-                set_simulation_values_from_ui();
-
-                return true;
-            }
             break;
         }
         case scrollbar_changed:
@@ -594,6 +585,16 @@ bool test_kursinis::on_event(const gui_event & e)
             {
                 gui_slider * s = static_cast<gui_slider *>(e.get_caller());
                 sub_steps = s->get_value();
+            }
+
+            break;
+        }
+        case element_focus_lost:
+        {
+            if(e.get_caller()->get_name()=="fixed_time_step_eb")
+            {
+                 std::cout<<"eb lost focus...\n";
+                 set_simulation_values_from_ui();
             }
 
             break;

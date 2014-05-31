@@ -54,7 +54,6 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add option="-finput-charset=windows-1257" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -92,6 +91,9 @@
 					<Add library="libphysfs_win32" />
 					<Add library="libsigc++.a" />
 					<Add library="tinyxml2_win32" />
+					<Add library="freetype" />
+					<Add library="Ws2_32" />
+					<Add library="pthread" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
