@@ -383,7 +383,6 @@ bool test_kursinis::init_scene()
     light->set_position(glm::vec3(0,10,0));
 
     sg::sg_skybox_object_ptr skybox = m_scenegraph->load_skybox("res/models/sky1/sky.iqm",true);
-
     m_scenegraph->add_object(skybox);
 
 
