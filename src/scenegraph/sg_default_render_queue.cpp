@@ -9,6 +9,7 @@ namespace sg
 sg_default_render_queue::sg_default_render_queue(scenegraph * sg)
 {
     m_scenegraph = sg;
+    m_skybox = nullptr;
 }
 
 sg_default_render_queue::~sg_default_render_queue()
@@ -21,6 +22,10 @@ void sg_default_render_queue::add_object(isg_object * obj)
     if(obj->get_type()==SGO_MESH || obj->get_type() == SGO_QUAD || obj->get_type() == SGO_LINE_OBJECT)
     {
         m_objects.push_back(obj);
+    }
+    else if(obj->get_type() == SGO_SKYBOX_OBJECT)
+    {
+        m_skybox = (sg_skybox_object*)obj;
     }
     else if(obj->get_type()==SGO_LIGHT)
     {
@@ -42,8 +47,14 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
             sg_abstract_material * mat = static_cast<sg_abstract_material*>(material.get());
 
             //mat->set_mat4("m",obj->get_absolute_transform());
-            mat->set_mat4("mvp",m_scenegraph->get_shared_mat_vars().view_proj.value * obj->get_absolute_transform());
-
+            if(obj->get_type()!=SGO_SKYBOX_OBJECT)
+                mat->set_mat4("mvp",m_scenegraph->get_shared_mat_vars().view_proj.value * obj->get_absolute_transform());
+            else
+            {
+                glm::mat4 MVP = glm::translate(m_scenegraph->get_active_camera()->get_absolute_transform(),m_scenegraph->get_active_camera()->get_position());
+                glm::mat4 S = glm::scale(glm::mat4(1),glm::vec3(1000.0));
+                mat->set_mat4("mvp",MVP);
+            }
             /*mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
             mat->n = glm::inverseTranspose(glm::mat3(mat->m.value));
 
@@ -167,6 +178,11 @@ void sg_default_render_queue::pre_render()
 void sg_default_render_queue::render_all()
 {
     pre_render();
+
+    if(m_skybox)
+    {
+        m_skybox->render(m_scenegraph);
+    }
 
     for(isg_object * obj: m_objects)
     {

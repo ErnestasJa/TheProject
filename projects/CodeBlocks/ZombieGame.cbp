@@ -117,17 +117,20 @@
 			<Add directory="../../libs/freetype/include" />
 			<Add directory="../../libs/libsigc++" />
 			<Add directory="../../libs/tinyxml2/src" />
+			<Add directory="../../libs/irrKlang-1.5.0/include" />
 		</Compiler>
 		<Linker>
 			<Add library="libBulletSoftBody.a" />
 			<Add library="libBulletDynamics.a" />
 			<Add library="libBulletCollision.a" />
 			<Add library="libLinearMath.a" />
+			<Add library="libirrklang.a" />
 			<Add directory="../../libs/glfw/lib" />
 			<Add directory="../../libs/physfs/lib" />
 			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/libsigc++/lib" />
+			<Add directory="../../libs/irrKlang-1.5.0/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -186,14 +189,8 @@
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
-		<Unit filename="../../src/network/network_manager_win32.cpp">
-			<Option target="Win32-Debug" />
-			<Option target="Win32-Release" />
-		</Unit>
-		<Unit filename="../../src/network/network_manager_win32.h">
-			<Option target="Win32-Debug" />
-			<Option target="Win32-Release" />
-		</Unit>
+		<Unit filename="../../src/network/network_manager_win32.cpp" />
+		<Unit filename="../../src/network/network_manager_win32.h" />
 		<Unit filename="../../src/opengl/buffer_object.cpp" />
 		<Unit filename="../../src/opengl/buffer_object.h" />
 		<Unit filename="../../src/opengl/frame_buffer_object.cpp" />
@@ -272,6 +269,8 @@
 		<Unit filename="../../src/scenegraph/sg_scenegraph_loader.h" />
 		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.cpp" />
 		<Unit filename="../../src/scenegraph/sg_shared_mat_vars.h" />
+		<Unit filename="../../src/scenegraph/sg_skybox_object.cpp" />
+		<Unit filename="../../src/scenegraph/sg_skybox_object.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
 		<Unit filename="../../src/tests/game/app_context.h" />

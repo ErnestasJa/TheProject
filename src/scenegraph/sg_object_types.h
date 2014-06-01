@@ -12,7 +12,8 @@ namespace sg
         SGO_POINT_SPRITE,
         SGO_QUAD,
         SGO_LIGHT,
-        SGO_LINE_OBJECT
+        SGO_LINE_OBJECT,
+        SGO_SKYBOX_OBJECT
     };
 }
 

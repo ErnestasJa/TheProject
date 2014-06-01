@@ -125,8 +125,8 @@ bool gui_edit_box::on_event(const gui_event & e)
                 this->set_focused(false);
                 if(this->event_listener)
                 {
-                    GUI_FIRE_EVENT(gui_event(textbox_submit,this))
-                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this))
+                    GUI_FIRE_EVENT(gui_event(textbox_submit,this,this))
+                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this,this))
                 }
                 break;
             case GLFW_KEY_BACKSPACE:
@@ -175,16 +175,9 @@ void gui_edit_box::add_text(int32_t index,std::wstring text)
 
 void gui_edit_box::remove_text(int32_t index, int32_t length)
 {
-    curspos=index;
-
-    if(curspos-length>0)
+    if(index>0&&index-length>=0)
     {
-        m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
-        curspos-=length;
-    }
-    else if(curspos>0)
-    {
-        m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
-        curspos--;
+        m_text=m_text.substr(0,index-length)+m_text.substr(index);
+        curspos=index-length;
     }
 }

@@ -5,6 +5,7 @@
 #include "opengl/shader.h"
 #include "opengl/mesh.h"
 #include "utility/logger.h"
+#include "sg_skybox_object.h"
 
 namespace sg
 {
@@ -216,7 +217,7 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
         {
             std::string mat_name, image_path;
             uint32_t pos = pmesh->sub_meshes[i].material_name.find("|");
-            mat_name = pmesh->sub_meshes[i].material_name.substr(0,pos-1);
+            mat_name = pmesh->sub_meshes[i].material_name.substr(0,pos);
 
             if(pos+1<pmesh->sub_meshes[i].material_name.length())
                 image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
@@ -250,6 +251,56 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
 
                         if(tex)
                             sm_mat->mat_texture = tex;
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+/// LOADING
+sg::sg_skybox_object_ptr scenegraph::load_skybox(std::string file, bool load_textures)
+{
+    sg::sg_skybox_object_ptr ret;
+    mesh_ptr pmesh;
+
+    pmesh = m_graphics_manager->get_mesh_loader()->load(file);
+
+    if(pmesh)
+    {
+        ret = share(new sg::sg_skybox_object(this,pmesh));
+
+        std::string texture_path = file.substr(0,file.rfind("/"));
+        m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
+
+        for(uint32_t i=0; i<ret->get_material_count(); i++)
+        {
+            std::string mat_name, image_path;
+            uint32_t pos = pmesh->sub_meshes[i].material_name.find("|");
+            mat_name = pmesh->sub_meshes[i].material_name.substr(0,pos);
+
+            if(pos+1<pmesh->sub_meshes[i].material_name.length())
+                image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
+
+            m_logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
+            m_logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
+            m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
+
+            if(load_textures)
+            {
+                sg::sg_material_ptr mat = ret->get_material(i);
+                if(mat->mat_type == SGM_ABSTRACT_MATERIAL)
+                {
+                    sg_abstract_material * am = static_cast<sg_abstract_material*>(mat.get());
+
+                    if(image_path.length()!=0)
+                    {
+                        auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
+
+                        if(tex)
+                            am->set_texture(0,tex);
                     }
                 }
             }

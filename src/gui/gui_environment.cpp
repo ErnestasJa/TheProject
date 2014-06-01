@@ -115,7 +115,7 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
                     break;
                 case GLFW_KEY_V:
                     this->clipboard_string=helpers::to_wstr(glfwGetClipboardString(this->m_window->getWindow()));
-                    focus->on_event(gui_event(text_paste,focus));
+                    focus->on_event(gui_event(text_paste,this,focus));
                     break;
                 default:
                     break;
@@ -124,10 +124,10 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
             default:
                 break;
             }
-            focus->on_event(gui_event(key_pressed,focus));
+            focus->on_event(gui_event(key_pressed,this,focus));
             break;
         case GLFW_REPEAT:
-            focus->on_event(gui_event(key_pressed,focus));
+            focus->on_event(gui_event(key_pressed,this,focus));
             break;
         case GLFW_RELEASE:
             break;
@@ -143,7 +143,7 @@ void gui_environment::on_char_typed(int32_t scan_code)
     printf("le schan code %d, le char %lc",scan_code,(wchar_t)scan_code);
     this->last_char=(wchar_t)scan_code;
     if(focus!=nullptr)
-        focus->on_event(gui_event(key_typed,focus));
+        focus->on_event(gui_event(key_typed,this,focus));
 }
 
 void gui_environment::on_mouse_moved(double x, double y)
@@ -162,19 +162,19 @@ void gui_environment::on_mouse_moved(double x, double y)
                 {
                     last_hover = hover;
                     last_hover->on_event(gui_event(
-                        gui_event_type::element_exitted,
+                        gui_event_type::element_exitted,this,
                         last_hover));
                     last_hover->set_hovered(false);
                 }
                 hover = target;
                 hover->on_event(gui_event(
-                                    gui_event_type::element_hovered, hover));
+                                    gui_event_type::element_hovered,this, hover));
                 hover->set_hovered(true);
             }
 
             if(focus!=nullptr)
                 if(m_mouse_down)
-                    focus->on_event(gui_event(mouse_dragged,focus));
+                    focus->on_event(gui_event(mouse_dragged,this,focus));
         }
 
 
@@ -196,13 +196,13 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
                 if (focus != nullptr)
                 {
                     last_focus = focus;
-                    GUI_FIRE_ELEMENT_EVENT(last_focus,gui_event(gui_event_type::element_focus_lost, last_focus))
+                    GUI_FIRE_ELEMENT_EVENT(last_focus,gui_event(gui_event_type::element_focus_lost,this, last_focus))
                     last_focus->set_focused(false);
                 }
                 focus = hover;
                 if (hover != this)
                 {
-                    GUI_FIRE_ELEMENT_EVENT(focus,gui_event(gui_event_type::element_focused, focus))
+                    GUI_FIRE_ELEMENT_EVENT(focus,gui_event(gui_event_type::element_focused,this, focus))
                     //focus->on_event(gui_event(gui_event_type::element_focused, focus));
                     focus->set_focused(true);
                     focus->get_parent()->bring_to_front(focus);
@@ -212,12 +212,12 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
             }
 
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_pressed,focus));
+                focus->on_event(gui_event(mouse_pressed,this,focus));
             break;
         case GLFW_RELEASE:
             m_mouse_down=false;
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_released,focus));
+                focus->on_event(gui_event(mouse_released,this,focus));
             break;
         default:
             break;

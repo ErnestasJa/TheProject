@@ -23,12 +23,17 @@ void sg_material::bind_var(sg_mvar<T> & mvar)
 ///----------------------------------------------------------
 sg_abstract_material::sg_abstract_material(shader_ptr mat_shader):sg_material(SGM_ABSTRACT_MATERIAL,mat_shader)
 {
+    textures.resize(8);
     load_and_bind_vars();
 }
 
 void sg_abstract_material::set()
 {
     mat_shader->set();
+
+    loopi(8)
+    if(textures[i])
+        textures[i]->set(i);
 
     for(auto val :int_attr)
         val.set();
@@ -55,6 +60,7 @@ void sg_abstract_material::load_and_bind_vars()
         switch(t.type)
         {
         case GL_INT:
+        case GL_SAMPLER_2D:
             int_attr.push_back(sg_mvar<int32_t>(t.index,t.name));
             break;
         case GL_FLOAT:
@@ -73,7 +79,16 @@ void sg_abstract_material::load_and_bind_vars()
     }
 }
 
+texture_ptr sg_abstract_material::get_texture(uint32_t index)
+{
+    if(index<textures.size())
+        return textures[index];
+
+    return texture_ptr();
+}
+
 #define get_attr(x,y) for(x attr: y) {if(attr.name==name) return attr.value;} return x().value
+
 int32_t sg_abstract_material::get_int(const std::string & name)
 {
     get_attr(sg_mvar<int32_t>,int_attr);
@@ -103,9 +118,19 @@ glm::mat3 sg_abstract_material::get_mat3(const std::string & name)
 #define set_attr(x,y) for(x & attr: y) {if(attr.name==name) { attr.value = value; return;}} assert(false);
 //#define set_attr(x,y) for(x attr: y) {if(attr.name==name) { attr.value = value; attr.set(mat_shader->get_binding(name).index);}}
 
+void sg_abstract_material::set_texture(uint32_t index, texture_ptr tex)
+{
+    if(index<8)
+        textures[index]=tex;
+}
+
 void sg_abstract_material::set_int(const std::string & name, int32_t value)
 {
-    set_attr(sg_mvar<int32_t>,int_attr);
+    for(sg_mvar<int32_t> & attr: int_attr)
+    {
+        if(attr.name==name) { attr.value = value; return;}
+    }
+    assert(false);
 }
 
 void sg_abstract_material::set_float(const std::string & name, float value)

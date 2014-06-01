@@ -63,22 +63,22 @@ bool gui_slider::on_event(const gui_event & e)
     {
     case mouse_pressed:
         handle_mouse();
-        if(this->event_listener)
-            if(m_cur_value!=m_old_value)
-            {
-                GUI_FIRE_EVENT(gui_event(scrollbar_changed,this))
-                m_old_value=m_cur_value;
-            }
+
+        if(m_cur_value!=m_old_value)
+        {
+            GUI_FIRE_EVENT(gui_event(scrollbar_changed,this,this))
+            m_old_value=m_cur_value;
+        }
 
         break;
     case mouse_dragged:
         handle_mouse();
-        if(this->event_listener)
-            if(m_cur_value!=m_old_value)
-            {
-                GUI_FIRE_EVENT(gui_event(scrollbar_changed,this))
-                m_old_value=m_cur_value;
-            }
+
+        if(m_cur_value!=m_old_value)
+        {
+            GUI_FIRE_EVENT(gui_event(scrollbar_changed,this,this))
+            m_old_value=m_cur_value;
+        }
         break;
     default:
         break;

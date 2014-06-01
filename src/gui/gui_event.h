@@ -32,16 +32,17 @@ enum gui_event_type
 #define GUI_BEGIN_ON_EVENT(e)  if(this->event_listener)  {if(this->event_listener->on_event(e)) return true;}
 #define GUI_END_ON_EVENT(e)    if(this->parent)    {if(this->parent->on_event(e)) return true;} return false;
 #define GUI_FIRE_EVENT(e)  if(this->event_listener) {if(this->event_listener->on_event(e)) return true;} if(this->parent){if(this->parent->on_event(e)) return true;}
-#define GUI_FIRE_ELEMENT_EVENT(el, ev)  if((el)->get_event_listener()) {if((el)->get_event_listener()->on_event((ev))) return;} if((el)->on_event((ev))) return;
+#define GUI_FIRE_ELEMENT_EVENT(el, ev) if((el)->on_event((ev))) return;
 
 class gui_element;
 struct gui_event
 {
 public:
-    gui_event(gui_event_type type,gui_element *caller)
+    gui_event(gui_event_type type, gui_element *caller, gui_element * element)
     {
         this->type=type;
         this->caller=caller;
+        this->element=element;
     }
 
     gui_event_type get_type() const
@@ -53,7 +54,12 @@ public:
     {
         return this->caller;
     }
+
+    gui_element *get_element() const
+    {
+        return this->element;
+    }
 private:
     gui_event_type type;
-    gui_element *caller;
+    gui_element *caller, *element;
 };
