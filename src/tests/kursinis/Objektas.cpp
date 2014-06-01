@@ -2,10 +2,7 @@
 #include "Objektas.h"
 #include "scenegraph/isg_object.h"
 
-///gravitacine konstanta
-static const float G = 6.67/1000.0;
-
-glm::vec3 Objektas::calc_force(Objektas * obj1, Objektas * obj2)
+glm::vec3 Objektas::calc_force(Objektas * obj1, Objektas * obj2, double grav_constant)
 {
     glm::vec3 p = obj1->get_object()->get_position(), p_m = obj2->get_object()->get_position();
     float m  = obj2->get_mass();
@@ -13,7 +10,7 @@ glm::vec3 Objektas::calc_force(Objektas * obj1, Objektas * obj2)
     glm::vec3 r = p-p_m;
     float r_mag = glm::length(r);
     glm::vec3 r_norm = glm::normalize(r);
-    glm::vec3 a = (-G*m/(float)pow(r_mag,2.0f)) * r_norm;
+    glm::vec3 a = (-(float)grav_constant*m/(float)pow(r_mag,2.0f)) * r_norm;
     return a;
 }
 

@@ -41,6 +41,7 @@ protected:
     float time_step,
     fixed_time_step;
     uint32_t sub_steps;
+    double gravitational_constant;
 
     ///3 kunai
     Objektas * obj[3];
@@ -48,6 +49,7 @@ protected:
 
     ///GUI
     gui_edit_box * fixed_time_step_eb;
+    gui_edit_box * grav_constant_eb;
     gui_edit_box * eb[3];
     gui_edit_box * pos_eb[3][3];
     gui_edit_box * vel_eb[3][3];

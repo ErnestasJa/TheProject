@@ -33,6 +33,7 @@ test_kursinis::test_kursinis(uint32_t argc, const char ** argv): application(arg
 {
     simuliuoti = false;
     fixed_time_step = 1000.0/60.0;
+    gravitational_constant = 6.67/1000.0;
     sub_steps = 1;
 }
 
@@ -72,36 +73,43 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     env=new gui_environment(this->wnd,this->get_logger());
 
-    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,200,200),L"Simuliacijos valdymo langas");
+    uint32_t main_wnd_width = 220;
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,main_wnd_width,230),L"Simuliacijos valdymo langas");
 
     #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
-    gui_button* btn = new gui_button(env,rect2d<int>(5,120,190,20),L"Simuliuoti");
+    gui_button* btn = new gui_button(env,rect2d<int>(5,140,main_wnd_width-10,20),L"Simuliuoti");
     btn->set_name("sim_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(5,145,190,20),L"Objektų param.");
+    btn = new gui_button(env,rect2d<int>(5,165,main_wnd_width-10,20),L"Objektų param.");
     btn->set_name("pos_btn");
     init_e(btn);
 
-    btn = new gui_button(env,rect2d<int>(5,170,190,20),L"Išvalyti trajektorijas");
+    btn = new gui_button(env,rect2d<int>(5,190,main_wnd_width-10,20),L"Išvalyti trajektorijas");
     btn->set_name("clear_trajectories");
     init_e(btn);
 
 
     #define ADD_SLIDER(text,name,y,min,max)\
-    {gui_static_text * txt = new gui_static_text(env,rect2d<int>(10,(y)+5,100,20),(text));\
+    {gui_static_text * txt = new gui_static_text(env,rect2d<int>(10,(y)+5,130,20),(text));\
     init_e(txt);\
-    gui_slider * slider = new gui_slider(env,rect2d<int>(120,(y),64,20),(min),(max),0);\
+    gui_slider * slider = new gui_slider(env,rect2d<int>(140,(y),64,20),(min),(max),0);\
     slider->set_name((name));\
     init_e(slider);}
 
     ADD_SLIDER(L"Kameros nuotolis:","cam_dist_slider",30,60,2000)
     ADD_SLIDER(L"Požingsnių kiekis:","sub_step_slider",55,1,20)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,85,40,20),L"Laiko žingsnis (ms):");
-    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(120,80,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,85,40,20),L"Laiko žingsnis:");
+    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(140,80,64,20),L"",glm::vec4(1,1,1,1),false,false);
     fixed_time_step_eb->set_name("fixed_time_step_eb");
     init_e(fixed_time_step_eb);
+    init_e(tb);
+
+    tb = new gui_static_text(env,rect2d<int>(10,110,40,20),L"Gravitacinė konstanta:");
+    grav_constant_eb=new gui_edit_box(env,rect2d<int>(140,105,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    grav_constant_eb->set_name("grav_constant_eb");
+    init_e(grav_constant_eb);
     init_e(tb);
 
     env->set_event_listener(this);
@@ -183,6 +191,10 @@ void test_kursinis::update_ui()
 
     ss<<fixed_time_step;
     fixed_time_step_eb->set_text(ss.str().c_str());
+    ss.str(std::wstring());
+
+    ss<<gravitational_constant;
+    grav_constant_eb->set_text(ss.str().c_str());
     ss.str(std::wstring());
 
 
@@ -297,17 +309,22 @@ void test_kursinis::set_object_values_from_ui()
 
 void test_kursinis::set_simulation_values_from_ui()
 {
-    float fts=0.0;
+    double fts=0.0;
     std::wstringstream ss;
-    ss<<this->fixed_time_step_eb->get_text();
 
+    ss<<this->fixed_time_step_eb->get_text();
     if(ss>>fts)
         fixed_time_step=fts;
 
     ss.str(std::wstring());
     ss.clear();
 
+    ss<<this->grav_constant_eb->get_text();
+    if(ss>>fts)
+        gravitational_constant=fts;
 
+    ss.str(std::wstring());
+    ss.clear();
 
 }
 
@@ -370,8 +387,6 @@ bool test_kursinis::init_scene()
     return true;
 }
 
-static const float dt = 1.0/10;
-
 bool test_kursinis::update()
 {
     if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
@@ -396,9 +411,9 @@ bool test_kursinis::update()
 
             if(simuliuoti)
             {
-                glm::vec3 f0 = Objektas::calc_force(obj[0],obj[1]) + Objektas::calc_force(obj[0],obj[2]);
-                glm::vec3 f1 = Objektas::calc_force(obj[1],obj[0]) + Objektas::calc_force(obj[1],obj[2]);
-                glm::vec3 f2 = Objektas::calc_force(obj[2],obj[0]) + Objektas::calc_force(obj[2],obj[1]);
+                glm::vec3 f0 = Objektas::calc_force(obj[0],obj[1],gravitational_constant) + Objektas::calc_force(obj[0],obj[2],gravitational_constant);
+                glm::vec3 f1 = Objektas::calc_force(obj[1],obj[0],gravitational_constant) + Objektas::calc_force(obj[1],obj[2],gravitational_constant);
+                glm::vec3 f2 = Objektas::calc_force(obj[2],obj[0],gravitational_constant) + Objektas::calc_force(obj[2],obj[1],gravitational_constant);
 
                 ///0
                 obj[0]->set_force(f0);
@@ -595,6 +610,14 @@ bool test_kursinis::on_event(const gui_event & e)
             {
                  std::cout<<"eb lost focus...\n";
                  set_simulation_values_from_ui();
+                 //return true;
+            }
+
+            if(e.get_caller()->get_name()=="grav_constant_eb")
+            {
+                 std::cout<<"eb lost focus...\n";
+                 set_simulation_values_from_ui();
+                 //return true;
             }
 
             break;
