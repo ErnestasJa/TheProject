@@ -59,16 +59,19 @@ void menu_state::on_load()
 
     create_start_window();
 
+    quads->set_toggle(0);
+    levels->set_toggle(0);
+
     create_scene();
 }
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-5),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
 
     ///load model
-    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/default_quad.iqm");
+    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/unshielded_fast_quad.iqm");
     if(!m) exit(-1);
 
     obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
@@ -261,7 +264,7 @@ void menu_state::create_level_selections()
 
 void menu_state::create_start_window()
 {
-    win=new gui_window(m_env,rect2d<int>(400,100,768,540),L"Pasirinkite orlaivį ir lygį",true,true,false);
+    win=new gui_window(m_env,rect2d<int>(400,100,768,540),L"Pasirinkite orlaivį ir lygį",true,false,false,false);
     win->set_name("win_normal");
     init_e(win);
 
@@ -323,9 +326,13 @@ bool menu_state::on_event(const gui_event &e)
         break;
     case button_released:
         if(e.get_caller()->get_name().find("QS")!=std::string::npos)
-            quads->toggle((gui_button*)e.get_caller());
+        {
+            quads->set_toggle(atoi(e.get_caller()->get_name().substr(2).c_str())-1);
+        }
         if(e.get_caller()->get_name().find("LS")!=std::string::npos)
-            levels->toggle((gui_button*)e.get_caller());
+        {
+            levels->set_toggle(atoi(e.get_caller()->get_name().substr(2).c_str())-1);
+        }
         if(e.get_caller()->get_name()=="start")
         {
             gui_element* elem=m_env->get_element_by_name("win_normal");

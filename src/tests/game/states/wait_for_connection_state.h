@@ -30,7 +30,6 @@ public:
     void on_load()
     {
         new gui_image(m_env,rect2d<int>(384,256,512,256),m_app_ctx->gm->load_texture("res/logo_quad2.png"));
-        printf("Network manager should init here\n");
         m_app_ctx->nm->init();
     }
 
@@ -52,7 +51,7 @@ public:
         glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
 
         m_env->render();
-        m_env->get_font_renderer()->render_string(L"Laukiame prisijungimo...",glm::vec2(512+256-m_env->get_font_renderer()->get_text_dimensions(L"Laukiame prisijungimo...").x,530),glm::vec4(1,1,1,1),false);
+        m_env->get_font_renderer()->render_string(L"Laukiame prisijungimo...",glm::vec2(640-m_env->get_font_renderer()->get_text_dimensions(L"Laukiame prisijungimo...").x/2,530),glm::vec4(1,1,1,1),false);
     }
 protected:
 };
