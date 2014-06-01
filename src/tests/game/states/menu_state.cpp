@@ -19,6 +19,7 @@
 #include "scenegraph/sg_scenegraph_loader.h"
 #include "scenegraph/sg_objects.h"
 #include "scenegraph/sg_material.h"
+#include "scenegraph/sg_skybox_object.h"
 
 #include "menu_state.h"
 #include "wait_for_connection_state.h"
@@ -34,7 +35,7 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
 #define init_e(x) x->set_event_listener(this); elems.push_back(x)
 void menu_state::on_load()
 {
-    img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad2.png"));
+    img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad3.png"));
     img->set_enabled(false);
     init_e(img);
 
@@ -63,7 +64,7 @@ void menu_state::on_load()
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0)));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
 
     ///load model
@@ -74,12 +75,15 @@ void menu_state::create_scene()
     obj->set_position(glm::vec3(0,0,0));
 
     sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
-    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/blue.png");
+    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/red.png");
 
     m_app_ctx->sg->add_object(obj);
 
     sg::sg_light_object_ptr light = m_app_ctx->sg->add_light_object();
     light->set_position(glm::vec3(0,100,0));
+
+    sg::sg_skybox_object_ptr skybox = m_app_ctx->sg->load_skybox("res/models/sky1/sky.iqm",true);
+    m_app_ctx->sg->add_object(skybox);
 }
 
 
