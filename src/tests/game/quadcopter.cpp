@@ -13,17 +13,27 @@ quadcopter::quadcopter(scenegraph* scenegraph,quad_model model,btVector3 init_po
     {
     case QUAD_MODEL_DEFAULT:
         m_mass=25;
-        m_speed,m_height,m_power;
+        m_speed=10;
+        m_height=init_height;
+        m_power=1;
         break;
     case QUAD_MODEL_UNSHIELDED:
-        break;
-    case QUAD_MODEL_FAST:
+        m_mass=15;
+        m_speed=15;
+        m_height=init_height;
+        m_power=1;
         break;
     case QUAD_MODEL_MICRO:
+        m_mass=10;
+        m_speed=12;
+        m_height=init_height;
+        m_power=1;
         break;
     default:
         break;
     }
+
+
 }
 
 quadcopter::~quadcopter()

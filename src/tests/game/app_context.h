@@ -4,6 +4,8 @@
 #include "../../gui/gui_environment.h"
 #include "../../scenegraph/scenegraph.h"
 #include "physics/physics_manager.h"
+#include "game_data.h"
+#include "../../network/network_manager_win32.h"
 struct app_context
 {
     window* win;
@@ -11,4 +13,6 @@ struct app_context
     gui_environment* env;
     sg::scenegraph* sg;
     physics_manager* pm;
+    game_data* gd;
+    network_manager_win32* nm;
 };

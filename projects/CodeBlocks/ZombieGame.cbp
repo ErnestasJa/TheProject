@@ -182,6 +182,7 @@
 		<Unit filename="../../src/gui/gui_window.h" />
 		<Unit filename="../../src/gui/input_handler.cpp" />
 		<Unit filename="../../src/gui/input_handler.h" />
+		<Unit filename="../../src/gui/toggle_group.h" />
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/math/rect2d.h" />
 		<Unit filename="../../src/math/util.h" />
@@ -276,6 +277,7 @@
 		<Unit filename="../../src/tests/game/app_context.h" />
 		<Unit filename="../../src/tests/game/baigiamasis_quadcopter.cpp" />
 		<Unit filename="../../src/tests/game/baigiamasis_quadcopter.h" />
+		<Unit filename="../../src/tests/game/game_data.h" />
 		<Unit filename="../../src/tests/game/physics/Physics.h" />
 		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
 		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
@@ -284,10 +286,13 @@
 		<Unit filename="../../src/tests/game/physics/physics_manager.h" />
 		<Unit filename="../../src/tests/game/quadcopter.cpp" />
 		<Unit filename="../../src/tests/game/quadcopter.h" />
-		<Unit filename="../../src/tests/game/states/default_game_state.h" />
 		<Unit filename="../../src/tests/game/states/game_state.h" />
+		<Unit filename="../../src/tests/game/states/menu_state.cpp" />
+		<Unit filename="../../src/tests/game/states/menu_state.h" />
+		<Unit filename="../../src/tests/game/states/play_state.cpp" />
 		<Unit filename="../../src/tests/game/states/state_manager.cpp" />
 		<Unit filename="../../src/tests/game/states/state_manager.h" />
+		<Unit filename="../../src/tests/game/states/wait_for_connection_state.h" />
 		<Unit filename="../../src/tests/game/test_game.cpp" />
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />

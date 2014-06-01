@@ -28,7 +28,7 @@
 #include "gui/gui_environment.h"
 
 #include "states/state_manager.h"
-#include "states/default_game_state.h"
+#include "states/menu_state.h"
 #include "app_context.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): application(argc,argv)
@@ -39,7 +39,7 @@ baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv
 baigiamasis_quadcopter::~baigiamasis_quadcopter()
 {
     //dtor
-    delete env;
+
 }
 
 bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uint32_t height)
@@ -63,22 +63,24 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	app_context ctx=app_context();
-	ctx.win=this->wnd;
-	ctx.gm=this->m_graphics_manager;
-	ctx.sg=this->m_scenegraph;
-	ctx.pm=this->m_physics_manager;
-	ctx.env=this->env;
+	app_context *ctx=new app_context();
+	ctx->win=this->wnd;
+	ctx->gm=this->m_graphics_manager;
+	ctx->sg=this->m_scenegraph;
+	ctx->pm=this->m_physics_manager;
+	ctx->env=this->env;
+	ctx->gd=new game_data();
+	ctx->nm=new network_manager_win32();
 
-	m_state_manager=new state_manager(&ctx);
-	m_state_manager->set_state(new default_game_state(m_state_manager,L"\"Holy cockadoodles!\" - Socrates"));
+	m_state_manager=new state_manager(ctx);
+	m_state_manager->set_state(new menu_state(m_state_manager));
 
     return !this->gl_util->check_and_output_errors();
 }
 
 bool baigiamasis_quadcopter::update()
 {
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
+    if(wnd->update() && m_state_manager->run)
     {
         // Measure speed
         main_timer->tick();
@@ -102,8 +104,12 @@ void baigiamasis_quadcopter::exit()
 {
     m_graphics_manager = nullptr;
 
+    delete m_state_manager;
+
     delete m_scenegraph;
     delete m_physics_manager;
+    //delete env;
+
 
     application::exit();
 }

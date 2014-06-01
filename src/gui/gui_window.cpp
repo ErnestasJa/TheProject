@@ -91,7 +91,11 @@ bool gui_window::on_event(const gui_event & e)
             break;
         case button_released:
             if(e.get_caller()==this->close_btn)
+            {
                 this->set_visible(false);
+                GUI_FIRE_EVENT(gui_event(window_closed,this))
+            }
+
             break;
         default:
             break;

@@ -106,6 +106,7 @@ bool gui_edit_box::on_event(const gui_event & e)
 
         case key_typed:
             lastkey=environment->get_last_char();
+            printf("lastchar:%lc %lc\n",lastkey,'è');
             temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);

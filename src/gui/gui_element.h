@@ -9,6 +9,8 @@ public:
 
     ~gui_element();
 
+    void destroy_children();
+
     void set_id(uint32_t);
 
     uint32_t get_id();
@@ -71,8 +73,6 @@ public:
     rect2d<int> &get_relative_rect();
 private:
 protected:
-
-    void destroy_children();
     uint32_t id;
     int disp_w, disp_h;
     std::string name;

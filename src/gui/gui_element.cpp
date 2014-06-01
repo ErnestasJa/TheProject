@@ -23,8 +23,6 @@ gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 
 gui_element::~gui_element()
 {
-    if(parent)
-        parent->remove_child(this);
     destroy_children();
 }
 
@@ -42,6 +40,7 @@ void gui_element::destroy_children()
 {
     for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end();)
     {
+        (*i)->parent=nullptr;
         delete *i;
         i=children.erase(i);
     }

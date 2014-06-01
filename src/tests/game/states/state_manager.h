@@ -19,6 +19,9 @@ public:
     void update(float delta);
     void render();
 
+    bool run;
+    void exit(){run=false;}
+
     app_context* get_app_context(){return m_app_ctx;}
 protected:
 };
