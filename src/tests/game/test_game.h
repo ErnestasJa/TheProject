@@ -33,12 +33,14 @@ class btRigidBody;
 class gui_environment;
 class gui_static_text;
 class network_manager_win32;
+class state_manager;
 class test_game: public application,public gui_event_listener
 {
 protected:
     sg::sg_graphics_manager_ptr m_graphics_manager;
     sg::scenegraph*             m_scenegraph;
     physics_manager*            m_physics_manager;
+    state_manager* m_state_manager;
 
     uint32_t m_last_time, m_current_time;
     glm::ivec2 m_last_mouse_pos, m_current_mouse_pos, m_window_size;

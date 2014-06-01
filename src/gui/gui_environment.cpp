@@ -140,7 +140,8 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
 
 void gui_environment::on_char_typed(int32_t scan_code)
 {
-    this->last_char=scan_code;
+    printf("le schan code %d, le char %lc",scan_code,(wchar_t)scan_code);
+    this->last_char=(wchar_t)scan_code;
     if(focus!=nullptr)
         focus->on_event(gui_event(key_typed,this,focus));
 }
@@ -341,6 +342,7 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1f(gui_shader->getparam("alpha"),0.9f);
 
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     sliced_quad->draw();

@@ -10,7 +10,7 @@ private:
     uint32_t blinktimer,curspos,reptimer,font_size;
     int32_t sx;
     float _mx,_mw,_my,_mh; //margins for drawing
-    char lastkey;
+    wchar_t lastkey;
     bool blink,clearonsubmit;
     std::wstring m_text,disp_text;
     glm::vec4 m_text_color;

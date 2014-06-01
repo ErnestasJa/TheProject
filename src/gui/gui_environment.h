@@ -62,7 +62,7 @@ public:
         return clipboard_string;
     }
 
-    char get_last_char()
+    wchar_t get_last_char()
     {
         return last_char;
     }
@@ -121,7 +121,7 @@ private:
 
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
 
-    char last_char;
+    wchar_t last_char;
     int32_t last_key,last_mod;
     std::wstring clipboard_string;
 

@@ -9,6 +9,7 @@
 
 gui_pane::gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw):gui_element(env,dimensions)
 {
+    this->type=GUIET_pane;
     environment=env;
 
     m_draw=draw;
@@ -27,7 +28,7 @@ void gui_pane::render()
 {
     if(this->m_draw)
     {
-        environment->draw_gui_quad(absolute_rect,gui_skin_background,true);
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background,true);
     }
 
     this->render_children();

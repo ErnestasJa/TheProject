@@ -29,6 +29,11 @@ scenegraph::~scenegraph()
     //dtor
 }
 
+void scenegraph::clear()
+{
+    m_objects.clear();
+}
+
 sg_object_ptr scenegraph::add_object(sg_object_ptr object)
 {
     if(object->get_type()==SGO_CAMERA && !m_active_camera)

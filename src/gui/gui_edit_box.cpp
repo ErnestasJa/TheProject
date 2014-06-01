@@ -8,6 +8,7 @@
 
 gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {
+    this->type=GUIET_edit_box;
     environment=env;
 
     blinktimer=curspos=lastkey=reptimer=sx=0;
@@ -106,6 +107,7 @@ bool gui_edit_box::on_event(const gui_event & e)
 
         case key_typed:
             lastkey=environment->get_last_char();
+            printf("lastchar:%lc %lc\n",lastkey,'è');
             temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);

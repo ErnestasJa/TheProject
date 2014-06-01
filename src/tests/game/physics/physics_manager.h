@@ -20,6 +20,7 @@ class physics_manager
 public:
     physics_manager(btVector3 Gravity);
     ~physics_manager();
+    void clear();
     ///update stuff
     void update(float delta_time);
     void update_node_transformations();

@@ -1,6 +1,21 @@
 #pragma once
 #include "gui_event_listener.h"
 #include "math/rect2d.h"
+enum gui_element_type
+{
+    GUIET_element,
+
+    GUIET_button,
+    GUIET_checkbox,
+    GUIET_edit_box,
+    GUIET_image,
+    GUIET_pane,
+    GUIET_slider,
+    GUIET_static_text,
+    GUIET_window,
+
+    GUIET_count
+};
 class gui_environment;
 class gui_element:public gui_event_listener
 {
@@ -8,6 +23,10 @@ public:
     gui_element(gui_environment* env,rect2d<int> dimensions);
 
     ~gui_element();
+
+    gui_element_type get_element_type(){return this->type;}
+
+    void destroy_children();
 
     void set_id(uint32_t);
 
@@ -71,8 +90,7 @@ public:
     rect2d<int> &get_relative_rect();
 private:
 protected:
-
-    void destroy_children();
+    gui_element_type type;
     uint32_t id;
     int disp_w, disp_h;
     std::string name;

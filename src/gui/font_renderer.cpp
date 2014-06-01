@@ -150,7 +150,7 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
     float sx,sy; sx=gs.x; sy=gs.y;
 
     pos.x=-1+pos.x*sx;
-    pos.y=1-pos.y*sy-(float)((float)(current_font->avgheight)*sy);
+    pos.y=1-pos.y*sy-current_font->avgheight*sy;
 
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -15,9 +15,13 @@ private:
     std::wstring m_text;
     uint32_t cur_style;
     glm::vec4 col_active,col_hover,col_clicked,col_disabled,col_text,cur_col;
+    bool m_toggled,m_toggle;
 public:
-    gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text=L"text");
+    gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text=L"text", bool toggle=false, bool toggle_status=false);
     virtual ~gui_button();
+
+    bool is_toggled(){return m_toggled;}
+    void set_toggled(bool b){m_toggled=b;}
 
     void render();
 
