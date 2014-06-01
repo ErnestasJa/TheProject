@@ -35,6 +35,7 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
 void menu_state::on_load()
 {
     img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad2.png"));
+    img->set_enabled(false);
     init_e(img);
 
     btn=new gui_button(m_env,rect2d<int>(100,300,200,40),L"Pradėti",true,false);
