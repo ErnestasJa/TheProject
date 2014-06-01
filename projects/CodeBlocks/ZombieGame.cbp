@@ -72,7 +72,7 @@
 					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
 				<ExtraCommands>
-					<Add after='xcopy &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
