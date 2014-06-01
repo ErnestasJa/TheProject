@@ -5,6 +5,7 @@
 #include "opengl/shader.h"
 #include "opengl/mesh.h"
 #include "utility/logger.h"
+#include "sg_skybox_object.h"
 
 namespace sg
 {
