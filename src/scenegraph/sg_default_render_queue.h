@@ -6,6 +6,7 @@
 namespace sg
 {
 class sg_light_object; typedef std::shared_ptr<sg_light_object> sg_light_object_ptr;
+class sg_skybox_object;
 class scenegraph;
 class sg_default_render_queue: public isg_render_queue
 {
@@ -25,6 +26,7 @@ class sg_default_render_queue: public isg_render_queue
         scenegraph * m_scenegraph;
         std::vector<isg_object * > m_objects;
         std::vector<sg_light_object*> m_lights;
+        sg_skybox_object * m_skybox;
 
         sg_material_ptr m_current_material;
 };

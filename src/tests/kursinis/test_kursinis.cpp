@@ -72,11 +72,12 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     s.load("../../res/skin_default.xml");
 
     env=new gui_environment(this->wnd,this->get_logger());
+    env->set_event_listener(this);
 
     uint32_t main_wnd_width = 220;
     gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,main_wnd_width,230),L"Simuliacijos valdymo langas");
 
-    #define init_e(x) x->set_parent(wnd); x->set_event_listener(this)
+    #define init_e(x) x->set_parent(wnd); //x->set_event_listener(this)
     gui_button* btn = new gui_button(env,rect2d<int>(5,140,main_wnd_width-10,20),L"Simuliuoti");
     btn->set_name("sim_btn");
     init_e(btn);
@@ -112,7 +113,7 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     init_e(grav_constant_eb);
     init_e(tb);
 
-    env->set_event_listener(this);
+
 
     ///init wnd
     wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),L"Objektų parametrų langas");
@@ -377,9 +378,14 @@ bool test_kursinis::init_scene()
 
 
 
-    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,600,1),glm::vec3(0,0,0),glm::vec3(0,1,0))));
+    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,600,5),glm::vec3(0,0,0),glm::vec3(0,1,0))));
     auto light = m_scenegraph->add_light_object();
     light->set_position(glm::vec3(0,10,0));
+
+    sg::sg_skybox_object_ptr skybox = m_scenegraph->load_skybox("res/models/sky1/sky.iqm",true);
+
+    m_scenegraph->add_object(skybox);
+
 
     /*sg::sg_scenegraph_loader sg_loader;
     sg_loader.load_scene(m_scenegraph,"res/test_kursinis/test.ibs");*/
@@ -542,9 +548,9 @@ bool test_kursinis::on_event(const gui_event & e)
     {
         case button_pressed:
         {
-            m_log->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_caller()->get_name().c_str());
+            m_log->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_element()->get_name().c_str());
 
-            if( e.get_caller()->get_name() == "pos_btn" )
+            if( e.get_element()->get_name() == "pos_btn" )
             {
                 pos_wnd->set_visible(!pos_wnd->is_visible());
 
@@ -553,32 +559,32 @@ bool test_kursinis::on_event(const gui_event & e)
 
                 return true;
             }
-            else if( e.get_caller()->get_name() == "sim_btn" )
+            else if( e.get_element()->get_name() == "sim_btn" )
             {
                 simuliuoti = !simuliuoti;
 
                 if(simuliuoti)
                     selected_obj = nullptr;
 
-                gui_button * btn = static_cast< gui_button *>(e.get_caller());
+                gui_button * btn = static_cast< gui_button *>(e.get_element());
                 btn->set_text(simuliuoti?L"Sustabdyti":L"Simuliuoti");
 
                 m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
                 return true;
             }
-            else if( e.get_caller()->get_name() == "refresh_btn" )
+            else if( e.get_element()->get_name() == "refresh_btn" )
             {
                 update_ui_init();
 
                 return true;
             }
-            else if( e.get_caller()->get_name() == "set_btn" )
+            else if( e.get_element()->get_name() == "set_btn" )
             {
                 set_object_values_from_ui();
 
                 return true;
             }
-            else if( e.get_caller()->get_name() == "clear_trajectories" )
+            else if( e.get_element()->get_name() == "clear_trajectories" )
             {
                 loopi(3)
                     obj[i]->get_line_object()->clear_segments();
@@ -589,16 +595,16 @@ bool test_kursinis::on_event(const gui_event & e)
         }
         case scrollbar_changed:
         {
-            if(e.get_caller()->get_name()=="cam_dist_slider")
+            if(e.get_element()->get_name()=="cam_dist_slider")
             {
-                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                gui_slider * s = static_cast<gui_slider *>(e.get_element());
                 glm::vec3 pos = m_scenegraph->get_active_camera()->get_position();
                 pos.y = s->get_value();
                 m_scenegraph->get_active_camera()->set_position(pos);
             }
-            else if(e.get_caller()->get_name()=="sub_step_slider")
+            else if(e.get_element()->get_name()=="sub_step_slider")
             {
-                gui_slider * s = static_cast<gui_slider *>(e.get_caller());
+                gui_slider * s = static_cast<gui_slider *>(e.get_element());
                 sub_steps = s->get_value();
             }
 
@@ -606,14 +612,14 @@ bool test_kursinis::on_event(const gui_event & e)
         }
         case element_focus_lost:
         {
-            if(e.get_caller()->get_name()=="fixed_time_step_eb")
+            if(e.get_element()->get_name()=="fixed_time_step_eb")
             {
                  std::cout<<"eb lost focus...\n";
                  set_simulation_values_from_ui();
                  //return true;
             }
 
-            if(e.get_caller()->get_name()=="grav_constant_eb")
+            if(e.get_element()->get_name()=="grav_constant_eb")
             {
                  std::cout<<"eb lost focus...\n";
                  set_simulation_values_from_ui();

@@ -37,5 +37,5 @@ image_ptr png_loader::load(void * buffer, const uint32_t size)
 
 bool png_loader::check_by_extension(const std::string & ext)
 {
-    return ext == "png" || ext == ".png";
+    return ext == "png" || ext == ".png" || ext == "jpg" || ext == ".jpg";
 }

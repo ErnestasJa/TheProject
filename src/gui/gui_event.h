@@ -38,10 +38,11 @@ class gui_element;
 struct gui_event
 {
 public:
-    gui_event(gui_event_type type,gui_element *caller)
+    gui_event(gui_event_type type, gui_element *caller, gui_element * element)
     {
         this->type=type;
         this->caller=caller;
+        this->element=element;
     }
 
     gui_event_type get_type() const
@@ -53,7 +54,12 @@ public:
     {
         return this->caller;
     }
+
+    gui_element *get_element() const
+    {
+        return this->element;
+    }
 private:
     gui_event_type type;
-    gui_element *caller;
+    gui_element *caller, *element;
 };
