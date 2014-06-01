@@ -4,6 +4,7 @@
 
 gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 {
+    this->type=GUIET_element;
     absolute_rect = dimensions;
     relative_rect = dimensions;
 
@@ -148,6 +149,8 @@ void gui_element::set_focused(bool b)
 void gui_element::set_visible(bool b)
 {
     this->visible=b;
+    for(gui_element* e:children)
+        e->set_visible(b);
 }
 
 void gui_element::set_hovered(bool b)

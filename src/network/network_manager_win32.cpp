@@ -5,11 +5,19 @@ network_manager_win32::network_manager_win32()
 {
     receive=false;
     m_height_diff=m_rot_diff=m_result=m_rcv_buflen=m_send_result=0;
+
+    m_listen = INVALID_SOCKET;
+    m_client = INVALID_SOCKET;
+
+    m_rcv_buflen = DEFAULT_BUFLEN;
+
     m_accelerometer_data=glm::vec3(0);
 }
 
 network_manager_win32::~network_manager_win32()
 {
+    if(m_client!=INVALID_SOCKET)
+    {
     m_result = shutdown(m_client, SD_SEND);
     if (m_result == SOCKET_ERROR)
     {
@@ -18,23 +26,21 @@ network_manager_win32::~network_manager_win32()
         WSACleanup();
         return;
     }
-
     // cleanup
     closesocket(m_client);
+    }
+
+
     WSACleanup();
 
-    m_thread.join();
+    if(m_thread.joinable())
+        m_thread.join();
 }
 
 bool network_manager_win32::init()
 {
-    m_listen = INVALID_SOCKET;
-    m_client = INVALID_SOCKET;
-
     struct addrinfo *result = NULL;
     struct addrinfo hints;
-
-    m_rcv_buflen = DEFAULT_BUFLEN;
 
     // Initialize Winsock
     m_result = WSAStartup(MAKEWORD(2,2), &m_wsadata);
@@ -91,24 +97,34 @@ bool network_manager_win32::init()
         return false;
     }
 
-    // Accept a client socket
-    m_client = accept(m_listen, NULL, NULL);
-    if (m_client == INVALID_SOCKET)
+    start_waiting_thread();
+    return true;
+}
+
+void network_manager_win32::wait_for_connection()
+{
+    while(m_client == INVALID_SOCKET)
     {
-        printf("accept failed with error: %d\n", WSAGetLastError());
-        closesocket(m_listen);
-        WSACleanup();
-        return false;
+        // Accept a client socket
+        m_client = accept(m_listen, NULL, NULL);
+//        if (m_client == INVALID_SOCKET)
+//        {
+//            printf("accept failed with error: %d\n", WSAGetLastError());
+//            break;
+//            closesocket(m_listen);
+//            WSACleanup();
+//            return false;
+//        }
     }
 
     // No longer need server socket
     closesocket(m_listen);
     start_thread();
-    return true;
 }
 
 void network_manager_win32::update()
 {
+    m_waiting_thread.join();
     while(receive)
     {
         int breakpoint=0;
@@ -219,3 +235,4 @@ void network_manager_win32::update()
         }
     }
 }
+

@@ -8,6 +8,7 @@
 
 gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_ptr<texture> tex):gui_element(env,dimensions)
 {
+    this->type=GUIET_element;
     environment=env;
 
     absolute_rect=dimensions;

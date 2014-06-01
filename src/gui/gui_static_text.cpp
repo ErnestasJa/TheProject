@@ -9,6 +9,7 @@
 
 gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
 {
+    this->type=GUIET_static_text;
     environment=env;
 
     m_draw_background=drawbackground;

@@ -63,7 +63,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	app_context *ctx=new app_context();
+	ctx=new app_context();
 	ctx->win=this->wnd;
 	ctx->gm=this->m_graphics_manager;
 	ctx->sg=this->m_scenegraph;
@@ -71,6 +71,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	ctx->env=this->env;
 	ctx->gd=new game_data();
 	ctx->nm=new network_manager_win32();
+	ctx->se=irrklang::createIrrKlangDevice();
 
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));
@@ -106,11 +107,8 @@ void baigiamasis_quadcopter::exit()
 
     delete m_state_manager;
 
-    delete m_scenegraph;
-    delete m_physics_manager;
     //delete env;
-
-
+    delete ctx;
     application::exit();
 }
 

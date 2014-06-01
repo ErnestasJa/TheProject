@@ -12,6 +12,7 @@
 
 gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, float min, float max, float pos, bool vertical):gui_element(env,dimensions)
 {
+    this->type=GUIET_slider;
     environment=env;
 
     absolute_rect=dimensions;

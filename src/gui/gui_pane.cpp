@@ -9,6 +9,7 @@
 
 gui_pane::gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw):gui_element(env,dimensions)
 {
+    this->type=GUIET_pane;
     environment=env;
 
     m_draw=draw;

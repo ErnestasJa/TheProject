@@ -35,6 +35,7 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
 void menu_state::on_load()
 {
     img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad2.png"));
+    init_e(img);
 
     btn=new gui_button(m_env,rect2d<int>(100,300,200,40),L"Pradėti",true,false);
     btn->set_name("start");
@@ -256,7 +257,6 @@ void menu_state::create_level_selections()
 void menu_state::create_start_window()
 {
     win=new gui_window(m_env,rect2d<int>(400,100,768,540),L"Pasirinkite orlaivį ir lygį",true,true,false);
-    win->set_visible(false);
     win->set_name("win_normal");
     init_e(win);
 
@@ -275,6 +275,8 @@ void menu_state::create_start_window()
     btn->set_name("start_level");
     btn->set_parent(m_env->get_element_by_name("win_normal"));
     init_e(btn);
+
+    win->set_visible(false);
 }
 
 void menu_state::on_unload()
@@ -284,11 +286,12 @@ void menu_state::on_unload()
         m_env->remove_child(el);
     }
     m_app_ctx->sg->clear();
+    //m_app_ctx->se->stopAllSounds();
 }
 
 void menu_state::start()
 {
-
+    m_app_ctx->se->play2D("../../res/sounds/main.ogg",true,false);
 }
 
 void menu_state::update(float delta)
@@ -305,6 +308,14 @@ bool menu_state::on_event(const gui_event &e)
 {
     switch(e.get_type())
     {
+    case gui_event_type::element_hovered:
+        if(e.get_caller()->get_element_type()==GUIET_button)
+            m_app_ctx->se->play2D("../../res/sounds/gui_select.ogg");
+        break;
+    case button_pressed:
+        if(e.get_caller()->get_element_type()==GUIET_button)
+            m_app_ctx->se->play2D("../../res/sounds/gui_click.ogg");
+        break;
     case button_released:
         if(e.get_caller()->get_name().find("QS")!=std::string::npos)
             quads->toggle((gui_button*)e.get_caller());

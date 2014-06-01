@@ -12,6 +12,7 @@
 
 gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal):gui_element(env,dimensions)
 {
+    this->type=GUIET_window;
     environment=env;
 
     this->titlebar_text=titlebar_text;

@@ -11,6 +11,7 @@
 
 gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool checked):gui_element(env,dimensions)
 {
+    this->type=GUIET_checkbox;
     cur_style=checked?gui_skin_checkbox_c_active:gui_skin_checkbox_u_active;
 
     environment=env;

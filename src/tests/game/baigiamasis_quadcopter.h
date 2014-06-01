@@ -32,7 +32,7 @@ class physics_manager;
 class btRigidBody;
 class gui_environment;
 class state_manager;
-
+struct app_context;
 class baigiamasis_quadcopter: public application,public gui_event_listener
 {
 protected:
@@ -45,6 +45,7 @@ protected:
     glm::ivec2 m_last_mouse_pos, m_current_mouse_pos, m_window_size;
 
     gui_environment *env;
+    app_context *ctx;
 public:
     baigiamasis_quadcopter(uint32_t argc, const char ** argv);
     virtual ~baigiamasis_quadcopter();

@@ -13,6 +13,7 @@
 
 gui_button::gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text,bool toggle,bool toggle_status):gui_element(env,dimensions)
 {
+    this->type=GUIET_button;
     environment=env;
 
     m_text=text;
