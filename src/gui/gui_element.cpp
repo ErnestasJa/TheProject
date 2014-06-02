@@ -229,7 +229,7 @@ gui_element *gui_element::get_element_from_point(int x, int y)
         if(*i!=nullptr)
         {
             ret=(*i)->get_element_from_point(x,y);
-            if(ret!=nullptr)
+            if(ret!=nullptr&&ret->accepts_events())
                 return ret;
         }
     }

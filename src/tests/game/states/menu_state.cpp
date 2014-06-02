@@ -36,7 +36,6 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
 void menu_state::on_load()
 {
     img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad3.png"));
-    img->set_enabled(false);
     init_e(img);
 
     btn=new gui_button(m_env,rect2d<int>(100,300,200,40),L"Pradėti",true,false);
@@ -108,6 +107,9 @@ void menu_state::create_quad_selections()
     btn->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(btn);
     quads->add(btn);
+
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/light.png"));
+    btn->set_image(img);
 
     st=new gui_static_text(m_env,rect2d<int>(10,110,50,20),L"Paprastasis",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
@@ -364,6 +366,8 @@ bool menu_state::on_event(const gui_event &e)
             //m_state_manager->set_state(new default_game_state(m_state_manager,L"\"Yep, it worked.\" - Abraham Lincoln regarding that almost dead nigga."));
             return true;
         }
+        break;
+    default:
         break;
     }
     return false;

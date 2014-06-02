@@ -16,6 +16,9 @@ gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_p
 
     m_tex=tex;
 
+    //it's an image...
+    this->set_listening(false);
+
     this->set_parent(env);
 }
 
