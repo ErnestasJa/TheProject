@@ -293,6 +293,7 @@
 		<Unit filename="../../src/tests/game/states/menu_state.cpp" />
 		<Unit filename="../../src/tests/game/states/menu_state.h" />
 		<Unit filename="../../src/tests/game/states/play_state.cpp" />
+		<Unit filename="../../src/tests/game/states/play_state.h" />
 		<Unit filename="../../src/tests/game/states/state_manager.cpp" />
 		<Unit filename="../../src/tests/game/states/state_manager.h" />
 		<Unit filename="../../src/tests/game/states/wait_for_connection_state.h" />

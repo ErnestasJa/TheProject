@@ -29,6 +29,7 @@
 
 #include "states/state_manager.h"
 #include "states/menu_state.h"
+#include "states/play_state.h"
 #include "app_context.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): application(argc,argv)
@@ -81,7 +82,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 
 bool baigiamasis_quadcopter::update()
 {
-    if(wnd->update() && m_state_manager->run)
+    if(wnd->update() && m_state_manager->run && !wnd->get_key(GLFW_KEY_ESCAPE)==GLFW_PRESS)
     {
         // Measure speed
         main_timer->tick();

@@ -13,9 +13,9 @@ public:
     virtual void update(float delta)=0;
     virtual void render()=0;
 
-    void change_state(state_manager* sm, game_state* state)
+    void change_state(game_state* state)
     {
-        sm->set_state(state);
+        m_state_manager->set_state(state);
     }
 protected:
     state_manager* m_state_manager;

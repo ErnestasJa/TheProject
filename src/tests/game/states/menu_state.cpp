@@ -32,7 +32,7 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
     m_rot=0;
 }
 
-#define init_e(x) x->set_event_listener(this); elems.push_back(x)
+#define init_e(x) x->set_event_listener(this)
 void menu_state::on_load()
 {
     img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad3.png"));
@@ -66,11 +66,11 @@ void menu_state::on_load()
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-5),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
 
     ///load model
-    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/unshielded_fast_quad.iqm");
+    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/default_quad.iqm");
     if(!m) exit(-1);
 
     obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
@@ -291,10 +291,8 @@ void menu_state::create_start_window()
 
 void menu_state::on_unload()
 {
-    for(gui_element* el:elems)
-    {
-        m_env->remove_child(el);
-    }
+    m_env->destroy_children();
+    m_env->update(0);
     m_app_ctx->sg->clear();
     //m_app_ctx->se->stopAllSounds();
 }
@@ -306,12 +304,12 @@ void menu_state::start()
 
 void menu_state::update(float delta)
 {
-    m_rot+=delta*10;
-    m_env->update(delta);
-    glm::quat q=glm::quat();
-    q=glm::rotate(q,m_rot,glm::vec3(0,1,0));
-    obj->set_rotation(q);
-    m_app_ctx->sg->update_all(delta);
+        m_rot+=delta*10;
+        m_env->update(delta);
+        glm::quat q=glm::quat();
+        q=glm::rotate(q,m_rot,glm::vec3(0,1,0));
+        obj->set_rotation(q);
+        m_app_ctx->sg->update_all(delta);
 }
 
 bool menu_state::on_event(const gui_event &e)

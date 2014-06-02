@@ -39,12 +39,11 @@ uint32_t gui_element::get_id()
 
 void gui_element::destroy_children()
 {
-    for(std::vector<gui_element*>::iterator i=children.begin(); i!=children.end();)
+    for(gui_element* el:children)
     {
-        (*i)->parent=nullptr;
-        delete *i;
-        i=children.erase(i);
+        el->set_listening(false);
     }
+
     children.clear();
 }
 
@@ -61,7 +60,7 @@ void gui_element::add_child(gui_element *e)
 
     e->parent=this;
     children.push_back(e);
-
+    printf("Definitely added a child. I has %d\n",children.size());
     e->relative_rect=e->absolute_rect;
 
     update_absolute_pos();

@@ -6,6 +6,7 @@
 #include "gui/font_renderer.h"
 
 #include "menu_state.h"
+#include "play_state.h"
 
 class wait_for_connection_state:public game_state
 {
@@ -25,6 +26,8 @@ public:
 
     void on_unload()
     {
+        m_env->destroy_children();
+        m_env->update(0);
     }
 
     void on_load()
@@ -42,7 +45,7 @@ public:
     {
         m_env->update(delta);
         if(m_app_ctx->nm->is_receiving())
-            m_state_manager->set_state(new menu_state(m_state_manager));
+            m_state_manager->set_state(new play_state(m_state_manager));
     }
 
     void render()
