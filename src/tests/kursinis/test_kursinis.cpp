@@ -29,6 +29,9 @@
 #include "gui/gui_window.h"
 #include "gui/gui_slider.h"
 
+
+float angle_x=5, angle_y=0, distance=600;
+
 test_kursinis::test_kursinis(uint32_t argc, const char ** argv): application(argc,argv)
 {
     simuliuoti = false;
@@ -203,9 +206,9 @@ void test_kursinis::update_ui()
 
     if(s)
     {
-        s->set_value(this->m_scenegraph->get_active_camera()->get_position().y);
+        s->set_value(distance);
 
-        this->get_logger()->log(LOG_LOG, "SLIDER value = %f; cam y = %f",s->get_value(),this->m_scenegraph->get_active_camera()->get_position().y);
+        this->get_logger()->log(LOG_LOG, "SLIDER value = %f; cam y = %f",s->get_value(),distance);
     }
 }
 
@@ -382,7 +385,7 @@ bool test_kursinis::init_scene()
     auto light = m_scenegraph->add_light_object();
     light->set_position(glm::vec3(0,10,0));
 
-    sg::sg_skybox_object_ptr skybox = m_scenegraph->load_skybox("res/models/sky1/sky.iqm",true);
+    sg::sg_skybox_object_ptr skybox = m_scenegraph->load_skybox("res/models/sky2/sky.iqm",true);
     m_scenegraph->add_object(skybox);
 
 
@@ -467,7 +470,7 @@ bool test_kursinis::update()
         wnd->swap_buffers();
 
         sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera();
-        cam->orbit(glm::vec3(0,0,0),15,80,180+0*180.f/glm::pi<float>());
+        cam->orbit(glm::vec3(0,0,0),distance,angle_x,angle_y);
 
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
@@ -522,16 +525,14 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
     {
         if(action==GLFW_PRESS || action == GLFW_REPEAT )
         {
-
-
             if(key==GLFW_KEY_W)
-                cam->walk(1);
+                angle_x += 0.5;
             if(key==GLFW_KEY_S)
-                cam->walk(-1);
+                angle_x -= 0.5;
             if(key==GLFW_KEY_A)
-                cam->strafe(-1);
+                angle_y += 0.5;
             if(key==GLFW_KEY_D)
-                cam->strafe(1);
+                angle_y -= 0.5;
         }
 
         if(action==GLFW_PRESS)
@@ -600,9 +601,7 @@ bool test_kursinis::on_event(const gui_event & e)
             if(e.get_element()->get_name()=="cam_dist_slider")
             {
                 gui_slider * s = static_cast<gui_slider *>(e.get_element());
-                glm::vec3 pos = m_scenegraph->get_active_camera()->get_position();
-                pos.y = s->get_value();
-                m_scenegraph->get_active_camera()->set_position(pos);
+                distance = s->get_value();
             }
             else if(e.get_element()->get_name()=="sub_step_slider")
             {

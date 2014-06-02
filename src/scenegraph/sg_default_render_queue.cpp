@@ -51,8 +51,8 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
                 mat->set_mat4("mvp",m_scenegraph->get_shared_mat_vars().view_proj.value * obj->get_absolute_transform());
             else
             {
-                glm::mat4 MVP = glm::translate(m_scenegraph->get_active_camera()->get_absolute_transform(),m_scenegraph->get_active_camera()->get_position());
-                glm::mat4 S = glm::scale(glm::mat4(1),glm::vec3(1000.0));
+                glm::mat4 MVP = glm::translate(m_scenegraph->get_shared_mat_vars().view_proj.value,m_scenegraph->get_active_camera()->get_position());
+                MVP = glm::scale(MVP,glm::vec3(100.0));
                 mat->set_mat4("mvp",MVP);
             }
             /*mat->mvp = m_scenegraph->get_shared_mat_vars().view_proj.value * mat->m.value;
