@@ -466,6 +466,9 @@ bool test_kursinis::update()
 
         wnd->swap_buffers();
 
+        sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera();
+        cam->orbit(glm::vec3(0,0,0),15,80,180+0*180.f/glm::pi<float>());
+
         ///let's just rage quit on gl error
         return !this->gl_util->check_and_output_errors();
     }
