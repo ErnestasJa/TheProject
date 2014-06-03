@@ -46,8 +46,10 @@ void play_state::on_unload()
 //    {
 //        m_env->remove_child(el);
 //    }
+    m_app_ctx->se->stopAllSounds();
     printf("UNLOADING STATE\n");
     m_env->destroy_children();
+    m_app_ctx->sg->clear();
     //m_app_ctx->se->stopAllSounds();
 }
 
@@ -67,6 +69,8 @@ void play_state::start()
 
 void play_state::update(float delta)
 {
+    if(!m_app_ctx->nm->is_receiving())
+        m_state_manager->set_state(new menu_state(m_state_manager));
     m_env->update(delta);
     m_quadcopter->update(delta);
     m_quadcopter->variate_axis(m_app_ctx->nm->get_rot_diff());

@@ -66,25 +66,24 @@ void menu_state::on_load()
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
 
     ///load model
-    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/default_quad.iqm");
-    if(!m) exit(-1);
-
-    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
+    obj=m_app_ctx->sg->load_mesh_object("res/quadcopters/default_quad.iqm",false);
+    //obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
     obj->set_position(glm::vec3(0,0,0));
 
     sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
-    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/red.png");
+    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/blue.png");
 
+    printf("PING.\n");
     m_app_ctx->sg->add_object(obj);
 
     sg::sg_light_object_ptr light = m_app_ctx->sg->add_light_object();
     light->set_position(glm::vec3(0,100,0));
 
-    sg::sg_skybox_object_ptr skybox = m_app_ctx->sg->load_skybox("res/models/sky1/sky.iqm",true);
+    skybox = m_app_ctx->sg->load_skybox("res/models/sky1/sky.iqm",true);
     m_app_ctx->sg->add_object(skybox);
 }
 
@@ -307,6 +306,7 @@ void menu_state::update(float delta)
         m_rot+=delta*10;
         m_env->update(delta);
         glm::quat q=glm::quat();
+        q=glm::rotate(q,-20,glm::vec3(1,0,0));
         q=glm::rotate(q,m_rot,glm::vec3(0,1,0));
         obj->set_rotation(q);
         m_app_ctx->sg->update_all(delta);

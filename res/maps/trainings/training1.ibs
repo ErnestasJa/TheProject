@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Camera" type="CAMERA">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="0.000000" y="-0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Point" type="LAMP">
+    <position x="0.0" y="15.0" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Target" type="EMPTY">
+    <position x="0.035207971930503845" y="2.0252492427825928" z="-11.913991928100586"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Spawnpoint" type="EMPTY">
+    <position x="0.035207971930503845" y="2.0252492427825928" z="11.014745712280273"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Boundary" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="20.0" y="20.0" z="20.0"/>
+    <iqm_file name="Plane.002.iqm"/>
+  </object>
+  <object name="Plane.001" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="20.0" y="20.0" z="20.0"/>
+    <iqm_file name="Plane.001.iqm"/>
+  </object>
+</scene>
