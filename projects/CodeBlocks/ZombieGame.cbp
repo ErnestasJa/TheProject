@@ -236,6 +236,7 @@
 		<Unit filename="../../src/resources/resource_cache.h" />
 		<Unit filename="../../src/resources/shader_loader.cpp" />
 		<Unit filename="../../src/resources/shader_loader.h" />
+		<Unit filename="../../src/resources/sound_manager.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />

@@ -33,7 +33,8 @@ public:
     void on_load()
     {
         new gui_image(m_env,rect2d<int>(384,256,512,256),m_app_ctx->gm->load_texture("res/logo_quad2.png"));
-        m_app_ctx->nm->init();
+        if(!m_app_ctx->nm->is_receiving())
+            m_app_ctx->nm->init();
     }
 
     void start()

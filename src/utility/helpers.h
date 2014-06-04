@@ -48,7 +48,10 @@ inline uint32_t read(const std::string & file, char *& buf)
 
     buf = new char[len+1];
     buf[len] = 0;
-    ret = PHYSFS_read(f, buf, 1, len) * len;
+
+    ret = PHYSFS_read(f, buf, len, 1)*len;
+
+
     PHYSFS_close(f);
 
     return ret;

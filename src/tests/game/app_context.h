@@ -9,6 +9,7 @@
 #include "../../network/network_manager_win32.h"
 #include "irrklang.h"
 #include "../../utility/logger.h"
+#include "../../resources/sound_manager.h"
 
 struct app_context
 {
@@ -19,7 +20,7 @@ struct app_context
         delete pm;
         delete gd;
         delete nm;
-        se->drop();
+        delete sm;
         delete log;
     };
     window* win;
@@ -29,6 +30,6 @@ struct app_context
     physics_manager* pm;
     game_data* gd;
     network_manager_win32* nm;
-    irrklang::ISoundEngine* se;
+    sound_manager* sm;
     logger* log;
 };

@@ -38,7 +38,6 @@ bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string &
     while(object)
     {
         isg_object * o = nullptr;
-        sg::sg_mesh_object_ptr forphys=nullptr;
         bool mesh_obj=false;
 
         if(object->Attribute("type","MESH"))
@@ -52,11 +51,6 @@ bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string &
                 o = obj.get();
 
                 app_ctx->sg->add_object(obj);
-
-                if(with_physics)
-                {
-                    forphys=obj;
-                }
             }
         }
         else if(object->Attribute("type","LAMP"))
@@ -114,8 +108,8 @@ bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string &
 
         if(with_physics&&mesh_obj)
         {
-            sg_mesh_object *mo=(sg_mesh_object*)o;
-            if(app_ctx->pm->create_trimesh_body(share(mo),btVector3(1,1,1))==nullptr)
+            sg_mesh_object_ptr mo=app_ctx->sg->get_mesh_obj(o->get_name());
+            if(app_ctx->pm->create_trimesh_body(mo,physics_manager::glm_to_bt(o->get_scale()))==nullptr)
                 exit(-13337);
         }
 

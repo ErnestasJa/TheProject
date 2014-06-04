@@ -44,16 +44,10 @@ void play_state::on_load()
 
 void play_state::on_unload()
 {
-//    for(gui_element* el:elems)
-//    {
-//        m_env->remove_child(el);
-//    }
-    m_app_ctx->se->stopAllSounds();
-    printf("UNLOADING STATE\n");
+    m_app_ctx->sm->stop_sound("quad_idle");
     m_env->destroy_children();
     m_app_ctx->sg->clear();
-    //m_app_ctx->nm->deinit();
-    //m_app_ctx->se->stopAllSounds();
+    m_app_ctx->pm->clear();
 }
 
 void play_state::load_according_to_game_data()

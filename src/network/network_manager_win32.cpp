@@ -103,18 +103,19 @@ bool network_manager_win32::init()
 
 void network_manager_win32::deinit()
 {
-    if(m_waiting_thread.joinable())
-        m_waiting_thread.join();
-
-    if(m_thread.joinable())
-        m_thread.join();
-
     if(m_client!=INVALID_SOCKET)
     {
         shutdown(m_client, SD_SEND);
         closesocket(m_client);
     }
 
+    if(m_waiting_thread.joinable())
+        m_waiting_thread.join();
+
+    if(m_thread.joinable())
+        m_thread.join();
+
+    m_client = INVALID_SOCKET;
     receive=false;
 }
 

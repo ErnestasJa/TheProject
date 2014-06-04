@@ -85,6 +85,18 @@ public:
         trigger a;
         return a;
     }
+
+    sg_mesh_object_ptr get_mesh_obj(const std::string &name)
+    {
+        for(sg_object_ptr op:m_objects)
+        {
+            if(op->get_name()==name)
+            {
+                return std::static_pointer_cast<sg_mesh_object>(op);
+            }
+        }
+        return nullptr;
+    }
    sg_object_ptr object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h);
    glm::vec3 window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h);
 

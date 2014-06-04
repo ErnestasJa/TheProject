@@ -68,7 +68,7 @@ void menu_state::create_scene()
 {
     sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
-    cam->set_position(glm::vec3(0,0,-4));
+    cam->orbit(glm::vec3(0,0,0),4,3.14/180,3.14/180);
 
     ///load model
     obj=m_app_ctx->sg->load_mesh_object("res/quadcopters/default_quad.iqm",false);
@@ -319,7 +319,10 @@ void menu_state::on_unload()
 
 void menu_state::start()
 {
-    m_app_ctx->se->play2D("../../res/sounds/main.ogg",true,false);
+    m_app_ctx->sm->add_sound("/res/sounds/gui_select.ogg","gui_hover",0.75,1);
+    m_app_ctx->sm->add_sound("/res/sounds/gui_click.ogg","gui_click",0.75,1);
+    m_app_ctx->sm->add_sound("/res/sounds/main.ogg","menu_music",0.75,1);
+    m_app_ctx->sm->play_sound_2d("menu_music",false);
 }
 
 void menu_state::update(float delta)
@@ -339,11 +342,11 @@ bool menu_state::on_event(const gui_event &e)
     {
     case gui_event_type::element_hovered:
         if(e.get_caller()->get_element_type()==GUIET_button)
-            m_app_ctx->se->play2D("../../res/sounds/gui_select.ogg");
+            m_app_ctx->sm->play_sound_2d("gui_hover",false);
         break;
     case button_pressed:
         if(e.get_caller()->get_element_type()==GUIET_button)
-            m_app_ctx->se->play2D("../../res/sounds/gui_click.ogg");
+            m_app_ctx->sm->play_sound_2d("gui_click",false);
         break;
     case button_released:
         if(e.get_caller()->get_name().find("QS")!=std::string::npos)
