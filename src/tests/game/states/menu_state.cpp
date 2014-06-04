@@ -267,6 +267,7 @@ void menu_state::create_level_selections()
     btn->set_name("LS4");
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
+    btn->set_enabled(false);
     levels->add(btn);
 
     img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training4_selection.png"));
@@ -280,6 +281,7 @@ void menu_state::create_level_selections()
     btn->set_name("LS5");
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
+    btn->set_enabled(false);
     levels->add(btn);
 
     img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training5_selection.png"));
@@ -332,9 +334,6 @@ void menu_state::create_start_window()
 
 void menu_state::on_unload()
 {
-    m_env->destroy_children();
-    m_env->update(0);
-    m_app_ctx->sg->clear();
     //m_app_ctx->se->stopAllSounds();
 }
 

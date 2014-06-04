@@ -58,5 +58,6 @@ public:
     glm::vec3 get_accelerometer_data(){return m_accelerometer_data;}
     int get_height_diff(){int ret= m_height_diff;m_height_diff=0;return ret;}
     int get_rot_diff(){int ret= m_rot_diff;m_rot_diff=0;return ret;}
+    bool should_deinit;
 protected:
 };

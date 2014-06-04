@@ -45,9 +45,6 @@ void play_state::on_load()
 void play_state::on_unload()
 {
     m_app_ctx->sm->stop_sound("quad_idle");
-    m_env->destroy_children();
-    m_app_ctx->sg->clear();
-    m_app_ctx->pm->clear();
 }
 
 void play_state::load_according_to_game_data()
@@ -124,7 +121,7 @@ void play_state::start()
     }
     m_quadcopter=new sg::quadcopter(m_app_ctx,m_app_ctx->gd->quad_choice,m_app_ctx->pm->glm_to_bt(s),1,btVector3(0,0,0),true);
     m_quadcopter->set_rotation(glm::vec3(0,180-45,0));
-    m_target_queue=new target_queue(s,f,topush,arrow,m_quadcopter);
+    m_target_queue=new target_queue(m_app_ctx,s,f,topush,arrow,m_quadcopter);
     m_target_queue->reset();
 }
 
@@ -132,6 +129,7 @@ void play_state::update(float delta)
 {
     if(!m_target_queue->is_completed())
     {
+        m_app_ctx->gd->time++;
         m_target_queue->update();
         if(!m_app_ctx->nm->is_receiving())
             m_state_manager->set_state(new menu_state(m_state_manager));
@@ -176,5 +174,10 @@ void play_state::render()
     glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
     m_app_ctx->sg->render_all();
     m_env->render();
+    m_env->get_font_renderer()->use_font("s42");
+    wchar_t targets[16];
+    swprintf_s(targets,L"%d/%d",m_target_queue->current(),m_target_queue->max());
+    m_env->get_font_renderer()->render_string(std::wstring(targets),glm::vec2(600,20),glm::vec4(1),true);
+    m_env->get_font_renderer()->use_font("default");
 }
 

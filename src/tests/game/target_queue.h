@@ -9,9 +9,11 @@ private:
     std::vector<glm::vec3> m_points;
     int m_queue;
     bool m_completed,m_collided;
+    app_context* m_app_ctx;
 public:
-    target_queue(glm::vec3 spawn,glm::vec3 finish,std::vector<glm::vec3> points,sg::sg_mesh_object_ptr arrow,sg::quadcopter* player)
+    target_queue(app_context* app_ctx,glm::vec3 spawn,glm::vec3 finish,std::vector<glm::vec3> points,sg::sg_mesh_object_ptr arrow,sg::quadcopter* player)
     {
+        m_app_ctx=app_ctx;
         m_points=points;
         m_queue=0;
         m_spawn=spawn;
@@ -20,6 +22,7 @@ public:
         m_player=player;
         m_completed=false;
         m_collided=false;
+        m_app_ctx->sm->add_sound("/res/sounds/pickup.ogg","pickup",0.5,1.0);
     }
 
     ~target_queue()
@@ -48,22 +51,21 @@ public:
         {
             if(collide(m_player->get_position()))
             {
-                if(m_current_target!=m_finish)
-                    m_current_target=m_points[m_queue];
-                else
-                {
+                if(m_current_target==m_finish)
                     m_completed=true;
-                    m_arrow->set_position(glm::vec3(9999,9999,9999));
-                }
-                if(m_queue>m_points.size()-1)
+
+                if(m_queue<m_points.size()-1)
                 {
-                    m_current_target=m_finish;
+                    m_queue++;
+                    m_current_target=m_points[m_queue];
                 }
                 else
                 {
                     m_queue++;
+                    m_current_target=m_finish;
                 }
                 m_arrow->set_position(m_current_target);
+                m_app_ctx->sm->play_sound_2d("pickup",false);
 
             }
 
@@ -73,6 +75,16 @@ public:
     bool is_completed()
     {
         return m_completed;
+    }
+
+    int current()
+    {
+        return m_queue;
+    }
+
+    int max()
+    {
+        return m_points.size();
     }
 protected:
 };

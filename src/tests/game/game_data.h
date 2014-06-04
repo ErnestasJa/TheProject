@@ -98,7 +98,7 @@ struct game_data
 
     bool set_level(int level)
     {
-        if(level>=0&&level<=training_completion.size()-1)
+        if(level>=0&&level<=2)
         {
             current_level=level;
             time=0;

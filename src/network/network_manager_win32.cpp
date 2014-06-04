@@ -12,6 +12,7 @@ network_manager_win32::network_manager_win32()
     m_rcv_buflen = DEFAULT_BUFLEN;
 
     m_accelerometer_data=glm::vec3(0);
+    should_deinit=false;
 }
 
 network_manager_win32::~network_manager_win32()
@@ -96,7 +97,7 @@ bool network_manager_win32::init()
         WSACleanup();
         return false;
     }
-
+    should_deinit=false;
     start_waiting_thread();
     return true;
 }
@@ -117,6 +118,7 @@ void network_manager_win32::deinit()
 
     m_client = INVALID_SOCKET;
     receive=false;
+    should_deinit=false;
 }
 
 void network_manager_win32::wait_for_connection()
@@ -171,6 +173,7 @@ void network_manager_win32::update()
                 case PACKET_DISCONNECT:
                     printf("Somebody did disconnect, terminating...\n");
                     receive=false;
+                    should_deinit=true;
                     break;
                 case PACKET_DATA:
                     pbuff=std::string(m_rcv_buff);

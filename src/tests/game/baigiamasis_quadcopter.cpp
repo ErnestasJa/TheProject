@@ -74,6 +74,9 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	ctx->nm=new network_manager_win32();
 	ctx->sm=new sound_manager();
 
+	ctx->env->get_font_renderer()->create_font("s22","/res/freesans.ttf",22);
+    ctx->env->get_font_renderer()->create_font("s42","/res/freesans.ttf",42);
+
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));
 
