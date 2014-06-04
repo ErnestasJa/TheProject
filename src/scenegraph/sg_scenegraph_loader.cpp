@@ -1,6 +1,8 @@
 #include "precomp.h"
 #include "sg_scenegraph_loader.h"
 #include "scenegraph.h"
+#include "sg_empty_object.h"
+#include "../tests/game/app_context.h"
 
 namespace sg
 {
@@ -15,13 +17,14 @@ sg_scenegraph_loader::~sg_scenegraph_loader()
     //dtor
 }
 
-bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filename)
+bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string & filename,bool with_physics)
 {
     std::string scene_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "scene_path =" << scene_path.c_str() << std::endl;
 
     tinyxml2::XMLDocument doc;
-    uint32_t len; char * buf;
+    uint32_t len;
+    char * buf;
     len = helpers::read(filename, buf);
 
     if(len==0)
@@ -35,32 +38,46 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
     while(object)
     {
         isg_object * o = nullptr;
+        sg::sg_mesh_object_ptr forphys=nullptr;
+        bool mesh_obj=false;
 
         if(object->Attribute("type","MESH"))
         {
+            mesh_obj=true;
             if(tinyxml2::XMLElement * file = object->FirstChildElement("iqm_file"))
             {
                 std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
 
-                sg::sg_mesh_object_ptr  obj = sg->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
+                sg::sg_mesh_object_ptr  obj = app_ctx->sg->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
                 o = obj.get();
 
-                sg->add_object(obj);
+                app_ctx->sg->add_object(obj);
+
+                if(with_physics)
+                {
+                    forphys=obj;
+                }
             }
         }
         else if(object->Attribute("type","LAMP"))
         {
 
-                sg::sg_light_object_ptr  obj = sg->add_light_object();
-                o = obj.get();
+            sg::sg_light_object_ptr  obj = app_ctx->sg->add_light_object();
+            o = obj.get();
         }
         else if(object->Attribute("type","CAMERA"))
         {
+            sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx->sg,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
+            o = obj.get();
 
-                sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(sg,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
-                o = obj.get();
-
-                sg->add_object(obj);
+            app_ctx->sg->add_object(obj);
+        }
+        else if(object->Attribute("type","EMPTY"))
+        {
+            printf("ADDED EMPTY OBJ: %s\n",object->Attribute("name"));
+            sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->sg));
+            app_ctx->sg->add_trigger(obj,object->Attribute("name"));
+            o = obj.get();
         }
         else
         {
@@ -94,6 +111,13 @@ bool sg_scenegraph_loader::load_scene(scenegraph * sg, const std::string & filen
         }
         else
             throw "nope.avi";
+
+        if(with_physics&&mesh_obj)
+        {
+            sg_mesh_object *mo=(sg_mesh_object*)o;
+            if(app_ctx->pm->create_trimesh_body(share(mo),btVector3(1,1,1))==nullptr)
+                exit(-13337);
+        }
 
         object = object->NextSiblingElement();
     }

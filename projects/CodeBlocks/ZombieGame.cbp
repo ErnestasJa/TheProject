@@ -252,6 +252,7 @@
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
 		<Unit filename="../../src/scenegraph/sg_default_render_queue.cpp" />
 		<Unit filename="../../src/scenegraph/sg_default_render_queue.h" />
+		<Unit filename="../../src/scenegraph/sg_empty_object.h" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
@@ -297,6 +298,7 @@
 		<Unit filename="../../src/tests/game/states/state_manager.cpp" />
 		<Unit filename="../../src/tests/game/states/state_manager.h" />
 		<Unit filename="../../src/tests/game/states/wait_for_connection_state.h" />
+		<Unit filename="../../src/tests/game/target_queue.h" />
 		<Unit filename="../../src/tests/game/test_game.cpp" />
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />

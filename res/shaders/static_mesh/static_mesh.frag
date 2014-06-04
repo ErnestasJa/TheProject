@@ -15,7 +15,7 @@ layout(location=0) out vec4 FragColor;
 
 //constants
 const vec3 diffuse_color = vec3(1,1,1);
-const vec3 specular_color = vec3(1,0,0);
+const vec3 specular_color = vec3(1,1,1);
 const float shininess = 256.0f;
 
 void light_func(
@@ -50,6 +50,6 @@ void main()
 
 	light_func(diffuse, specular, light_pos, camera_pos, vEyeSpacePosition, vEyeSpaceNormal);
 	
-	FragColor = diffuse*vec4(diffuse_color,1) + specular * vec4(specular_color,1);
+	FragColor = diffuse*vec4(diffuse_color,1) + specular * vec4(specular_color,1)+vec4(0.8,0.8,0.8,1);
     FragColor *= tex_color;
 }

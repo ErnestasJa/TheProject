@@ -7,24 +7,25 @@
 
 #include "quadcopter.h"
 using namespace sg;
-quadcopter::quadcopter(app_context* app_ctx,quad_model model,btVector3 init_pos,float init_height,btVector3 init_rotation,bool start_on)
+quadcopter::quadcopter(app_context* app_ctx,int model,btVector3 init_pos,float init_height,btVector3 init_rotation,bool start_on)
 {
     m_app_ctx=app_ctx;
     m_running=start_on;
     sg_graphics_manager_ptr gm=app_ctx->sg->get_graphics_manager();
 
-    m_rotation=m_force=m_transform=m_old_transform=btVector3(0,0,0);
-    m_mass=m_speed=m_height=m_power=m_delta=0;
+    m_rotation=m_force=btVector3(0,0,0);
+    m_transform=m_old_transform=btVector3(init_pos.x(),init_pos.y()+init_height,init_pos.z());
+    m_mass=m_speed=m_power=m_delta=0;
 
-    std::string quad_paths[3]= {"/res/quadcopters/default_quad.iqm","/res/quadcopters/unshielded_fast_quad.iqm","/res/quadcopters/micro_quad.iqm"};
+    std::string quad_paths[4]= {"/res/quadcopters/default_quad.iqm","/res/quadcopters/unshielded_quad.iqm","/res/quadcopters/micro_quad.iqm","/res/quadcopters/fast_quad.iqm"};
     std::string quad_tex_paths[3]= {"/res/quadcopters/red.png","/res/quadcopters/green.png","/res/quadcopters/blue.png"};
-    std::string quad_sound_paths[2]= {"/res/sounds/quad_sound.ogg","/res/sounds/quad_sound_small.ogg"};
+    std::string quad_sound_paths[2]= {"../../res/sounds/quad_sound.ogg","../../res/sounds/quad_sound_small.ogg"};
 
     m_height=init_height;
 
     switch(model)
     {
-    case QUAD_MODEL_DEFAULT:
+    case 0:
         m_mass=25;
         m_speed=10;
         m_power=1;
@@ -33,7 +34,7 @@ quadcopter::quadcopter(app_context* app_ctx,quad_model model,btVector3 init_pos,
         setup[1]=1;
         setup[2]=0;
         break;
-    case QUAD_MODEL_UNSHIELDED:
+    case 1:
         m_mass=15;
         m_speed=15;
         m_power=1;
@@ -42,12 +43,21 @@ quadcopter::quadcopter(app_context* app_ctx,quad_model model,btVector3 init_pos,
         setup[1]=0;
         setup[2]=0;
         break;
-    case QUAD_MODEL_MICRO:
+    case 2:
         m_mass=10;
         m_speed=12;
         m_power=1;
 
         setup[0]=2;
+        setup[1]=2;
+        setup[2]=1;
+        break;
+    case 3:
+        m_mass=10;
+        m_speed=12;
+        m_power=1;
+
+        setup[0]=3;
         setup[1]=2;
         setup[2]=1;
         break;
@@ -66,7 +76,6 @@ bool quadcopter::make_a_quadcopter(std::string modelpath,std::string texpath,std
     if(!m) return false;
 
     sg::sg_mesh_object_ptr obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
-    obj->set_position(glm::vec3(0,20,0));
 
     sg::sg_material_static_mesh * sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
     sm_mat->mat_texture= m_app_ctx->gm->load_texture(texpath);
@@ -74,6 +83,8 @@ bool quadcopter::make_a_quadcopter(std::string modelpath,std::string texpath,std
     m_app_ctx->sg->add_object(obj);
 
     m_body = m_app_ctx->pm->create_box(obj,25.0f);
+
+    m_app_ctx->se->play2D(soundpath.c_str(),true,false);
     return true;
 }
 
@@ -98,7 +109,7 @@ void quadcopter::variate_gyro(const glm::vec3 & gyro_step)
 
 void quadcopter::variate_axis(float rot)
 {
-    m_rotation.setY(m_rotation.y()+rot*2*m_delta);
+    m_rotation.setY(m_rotation.y()+rot*m_delta);
 }
 
 float quadcopter::raycast_distance()
@@ -123,10 +134,10 @@ void quadcopter::update(float delta)
     //b=btVector3(b.z(),b.y(),b.x());
     b.safeNormalize();
     //force*=b;
-    glm::vec3 dircalc(cos(b.x())*sin(b.y()),
-                      sin(b.x()),
-                      cos(b.x())*cos(b.y()));
-    glm::vec3 right(sin(b.y()-3.14/2.f),0,cos(b.y()-3.14/2.f));
+    glm::vec3 dircalc(cos(m_rotation.x())*sin(m_rotation.y()),
+                      sin(m_rotation.x()),
+                      cos(m_rotation.x())*cos(m_rotation.y()));
+    glm::vec3 right(sin(m_rotation.y()-3.14/2.f),0,cos(m_rotation.y()-3.14/2.f));
 
 
 
@@ -135,15 +146,16 @@ void quadcopter::update(float delta)
 
     if(m_transform.y()<m_height)
     {
-        //m_quadcopter->setLinearVelocity(btVector3(dircalc.x,dircalc.y,dircalc.z));
-        m_force= btVector3(25*9.83,-(9.83f)*25,25*9.83);
-        m_force*=btVector3(dircalc.x*-m_rotation.x(),1,dircalc.z*-m_rotation.x());
-        m_force+=btVector3(-right.x*25*9.83*m_rotation.z(),1,-right.z*25*9.83*m_rotation.z());
+        m_force= btVector3(0,-(9.83f)*25,0);
+        //m_force*=btVector3(dircalc.x*-m_rotation.x(),1,dircalc.z*-m_rotation.x());
+        //m_force+=btVector3(-right.x*25*9.83*m_rotation.z(),1,-right.z*25*9.83*m_rotation.z());
         float diff=m_transform.y()-m_height;
         m_force*=diff;
-        transDelta*=25*9.83*25;
+        transDelta*=25*9.83;
         transDelta*=diff;
 
+        m_body->setLinearVelocity(btVector3((dircalc.x*m_rotation.x())-right.x*-m_rotation.z(),0,(dircalc.z*m_rotation.x())-right.z*-m_rotation.z())*m_speed);
+        m_body->setFriction(0);
         m_body->applyImpulse((m_force+btVector3(0,transDelta,0))*m_delta,btVector3(-1,-1,1));
         m_body->applyImpulse((m_force+btVector3(0,transDelta,0))*m_delta,btVector3(1,-1,1));
         m_body->applyImpulse((m_force+btVector3(0,transDelta,0))*m_delta,btVector3(-1,-1,-1));
@@ -160,5 +172,26 @@ void quadcopter::update(float delta)
 
 void quadcopter::set_position(const glm::vec3 &v)
 {
+    btTransform trans=m_body->getCenterOfMassTransform();
+    trans.setOrigin(physics_manager::glm_to_bt(v));
+    m_body->setCenterOfMassTransform(trans);
+    m_transform=m_body->getCenterOfMassPosition();
+    m_old_transform=m_transform;
+}
 
+glm::vec3 quadcopter::get_position()
+{
+    return physics_manager::bt_to_glm(m_body->getCenterOfMassPosition());
+}
+
+void quadcopter::set_rotation(glm::vec3 rot)
+{
+    m_rotation=m_app_ctx->pm->glm_to_bt(rot);
+    btTransform tr=m_body->getCenterOfMassTransform();
+
+    btQuaternion quat;
+
+    quat.setEuler(m_rotation.y(),m_rotation.x(),m_rotation.z());
+    tr.setRotation(quat);
+    m_body->setCenterOfMassTransform(tr);
 }

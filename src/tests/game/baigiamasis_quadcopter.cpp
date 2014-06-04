@@ -73,6 +73,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	ctx->gd=new game_data();
 	ctx->nm=new network_manager_win32();
 	ctx->se=irrklang::createIrrKlangDevice();
+	ctx->se->setSoundVolume(0.5);
 
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));

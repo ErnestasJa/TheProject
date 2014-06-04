@@ -68,6 +68,7 @@ void menu_state::create_scene()
 {
     sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
+    cam->set_position(glm::vec3(0,0,-4));
 
     ///load model
     obj=m_app_ctx->sg->load_mesh_object("res/quadcopters/default_quad.iqm",false);
@@ -107,7 +108,7 @@ void menu_state::create_quad_selections()
     init_e(btn);
     quads->add(btn);
 
-    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/light.png"));
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/default_selection.png"));
     btn->set_image(img);
 
     st=new gui_static_text(m_env,rect2d<int>(10,110,50,20),L"Paprastasis",glm::vec4(1),false,true);
@@ -120,6 +121,9 @@ void menu_state::create_quad_selections()
     init_e(btn);
     quads->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/unshielded_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(100,110,50,20),L"Be apsaugos",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(st);
@@ -130,6 +134,9 @@ void menu_state::create_quad_selections()
     init_e(btn);
     quads->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/micro_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Mini",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(st);
@@ -139,7 +146,9 @@ void menu_state::create_quad_selections()
     btn->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(btn);
     quads->add(btn);
-    btn->set_enabled(false);
+
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/fast_selection.png"));
+    btn->set_image(img);
 
     st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Greitasis",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
@@ -206,6 +215,9 @@ void menu_state::create_level_selections()
     init_e(btn);
     levels->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training1_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(10,110,50,20),L"Treniruotė 1",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
@@ -216,6 +228,9 @@ void menu_state::create_level_selections()
     init_e(btn);
     levels->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training2_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(100,110,50,20),L"Treniruotė 2",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
@@ -225,9 +240,11 @@ void menu_state::create_level_selections()
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
     levels->add(btn);
-    btn->set_enabled(false);
 
-    st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Lygis 1",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training3_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Treniruotė 3",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -236,9 +253,11 @@ void menu_state::create_level_selections()
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
     levels->add(btn);
-    btn->set_enabled(false);
 
-    st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Lygis 2",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training4_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Treniruotė 4",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -247,9 +266,11 @@ void menu_state::create_level_selections()
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
     levels->add(btn);
-    btn->set_enabled(false);
 
-    st=new gui_static_text(m_env,rect2d<int>(370,110,50,20),L"Lygis 3",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training5_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(370,110,50,20),L"Treniruotė 5",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -327,11 +348,18 @@ bool menu_state::on_event(const gui_event &e)
     case button_released:
         if(e.get_caller()->get_name().find("QS")!=std::string::npos)
         {
-            quads->set_toggle(atoi(e.get_caller()->get_name().substr(2).c_str())-1);
+            int sel=atoi(e.get_caller()->get_name().substr(2).c_str())-1;
+            quads->set_toggle(sel);
+            m_app_ctx->gd->quad_choice=sel;
+            printf("BOOP\n");
+            return true;
         }
         if(e.get_caller()->get_name().find("LS")!=std::string::npos)
         {
-            levels->set_toggle(atoi(e.get_caller()->get_name().substr(2).c_str())-1);
+            int sel=atoi(e.get_caller()->get_name().substr(2).c_str())-1;
+            levels->set_toggle(sel);
+            m_app_ctx->gd->set_level(sel);
+            return true;
         }
         if(e.get_caller()->get_name()=="start")
         {

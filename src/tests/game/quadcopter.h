@@ -29,7 +29,7 @@ private:
 public:
     btVector3 m_rotation,m_force,m_transform,m_old_transform;
 
-    quadcopter(app_context* app_ctx,quad_model model,btVector3 init_pos,float init_height,btVector3 init_rotation,bool start_on);
+    quadcopter(app_context* app_ctx,int model,btVector3 init_pos,float init_height,btVector3 init_rotation,bool start_on);
     ~quadcopter();
 
     void spawn(scenegraph* scenegraph,quad_model);
@@ -43,5 +43,8 @@ public:
     void update(float delta);
 
     void set_position(const glm::vec3 &v);
+    glm::vec3 get_position();
+
+    void set_rotation(glm::vec3 rot);
 };
 }

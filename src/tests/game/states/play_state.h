@@ -10,6 +10,7 @@ class gui_static_text;
 class gui_environment;
 class gui_pane;
 class toggle_group;
+class target_queue;
 namespace sg{
 class quadcopter;
 }
@@ -17,9 +18,11 @@ class quadcopter;
 class play_state:public game_state,public gui_event_listener
 {
 private:
+    bool can_proceed;
     float m_rot;
     gui_environment* m_env;
     sg::quadcopter* m_quadcopter;
+    target_queue* m_target_queue;
 public:
     play_state(state_manager* sm);
 
@@ -27,7 +30,7 @@ public:
     {
     }
     void on_load();
-
+    void load_according_to_game_data();
     void on_unload();
 
     void start();

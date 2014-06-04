@@ -101,6 +101,23 @@ bool network_manager_win32::init()
     return true;
 }
 
+void network_manager_win32::deinit()
+{
+    if(m_waiting_thread.joinable())
+        m_waiting_thread.join();
+
+    if(m_thread.joinable())
+        m_thread.join();
+
+    if(m_client!=INVALID_SOCKET)
+    {
+        shutdown(m_client, SD_SEND);
+        closesocket(m_client);
+    }
+
+    receive=false;
+}
+
 void network_manager_win32::wait_for_connection()
 {
     while(m_client == INVALID_SOCKET)
@@ -186,7 +203,7 @@ void network_manager_win32::update()
                         data[i]=atof(subs[i].c_str());
                     }
                     m_accelerometer_data=glm::vec3(data[0],data[1],data[2]);
-                    printf("Accelerometer data: %f %f %f\n",data[0],data[1],data[2]);
+                    //printf("Accelerometer data: %f %f %f\n",data[0],data[1],data[2]);
                     break;
                 case PACKET_HEIGHT_CHANGE:
                     pbuff=std::string(m_rcv_buff);

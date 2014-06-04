@@ -49,6 +49,7 @@ public:
     network_manager_win32();
     ~network_manager_win32();
     bool init();
+    void deinit();
     void update();
     bool send_packet(){return true;} ///TODO
     void start_waiting_thread(){m_waiting_thread=std::thread(&network_manager_win32::wait_for_connection,this);}
