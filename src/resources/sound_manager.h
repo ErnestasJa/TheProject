@@ -79,11 +79,13 @@ public:
         sound_resource* r=get_sound(name);
         if(r!=nullptr)
         {
+            if(r->playing)
+                r->player->stop();
             r->player=eng->play2D(r->sound,looped,false,true);
             r->playing=true;
         }
         else
-            printf("NOPE.\n");
+            printf("Playing or null.\n");
     }
 
     void set_volume(float vol)

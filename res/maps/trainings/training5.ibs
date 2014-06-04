@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Trg7" type="EMPTY">
+    <position x="-0.02208876609802246" y="4.5559234619140625" z="-19.98749542236328"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg6" type="EMPTY">
+    <position x="-2.860846996307373" y="4.5559234619140625" z="-13.019637107849121"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg5" type="EMPTY">
+    <position x="0.04242730140686035" y="4.5559234619140625" z="-6.460387229919434"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg4" type="EMPTY">
+    <position x="3.0532302856445312" y="4.5559234619140625" z="1.174149513244629"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg3" type="EMPTY">
+    <position x="0.006584305316209793" y="4.555922508239746" z="7.110563278198242"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg2" type="EMPTY">
+    <position x="-2.975553512573242" y="4.555922985076904" z="13.011358261108398"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Trg1" type="EMPTY">
+    <position x="0.004357099533081055" y="4.5559234619140625" z="19.532682418823242"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Camera" type="CAMERA">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="0.000000" y="-0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Target" type="EMPTY">
+    <position x="0.035207971930503845" y="2.0252492427825928" z="-24.488983154296875"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Spawnpoint" type="EMPTY">
+    <position x="0.035207971930503845" y="2.0252492427825928" z="23.7247314453125"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Training2" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="40.0" y="40.0" z="20.0"/>
+    <iqm_file name="Training2.iqm"/>
+  </object>
+</scene>
