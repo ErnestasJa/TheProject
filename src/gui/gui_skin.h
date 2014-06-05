@@ -64,8 +64,18 @@ struct gui_skin
 
     void load(std::string filename)
     {
-        XMLDocument xml;
-        xml.LoadFile(filename.c_str());
+        std::string skin_path = filename.substr(0,filename.rfind("/")+1);
+        std::cout << "skin_path =" << skin_path.c_str() << std::endl;
+
+        tinyxml2::XMLDocument xml;
+        uint32_t len;
+        char * buf;
+        len = helpers::read(filename, buf);
+
+        if(len==0)
+            return;
+
+        xml.Parse(buf);
 
         XMLElement* root=xml.FirstChildElement();
         printf("Loading a skin %s (%s) %i\n",root->Attribute("name"),root->Attribute("atlas_name"),root->IntAttribute("atlas_size"));

@@ -74,8 +74,8 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	ctx->nm=new network_manager_win32();
 	ctx->sm=new sound_manager();
 
-	ctx->env->get_font_renderer()->create_font("s22","/res/freesans.ttf",22);
-    ctx->env->get_font_renderer()->create_font("s42","/res/freesans.ttf",42);
+	ctx->env->get_font_renderer()->create_font("s22","freesans.ttf",22);
+    ctx->env->get_font_renderer()->create_font("s42","freesans.ttf",42);
 
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));
@@ -85,7 +85,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 
 bool baigiamasis_quadcopter::update()
 {
-    if(wnd->update() && m_state_manager->run && !wnd->get_key(GLFW_KEY_ESCAPE)==GLFW_PRESS)
+    if(wnd->update() && m_state_manager->run)
     {
         // Measure speed
         main_timer->tick();

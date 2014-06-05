@@ -50,6 +50,6 @@ void main()
 
 	light_func(diffuse, specular, light_pos, camera_pos, vEyeSpacePosition, vEyeSpaceNormal);
 	
-	FragColor = diffuse*vec4(diffuse_color,1) + specular * vec4(specular_color,1)+vec4(0.8,0.8,0.8,1);
+	FragColor = diffuse*vec4(diffuse_color,1) + specular * vec4(specular_color,1)+vec4(0.5,0.5,0.5,1);
     FragColor *= tex_color;
 }

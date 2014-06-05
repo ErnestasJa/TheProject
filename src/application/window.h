@@ -69,6 +69,10 @@ public:
         glfwWindowHint(GLFW_ALPHA_BITS, 8);
         glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
+        glfwWindowHint(GLFW_RESIZABLE,0);
+
+
+
         /* Create a windowed mode window and its OpenGL context */
         m_window = glfwCreateWindow(width, height,title.c_str(),NULL,NULL);
 

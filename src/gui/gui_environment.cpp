@@ -44,7 +44,7 @@ gui_environment::gui_environment(window* win,logger* log):gui_element(nullptr, r
 
     skin=new gui_skin();
 
-    skin->load("../../res/skin_default.xml");
+    skin->load("res/skin_default.xml");
 
     skin_atlas=new texture();
     image_loader* imgl=new image_loader(log);

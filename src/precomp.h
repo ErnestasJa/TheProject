@@ -46,4 +46,8 @@
 #include "utility/bit.h"
 #include "utility/helpers.h"
 
+/// DEFINES
+#define RELEASE_FS
+#undef LOG_OUTPUT
+
 #endif

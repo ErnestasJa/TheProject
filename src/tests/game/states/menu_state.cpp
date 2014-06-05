@@ -324,7 +324,7 @@ void menu_state::create_start_window()
     create_quad_selections();
     create_level_selections();
 
-    btn=new gui_button(m_env,rect2d<int>(344,495,80,30),L"Pradėti");
+    btn=new gui_button(m_env,rect2d<int>(260,495,80,30),L"Pradėti");
     btn->set_name("start_level");
     btn->set_parent(m_env->get_element_by_name("win_normal"));
     init_e(btn);
@@ -335,13 +335,14 @@ void menu_state::create_start_window()
 void menu_state::on_unload()
 {
     //m_app_ctx->se->stopAllSounds();
+    m_app_ctx->sm->stop_sound("menu_music");
 }
 
 void menu_state::start()
 {
-    m_app_ctx->sm->add_sound("/res/sounds/gui_select.ogg","gui_hover",0.75,1);
-    m_app_ctx->sm->add_sound("/res/sounds/gui_click.ogg","gui_click",0.75,1);
-    m_app_ctx->sm->add_sound("/res/sounds/main.ogg","menu_music",0.75,1);
+    m_app_ctx->sm->add_sound("res/sounds/gui_select.ogg","gui_hover",0.75,1);
+    m_app_ctx->sm->add_sound("res/sounds/gui_click.ogg","gui_click",0.75,1);
+    m_app_ctx->sm->add_sound("res/sounds/main.ogg","menu_music",0.75,1);
     m_app_ctx->sm->play_sound_2d("menu_music",false);
 }
 

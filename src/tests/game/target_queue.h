@@ -22,7 +22,7 @@ public:
         m_player=player;
         m_completed=false;
         m_collided=false;
-        m_app_ctx->sm->add_sound("/res/sounds/pickup.ogg","pickup",0.5,1.0);
+        m_app_ctx->sm->add_sound("sounds/pickup.ogg","pickup",0.5,1.0);
     }
 
     ~target_queue()

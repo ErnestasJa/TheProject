@@ -127,7 +127,7 @@ void play_state::start()
 
 void play_state::update(float delta)
 {
-    if(!m_target_queue->is_completed())
+    if(!m_target_queue->is_completed()&&run)
     {
         m_app_ctx->gd->time++;
         m_target_queue->update();

@@ -36,6 +36,7 @@ struct u8vec4{uint8_t v[4];};
 
 inline uint32_t read(const std::string & file, char *& buf)
 {
+    printf("GET REAL DIR: %s\n",PHYSFS_getRealDir(file.c_str()));
     PHYSFS_file* f = PHYSFS_openRead(file.c_str());
 
     if(!f)

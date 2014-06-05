@@ -17,9 +17,9 @@ quadcopter::quadcopter(app_context* app_ctx,int model,btVector3 init_pos,float i
     m_transform=m_old_transform=btVector3(init_pos.x(),init_pos.y()+init_height,init_pos.z());
     m_mass=m_speed=m_power=m_delta=0;
 
-    std::string quad_paths[4]= {"/res/quadcopters/default_quad.iqm","/res/quadcopters/unshielded_quad.iqm","/res/quadcopters/micro_quad.iqm","/res/quadcopters/fast_quad.iqm"};
-    std::string quad_tex_paths[3]= {"/res/quadcopters/red.png","/res/quadcopters/green.png","/res/quadcopters/blue.png"};
-    std::string quad_sound_paths[2]= {"/res/sounds/quad_sound.ogg","/res/sounds/quad_sound_small.ogg"};
+    std::string quad_paths[4]= {"quadcopters/default_quad.iqm","quadcopters/unshielded_quad.iqm","quadcopters/micro_quad.iqm","quadcopters/fast_quad.iqm"};
+    std::string quad_tex_paths[3]= {"quadcopters/red.png","quadcopters/green.png","quadcopters/blue.png"};
+    std::string quad_sound_paths[2]= {"res/sounds/quad_sound.ogg","res/sounds/quad_sound_small.ogg"};
 
     m_height=init_height;
 
@@ -83,6 +83,7 @@ bool quadcopter::make_a_quadcopter(std::string modelpath,std::string texpath,std
     m_app_ctx->sg->add_object(obj);
 
     m_body = m_app_ctx->pm->create_box(obj,25.0f);
+    m_app_ctx->sm->remove_sound("quad_idle");
     m_app_ctx->sm->add_sound(soundpath,"quad_idle",0.5,1);
     m_app_ctx->sm->play_sound_2d("quad_idle",true);
 
