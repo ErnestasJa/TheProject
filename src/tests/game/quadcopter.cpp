@@ -83,7 +83,7 @@ bool quadcopter::make_a_quadcopter(std::string modelpath,std::string texpath,std
     m_app_ctx->sg->add_object(obj);
 
     m_body = m_app_ctx->pm->create_box(obj,25.0f);
-    m_app_ctx->sm->remove_sound("quad_idle");
+    //m_app_ctx->sm->remove_sound("quad_idle");
     m_app_ctx->sm->add_sound(soundpath,"quad_idle",0.5,1);
     m_app_ctx->sm->play_sound_2d("quad_idle",true);
 
@@ -97,7 +97,7 @@ quadcopter::~quadcopter()
 
 void quadcopter::variate_height(float step)
 {
-    m_height+=step*5*m_delta;
+    m_height+=step*10*m_delta;
 }
 
 void quadcopter::variate_gyro(const glm::vec3 & gyro_step)
@@ -111,7 +111,7 @@ void quadcopter::variate_gyro(const glm::vec3 & gyro_step)
 
 void quadcopter::variate_axis(float rot)
 {
-    m_rotation.setY(m_rotation.y()+rot*m_delta);
+    m_rotation.setY(m_rotation.y()+rot*5*m_delta);
 }
 
 float quadcopter::raycast_distance()
