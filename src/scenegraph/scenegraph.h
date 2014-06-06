@@ -5,6 +5,7 @@
 #include "sg_material.h"
 #include "sg_shared_mat_vars.h"
 #include "utility/timer.h"
+#include "sg_empty_object.h"
 
 
 class image_loader;
@@ -12,6 +13,22 @@ class mesh_loader;
 
 class logger;
 struct texture;
+
+struct trigger
+{
+    std::string name;
+    sg::sg_empty_object_ptr obj;
+
+    int get_id() const
+    {
+        return atoi(name.substr(name.length()-1).c_str());
+    }
+
+    bool operator<(const trigger &other) const
+    {
+        return get_id()<other.get_id();
+    }
+};
 
 namespace sg
 {
@@ -50,6 +67,36 @@ public:
     void render_all();
     void update_all(float delta_time);
 
+    void add_trigger(sg_empty_object_ptr obj,std::string name)
+    {
+        trigger a;
+        a.obj=obj;
+        a.name=name;
+        m_triggers.push_back(a);
+    }
+    std::vector<trigger> get_triggers(){return m_triggers;}
+    trigger get_trigger(std::string name)
+    {
+        for(trigger trig:m_triggers)
+        {
+            if(trig.name==name)
+                return trig;
+        }
+        trigger a;
+        return a;
+    }
+
+    sg_mesh_object_ptr get_mesh_obj(const std::string &name)
+    {
+        for(sg_object_ptr op:m_objects)
+        {
+            if(op->get_name()==name)
+            {
+                return std::static_pointer_cast<sg_mesh_object>(op);
+            }
+        }
+        return nullptr;
+    }
    sg_object_ptr object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h);
    glm::vec3 window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h);
 
@@ -67,6 +114,7 @@ protected:
     sg_shared_mat_vars          m_shared_mat_vars;
 
     std::vector<sg_object_ptr> m_objects;
+    std::vector<trigger> m_triggers;
 };
 
 }

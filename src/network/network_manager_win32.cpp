@@ -12,6 +12,7 @@ network_manager_win32::network_manager_win32()
     m_rcv_buflen = DEFAULT_BUFLEN;
 
     m_accelerometer_data=glm::vec3(0);
+    should_deinit=false;
 }
 
 network_manager_win32::~network_manager_win32()
@@ -96,9 +97,28 @@ bool network_manager_win32::init()
         WSACleanup();
         return false;
     }
-
+    should_deinit=false;
     start_waiting_thread();
     return true;
+}
+
+void network_manager_win32::deinit()
+{
+    if(m_client!=INVALID_SOCKET)
+    {
+        shutdown(m_client, SD_SEND);
+        closesocket(m_client);
+    }
+
+    if(m_waiting_thread.joinable())
+        m_waiting_thread.join();
+
+    if(m_thread.joinable())
+        m_thread.join();
+
+    m_client = INVALID_SOCKET;
+    receive=false;
+    should_deinit=false;
 }
 
 void network_manager_win32::wait_for_connection()
@@ -153,6 +173,7 @@ void network_manager_win32::update()
                 case PACKET_DISCONNECT:
                     printf("Somebody did disconnect, terminating...\n");
                     receive=false;
+                    should_deinit=true;
                     break;
                 case PACKET_DATA:
                     pbuff=std::string(m_rcv_buff);
@@ -186,7 +207,7 @@ void network_manager_win32::update()
                         data[i]=atof(subs[i].c_str());
                     }
                     m_accelerometer_data=glm::vec3(data[0],data[1],data[2]);
-                    printf("Accelerometer data: %f %f %f\n",data[0],data[1],data[2]);
+                    //printf("Accelerometer data: %f %f %f\n",data[0],data[1],data[2]);
                     break;
                 case PACKET_HEIGHT_CHANGE:
                     pbuff=std::string(m_rcv_buff);

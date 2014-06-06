@@ -21,11 +21,14 @@ private:
     gui_environment* m_env;
     gui_pane* pane;
 
+
     toggle_group* quads;
     toggle_group* levels;
 
     sg::sg_mesh_object_ptr obj;
     sg::sg_material_static_mesh * sm_mat;
+    sg::sg_skybox_object_ptr skybox;
+
 
     std::vector<gui_element*> elems;
 

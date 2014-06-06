@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../../application/window.h"
 #include "../../scenegraph/sg_graphics_manager.h"
 #include "../../gui/gui_environment.h"
@@ -7,6 +8,9 @@
 #include "game_data.h"
 #include "../../network/network_manager_win32.h"
 #include "irrklang.h"
+#include "../../utility/logger.h"
+#include "../../resources/sound_manager.h"
+
 struct app_context
 {
     ~app_context()
@@ -16,7 +20,8 @@ struct app_context
         delete pm;
         delete gd;
         delete nm;
-        se->drop();
+        delete sm;
+        delete log;
     };
     window* win;
     sg::sg_graphics_manager_ptr gm;
@@ -25,5 +30,6 @@ struct app_context
     physics_manager* pm;
     game_data* gd;
     network_manager_win32* nm;
-    irrklang::ISoundEngine* se;
+    sound_manager* sm;
+    logger* log;
 };

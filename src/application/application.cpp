@@ -65,8 +65,15 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     m_log->log(LOG_LOG,"Base Directory: \"%s\"",PHYSFS_getBaseDir());
     m_log->log(LOG_LOG,"Directory: \"%s\"",dir.c_str());
 
+    #ifdef RELEASE_FS
+    PHYSFS_mount(PHYSFS_getBaseDir(),NULL,0);
+    #else
     PHYSFS_mount(dir.c_str(), NULL, 0);
+    #endif // RELEASE_FS
 
+    std::string combo=PHYSFS_getBaseDir();
+    combo+="res/";
+    PHYSFS_mount(combo.c_str(),NULL,0);
     output_versions();
 
     this->wnd = new window();

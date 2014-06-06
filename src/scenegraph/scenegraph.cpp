@@ -33,6 +33,7 @@ scenegraph::~scenegraph()
 void scenegraph::clear()
 {
     m_objects.clear();
+    m_triggers.clear();
 }
 
 sg_object_ptr scenegraph::add_object(sg_object_ptr object)
