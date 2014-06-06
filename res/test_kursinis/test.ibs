@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Sphere" type="MESH">
+    <position x="0.0" y="0.0" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+    <iqm_file name="Sphere.iqm"/>
+  </object>
+  <object name="Lamp" type="LAMP">
+    <position x="4.076245307922363" y="5.903861999511719" z="4.083306789398193"/>
+    <rotation x="0.893198" y="0.701351" z="1.961379"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+  </object>
+  <object name="Camera" type="CAMERA">
+    <position x="7.481131553649902" y="5.34366512298584" z="6.5076398849487305"/>
+    <rotation x="-0.472952" y="0.814866" z="-0.015769"/>
+    <scale x="1.0" y="0.9999999403953552" z="1.0"/>
+  </object>
+</scene>

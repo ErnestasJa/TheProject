@@ -18,22 +18,22 @@ public:
     virtual mesh_ptr get_mesh();
 
 public:
-    virtual uint32_t get_type();
 
     virtual void render(scenegraph * sg);
 
+    virtual uint32_t get_type();
 
+    virtual bool set_material(uint32_t index, sg_material_ptr mat);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 
     virtual sg_aabb get_aabb();
-
     virtual void recalculate_aabb();
 
 protected:
     sg_aabb m_aabb;
     mesh_ptr m_mesh;
-    std::vector<sg_material_static_mesh_ptr> m_materials;
+    std::vector<sg_material_ptr> m_materials;
 };
 
 typedef std::shared_ptr<sg_mesh_object> sg_mesh_object_ptr;

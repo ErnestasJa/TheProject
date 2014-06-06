@@ -5,7 +5,7 @@ layout(location=0) out vec4 vFragColor;//fragment shader output
 smooth in vec2 vUV;	//input interpolated texture coordinate
 
 //uniform
-uniform sampler2D textureMap;	//the input image to blur
+uniform sampler2D texture0;	//the input image to blur
 
 //constant kernel values for Gaussian smoothing
 const float kernel[]=float[21] (0.000272337,  0.00089296, 0.002583865, 0.00659813,  0.014869116,
@@ -16,14 +16,14 @@ const float kernel[]=float[21] (0.000272337,  0.00089296, 0.002583865, 0.0065981
 void main()
 { 
 	//get the inverse of texture size
-	vec2 delta = 1.0/textureSize(textureMap,0);
+	vec2 delta = 1.0/textureSize(texture0,0);
 	vec4 color = vec4(0);
 	int  index = 20;
 	 
 	//go through all neighbors and multiply the kernel value with the obtained 
 	//colour from the input image
 	for(int i=-10;i<=10;i++) {				
-		color += kernel[index--]*texture(textureMap, vUV + (vec2(i*delta.x,0)));
+		color += kernel[index--]*texture(texture0, vUV + (vec2(i*delta.x,0)));
 	}
 	  
 	//return the filtered colour as fragment output

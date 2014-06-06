@@ -1,47 +1,62 @@
 #version 330 core
 
 layout(location=0) out vec4 vFragColor;	//fragment shader output
+in vec2 UV;
 
 //shader uniforms
-uniform mat4 MV;					//modelview matrix
-uniform sampler2D  shadowMap;		//shadowmap texture
-uniform vec3 light_position;		//light position in object space
-uniform vec3 diffuse_color;			//surface's diffuse colour
-									 
-//inputs from the vertex shader		 
-smooth in vec3 vEyeSpaceNormal;		//interpolated eye space normal
-smooth in vec3 vEyeSpacePosition;	//interpolated eye space position
-smooth in vec4 vShadowCoords;		//interpolated shadow coordinates
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+uniform vec3 camera_pos;
+uniform vec3 light_pos;
 
-//shader constants
-const float k0 = 1.0;	//constant attenuation
-const float k1 = 0.0;	//linear attenuation
-const float k2 = 0.0;	//quadratic attenuation
+///constants
+const vec3 diffuse_color = vec3(1,1,1);
+const vec3 specular_color = vec3(0.6,0.6,0.6);
+const float shininess = 256.0f;
+							
+//inputs
+smooth in vec4 vShadowCoords;		//interpolated shadow coordinates
+smooth in vec3 vEyeSpacePosition;
+smooth in vec3 vEyeSpaceNormal;
+
+///functions
+void light_func(
+	out float diffuse,
+	out float specular,
+	in vec3 light_position,
+	in vec3 camera_position,
+	in vec3 vert_eye_space_position,
+	in vec3 vert_eye_space_normal)
+{
+	vec3 vEyeSpaceLightPosition=light_position;
+	vec3 vEyeSpaceCameraPosition=camera_position;
+
+	vec3 N = normalize(vert_eye_space_normal);
+	vec3 L = normalize(vEyeSpaceLightPosition - vert_eye_space_position);
+	vec3 V = normalize(vEyeSpaceCameraPosition - vert_eye_space_position);
+	vec3 H = normalize(L+V);
+	
+	diffuse = max(0, dot(N, L));
+	specular = max(0, pow(dot(N, H), shininess));
+}
 
 void main() {   
+	float diffuse = 1;
+	float specular = 1;
 
-	//get light position in eye space
-	vec4 vEyeSpaceLightPosition = (MV*vec4(light_position,1));
+	vec4 tex_color = texture(texture1, UV); 
+
+	if(tex_color.a<0.2)
+		discard;
 	
-	//get the light vector
-	vec3 L = (vEyeSpaceLightPosition.xyz-vEyeSpacePosition);
-	
-	//get the distance of the light source
-	float d = length(L);
-
-	//normalize the light vector
- 	L = normalize(L);
-
-	//calculate the diffuse component and apply light attenuation 
-	float attenuationAmount = 1.0/(k0 + (k1*d) + (k2*d*d));
-	float diffuse = max(0, dot(vEyeSpaceNormal, L)) * attenuationAmount;	
+	light_func(diffuse,specular,light_pos,camera_pos,vEyeSpacePosition,vEyeSpaceNormal);
 	  
 	//if the homogeneous coordinate is > 1, we are in the forward half
 	//so we should cast shadows. If this check is removed, you will see 
 	//shadows on both sides of the light when the light is very close to 
 	//the plane. Try removing this to see what I mean.
-	if(vShadowCoords.w>1) {
-		
+	if(vShadowCoords.w>1)
+	{
 		//divide the shadow coordinate by homogeneous coordinate
 		vec3 uv = vShadowCoords.xyz/vShadowCoords.w;
 		
@@ -49,8 +64,8 @@ void main() {
 		float depth = uv.z;
 		
 		//read the moments from the shadow map texture
-		vec4 moments = texture(shadowMap, uv.xy); 
-
+		vec4 moments = texture(texture0, uv.xy); 
+	
 		//calculate variance from the moments
 		float E_x2 = moments.y;
 		float Ex_2 = moments.x*moments.x;
@@ -72,5 +87,5 @@ void main() {
 		diffuse *= max(p_max, (depth<=moments.x)?1.0:0.2); 
 	}
 	//return the final colour by multiplying the diffuse colour with the diffuse component
-	vFragColor = diffuse*vec4(diffuse_color, 1);	 
+	vFragColor = diffuse*vec4(tex_color.xyz, 1) + specular*vec4(specular_color, 1);	 
 }

@@ -15,6 +15,8 @@ sg_graphics_manager::sg_graphics_manager(logger * l)
     m_image_loader = new image_loader(l);
     m_mesh_loader = new mesh_loader(l);
     m_shader_loader = new shader_loader(l);
+
+    m_default_tex = load_texture("res/no_tex.png");
 }
 
 sg_graphics_manager::~sg_graphics_manager()
@@ -45,31 +47,122 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     }
 
     if(!res.resource)
-        m_logger->log(LOG_ERROR, "Could not load '%s' texture.", file.c_str());
+    {
+        m_logger->log(LOG_ERROR, "Texture '%s' could not be loaded.", file.c_str());
+        //throw "Texture not loaded.";
+    }
+    else
+        m_logger->log(LOG_LOG, "Texture '%s' loaded.", file.c_str());
+
 
     return res.resource;
 }
 
-sg_material_ptr sg_graphics_manager::create_material(uint32_t type)
+sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::string & vert_shader, const std::string & frag_shader)
 {
     switch(type)
     {
-    case SGMT_STATIC_MESH:
+    case SGM_ABSTRACT_MATERIAL:
         {
-            sg_material_static_mesh * mat = new sg_material_static_mesh();
-            mat->mat_shader=m_shader_loader->load("res/static_mesh");
+            sg_abstract_material * mat = new sg_abstract_material(m_shader_loader->load(vert_shader,frag_shader));
 
             if(!mat->mat_shader)
-                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/static_mesh");
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", (vert_shader+" "+frag_shader).c_str());
+                 delete mat;
+                 return sg_material_ptr();
+            }
 
-            mat->mat_texture=load_texture("res/no_tex.png");
             return share(mat);
         }
-    case SGMT_POINT_SPRITE:
+    case SGM_STATIC_MESH:
         {
-            sg_material_point_sprite * mat = new sg_material_point_sprite();
-            mat->mat_shader=m_shader_loader->load("res/shaders/point_sprite/point_sprite");
-            mat->mat_texture=load_texture("res/no_tex.png");
+            sg_material_static_mesh * mat = new sg_material_static_mesh(m_shader_loader->load("res/shaders/static_mesh/static_mesh"));
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/static_mesh/static_mesh");
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            mat->mat_texture=m_default_tex;
+
+            if(mat->mat_shader->bindings.size()==0)
+            {
+                mat->mat_shader->set();
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
+            }
+
+            return share(mat);
+        }
+    case SGM_VSM_FIRST_PASS:
+        {
+            sg_material_vsm_first_pass * mat = new sg_material_vsm_first_pass(m_shader_loader->load("res/shaders/vsm/firstStep"));
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/vsm/firstStep");
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            if(mat->mat_shader->bindings.size()==0)
+            {
+                mat->mat_shader->set();
+            }
+
+            return share(mat);
+        }
+    case SGM_VSM_FINAL_PASS:
+        {
+            sg_material_vsm_final_pass * mat = new sg_material_vsm_final_pass(m_shader_loader->load("res/shaders/vsm/VarianceShadowMapping"));
+
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s' shader.", "res/shaders/vsm/VarianceShadowMapping");
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            if(mat->mat_shader->bindings.size()==0)
+            {
+                mat->mat_shader->set();
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
+            }
+
+
+            mat->texture0=m_default_tex;
+            mat->texture1=m_default_tex;
+
+
+            return share(mat);
+        }
+    case SGM_TEXTURE_FILTER:
+        {
+            sg_material_texture_filter * mat = new sg_material_texture_filter(m_shader_loader->load(vert_shader,frag_shader));
+
+            if(!mat->mat_shader)
+            {
+                 m_logger->log(LOG_ERROR, "Could not load '%s', '%s' shaders.", vert_shader.c_str(), frag_shader.c_str());
+                 delete mat;
+                 return sg_material_ptr();
+            }
+
+            if(mat->mat_shader->bindings.size()==0)
+            {
+                mat->mat_shader->set();
+                sg_mvar<int32_t>(mat->mat_shader->get_binding("texture0").index,"texture0",0).set();
+            }
+
+            return share(mat);
+        }
+    case SGM_POINT_SPRITE:
+        {
+            sg_material_point_sprite * mat = new sg_material_point_sprite(m_shader_loader->load("res/shaders/point_sprite/point_sprite"));
+
+            mat->mat_texture=m_default_tex;
             return share(mat);
         }
         default:

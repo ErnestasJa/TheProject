@@ -1,6 +1,6 @@
 #version 330
 
-uniform mat4 MVP;
+uniform mat4 mvp;
 uniform vec4 color;
 
 layout (location=0) in vec3 pos;

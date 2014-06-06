@@ -8,12 +8,16 @@
 
 gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_ptr<texture> tex):gui_element(env,dimensions)
 {
+    this->type=GUIET_element;
     environment=env;
 
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
     m_tex=tex;
+
+    //it's an image...
+    this->set_listening(false);
 
     this->set_parent(env);
 }

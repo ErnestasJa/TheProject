@@ -8,21 +8,20 @@ uint32_t texture::current = 0;
 
 texture::texture()
 {
-    obj = 0;
-    type = 0;
+    id = -1;
+    type = GL_TEXTURE_2D;
+
 }
 
 texture::~texture()
 {
-    free();
+    glDeleteTextures(1,&id);
 }
 
 void texture::init(std::shared_ptr<image> img)
 {
-    type = GL_TEXTURE_2D;
-
-    glGenTextures(1, &obj);
-    glBindTexture(type,obj);
+    glGenTextures(1, &id);
+    glBindTexture(type,id);
 
     glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -62,8 +61,8 @@ void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format,
 {
     type = target;
 
-    glGenTextures(1, &obj);
-    glBindTexture(type,obj);
+    glGenTextures(1, &id);
+    glBindTexture(type,id);
 
     glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -88,10 +87,16 @@ void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format,
         break;
 
     default:
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        //glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        break;
     }
 
-    glTexImage2D(type,0,internal_format,w,h,0,image_format,image_format==GL_DEPTH_COMPONENT?GL_UNSIGNED_INT:GL_UNSIGNED_BYTE,data);
+    uint32_t data_type = GL_UNSIGNED_BYTE;
+
+    if(internal_format==GL_RGBA32F)
+        data_type = GL_FLOAT;
+
+    glTexImage2D(type,0,internal_format,w,h,0,image_format, data_type,data);
 
     //glinitMipmap(type);
 
@@ -100,34 +105,99 @@ void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format,
 
 void texture::set_filters(FILTER_MIN fmin, FILTER_MAG fmag)
 {
-    glBindTexture(type,obj);
+    if(current!=id)
+    glBindTexture(type,id);
 
-    glTexParameteri(type, GL_TEXTURE_MAG_FILTER, fmin == FILTER_MIN_LINEAR ? GL_LINEAR : GL_NEAREST);
-    glTexParameteri(type, GL_TEXTURE_MIN_FILTER, fmag == FILTER_MAG_LINEAR_MIPMAP ? GL_LINEAR_MIPMAP_LINEAR : (fmag==FILTER_MAG_NEAREST_MIPMAP ? GL_NEAREST_MIPMAP_NEAREST : (fmag==FILTER_MAG_LINEAR ? GL_LINEAR : GL_NEAREST)));
+    glTexParameteri(type, GL_TEXTURE_MAG_FILTER, fmag == FILTER_MAG_LINEAR ? GL_LINEAR : GL_NEAREST);
+    glTexParameteri(type, GL_TEXTURE_MIN_FILTER, fmin == FILTER_MIN_LINEAR_MIPMAP ? GL_LINEAR_MIPMAP_LINEAR : (fmin==FILTER_MIN_NEAREST_MIPMAP ? GL_NEAREST_MIPMAP_NEAREST : (fmin==FILTER_MIN_LINEAR ? GL_LINEAR : GL_NEAREST)));
 
+    if(current!=id)
     glBindTexture(type,current);
 }
 
 void texture::set_clamp(texture::CLAMP x, texture::CLAMP y)
 {
-    glBindTexture(type,obj);
+    if(current!=id)
+    glBindTexture(type,id);
 
-    glTexParameteri(type, GL_TEXTURE_WRAP_S, x == CLAMP_EDGE ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-    glTexParameteri(type, GL_TEXTURE_WRAP_T, y == CLAMP_EDGE ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+    glTexParameteri(type, GL_TEXTURE_WRAP_S, x == CLAMP_EDGE ? GL_CLAMP_TO_EDGE : (x == CLAMP_BORDER ? GL_CLAMP_TO_BORDER : GL_REPEAT));
+    glTexParameteri(type, GL_TEXTURE_WRAP_T, y == CLAMP_EDGE ? GL_CLAMP_TO_EDGE : (y == CLAMP_BORDER ? GL_CLAMP_TO_BORDER : GL_REPEAT));
 
+    if(current!=id)
+    glBindTexture(type,current);
+}
+
+void texture::set_border_color(const glm::vec4 & color)
+{
+    if(current!=id)
+    glBindTexture(type,id);
+
+    glTexParameterfv(GL_TEXTURE_2D,GL_TEXTURE_BORDER_COLOR,&color[0]);
+
+    if(current!=id)
+    glBindTexture(type,current);
+}
+
+void texture::init_mipmap()
+{
+    if(current!=id)
+    glBindTexture(type,id);
+
+    glGenerateMipmap(type);
+
+    if(current!=id)
+    glBindTexture(type,current);
+}
+
+void texture::init_mipmap(uint32_t base, uint32_t max)
+{
+    if(current!=id)
+    glBindTexture(type,id);
+
+    glTexParameteri(type,GL_TEXTURE_BASE_LEVEL,base);
+    glTexParameteri(type,GL_TEXTURE_MAX_LEVEL,max);
+    glGenerateMipmap(type);
+
+    if(current!=id)
+    glBindTexture(type,current);
+}
+
+void texture::update_mipmaps()
+{
+    if(current!=id)
+    glBindTexture(type,id);
+
+    glGenerateMipmap(type);
+
+    if(current!=id)
     glBindTexture(type,current);
 }
 
 void texture::set(uint8_t slot)
 {
     glActiveTexture(GL_TEXTURE0+slot);
-    glBindTexture(type,obj);
+    glBindTexture(type,id);
 
     active_slot = slot;
-    current = obj;
+    current = id;
+}
+
+void texture::unset(uint8_t slot)
+{
+    glActiveTexture(GL_TEXTURE0+slot);
+    glBindTexture(type,0);
+
+    active_slot = slot;
+    current = id;
 }
 
 void texture::free()
 {
-    glDeleteTextures(1,&obj);
+
 }
+
+GLO_TYPE texture::get_type()
+{
+    return GLO_TEXTURE;
+}
+

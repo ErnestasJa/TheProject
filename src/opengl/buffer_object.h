@@ -10,6 +10,7 @@ struct buffer_object: public ibuffer_object
 
     //void init_buffers();
     virtual void init();
+    virtual void upload();
 
     virtual ibuffer_object::IBO_TYPE get_type(){return ibuffer_object::DATA;}
     virtual uint32_t get_data_type();
@@ -24,6 +25,7 @@ struct index_buffer_object: public ibuffer_object
 
     //void init_buffers();
     virtual void init();
+    virtual void upload();
 
     virtual ibuffer_object::IBO_TYPE get_type(){return ibuffer_object::INDEX;}
     virtual uint32_t get_data_type();

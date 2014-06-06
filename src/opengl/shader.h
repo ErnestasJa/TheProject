@@ -4,11 +4,12 @@ struct binding
 {
     std::string name;
     int32_t index;
+    uint32_t type;
 };
 
 /**
  * Usage:
- * shader sh(shader_name, vertex_source, fragment_source, attribute_bindings, texture_bindings);
+ * shader sh(shader_name, vertex_source, fragment_source);
  * sh->compile();
  * sh->link();
  * if(sh->program) good;
@@ -20,21 +21,22 @@ struct binding
 struct shader
 {
     std::string name, vsstr, psstr;
-    const binding *attribs, *texs;
     uint32_t program, vsobj, psobj;
+    std::vector<binding> bindings;
 
-    shader ( const std::string & name, const std::string & vsstr = NULL, const std::string & psstr = NULL, const binding *attribs = NULL, const binding *texs = NULL )
-        : name ( name ), vsstr ( vsstr ), psstr ( psstr ), attribs ( attribs ), texs ( texs ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
+    shader ( const std::string & name, const std::string & vsstr = nullptr, const std::string & psstr = nullptr)
+        : name ( name ), vsstr ( vsstr ), psstr ( psstr ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
 
     ~shader()
     {
-        free();
+        if(program)
+        glDeleteProgram(program);
     }
 
-    static shader * load_shader(const std::string & name, const binding *attribs = NULL, const binding *texs = NULL)
+    static shader * load_shader(const std::string & name, const binding *uniforms = nullptr, const binding *texs = nullptr)
     {
-        char * vsh=NULL;
-        char * fsh=NULL;
+        char * vsh=nullptr;
+        char * fsh=nullptr;
 
         uint32_t l1 = helpers::read(name+".vert",vsh);
 
@@ -46,7 +48,7 @@ struct shader
         if(l2==0)
             return nullptr;
 
-        shader * sh = new shader(name,vsh,fsh,attribs,texs);
+        shader * sh = new shader(name,vsh,fsh);
 
         sh->compile();
         sh->link();
@@ -93,7 +95,7 @@ struct shader
         obj = glCreateShader ( type );
         char const * str = def.c_str();
 
-        glShaderSource ( obj, 1, &str, NULL );
+        glShaderSource ( obj, 1, &str, nullptr );
         glCompileShader ( obj );
 
         int32_t success;
@@ -110,7 +112,7 @@ struct shader
         }
     }
 
-    void link ( const binding *attribs = NULL, bool msg = true )
+    void link (bool msg = true )
     {
         program = vsobj && psobj ? glCreateProgram() : 0;
         int32_t success = 0;
@@ -119,9 +121,6 @@ struct shader
         {
             glAttachShader ( program, vsobj );
             glAttachShader ( program, psobj );
-
-            if ( attribs ) for ( const binding *a = attribs; a->name.size(); a++ )
-                    glBindAttribLocation ( program, a->index, a->name.c_str() );
 
             glLinkProgram ( program );
             glGetProgramiv ( program, GL_LINK_STATUS, &success );
@@ -142,49 +141,82 @@ struct shader
             {
                 glDetachShader(program, vsobj);
                 glDetachShader(program, psobj);
+                query_all_binding_locations();
             }
         }
     }
 
-    void compile ( const std::string & vsdef, const std::string & psdef, const binding *attribs = NULL )
+    void compile ( const std::string & vsdef, const std::string & psdef)
     {
         compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
         compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
-        link ( attribs, true );
+        link ( true );
     }
 
     void compile()
     {
-        if ( vsstr.size() && psstr.size() ) compile ( vsstr, psstr, attribs );
+        if ( vsstr.size() && psstr.size() ) compile ( vsstr, psstr );
     }
 
     void set()
     {
         glUseProgram ( program );
-        bindtexs();
     }
 
+// @deprecated (serengeor#1#):
     int32_t getparam ( const std::string & pname )
     {
-        return glGetUniformLocation ( program, pname.c_str() );
+        return  glGetUniformLocation ( program, pname.c_str() );
     }
 
-    void bindtex ( const std::string & tname, int32_t index )
+    binding get_binding ( const std::string & pname )
     {
-        int32_t loc = getparam ( tname );
+        for ( binding &t : bindings)
+        {
+            if(t.name==pname)
+                return t;
+        }
 
-        if ( loc != -1 ) glUniform1i ( loc, index );
+        return binding();
     }
 
-    void bindtexs()
+    void query_binding_locations()
     {
-        if ( texs ) for ( const binding *t = texs; t->name.size(); t++ )
-                bindtex ( t->name, t->index );
+        for ( binding &t : bindings)
+        {
+            t.index = glGetUniformLocation ( program, t.name.c_str() );
+            if(t.index==-1)
+            throw t;
+        }
     }
 
-    void free()
+    void query_all_binding_locations()
     {
-        glDeleteProgram(program);
+        bindings.clear();
+        binding b;
+
+        int32_t total = -1;
+        glGetProgramiv( program, GL_ACTIVE_UNIFORMS, &total );
+
+        printf ( "Binding count: %i\n", total);
+
+        for(int i=0; i<total; ++i)
+        {
+            int name_len=-1, num=-1;
+            GLenum type = GL_ZERO;
+            char name[100];
+            glGetActiveUniform( program, GLuint(i), sizeof(name)-1,
+                &name_len, &num, &type, name );
+            name[name_len] = 0;
+            GLuint location = glGetUniformLocation( program, name );
+
+            b.index = location;
+            b.name = name;
+            b.type = type;
+            bindings.push_back(b);
+
+            printf ( "Binding index=%i; name='%s'; type=%i;\n",  b.index, b.name.c_str(), b.type);
+        }
     }
 };
 

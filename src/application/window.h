@@ -69,6 +69,10 @@ public:
         glfwWindowHint(GLFW_ALPHA_BITS, 8);
         glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
+        glfwWindowHint(GLFW_RESIZABLE,0);
+
+
+
         /* Create a windowed mode window and its OpenGL context */
         m_window = glfwCreateWindow(width, height,title.c_str(),NULL,NULL);
 
@@ -141,9 +145,9 @@ public:
         return m_sig_mouse_scroll;
     }
 
-    sigc::signal<void, double, double> & sig_window_resized()
+    sigc::signal<void, int32_t, int32_t> & sig_window_resized()
     {
-        return m_sig_mouse_moved;
+        return m_sig_window_resized;
     }
 
     sigc::signal<void> & sig_window_closed()

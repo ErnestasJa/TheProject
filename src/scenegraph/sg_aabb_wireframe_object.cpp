@@ -63,7 +63,6 @@ uint32_t sg_aabb_wireframe_object::get_type()
 
 void sg_aabb_wireframe_object::render(scenegraph * sg)
 {
-    sg->on_set_material(this->get_material(0));
     m_mesh->render_lines();
 }
 

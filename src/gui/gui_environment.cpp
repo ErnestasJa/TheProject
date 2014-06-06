@@ -39,12 +39,12 @@ gui_environment::gui_environment(window* win,logger* log):gui_element(nullptr, r
     gui_quad=new quad();
     gui_quad->generate();
 
-    sliced_quad=new sliced_gui_quad();
+    sliced_quad=new sliced_gui_quad(1,0.125);
     sliced_quad->generate();
 
     skin=new gui_skin();
 
-    skin->load("../../res/skin_default.xml");
+    skin->load("res/skin_default.xml");
 
     skin_atlas=new texture();
     image_loader* imgl=new image_loader(log);
@@ -114,8 +114,8 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
                 case GLFW_KEY_C:
                     break;
                 case GLFW_KEY_V:
-                    this->clipboard_string=glfwGetClipboardString(this->m_window->getWindow());
-                    focus->on_event(gui_event(text_paste,focus));
+                    this->clipboard_string=helpers::to_wstr(glfwGetClipboardString(this->m_window->getWindow()));
+                    focus->on_event(gui_event(text_paste,this,focus));
                     break;
                 default:
                     break;
@@ -124,10 +124,10 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
             default:
                 break;
             }
-            focus->on_event(gui_event(key_pressed,focus));
+            focus->on_event(gui_event(key_pressed,this,focus));
             break;
         case GLFW_REPEAT:
-            focus->on_event(gui_event(key_pressed,focus));
+            focus->on_event(gui_event(key_pressed,this,focus));
             break;
         case GLFW_RELEASE:
             break;
@@ -140,9 +140,9 @@ void gui_environment::on_key_event(int32_t key, int32_t scan_code, int32_t actio
 
 void gui_environment::on_char_typed(int32_t scan_code)
 {
-    this->last_char=scan_code;
+    this->last_char=(wchar_t)scan_code;
     if(focus!=nullptr)
-        focus->on_event(gui_event(key_typed,focus));
+        focus->on_event(gui_event(key_typed,this,focus));
 }
 
 void gui_environment::on_mouse_moved(double x, double y)
@@ -161,19 +161,19 @@ void gui_environment::on_mouse_moved(double x, double y)
                 {
                     last_hover = hover;
                     last_hover->on_event(gui_event(
-                        gui_event_type::element_exitted,
+                        gui_event_type::element_exitted,this,
                         last_hover));
                     last_hover->set_hovered(false);
                 }
                 hover = target;
                 hover->on_event(gui_event(
-                                    gui_event_type::element_hovered, hover));
+                                    gui_event_type::element_hovered,this, hover));
                 hover->set_hovered(true);
             }
 
             if(focus!=nullptr)
                 if(m_mouse_down)
-                    focus->on_event(gui_event(mouse_dragged,focus));
+                    focus->on_event(gui_event(mouse_dragged,this,focus));
         }
 
 
@@ -195,16 +195,14 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
                 if (focus != nullptr)
                 {
                     last_focus = focus;
-                    last_focus->on_event(gui_event(
-                                             gui_event_type::element_focus_lost,
-                                             last_focus));
+                    GUI_FIRE_ELEMENT_EVENT(last_focus,gui_event(gui_event_type::element_focus_lost,this, last_focus))
                     last_focus->set_focused(false);
                 }
                 focus = hover;
                 if (hover != this)
                 {
-                    focus->on_event(gui_event(
-                                        gui_event_type::element_focused, focus));
+                    GUI_FIRE_ELEMENT_EVENT(focus,gui_event(gui_event_type::element_focused,this, focus))
+                    //focus->on_event(gui_event(gui_event_type::element_focused, focus));
                     focus->set_focused(true);
                     focus->get_parent()->bring_to_front(focus);
                 }
@@ -213,12 +211,12 @@ void gui_environment::on_mouse_button(int32_t button, int32_t action, int32_t mo
             }
 
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_pressed,focus));
+                focus->on_event(gui_event(mouse_pressed,this,focus));
             break;
         case GLFW_RELEASE:
             m_mouse_down=false;
             if(focus!=nullptr&&hover==focus)
-                focus->on_event(gui_event(mouse_released,focus));
+                focus->on_event(gui_event(mouse_released,this,focus));
             break;
         default:
             break;
@@ -335,7 +333,7 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     gui_shader->set();
     skin_atlas->set(0);
 
-    sliced_quad->set_tcoords(skin->get_uv(gui_skin_background));
+    sliced_quad->set_tcoords(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -343,9 +341,36 @@ void gui_environment::draw_sliced_gui_quad(rect2d<int> dims,uint32_t style,bool 
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1f(gui_shader->getparam("alpha"),0.9f);
 
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     sliced_quad->draw();
-
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
+}
+
+gui_element * search_elements(gui_element * el, const std::string & name)
+{
+    if(el->get_name()==name)
+    {
+        return el;
+    }
+
+    loopi(el->get_children().size())
+    {
+        gui_element * e = search_elements(el->get_children()[i],name);
+
+        if(e)
+        {
+            return e;
+        }
+    }
+
+    return nullptr;
+}
+
+gui_element * gui_environment::get_element_by_name(const std::string & name)
+{
+    return search_elements(this,name);
 }

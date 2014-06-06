@@ -6,8 +6,9 @@
 #include "gui_edit_box.h"
 #include "font.h"
 
-gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
+gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {
+    this->type=GUIET_edit_box;
     environment=env;
 
     blinktimer=curspos=lastkey=reptimer=sx=0;
@@ -18,6 +19,8 @@ gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::st
 
     m_text=text;
     m_text_color=text_color;
+
+    curspos=text.length();
 
     _mx=absolute_rect.x + 5;
     _mw=absolute_rect.w - font_size - 5;
@@ -48,37 +51,50 @@ void gui_edit_box::render()
     _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
 
-    sx=_mw-1-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
+    sx=_mw-8-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
     if(sx>0)
         sx=0;
 
     font_renderer* fr=this->environment->get_font_renderer();
 
     // RECT
-    environment->draw_gui_quad(absolute_rect);
+    if(this->is_focused())
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_hover);
+    }
+    else if(this->is_enabled()==false)
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_disabled);
+    }
+    else
+    {
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_active);
+    }
+
 
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
         fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
         if(focused&&blink)
-            fr->render_string("l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
+            fr->render_string(L"l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
 
     glDisable(GL_SCISSOR_TEST);
 
     this->render_children();
 }
 
-void gui_edit_box::set_text(const std::string &text)
+void gui_edit_box::set_text(const std::wstring &text)
 {
     this->m_text=text;
+    curspos=text.length();
 }
 
 bool gui_edit_box::on_event(const gui_event & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
-        std::string temp;
+        std::wstring temp;
         switch(e.get_type())
         {
         case element_focused:
@@ -91,9 +107,11 @@ bool gui_edit_box::on_event(const gui_event & e)
 
         case key_typed:
             lastkey=environment->get_last_char();
-            temp="";
+            printf("lastchar:%lc %lc\n",lastkey,'è');
+            temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);
+
             break;
 
         case key_pressed:
@@ -107,8 +125,8 @@ bool gui_edit_box::on_event(const gui_event & e)
                 this->set_focused(false);
                 if(this->event_listener)
                 {
-                    GUI_FIRE_EVENT(gui_event(textbox_submit,this))
-                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this))
+                    GUI_FIRE_EVENT(gui_event(textbox_submit,this,this))
+                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this,this))
                 }
                 break;
             case GLFW_KEY_BACKSPACE:
@@ -143,7 +161,7 @@ bool gui_edit_box::on_event(const gui_event & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_edit_box::add_text(int32_t index,std::string text)
+void gui_edit_box::add_text(int32_t index,std::wstring text)
 {
     curspos=index;
 
@@ -157,16 +175,9 @@ void gui_edit_box::add_text(int32_t index,std::string text)
 
 void gui_edit_box::remove_text(int32_t index, int32_t length)
 {
-    curspos=index;
-
-    if(curspos-length>0)
+    if(index>0&&index-length>=0)
     {
-        m_text=m_text.substr(0,curspos-length)+m_text.substr(curspos,m_text.length());
-        curspos-=length;
-    }
-    else if(curspos>0)
-    {
-        m_text=m_text.substr(0,curspos-1)+m_text.substr(curspos,m_text.length());
-        curspos--;
+        m_text=m_text.substr(0,index-length)+m_text.substr(index);
+        curspos=index-length;
     }
 }

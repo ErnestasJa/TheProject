@@ -33,6 +33,7 @@
 #include "gtx/norm.hpp"
 #include "gtc/matrix_transform.hpp"
 #include "gtc/matrix_inverse.hpp"
+#include "gtx/rotate_vector.hpp"
 
 #include "gtc/type_ptr.hpp"
 
@@ -44,5 +45,9 @@
 // PROJECT INCLUDES
 #include "utility/bit.h"
 #include "utility/helpers.h"
+
+/// DEFINES
+#undef RELEASE_FS
+#define LOG_OUTPUT
 
 #endif

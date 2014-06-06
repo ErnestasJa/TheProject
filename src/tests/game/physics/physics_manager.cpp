@@ -72,6 +72,31 @@ physics_manager::~physics_manager()
     printf("~physics_manager\n");
 }
 
+void physics_manager::clear()
+{
+    m_softBodyWorldInfo.m_sparsesdf.GarbageCollect();
+    m_softBodyWorldInfo.m_sparsesdf.Reset();
+
+    std::vector<btRigidBody*>::iterator it;
+    for (it=m_rigidObjects.begin(); it!=m_rigidObjects.end();)
+    {
+        btRigidBody * body =(*it);
+        m_world->removeRigidBody((btRigidBody*)body);
+        destroy_body(body);
+        it=m_rigidObjects.erase(it);
+    }
+    m_rigidObjects.clear();
+    std::vector<btSoftBody*>::iterator it2;
+    for (it2=m_softObjects.begin(); it2!=m_softObjects.end();)
+    {
+        btSoftBody * body =(*it2);
+        get_world()->removeSoftBody((btSoftBody*)body);
+        delete body;
+        it2=m_softObjects.erase(it2);
+    }
+    m_softObjects.clear();
+}
+
 void physics_manager::destroy_body(btRigidBody * body)
 {
     if(body->getCollisionShape())
@@ -228,7 +253,9 @@ btRigidBody* physics_manager::create_trimesh_body(sg::sg_mesh_object_ptr mesh_ob
     btTransform Transform;
     Transform.setIdentity();
     Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
+    glm::quat sq=mesh_obj->get_rotation();
+    btQuaternion quatty=btQuaternion(sq.x,sq.y,sq.z,sq.w);
+    Transform.setRotation(quatty);
 
     cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
 

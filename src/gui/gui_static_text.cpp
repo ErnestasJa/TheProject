@@ -7,8 +7,9 @@
 
 #include "gui_static_text.h"
 
-gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::string text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
+gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
 {
+    this->type=GUIET_static_text;
     environment=env;
 
     m_draw_background=drawbackground;
@@ -39,7 +40,7 @@ void gui_static_text::render()
     this->render_children();
 }
 
-void gui_static_text::set_text(const std::string &text)
+void gui_static_text::set_text(const std::wstring &text)
 {
     this->m_text=text;
 }

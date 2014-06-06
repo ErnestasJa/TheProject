@@ -74,6 +74,8 @@ struct mesh
     void render_lines();
     void render_triangle_strip();
 
+    void upload_buffers();
+
     void free();
 };
 

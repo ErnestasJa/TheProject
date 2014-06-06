@@ -25,7 +25,7 @@ struct font
 
         float tx;	// x offset of glyph in texture coordinates
         float ty;	// y offset of glyph in texture coordinates
-    } c[128];		// character information
+    } c[1024];		// character information
 
     font(FT_Face face, int height, std::string name)
     {
@@ -42,7 +42,7 @@ struct font
 
         memset(c, 0, sizeof c);
         /* Find minimum size for a texture holding all visible ASCII characters */
-        for (int i = 32; i < 128; i++)
+        for (int i = 0; i < 1024; i++)
         {
             if (FT_Load_Char(face, i, FT_LOAD_RENDER))
             {
@@ -77,7 +77,7 @@ struct font
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         /* Linear filtering usually looks best for text */
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         /* Paste all glyph bitmaps into the texture, remembering the offset */
@@ -86,13 +86,15 @@ struct font
 
         rowh = 0;
         int cnth=0;
-        for (int i = 32; i < 128; i++)
+
+        for (int i = 0; i < 1024; i++)
         {
             if (FT_Load_Char(face, i, FT_LOAD_RENDER))
             {
                 fprintf(stderr, "Loading character %c failed!\n", i);
                 continue;
             }
+
             avgheight+=g->bitmap.rows;
             cnth++;
             if (ox + g->bitmap.width + 1 >= MAX_FONT_ATLAS_WIDTH)
@@ -119,6 +121,7 @@ struct font
         }
         avgheight=avgheight/(float)cnth;
         fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h, w * h / 1024);
+        glGenerateMipmap(GL_TEXTURE_2D);
     }
 
     ~font()

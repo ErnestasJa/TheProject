@@ -11,6 +11,7 @@ public:
 
     void reset(glm::vec3 point);
     void add_point(glm::vec3 point);
+    bool is_point_inside(glm::vec3 point) const;
 
     glm::vec3 get_extent() const;
     glm::vec3 get_min() const;

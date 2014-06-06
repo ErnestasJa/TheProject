@@ -25,6 +25,9 @@ class texture;
 class window;
 class gui_skin;
 class logger;
+
+gui_element * search_elements(gui_element * el, const std::string & name);
+
 class gui_environment : public gui_element
 {
 public:
@@ -54,12 +57,12 @@ public:
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
     void on_char_typed(int32_t scan_code);
 
-    const std::string &get_clipboard()
+    const std::wstring &get_clipboard()
     {
         return clipboard_string;
     }
 
-    char get_last_char()
+    wchar_t get_last_char()
     {
         return last_char;
     }
@@ -88,6 +91,12 @@ public:
 
 
     ///GUI ELEMENTS
+    gui_element * get_element_by_name(const std::string & name);
+
+    template<class T> T * get_element_by_name_t(const std::string & name)
+    {
+        return dynamic_cast<T*>(search_elements(this,name));
+    }
 //    gui_static_text *add_gui_static_text();
 //    gui_button *add_gui_button();
 //    gui_checkbox *add_gui_checkbox();
@@ -112,9 +121,9 @@ private:
 
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
 
-    char last_char;
+    wchar_t last_char;
     int32_t last_key,last_mod;
-    std::string clipboard_string;
+    std::wstring clipboard_string;
 
     glm::vec2 mouse_pos, last_mouse_pos, gui_scale;
 protected:

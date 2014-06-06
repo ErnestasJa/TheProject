@@ -16,17 +16,16 @@ public:
     virtual void render(scenegraph * sg);
     virtual void on_set_shader_constants(shader_ptr shader);
 
+    virtual bool set_material(uint32_t index, sg_material_ptr mat);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 
     virtual glm::mat4 & get_projection();
 
-    void set_position(const glm::vec3 v);
-	const glm::vec3 get_position() const;
 	const glm::vec3 get_look() const;
 
-	glm::mat4 get_matrix(const float yaw, const float pitch, const float roll);
-
+	const float get_far() const;
+	const float get_near() const;
 	const float get_fov() const;
 	const float get_aspect_ratio() const;
 
@@ -36,16 +35,17 @@ public:
 	void walk(const float amount);
 	void strafe(const float amount);
 	void lift(const float amount);
+	virtual glm::mat4x4 get_relative_transform();
+	void orbit(glm::vec3 point,float distance,float angleX,float angleY);
 
 protected:
-    float m_fov, m_aspect_ratio;
+    float m_fov, m_aspect_ratio, m_far, m_near;
 	static glm::vec3 UP;
 	glm::vec3 m_look;
 	glm::vec3 m_up;
 	glm::vec3 m_right;
 	glm::mat4 m_P; //projection matrix
 
-	float m_yaw, m_pitch, m_roll;
 	glm::vec3 m_translation;
 
 	sg_material_ptr m_mat;
