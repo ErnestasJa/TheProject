@@ -47,7 +47,7 @@
 #include "utility/helpers.h"
 
 /// DEFINES
-#define RELEASE_FS
-#undef LOG_OUTPUT
+#undef RELEASE_FS
+#define LOG_OUTPUT
 
 #endif

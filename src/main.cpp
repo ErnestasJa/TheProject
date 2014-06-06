@@ -13,7 +13,7 @@
 
 int main(int argc, const char ** argv)
 {
-    application * app = new baigiamasis_quadcopter(argc,argv);
+    application * app = new test_kursinis(argc,argv);
 
     if(app->init("KOSS V0.1",1280,720))
     {
