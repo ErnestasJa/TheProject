@@ -123,11 +123,11 @@ void sg_camera_object::orbit(glm::vec3 point,float distance,float angleX,float a
     r=distance;
     phi=angleX;
     theta=angleY;
+
     // Calculate the camera position using the distance and angles
-    float pi=glm::pi<float>();
-    float camX = distance * sin(glm::radians(theta)) * sin(glm::radians(phi));
-    float camY = distance * cos(glm::radians(phi));
-    float camZ = distance * cos(glm::radians(theta)) * sin(glm::radians(phi));
+    float camX = r * sin(glm::radians(theta)) * sin(glm::radians(phi));
+    float camY = r * cos(glm::radians(phi));
+    float camZ = r * cos(glm::radians(theta)) * sin(glm::radians(phi));
     glm::vec3 camoffs(camX,camY,camZ);
     glm::vec3 camPos=point+camoffs;
     this->set_position(camPos);

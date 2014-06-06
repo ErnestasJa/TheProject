@@ -13,7 +13,7 @@ private:
 
     void create_verts()
     {
-        float sx,sy;
+        //float sx,sy;
 
         pos->data.resize(16);
 

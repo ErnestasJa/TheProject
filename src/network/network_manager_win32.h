@@ -1,8 +1,12 @@
 #pragma once
 
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif // WIN32_LEAN_AND_MEAN
 
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x501
+#endif
 
 #include <windows.h>
 #include <winsock2.h>
@@ -45,6 +49,7 @@ public:
     network_manager_win32();
     ~network_manager_win32();
     bool init();
+    void deinit();
     void update();
     bool send_packet(){return true;} ///TODO
     void start_waiting_thread(){m_waiting_thread=std::thread(&network_manager_win32::wait_for_connection,this);}
@@ -53,5 +58,6 @@ public:
     glm::vec3 get_accelerometer_data(){return m_accelerometer_data;}
     int get_height_diff(){int ret= m_height_diff;m_height_diff=0;return ret;}
     int get_rot_diff(){int ret= m_rot_diff;m_rot_diff=0;return ret;}
+    bool should_deinit;
 protected:
 };

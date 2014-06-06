@@ -5,6 +5,7 @@
 class texture;
 template <typename T>
 class rect2d;
+
 class gui_image:public gui_element
 {
 private:

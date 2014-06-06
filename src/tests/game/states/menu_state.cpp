@@ -32,11 +32,10 @@ menu_state::menu_state(state_manager* sm):game_state(sm)
     m_rot=0;
 }
 
-#define init_e(x) x->set_event_listener(this); elems.push_back(x)
+#define init_e(x) x->set_event_listener(this)
 void menu_state::on_load()
 {
     img=new gui_image(m_env,rect2d<int>(768,0,462,256),m_app_ctx->gm->load_texture("res/logo_quad3.png"));
-    img->set_enabled(false);
     init_e(img);
 
     btn=new gui_button(m_env,rect2d<int>(100,300,200,40),L"Pradėti",true,false);
@@ -59,30 +58,54 @@ void menu_state::on_load()
 
     create_start_window();
 
+    quads->set_toggle(0);
+    levels->set_toggle(0);
+
+    m_app_ctx->gd->quad_choice=0;
+    m_app_ctx->gd->current_level=0;
+
+    gui_static_text* txt=(gui_static_text*)m_env->get_element_by_name("quad_info");
+    txt->set_text(L"Orlaivio informacija: "+m_app_ctx->gd->quadcopter_descriptions[0].info);
+
+    txt=(gui_static_text*)m_env->get_element_by_name("quad_difficulty");
+    txt->set_text(L"Sudėtingumas: "+m_app_ctx->gd->quadcopter_descriptions[0].difficulty);
+
+    txt=(gui_static_text*)m_env->get_element_by_name("quad_speed");
+    txt->set_text(L"Greitis: "+m_app_ctx->gd->quadcopter_descriptions[0].speed);
+
+    txt=(gui_static_text*)m_env->get_element_by_name("quad_mass");
+    txt->set_text(L"Masė: "+m_app_ctx->gd->quadcopter_descriptions[0].mass);
+
+    txt=(gui_static_text*)m_env->get_element_by_name("level_info");
+    txt->set_text(L"Lygio informacija: "+m_app_ctx->gd->training_descriptions[0].info);
+
+    txt=(gui_static_text*)m_env->get_element_by_name("level_quad");
+    txt->set_text(L"Rekomenduojamas orlaivis: "+m_app_ctx->gd->training_descriptions[0].recommended_quad);
+
     create_scene();
 }
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,5,-10),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
+    cam->orbit(glm::vec3(0,0,0),4,3.14/180,3.14/180);
 
     ///load model
-    mesh_ptr m=m_app_ctx->gm->get_mesh_loader()->load("res/quadcopters/default_quad.iqm");
-    if(!m) exit(-1);
-
-    obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
+    obj=m_app_ctx->sg->load_mesh_object("res/quadcopters/default_quad.iqm",false);
+    //obj = sg::sg_mesh_object_ptr(new sg::sg_mesh_object(m_app_ctx->sg,m));
     obj->set_position(glm::vec3(0,0,0));
 
     sm_mat = static_cast<sg::sg_material_static_mesh*>(obj->get_material(0).get());
-    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/red.png");
+    sm_mat->mat_texture= m_app_ctx->gm->load_texture("res/quadcopters/blue.png");
 
+    printf("PING.\n");
     m_app_ctx->sg->add_object(obj);
 
     sg::sg_light_object_ptr light = m_app_ctx->sg->add_light_object();
     light->set_position(glm::vec3(0,100,0));
 
-    sg::sg_skybox_object_ptr skybox = m_app_ctx->sg->load_skybox("res/models/sky1/sky.iqm",true);
+    skybox = m_app_ctx->sg->load_skybox("res/models/sky1/sky.iqm",true);
     m_app_ctx->sg->add_object(skybox);
 }
 
@@ -90,7 +113,7 @@ void menu_state::create_scene()
 
 void menu_state::create_quad_selections()
 {
-    pane=new gui_pane(m_env,rect2d<int>(10,50,748,220),true);
+    pane=new gui_pane(m_env,rect2d<int>(10,50,580,220),true);
     pane->set_name("quad_panel");
     pane->set_parent(m_env->get_element_by_name("win_normal"));
     init_e(pane);
@@ -106,6 +129,9 @@ void menu_state::create_quad_selections()
     init_e(btn);
     quads->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/default_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(10,110,50,20),L"Paprastasis",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(st);
@@ -115,6 +141,9 @@ void menu_state::create_quad_selections()
     btn->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(btn);
     quads->add(btn);
+
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/unshielded_selection.png"));
+    btn->set_image(img);
 
     st=new gui_static_text(m_env,rect2d<int>(100,110,50,20),L"Be apsaugos",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
@@ -126,6 +155,9 @@ void menu_state::create_quad_selections()
     init_e(btn);
     quads->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/micro_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Mini",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(st);
@@ -135,7 +167,9 @@ void menu_state::create_quad_selections()
     btn->set_parent(m_env->get_element_by_name("quad_panel"));
     init_e(btn);
     quads->add(btn);
-    btn->set_enabled(false);
+
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/quadcopters/fast_selection.png"));
+    btn->set_image(img);
 
     st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Greitasis",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("quad_panel"));
@@ -158,35 +192,29 @@ void menu_state::create_quad_selections()
     init_e(pane);
 
     st=new gui_static_text(m_env,rect2d<int>(10,10,200,20),L"Orlaivio informacija:",glm::vec4(1),false,true);
+    st->set_name("quad_info");
     st->set_parent(m_env->get_element_by_name("quad_info_panel"));
     init_e(st);
 
     st=new gui_static_text(m_env,rect2d<int>(10,30,100,20),L"Sudėtingumas:",glm::vec4(1),false,true);
+    st->set_name("quad_difficulty");
     st->set_parent(m_env->get_element_by_name("quad_info_panel"));
     init_e(st);
 
     st=new gui_static_text(m_env,rect2d<int>(10,50,100,20),L"Greitis:",glm::vec4(1),false,true);
+    st->set_name("quad_speed");
     st->set_parent(m_env->get_element_by_name("quad_info_panel"));
     init_e(st);
 
     st=new gui_static_text(m_env,rect2d<int>(10,70,100,20),L"Mąsė:",glm::vec4(1),false,true);
+    st->set_name("quad_mass");
     st->set_parent(m_env->get_element_by_name("quad_info_panel"));
-    init_e(st);
-
-
-    pane=new gui_pane(m_env,rect2d<int>(500,10,200,200),true);
-    pane->set_name("quad_preview_panel");
-    pane->set_parent(m_env->get_element_by_name("quad_panel"));
-    init_e(pane);
-
-    st=new gui_static_text(m_env,rect2d<int>(5,5,200,20),L"Orlaivio išvaizda:",glm::vec4(1),false,true);
-    st->set_parent(m_env->get_element_by_name("quad_preview_panel"));
     init_e(st);
 }
 
 void menu_state::create_level_selections()
 {
-    pane=new gui_pane(m_env,rect2d<int>(10,270,748,220),true);
+    pane=new gui_pane(m_env,rect2d<int>(10,270,580,220),true);
     pane->set_name("level_panel");
     pane->set_parent(m_env->get_element_by_name("win_normal"));
     init_e(pane);
@@ -202,6 +230,9 @@ void menu_state::create_level_selections()
     init_e(btn);
     levels->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training1_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(10,110,50,20),L"Treniruotė 1",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
@@ -212,6 +243,9 @@ void menu_state::create_level_selections()
     init_e(btn);
     levels->add(btn);
 
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training2_selection.png"));
+    btn->set_image(img);
+
     st=new gui_static_text(m_env,rect2d<int>(100,110,50,20),L"Treniruotė 2",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
@@ -221,9 +255,11 @@ void menu_state::create_level_selections()
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
     levels->add(btn);
-    btn->set_enabled(false);
 
-    st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Lygis 1",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training3_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(190,110,50,20),L"Treniruotė 3",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -231,10 +267,13 @@ void menu_state::create_level_selections()
     btn->set_name("LS4");
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
-    levels->add(btn);
     btn->set_enabled(false);
+    levels->add(btn);
 
-    st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Lygis 2",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training4_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(280,110,50,20),L"Treniruotė 4",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -242,10 +281,13 @@ void menu_state::create_level_selections()
     btn->set_name("LS5");
     btn->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(btn);
-    levels->add(btn);
     btn->set_enabled(false);
+    levels->add(btn);
 
-    st=new gui_static_text(m_env,rect2d<int>(370,110,50,20),L"Lygis 3",glm::vec4(1),false,true);
+    img=new gui_image(m_env,rect2d<int>(20,20,40,40),m_app_ctx->gm->load_texture("res/maps/trainings/training5_selection.png"));
+    btn->set_image(img);
+
+    st=new gui_static_text(m_env,rect2d<int>(370,110,50,20),L"Treniruotė 5",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_panel"));
     init_e(st);
 
@@ -256,12 +298,18 @@ void menu_state::create_level_selections()
 
     st=new gui_static_text(m_env,rect2d<int>(10,10,200,20),L"Lygio informacija:",glm::vec4(1),false,true);
     st->set_parent(m_env->get_element_by_name("level_info_panel"));
+    st->set_name("level_info");
+    init_e(st);
+
+    st=new gui_static_text(m_env,rect2d<int>(10,30,200,20),L"Orlaivis:",glm::vec4(1),false,true);
+    st->set_parent(m_env->get_element_by_name("level_info_panel"));
+    st->set_name("level_quad");
     init_e(st);
 }
 
 void menu_state::create_start_window()
 {
-    win=new gui_window(m_env,rect2d<int>(400,100,768,540),L"Pasirinkite orlaivį ir lygį",true,true,false);
+    win=new gui_window(m_env,rect2d<int>(400,100,600,540),L"Pasirinkite orlaivį ir lygį",true,false,false,false);
     win->set_name("win_normal");
     init_e(win);
 
@@ -276,7 +324,7 @@ void menu_state::create_start_window()
     create_quad_selections();
     create_level_selections();
 
-    btn=new gui_button(m_env,rect2d<int>(344,495,80,30),L"Pradėti");
+    btn=new gui_button(m_env,rect2d<int>(260,495,80,30),L"Pradėti");
     btn->set_name("start_level");
     btn->set_parent(m_env->get_element_by_name("win_normal"));
     init_e(btn);
@@ -286,17 +334,16 @@ void menu_state::create_start_window()
 
 void menu_state::on_unload()
 {
-    for(gui_element* el:elems)
-    {
-        m_env->remove_child(el);
-    }
-    m_app_ctx->sg->clear();
     //m_app_ctx->se->stopAllSounds();
+    m_app_ctx->sm->stop_sound("menu_music");
 }
 
 void menu_state::start()
 {
-    m_app_ctx->se->play2D("../../res/sounds/main.ogg",true,false);
+    m_app_ctx->sm->add_sound("res/sounds/gui_select.ogg","gui_hover",0.75,1);
+    m_app_ctx->sm->add_sound("res/sounds/gui_click.ogg","gui_click",0.75,1);
+    m_app_ctx->sm->add_sound("res/sounds/main.ogg","menu_music",0.75,1);
+    m_app_ctx->sm->play_sound_2d("menu_music",false);
 }
 
 void menu_state::update(float delta)
@@ -304,6 +351,7 @@ void menu_state::update(float delta)
     m_rot+=delta*10;
     m_env->update(delta);
     glm::quat q=glm::quat();
+    q=glm::rotate(q,-20,glm::vec3(1,0,0));
     q=glm::rotate(q,m_rot,glm::vec3(0,1,0));
     obj->set_rotation(q);
     m_app_ctx->sg->update_all(delta);
@@ -315,17 +363,46 @@ bool menu_state::on_event(const gui_event &e)
     {
     case gui_event_type::element_hovered:
         if(e.get_caller()->get_element_type()==GUIET_button)
-            m_app_ctx->se->play2D("../../res/sounds/gui_select.ogg");
+            m_app_ctx->sm->play_sound_2d("gui_hover",false);
         break;
     case button_pressed:
         if(e.get_caller()->get_element_type()==GUIET_button)
-            m_app_ctx->se->play2D("../../res/sounds/gui_click.ogg");
+            m_app_ctx->sm->play_sound_2d("gui_click",false);
         break;
     case button_released:
         if(e.get_caller()->get_name().find("QS")!=std::string::npos)
-            quads->toggle((gui_button*)e.get_caller());
+        {
+            int sel=atoi(e.get_caller()->get_name().substr(2).c_str())-1;
+            quads->set_toggle(sel);
+            m_app_ctx->gd->quad_choice=sel;
+
+            gui_static_text* txt=(gui_static_text*)m_env->get_element_by_name("quad_info");
+            txt->set_text(L"Orlaivio informacija: "+m_app_ctx->gd->quadcopter_descriptions[sel].info);
+
+            txt=(gui_static_text*)m_env->get_element_by_name("quad_difficulty");
+            txt->set_text(L"Sudėtingumas: "+m_app_ctx->gd->quadcopter_descriptions[sel].difficulty);
+
+            txt=(gui_static_text*)m_env->get_element_by_name("quad_speed");
+            txt->set_text(L"Greitis: "+m_app_ctx->gd->quadcopter_descriptions[sel].speed);
+
+            txt=(gui_static_text*)m_env->get_element_by_name("quad_mass");
+            txt->set_text(L"Masė: "+m_app_ctx->gd->quadcopter_descriptions[sel].mass);
+
+            return true;
+        }
         if(e.get_caller()->get_name().find("LS")!=std::string::npos)
-            levels->toggle((gui_button*)e.get_caller());
+        {
+            int sel=atoi(e.get_caller()->get_name().substr(2).c_str())-1;
+            levels->set_toggle(sel);
+            m_app_ctx->gd->set_level(sel);
+
+            gui_static_text* txt=(gui_static_text*)m_env->get_element_by_name("level_info");
+            txt->set_text(L"Lygio informacija: "+m_app_ctx->gd->training_descriptions[sel].info);
+
+            txt=(gui_static_text*)m_env->get_element_by_name("level_quad");
+            txt->set_text(L"Rekomenduojamas orlaivis: "+m_app_ctx->gd->training_descriptions[sel].recommended_quad);
+            return true;
+        }
         if(e.get_caller()->get_name()=="start")
         {
             gui_element* elem=m_env->get_element_by_name("win_normal");
@@ -357,6 +434,8 @@ bool menu_state::on_event(const gui_event &e)
             //m_state_manager->set_state(new default_game_state(m_state_manager,L"\"Yep, it worked.\" - Abraham Lincoln regarding that almost dead nigga."));
             return true;
         }
+        break;
+    default:
         break;
     }
     return false;

@@ -80,9 +80,8 @@
 				<Option output="../../bin/Release/ZombieGame" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../bin/Release" />
 				<Option object_output="../../bin/Release" />
-				<Option type="1" />
+				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
@@ -236,6 +235,7 @@
 		<Unit filename="../../src/resources/resource_cache.h" />
 		<Unit filename="../../src/resources/shader_loader.cpp" />
 		<Unit filename="../../src/resources/shader_loader.h" />
+		<Unit filename="../../src/resources/sound_manager.h" />
 		<Unit filename="../../src/resources/tgaloader.cpp" />
 		<Unit filename="../../src/resources/tgaloader.h" />
 		<Unit filename="../../src/scenegraph/isg_object.cpp" />
@@ -252,6 +252,7 @@
 		<Unit filename="../../src/scenegraph/sg_camera_object.h" />
 		<Unit filename="../../src/scenegraph/sg_default_render_queue.cpp" />
 		<Unit filename="../../src/scenegraph/sg_default_render_queue.h" />
+		<Unit filename="../../src/scenegraph/sg_empty_object.h" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.cpp" />
 		<Unit filename="../../src/scenegraph/sg_graphics_manager.h" />
 		<Unit filename="../../src/scenegraph/sg_light_object.cpp" />
@@ -293,9 +294,11 @@
 		<Unit filename="../../src/tests/game/states/menu_state.cpp" />
 		<Unit filename="../../src/tests/game/states/menu_state.h" />
 		<Unit filename="../../src/tests/game/states/play_state.cpp" />
+		<Unit filename="../../src/tests/game/states/play_state.h" />
 		<Unit filename="../../src/tests/game/states/state_manager.cpp" />
 		<Unit filename="../../src/tests/game/states/state_manager.h" />
 		<Unit filename="../../src/tests/game/states/wait_for_connection_state.h" />
+		<Unit filename="../../src/tests/game/target_queue.h" />
 		<Unit filename="../../src/tests/game/test_game.cpp" />
 		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />

@@ -29,6 +29,7 @@
 
 #include "states/state_manager.h"
 #include "states/menu_state.h"
+#include "states/play_state.h"
 #include "app_context.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): application(argc,argv)
@@ -71,7 +72,10 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	ctx->env=this->env;
 	ctx->gd=new game_data();
 	ctx->nm=new network_manager_win32();
-	ctx->se=irrklang::createIrrKlangDevice();
+	ctx->sm=new sound_manager();
+
+	ctx->env->get_font_renderer()->create_font("s22","freesans.ttf",22);
+    ctx->env->get_font_renderer()->create_font("s42","freesans.ttf",42);
 
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));

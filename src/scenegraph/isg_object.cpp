@@ -8,6 +8,7 @@ namespace sg
 
 isg_object::isg_object(scenegraph * sg):m_scenegraph(sg), m_scale(1,1,1), m_rotation(1,0,0,0)
 {
+    m_flags=0;
     update_absolute_transform();
 }
 
