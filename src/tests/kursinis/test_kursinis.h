@@ -53,7 +53,7 @@ protected:
     gui_edit_box * eb[3];
     gui_edit_box * pos_eb[3][3];
     gui_edit_box * vel_eb[3][3];
-    gui_window * main_wnd, * pos_wnd;
+    gui_window * main_wnd, * pos_wnd, *msg_wnd;
 public:
     test_kursinis(uint32_t argc, const char ** argv);
     ~test_kursinis();

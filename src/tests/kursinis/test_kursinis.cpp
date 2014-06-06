@@ -182,6 +182,15 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     btn->set_name("set_btn");
     init_e(btn);
 
+    msg_wnd = new gui_window(env,rect2d<int>(500,360,180,60),L"Pranešimas");
+
+    tb = new gui_static_text(env,rect2d<int>(20,25,40,20),L"Įvyko kūnų susidūrimas.");
+    tb->set_parent(msg_wnd);
+    tb = new gui_static_text(env,rect2d<int>(20,45,40,20),L"Simuliacija sustabdyta.");
+    tb->set_parent(msg_wnd);
+
+    msg_wnd->set_visible(false);
+
 
     update_ui();
 
@@ -407,57 +416,72 @@ bool test_kursinis::update()
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-        float sub_step_time = ((delta_time * fixed_time_step) / sub_steps);
-
-        glm::vec3 _pos[3];
-
-        loopi(3)
-            _pos[i] = obj[i]->get_object()->get_position();
-
-        loopi(sub_steps)
-        {
-
-            if(simuliuoti)
-            {
-                glm::vec3 f0 = Objektas::calc_force(obj[0],obj[1],gravitational_constant) + Objektas::calc_force(obj[0],obj[2],gravitational_constant);
-                glm::vec3 f1 = Objektas::calc_force(obj[1],obj[0],gravitational_constant) + Objektas::calc_force(obj[1],obj[2],gravitational_constant);
-                glm::vec3 f2 = Objektas::calc_force(obj[2],obj[0],gravitational_constant) + Objektas::calc_force(obj[2],obj[1],gravitational_constant);
-
-                ///0
-                obj[0]->set_force(f0);
-                glm::vec3 dv0 = f0*sub_step_time;
-                glm::vec3 v0 = obj[0]->get_velocity();
-                obj[0]->set_velocity(v0 + dv0);
-                glm::vec3 dp0 = v0*sub_step_time;
-
-                ///1
-                obj[1]->set_force(f1);
-                glm::vec3 dv1 = f1*sub_step_time;
-                glm::vec3 v1 = obj[1]->get_velocity();
-                obj[1]->set_velocity(v1 + dv1);
-                glm::vec3 dp1 = v1*sub_step_time;
-
-                ///2
-                obj[2]->set_force(f2);
-                glm::vec3 dv2 = f2*sub_step_time;
-                glm::vec3 v2 = obj[2]->get_velocity();
-                obj[2]->set_velocity(v2 + dv2);
-                glm::vec3 dp2 = v2*sub_step_time;
-
-                obj[0]->get_object()->set_position(obj[0]->get_object()->get_position()+dp0);
-                obj[1]->get_object()->set_position(obj[1]->get_object()->get_position()+dp1);
-                obj[2]->get_object()->set_position(obj[2]->get_object()->get_position()+dp2);
-
-            }
-        }
 
         if(simuliuoti)
         {
+
+
+
+            float sub_step_time = ((delta_time * fixed_time_step) / sub_steps);
+
+            glm::vec3 _pos[3];
+
+            loopi(3)
+                _pos[i] = obj[i]->get_object()->get_position();
+
+
+            loopi(sub_steps)
+            {
+                    if(Objektas::check_collision(obj[0],obj[1])||Objektas::check_collision(obj[0],obj[2])||Objektas::check_collision(obj[2],obj[1]))
+                    {
+                        msg_wnd->set_visible(true);
+                        env->bring_to_front(msg_wnd);
+
+                        simuliuoti = false;
+                        ((gui_button*)env->get_element_by_name("sim_btn"))->set_text(L"Simuliuoti");
+
+                        break;
+                    }
+
+                    glm::vec3 f0 = Objektas::calc_force(obj[0],obj[1],gravitational_constant) + Objektas::calc_force(obj[0],obj[2],gravitational_constant);
+                    glm::vec3 f1 = Objektas::calc_force(obj[1],obj[0],gravitational_constant) + Objektas::calc_force(obj[1],obj[2],gravitational_constant);
+                    glm::vec3 f2 = Objektas::calc_force(obj[2],obj[0],gravitational_constant) + Objektas::calc_force(obj[2],obj[1],gravitational_constant);
+
+                    ///0
+                    obj[0]->set_force(f0);
+                    glm::vec3 dv0 = f0*sub_step_time;
+                    glm::vec3 v0 = obj[0]->get_velocity();
+                    obj[0]->set_velocity(v0 + dv0);
+                    glm::vec3 dp0 = v0*sub_step_time;
+
+                    ///1
+                    obj[1]->set_force(f1);
+                    glm::vec3 dv1 = f1*sub_step_time;
+                    glm::vec3 v1 = obj[1]->get_velocity();
+                    obj[1]->set_velocity(v1 + dv1);
+                    glm::vec3 dp1 = v1*sub_step_time;
+
+                    ///2
+                    obj[2]->set_force(f2);
+                    glm::vec3 dv2 = f2*sub_step_time;
+                    glm::vec3 v2 = obj[2]->get_velocity();
+                    obj[2]->set_velocity(v2 + dv2);
+                    glm::vec3 dp2 = v2*sub_step_time;
+
+                    obj[0]->get_object()->set_position(obj[0]->get_object()->get_position()+dp0);
+                    obj[1]->get_object()->set_position(obj[1]->get_object()->get_position()+dp1);
+                    obj[2]->get_object()->set_position(obj[2]->get_object()->get_position()+dp2);
+
+
+            }
+
+            if(simuliuoti)
             loopi(3)
             {
                 obj[i]->get_line_object()->add_segment(_pos[i],obj[i]->get_object()->get_position());
                 obj[i]->get_line_object()->update_mesh();
             }
+
         }
 
 

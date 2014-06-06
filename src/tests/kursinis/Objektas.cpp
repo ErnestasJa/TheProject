@@ -14,6 +14,11 @@ glm::vec3 Objektas::calc_force(Objektas * obj1, Objektas * obj2, double grav_con
     return a;
 }
 
+bool Objektas::check_collision(Objektas * obj1, Objektas * obj2)
+{
+    return glm::distance(obj1->get_object()->get_position(),obj2->get_object()->get_position())<=2.0f;
+}
+
 Objektas::Objektas(sg::sg_object_ptr obj, sg::sg_line_object_ptr line_obj, float mass, glm::vec3 vel)
 {
     m_obj = obj;

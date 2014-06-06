@@ -13,6 +13,7 @@ class Objektas
 
 public:
     static glm::vec3 calc_force(Objektas * obj1, Objektas * obj2, double grav_constant);
+    static bool check_collision(Objektas * obj1, Objektas * obj2);
 
 public:
 
