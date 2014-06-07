@@ -47,8 +47,8 @@ public:
 
     sg_object_ptr add_object(sg_object_ptr object);
     sg_light_object_ptr add_light_object();
-    sg::sg_mesh_object_ptr load_mesh_object (std::string file, bool load_textures);
-    sg::sg_skybox_object_ptr load_skybox      (std::string file, bool load_textures);
+    sg_mesh_object_ptr load_mesh_object (std::string file, bool load_textures);
+    sg_skybox_object_ptr load_skybox      (std::string file, bool load_textures);
 
     sg_graphics_manager_ptr get_graphics_manager();
     timer_ptr get_timer();

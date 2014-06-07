@@ -30,7 +30,7 @@
 #include "states/state_manager.h"
 #include "states/menu_state.h"
 #include "states/play_state.h"
-#include "app_context.h"
+#include "../app_context.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): application(argc,argv)
 {

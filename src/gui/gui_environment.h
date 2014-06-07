@@ -16,7 +16,7 @@
 
 #include "gui_element.h"
 #include "gui_skin.h"
-#include "font_renderer.h"
+#include "font_rendering/font_renderer.h"
 
 class shader;
 class quad;

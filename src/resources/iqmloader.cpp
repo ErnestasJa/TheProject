@@ -3,7 +3,7 @@
 #include "iqmloader.h"
 #include "opengl/mesh.h"
 #include "opengl/buffer_object.h"
-#include "math/util.h"
+#include "utility/util.h"
 #include "utility/logger.h"
 
 iqmloader::iqmloader(logger *logger)

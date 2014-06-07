@@ -1,9 +1,9 @@
 #pragma once
-#include "../app_context.h"
+#include "../../app_context.h"
 #include "game_state.h"
 #include "gui/gui_environment.h"
 #include "gui/gui_image.h"
-#include "gui/font_renderer.h"
+#include "gui/font_rendering/font_renderer.h"
 
 #include "menu_state.h"
 #include "play_state.h"

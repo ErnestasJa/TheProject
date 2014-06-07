@@ -9,7 +9,7 @@
 
 #include "tinyxml_test_application.h"
 
-#include "math/rect2d.h"
+#include "utility/rect2d.h"
 #include "gui/gui_skin.h"
 #include "gui/gui_environment.h"
 #include "gui/gui_button.h"

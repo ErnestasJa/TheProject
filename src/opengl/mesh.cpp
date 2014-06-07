@@ -2,7 +2,7 @@
 #include "mesh.h"
 #include "ibuffer_object.h"
 #include "buffer_object.h"
-#include "math/util.h"
+#include "utility/util.h"
 
 void animation::set_frame(uint32_t frame)
 {

@@ -2,7 +2,7 @@
 #include "sg_scenegraph_loader.h"
 #include "scenegraph.h"
 #include "sg_empty_object.h"
-#include "../tests/game/app_context.h"
+#include "../applications/app_context.h"
 
 namespace sg
 {
@@ -61,7 +61,7 @@ bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string &
         }
         else if(object->Attribute("type","CAMERA"))
         {
-            sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx->sg,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
+            sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
             o = obj.get();
 
             app_ctx->sg->add_object(obj);

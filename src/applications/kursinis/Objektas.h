@@ -6,7 +6,7 @@ namespace sg
     typedef std::shared_ptr<isg_object> sg_object_ptr;
 }
 
-#include "../scenegraph/sg_line_object.h"
+#include "../../scenegraph/sg_line_object.h"
 
 class Objektas
 {

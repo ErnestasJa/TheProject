@@ -3,13 +3,14 @@
 
 #include "isg_object.h"
 
+struct app_context;
 namespace sg
 {
 
 class sg_camera_object: public isg_object
 {
 public:
-    sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=1.777777f, float field_of_view=45.0f, float near_z=1.0f, float far_z=4096.0f);
+    sg_camera_object(app_context* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=1.777777f, float field_of_view=45.0f, float near_z=1.0f, float far_z=4096.0f);
     virtual ~sg_camera_object();
 
     virtual uint32_t get_type();
@@ -37,6 +38,7 @@ public:
 	void lift(const float amount);
 	virtual glm::mat4x4 get_relative_transform();
 	void orbit(glm::vec3 point,float distance,float angleX,float angleY);
+	void handle_mouse(int x,int y);
 
 protected:
     float m_fov, m_aspect_ratio, m_far, m_near;
@@ -46,9 +48,14 @@ protected:
 	glm::vec3 m_right;
 	glm::mat4 m_P; //projection matrix
 
+	glm::ivec2 m_last_mouse_pos,m_current_mouse_pos;
+
 	glm::vec3 m_translation;
 
 	sg_material_ptr m_mat;
+
+	bool m_fps;
+	app_context* m_app_context;
 };
 
 typedef std::shared_ptr<sg_camera_object> sg_camera_object_ptr;

@@ -22,9 +22,11 @@ class gui_edit_box;
 class gui_button;
 class gui_slider;
 class gui_window;
+struct app_context;
 class test_kursinis: public application, public gui_event_listener
 {
 protected:
+    app_context* m_app_context;
     sg::sg_graphics_manager_ptr m_graphics_manager;
     sg::scenegraph*             m_scenegraph;
     gui_environment* env;

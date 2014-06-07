@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="src/tests/game/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -40,6 +41,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="src/tests/game/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -54,6 +56,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="src/tests/game/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -85,6 +88,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add directory="src/tests/game/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -158,9 +162,34 @@
 		<Unit filename="../../src/application/application.h" />
 		<Unit filename="../../src/application/window.cpp" />
 		<Unit filename="../../src/application/window.h" />
-		<Unit filename="../../src/gui/font.h" />
-		<Unit filename="../../src/gui/font_renderer.cpp" />
-		<Unit filename="../../src/gui/font_renderer.h" />
+		<Unit filename="../../src/applications/app_context.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/baigiamasis_quadcopter.cpp" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/baigiamasis_quadcopter.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/game_data.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/quadcopter.cpp" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/quadcopter.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/game_state.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/menu_state.cpp" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/menu_state.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/play_state.cpp" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/play_state.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/state_manager.cpp" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/state_manager.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/states/wait_for_connection_state.h" />
+		<Unit filename="../../src/applications/baigiamasis_quadcopter/target_queue.h" />
+		<Unit filename="../../src/applications/game/test_game.cpp" />
+		<Unit filename="../../src/applications/game/test_game.h" />
+		<Unit filename="../../src/applications/kursinis/Objektas.cpp" />
+		<Unit filename="../../src/applications/kursinis/Objektas.h" />
+		<Unit filename="../../src/applications/kursinis/test_kursinis.cpp" />
+		<Unit filename="../../src/applications/kursinis/test_kursinis.h" />
+		<Unit filename="../../src/applications/voxelz/chunk.h" />
+		<Unit filename="../../src/applications/voxelz/voxelz_application.cpp" />
+		<Unit filename="../../src/applications/voxelz/voxelz_application.h" />
+		<Unit filename="../../src/gui/custom_elements/toggle_group.h" />
+		<Unit filename="../../src/gui/font_rendering/font.h" />
+		<Unit filename="../../src/gui/font_rendering/font_renderer.cpp" />
+		<Unit filename="../../src/gui/font_rendering/font_renderer.h" />
 		<Unit filename="../../src/gui/gui_button.cpp" />
 		<Unit filename="../../src/gui/gui_button.h" />
 		<Unit filename="../../src/gui/gui_checkbox.cpp" />
@@ -188,10 +217,7 @@
 		<Unit filename="../../src/gui/gui_window.h" />
 		<Unit filename="../../src/gui/input_handler.cpp" />
 		<Unit filename="../../src/gui/input_handler.h" />
-		<Unit filename="../../src/gui/toggle_group.h" />
 		<Unit filename="../../src/main.cpp" />
-		<Unit filename="../../src/math/rect2d.h" />
-		<Unit filename="../../src/math/util.h" />
 		<Unit filename="../../src/network/network_manager_win32.cpp" />
 		<Unit filename="../../src/network/network_manager_win32.h" />
 		<Unit filename="../../src/opengl/buffer_object.cpp" />
@@ -213,10 +239,13 @@
 		<Unit filename="../../src/opengl/sliced_gui_quad.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
-		<Unit filename="../../src/precomp.h">
-			<Option compile="1" />
-			<Option weight="0" />
-		</Unit>
+		<Unit filename="../../src/physics/Physics.h" />
+		<Unit filename="../../src/physics/cmotion_state.h" />
+		<Unit filename="../../src/physics/icollision_handler.cpp" />
+		<Unit filename="../../src/physics/icollision_handler.h" />
+		<Unit filename="../../src/physics/physics_manager.cpp" />
+		<Unit filename="../../src/physics/physics_manager.h" />
+		<Unit filename="../../src/precomp.h" />
 		<Unit filename="../../src/resources/iimage_loader.cpp" />
 		<Unit filename="../../src/resources/iimage_loader.h" />
 		<Unit filename="../../src/resources/image.cpp" />
@@ -278,43 +307,18 @@
 		<Unit filename="../../src/scenegraph/sg_skybox_object.h" />
 		<Unit filename="../../src/scenegraph/sg_sprite.cpp" />
 		<Unit filename="../../src/scenegraph/sg_sprite.h" />
-		<Unit filename="../../src/tests/game/app_context.h" />
-		<Unit filename="../../src/tests/game/baigiamasis_quadcopter.cpp" />
-		<Unit filename="../../src/tests/game/baigiamasis_quadcopter.h" />
-		<Unit filename="../../src/tests/game/game_data.h" />
-		<Unit filename="../../src/tests/game/physics/Physics.h" />
-		<Unit filename="../../src/tests/game/physics/cmotion_state.h" />
-		<Unit filename="../../src/tests/game/physics/icollision_handler.cpp" />
-		<Unit filename="../../src/tests/game/physics/icollision_handler.h" />
-		<Unit filename="../../src/tests/game/physics/physics_manager.cpp" />
-		<Unit filename="../../src/tests/game/physics/physics_manager.h" />
-		<Unit filename="../../src/tests/game/quadcopter.cpp" />
-		<Unit filename="../../src/tests/game/quadcopter.h" />
-		<Unit filename="../../src/tests/game/states/game_state.h" />
-		<Unit filename="../../src/tests/game/states/menu_state.cpp" />
-		<Unit filename="../../src/tests/game/states/menu_state.h" />
-		<Unit filename="../../src/tests/game/states/play_state.cpp" />
-		<Unit filename="../../src/tests/game/states/play_state.h" />
-		<Unit filename="../../src/tests/game/states/state_manager.cpp" />
-		<Unit filename="../../src/tests/game/states/state_manager.h" />
-		<Unit filename="../../src/tests/game/states/wait_for_connection_state.h" />
-		<Unit filename="../../src/tests/game/target_queue.h" />
-		<Unit filename="../../src/tests/game/test_game.cpp" />
-		<Unit filename="../../src/tests/game/test_game.h" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.cpp" />
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
-		<Unit filename="../../src/tests/kursinis/Objektas.cpp" />
-		<Unit filename="../../src/tests/kursinis/Objektas.h" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.h" />
 		<Unit filename="../../src/utility/logger.cpp" />
 		<Unit filename="../../src/utility/logger.h" />
+		<Unit filename="../../src/utility/rect2d.h" />
 		<Unit filename="../../src/utility/timer.cpp" />
 		<Unit filename="../../src/utility/timer.h" />
+		<Unit filename="../../src/utility/util.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

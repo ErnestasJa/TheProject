@@ -1,10 +1,10 @@
 #include "precomp.h"
 
 #include "gui_environment.h"
-#include "font_renderer.h"
+#include "font_rendering/font_renderer.h"
 
 #include "gui_edit_box.h"
-#include "font.h"
+#include "font_rendering/font.h"
 
 gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
 {

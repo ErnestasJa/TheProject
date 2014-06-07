@@ -17,7 +17,7 @@
 #include "scenegraph/sg_material.h"
 #include "scenegraph/sg_line_object.h"
 
-#include "math/rect2d.h"
+#include "utility/rect2d.h"
 #include "gui/gui_skin.h"
 #include "gui/gui_environment.h"
 #include "gui/gui_button.h"
@@ -29,6 +29,8 @@
 #include "gui/gui_window.h"
 #include "gui/gui_slider.h"
 
+#include "../app_context.h"
+
 
 float angle_x=5, angle_y=0, distance=600;
 
@@ -38,6 +40,8 @@ test_kursinis::test_kursinis(uint32_t argc, const char ** argv): application(arg
     fixed_time_step = 1000.0/60.0;
     gravitational_constant = 6.67/1000.0;
     sub_steps = 1;
+
+    m_app_context=new app_context();
 }
 
 test_kursinis::~test_kursinis()
@@ -52,9 +56,12 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
     wnd->sig_mouse_key().connect(sigc::mem_fun(this,&test_kursinis::on_mouse_key_event));
     wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_kursinis::on_mouse_move));
     wnd->sig_window_resized().connect(sigc::mem_fun(this,&test_kursinis::on_resize));
+    m_app_context->win=wnd;
 
     m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
+    m_app_context->sg=m_scenegraph;
     m_graphics_manager = m_scenegraph->get_graphics_manager();
+    m_app_context->gm=m_graphics_manager;
 
     ///gl setup
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -71,10 +78,8 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
 
 bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 {
-    gui_skin s=gui_skin();
-    s.load("../../res/skin_default.xml");
-
     env=new gui_environment(this->wnd,this->get_logger());
+    m_app_context->env=env;
     env->set_event_listener(this);
 
     uint32_t main_wnd_width = 220;
@@ -381,7 +386,7 @@ bool test_kursinis::init_scene()
 
 
 
-    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,600,5),glm::vec3(0,0,0),glm::vec3(0,1,0))));
+    m_scenegraph->add_object(sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_context,glm::vec3(0,600,5),glm::vec3(0,0,0),glm::vec3(0,1,0))));
     auto light = m_scenegraph->add_light_object();
     light->set_position(glm::vec3(0,10,0));
 

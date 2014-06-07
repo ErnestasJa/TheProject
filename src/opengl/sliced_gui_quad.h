@@ -2,7 +2,7 @@
 
 #include "opengl/mesh.h"
 #include "opengl/shader.h"
-#include "math/rect2d.h"
+#include "utility/rect2d.h"
 #include "opengl/buffer_object.h"
 #include "resources/resource_cache.h"
 class sliced_gui_quad

@@ -1,6 +1,6 @@
 #include "precomp.h"
 
-#include "math/util.h"
+#include "utility/util.h"
 #include "opengl/quad.h"
 #include "opengl/shader.h"
 

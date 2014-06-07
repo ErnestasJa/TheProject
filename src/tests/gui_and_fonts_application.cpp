@@ -14,7 +14,7 @@
 
 #include "gui_and_fonts_application.h"
 
-#include "math/rect2d.h"
+#include "utility/rect2d.h"
 
 gui_and_fonts_application::gui_and_fonts_application(uint32_t argc, const char ** argv): application(argc,argv)
 {

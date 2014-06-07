@@ -2,13 +2,13 @@
 
 #include "gui/gui_environment.h"
 #include "gui/gui_static_text.h"
-#include "gui/font_renderer.h"
+#include "gui/font_rendering/font_renderer.h"
 #include "gui/gui_button.h"
 #include "gui/gui_window.h"
 #include "gui/gui_image.h"
 #include "gui/gui_pane.h"
 #include "gui/gui_edit_box.h"
-#include "gui/toggle_group.h"
+#include "gui/custom_elements/toggle_group.h"
 
 #include "resources/mesh_loader.h"
 #include "resources/shader_loader.h"
@@ -87,7 +87,7 @@ void menu_state::on_load()
 
 void menu_state::create_scene()
 {
-    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx->sg,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
+    sg::sg_camera_object_ptr cam=sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_ctx,glm::vec3(0,0,-4),glm::vec3(0,0,0),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,10000.f));
     m_app_ctx->sg->set_active_camera(cam);
     cam->orbit(glm::vec3(0,0,0),4,3.14/180,3.14/180);
 

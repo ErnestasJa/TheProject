@@ -26,7 +26,7 @@
 #include "scenegraph/sg_material.h"
 #include "physics/Physics.h"
 
-#include "math/rect2d.h"
+#include "utility/rect2d.h"
 #include "gui/gui_skin.h"
 #include "gui/gui_environment.h"
 #include "gui/gui_button.h"
@@ -40,7 +40,13 @@
 
 #include "network/network_manager_win32.h"
 
+#include "../app_context.h"
+
 #define NETWORKINGs
+
+/// //////////////////////////////////////////// ///
+/// WARNING: IMPLEMENT APP CONTEXT BEFORE USING! ///
+/// //////////////////////////////////////////// ///
 
 //shadowmap texture dimensions
 const int SHADOWMAP_DIMENSIONS = 1024;
@@ -48,6 +54,7 @@ const int SHADOWMAP_DIMENSIONS = 1024;
 test_game::test_game(uint32_t argc, const char ** argv): application(argc,argv)
 {
     //ctor
+    m_app_context=new app_context();
 }
 
 test_game::~test_game()
@@ -203,7 +210,7 @@ bool test_game::init_scene()
     m_scenegraph->add_object(obj);
     m_physics_manager->create_trimesh_body(obj,btVector3(1,1,1));
 
-    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_scenegraph,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
+    sg::sg_camera_object_ptr cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_context,glm::vec3(0,5,20),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     m_scenegraph->set_active_camera(cam);
 

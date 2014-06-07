@@ -2,12 +2,15 @@
 #include "scenegraph.h"
 #include "utility/logger.h"
 #include "sg_camera_object.h"
+#include "../applications/app_context.h"
 
 namespace sg
 {
 
-sg_camera_object::sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(sg)
+sg_camera_object::sg_camera_object(app_context* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(ctx->sg)
 {
+    m_app_context=ctx;
+    m_fps=false;
     this->set_position(pos);
     this->set_rotation(glm::toQuat(glm::inverse(glm::lookAt(pos,target,up))));
 
@@ -23,8 +26,8 @@ sg_camera_object::sg_camera_object(scenegraph * sg, const glm::vec3 &pos,const g
 
     this->update_absolute_transform();
 
-    sg->get_logger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
-    sg->get_logger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
+    m_app_context->sg->get_logger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
+    m_app_context->sg->get_logger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
 }
 
 sg_camera_object::~sg_camera_object()
@@ -86,6 +89,13 @@ void sg_camera_object::update(scenegraph * sg)
 {
     m_position+=m_translation;
     m_translation=glm::vec3(0);
+    if(m_fps)
+    {
+        glm::ivec2 s=m_app_context->win->get_window_size();
+        m_app_context->win->set_mouse_pos(s/2);
+        glm::ivec2 mp=m_app_context->win->get_mouse_pos();
+        handle_mouse(mp.x,mp.y);
+    }
 }
 
 void sg_camera_object::walk(const float amount)
@@ -133,5 +143,35 @@ void sg_camera_object::orbit(glm::vec3 point,float distance,float angleX,float a
     this->set_position(camPos);
     this->set_rotation(glm::toQuat(glm::inverse(glm::lookAt(camPos,point,glm::vec3(0,1,0)))));
     this->update_absolute_transform();
+}
+
+void sg_camera_object::handle_mouse(int x,int y)
+{
+    if(this == m_scenegraph->get_active_camera().get())
+    {
+        m_last_mouse_pos = m_current_mouse_pos;
+        m_current_mouse_pos = glm::ivec2(x,y);
+        glm::ivec2 delta_pos =  m_current_mouse_pos - m_last_mouse_pos;
+
+        if(glm::abs(delta_pos.x)>100||glm::abs(delta_pos.y)>100) ///probably some random shit happened, discard
+            return;
+
+        glm::quat r = this->get_rotation();
+        glm::vec3 rot_deg = glm::eulerAngles(r);
+        //m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
+        //m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+
+        glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
+
+        r= rot_x * r;
+        r= r * rot_y;
+
+        this->set_rotation(r);
+
+//        r = this->get_rotation();
+//        rot_deg = glm::eulerAngles(r);
+        //m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+    }
+
 }
 }
