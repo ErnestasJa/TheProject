@@ -26,9 +26,7 @@ void window_resize(GLFWwindow * wnd, int32_t w, int32_t h)
 
 void window_close(GLFWwindow * wnd)
 {
-    glfwSetWindowShouldClose(wnd, GL_FALSE);
-    //window::m_windows[wnd]->sig_window_closed().emit();
-    //window::m_windows[wnd] = nullptr;
+    window::m_windows[wnd]->sig_window_closed().emit();
 }
 
 void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
@@ -39,4 +37,10 @@ void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action,
 void text_event(GLFWwindow * wnd, uint32_t scan_code)
 {
     window::m_windows[wnd]->sig_text_event().emit(scan_code);
+}
+
+void window::destroy_window(window * wnd)
+{
+    delete wnd;
+    window::m_windows.erase(wnd->getWindow());
 }

@@ -11,7 +11,6 @@ void text_event(GLFWwindow * wnd, uint32_t scan_code);
 class window
 {
 protected:
-    static std::map<GLFWwindow*, window*> m_windows;
     GLFWwindow * m_window;
 
     sigc::signal<void, double, double> m_sig_mouse_moved;
@@ -31,6 +30,8 @@ protected:
     friend void text_event(GLFWwindow * wnd, uint32_t scan_code);
 
 public:
+    static std::map<GLFWwindow*, window*> m_windows;
+    static void destroy_window(window * wnd);
 
     window()
     {
@@ -46,6 +47,7 @@ public:
         m_sig_mouse_scroll.clear();
         m_sig_key_event.clear();
         m_sig_text_event.clear();
+
         glfwDestroyWindow(m_window);
         glfwTerminate();
     }
@@ -72,7 +74,6 @@ public:
         glfwWindowHint(GLFW_RESIZABLE,0);
 
 
-
         /* Create a windowed mode window and its OpenGL context */
         m_window = glfwCreateWindow(width, height,title.c_str(),NULL,NULL);
 
@@ -91,6 +92,8 @@ public:
         glfwSetScrollCallback(m_window, &mouse_scroll_event);
         glfwSetKeyCallback(m_window, &key_event);
         glfwSetCharCallback(m_window, &text_event);
+
+        glfwSetWindowShouldClose(m_window, GL_FALSE);
 
         m_windows[m_window]=this;
         return true;

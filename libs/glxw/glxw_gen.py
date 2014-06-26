@@ -3,7 +3,7 @@
 import argparse
 import os
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 def download(output_dir, include_dir, source_url, filename):
     full_filename = os.path.join(output_dir, filename)
@@ -13,21 +13,22 @@ def download(output_dir, include_dir, source_url, filename):
 
     include_file = os.path.join(include_dir, filename) if include_dir is not None else None
     if include_dir is not None and os.path.exists(include_file):
-        print('Copying %s to %s' % (include_file, full_filename))
+        print(('Copying %s to %s' % (include_file, full_filename)))
         with open(include_file, 'r') as f:
             lines = f.readlines()
     else:
-        print('Downloading %s from %s to %s' % (filename, source_url, full_filename))
-        lines = urllib2.urlopen(source_url).readlines()
+        print(('Downloading %s from %s to %s' % (filename, source_url, full_filename)))
+        lines = urllib.request.urlopen(source_url).readlines()
 
     dirname = os.path.dirname(full_filename)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     with open(full_filename, 'w') as f:
+        #lines = [line for line in lines]
         f.writelines(lines)
 
 def parse_funcs(filename, regex_string, blacklist):
-    print('Parsing header %s' % os.path.basename(filename))
+    print(('Parsing header %s' % os.path.basename(filename)))
     regex = re.compile(regex_string)
     group_re = re.compile(r'^#ifndef ((GL|WGL|GLX|EGL)_\w+)')
     with open(filename) as f:
@@ -44,7 +45,7 @@ def parse_funcs(filename, regex_string, blacklist):
         return funcs
 
 def generate_header(api, funcs, api_includes, prefix, suffix, filename):
-    print('Generating header %s' % filename)
+    print(('Generating header %s' % filename))
 
     header = '''
 #ifndef glxw%(suffix)s_h
@@ -108,7 +109,7 @@ int glxwInit%(upper_suffix)sCtx(struct glxw%(suffix)s *ctx);
 
 
 def generate_library(api, funcs, api_includes, prefix, suffix, filename, use_egl):
-    print('Generating library source %s' % filename)
+    print(('Generating library source %s' % filename))
 
     eglcommon = '''
 #include <EGL/egl.h>

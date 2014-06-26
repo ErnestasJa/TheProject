@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -40,6 +41,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DRELEASE" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -52,8 +54,8 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -85,8 +87,10 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add option="-DRELEASE" />
 				</Compiler>
 				<Linker>
+					<Add option="-static-libgcc -static-libstdc++ -static" />
 					<Add library="glfw3_win32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
@@ -102,6 +106,9 @@
 					<Add directory="../../libs/freetype/lib" />
 					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
+				<ExtraCommands>
+					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
@@ -305,8 +312,8 @@
 		<Unit filename="../../src/tests/gui_and_fonts_application.h" />
 		<Unit filename="../../src/tests/kursinis/Objektas.cpp" />
 		<Unit filename="../../src/tests/kursinis/Objektas.h" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.cpp" />
-		<Unit filename="../../src/tests/kursinis/test_kursinis.h" />
+		<Unit filename="../../src/tests/kursinis/kursinis.cpp" />
+		<Unit filename="../../src/tests/kursinis/kursinis.h" />
 		<Unit filename="../../src/tests/tinyxml_test_application.cpp" />
 		<Unit filename="../../src/tests/tinyxml_test_application.h" />
 		<Unit filename="../../src/utility/bit.h" />

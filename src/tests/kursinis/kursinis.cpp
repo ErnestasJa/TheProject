@@ -7,7 +7,7 @@
 #include "opengl/texture.h"
 #include "resources/image_loader.h"
 
-#include "test_kursinis.h"
+#include "kursinis.h"
 
 #include "scenegraph/sg_graphics_manager.h"
 #include "scenegraph/scenegraph.h"
@@ -32,26 +32,27 @@
 
 float angle_x=5, angle_y=0, distance=600;
 
-test_kursinis::test_kursinis(uint32_t argc, const char ** argv): application(argc,argv)
+kursinis::kursinis(uint32_t argc, const char ** argv): application(argc,argv)
 {
+    window_closed = false;
     simuliuoti = false;
     fixed_time_step = 1000.0/60.0;
-    gravitational_constant = 6.67/1000.0;
+    gravitational_constant = 6.67;
     sub_steps = 1;
 }
 
-test_kursinis::~test_kursinis()
+kursinis::~kursinis()
 {
 
 }
 
-bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t height)
+bool kursinis::init(const std::string & title, uint32_t width, uint32_t height)
 {
     application::init(title,width,height);
-    wnd->sig_key_event().connect(sigc::mem_fun(this,&test_kursinis::on_key_event));
-    wnd->sig_mouse_key().connect(sigc::mem_fun(this,&test_kursinis::on_mouse_key_event));
-    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_kursinis::on_mouse_move));
-    wnd->sig_window_resized().connect(sigc::mem_fun(this,&test_kursinis::on_resize));
+    wnd->sig_key_event().connect(sigc::mem_fun(this,&kursinis::on_key_event));
+    wnd->sig_mouse_key().connect(sigc::mem_fun(this,&kursinis::on_mouse_key_event));
+    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&kursinis::on_mouse_move));
+    wnd->sig_window_resized().connect(sigc::mem_fun(this,&kursinis::on_resize));
 
     m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
@@ -69,7 +70,7 @@ bool test_kursinis::init(const std::string & title, uint32_t width, uint32_t hei
 }
 
 
-bool test_kursinis::init_gui(uint32_t width, uint32_t height)
+bool kursinis::init_gui(uint32_t width, uint32_t height)
 {
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
@@ -78,10 +79,10 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     env->set_event_listener(this);
 
     uint32_t main_wnd_width = 220;
-    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,main_wnd_width,230),L"Simuliacijos valdymo langas");
+    gui_window * wnd = main_wnd = new gui_window(env,rect2d<int>(10,10,main_wnd_width,230),L"");
 
     #define init_e(x) x->set_parent(wnd); //x->set_event_listener(this)
-    gui_button* btn = new gui_button(env,rect2d<int>(5,140,main_wnd_width-10,20),L"Simuliuoti");
+    gui_button* btn = new gui_button(env,rect2d<int>(5,140,main_wnd_width-10,20),L"Pradėti");
     btn->set_name("sim_btn");
     init_e(btn);
 
@@ -101,16 +102,21 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
     slider->set_name((name));\
     init_e(slider);}
 
-    ADD_SLIDER(L"Kameros nuotolis:","cam_dist_slider",30,60,2000)
-    ADD_SLIDER(L"Požingsnių kiekis:","sub_step_slider",55,1,20)
+    ADD_SLIDER(L"Kameros nuotolis:","cam_dist_slider",30,30,2000)
 
-    gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,85,40,20),L"Laiko žingsnis:");
-    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(140,80,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    gui_static_text *tb = new gui_static_text(env,rect2d<int>(10,85,130,20),L"Požingsnių kiekis:");
+    sub_step_eb=new gui_edit_box(env,rect2d<int>(140,80,64,20),L"",glm::vec4(1,1,1,1),false,false);
+    sub_step_eb->set_name("sub_step_eb");
+    init_e(sub_step_eb);
+    init_e(tb);
+
+    tb = new gui_static_text(env,rect2d<int>(10,65,130,20),L"Laiko žingsnis:");
+    fixed_time_step_eb=new gui_edit_box(env,rect2d<int>(140,60,64,20),L"",glm::vec4(1,1,1,1),false,false);
     fixed_time_step_eb->set_name("fixed_time_step_eb");
     init_e(fixed_time_step_eb);
     init_e(tb);
 
-    tb = new gui_static_text(env,rect2d<int>(10,110,40,20),L"Gravitacinė konstanta:");
+    tb = new gui_static_text(env,rect2d<int>(10,110,130,20),L"Gravitacinė konstanta:");
     grav_constant_eb=new gui_edit_box(env,rect2d<int>(140,105,64,20),L"",glm::vec4(1,1,1,1),false,false);
     grav_constant_eb->set_name("grav_constant_eb");
     init_e(grav_constant_eb);
@@ -119,62 +125,89 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
 
     ///init wnd
-    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,164,256,400),L"Objektų parametrų langas");
+    wnd = pos_wnd = new gui_window(env,rect2d<int>(10,240,270,400),L"Objektų parametrų langas");
     pos_wnd->set_visible(false);
 
     int32_t start_h = 24;
     loopi(3)
     {
         gui_static_text * tb = new gui_static_text(env,rect2d<int>(10,start_h+5
-                                                                    + (i * 32),48,20),L"pos(x,y,z)");
+                                                                    + (i * 32),48,20),L"");
         tb->set_parent(wnd);
 
-        pos_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
-        pos_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
-        pos_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][0]=new gui_edit_box(env,rect2d<int>(110     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][1]=new gui_edit_box(env,rect2d<int>(110 + 50,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        pos_eb[i][2]=new gui_edit_box(env,rect2d<int>(110 + 100, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
 
         init_e(pos_eb[i][0]);
         init_e(pos_eb[i][1]);
         init_e(pos_eb[i][2]);
+
+        switch(i)
+        {
+        case 0:
+            tb->set_text(L"Pozicija_1(x,y,z)");
+            break;
+        case 1:
+            tb->set_text(L"Pozicija_2(x,y,z)");
+            break;
+        case 2:
+            tb->set_text(L"Pozicija_3(x,y,z)");
+            break;
+        }
     }
+
+
 
     start_h = 128;
 
     loopi(3)
     {
-        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10, start_h+5 + (i * 32),48,20),L"vel(x,y,z)");
+        gui_static_text * tb = new gui_static_text(env,rect2d<int>(10, start_h+5 + (i * 32),48,20),L"");
         tb->set_parent(wnd);
 
-        vel_eb[i][0]=new gui_edit_box(env,rect2d<int>(68     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
-        vel_eb[i][1]=new gui_edit_box(env,rect2d<int>(68 + 64,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
-        vel_eb[i][2]=new gui_edit_box(env,rect2d<int>(68 + 128, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][0]=new gui_edit_box(env,rect2d<int>(110     ,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][1]=new gui_edit_box(env,rect2d<int>(110 + 50,  start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
+        vel_eb[i][2]=new gui_edit_box(env,rect2d<int>(110 + 100, start_h + (i * 32), 48,20),L"",glm::vec4(1,1,1,1),false,false);
 
         init_e(vel_eb[i][0]);
         init_e(vel_eb[i][1]);
         init_e(vel_eb[i][2]);
+
+        switch(i)
+        {
+        case 0:
+            tb->set_text(L"Greitis_1(x,y,z)");
+            break;
+        case 1:
+            tb->set_text(L"Greitis_2(x,y,z)");
+            break;
+        case 2:
+            tb->set_text(L"Greitis_3(x,y,z)");
+            break;
+        }
     }
 
     start_h = 224;
 
     ///masiu ivedimas
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),L"mass[0]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5,40,20),L"Masė_1");
     tb->set_parent(wnd);
-    eb[0]=new gui_edit_box(env,rect2d<int>(60,start_h,120,20),L"",glm::vec4(1,1,1,1),false,false);
+    eb[0]=new gui_edit_box(env,rect2d<int>(110,start_h,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+30,40,20),L"mass[1]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+30,40,20),L"Masė_2");
     tb->set_parent(wnd);
-    eb[1]=new gui_edit_box(env,rect2d<int>(60,start_h+30,120,20),L"",glm::vec4(1,1,1,1),false,false);
+    eb[1]=new gui_edit_box(env,rect2d<int>(110,start_h+30,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
-
-    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+60,40,20),L"mass[2]");
+    tb = new gui_static_text(env,rect2d<int>(10,start_h+5+60,40,20),L"Masė_3");
     tb->set_parent(wnd);
-    eb[2]=new gui_edit_box(env,rect2d<int>(60,start_h+60,120,20),L"",glm::vec4(1,1,1,1),false,false);
+    eb[2]=new gui_edit_box(env,rect2d<int>(110,start_h+60,120,20),L"",glm::vec4(1,1,1,1),false,false);
 
     init_e(eb[0]);
     init_e(eb[1]);
     init_e(eb[2]);
 
-    btn = new gui_button(env,rect2d<int>(160,370,84,20),L"Atnaujinti");
+    btn = new gui_button(env,rect2d<int>(164,370,84,20),L"Atnaujinti");
     btn->set_name("refresh_btn");
     init_e(btn);
 
@@ -186,19 +219,20 @@ bool test_kursinis::init_gui(uint32_t width, uint32_t height)
 
     tb = new gui_static_text(env,rect2d<int>(20,25,40,20),L"Įvyko kūnų susidūrimas.");
     tb->set_parent(msg_wnd);
-    tb = new gui_static_text(env,rect2d<int>(20,45,40,20),L"Simuliacija sustabdyta.");
+    tb = new gui_static_text(env,rect2d<int>(20,45,40,20),L"Skaičiavimai sustabdyti.");
     tb->set_parent(msg_wnd);
 
     msg_wnd->set_visible(false);
 
 
     update_ui();
+    update_ui_init();
 
     return true;
 }
 
 #include <sstream>
-void test_kursinis::update_ui()
+void kursinis::update_ui()
 {
     std::wstringstream ss;
 
@@ -210,24 +244,27 @@ void test_kursinis::update_ui()
     grav_constant_eb->set_text(ss.str().c_str());
     ss.str(std::wstring());
 
+    ss<<sub_steps;
+    sub_step_eb->set_text(ss.str().c_str());
+    ss.str(std::wstring());
+
 
     gui_slider * s = this->env->get_element_by_name_t<gui_slider>("cam_dist_slider");
 
     if(s)
     {
         s->set_value(distance);
-
         this->get_logger()->log(LOG_LOG, "SLIDER value = %f; cam y = %f",s->get_value(),distance);
     }
 }
 
-void test_kursinis::update_ui_init()
+void kursinis::update_ui_init()
 {
     loopi(3)
     {
         Objektas * o = obj[i];
-        const glm::vec3 & vel = o->get_velocity();
-        const glm::vec3 & pos = o->get_object()->get_position();
+        const glm::dvec3 & vel = o->get_velocity();
+        const glm::dvec3 & pos = o->get_position();
 
         std::wstringstream ss;
 
@@ -264,16 +301,16 @@ void test_kursinis::update_ui_init()
     }
 }
 
-void test_kursinis::set_object_values_from_ui()
+void kursinis::set_object_values_from_ui()
 {
-    float v = 0;
+    double v = 0;
 
     loopi(3)
     {
         Objektas * o = obj[i];
-        glm::vec3 vel;
-        glm::vec3 pos;
-        float mass;
+        glm::dvec3 vel;
+        glm::dvec3 pos;
+        double mass;
 
         std::wstringstream ss;
 
@@ -314,16 +351,31 @@ void test_kursinis::set_object_values_from_ui()
         ss.str(std::wstring());
         ss.clear();
 
-        o->get_object()->set_position(pos);
+        o->set_position(pos);
         o->set_velocity(vel);
         o->set_mass(mass);
+        o->update_graphics_object();
     }
 }
 
-void test_kursinis::set_simulation_values_from_ui()
+void kursinis::set_simulation_values_from_ui()
 {
     double fts=0.0;
+    double sbs=0;
     std::wstringstream ss;
+
+    ss<<sub_step_eb->get_text();
+
+    if(ss>>sbs)
+    {
+        ss.str(std::wstring());
+        ss.clear();
+        sub_steps = (uint32_t)sbs;
+        ss<<sub_steps;
+        sub_step_eb->set_text(ss.str());
+    }
+    ss.str(std::wstring());
+    ss.clear();
 
     ss<<this->fixed_time_step_eb->get_text();
     if(ss>>fts)
@@ -355,7 +407,7 @@ void init_obj(Objektas * obj, sg::sg_graphics_manager_ptr gmgr, glm::vec3 color,
     mat->set_vec3f("color",color);
 }
 
-bool test_kursinis::init_scene()
+bool kursinis::init_scene()
 {
     uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
     glViewport(0,0,w,h);
@@ -364,25 +416,28 @@ bool test_kursinis::init_scene()
     ///obj0
     ///saule
     {
-        obj[0] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),1,glm::vec3(0.0,0.0,0.0));
+        obj[0] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),
+                              1,glm::dvec3(4.0,0.0,0.0),glm::dvec3(0.0,0.0,-4.0));
         m_scenegraph->add_object(obj[0]->get_object());
         m_scenegraph->add_object(obj[0]->get_line_object());
-        init_obj(obj[0],this->m_graphics_manager, glm::vec3(1,0,0), glm::vec3(0,0,0));
+        init_obj(obj[0],this->m_graphics_manager, glm::vec3(1,0,0), glm::vec3(0,0,-4));
     }
 
     ///obj1
     ///zeme
     {
-        obj[1] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),1,glm::vec3(-4.0,0.0,0.0));
+        obj[1] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),
+                              1,glm::dvec3(0.0,0.0,0.0),glm::dvec3(0.0,0.0,0.0));
         m_scenegraph->add_object(obj[1]->get_object());
         m_scenegraph->add_object(obj[1]->get_line_object());
-        init_obj(obj[1],this->m_graphics_manager, glm::vec3(0,1,0), glm::vec3(0,0,2));
+        init_obj(obj[1],this->m_graphics_manager, glm::vec3(0,1,0), glm::vec3(0,0,0));
     }
 
     ///obj2
     ///menulis
     {
-        obj[2] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),1,glm::vec3(-4.0,0.0,0.0));
+        obj[2] = new Objektas(m_scenegraph->load_mesh_object("res/test_kursinis/Sphere.iqm",false), sg::sg_line_object_ptr(new sg::sg_line_object(m_scenegraph)),
+                              1,glm::dvec3(-4.0,0.0,0.0),glm::dvec3(0.0,0.0,4.0));
         m_scenegraph->add_object(obj[2]->get_object());
         m_scenegraph->add_object(obj[2]->get_line_object());
         init_obj(obj[2],this->m_graphics_manager, glm::vec3(0,0,1), glm::vec3(0,0,4));
@@ -404,7 +459,7 @@ bool test_kursinis::init_scene()
     return true;
 }
 
-bool test_kursinis::update()
+bool kursinis::update()
 {
     if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
     {
@@ -412,23 +467,19 @@ bool test_kursinis::update()
         main_timer->tick();
         last_time = current_time;
         current_time = main_timer->get_time();
-        float delta_time = ((float)(current_time - last_time))*0.001;
+        double delta_time = ((double)(current_time - last_time))*0.001;
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 
         if(simuliuoti)
         {
+            double sub_step_time = ((delta_time * fixed_time_step) / sub_steps);
 
-
-
-            float sub_step_time = ((delta_time * fixed_time_step) / sub_steps);
-
-            glm::vec3 _pos[3];
+            glm::dvec3 _pos[3];
 
             loopi(3)
-                _pos[i] = obj[i]->get_object()->get_position();
-
+                _pos[i] = obj[i]->get_position();
 
             loopi(sub_steps)
             {
@@ -438,47 +489,43 @@ bool test_kursinis::update()
                         env->bring_to_front(msg_wnd);
 
                         simuliuoti = false;
-                        ((gui_button*)env->get_element_by_name("sim_btn"))->set_text(L"Simuliuoti");
+                        ((gui_button*)env->get_element_by_name("sim_btn"))->set_text(L"Pradėti");
 
                         break;
                     }
 
-                    glm::vec3 f0 = Objektas::calc_force(obj[0],obj[1],gravitational_constant) + Objektas::calc_force(obj[0],obj[2],gravitational_constant);
-                    glm::vec3 f1 = Objektas::calc_force(obj[1],obj[0],gravitational_constant) + Objektas::calc_force(obj[1],obj[2],gravitational_constant);
-                    glm::vec3 f2 = Objektas::calc_force(obj[2],obj[0],gravitational_constant) + Objektas::calc_force(obj[2],obj[1],gravitational_constant);
+                    glm::dvec3 a0 = Objektas::calc_accel(obj[0],obj[1],gravitational_constant) + Objektas::calc_accel(obj[0],obj[2],gravitational_constant, &Objektas::calc_accel_newton);
+                    glm::dvec3 a1 = Objektas::calc_accel(obj[1],obj[0],gravitational_constant) + Objektas::calc_accel(obj[1],obj[2],gravitational_constant, &Objektas::calc_accel_newton);
+                    glm::dvec3 a2 = Objektas::calc_accel(obj[2],obj[0],gravitational_constant) + Objektas::calc_accel(obj[2],obj[1],gravitational_constant, &Objektas::calc_accel_newton);
 
                     ///0
-                    obj[0]->set_force(f0);
-                    glm::vec3 dv0 = f0*sub_step_time;
-                    glm::vec3 v0 = obj[0]->get_velocity();
+                    glm::dvec3 dv0 = a0*sub_step_time;
+                    glm::dvec3 v0 = obj[0]->get_velocity();
                     obj[0]->set_velocity(v0 + dv0);
-                    glm::vec3 dp0 = v0*sub_step_time;
+                    glm::dvec3 dp0 = v0*sub_step_time;
 
                     ///1
-                    obj[1]->set_force(f1);
-                    glm::vec3 dv1 = f1*sub_step_time;
-                    glm::vec3 v1 = obj[1]->get_velocity();
+                    glm::dvec3 dv1 = a1*sub_step_time;
+                    glm::dvec3 v1 = obj[1]->get_velocity();
                     obj[1]->set_velocity(v1 + dv1);
-                    glm::vec3 dp1 = v1*sub_step_time;
+                    glm::dvec3 dp1 = v1*sub_step_time;
 
                     ///2
-                    obj[2]->set_force(f2);
-                    glm::vec3 dv2 = f2*sub_step_time;
-                    glm::vec3 v2 = obj[2]->get_velocity();
+                    glm::dvec3 dv2 = a2*sub_step_time;
+                    glm::dvec3 v2 = obj[2]->get_velocity();
                     obj[2]->set_velocity(v2 + dv2);
-                    glm::vec3 dp2 = v2*sub_step_time;
+                    glm::dvec3 dp2 = v2*sub_step_time;
 
-                    obj[0]->get_object()->set_position(obj[0]->get_object()->get_position()+dp0);
-                    obj[1]->get_object()->set_position(obj[1]->get_object()->get_position()+dp1);
-                    obj[2]->get_object()->set_position(obj[2]->get_object()->get_position()+dp2);
-
-
+                    obj[0]->set_position(obj[0]->get_position()+dp0);
+                    obj[1]->set_position(obj[1]->get_position()+dp1);
+                    obj[2]->set_position(obj[2]->get_position()+dp2);
             }
 
             if(simuliuoti)
             loopi(3)
             {
-                obj[i]->get_line_object()->add_segment(_pos[i],obj[i]->get_object()->get_position());
+                obj[i]->update_graphics_object();
+                obj[i]->get_line_object()->add_segment(glm::vec3(_pos[i]),obj[i]->get_object()->get_position());
                 obj[i]->get_line_object()->update_mesh();
             }
 
@@ -496,13 +543,16 @@ bool test_kursinis::update()
         sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera();
         cam->orbit(glm::vec3(0,0,0),distance,angle_x,angle_y);
 
-        ///let's just rage quit on gl error
+
+        if(window_closed)
+            return false;
+
         return !this->gl_util->check_and_output_errors();
     }
     return false;
 }
 
-void test_kursinis::on_mouse_key_event(int32_t button, int32_t action, int32_t mod)
+void kursinis::on_mouse_key_event(int32_t button, int32_t action, int32_t mod)
 {
     if(button==GLFW_MOUSE_BUTTON_1&&action==GLFW_PRESS)
     {
@@ -533,7 +583,7 @@ void test_kursinis::on_mouse_key_event(int32_t button, int32_t action, int32_t m
     }
 }
 
-void test_kursinis::on_mouse_move(double x, double y)
+void kursinis::on_mouse_move(double x, double y)
 {
     glm::vec2 mouse_delta = glm::vec2(x,y)-mouse_start;
 
@@ -543,7 +593,7 @@ void test_kursinis::on_mouse_move(double x, double y)
     }
 }
 
-void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
+void kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
 {
         if(sg::sg_camera_object_ptr cam = m_scenegraph->get_active_camera())
     {
@@ -569,7 +619,7 @@ void test_kursinis::on_key_event(int32_t key, int32_t scan_code, int32_t action,
     }
 }
 
-bool test_kursinis::on_event(const gui_event & e)
+bool kursinis::on_event(const gui_event & e)
 {
     switch(e.get_type())
     {
@@ -581,9 +631,6 @@ bool test_kursinis::on_event(const gui_event & e)
             {
                 pos_wnd->set_visible(!pos_wnd->is_visible());
 
-                if(pos_wnd->is_visible())
-                    update_ui_init();
-
                 return true;
             }
             else if( e.get_element()->get_name() == "sim_btn" )
@@ -594,9 +641,9 @@ bool test_kursinis::on_event(const gui_event & e)
                     selected_obj = nullptr;
 
                 gui_button * btn = static_cast< gui_button *>(e.get_element());
-                btn->set_text(simuliuoti?L"Sustabdyti":L"Simuliuoti");
+                btn->set_text(simuliuoti?L"Sustabdyti":L"Pradėti");
 
-                m_log->log(LOG_LOG, "Simuliuoti: '%i'.", (int)simuliuoti);
+                m_log->log(LOG_LOG, "Pradėti: '%i'.", (int)simuliuoti);
                 return true;
             }
             else if( e.get_element()->get_name() == "refresh_btn" )
@@ -643,8 +690,13 @@ bool test_kursinis::on_event(const gui_event & e)
                  set_simulation_values_from_ui();
                  //return true;
             }
-
-            if(e.get_element()->get_name()=="grav_constant_eb")
+            else if(e.get_element()->get_name()=="grav_constant_eb")
+            {
+                 std::cout<<"eb lost focus...\n";
+                 set_simulation_values_from_ui();
+                 //return true;
+            }
+            else if(e.get_element()->get_name()=="sub_step_eb")
             {
                  std::cout<<"eb lost focus...\n";
                  set_simulation_values_from_ui();
@@ -659,12 +711,17 @@ bool test_kursinis::on_event(const gui_event & e)
     return false;
 }
 
-void test_kursinis::on_resize(int32_t w, int32_t h)
+void kursinis::on_resize(int32_t w, int32_t h)
 {
     glViewport(0,0,w,h);
 }
 
-void test_kursinis::exit()
+void kursinis::on_window_close()
+{
+    window_closed = true;
+}
+
+void kursinis::exit()
 {
     loopi(3)
         delete obj[i];
