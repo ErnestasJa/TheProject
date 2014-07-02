@@ -2,17 +2,17 @@
 
 #define RELEASE_FS
 
-#include "application/application.h"
-#include "tests/gui_and_fonts_application.h"
-#include "tests/tinyxml_test_application.h"
-#include "applications/baigiamasis_quadcopter/baigiamasis_quadcopter.h"
-#include "applications/game/test_game.h"
+#include "Application/Application.h"
+#include "tests/gui_and_fonts_Application.h"
+#include "tests/tinyxml_test_Application.h"
+#include "Applications/baigiamasis_quadcopter/baigiamasis_quadcopter.h"
+#include "Applications/game/test_game.h"
 #include "utility/logger.h"
 #include "utility/timer.h"
 
 int main(int argc, const char ** argv)
 {
-    application * app = new baigiamasis_quadcopter(argc,argv);
+    Application * app = new baigiamasis_quadcopter(argc,argv);
 
     if(app->init("Kursinis darbas",1280,720))
     {

@@ -8,7 +8,7 @@ void window_resize(GLFWwindow * wnd, int32_t w, int32_t h);
 void window_close(GLFWwindow * wnd);
 void text_event(GLFWwindow * wnd, uint32_t scan_code);
 
-class window
+class Window
 {
 protected:
     GLFWwindow * m_window;
@@ -31,16 +31,16 @@ protected:
 
     bool shouldClose;
 public:
-    static std::map<GLFWwindow*, window*> m_windows;
-    static void destroy_window(window * wnd);
+    static std::map<GLFWwindow*, Window*> m_windows;
+    static void destroy_window(Window * wnd);
 
-    window()
+    Window()
     {
         m_window = nullptr;
         shouldClose = false;
     }
 
-    ~window()
+    ~Window()
     {
         m_sig_window_resized.clear();
         m_sig_window_closed.clear();
@@ -76,12 +76,12 @@ public:
         glfwWindowHint(GLFW_RESIZABLE,0);
 
 
-        /* Create a windowed mode window and its OpenGL context */
+        /* Create a windowed mode Window and its OpenGL context */
         m_window = glfwCreateWindow(width, height,title.c_str(),NULL,NULL);
 
         if (!m_window)
         {
-            printf("glfw open window failed!\n"); //log
+            printf("glfw open Window failed!\n"); //log
             return false;
         }
 

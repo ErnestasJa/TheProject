@@ -11,13 +11,13 @@ enum loglevel
 };
 
 
-class application;
+class Application;
 class PHYSFS_File;
 
 class logger
 {
 public:
-    logger(application *app, int verbosity); //to be decided
+    logger(Application *app, int verbosity); //to be decided
     //verbosity 0: all output
     //verbosity 1: only warnings and errors
     //verbosity 2: only errors
@@ -26,7 +26,7 @@ public:
     void log(loglevel lev,const char* st, ...);
 private:
     int m_verbosity;
-    application * m_app;
+    Application * m_app;
     PHYSFS_File * m_logfile;
     //std::vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
 

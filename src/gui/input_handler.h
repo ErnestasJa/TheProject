@@ -15,5 +15,5 @@ class input_handler
     private:
         logger* log;
         glm::vec2 mouse_pos;
-        GLFWwindow *window;
+        GLFWwindow *Window;
 };

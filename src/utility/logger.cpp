@@ -1,10 +1,10 @@
 #include "precomp.h"
 
 #include "utility/logger.h"
-#include "application/application.h"
+#include "Application/Application.h"
 #include "utility/timer.h"
 
-logger::logger(application *app,int verbosity)
+logger::logger(Application *app,int verbosity)
 {
     #ifdef LOG_OUTPUT
     m_verbosity=verbosity;

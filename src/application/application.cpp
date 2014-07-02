@@ -1,13 +1,13 @@
 #include "precomp.h"
 
-#include "application/window.h"
+#include "Application/Window.h"
 #include "opengl/opengl_util.h"
 #include "utility/timer.h"
 #include "utility/logger.h"
 
-#include "application.h"
+#include "Application.h"
 
-void application::output_versions()
+void Application::output_versions()
 {
     PHYSFS_Version compiled;
     PHYSFS_Version linked;
@@ -21,23 +21,23 @@ void application::output_versions()
             (int) linked.major, (int) linked.minor, (int) linked.patch);
 } /* output_versions */
 
-application::application(int32_t argc, const char ** argv)
+Application::Application(int32_t argc, const char ** argv)
 {
-    this->wnd = nullptr;
-    this->gl_util = nullptr;
-    this->main_timer = nullptr;
-    this->argc = argc;
-    this->argv = argv;
+    this->_window = nullptr;
+    this->_GLUtil = nullptr;
+    this->_mainTimer = nullptr;
+    this->_argc = argc;
+    this->_argv = argv;
 }
 
-application::~application()
+Application::~Application()
 {
 
 }
 
-bool application::init(const std::string  &title, uint32_t width, uint32_t height)
+bool Application::init(const std::string  &title, uint32_t width, uint32_t height)
 {
-    this->main_timer = timer_ptr(new timer());
+    this->_mainTimer = timer_ptr(new timer());
     if (!PHYSFS_init(argv[0]))
     {
         std::cout<<"PHYSFS_init() failed: " <<PHYSFS_getLastError()<<std::endl;
@@ -76,7 +76,7 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     PHYSFS_mount(combo.c_str(),NULL,0);
     output_versions();
 
-    this->wnd = new window();
+    this->wnd = new Window();
 
     if(!this->wnd->init(title, width, height))
     {
@@ -84,7 +84,7 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
-    this->wnd->sig_window_closed().connect(sigc::mem_fun(this,&application::on_window_close));
+    this->wnd->sig_window_closed().connect(sigc::mem_fun(this,&Application::on_window_close));
 
     this->gl_util = new opengl_util(m_log);
 
@@ -98,12 +98,12 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
     return true;
 }
 
-void application::exit()
+void Application::exit()
 {
     m_log->log(LOG_LOG,"Exitting.");
 
     delete gl_util;
-    window::destroy_window(wnd);
+    Window::destroy_window(wnd);
     delete m_log;
 
     if (!PHYSFS_deinit())
@@ -112,12 +112,12 @@ void application::exit()
     main_timer = nullptr;
 }
 
-logger *application::get_logger()
+logger *Application::get_logger()
 {
     return m_log;
 }
 
-timer_ptr application::get_timer()
+timer_ptr Application::get_timer()
 {
     return main_timer;
 }
