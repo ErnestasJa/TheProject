@@ -1,11 +1,11 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_static_text.h"
+#include "GUIStaticText.h"
 
 gui_static_text::gui_static_text(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow):gui_element(env,dimensions)
 {

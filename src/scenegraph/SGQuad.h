@@ -1,10 +1,10 @@
 #ifndef SG_QUAD_H
 #define SG_QUAD_H
 
-#include "opengl/mesh.h"
-#include "isg_object.h"
-#include "sg_material.h"
-#include "resources/resource_cache.h"
+#include "opengl/Mesh.h"
+#include "ISGObject.h"
+#include "SGMaterial.h"
+#include "resources/ResourceCache.h"
 
 namespace sg
 {

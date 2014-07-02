@@ -1,8 +1,8 @@
-#include "precomp.h"
-#include "mesh.h"
-#include "ibuffer_object.h"
-#include "buffer_object.h"
-#include "utility/util.h"
+#include "Precomp.h"
+#include "Mesh.h"
+#include "IBufferObject.h"
+#include "BufferObject.h"
+#include "utility/Util.h"
 
 void animation::set_frame(uint32_t frame)
 {

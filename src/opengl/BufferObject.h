@@ -1,7 +1,7 @@
 #ifndef BUFFER_OBJECT_H
 #define BUFFER_OBJECT_H
 
-#include "ibuffer_object.h"
+#include "IBufferObject.h"
 
 template <class T>
 struct buffer_object: public ibuffer_object

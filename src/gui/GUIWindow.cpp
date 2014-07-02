@@ -1,14 +1,14 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_window.h"
+#include "GUIWindow.h"
 
-#include "gui_pane.h"
-#include "gui_button.h"
+#include "GUIPane.h"
+#include "GUIButton.h"
 
 gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal, bool movable):gui_element(env,dimensions)
 {

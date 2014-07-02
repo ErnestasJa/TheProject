@@ -1,8 +1,8 @@
-#include "precomp.h"
-#include "scenegraph.h"
-#include "utility/logger.h"
-#include "sg_camera_object.h"
-#include "../Applications/app_context.h"
+#include "Precomp.h"
+#include "Scenegraph.h"
+#include "utility/Logger.h"
+#include "SGCameraObject.h"
+#include "../Applications/AppContext.h"
 
 namespace sg
 {
@@ -26,8 +26,8 @@ sg_camera_object::sg_camera_object(app_context* ctx, const glm::vec3 &pos,const 
 
     this->update_absolute_transform();
 
-    m_app_context->sg->get_logger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
-    m_app_context->sg->get_logger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
+    m_app_context->sg->GetLogger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
+    m_app_context->sg->GetLogger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
 }
 
 sg_camera_object::~sg_camera_object()
@@ -91,9 +91,9 @@ void sg_camera_object::update(scenegraph * sg)
     m_translation=glm::vec3(0);
     if(m_fps)
     {
-        glm::ivec2 s=m_app_context->win->get_window_size();
+        glm::ivec2 s=m_app_context->win->GetWindowSize();
         m_app_context->win->set_mouse_pos(s/2);
-        glm::ivec2 mp=m_app_context->win->get_mouse_pos();
+        glm::ivec2 mp=m_app_context->win->GetMousePos();
         handle_mouse(mp.x,mp.y);
     }
 }
@@ -158,8 +158,8 @@ void sg_camera_object::handle_mouse(int x,int y)
 
         glm::quat r = this->get_rotation();
         glm::vec3 rot_deg = glm::eulerAngles(r);
-        //m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
-        //m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+        //_logger->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
+        //_logger->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
 
         glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
 
@@ -170,7 +170,7 @@ void sg_camera_object::handle_mouse(int x,int y)
 
 //        r = this->get_rotation();
 //        rot_deg = glm::eulerAngles(r);
-        //m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+        //_logger->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
     }
 
 }

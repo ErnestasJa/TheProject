@@ -1,12 +1,12 @@
 #pragma once
-#include "../../app_context.h"
-#include "game_state.h"
-#include "gui/gui_environment.h"
-#include "gui/gui_image.h"
-#include "gui/font_rendering/font_renderer.h"
+#include "../../AppContext.h"
+#include "GameState.h"
+#include "gui/GUIEnvironment.h"
+#include "gui/GUIImage.h"
+#include "gui/font_rendering/FontRenderer.h"
 
-#include "menu_state.h"
-#include "play_state.h"
+#include "MenuState.h"
+#include "PlayState.h"
 
 class wait_for_connection_state:public game_state
 {

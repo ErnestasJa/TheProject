@@ -1,9 +1,9 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "png_loader.h"
+#include "PNGLoader.h"
 #include "stb_image.h"
 
-#include "utility/logger.h"
+#include "utility/Logger.h"
 
 png_loader::png_loader(logger * l): m_logger(l)
 {

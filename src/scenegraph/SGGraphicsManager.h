@@ -1,10 +1,10 @@
 #ifndef SG_GRAPHICS_MANAGER_H
 #define SG_GRAPHICS_MANAGER_H
 
-#include "resources/resource_cache.h"
-#include "resources/image_loader.h"
-#include "resources/mesh_loader.h"
-#include "resources/shader_loader.h"
+#include "resources/ResourceCache.h"
+#include "resources/ImageLoader.h"
+#include "resources/MeshLoader.h"
+#include "resources/ShaderLoader.h"
 
 
 struct texture; typedef std::shared_ptr<texture> texture_ptr;
@@ -31,7 +31,7 @@ public:
 public:
     resource_cache<texture> & get_texture_cache();
 
-    image_loader * get_image_loader();
+    image_loader * GetImageLoader();
     mesh_loader * get_mesh_loader();
     shader_loader * get_shader_loader();
 

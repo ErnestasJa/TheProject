@@ -1,9 +1,9 @@
-#include "precomp.h"
+#include "Precomp.h"
 
 #include "tgaloader.h"
 #include "glm.hpp"
 
-#include "utility/logger.h"
+#include "utility/Logger.h"
 
 tgaloader::tgaloader(logger * l): m_logger(l)
 {

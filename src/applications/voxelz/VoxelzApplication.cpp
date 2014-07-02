@@ -1,33 +1,33 @@
-#include "precomp.h"
-#include "voxelz_Application.h"
+#include "Precomp.h"
+#include "VoxelzApplication.h"
 
 #include "Application/Window.h"
 
-#include "resources/resource_cache.h"
-#include "opengl/texture.h"
-#include "opengl/render_buffer_object.h"
-#include "opengl/frame_buffer_object.h"
+#include "resources/ResourceCache.h"
+#include "opengl/Texture.h"
+#include "opengl/RenderBufferObject.h"
+#include "opengl/FrameBufferObject.h"
 
-#include "utility/timer.h"
-#include "utility/logger.h"
-#include "opengl/opengl_util.h"
-#include "opengl/mesh.h"
-#include "opengl/shader.h"
+#include "utility/Timer.h"
+#include "utility/Logger.h"
+#include "opengl/OpenGLUtil.h"
+#include "opengl/Mesh.h"
+#include "opengl/Shader.h"
 
-#include "resources/mesh_loader.h"
-#include "resources/shader_loader.h"
-#include "resources/image_loader.h"
-#include "scenegraph/sg_graphics_manager.h"
-#include "scenegraph/scenegraph.h"
-#include "scenegraph/isg_render_queue.h"
-#include "scenegraph/sg_scenegraph_loader.h"
-#include "scenegraph/sg_objects.h"
-#include "scenegraph/sg_material.h"
+#include "resources/MeshLoader.h"
+#include "resources/ShaderLoader.h"
+#include "resources/ImageLoader.h"
+#include "scenegraph/SGGraphicsManager.h"
+#include "scenegraph/Scenegraph.h"
+#include "scenegraph/ISGRenderQueue.h"
+#include "scenegraph/SGScenegraphLoader.h"
+#include "scenegraph/SGObjects.h"
+#include "scenegraph/SGMaterial.h"
 #include "../../physics/Physics.h"
 
-#include "gui/gui_environment.h"
+#include "gui/GUIEnvironment.h"
 
-#include "../app_context.h"
+#include "../AppContext.h"
 
 voxelz_Application::voxelz_Application(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -40,29 +40,29 @@ voxelz_Application::~voxelz_Application()
 
 }
 
-bool voxelz_Application::init(const std::string & title, uint32_t width, uint32_t height)
+bool voxelz_Application::Init(const std::string & title, uint32_t width, uint32_t height)
 {
-    Application::init(title,width,height);
-    wnd->sig_key_event().connect(sigc::mem_fun(this,&voxelz_Application::on_key_event));
+    Application::Init(title,width,height);
+    _window->SigKeyEvent().connect(sigc::mem_fun(this,&voxelz_Application::on_key_event));
 
 
-    m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
+    m_scenegraph = new sg::scenegraph(this->GetLogger(),this->GetTimer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
 
     m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
 
-    env=new gui_environment(this->wnd,this->get_logger());
+    env=new gui_environment(this->_window,this->GetLogger());
 
-    main_timer->tick();
+    _mainTimer->tick();
 
-    m_current_time = m_last_time = main_timer->get_real_time();
+    m_current_time = m_last_time = _mainTimer->get_real_time();
 
     glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 	ctx=new app_context();
-	ctx->win=this->wnd;
+	ctx->win=this->_window;
 	ctx->gm=this->m_graphics_manager;
 	ctx->sg=this->m_scenegraph;
 	ctx->pm=this->m_physics_manager;
@@ -74,32 +74,32 @@ bool voxelz_Application::init(const std::string & title, uint32_t width, uint32_
 	ctx->env->get_font_renderer()->create_font("s22","freesans.ttf",22);
     ctx->env->get_font_renderer()->create_font("s42","freesans.ttf",42);
 
-    return !this->gl_util->check_and_output_errors();
+    return !this->_GLUtil->check_and_output_errors();
 }
 
-bool voxelz_Application::update()
+bool voxelz_Application::Update()
 {
-    if(wnd->update())
+    if(_window->Update())
     {
         // Measure speed
-        main_timer->tick();
+        _mainTimer->tick();
         m_last_time = m_current_time;
-        m_current_time = main_timer->get_real_time();
+        m_current_time = _mainTimer->get_real_time();
         float delta_time = ((float)(m_current_time - m_last_time)) / 1000.0f;
 
 //        m_state_manager->update(delta_time);
 //        m_state_manager->render();
 
-        wnd->swap_buffers();
+        _window->swap_buffers();
 
         ///let's just rage quit on gl error
-        return !this->gl_util->check_and_output_errors();
+        return !this->_GLUtil->check_and_output_errors();
     }
     return false;
 
 }
 
-void voxelz_Application::exit()
+void voxelz_Application::Exit()
 {
     m_graphics_manager = nullptr;
 
@@ -107,7 +107,7 @@ void voxelz_Application::exit()
 
     //delete env;
     delete ctx;
-    Application::exit();
+    Application::Exit();
 }
 
 bool voxelz_Application::on_event(const gui_event & e)

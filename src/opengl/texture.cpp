@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "resources/image.h"
-#include "texture.h"
+#include "Texture.h"
 
 uint32_t texture::active_slot = 0;
 uint32_t texture::current = 0;

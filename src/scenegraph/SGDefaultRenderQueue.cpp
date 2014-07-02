@@ -1,7 +1,7 @@
-#include "precomp.h"
-#include "sg_default_render_queue.h"
-#include "sg_objects.h"
-#include "scenegraph.h"
+#include "Precomp.h"
+#include "SGDefaultRenderQueue.h"
+#include "SGObjects.h"
+#include "Scenegraph.h"
 
 namespace sg
 {

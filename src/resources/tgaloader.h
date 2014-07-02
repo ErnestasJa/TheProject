@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iimage_loader.h"
+#include "IImageLoader.h"
 class logger;
 class tgaloader: public iimage_loader
 {

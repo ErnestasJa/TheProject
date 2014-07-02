@@ -1,11 +1,11 @@
-#include "precomp.h"
-#include "sg_aabb_wireframe_object.h"
+#include "Precomp.h"
+#include "SGAABBWireframeObject.h"
 
-#include "scenegraph.h"
-#include "sg_mesh_object.h"
-#include "opengl/mesh.h"
-#include "opengl/shader.h"
-#include "opengl/buffer_object.h"
+#include "Scenegraph.h"
+#include "SGMeshObject.h"
+#include "opengl/Mesh.h"
+#include "opengl/Shader.h"
+#include "opengl/BufferObject.h"
 
 namespace sg
 {

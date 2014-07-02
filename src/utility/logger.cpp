@@ -1,8 +1,8 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "utility/logger.h"
+#include "utility/Logger.h"
 #include "Application/Application.h"
-#include "utility/timer.h"
+#include "utility/Timer.h"
 
 logger::logger(Application *app,int verbosity)
 {
@@ -17,7 +17,7 @@ logger::logger(Application *app,int verbosity)
 
     //format the filename with realtime stamp
     std::string fname="/logs/";
-    fname+=helpers::to_str(m_app->get_timer()->get_real_time());
+    fname+=helpers::to_str(m_app->GetTimer()->get_real_time());
     fname+="_log.txt";
 
     //open it
@@ -38,7 +38,7 @@ logger::~logger()
 void logger::log(loglevel lev,const char* st, ...)
 {
     #ifdef LOG_OUTPUT
-    m_app->get_timer()->tick();
+    m_app->GetTimer()->tick();
     char buf[256];
     va_list l;
     va_start(l,st);
@@ -47,7 +47,7 @@ void logger::log(loglevel lev,const char* st, ...)
     std::string message="";
 
     //message+="["+timestamp()+"] ";
-    message+=helpers::to_str(m_app->get_timer()->get_time())+" ";
+    message+=helpers::to_str(m_app->GetTimer()->get_time())+" ";
     //add importance info
     switch(lev)
     {
@@ -84,7 +84,7 @@ std::string logger::timestamp()
 {
     std::string stamp="";
 
-    uint32_t t=m_app->get_timer()->get_time()/1000;
+    uint32_t t=m_app->GetTimer()->get_time()/1000;
 
     uint32_t h,m,s;
 

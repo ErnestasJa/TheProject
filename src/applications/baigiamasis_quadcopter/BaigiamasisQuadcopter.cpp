@@ -1,36 +1,36 @@
-#include "precomp.h"
-#include "baigiamasis_quadcopter.h"
+#include "Precomp.h"
+#include "BaigiamasisQuadcopter.h"
 
 #include "Application/Window.h"
 
-#include "resources/resource_cache.h"
-#include "opengl/texture.h"
-#include "opengl/render_buffer_object.h"
-#include "opengl/frame_buffer_object.h"
+#include "resources/ResourceCache.h"
+#include "opengl/Texture.h"
+#include "opengl/RenderBufferObject.h"
+#include "opengl/FrameBufferObject.h"
 
-#include "utility/timer.h"
-#include "utility/logger.h"
-#include "opengl/opengl_util.h"
-#include "opengl/mesh.h"
-#include "opengl/shader.h"
+#include "utility/Timer.h"
+#include "utility/Logger.h"
+#include "opengl/OpenGLUtil.h"
+#include "opengl/Mesh.h"
+#include "opengl/Shader.h"
 
-#include "resources/mesh_loader.h"
-#include "resources/shader_loader.h"
-#include "resources/image_loader.h"
-#include "scenegraph/sg_graphics_manager.h"
-#include "scenegraph/scenegraph.h"
-#include "scenegraph/isg_render_queue.h"
-#include "scenegraph/sg_scenegraph_loader.h"
-#include "scenegraph/sg_objects.h"
-#include "scenegraph/sg_material.h"
+#include "resources/MeshLoader.h"
+#include "resources/ShaderLoader.h"
+#include "resources/ImageLoader.h"
+#include "scenegraph/SGGraphicsManager.h"
+#include "scenegraph/Scenegraph.h"
+#include "scenegraph/ISGRenderQueue.h"
+#include "scenegraph/SGScenegraphLoader.h"
+#include "scenegraph/SGObjects.h"
+#include "scenegraph/SGMaterial.h"
 #include "physics/Physics.h"
 
-#include "gui/gui_environment.h"
+#include "gui/GUIEnvironment.h"
 
-#include "states/state_manager.h"
-#include "states/menu_state.h"
-#include "states/play_state.h"
-#include "../app_context.h"
+#include "states/StateManager.h"
+#include "states/MenuState.h"
+#include "states/PlayState.h"
+#include "../AppContext.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -43,29 +43,29 @@ baigiamasis_quadcopter::~baigiamasis_quadcopter()
 
 }
 
-bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uint32_t height)
+bool baigiamasis_quadcopter::Init(const std::string & title, uint32_t width, uint32_t height)
 {
-    Application::init(title,width,height);
-    wnd->sig_key_event().connect(sigc::mem_fun(this,&baigiamasis_quadcopter::on_key_event));
+    Application::Init(title,width,height);
+    _window->SigKeyEvent().connect(sigc::mem_fun(this,&baigiamasis_quadcopter::OnKeyEvent));
 
 
-    m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
+    m_scenegraph = new sg::scenegraph(this->GetLogger(),this->GetTimer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
 
     m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
 
-    env=new gui_environment(this->wnd,this->get_logger());
+    env=new gui_environment(this->_window,this->GetLogger());
 
-    main_timer->tick();
+    _mainTimer->tick();
 
-    m_current_time = m_last_time = main_timer->get_real_time();
+    m_current_time = m_last_time = _mainTimer->get_real_time();
 
     glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 	ctx=new app_context();
-	ctx->win=this->wnd;
+	ctx->win=this->_window;
 	ctx->gm=this->m_graphics_manager;
 	ctx->sg=this->m_scenegraph;
 	ctx->pm=this->m_physics_manager;
@@ -80,32 +80,32 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 	m_state_manager=new state_manager(ctx);
 	m_state_manager->set_state(new menu_state(m_state_manager));
 
-    return !this->gl_util->check_and_output_errors();
+    return !this->_GLUtil->check_and_output_errors();
 }
 
-bool baigiamasis_quadcopter::update()
+bool baigiamasis_quadcopter::Update()
 {
-    if(wnd->getWindowShouldClose()==false && m_state_manager->run)
+    if(_window->getWindowShouldClose()==false && m_state_manager->run)
     {
         // Measure speed
-        main_timer->tick();
+        _mainTimer->tick();
         m_last_time = m_current_time;
-        m_current_time = main_timer->get_real_time();
+        m_current_time = _mainTimer->get_real_time();
         float delta_time = ((float)(m_current_time - m_last_time)) / 1000.0f;
 
         m_state_manager->update(delta_time);
         m_state_manager->render();
 
-        wnd->swap_buffers();
+        _window->swap_buffers();
 
         ///let's just rage quit on gl error
-        return !this->gl_util->check_and_output_errors();
+        return !this->_GLUtil->check_and_output_errors();
     }
     return false;
 
 }
 
-void baigiamasis_quadcopter::exit()
+void baigiamasis_quadcopter::Exit()
 {
     m_graphics_manager = nullptr;
 
@@ -113,7 +113,7 @@ void baigiamasis_quadcopter::exit()
 
     //delete env;
     delete ctx;
-    Application::exit();
+    Application::Exit();
 }
 
 bool baigiamasis_quadcopter::on_event(const gui_event & e)
@@ -121,15 +121,15 @@ bool baigiamasis_quadcopter::on_event(const gui_event & e)
     return false;
 }
 
-void baigiamasis_quadcopter::on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
+void baigiamasis_quadcopter::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifier)
 {
 }
 
-void baigiamasis_quadcopter::on_mouse_move(double x, double y)
+void baigiamasis_quadcopter::OnMouseMove(double x, double y)
 {
 }
 
-void baigiamasis_quadcopter::on_window_close()
+void baigiamasis_quadcopter::OnWindowClose()
 {
-    this->wnd->setWindowShouldClose(true);
+    this->_window->setWindowShouldClose(true);
 }

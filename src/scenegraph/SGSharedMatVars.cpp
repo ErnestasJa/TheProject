@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "sg_shared_mat_vars.h"
+#include "Precomp.h"
+#include "SGSharedMatVars.h"
 
 namespace sg
 {

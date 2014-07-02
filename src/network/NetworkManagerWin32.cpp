@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "network_manager_win32.h"
+#include "Precomp.h"
+#include "NetworkManagerWin32.h"
 
 network_manager_win32::network_manager_win32()
 {

@@ -1,14 +1,14 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "utility/util.h"
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "utility/Util.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_event.h"
+#include "GUIEvent.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_slider.h"
+#include "GUISlider.h"
 
 gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, float min, float max, float pos, bool vertical):gui_element(env,dimensions)
 {

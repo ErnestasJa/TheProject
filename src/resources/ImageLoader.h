@@ -1,7 +1,7 @@
 #pragma once
 
-#include "iimage_loader.h"
-#include "resource_cache.h"
+#include "IImageLoader.h"
+#include "ResourceCache.h"
 
 struct texture; typedef std::shared_ptr<texture> texture_ptr;
 class logger;

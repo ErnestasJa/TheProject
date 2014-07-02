@@ -1,13 +1,13 @@
-#include "precomp.h"
-#include "cmotion_state.h"
-#include "icollision_handler.h"
-#include "physics_manager.h"
+#include "Precomp.h"
+#include "MotionState.h"
+#include "CollisionHandler.h"
+#include "PhysicsManager.h"
 #include <BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h>
 #include <BulletSoftBody/btSoftBodyHelpers.h>
 
-#include "scenegraph/sg_objects.h"
-#include "opengl/mesh.h"
-#include "opengl/buffer_object.h"
+#include "scenegraph/SGObjects.h"
+#include "opengl/Mesh.h"
+#include "opengl/BufferObject.h"
 
 physics_manager::physics_manager(btVector3 Gravity):m_handler(0)
 {

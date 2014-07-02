@@ -3,10 +3,10 @@
 
 // TODO (Ernestas#1#): figure this out ...
 //
-#include "opengl/shader.h"
-#include "opengl/texture.h"
-#include "scenegraph/sg_material_types.h"
-#include "scenegraph/sg_mvar.h"
+#include "opengl/Shader.h"
+#include "opengl/Texture.h"
+#include "scenegraph/SGMaterialTypes.h"
+#include "scenegraph/SGMVar.h"
 
 namespace sg
 {

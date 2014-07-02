@@ -1,6 +1,6 @@
-#include "precomp.h"
-#include "sg_mvar.h"
-#include "opengl/shader.h"
+#include "Precomp.h"
+#include "SGMvar.h"
+#include "opengl/Shader.h"
 
 namespace sg
 {

@@ -1,24 +1,24 @@
-#include "precomp.h"
+#include "Precomp.h"
 
 #define RELEASE_FS
 
 #include "Application/Application.h"
-#include "tests/gui_and_fonts_Application.h"
-#include "tests/tinyxml_test_Application.h"
-#include "Applications/baigiamasis_quadcopter/baigiamasis_quadcopter.h"
-#include "Applications/game/test_game.h"
-#include "utility/logger.h"
-#include "utility/timer.h"
+#include "tests/GUIAndFontsApplication.h"
+#include "tests/TinyXMLTestApplication.h"
+#include "Applications/baigiamasis_quadcopter/BaigiamasisQuadcopter.h"
+#include "Applications/game/TestGame.h"
+#include "utility/Logger.h"
+#include "utility/Timer.h"
 
 int main(int argc, const char ** argv)
 {
     Application * app = new baigiamasis_quadcopter(argc,argv);
 
-    if(app->init("Kursinis darbas",1280,720))
+    if(app->Init("Kursinis darbas",1280,720))
     {
-        while(app->update());
+        while(app->Update());
 
-        app->exit();
+        app->Exit();
         delete app;
     }
 

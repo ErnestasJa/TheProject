@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "utility/logger.h"
+#include "utility/Logger.h"
 #include "gui/input_handler.h"
 
 input_handler::input_handler(logger *log,GLFWwindow* win)

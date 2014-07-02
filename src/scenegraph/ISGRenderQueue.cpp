@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "isg_render_queue.h"
+#include "Precomp.h"
+#include "ISGRenderQueue.h"
 namespace sg
 {
 isg_render_queue::isg_render_queue()

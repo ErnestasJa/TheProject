@@ -1,20 +1,20 @@
-#include "precomp.h"
+#include "Precomp.h"
 
 #include "Application/Window.h"
-#include "utility/timer.h"
-#include "utility/logger.h"
-#include "opengl/opengl_util.h"
+#include "utility/Timer.h"
+#include "utility/Logger.h"
+#include "opengl/OpenGLUtil.h"
 
-#include "gui/gui_environment.h"
-#include "gui/gui_window.h"
-#include "gui/gui_pane.h"
-#include "gui/gui_static_text.h"
-#include "gui/gui_button.h"
-#include "gui/gui_checkbox.h"
+#include "gui/GUIEnvironment.h"
+#include "gui/GUIWindow.h"
+#include "gui/GUIPane.h"
+#include "gui/GUIStaticText.h"
+#include "gui/GUIButton.h"
+#include "gui/GUICheckbox.h"
 
-#include "gui_and_fonts_Application.h"
+#include "GUIAndFontsApplication.h"
 
-#include "utility/rect2d.h"
+#include "utility/Rect2d.h"
 
 gui_and_fonts_Application::gui_and_fonts_Application(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -27,9 +27,9 @@ gui_and_fonts_Application::~gui_and_fonts_Application()
 
 }
 
-bool gui_and_fonts_Application::init(const std::string & title, uint32_t width, uint32_t height)
+bool gui_and_fonts_Application::Init(const std::string & title, uint32_t width, uint32_t height)
 {
-    Application::init(title,width,height);
+    Application::Init(title,width,height);
 
     frame_count = 0;
     last_time = 0;
@@ -55,10 +55,9 @@ bool gui_and_fonts_Application::init(const std::string & title, uint32_t width, 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     int ww,hh;
-    GLFWwindow * _window=wnd->getWindow();
-    glfwGetWindowSize(_window,&ww,&hh);
+    glfwGetWindowSize(_window->getWindow(),&ww,&hh);
 
-    env=new gui_environment(wnd,this->get_logger());
+    env=new gui_environment(_window,this->GetLogger());
 
     gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),L"Tis but a Window",false,true,false);
 
@@ -98,7 +97,7 @@ bool gui_and_fonts_Application::init(const std::string & title, uint32_t width, 
 
 void gui_and_fonts_Application::on_event(gui_event e)
 {
-    logger* _log=this->get_logger();
+    logger* _log=this->GetLogger();
     switch(e.get_type())
     {
     case element_focused:
@@ -154,12 +153,12 @@ void gui_and_fonts_Application::on_event(gui_event e)
     }
 }
 
-bool gui_and_fonts_Application::update()
+bool gui_and_fonts_Application::Update()
 {
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE) && this->running)
+    if(_window->Update() && !_window->GetKey(GLFW_KEY_ESCAPE) && this->running)
     {
         // Measure speed
-        main_timer->tick();
+        _mainTimer->tick();
 
         env->update(0);
 
@@ -175,21 +174,21 @@ bool gui_and_fonts_Application::update()
         renderer->render_string(L"I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
         renderer->use_font();
 
-        wnd->swap_buffers();
+        _window->swap_buffers();
 
         ///let's just rage quit on gl error
-        return !this->gl_util->check_and_output_errors();
+        return !this->_GLUtil->check_and_output_errors();
     }
     return false;
 }
 
 void gui_and_fonts_Application::show_fps()
 {
-    uint32_t currentTime = main_timer->get_time();
+    uint32_t currentTime = _mainTimer->get_time();
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
-        m_log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        _logger->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
 
         test1->set_text(L"FPS: "+helpers::to_wstr<int>(frame_count)+L" "+helpers::to_wstr(1000.0/double(frame_count))+L"ms");
 
@@ -198,8 +197,8 @@ void gui_and_fonts_Application::show_fps()
     }
 }
 
-void gui_and_fonts_Application::exit()
+void gui_and_fonts_Application::Exit()
 {
     delete env;
-    Application::exit();
+    Application::Exit();
 }

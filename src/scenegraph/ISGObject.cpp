@@ -1,7 +1,7 @@
-#include "precomp.h"
-#include "isg_object.h"
-#include "isg_render_queue.h"
-#include "scenegraph.h"
+#include "Precomp.h"
+#include "ISGObject.h"
+#include "ISGRenderQueue.h"
+#include "Scenegraph.h"
 
 namespace sg
 {

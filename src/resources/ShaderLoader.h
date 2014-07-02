@@ -1,8 +1,8 @@
 #ifndef SHADER_LOADER_H
 #define SHADER_LOADER_H
 
-#include "opengl/shader.h"
-#include "resource_cache.h"
+#include "opengl/Shader.h"
+#include "ResourceCache.h"
 
 class logger;
 class shader_loader: public resource_cache<shader>

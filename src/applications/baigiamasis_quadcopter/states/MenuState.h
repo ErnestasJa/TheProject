@@ -1,6 +1,6 @@
 #pragma once
-#include "../../app_context.h"
-#include "game_state.h"
+#include "../../AppContext.h"
+#include "GameState.h"
 
 class gui_edit_box;
 class gui_button;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gui/gui_element.h"
+#include "gui/GUIElement.h"
 
 class texture;
 template <typename T>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Application/Application.h"
-#include "gui/gui_event_listener.h"
+#include "gui/GUIEventListener.h"
 
 class frame_buffer_object;
 class gui_environment;
@@ -26,9 +26,9 @@ protected:
 public:
     gui_and_fonts_Application(uint32_t argc, const char ** argv);
     ~gui_and_fonts_Application();
-    bool init(const std::string & title, uint32_t width, uint32_t height);
+    bool Init(const std::string & title, uint32_t width, uint32_t height);
     void on_event(gui_event e);
-    virtual bool update();
-    void exit();
+    virtual bool Update();
+    void Exit();
     void show_fps();
 };

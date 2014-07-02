@@ -1,8 +1,8 @@
 #ifndef GUI_TEST_ELEMENT_H_INCLUDED
 #define GUI_TEST_ELEMENT_H_INCLUDED
 
-#include "gui_element.h"
-#include "gui_environment.h"
+#include "GUIElement.h"
+#include "GUIEnvironment.h"
 class gui_test_element:public gui_element
 {
 private:

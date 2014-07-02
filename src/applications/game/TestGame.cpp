@@ -1,46 +1,46 @@
-#include "precomp.h"
-#include "test_game.h"
+#include "Precomp.h"
+#include "TestGame.h"
 
 #include "Application/Window.h"
 
-#include "resources/resource_cache.h"
-#include "opengl/texture.h"
-#include "opengl/render_buffer_object.h"
-#include "opengl/frame_buffer_object.h"
+#include "resources/ResourceCache.h"
+#include "opengl/Texture.h"
+#include "opengl/RenderBufferObject.h"
+#include "opengl/FrameBufferObject.h"
 
-#include "utility/timer.h"
-#include "utility/logger.h"
-#include "opengl/opengl_util.h"
-#include "opengl/mesh.h"
-#include "opengl/shader.h"
+#include "utility/Timer.h"
+#include "utility/Logger.h"
+#include "opengl/OpenGLUtil.h"
+#include "opengl/Mesh.h"
+#include "opengl/Shader.h"
 
 
-#include "resources/mesh_loader.h"
-#include "resources/shader_loader.h"
-#include "resources/image_loader.h"
-#include "scenegraph/sg_graphics_manager.h"
-#include "scenegraph/scenegraph.h"
-#include "scenegraph/isg_render_queue.h"
-#include "scenegraph/sg_scenegraph_loader.h"
-#include "scenegraph/sg_objects.h"
-#include "scenegraph/sg_material.h"
+#include "resources/MeshLoader.h"
+#include "resources/ShaderLoader.h"
+#include "resources/ImageLoader.h"
+#include "scenegraph/SGGraphicsManager.h"
+#include "scenegraph/Scenegraph.h"
+#include "scenegraph/ISGRenderQueue.h"
+#include "scenegraph/SGScenegraphLoader.h"
+#include "scenegraph/SGObjects.h"
+#include "scenegraph/SGMaterial.h"
 #include "physics/Physics.h"
 
-#include "utility/rect2d.h"
-#include "gui/gui_skin.h"
-#include "gui/gui_environment.h"
-#include "gui/gui_button.h"
-#include "gui/gui_static_text.h"
-#include "gui/gui_checkbox.h"
-#include "gui/gui_pane.h"
-#include "gui/gui_edit_box.h"
-#include "gui/gui_image.h"
-#include "gui/gui_window.h"
-#include "gui/gui_slider.h"
+#include "utility/Rect2d.h"
+#include "gui/GUISkin.h"
+#include "gui/GUIEnvironment.h"
+#include "gui/GUIButton.h"
+#include "gui/GUIStaticText.h"
+#include "gui/GUICheckbox.h"
+#include "gui/GUIPane.h"
+#include "gui/GUIEditBox.h"
+#include "gui/GUIImage.h"
+#include "gui/GUIWindow.h"
+#include "gui/GUISlider.h"
 
-#include "network/network_manager_win32.h"
+#include "network/NetworkManagerWin32.h"
 
-#include "../app_context.h"
+#include "../AppContext.h"
 
 #define NETWORKINGs
 
@@ -66,13 +66,13 @@ test_game::~test_game()
     delete env;
 }
 
-bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
+bool test_game::Init(const std::string & title, uint32_t width, uint32_t height)
 {
-    Application::init(title,width,height);
-    wnd->sig_key_event().connect(sigc::mem_fun(this,&test_game::on_key_event));
+    Application::Init(title,width,height);
+    _window->SigKeyEvent().connect(sigc::mem_fun(this,&test_game::on_key_event));
 
 
-    m_scenegraph = new sg::scenegraph(this->get_logger(),this->get_timer());
+    m_scenegraph = new sg::scenegraph(this->GetLogger(),this->GetTimer());
     m_graphics_manager = m_scenegraph->get_graphics_manager();
 
     m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
@@ -96,11 +96,11 @@ bool test_game::init(const std::string & title, uint32_t width, uint32_t height)
 
     //m_netwman->start_thread();
 
-    main_timer->tick();
+    _mainTimer->tick();
 
-    m_current_time = m_last_time = main_timer->get_real_time();
+    m_current_time = m_last_time = _mainTimer->get_real_time();
 
-    return !this->gl_util->check_and_output_errors();
+    return !this->_GLUtil->check_and_output_errors();
 }
 
 bool test_game::init_gui()
@@ -108,7 +108,7 @@ bool test_game::init_gui()
     gui_skin s=gui_skin();
     s.load("../../res/skin_default.xml");
 
-    env=new gui_environment(this->wnd,this->get_logger());
+    env=new gui_environment(this->_window,this->GetLogger());
 
     gui_window * wind  = new gui_window(env,rect2d<int>(10,10,256,512),L"ąčęėįšūž");
 
@@ -190,16 +190,16 @@ bool test_game::init_gui()
 bool test_game::init_scene()
 {
     ///hide cursor
-    m_current_mouse_pos = m_last_mouse_pos = wnd->get_window_size()/2;
-    m_log->log(LOG_LOG, "Window half size: [%i, %i]", m_current_mouse_pos.x, m_current_mouse_pos.y);
+    m_current_mouse_pos = m_last_mouse_pos = _window->GetWindowSize()/2;
+    _logger->log(LOG_LOG, "Window half size: [%i, %i]", m_current_mouse_pos.x, m_current_mouse_pos.y);
 
     //wnd->set_cursor_disabled(true);
     ///for some reason this doulbe update is required in order not to have mouse pos jump at first mouse input events
-    wnd->set_mouse_pos(m_current_mouse_pos);
-    wnd->update();
-    wnd->set_mouse_pos(m_current_mouse_pos);
-    wnd->update();
-    wnd->sig_mouse_moved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
+    _window->set_mouse_pos(m_current_mouse_pos);
+    _window->Update();
+    _window->set_mouse_pos(m_current_mouse_pos);
+    _window->Update();
+    _window->SigMouseMoved().connect(sigc::mem_fun(this,&test_game::on_mouse_move));
 
 
     ///load scene
@@ -242,7 +242,7 @@ bool test_game::init_scene()
 
     ///done loading
 
-    if(this->gl_util->check_and_output_errors()) return false;
+    if(this->_GLUtil->check_and_output_errors()) return false;
 
     ///shadow shit starts here
     //load all materials
@@ -251,10 +251,10 @@ bool test_game::init_scene()
     m_mat_gauss_v = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussV.frag");
     m_mat_gauss_h = m_graphics_manager->create_material(sg::SGM_TEXTURE_FILTER,"res/shaders/vsm/Passthrough.vert","res/shaders/vsm/GaussH.frag");
 
-    if(this->gl_util->check_and_output_errors())return false;
+    if(this->_GLUtil->check_and_output_errors())return false;
 
     //prepare fbos
-    uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
+    uint32_t w = _window->GetWindowSize().x, h = _window->GetWindowSize().y;
     glViewport(0,0,w,h);
 
 
@@ -283,7 +283,7 @@ bool test_game::init_scene()
     render_buffer_object_ptr rbo_ptr(rbo);
     rbo->init(GL_DEPTH_COMPONENT32,SHADOWMAP_DIMENSIONS,SHADOWMAP_DIMENSIONS);
 
-    if(this->gl_util->check_and_output_errors())return false;
+    if(this->_GLUtil->check_and_output_errors())return false;
 
     ///prep fbos
     frame_buffer_object * fbo = new frame_buffer_object();
@@ -297,12 +297,12 @@ bool test_game::init_scene()
 
     if(!fbo->is_complete())
     {
-        m_log->log(LOG_CRITICAL,"[FBO1] FUCK THIS SHIT, I QUIT!..");
+        _logger->log(LOG_CRITICAL,"[FBO1] FUCK THIS SHIT, I QUIT!..");
         return false;
     }
 
     fbo->unset();
-    if(this->gl_util->check_and_output_errors())return false;
+    if(this->_GLUtil->check_and_output_errors())return false;
 
 
     ///setup filtering fbo
@@ -316,7 +316,7 @@ bool test_game::init_scene()
 
     if(!fbo2->is_complete())
     {
-        m_log->log(LOG_CRITICAL,"[FBO2] FUCK THIS SHIT, I QUIT!..");
+        _logger->log(LOG_CRITICAL,"[FBO2] FUCK THIS SHIT, I QUIT!..");
         return false;
     }
 
@@ -326,7 +326,7 @@ bool test_game::init_scene()
     static_cast<sg::sg_material_texture_filter*>(m_mat_gauss_h.get())->texture0=filter_tex_ptr;
     static_cast<sg::sg_material_vsm_final_pass*>(m_mat_final_pass.get())->texture0=shadow_tex_ptr;
 
-    if(this->gl_util->check_and_output_errors())return false;
+    if(this->_GLUtil->check_and_output_errors())return false;
 
     m_shadow_filter = fbo2_ptr;
 
@@ -344,19 +344,19 @@ bool test_game::init_scene()
 bool blur = false;
 bool physics = true;
 
-bool test_game::update()
+bool test_game::Update()
 {
     #ifdef NETWORKING
     if(!m_netwman->is_receiving())
         return false;
     #endif // NETWORKING
-    if(wnd->update() && !wnd->get_key(GLFW_KEY_ESCAPE))
+    if(_window->Update() && !_window->GetKey(GLFW_KEY_ESCAPE))
     {
         //if(!m_netwman->update()){printf("Could not update..\n");return false;}
         // Measure speed
-        main_timer->tick();
+        _mainTimer->tick();
         m_last_time = m_current_time;
-        m_current_time = main_timer->get_real_time();
+        m_current_time = _mainTimer->get_real_time();
         float delta_time = ((float)(m_current_time - m_last_time)) / 1000.0f;
 
         if(physics)
@@ -407,7 +407,7 @@ bool test_game::update()
         m_shadow_tex->update_mipmaps();
 
         ///draw scene "normally"
-        uint32_t w = wnd->get_window_size().x, h = wnd->get_window_size().y;
+        uint32_t w = _window->GetWindowSize().x, h = _window->GetWindowSize().y;
         glViewport(0,0,w,h);
         glClearColor(0.6,0.2,0.2,0);
         m_scenegraph->set_override_material(m_mat_static_mesh);
@@ -421,7 +421,7 @@ bool test_game::update()
         env->render();
         //glEnable(GL_CULL_FACE);
 
-        wnd->swap_buffers();
+        _window->swap_buffers();
 
         ///QUADCOPTER STUFF
         glm::vec3 accel=m_netwman->get_accelerometer_data();
@@ -502,20 +502,20 @@ bool test_game::update()
         cam->orbit(physics_manager::bt_to_glm(trans),5,80,180+trgRot.y()*180.f/glm::pi<float>());
 
         ///let's just rage quit on gl error
-        return !this->gl_util->check_and_output_errors();
+        return !this->_GLUtil->check_and_output_errors();
     }
     return false;
 
 }
 
-void test_game::exit()
+void test_game::Exit()
 {
     m_graphics_manager = nullptr;
 
     delete m_scenegraph;
     delete m_physics_manager;
 
-    Application::exit();
+    Application::Exit();
 }
 
 bool test_game::init_physics()
@@ -529,7 +529,7 @@ bool test_game::on_event(const gui_event & e)
     {
         case button_pressed:
         {
-            m_log->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_caller()->get_name().c_str());
+            _logger->log(LOG_LOG, "Got event type: %i\nElement name: '%s'.", e.get_type(), e.get_caller()->get_name().c_str());
             break;
         }
         case scrollbar_changed:
@@ -570,13 +570,13 @@ void test_game::on_key_event(int32_t key, int32_t scan_code, int32_t action, int
         if(key==GLFW_KEY_1)
         {
             blur=!blur;
-            m_log->log(LOG_LOG,"blur: %i", (int)blur);
+            _logger->log(LOG_LOG,"blur: %i", (int)blur);
         }
 
         if(key==GLFW_KEY_2)
         {
             physics=!physics;
-            m_log->log(LOG_LOG,"physics: %i", (int)physics);
+            _logger->log(LOG_LOG,"physics: %i", (int)physics);
         }
 
     }
@@ -645,8 +645,8 @@ void test_game::on_mouse_move(double x, double y)
     {
             glm::quat r = cam->get_rotation();
             glm::vec3 rot_deg = glm::eulerAngles(r);
-            //m_log->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
-            //m_log->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+            //_logger->log(LOG_LOG, "DELTA MOUSE [%i, %i]",delta_pos.x,delta_pos.y);
+            //_logger->log(LOG_LOG, "Cam before rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
 
             glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
 
@@ -657,7 +657,7 @@ void test_game::on_mouse_move(double x, double y)
 
             r = cam->get_rotation();
             rot_deg = glm::eulerAngles(r);
-            //m_log->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
+            //_logger->log(LOG_LOG, "Cam after rot[%f, %f, %f]",rot_deg.x,rot_deg.y,rot_deg.z);
     }
 
     }

@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "gl_object.h"
+#include "Precomp.h"
+#include "GLObject.h"
 
 gl_object::gl_object(): id(0)
 {

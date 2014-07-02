@@ -1,7 +1,7 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl_util.h"
-#include "utility/logger.h"
+#include "OpenGLUtil.h"
+#include "utility/Logger.h"
 
 
 #ifdef __MINGW32__
@@ -14,17 +14,17 @@
 
 #include <assert.h>
 
-opengl_util::opengl_util(logger * l)
+OpenGLUtil::OpenGLUtil(logger * l)
 {
     m_logger = l;
 }
 
-opengl_util::~opengl_util()
+OpenGLUtil::~OpenGLUtil()
 {
 
 }
 
-bool opengl_util::load_extensions()
+bool OpenGLUtil::load_extensions()
 {
     if(glxwInit()!=0)
         return false;
@@ -33,7 +33,7 @@ bool opengl_util::load_extensions()
 }
 
 // TODO (serengeor#1#): log this
-bool opengl_util::check_and_output_errors()
+bool OpenGLUtil::check_and_output_errors()
 {
     uint32_t err = GL_NO_ERROR;
 
@@ -52,7 +52,7 @@ bool opengl_util::check_and_output_errors()
     return ret;
 }
 
-std::string opengl_util::gl_error_to_string(uint32_t error)
+std::string OpenGLUtil::gl_error_to_string(uint32_t error)
 {
     switch(error)
     {
@@ -78,7 +78,7 @@ std::string opengl_util::gl_error_to_string(uint32_t error)
     }
 }
 
-std::string opengl_util::gl_fbo_error_to_string(uint32_t error)
+std::string OpenGLUtil::gl_fbo_error_to_string(uint32_t error)
 {
     std::string r;
     switch(error)

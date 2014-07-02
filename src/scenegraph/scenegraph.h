@@ -1,11 +1,11 @@
 #ifndef SCENEGRAPH_H
 #define SCENEGRAPH_H
 
-#include "sg_objects.h"
-#include "sg_material.h"
-#include "sg_shared_mat_vars.h"
-#include "utility/timer.h"
-#include "sg_empty_object.h"
+#include "SGObjects.h"
+#include "SGMaterial.h"
+#include "SGSharedMatVars.h"
+#include "utility/Timer.h"
+#include "SGEmptyObject.h"
 
 
 class image_loader;
@@ -52,7 +52,7 @@ public:
 
     sg_graphics_manager_ptr get_graphics_manager();
     timer_ptr get_timer();
-    logger * get_logger();
+    logger * GetLogger();
 
     sg_camera_object_ptr get_active_camera();
     void set_active_camera(sg_camera_object_ptr cam);

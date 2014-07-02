@@ -1,8 +1,8 @@
-#include "precomp.h"
-#include "sg_quad.h"
-#include "scenegraph.h"
-#include "isg_render_queue.h"
-#include "opengl/buffer_object.h"
+#include "Precomp.h"
+#include "SGQuad.h"
+#include "Scenegraph.h"
+#include "ISGRenderQueue.h"
+#include "opengl/BufferObject.h"
 
 namespace sg
 {

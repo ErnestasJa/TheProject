@@ -1,5 +1,5 @@
 #pragma once
-#include "gui_event.h"
+#include "GUIEvent.h"
 
 class gui_event_listener
 {

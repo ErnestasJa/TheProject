@@ -1,15 +1,15 @@
 #pragma once
 
 #include "../Application/Window.h"
-#include "../scenegraph/sg_graphics_manager.h"
-#include "../gui/gui_environment.h"
-#include "../scenegraph/scenegraph.h"
-#include "physics/physics_manager.h"
-#include "baigiamasis_quadcopter/game_data.h"
-#include "../network/network_manager_win32.h"
+#include "../scenegraph/SGGraphicsManager.h"
+#include "../gui/GUIEnvironment.h"
+#include "../scenegraph/Scenegraph.h"
+#include "physics/PhysicsManager.h"
+#include "baigiamasis_quadcopter/GameData.h"
+#include "../network/NetworkManagerWin32.h"
 #include "irrklang.h"
-#include "../utility/logger.h"
-#include "../resources/sound_manager.h"
+#include "../utility/Logger.h"
+#include "../resources/SoundManager.h"
 
 struct app_context
 {

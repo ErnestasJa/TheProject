@@ -1,6 +1,6 @@
 #pragma once
 
-#include "imesh_loader.h"
+#include "IMeshLoader.h"
 
 class mesh;
 struct iqmheader;

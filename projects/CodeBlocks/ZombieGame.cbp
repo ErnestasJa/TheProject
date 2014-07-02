@@ -239,7 +239,6 @@
 		<Unit filename="../../src/opengl/Texture.cpp" />
 		<Unit filename="../../src/opengl/Texture.h" />
 		<Unit filename="../../src/opengl/ibuffer_object.cpp" />
-		<Unit filename="../../src/physics/CollisionHandler.cpp" />
 		<Unit filename="../../src/physics/CollisionHandler.h" />
 		<Unit filename="../../src/physics/MotionState.h" />
 		<Unit filename="../../src/physics/Physics.h" />

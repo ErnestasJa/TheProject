@@ -1,11 +1,11 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "image_loader.h"
-#include "png_loader.h"
-#include "tgaloader.h"
-#include "opengl/texture.h"
+#include "ImageLoader.h"
+#include "PNGLoader.h"
+#include "TGALoader.h"
+#include "opengl/Texture.h"
 
-#include "utility/logger.h"
+#include "utility/Logger.h"
 
 image_loader::image_loader(logger * l): m_logger(l)
 {

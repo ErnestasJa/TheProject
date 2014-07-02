@@ -1,2 +1,2 @@
-#include "precomp.h"
-#include "frame_buffer_object.h"
+#include "Precomp.h"
+#include "FrameBufferObject.h"

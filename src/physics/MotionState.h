@@ -1,7 +1,7 @@
 #ifndef CMOTIONSTATE_H_INCLUDED
 #define CMOTIONSTATE_H_INCLUDED
 
-#include "scenegraph/sg_objects.h"
+#include "scenegraph/SGObjects.h"
 
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>

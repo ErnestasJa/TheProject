@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "render_buffer_object.h"
+#include "Precomp.h"
+#include "RenderBufferObject.h"
 
 uint32_t render_buffer_object::current = 0;
 

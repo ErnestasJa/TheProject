@@ -1,13 +1,13 @@
 #pragma once
 
 class logger;
-class opengl_util
+class OpenGLUtil
 {
 protected:
     logger * m_logger;
 public:
-    opengl_util(logger * l);
-    virtual ~opengl_util();
+    OpenGLUtil(logger * l);
+    virtual ~OpenGLUtil();
 
     bool load_extensions();
     bool check_and_output_errors();

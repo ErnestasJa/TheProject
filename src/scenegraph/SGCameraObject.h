@@ -1,7 +1,7 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
-#include "isg_object.h"
+#include "ISGObject.h"
 
 struct app_context;
 namespace sg

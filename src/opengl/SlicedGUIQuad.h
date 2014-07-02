@@ -1,10 +1,10 @@
 #pragma once
 
-#include "opengl/mesh.h"
-#include "opengl/shader.h"
-#include "utility/rect2d.h"
-#include "opengl/buffer_object.h"
-#include "resources/resource_cache.h"
+#include "opengl/Mesh.h"
+#include "opengl/Shader.h"
+#include "utility/Rect2d.h"
+#include "opengl/BufferObject.h"
+#include "resources/ResourceCache.h"
 class sliced_gui_quad
 {
 private:

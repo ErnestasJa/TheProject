@@ -1,11 +1,11 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_pane.h"
+#include "GUIPane.h"
 
 gui_pane::gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw):gui_element(env,dimensions)
 {

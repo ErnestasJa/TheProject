@@ -1,7 +1,7 @@
-#include "precomp.h"
-#include "imesh_loader.h"
-#include "opengl/mesh.h"
-#include "opengl/buffer_object.h"
+#include "Precomp.h"
+#include "IMeshLoader.h"
+#include "opengl/Mesh.h"
+#include "opengl/BufferObject.h"
 
 imesh_loader::~imesh_loader()
 {

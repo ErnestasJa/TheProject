@@ -1,7 +1,7 @@
 #pragma once
 
-#include "isg_object.h"
-#include "opengl/buffer_object.h"
+#include "ISGObject.h"
+#include "opengl/BufferObject.h"
 
 namespace sg
 {

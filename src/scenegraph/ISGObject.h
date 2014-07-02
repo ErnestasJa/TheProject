@@ -1,9 +1,9 @@
 #ifndef ISG_OBJECT_H
 #define ISG_OBJECT_H
 
-#include "sg_object_types.h"
-#include "sg_material.h"
-#include "sg_aabb.h"
+#include "SGObjectTypes.h"
+#include "SGMaterial.h"
+#include "SGAABB.h"
 
 namespace sg
 {

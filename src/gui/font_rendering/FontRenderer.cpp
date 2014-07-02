@@ -1,10 +1,10 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/shader.h"
-#include "opengl/opengl_util.h"
-#include "gui/gui_environment.h"
-#include "font_renderer.h"
-#include "font.h"
+#include "opengl/Shader.h"
+#include "opengl/OpenGLUtil.h"
+#include "gui/GUIEnvironment.h"
+#include "FontRenderer.h"
+#include "Font.h"
 
 
 font_renderer::font_renderer(gui_environment* env)

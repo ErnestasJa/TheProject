@@ -1,8 +1,8 @@
-#include "precomp.h"
-#include "mesh_loader.h"
-#include "iqmloader.h"
-#include "opengl/mesh.h"
-#include "utility/logger.h"
+#include "Precomp.h"
+#include "MeshLoader.h"
+#include "IQMLoader.h"
+#include "opengl/Mesh.h"
+#include "utility/Logger.h"
 
 mesh_loader::mesh_loader(logger * l)
 {

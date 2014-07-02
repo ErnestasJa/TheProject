@@ -1,8 +1,8 @@
 #ifndef MESH_LOADER_H
 #define MESH_LOADER_H
 
-#include "imesh_loader.h"
-#include "resource_cache.h"
+#include "IMeshLoader.h"
+#include "ResourceCache.h"
 
 class logger;
 class mesh_loader: public resource_cache<mesh>

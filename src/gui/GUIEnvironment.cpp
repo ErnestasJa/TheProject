@@ -1,26 +1,26 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "gui_environment.h"
-#include "opengl/shader.h"
-#include "opengl/quad.h"
-#include "opengl/sliced_gui_quad.h"
-#include "gui_skin.h"
+#include "GUIEnvironment.h"
+#include "opengl/Shader.h"
+#include "opengl/Quad.h"
+#include "opengl/SlicedGUIQuad.h"
+#include "GUISkin.h"
 #include "resources/image.h"
-#include "resources/image_loader.h"
-#include "opengl/texture.h"
+#include "resources/ImageLoader.h"
+#include "opengl/Texture.h"
 #include "Application/Window.h"
 
-gui_environment::gui_environment(Window* win,logger* log):gui_element(nullptr, rect2d<int>(0,0,win->get_window_size().x,win->get_window_size().y))
+gui_environment::gui_environment(Window* win,logger* log):gui_element(nullptr, rect2d<int>(0,0,win->GetWindowSize().x,win->GetWindowSize().y))
 {
-    _sig_mouse_move=win->sig_mouse_moved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved));
-    _sig_mouse_button=win->sig_mouse_key().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button));
-    _sig_mouse_scroll=win->sig_mouse_scroll().connect(sigc::mem_fun(this,&gui_environment::on_mouse_scroll));
-    _sig_key=win->sig_key_event().connect(sigc::mem_fun(this,&gui_environment::on_key_event));
-    _sig_text=win->sig_text_event().connect(sigc::mem_fun(this,&gui_environment::on_char_typed));
+    _sig_mouse_move=win->SigMouseMoved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved));
+    _sig_mouse_button=win->SigMouseKey().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button));
+    _sig_mouse_scroll=win->SigMouseScroll().connect(sigc::mem_fun(this,&gui_environment::on_mouse_scroll));
+    _sig_key=win->SigKeyEvent().connect(sigc::mem_fun(this,&gui_environment::on_key_event));
+    _sig_text=win->SigTextEvent().connect(sigc::mem_fun(this,&gui_environment::on_char_typed));
 
     this->m_window=win;
 
-    glm::ivec2 win_dims=m_window->get_window_size();
+    glm::ivec2 win_dims=m_window->GetWindowSize();
     this->disp_w=win_dims.x;
     this->disp_h=win_dims.y;
 

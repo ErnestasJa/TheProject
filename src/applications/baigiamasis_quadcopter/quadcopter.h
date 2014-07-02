@@ -1,5 +1,5 @@
 #pragma once
-#include "scenegraph/isg_object.h"
+#include "scenegraph/ISGObject.h"
 class btRigidBody;
 class btVector3;
 class app_context;

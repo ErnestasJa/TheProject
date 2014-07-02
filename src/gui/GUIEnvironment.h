@@ -14,9 +14,9 @@
 //TODO (murloc992#1#): GUI Text Field
 //TODO (murloc992#1#): GUI Slider
 
-#include "gui_element.h"
-#include "gui_skin.h"
-#include "font_rendering/font_renderer.h"
+#include "GUIElement.h"
+#include "GUISkin.h"
+#include "font_rendering/FontRenderer.h"
 
 class shader;
 class quad;

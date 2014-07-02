@@ -1,7 +1,7 @@
 #ifndef SG_SHARED_MAT_VARS_H
 #define SG_SHARED_MAT_VARS_H
 
-#include "scenegraph/sg_mvar.h"
+#include "scenegraph/SGMvar.h"
 
 namespace sg
 {

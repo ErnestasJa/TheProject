@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gl_object.h"
+#include "GLObject.h"
 
 struct image;
 struct texture: public gl_object

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iimage_loader.h"
+#include "IImageLoader.h"
 // FIXME (Ernestas#1#): some pngs are not loaded, make sure they don't crash app
 
 class logger;

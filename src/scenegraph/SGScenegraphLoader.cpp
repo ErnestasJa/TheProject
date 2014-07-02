@@ -1,8 +1,8 @@
-#include "precomp.h"
-#include "sg_scenegraph_loader.h"
-#include "scenegraph.h"
-#include "sg_empty_object.h"
-#include "../Applications/app_context.h"
+#include "Precomp.h"
+#include "SGScenegraphLoader.h"
+#include "Scenegraph.h"
+#include "SGEmptyObject.h"
+#include "../Applications/AppContext.h"
 
 namespace sg
 {

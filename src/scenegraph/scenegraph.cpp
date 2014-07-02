@@ -1,11 +1,11 @@
-#include "precomp.h"
-#include "scenegraph.h"
-#include "sg_graphics_manager.h"
-#include "sg_default_render_queue.h"
-#include "opengl/shader.h"
-#include "opengl/mesh.h"
-#include "utility/logger.h"
-#include "sg_skybox_object.h"
+#include "Precomp.h"
+#include "Scenegraph.h"
+#include "SGGraphicsManager.h"
+#include "SGDefaultRenderQueue.h"
+#include "opengl/Shader.h"
+#include "opengl/Mesh.h"
+#include "utility/Logger.h"
+#include "SGSkyboxObject.h"
 
 namespace sg
 {
@@ -52,7 +52,7 @@ sg_light_object_ptr scenegraph::add_light_object()
     return obj;
 }
 
-logger * scenegraph::get_logger()
+logger * scenegraph::GetLogger()
 {
     return m_logger;
 }
@@ -199,7 +199,6 @@ void scenegraph::post_render()
 
 
 /// LOADING
-#include "opengl/mesh.h"
 sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_textures)
 {
     sg::sg_mesh_object_ptr ret;

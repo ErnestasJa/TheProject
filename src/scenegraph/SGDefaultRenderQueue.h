@@ -1,7 +1,7 @@
 #ifndef SG_DEFAULT_RENDER_QUEUE_H
 #define SG_DEFAULT_RENDER_QUEUE_H
 
-#include "isg_render_queue.h"
+#include "ISGRenderQueue.h"
 
 namespace sg
 {

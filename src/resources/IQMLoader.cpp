@@ -1,10 +1,10 @@
-#include "precomp.h"
-#include "iqm.h"
-#include "iqmloader.h"
-#include "opengl/mesh.h"
-#include "opengl/buffer_object.h"
-#include "utility/util.h"
-#include "utility/logger.h"
+#include "Precomp.h"
+#include "IQM.h"
+#include "IQMLoader.h"
+#include "opengl/Mesh.h"
+#include "opengl/BufferObject.h"
+#include "utility/Util.h"
+#include "utility/Logger.h"
 
 iqmloader::iqmloader(logger *logger)
 {

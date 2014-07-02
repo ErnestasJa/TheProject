@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "sg_aabb.h"
+#include "Precomp.h"
+#include "SGAABB.h"
 
 sg_aabb::sg_aabb(): m_min_point(-1,-1,-1), m_max_point(1,1,1)
 {

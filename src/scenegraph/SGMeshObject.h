@@ -1,7 +1,7 @@
 #ifndef SG_MESH_OBJECT_H
 #define SG_MESH_OBJECT_H
 
-#include "isg_object.h"
+#include "ISGObject.h"
 
 class mesh;
 typedef std::shared_ptr<mesh> mesh_ptr;

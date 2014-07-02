@@ -1,13 +1,13 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_checkbox.h"
+#include "GUICheckbox.h"
 
-#include "gui_static_text.h"
+#include "GUIStaticText.h"
 
 gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool checked):gui_element(env,dimensions)
 {

@@ -3,7 +3,7 @@
 
 #include "Application/Application.h"
 #include "LinearMath/btVector3.h"
-#include "gui/gui_event_listener.h"
+#include "gui/GUIEventListener.h"
 
 namespace sg
 {
@@ -50,9 +50,9 @@ public:
     voxelz_Application(uint32_t argc, const char ** argv);
     virtual ~voxelz_Application();
 
-    bool init(const std::string & title, uint32_t width, uint32_t height);
-    virtual bool update();
-    void exit();
+    bool Init(const std::string & title, uint32_t width, uint32_t height);
+    virtual bool Update();
+    void Exit();
 public:
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
     void on_mouse_move(double x, double y);

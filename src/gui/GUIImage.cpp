@@ -1,10 +1,10 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/texture.h"
+#include "opengl/Texture.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_image.h"
+#include "GUIImage.h"
 
 gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_ptr<texture> tex):gui_element(env,dimensions)
 {

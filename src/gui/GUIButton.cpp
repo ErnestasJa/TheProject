@@ -1,17 +1,17 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "opengl/quad.h"
-#include "opengl/shader.h"
+#include "opengl/Quad.h"
+#include "opengl/Shader.h"
 
-#include "gui_environment.h"
+#include "GUIEnvironment.h"
 
-#include "gui_button.h"
+#include "GUIButton.h"
 
-#include "gui_static_text.h"
+#include "GUIStaticText.h"
 
-#include "gui_skin.h"
+#include "GUISkin.h"
 
-#include "gui_image.h"
+#include "GUIImage.h"
 
 gui_button::gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text,bool toggle,bool toggle_status):gui_element(env,dimensions)
 {

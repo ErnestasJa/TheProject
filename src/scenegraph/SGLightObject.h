@@ -1,7 +1,7 @@
 #ifndef SG_LIGHT_OBJECT_H
 #define SG_LIGHT_OBJECT_H
 
-#include "isg_object.h"
+#include "ISGObject.h"
 
 
 namespace sg

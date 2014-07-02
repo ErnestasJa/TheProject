@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "gui/gui_element.h"
+#include "gui/GUIElement.h"
 
 gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
 {

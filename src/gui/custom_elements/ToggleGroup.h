@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../gui_button.h"
+#include "../GUIButton.h"
 
 class toggle_group
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "state_manager.h"
+#include "StateManager.h"
 class game_state
 {
 private:

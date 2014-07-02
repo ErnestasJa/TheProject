@@ -10,7 +10,7 @@ protected:
 public:
     tinyxml_test_Application(uint32_t argc, const char ** argv);
     ~tinyxml_test_Application();
-    bool init(const std::string & title, uint32_t width, uint32_t height);
-    virtual bool update();
-    void exit();
+    bool Init(const std::string & title, uint32_t width, uint32_t height);
+    virtual bool Update();
+    void Exit();
 };

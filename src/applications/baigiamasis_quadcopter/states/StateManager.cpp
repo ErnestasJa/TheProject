@@ -1,7 +1,7 @@
-#include "precomp.h"
-#include "../../app_context.h"
-#include "game_state.h"
-#include "state_manager.h"
+#include "Precomp.h"
+#include "../../AppContext.h"
+#include "GameState.h"
+#include "StateManager.h"
 #include "Application/Application.h"
 
 state_manager::state_manager(app_context* ctx)

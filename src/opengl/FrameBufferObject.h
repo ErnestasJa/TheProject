@@ -1,8 +1,8 @@
 #pragma once
 
-#include "texture.h"
-#include "render_buffer_object.h"
-#include "gl_object.h"
+#include "Texture.h"
+#include "RenderBufferObject.h"
+#include "GLObject.h"
 
 enum FBO_TARGET
 {

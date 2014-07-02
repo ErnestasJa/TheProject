@@ -1,7 +1,7 @@
 #ifndef RENDER_BUFFER_OBJECT_H
 #define RENDER_BUFFER_OBJECT_H
 
-#include "gl_object.h"
+#include "GLObject.h"
 
 struct render_buffer_object: public gl_object
 {

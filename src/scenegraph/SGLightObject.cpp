@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "sg_light_object.h"
+#include "Precomp.h"
+#include "SGLightObject.h"
 
 namespace sg
 {

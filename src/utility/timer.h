@@ -1,6 +1,6 @@
 #pragma once
 
-class timer
+class Timer
 {
 protected:
     uint32_t start_time;
@@ -11,9 +11,9 @@ protected:
 
 public:
 
-    timer();
-    timer(uint32_t begin_time);
-    virtual ~timer();
+    Timer();
+    Timer(uint32_t begin_time);
+    virtual ~Timer();
 
     uint32_t get_time();
     uint32_t get_start_time();
@@ -24,4 +24,4 @@ public:
     void tick();
 };
 
-typedef std::shared_ptr<timer> timer_ptr;
+typedef std::shared_ptr<Timer> timer_ptr;

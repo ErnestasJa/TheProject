@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 
-#include "iimage_loader.h"
+#include "IImageLoader.h"
 
 iimage_loader::iimage_loader()
 {

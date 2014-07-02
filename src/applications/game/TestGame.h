@@ -3,7 +3,7 @@
 
 #include "Application/Application.h"
 #include "LinearMath/btVector3.h"
-#include "gui/gui_event_listener.h"
+#include "gui/GUIEventListener.h"
 
 namespace sg
 {
@@ -83,9 +83,9 @@ public:
     test_game(uint32_t argc, const char ** argv);
     virtual ~test_game();
 
-    bool init(const std::string & title, uint32_t width, uint32_t height);
-    virtual bool update();
-    void exit();
+    bool Init(const std::string & title, uint32_t width, uint32_t height);
+    virtual bool Update();
+    void Exit();
 
     bool init_gui();
     bool init_scene();

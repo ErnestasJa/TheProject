@@ -1,2 +1,2 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "image.h"

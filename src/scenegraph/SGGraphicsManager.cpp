@@ -1,10 +1,10 @@
-#include "precomp.h"
-#include "sg_graphics_manager.h"
-#include "opengl/texture.h"
-#include "utility/logger.h"
-#include "opengl/mesh.h"
-#include "scenegraph/sg_material.h"
-#include "scenegraph/sg_mesh_object.h"
+#include "Precomp.h"
+#include "SGGraphicsManager.h"
+#include "opengl/Texture.h"
+#include "utility/Logger.h"
+#include "opengl/Mesh.h"
+#include "scenegraph/SGMaterial.h"
+#include "scenegraph/SGMeshObject.h"
 
 namespace sg
 {
@@ -175,7 +175,7 @@ resource_cache<texture> & sg_graphics_manager::get_texture_cache()
     return m_texture_cache;
 }
 
-image_loader * sg_graphics_manager::get_image_loader()
+image_loader * sg_graphics_manager::GetImageLoader()
 {
     return m_image_loader;
 }

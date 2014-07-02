@@ -1,5 +1,5 @@
-#include "precomp.h"
-#include "buffer_object.h"
+#include "Precomp.h"
+#include "BufferObject.h"
 
 /// index buffer objects
 template <>

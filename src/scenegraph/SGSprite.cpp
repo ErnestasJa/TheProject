@@ -1,10 +1,10 @@
-#include "precomp.h"
-#include "sg_sprite.h"
-#include "scenegraph.h"
-#include "sg_graphics_manager.h"
-#include "isg_render_queue.h"
-#include "opengl/mesh.h"
-#include "opengl/buffer_object.h"
+#include "Precomp.h"
+#include "SGSprite.h"
+#include "Scenegraph.h"
+#include "SGGraphicsManager.h"
+#include "ISGRenderQueue.h"
+#include "opengl/Mesh.h"
+#include "opengl/BufferObject.h"
 namespace sg
 {
 

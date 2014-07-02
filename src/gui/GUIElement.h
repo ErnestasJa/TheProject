@@ -1,6 +1,6 @@
 #pragma once
-#include "gui_event_listener.h"
-#include "utility/rect2d.h"
+#include "GUIEventListener.h"
+#include "utility/Rect2d.h"
 enum gui_element_type
 {
     GUIET_element,

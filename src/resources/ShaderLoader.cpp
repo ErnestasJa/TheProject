@@ -1,6 +1,6 @@
-#include "precomp.h"
-#include "shader_loader.h"
-#include "utility/logger.h"
+#include "Precomp.h"
+#include "ShaderLoader.h"
+#include "utility/Logger.h"
 
 shader_loader::shader_loader(logger * l)
 {
