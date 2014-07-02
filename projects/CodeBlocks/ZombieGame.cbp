@@ -182,11 +182,7 @@
 		<Unit filename="../../src/applications/baigiamasis_quadcopter/target_queue.h" />
 		<Unit filename="../../src/applications/game/test_game.cpp" />
 		<Unit filename="../../src/applications/game/test_game.h" />
-		<Unit filename="../../src/applications/kursinis/Objektas.cpp" />
-		<Unit filename="../../src/applications/kursinis/Objektas.h" />
 		<Unit filename="../../src/applications/kursinis/Objektas.h.orig" />
-		<Unit filename="../../src/applications/kursinis/kursinis.cpp" />
-		<Unit filename="../../src/applications/kursinis/kursinis.h" />
 		<Unit filename="../../src/applications/voxelz/chunk.h" />
 		<Unit filename="../../src/applications/voxelz/voxelz_application.cpp" />
 		<Unit filename="../../src/applications/voxelz/voxelz_application.h" />
