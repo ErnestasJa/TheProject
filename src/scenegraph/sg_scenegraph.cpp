@@ -10,7 +10,7 @@
 namespace sg
 {
 
-scenegraph::scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nullptr)
+sg_scenegraph::sg_scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nullptr)
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -25,18 +25,18 @@ scenegraph::scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nullptr)
     m_render_queue = share(new sg_default_render_queue(this));
 }
 
-scenegraph::~scenegraph()
+sg_scenegraph::~sg_scenegraph()
 {
     //dtor
 }
 
-void scenegraph::clear()
+void sg_scenegraph::clear()
 {
     m_objects.clear();
     m_triggers.clear();
 }
 
-sg_object_ptr scenegraph::add_object(sg_object_ptr object)
+sg_object_ptr sg_scenegraph::add_object(sg_object_ptr object)
 {
     if(object->get_type()==SGO_CAMERA && !m_active_camera)
         m_active_camera = std::static_pointer_cast<sg_camera_object>(object);
@@ -45,7 +45,7 @@ sg_object_ptr scenegraph::add_object(sg_object_ptr object)
     return object;
 }
 
-sg_light_object_ptr scenegraph::add_light_object()
+sg_light_object_ptr sg_scenegraph::add_light_object()
 {
     sg_light_object_ptr obj = share(new sg_light_object(this));
     add_object(obj);
@@ -57,7 +57,7 @@ logger * scenegraph::GetLogger()
     return m_logger;
 }
 
-void scenegraph::pre_render()
+void sg_scenegraph::pre_render()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
@@ -74,7 +74,7 @@ void scenegraph::pre_render()
         throw "At least one camera is required";
 }
 
-bool scenegraph::validate_transforms()
+bool sg_scenegraph::validate_transforms()
 {
     bool success = true;
 
@@ -109,7 +109,7 @@ bool scenegraph::validate_transforms()
     return success;
 }
 
-bool scenegraph::register_objects_for_rendering()
+bool sg_scenegraph::register_objects_for_rendering()
 {
     sg_render_queue_ptr rq = this->get_render_queue();
 
@@ -120,7 +120,7 @@ bool scenegraph::register_objects_for_rendering()
 }
 
 
-void scenegraph::render_all()
+void sg_scenegraph::render_all()
 {
     pre_render();
 
@@ -131,13 +131,13 @@ void scenegraph::render_all()
     post_render();
 }
 
-void scenegraph::update_all(float delta_time)
+void sg_scenegraph::update_all(float delta_time)
 {
     for(sg_object_ptr obj: m_objects)
         obj->update(delta_time);
 }
 
-sg_object_ptr scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h)
+sg_object_ptr sg_scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h)
 {
     float winz=0.0f;
     glReadPixels( x, h-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
@@ -152,9 +152,9 @@ sg_object_ptr scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int
     }*/
 
     std::sort(aabb_test_pass.begin(), aabb_test_pass.end(), [&objPt] (sg_object_ptr o1, sg_object_ptr o2)
-              {
-                  return glm::distance(o1->get_position(),objPt) < glm::distance(o2->get_position(),objPt);
-              });
+    {
+        return glm::distance(o1->get_position(),objPt) < glm::distance(o2->get_position(),objPt);
+    });
 
 
     if(aabb_test_pass.size()&&glm::distance(aabb_test_pass[0]->get_position(),objPt)<2.0f)
@@ -163,7 +163,7 @@ sg_object_ptr scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int
         return sg_object_ptr();
 }
 
-glm::vec3 scenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h)
+glm::vec3 sg_scenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h)
 {
     glm::vec4 viewport = glm::vec4(0, 0, w, h);
     glm::vec3 wincoord = glm::vec3(x, h - y - 1, depth);
@@ -172,34 +172,34 @@ glm::vec3 scenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, 
     return objcoord;
 }
 
-sg_graphics_manager_ptr scenegraph::get_graphics_manager()
+sg_graphics_manager_ptr sg_scenegraph::get_graphics_manager()
 {
     return m_graphics_manager;
 }
 
-sg_render_queue_ptr scenegraph::get_render_queue()
+sg_render_queue_ptr sg_scenegraph::get_render_queue()
 {
     return m_render_queue;
 }
 
-sg_camera_object_ptr scenegraph::get_active_camera()
+sg_camera_object_ptr sg_scenegraph::get_active_camera()
 {
     return m_active_camera;
 }
 
-void scenegraph::set_active_camera(sg_camera_object_ptr cam)
+void sg_scenegraph::set_active_camera(sg_camera_object_ptr cam)
 {
     m_active_camera = cam;
 }
 
-void scenegraph::post_render()
+void sg_scenegraph::post_render()
 {
 
 }
 
 
 /// LOADING
-sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_textures)
+sg::sg_mesh_object_ptr sg_scenegraph::load_mesh_object(std::string file, bool load_textures)
 {
     sg::sg_mesh_object_ptr ret;
     mesh_ptr pmesh;
@@ -229,29 +229,13 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
             if(load_textures)
             {
                 sg::sg_material_ptr mat = ret->get_material(i);
-                if(mat->mat_type == SGM_VSM_FINAL_PASS)
+
+                if(image_path.length()!=0)
                 {
-                    sg_material_vsm_final_pass * sm_mat = static_cast<sg_material_vsm_final_pass*>(mat.get());
+                    auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
 
-                    if(image_path.length()!=0)
-                    {
-                        auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
-
-                        if(tex)
-                            sm_mat->texture1 = tex;
-                    }
-                }
-                else if(mat->mat_type == SGM_STATIC_MESH)
-                {
-                    sg_material_static_mesh * sm_mat = static_cast<sg_material_static_mesh*>(mat.get());
-
-                    if(image_path.length()!=0)
-                    {
-                        auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
-
-                        if(tex)
-                            sm_mat->mat_texture = tex;
-                    }
+                    if(tex)
+                        mat->set_texture(0,tex);
                 }
             }
         }
@@ -261,7 +245,7 @@ sg::sg_mesh_object_ptr scenegraph::load_mesh_object(std::string file, bool load_
 }
 
 /// LOADING
-sg::sg_skybox_object_ptr scenegraph::load_skybox(std::string file, bool load_textures)
+sg::sg_skybox_object_ptr sg_scenegraph::load_skybox(std::string file, bool load_textures)
 {
     sg::sg_skybox_object_ptr ret;
     mesh_ptr pmesh;
@@ -291,17 +275,14 @@ sg::sg_skybox_object_ptr scenegraph::load_skybox(std::string file, bool load_tex
             if(load_textures)
             {
                 sg::sg_material_ptr mat = ret->get_material(i);
-                if(mat->mat_type == SGM_ABSTRACT_MATERIAL)
+
+
+                if(image_path.length()!=0)
                 {
-                    sg_abstract_material * am = static_cast<sg_abstract_material*>(mat.get());
+                    auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
 
-                    if(image_path.length()!=0)
-                    {
-                        auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
 
-                        if(tex)
-                            am->set_texture(0,tex);
-                    }
+                    mat->set_texture(0,tex);
                 }
             }
         }
@@ -310,19 +291,20 @@ sg::sg_skybox_object_ptr scenegraph::load_skybox(std::string file, bool load_tex
     return ret;
 }
 
-const sg_shared_mat_vars & scenegraph::get_shared_mat_vars() const
+const sg_shared_mat_vars & sg_scenegraph::get_shared_mat_vars() const
 {
     return m_shared_mat_vars;
 }
 
-sg_material_ptr scenegraph::get_override_material()
+sg_material_ptr sg_scenegraph::get_override_material()
 {
     return m_override_material;
 }
 
-void scenegraph::set_override_material( sg_material_ptr material)
+void sg_scenegraph::set_override_material( sg_material_ptr material)
 {
     m_override_material = material;
 }
 
 }
+

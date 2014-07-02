@@ -8,7 +8,7 @@
 namespace sg
 {
 
-sg_mesh_object::sg_mesh_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg)
+sg_mesh_object::sg_mesh_object(sg_scenegraph * sg, mesh_ptr ptr): isg_object(sg)
 {
     m_mesh = ptr;
 
@@ -34,7 +34,7 @@ uint32_t sg_mesh_object::get_type()
     return SGO_MESH;
 }
 
-void sg_mesh_object::render(scenegraph * sg)
+void sg_mesh_object::render(sg_scenegraph * sg)
 {
     for(uint32_t i = 0; i < m_mesh->sub_meshes.size(); i++)
     {

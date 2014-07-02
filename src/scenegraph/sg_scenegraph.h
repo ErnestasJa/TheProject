@@ -38,17 +38,17 @@ typedef std::shared_ptr<sg_graphics_manager> sg_graphics_manager_ptr;
 class isg_render_queue;
 typedef std::shared_ptr<isg_render_queue> sg_render_queue_ptr;
 
-class scenegraph
+class sg_scenegraph
 {
 public:
-    scenegraph(logger * l, timer_ptr app_timer);
-    virtual ~scenegraph();
+    sg_scenegraph(logger * l, timer_ptr app_timer);
+    virtual ~sg_scenegraph();
     void clear();
 
     sg_object_ptr add_object(sg_object_ptr object);
     sg_light_object_ptr add_light_object();
     sg_mesh_object_ptr load_mesh_object (std::string file, bool load_textures);
-    sg_skybox_object_ptr load_skybox      (std::string file, bool load_textures);
+    sg_skybox_object_ptr load_skybox    (std::string file, bool load_textures);
 
     sg_graphics_manager_ptr get_graphics_manager();
     timer_ptr get_timer();

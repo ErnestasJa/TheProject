@@ -18,8 +18,6 @@ struct app_context
         delete env;
         delete sg;
         delete pm;
-        delete gd;
-        delete nm;
         delete sm;
         delete log;
     };
@@ -27,10 +25,8 @@ struct app_context
     Window* win;
     sg::sg_graphics_manager_ptr gm;
     gui_environment* env;
-    sg::scenegraph* sg;
+    sg::sg_scenegraph* sg;
     physics_manager* pm;
-    game_data* gd;
-    network_manager_win32* nm;
     sound_manager* sm;
     logger* log;
 };

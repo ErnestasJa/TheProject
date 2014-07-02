@@ -7,7 +7,7 @@
 namespace sg
 {
 
-sg_quad::sg_quad(scenegraph * sg): isg_object(sg)
+sg_quad::sg_quad(sg_scenegraph * sg): isg_object(sg)
 {
     m_aabb = sg_aabb(glm::vec3(-0.5,-0.5,-0.5),glm::vec3(0.5,0.5,0.5));
 
@@ -56,7 +56,7 @@ uint32_t sg_quad::get_type()
     return SGO_QUAD;
 }
 
-void sg_quad::render(scenegraph * sg)
+void sg_quad::render(sg_scenegraph * sg)
 {
     sg->get_render_queue()->set_material(this,m_material);
     m_mesh->render(0);

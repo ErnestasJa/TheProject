@@ -11,14 +11,16 @@
 namespace sg
 {
 
-class scenegraph;
+class sg_scenegraph;
 
 struct sg_material
 {
-    sg_material(shader_ptr mat_shader, uint32_t id);
+    sg_material(shader_ptr mat_shader, uint32_t id = 0);
     virtual ~sg_material(){}
 
     virtual void set();
+
+    template <class T> void bind_var(sg_mvar<T> & mvar);
     void load_and_bind_vars();
 
     virtual texture_ptr get_texture(uint32_t index);
@@ -42,13 +44,12 @@ struct sg_material
     std::vector< sg_mvar<glm::vec3> >   vec3f_attr;
     std::vector< sg_mvar<glm::mat4> >   mat4_attr;
     std::vector< sg_mvar<glm::mat3> >   mat3_attr;
+
+    shader_ptr  mat_shader;
+    uint32_t    mat_id;
 };
 
 typedef std::shared_ptr<sg_material> sg_material_ptr;
-typedef std::shared_ptr<sg_material_static_mesh> sg_material_static_mesh_ptr;
-typedef std::shared_ptr<sg_material_point_sprite> sg_material_point_sprite_ptr;
-typedef std::shared_ptr<sg_material_vsm_first_pass> sg_material_vsm_first_pass_ptr;
-typedef std::shared_ptr<sg_material_vsm_final_pass> sg_material_vsm_final_pass_ptr;
 
 }
 

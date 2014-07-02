@@ -8,7 +8,7 @@
 namespace sg
 {
 
-sg_sprite::sg_sprite(scenegraph * sg): isg_object(sg)
+sg_sprite::sg_sprite(sg_scenegraph * sg): isg_object(sg)
 {
     m_mesh = mesh_ptr(new mesh());
     buffer_object<glm::vec3> * buf = new buffer_object<glm::vec3>();
@@ -31,7 +31,7 @@ sg_sprite::~sg_sprite()
 {
     //dtor
 }
-void sg_sprite::render(scenegraph * sg)
+void sg_sprite::render(sg_scenegraph * sg)
 {
     sg->get_render_queue()->set_material(this,m_material);
 

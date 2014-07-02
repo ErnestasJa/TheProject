@@ -12,10 +12,10 @@ namespace sg
 class sg_quad: public isg_object
 {
 public:
-    sg_quad(scenegraph * sg);
+    sg_quad(sg_scenegraph * sg);
     virtual ~sg_quad();
 
-    virtual void render(scenegraph * sg);
+    virtual void render(sg_scenegraph * sg);
 
     virtual uint32_t get_type();
     virtual bool set_material(uint32_t index, sg_material_ptr material);

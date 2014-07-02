@@ -15,6 +15,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
+					<Add directory="src/applications/material_test" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -42,6 +43,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DRELEASE" />
+					<Add directory="src/applications/material_test" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -56,6 +58,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
+					<Add directory="src/applications/material_test" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -88,6 +91,7 @@
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
 					<Add option="-DRELEASE" />
+					<Add directory="src/applications/material_test" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />

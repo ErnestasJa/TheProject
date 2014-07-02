@@ -9,7 +9,7 @@
 namespace sg
 {
 
-sg_skybox_object::sg_skybox_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg)
+sg_skybox_object::sg_skybox_object(sg_scenegraph * sg, mesh_ptr ptr): isg_object(sg)
 {
     m_mesh = ptr;
 
@@ -21,8 +21,7 @@ sg_skybox_object::sg_skybox_object(scenegraph * sg, mesh_ptr ptr): isg_object(sg
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
             m_materials[i]=this->m_scenegraph->get_graphics_manager()->create_material(SGM_ABSTRACT_MATERIAL,"res/shaders/skybox/skybox.vert","res/shaders/skybox/skybox.frag");
-            sg_abstract_material * am = (sg_abstract_material *)m_materials[i].get();
-            am->set_int("texture0",0);
+            m_materials[i]->set_int("texture0",0);
         }
     }
 }
@@ -37,7 +36,7 @@ uint32_t sg_skybox_object::get_type()
     return SGO_SKYBOX_OBJECT;
 }
 
-void sg_skybox_object::render(scenegraph * sg)
+void sg_skybox_object::render(sg_scenegraph * sg)
 {
     glDepthMask(0);
 

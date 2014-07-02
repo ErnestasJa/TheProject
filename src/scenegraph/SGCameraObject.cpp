@@ -39,7 +39,7 @@ uint32_t sg_camera_object::get_type()
     return SGO_CAMERA;
 }
 
-void sg_camera_object::render(scenegraph * sg) {};
+void sg_camera_object::render(sg_scenegraph * sg) {};
 void sg_camera_object::on_set_shader_constants(shader_ptr shader) {};
 
 bool sg_camera_object::set_material(uint32_t index, sg_material_ptr mat)
@@ -85,7 +85,7 @@ const glm::vec3 sg_camera_object::get_look() const
     return m_look;
 }
 
-void sg_camera_object::update(scenegraph * sg)
+void sg_camera_object::update(sg_scenegraph * sg)
 {
     m_position+=m_translation;
     m_translation=glm::vec3(0);

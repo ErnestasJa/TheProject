@@ -4,11 +4,11 @@ struct app_context;
 namespace sg
 {
 
-class sg_scenegraph_loader
+class sg_sg_scenegraph_loader
 {
 public:
-    sg_scenegraph_loader();
-    virtual ~sg_scenegraph_loader();
+    sg_sg_scenegraph_loader();
+    virtual ~sg_sg_scenegraph_loader();
 
     bool load_scene(app_context * app_ctx, const std::string & filename,bool with_physics);
 

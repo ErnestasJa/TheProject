@@ -10,7 +10,7 @@
 namespace sg
 {
 
-sg_aabb_wireframe_object::sg_aabb_wireframe_object(scenegraph * sg, sg_mesh_object_ptr mobj): isg_object(sg)
+sg_aabb_wireframe_object::sg_aabb_wireframe_object(sg_scenegraph * sg, sg_mesh_object_ptr mobj): isg_object(sg)
 {
     m_obj = mobj;
     m_mesh = mesh_ptr(new mesh());
@@ -61,7 +61,7 @@ uint32_t sg_aabb_wireframe_object::get_type()
     return SGO_AABB_WIREFRAME_OBJECT;
 }
 
-void sg_aabb_wireframe_object::render(scenegraph * sg)
+void sg_aabb_wireframe_object::render(sg_scenegraph * sg)
 {
     m_mesh->render_lines();
 }

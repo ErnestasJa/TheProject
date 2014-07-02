@@ -7,11 +7,11 @@ namespace sg
 {
 class sg_light_object; typedef std::shared_ptr<sg_light_object> sg_light_object_ptr;
 class sg_skybox_object;
-class scenegraph;
+class sg_scenegraph;
 class sg_default_render_queue: public isg_render_queue
 {
     public:
-        sg_default_render_queue(scenegraph * sg);
+        sg_default_render_queue(sg_scenegraph * sg);
         virtual ~sg_default_render_queue();
 
         virtual void add_object(isg_object *  obj);
@@ -23,7 +23,7 @@ class sg_default_render_queue: public isg_render_queue
         inline void post_render();
 
     protected:
-        scenegraph * m_scenegraph;
+        sg_scenegraph * m_scenegraph;
         std::vector<isg_object * > m_objects;
         std::vector<sg_light_object*> m_lights;
         sg_skybox_object * m_skybox;

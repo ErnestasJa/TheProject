@@ -14,7 +14,7 @@ public:
     virtual ~sg_camera_object();
 
     virtual uint32_t get_type();
-    virtual void render(scenegraph * sg);
+    virtual void render(sg_scenegraph * sg);
     virtual void on_set_shader_constants(shader_ptr shader);
 
     virtual bool set_material(uint32_t index, sg_material_ptr mat);
@@ -30,7 +30,7 @@ public:
 	const float get_fov() const;
 	const float get_aspect_ratio() const;
 
-    virtual void update(scenegraph * sg);
+    virtual void update(sg_scenegraph * sg);
 
 public:
 	void walk(const float amount);

@@ -7,17 +7,17 @@
 namespace sg
 {
 
-sg_scenegraph_loader::sg_scenegraph_loader()
+sg_sg_scenegraph_loader::sg_sg_scenegraph_loader()
 {
     //ctor
 }
 
-sg_scenegraph_loader::~sg_scenegraph_loader()
+sg_sg_scenegraph_loader::~sg_sg_scenegraph_loader()
 {
     //dtor
 }
 
-bool sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string & filename,bool with_physics)
+bool sg_sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string & filename,bool with_physics)
 {
     std::string scene_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "scene_path =" << scene_path.c_str() << std::endl;
