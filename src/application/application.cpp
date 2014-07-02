@@ -84,6 +84,8 @@ bool application::init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
+    this->wnd->sig_window_closed().connect(sigc::mem_fun(this,&application::on_window_close));
+
     this->gl_util = new opengl_util(m_log);
 
     if(!this->gl_util->load_extensions())
@@ -101,7 +103,7 @@ void application::exit()
     m_log->log(LOG_LOG,"Exitting.");
 
     delete gl_util;
-    delete wnd;
+    window::destroy_window(wnd);
     delete m_log;
 
     if (!PHYSFS_deinit())

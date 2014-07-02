@@ -22,11 +22,11 @@ class gui_edit_box;
 class gui_button;
 class gui_slider;
 class gui_window;
-struct app_context;
-class test_kursinis: public application, public gui_event_listener
+
+class kursinis: public application, public gui_event_listener
 {
 protected:
-    app_context* m_app_context;
+    bool window_closed;
     sg::sg_graphics_manager_ptr m_graphics_manager;
     sg::scenegraph*             m_scenegraph;
     gui_environment* env;
@@ -40,7 +40,7 @@ protected:
     uint32_t last_time, current_time;
 
     ///reguliuojami parametrai
-    float time_step,
+    double time_step,
     fixed_time_step;
     uint32_t sub_steps;
     double gravitational_constant;
@@ -52,13 +52,14 @@ protected:
     ///GUI
     gui_edit_box * fixed_time_step_eb;
     gui_edit_box * grav_constant_eb;
+    gui_edit_box * sub_step_eb;
     gui_edit_box * eb[3];
     gui_edit_box * pos_eb[3][3];
     gui_edit_box * vel_eb[3][3];
-    gui_window * main_wnd, * pos_wnd;
+    gui_window * main_wnd, * pos_wnd, *msg_wnd;
 public:
-    test_kursinis(uint32_t argc, const char ** argv);
-    ~test_kursinis();
+    kursinis(uint32_t argc, const char ** argv);
+    ~kursinis();
 
     bool init_scene();
 
@@ -76,5 +77,6 @@ public:
     void on_mouse_key_event(int32_t button, int32_t action, int32_t mod);
     void on_mouse_move(double x, double y);
     void on_resize(int32_t x, int32_t y);
+    virtual void on_window_close();
     virtual bool on_event(const gui_event & e);
 };
