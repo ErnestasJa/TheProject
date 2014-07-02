@@ -85,7 +85,7 @@ bool baigiamasis_quadcopter::init(const std::string & title, uint32_t width, uin
 
 bool baigiamasis_quadcopter::update()
 {
-    if(wnd->update() && m_state_manager->run)
+    if(wnd->getWindowShouldClose()==false && m_state_manager->run)
     {
         // Measure speed
         main_timer->tick();
@@ -127,4 +127,9 @@ void baigiamasis_quadcopter::on_key_event(int32_t key, int32_t scan_code, int32_
 
 void baigiamasis_quadcopter::on_mouse_move(double x, double y)
 {
+}
+
+void baigiamasis_quadcopter::on_window_close()
+{
+    this->wnd->setWindowShouldClose(true);
 }

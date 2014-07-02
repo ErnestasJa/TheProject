@@ -183,6 +183,8 @@ bool test_game::init_gui()
     init_e(btn);
 
     env->set_event_listener(this);
+
+    return true;
 }
 
 bool test_game::init_scene()

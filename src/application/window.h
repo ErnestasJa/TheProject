@@ -29,6 +29,7 @@ protected:
     friend void key_event(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
     friend void text_event(GLFWwindow * wnd, uint32_t scan_code);
 
+    bool shouldClose;
 public:
     static std::map<GLFWwindow*, window*> m_windows;
     static void destroy_window(window * wnd);
@@ -36,6 +37,7 @@ public:
     window()
     {
         m_window = nullptr;
+        shouldClose = false;
     }
 
     ~window()
@@ -177,5 +179,15 @@ public:
     void swap_buffers()
     {
         glfwSwapBuffers(m_window);
+    }
+
+    bool getWindowShouldClose()
+    {
+        return shouldClose;
+    }
+
+    void setWindowShouldClose(bool b)
+    {
+        shouldClose = true;
     }
 };

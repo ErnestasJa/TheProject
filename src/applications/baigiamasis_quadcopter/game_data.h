@@ -38,7 +38,7 @@ struct game_data
         final_level=false;
         training_completion.resize(5);
         training_requirements.resize(5);
-        for(bool b:training_completion)
+        for(auto b:training_completion)
             b=false;
 
         training_requirements[0]=15000;

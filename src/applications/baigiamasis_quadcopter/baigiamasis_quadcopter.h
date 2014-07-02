@@ -57,6 +57,7 @@ public:
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t modifier);
     void on_mouse_move(double x, double y);
     virtual bool on_event(const gui_event & e);
+    void on_window_close();
 };
 
 #endif // TEST_GAME_H
