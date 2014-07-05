@@ -58,7 +58,7 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     return res.resource;
 }
 
-sg_material_ptr sg_graphics_manager::create_material(uint32_t type, const std::string & vert_shader, const std::string & frag_shader)
+sg_material_ptr sg_graphics_manager::create_material(const std::string & vert_shader, const std::string & frag_shader, uint32_t type)
 {
     sg_material * mat = new sg_material(m_shader_loader->load(vert_shader,frag_shader));
 

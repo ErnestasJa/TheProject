@@ -6,12 +6,11 @@ class Timer; typedef std::shared_ptr<Timer> timer_ptr;
 class logger;
 
 class Application
+
 {
 protected:
-    Window * _window;
+    app_context * m_app_context;
     OpenGLUtil * _GLUtil;
-    timer_ptr _mainTimer;
-    logger * _logger;
 
     int32_t _argc;
     const char ** _argv;

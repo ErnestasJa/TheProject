@@ -20,7 +20,7 @@ sg_skybox_object::sg_skybox_object(sg_scenegraph * sg, mesh_ptr ptr): isg_object
         m_materials.resize(ptr->sub_meshes.size());
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
-            m_materials[i]=this->m_scenegraph->get_graphics_manager()->create_material(SGM_ABSTRACT_MATERIAL,"res/shaders/skybox/skybox.vert","res/shaders/skybox/skybox.frag");
+            m_materials[i]=this->m_scenegraph->get_graphics_manager()->create_material("res/shaders/skybox/skybox.vert","res/shaders/skybox/skybox.frag");
             m_materials[i]->set_int("texture0",0);
         }
     }

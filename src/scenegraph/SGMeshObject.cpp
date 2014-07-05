@@ -19,7 +19,8 @@ sg_mesh_object::sg_mesh_object(sg_scenegraph * sg, mesh_ptr ptr): isg_object(sg)
         m_materials.resize(ptr->sub_meshes.size());
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
-            m_materials[i]=this->m_scenegraph->get_graphics_manager()->create_material(SGM_STATIC_MESH);
+            m_materials[i]=this->m_scenegraph->get_graphics_manager()
+                ->create_material("res/shaders/kursinis/color_mat.vert", "res/shaders/kursinis/color_mat.frag");
         }
     }
 }

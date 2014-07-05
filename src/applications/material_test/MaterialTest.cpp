@@ -23,26 +23,25 @@ bool MaterialTest::init(const std::string & title, uint32_t width, uint32_t heig
 	glCullFace(GL_BACK);
 	glClearColor(0.2,1,0.2,0);
 
-	m_scenegraph = new sg::sg_scenegraph(this->get_logger(), this->get_timer());
-	m_graphics_manager = m_scenegraph->get_graphics_manager();
+    auto sg = m_app_context->scenegraph;
+	auto cam = sg::sg_camera_object_ptr(new sg::sg_camera_object(m_app_context,glm::vec3(0,0,-10),glm::vec3(0,0,10),glm::vec3(0,1,0)));
 
-	auto cam = sg::sg_camera_object_ptr(new sg::sg_camera_object());
-
-    mesh_obj = m_scenegraph->load_mesh_object("res/mrfixit.iqm",true);
-    m_scenegraph->add_object(mesh_obj);
+	mesh_obj = sg->load_mesh_object("res/mrfixit.iqm",true);
+    sg->add_object(cam);
+    sg->add_object(mesh_obj);
 
     return true;
 }
 
 bool MaterialTest::update()
 {
-    if(wnd->update())
+    if(m_app_context->app_window->update() && !m_app_context->app_window->getShouldClose())
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_scenegraph->render_all();
+        m_app_context->scenegraph->render_all();
 
-        wnd->swap_buffers();
+        m_app_context->app_window->swap_buffers();
         return true;
     }
     return false;
@@ -50,10 +49,6 @@ bool MaterialTest::update()
 
 void MaterialTest::exit()
 {
-    m_graphics_manager = nullptr;
-
-    delete m_scenegraph;
-
     application::exit();
 }
 

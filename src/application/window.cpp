@@ -27,6 +27,8 @@ void WindowResize(GLFWwindow * wnd, int32_t w, int32_t h)
 void WindowClose(GLFWwindow * wnd)
 {
     Window::_windows[wnd]->SigWindowClosed().emit();
+    window::m_windows[wnd]->shouldClose = true;
+
 }
 
 void KeyEvent(GLFWwindow * wnd, int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)

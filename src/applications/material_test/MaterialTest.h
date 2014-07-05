@@ -20,8 +20,6 @@ public:
     void on_window_close();
 
 protected:
-    sg::sg_scenegraph       * m_scenegraph;
-    sg::sg_graphics_manager_ptr m_graphics_manager;
 };
 
 #endif // MATERIALTEST_H

@@ -55,9 +55,9 @@ bool gui_and_fonts_Application::Init(const std::string & title, uint32_t width, 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     int ww,hh;
-    glfwGetWindowSize(_window->getWindow(),&ww,&hh);
+    GLFWwindow * _window=m_app_context->app_window->getWindow();
 
-    env=new gui_environment(_window,this->GetLogger());
+    env=new gui_environment(m_app_context->app_window,this->get_logger());
 
     gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),L"Tis but a Window",false,true,false);
 
@@ -155,10 +155,10 @@ void gui_and_fonts_Application::on_event(gui_event e)
 
 bool gui_and_fonts_Application::Update()
 {
-    if(_window->Update() && !_window->GetKey(GLFW_KEY_ESCAPE) && this->running)
+    if(m_app_context->app_window->update() && !m_app_context->app_window->get_key(GLFW_KEY_ESCAPE) && this->running)
     {
         // Measure speed
-        _mainTimer->tick();
+        m_app_context->app_timer->tick();
 
         env->update(0);
 
@@ -174,7 +174,7 @@ bool gui_and_fonts_Application::Update()
         renderer->render_string(L"I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
         renderer->use_font();
 
-        _window->swap_buffers();
+        m_app_context->app_window->swap_buffers();
 
         ///let's just rage quit on gl error
         return !this->_GLUtil->check_and_output_errors();
@@ -184,11 +184,11 @@ bool gui_and_fonts_Application::Update()
 
 void gui_and_fonts_Application::show_fps()
 {
-    uint32_t currentTime = _mainTimer->get_time();
+    uint32_t currentTime = m_app_context->app_timer->get_time();
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
-        _logger->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        m_app_context->log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
 
         test1->set_text(L"FPS: "+helpers::to_wstr<int>(frame_count)+L" "+helpers::to_wstr(1000.0/double(frame_count))+L"ms");
 

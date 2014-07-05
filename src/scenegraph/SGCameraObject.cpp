@@ -7,7 +7,7 @@
 namespace sg
 {
 
-sg_camera_object::sg_camera_object(app_context* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(ctx->sg)
+sg_camera_object::sg_camera_object(app_context* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(ctx->scenegraph)
 {
     m_app_context=ctx;
     m_fps=false;
@@ -92,7 +92,7 @@ void sg_camera_object::update(sg_scenegraph * sg)
     if(m_fps)
     {
         glm::ivec2 s=m_app_context->win->GetWindowSize();
-        m_app_context->win->set_mouse_pos(s/2);
+        m_app_context->app_window->set_mouse_pos(s/2);
         glm::ivec2 mp=m_app_context->win->GetMousePos();
         handle_mouse(mp.x,mp.y);
     }
