@@ -1,8 +1,8 @@
 #include "Precomp.h"
 #include "SGScenegraphLoader.h"
-#include "Scenegraph.h"
+#include "SGScenegraph.h"
 #include "SGEmptyObject.h"
-#include "../Applications/AppContext.h"
+#include "application/AppContext.h"
 
 namespace sg
 {
@@ -17,7 +17,7 @@ sg_sg_scenegraph_loader::~sg_sg_scenegraph_loader()
     //dtor
 }
 
-bool sg_sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::string & filename,bool with_physics)
+bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string & filename,bool with_physics)
 {
     std::string scene_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "scene_path =" << scene_path.c_str() << std::endl;
@@ -47,16 +47,16 @@ bool sg_sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::strin
             {
                 std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
 
-                sg::sg_mesh_object_ptr  obj = app_ctx->scenegraph->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
+                sg::sg_mesh_object_ptr  obj = app_ctx->_scenegraph->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
                 o = obj.get();
 
-                app_ctx->scenegraph->add_object(obj);
+                app_ctx->_scenegraph->add_object(obj);
             }
         }
         else if(object->Attribute("type","LAMP"))
         {
 
-            sg::sg_light_object_ptr  obj = app_ctx->scenegraph->add_light_object();
+            sg::sg_light_object_ptr  obj = app_ctx->_scenegraph->add_light_object();
             o = obj.get();
         }
         else if(object->Attribute("type","CAMERA"))
@@ -64,13 +64,13 @@ bool sg_sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::strin
             sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
             o = obj.get();
 
-            app_ctx->scenegraph->add_object(obj);
+            app_ctx->_scenegraph->add_object(obj);
         }
         else if(object->Attribute("type","EMPTY"))
         {
             printf("ADDED EMPTY OBJ: %s\n",object->Attribute("name"));
-            sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->scenegraph));
-            app_ctx->scenegraph->add_trigger(obj,object->Attribute("name"));
+            sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->_scenegraph));
+            app_ctx->_scenegraph->add_trigger(obj,object->Attribute("name"));
             o = obj.get();
         }
         else
@@ -108,8 +108,8 @@ bool sg_sg_scenegraph_loader::load_scene(app_context * app_ctx, const std::strin
 
         if(with_physics&&mesh_obj)
         {
-            sg_mesh_object_ptr mo=app_ctx->scenegraph->get_mesh_obj(o->get_name());
-            if(app_ctx->physics_mgr->create_trimesh_body(mo,physics_manager::glm_to_bt(o->get_scale()))==nullptr)
+            sg_mesh_object_ptr mo=app_ctx->_scenegraph->get_mesh_obj(o->get_name());
+            if(app_ctx->_physicsManager->create_trimesh_body(mo,physics_manager::glm_to_bt(o->get_scale()))==nullptr)
                 exit(-13337);
         }
 

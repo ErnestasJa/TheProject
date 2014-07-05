@@ -3,7 +3,7 @@
 #include "utility/Logger.h"
 #include "gui/input_handler.h"
 
-input_handler::input_handler(logger *log,GLFWwindow* win)
+input_handler::input_handler(Logger *log,GLFWwindow* win)
 {
     //ctor
     //this->log=log;

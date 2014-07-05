@@ -10,7 +10,7 @@
 struct texture; typedef std::shared_ptr<texture> texture_ptr;
 
 namespace sg{struct sg_material; typedef std::shared_ptr<sg_material> sg_material_ptr;}
-class logger;
+class Logger;
 
 namespace sg
 {
@@ -19,7 +19,7 @@ class sg_mesh_object; struct sg_material; typedef std::shared_ptr<sg_mesh_object
 class sg_graphics_manager
 {
 public:
-    sg_graphics_manager(logger * l);
+    sg_graphics_manager(Logger * l);
     virtual ~sg_graphics_manager();
 
 public:
@@ -36,7 +36,7 @@ public:
     shader_loader * get_shader_loader();
 
 protected:
-    logger          * m_logger;
+    Logger          * _logger;
     image_loader    * m_image_loader;
     mesh_loader     * m_mesh_loader;
     shader_loader   * m_shader_loader;

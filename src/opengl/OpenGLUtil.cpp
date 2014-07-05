@@ -14,9 +14,9 @@
 
 #include <assert.h>
 
-OpenGLUtil::OpenGLUtil(logger * l)
+OpenGLUtil::OpenGLUtil(Logger * l)
 {
-    m_logger = l;
+    _logger = l;
 }
 
 OpenGLUtil::~OpenGLUtil()
@@ -41,7 +41,7 @@ bool OpenGLUtil::check_and_output_errors()
 
     while((err=glGetError())!=GL_NO_ERROR)
     {
-        m_logger->log(LOG_ERROR,"GL_ERROR: %s",gl_error_to_string(err).c_str());
+        _logger->log(LOG_ERROR,"GL_ERROR: %s",gl_error_to_string(err).c_str());
 
         ///
         assert(err==GL_NO_ERROR);

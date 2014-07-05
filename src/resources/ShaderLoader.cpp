@@ -2,9 +2,9 @@
 #include "ShaderLoader.h"
 #include "utility/Logger.h"
 
-shader_loader::shader_loader(logger * l)
+shader_loader::shader_loader(Logger * l)
 {
-    m_logger = l;
+    _logger = l;
 }
 
 shader_loader::~shader_loader()
@@ -23,7 +23,7 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
 
     if(res.resource)
     {
-        m_logger->log(LOG_LOG, "Found shader in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found shader in cache, skipping loading.");
         return res.resource;
     }
 
@@ -33,7 +33,7 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
     if(!helpers::read(vertex_file,vsh)) return shader_ptr();
     if(!helpers::read(fragment_file,fsh)) return shader_ptr();
 
-    m_logger->log(LOG_LOG, "Shader name: %s", res_name.c_str());
+    _logger->log(LOG_LOG, "Shader name: %s", res_name.c_str());
     shader * sh = new shader(res_name,vsh,fsh);
 	sh->compile();
 	sh->link();
@@ -49,7 +49,7 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
 	delete [] fsh;
 
 	if(res.resource)
-        m_logger->log(LOG_LOG, "Shader '%s' loaded.",res_name.c_str());
+        _logger->log(LOG_LOG, "Shader '%s' loaded.",res_name.c_str());
 
     return res.resource;
 }
@@ -62,7 +62,7 @@ shader_ptr shader_loader::load(const std::string & file)
 
     if(res.resource)
     {
-        m_logger->log(LOG_LOG, "Found shader in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found shader in cache, skipping loading.");
         return res.resource;
     }
 
@@ -73,7 +73,7 @@ shader_ptr shader_loader::load(const std::string & file)
     if(!helpers::read(file + ".frag",fsh)) return shader_ptr();
 
     std::string sh_name = file.substr(file.rfind("/")+1);
-    m_logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());
+    _logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());
     shader * sh = new shader(sh_name,vsh,fsh);
 	sh->compile();
 	//sh->link();
@@ -89,7 +89,7 @@ shader_ptr shader_loader::load(const std::string & file)
 	delete [] fsh;
 
 	if(res.resource)
-        m_logger->log(LOG_LOG, "Shader '%s' loaded.",file.c_str());
+        _logger->log(LOG_LOG, "Shader '%s' loaded.",file.c_str());
 
     return res.resource;
 }

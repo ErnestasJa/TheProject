@@ -6,7 +6,6 @@
 #include "SGMeshObject.h"
 #include "SGCameraObject.h"
 #include "SGAABBWireframeObject.h"
-#include "SGSprite.h"
 #include "SGLightObject.h"
 #include "SGQuad.h"
 #include "SGSkyboxObject.h"

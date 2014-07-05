@@ -18,7 +18,7 @@
 #include "resources/ShaderLoader.h"
 #include "resources/ImageLoader.h"
 #include "scenegraph/SGGraphicsManager.h"
-#include "scenegraph/Scenegraph.h"
+#include "scenegraph/SGScenegraph.h"
 #include "scenegraph/ISGRenderQueue.h"
 #include "scenegraph/SGScenegraphLoader.h"
 #include "scenegraph/SGObjects.h"
@@ -27,7 +27,7 @@
 
 #include "gui/GUIEnvironment.h"
 
-#include "../AppContext.h"
+#include "application/AppContext.h"
 
 voxelz_Application::voxelz_Application(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -43,11 +43,11 @@ voxelz_Application::~voxelz_Application()
 bool voxelz_Application::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
-    _window->SigKeyEvent().connect(sigc::mem_fun(this,&voxelz_Application::on_key_event));
+    this->_appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&voxelz_Application::on_key_event));
 
 
-    m_scenegraph = new sg::scenegraph(this->GetLogger(),this->GetTimer());
-    m_graphics_manager = m_scenegraph->get_graphics_manager();
+    m_scenegraph = new sg::SGScenegraph(this->GetLogger(),this->GetTimer());
+    _graphicsManager = m_scenegraph->get_graphics_manager();
 
     m_physics_manager = new physics_manager(btVector3(0,-9.83f,0));
 
@@ -61,7 +61,7 @@ bool voxelz_Application::Init(const std::string & title, uint32_t width, uint32_
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	ctx=new app_context();
+	ctx=new AppContext();
 	ctx->win=this->_window;
 	ctx->gm=this->m_graphics_manager;
 	ctx->sg=this->m_scenegraph;
@@ -101,7 +101,7 @@ bool voxelz_Application::Update()
 
 void voxelz_Application::Exit()
 {
-    m_graphics_manager = nullptr;
+    _graphicsManager = nullptr;
 
     delete m_state_manager;
 

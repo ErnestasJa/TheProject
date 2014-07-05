@@ -3,18 +3,18 @@
 
 #include "ISGObject.h"
 
-struct app_context;
+struct AppContext;
 namespace sg
 {
 
 class sg_camera_object: public isg_object
 {
 public:
-    sg_camera_object(app_context* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=1.777777f, float field_of_view=45.0f, float near_z=1.0f, float far_z=4096.0f);
+    sg_camera_object(AppContext* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio=1.777777f, float field_of_view=45.0f, float near_z=1.0f, float far_z=4096.0f);
     virtual ~sg_camera_object();
 
     virtual uint32_t get_type();
-    virtual void render(sg_scenegraph * sg);
+    virtual void render(SGScenegraph * sg);
     virtual void on_set_shader_constants(shader_ptr shader);
 
     virtual bool set_material(uint32_t index, sg_material_ptr mat);
@@ -30,7 +30,7 @@ public:
 	const float get_fov() const;
 	const float get_aspect_ratio() const;
 
-    virtual void update(sg_scenegraph * sg);
+    virtual void update(SGScenegraph * sg);
 
 public:
 	void walk(const float amount);
@@ -55,7 +55,7 @@ protected:
 	sg_material_ptr m_mat;
 
 	bool m_fps;
-	app_context* m_app_context;
+	AppContext* _appContext;
 };
 
 typedef std::shared_ptr<sg_camera_object> sg_camera_object_ptr;

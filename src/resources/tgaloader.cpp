@@ -5,7 +5,7 @@
 
 #include "utility/Logger.h"
 
-tgaloader::tgaloader(logger * l): m_logger(l)
+tgaloader::tgaloader(Logger * l): _logger(l)
 {
 
 }

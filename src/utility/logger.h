@@ -14,14 +14,14 @@ enum loglevel
 class Application;
 class PHYSFS_File;
 
-class logger
+class Logger
 {
 public:
-    logger(Application *app, int verbosity); //to be decided
+    Logger(Application *app, int verbosity); //to be decided
     //verbosity 0: all output
     //verbosity 1: only warnings and errors
     //verbosity 2: only errors
-    ~logger();
+    ~Logger();
 
     void log(loglevel lev,const char* st, ...);
 private:

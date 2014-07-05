@@ -24,14 +24,14 @@ class sliced_gui_quad;
 class texture;
 class Window;
 class gui_skin;
-class logger;
+class Logger;
 
 gui_element * search_elements(gui_element * el, const std::string & name);
 
 class gui_environment : public gui_element
 {
 public:
-    gui_environment(Window* win, logger* log);
+    gui_environment(Window* win, Logger* log);
     ~gui_environment();
 
     void update(float delta);

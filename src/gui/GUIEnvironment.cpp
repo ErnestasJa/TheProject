@@ -10,7 +10,7 @@
 #include "opengl/Texture.h"
 #include "Application/Window.h"
 
-gui_environment::gui_environment(Window* win,logger* log):gui_element(nullptr, rect2d<int>(0,0,win->GetWindowSize().x,win->GetWindowSize().y))
+gui_environment::gui_environment(Window* win,Logger* log):gui_element(nullptr, rect2d<int>(0,0,win->GetWindowSize().x,win->GetWindowSize().y))
 {
     _sig_mouse_move=win->SigMouseMoved().connect(sigc::mem_fun(this,&gui_environment::on_mouse_moved));
     _sig_mouse_button=win->SigMouseKey().connect(sigc::mem_fun(this,&gui_environment::on_mouse_button));

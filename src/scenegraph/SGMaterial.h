@@ -11,7 +11,7 @@
 namespace sg
 {
 
-class sg_scenegraph;
+class SGScenegraph;
 
 struct sg_material
 {

@@ -41,7 +41,7 @@ bool tinyxml_test_Application::Init(const std::string & title, uint32_t width, u
     gui_skin s=gui_skin();
     s.load("res/skin_default.xml");
 
-    env=new gui_environment(m_app_context->app_window,this->get_logger());
+    env=new gui_environment(_appContext->_window,this->get_logger());
 
     gui_button* btn=new gui_button(env,rect2d<int>(0,0,64,64),L"HOLA");
 
@@ -64,14 +64,14 @@ bool tinyxml_test_Application::Init(const std::string & title, uint32_t width, u
 
 bool tinyxml_test_Application::Update()
 {
-    if(m_app_context->app_window->update() && !m_app_context->app_window->get_key(GLFW_KEY_ESCAPE))
+    if(_appContext->_window->update() && !_appContext->_window->get_key(GLFW_KEY_ESCAPE))
     {
         // Measure speed
-        m_app_context->app_timer->tick();
+        _appContext->app_timer->tick();
         env->update(0);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         env->render();
-        m_app_context->app_window->swap_buffers();
+        _appContext->_window->swap_buffers();
 
         ///let's just rage quit on gl error
         return !this->_GLUtil->check_and_output_errors();

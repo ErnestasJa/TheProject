@@ -4,7 +4,7 @@
 namespace sg
 {
 
-sg_light_object::sg_light_object(sg_scenegraph * sg): isg_object(sg)
+sg_light_object::sg_light_object(SGScenegraph * sg): isg_object(sg)
 {
     m_look = glm::vec3(0,0,-1);
     m_up = glm::vec3(0,1,0);
@@ -15,7 +15,7 @@ sg_light_object::~sg_light_object()
     //dtor
 }
 
-void sg_light_object::render(sg_scenegraph * sg)
+void sg_light_object::render(SGScenegraph * sg)
 {
 
 }

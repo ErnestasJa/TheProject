@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include "Scenegraph.h"
+#include "SGScenegraph.h"
 #include "SGGraphicsManager.h"
 #include "SGDefaultRenderQueue.h"
 #include "opengl/Shader.h"
@@ -10,7 +10,7 @@
 namespace sg
 {
 
-sg_scenegraph::sg_scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nullptr)
+SGScenegraph::SGScenegraph(Logger * l, timer_ptr app_timer): _renderQueue(nullptr)
 {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -19,24 +19,24 @@ sg_scenegraph::sg_scenegraph(logger * l, timer_ptr app_timer): m_render_queue(nu
     glFrontFace(GL_CW);
     glClearColor(0.0f, 0.0f, 0.568f, 1.0f);
 
-    m_logger = l;
-    m_graphics_manager = share(new sg_graphics_manager(l));
-    m_timer = app_timer;
-    m_render_queue = share(new sg_default_render_queue(this));
+    _logger = l;
+    _graphicsManager = share(new sg_graphics_manager(l));
+    _timer = app_timer;
+    _renderQueue = share(new sg_default_render_queue(this));
 }
 
-sg_scenegraph::~sg_scenegraph()
+SGScenegraph::~SGScenegraph()
 {
     //dtor
 }
 
-void sg_scenegraph::clear()
+void SGScenegraph::clear()
 {
     m_objects.clear();
     m_triggers.clear();
 }
 
-sg_object_ptr sg_scenegraph::add_object(sg_object_ptr object)
+sg_object_ptr SGScenegraph::add_object(sg_object_ptr object)
 {
     if(object->get_type()==SGO_CAMERA && !m_active_camera)
         m_active_camera = std::static_pointer_cast<sg_camera_object>(object);
@@ -45,19 +45,19 @@ sg_object_ptr sg_scenegraph::add_object(sg_object_ptr object)
     return object;
 }
 
-sg_light_object_ptr sg_scenegraph::add_light_object()
+sg_light_object_ptr SGScenegraph::add_light_object()
 {
     sg_light_object_ptr obj = share(new sg_light_object(this));
     add_object(obj);
     return obj;
 }
 
-logger * scenegraph::GetLogger()
+Logger * SGScenegraph::GetLogger()
 {
-    return m_logger;
+    return _logger;
 }
 
-void sg_scenegraph::pre_render()
+void SGScenegraph::pre_render()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
@@ -74,7 +74,7 @@ void sg_scenegraph::pre_render()
         throw "At least one camera is required";
 }
 
-bool sg_scenegraph::validate_transforms()
+bool SGScenegraph::validate_transforms()
 {
     bool success = true;
 
@@ -94,13 +94,13 @@ bool sg_scenegraph::validate_transforms()
 
         if(!helpers::equals(pos,pos2))
         {
-            m_logger->log(LOG_WARN,"{%s}(pos)[%f,%f,%f]!=[%f,%f,%f]",obj->get_name().c_str(),pos.x,pos.y,pos.z,pos2.x,pos2.y,pos2.z);
+            _logger->log(LOG_WARN,"{%s}(pos)[%f,%f,%f]!=[%f,%f,%f]",obj->get_name().c_str(),pos.x,pos.y,pos.z,pos2.x,pos2.y,pos2.z);
             success = false;
         }
 
         if(!helpers::equals(rot,rot2) && !helpers::equals(rot,-1.0f*rot2))
         {
-            m_logger->log(LOG_WARN,"{%s}(rot)[%f,%f,%f,%f]!=[%f,%f,%f,%f]",obj->get_name().c_str(),rot.x,rot.y,rot.z,rot.w,rot2.x,rot2.y,rot2.z,rot2.w);
+            _logger->log(LOG_WARN,"{%s}(rot)[%f,%f,%f,%f]!=[%f,%f,%f,%f]",obj->get_name().c_str(),rot.x,rot.y,rot.z,rot.w,rot2.x,rot2.y,rot2.z,rot2.w);
             success = false;
         }
 
@@ -109,7 +109,7 @@ bool sg_scenegraph::validate_transforms()
     return success;
 }
 
-bool sg_scenegraph::register_objects_for_rendering()
+bool SGScenegraph::register_objects_for_rendering()
 {
     sg_render_queue_ptr rq = this->get_render_queue();
 
@@ -120,24 +120,24 @@ bool sg_scenegraph::register_objects_for_rendering()
 }
 
 
-void sg_scenegraph::render_all()
+void SGScenegraph::render_all()
 {
     pre_render();
 
     register_objects_for_rendering();
-    m_render_queue->render_all();
-    m_render_queue->clear();
+    _renderQueue->render_all();
+    _renderQueue->clear();
 
     post_render();
 }
 
-void sg_scenegraph::update_all(float delta_time)
+void SGScenegraph::update_all(float delta_time)
 {
     for(sg_object_ptr obj: m_objects)
         obj->update(delta_time);
 }
 
-sg_object_ptr sg_scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h)
+sg_object_ptr SGScenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, int32_t h)
 {
     float winz=0.0f;
     glReadPixels( x, h-y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
@@ -163,7 +163,7 @@ sg_object_ptr sg_scenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, 
         return sg_object_ptr();
 }
 
-glm::vec3 sg_scenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h)
+glm::vec3 SGScenegraph::window_coords_to_world(float depth, int32_t x, int32_t y, int32_t w, int32_t h)
 {
     glm::vec4 viewport = glm::vec4(0, 0, w, h);
     glm::vec3 wincoord = glm::vec3(x, h - y - 1, depth);
@@ -172,46 +172,46 @@ glm::vec3 sg_scenegraph::window_coords_to_world(float depth, int32_t x, int32_t 
     return objcoord;
 }
 
-sg_graphics_manager_ptr sg_scenegraph::get_graphics_manager()
+sg_graphics_manager_ptr SGScenegraph::get_graphics_manager()
 {
-    return m_graphics_manager;
+    return _graphicsManager;
 }
 
-sg_render_queue_ptr sg_scenegraph::get_render_queue()
+sg_render_queue_ptr SGScenegraph::get_render_queue()
 {
-    return m_render_queue;
+    return _renderQueue;
 }
 
-sg_camera_object_ptr sg_scenegraph::get_active_camera()
+sg_camera_object_ptr SGScenegraph::get_active_camera()
 {
     return m_active_camera;
 }
 
-void sg_scenegraph::set_active_camera(sg_camera_object_ptr cam)
+void SGScenegraph::set_active_camera(sg_camera_object_ptr cam)
 {
     m_active_camera = cam;
 }
 
-void sg_scenegraph::post_render()
+void SGScenegraph::post_render()
 {
 
 }
 
 
 /// LOADING
-sg::sg_mesh_object_ptr sg_scenegraph::load_mesh_object(std::string file, bool load_textures)
+sg::sg_mesh_object_ptr SGScenegraph::load_mesh_object(std::string file, bool load_textures)
 {
     sg::sg_mesh_object_ptr ret;
     mesh_ptr pmesh;
 
-    pmesh = m_graphics_manager->get_mesh_loader()->load(file);
+    pmesh = _graphicsManager->get_mesh_loader()->load(file);
 
     if(pmesh)
     {
         ret = share(new sg::sg_mesh_object(this,pmesh));
 
         std::string texture_path = file.substr(0,file.rfind("/"));
-        m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
+        _logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
 
         for(uint32_t i=0; i<ret->get_material_count(); i++)
         {
@@ -222,9 +222,9 @@ sg::sg_mesh_object_ptr sg_scenegraph::load_mesh_object(std::string file, bool lo
             if(pos+1<pmesh->sub_meshes[i].material_name.length())
                 image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
 
-            m_logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
-            m_logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
-            m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
+            _logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
+            _logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
+            _logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
 
             if(load_textures)
             {
@@ -232,7 +232,7 @@ sg::sg_mesh_object_ptr sg_scenegraph::load_mesh_object(std::string file, bool lo
 
                 if(image_path.length()!=0)
                 {
-                    auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
+                    auto tex = _graphicsManager->load_texture(texture_path + "/" + image_path);
 
                     if(tex)
                         mat->set_texture(0,tex);
@@ -245,19 +245,19 @@ sg::sg_mesh_object_ptr sg_scenegraph::load_mesh_object(std::string file, bool lo
 }
 
 /// LOADING
-sg::sg_skybox_object_ptr sg_scenegraph::load_skybox(std::string file, bool load_textures)
+sg::sg_skybox_object_ptr SGScenegraph::load_skybox(std::string file, bool load_textures)
 {
     sg::sg_skybox_object_ptr ret;
     mesh_ptr pmesh;
 
-    pmesh = m_graphics_manager->get_mesh_loader()->load(file);
+    pmesh = _graphicsManager->get_mesh_loader()->load(file);
 
     if(pmesh)
     {
         ret = share(new sg::sg_skybox_object(this,pmesh));
 
         std::string texture_path = file.substr(0,file.rfind("/"));
-        m_logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
+        _logger->log(LOG_LOG, "Texture path =%s", texture_path.c_str());
 
         for(uint32_t i=0; i<ret->get_material_count(); i++)
         {
@@ -268,9 +268,9 @@ sg::sg_skybox_object_ptr sg_scenegraph::load_skybox(std::string file, bool load_
             if(pos+1<pmesh->sub_meshes[i].material_name.length())
                 image_path = pmesh->sub_meshes[i].material_name.substr(pos+1);
 
-            m_logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
-            m_logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
-            m_logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
+            _logger->log(LOG_LOG, "full mat_name =%s", pmesh->sub_meshes[i].material_name.c_str());
+            _logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
+            _logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
 
             if(load_textures)
             {
@@ -279,7 +279,7 @@ sg::sg_skybox_object_ptr sg_scenegraph::load_skybox(std::string file, bool load_
 
                 if(image_path.length()!=0)
                 {
-                    auto tex = m_graphics_manager->load_texture(texture_path + "/" + image_path);
+                    auto tex = _graphicsManager->load_texture(texture_path + "/" + image_path);
 
 
                     mat->set_texture(0,tex);
@@ -291,17 +291,17 @@ sg::sg_skybox_object_ptr sg_scenegraph::load_skybox(std::string file, bool load_
     return ret;
 }
 
-const sg_shared_mat_vars & sg_scenegraph::get_shared_mat_vars() const
+const sg_shared_mat_vars & SGScenegraph::get_shared_mat_vars() const
 {
     return m_shared_mat_vars;
 }
 
-sg_material_ptr sg_scenegraph::get_override_material()
+sg_material_ptr SGScenegraph::get_override_material()
 {
     return m_override_material;
 }
 
-void sg_scenegraph::set_override_material( sg_material_ptr material)
+void SGScenegraph::set_override_material( sg_material_ptr material)
 {
     m_override_material = material;
 }

@@ -1,8 +1,8 @@
 #include "Precomp.h"
-#include "scenegraph/Scenegraph.h"
+#include "scenegraph/SGScenegraph.h"
 #include "scenegraph/SGGraphicsManager.h"
 #include "../../physics/physics.h"
-#include "../AppContext.h"
+#include "application/AppContext.h"
 
 
 #include "quadcopter.h"

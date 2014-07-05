@@ -12,14 +12,14 @@ namespace sg
 class sg_skybox_object: public isg_object
 {
 public:
-    sg_skybox_object(sg_scenegraph * sg, mesh_ptr ptr);
+    sg_skybox_object(SGScenegraph * sg, mesh_ptr ptr);
     virtual ~sg_skybox_object();
 
     virtual mesh_ptr get_mesh();
 
 public:
 
-    virtual void render(sg_scenegraph * sg);
+    virtual void render(SGScenegraph * sg);
 
     virtual uint32_t get_type();
 

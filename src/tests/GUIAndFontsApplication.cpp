@@ -55,9 +55,9 @@ bool gui_and_fonts_Application::Init(const std::string & title, uint32_t width, 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     int ww,hh;
-    GLFWwindow * _window=m_app_context->app_window->getWindow();
+    GLFWwindow * _window=_appContext->_window->getWindow();
 
-    env=new gui_environment(m_app_context->app_window,this->get_logger());
+    env=new gui_environment(_appContext->_window,this->getLogger());
 
     gui_window* mainpaine=new gui_window(env,rect2d<int>(400,400,400,400),L"Tis but a Window",false,true,false);
 
@@ -97,7 +97,7 @@ bool gui_and_fonts_Application::Init(const std::string & title, uint32_t width, 
 
 void gui_and_fonts_Application::on_event(gui_event e)
 {
-    logger* _log=this->GetLogger();
+    Logger* _log=this->GetLogger();
     switch(e.get_type())
     {
     case element_focused:
@@ -155,10 +155,10 @@ void gui_and_fonts_Application::on_event(gui_event e)
 
 bool gui_and_fonts_Application::Update()
 {
-    if(m_app_context->app_window->update() && !m_app_context->app_window->get_key(GLFW_KEY_ESCAPE) && this->running)
+    if(_appContext->_window->update() && !_appContext->_window->get_key(GLFW_KEY_ESCAPE) && this->running)
     {
         // Measure speed
-        m_app_context->app_timer->tick();
+        _appContext->app_timer->tick();
 
         env->update(0);
 
@@ -174,7 +174,7 @@ bool gui_and_fonts_Application::Update()
         renderer->render_string(L"I am le SHADOW lcd machine!",glm::vec2(0,150),glm::vec4(1,1,1,1),true);
         renderer->use_font();
 
-        m_app_context->app_window->swap_buffers();
+        _appContext->_window->swap_buffers();
 
         ///let's just rage quit on gl error
         return !this->_GLUtil->check_and_output_errors();
@@ -184,11 +184,11 @@ bool gui_and_fonts_Application::Update()
 
 void gui_and_fonts_Application::show_fps()
 {
-    uint32_t currentTime = m_app_context->app_timer->get_time();
+    uint32_t currentTime = _appContext->app_timer->get_time();
     frame_count++;
     if ( currentTime - last_time >= 1000 )  // If last prinf() was more than 1 sec ago
     {
-        m_app_context->log->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
+        _appContext->_logger->log(LOG_LOG,"FPS: %i (%f ms/frame)",frame_count,1000.0/double(frame_count));
 
         test1->set_text(L"FPS: "+helpers::to_wstr<int>(frame_count)+L" "+helpers::to_wstr(1000.0/double(frame_count))+L"ms");
 

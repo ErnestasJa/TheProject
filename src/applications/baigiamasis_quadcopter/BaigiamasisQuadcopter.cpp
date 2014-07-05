@@ -18,7 +18,7 @@
 #include "resources/ShaderLoader.h"
 #include "resources/ImageLoader.h"
 #include "scenegraph/SGGraphicsManager.h"
-#include "scenegraph/Scenegraph.h"
+#include "scenegraph/SGScenegraph.h"
 #include "scenegraph/ISGRenderQueue.h"
 #include "scenegraph/SGScenegraphLoader.h"
 #include "scenegraph/SGObjects.h"
@@ -30,7 +30,7 @@
 #include "states/StateManager.h"
 #include "states/MenuState.h"
 #include "states/PlayState.h"
-#include "../AppContext.h"
+#include "application/AppContext.h"
 
 baigiamasis_quadcopter::baigiamasis_quadcopter(uint32_t argc, const char ** argv): Application(argc,argv)
 {

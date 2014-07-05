@@ -9,11 +9,11 @@ namespace sg
 class sg_empty_object: public isg_object
 {
 public:
-    sg_empty_object(sg_scenegraph * sg):isg_object(sg){};
+    sg_empty_object(SGScenegraph * sg):isg_object(sg){};
     virtual ~sg_empty_object(){};
 
     uint32_t get_type(){return 0;}
-    void render(sg::sg_scenegraph* sg){}
+    void render(sg::SGScenegraph* sg){}
     sg_material_ptr get_material(uint32_t index){return nullptr;}
     bool set_material(uint32_t index,sg_material_ptr mat){return false;}
     uint32_t get_material_count(){return 0;}

@@ -1,12 +1,12 @@
 #include "Precomp.h"
 #include "SGDefaultRenderQueue.h"
 #include "SGObjects.h"
-#include "Scenegraph.h"
+#include "SGScenegraph.h"
 
 namespace sg
 {
 
-sg_default_render_queue::sg_default_render_queue(sg_scenegraph * sg)
+sg_default_render_queue::sg_default_render_queue(SGScenegraph * sg)
 {
     m_scenegraph = sg;
     m_skybox = nullptr;
@@ -51,10 +51,10 @@ void sg_default_render_queue::set_material(isg_object * obj, sg_material_ptr mat
         mat->set_mat4("mvp",MVP);
     }
 
-    m_current_material = material;
+    _currentMaterial = material;
 
-    if(m_current_material)
-        m_current_material->set();
+    if(_currentMaterial)
+        _currentMaterial->set();
 }
 
 void sg_default_render_queue::pre_render()

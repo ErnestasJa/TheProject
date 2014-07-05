@@ -7,7 +7,7 @@
 
 #include "utility/Logger.h"
 
-image_loader::image_loader(logger * l): m_logger(l)
+image_loader::image_loader(Logger * l): _logger(l)
 {
     add_loader(new png_loader(l));
     add_loader(new tgaloader(l));
@@ -35,12 +35,12 @@ image_ptr image_loader::load(const std::string & file)
 
     if(res.resource)
     {
-        m_logger->log(LOG_LOG, "Found image in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found image in cache, skipping loading.");
         return res.resource;
     }
 
     std::string ext = file.substr(file.find_last_of('.'));
-    m_logger->log(LOG_LOG, "Image extension: '%s'", ext.c_str());
+    _logger->log(LOG_LOG, "Image extension: '%s'", ext.c_str());
 
     if(PHYSFS_exists(file.c_str()))
     for(iimage_loader * l : m_loaders)
@@ -52,7 +52,7 @@ image_ptr image_loader::load(const std::string & file)
 
             if(len!=0)
             {
-                m_logger->log(LOG_LOG, "Image file size: %u", len);
+                _logger->log(LOG_LOG, "Image file size: %u", len);
 
                 res.path = file;
                 res.resource = image_ptr(l->load(buf,len));

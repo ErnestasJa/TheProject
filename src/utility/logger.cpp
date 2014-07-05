@@ -4,7 +4,7 @@
 #include "Application/Application.h"
 #include "utility/Timer.h"
 
-logger::logger(Application *app,int verbosity)
+Logger::Logger(Application *app,int verbosity)
 {
     #ifdef LOG_OUTPUT
     m_verbosity=verbosity;
@@ -29,13 +29,13 @@ logger::logger(Application *app,int verbosity)
     #endif
 }
 
-logger::~logger()
+Logger::~Logger()
 {
     log(LOG_DEBUG,"Logger is terminating...");
     PHYSFS_close(m_logfile);
 }
 
-void logger::log(loglevel lev,const char* st, ...)
+void Logger::log(loglevel lev,const char* st, ...)
 {
     #ifdef LOG_OUTPUT
     m_app->GetTimer()->tick();
@@ -80,7 +80,7 @@ void logger::log(loglevel lev,const char* st, ...)
     #endif // LOG_OUTPUT
 }
 
-std::string logger::timestamp()
+std::string Logger::timestamp()
 {
     std::string stamp="";
 

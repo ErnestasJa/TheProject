@@ -34,12 +34,12 @@ class gui_environment;
 class gui_static_text;
 class network_manager_win32;
 class state_manager;
-struct app_context;
+struct AppContext;
 class test_game: public Application,public gui_event_listener
 {
 protected:
     sg::sg_graphics_manager_ptr m_graphics_manager;
-    sg::scenegraph*             m_scenegraph;
+    sg::SGScenegraph*             m_scenegraph;
     physics_manager*            m_physics_manager;
     state_manager* m_state_manager;
 
@@ -78,7 +78,7 @@ protected:
 
     network_manager_win32* m_netwman;
 
-    app_context* m_app_context;
+    AppContext* _appContext;
 public:
     test_game(uint32_t argc, const char ** argv);
     virtual ~test_game();

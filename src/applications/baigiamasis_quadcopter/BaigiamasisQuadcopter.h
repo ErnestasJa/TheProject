@@ -37,7 +37,7 @@ class baigiamasis_quadcopter: public Application,public gui_event_listener
 {
 protected:
     sg::sg_graphics_manager_ptr m_graphics_manager;
-    sg::scenegraph*             m_scenegraph;
+    sg::SGScenegraph*             m_scenegraph;
     physics_manager*            m_physics_manager;
     state_manager* m_state_manager;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IImageLoader.h"
-class logger;
+class Logger;
 class tgaloader: public iimage_loader
 {
 protected:
@@ -30,11 +30,11 @@ protected:
 
     HEADER m_header;
 
-    logger * m_logger;
+    Logger * _logger;
 
 public:
 
-    tgaloader(logger * l);
+    tgaloader(Logger * l);
     virtual ~tgaloader();
 
     virtual image_ptr load(void * buffer, const uint32_t size);

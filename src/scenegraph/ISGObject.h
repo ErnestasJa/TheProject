@@ -7,7 +7,7 @@
 
 namespace sg
 {
-class sg_scenegraph;
+class SGScenegraph;
 // TODO (Ernestas#1#): implement parenting, separate out position, rotation, scale components to vec3 and combine them to mat4 when changed
 enum
 {
@@ -20,7 +20,7 @@ typedef std::shared_ptr<isg_object> sg_object_ptr;
 class isg_object
 {
 public:
-    isg_object(sg_scenegraph * sg);
+    isg_object(SGScenegraph * sg);
     isg_object(const isg_object & sgo)= delete;
 
     virtual ~isg_object();
@@ -42,7 +42,7 @@ public:
 
 public:
     virtual bool register_for_rendering();
-    virtual void render(sg_scenegraph * sg)=0;
+    virtual void render(SGScenegraph * sg)=0;
     virtual void update(float delta_time);
 
     virtual sg_material_ptr get_material(uint32_t index)=0;
@@ -53,7 +53,7 @@ public:
     void update_absolute_transform();
 
 protected:
-    sg_scenegraph*     m_scenegraph;
+    SGScenegraph*   m_scenegraph;
     uint32_t        m_flags;
     glm::vec3       m_position,
                     m_scale;

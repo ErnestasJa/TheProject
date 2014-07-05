@@ -16,7 +16,7 @@
 #include "resources/ShaderLoader.h"
 #include "resources/ImageLoader.h"
 #include "scenegraph/SGGraphicsManager.h"
-#include "scenegraph/Scenegraph.h"
+#include "scenegraph/SGScenegraph.h"
 #include "scenegraph/ISGRenderQueue.h"
 #include "scenegraph/SGScenegraphLoader.h"
 #include "scenegraph/SGObjects.h"

@@ -32,12 +32,12 @@ class physics_manager;
 class btRigidBody;
 class gui_environment;
 class state_manager;
-struct app_context;
+struct AppContext;
 class voxelz_Application: public Application,public gui_event_listener
 {
 protected:
-    sg::sg_graphics_manager_ptr m_graphics_manager;
-    sg::scenegraph*             m_scenegraph;
+    sg::sg_graphics_manager_ptr _graphicsManager;
+    sg::SGScenegraph*             m_scenegraph;
     physics_manager*            m_physics_manager;
     state_manager* m_state_manager;
 
@@ -45,7 +45,7 @@ protected:
     glm::ivec2 m_last_mouse_pos, m_current_mouse_pos, m_window_size;
 
     gui_environment *env;
-    app_context *ctx;
+    AppContext *ctx;
 public:
     voxelz_Application(uint32_t argc, const char ** argv);
     virtual ~voxelz_Application();

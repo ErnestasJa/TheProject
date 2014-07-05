@@ -1,5 +1,5 @@
 #pragma once
-#include "../../AppContext.h"
+#include "application/AppContext.h"
 #include "GameState.h"
 #include "gui/GUIEnvironment.h"
 #include "gui/GUIImage.h"

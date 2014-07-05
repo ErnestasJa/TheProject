@@ -3,14 +3,14 @@
 class Window;
 class OpenGLUtil;
 class Timer; typedef std::shared_ptr<Timer> timer_ptr;
-class logger;
+class Logger;
+
+#include "AppContext.h"
 
 class Application
-
 {
 protected:
-    app_context * m_app_context;
-    OpenGLUtil * _GLUtil;
+    AppContext * _appContext;
 
     int32_t _argc;
     const char ** _argv;
@@ -26,6 +26,5 @@ public:
 
     virtual void OnWindowClose() = 0;
 
-    virtual logger * GetLogger();
-    virtual timer_ptr GetTimer();
+    virtual AppContext * Ctx();
 };

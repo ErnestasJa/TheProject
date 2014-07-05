@@ -9,9 +9,9 @@
 namespace sg
 {
 
-sg_graphics_manager::sg_graphics_manager(logger * l)
+sg_graphics_manager::sg_graphics_manager(Logger * l)
 {
-    m_logger = l;
+    _logger = l;
     m_image_loader = new image_loader(l);
     m_mesh_loader = new mesh_loader(l);
     m_shader_loader = new shader_loader(l);
@@ -32,7 +32,7 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
 
     if(res.resource)
     {
-        m_logger->log(LOG_LOG, "Found texture in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found texture in cache, skipping loading.");
         return res.resource;
     }
 
@@ -48,11 +48,11 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
 
     if(!res.resource)
     {
-        m_logger->log(LOG_ERROR, "Texture '%s' could not be loaded.", file.c_str());
+        _logger->log(LOG_ERROR, "Texture '%s' could not be loaded.", file.c_str());
         //throw "Texture not loaded.";
     }
     else
-        m_logger->log(LOG_LOG, "Texture '%s' loaded.", file.c_str());
+        _logger->log(LOG_LOG, "Texture '%s' loaded.", file.c_str());
 
 
     return res.resource;
@@ -64,7 +64,7 @@ sg_material_ptr sg_graphics_manager::create_material(const std::string & vert_sh
 
     if(!mat->mat_shader)
     {
-        m_logger->log(LOG_ERROR, "Could not load '%s' shader.", (vert_shader+" "+frag_shader).c_str());
+        _logger->log(LOG_ERROR, "Could not load '%s' shader.", (vert_shader+" "+frag_shader).c_str());
         delete mat;
         return sg_material_ptr();
     }

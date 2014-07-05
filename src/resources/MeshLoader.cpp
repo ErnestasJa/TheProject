@@ -4,9 +4,9 @@
 #include "opengl/Mesh.h"
 #include "utility/Logger.h"
 
-mesh_loader::mesh_loader(logger * l)
+mesh_loader::mesh_loader(Logger * l)
 {
-    m_logger = l;
+    _logger = l;
     add_loader(new iqmloader(l));
 }
 
@@ -32,12 +32,12 @@ mesh_ptr mesh_loader::load(const std::string & file)
 
     if(res.resource)
     {
-        m_logger->log(LOG_LOG, "Found mesh in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found mesh in cache, skipping loading.");
         return res.resource;
     }
 
     std::string ext = file.substr(file.find_last_of('.'));
-    m_logger->log(LOG_LOG, "Mesh extension: '%s'", ext.c_str());
+    _logger->log(LOG_LOG, "Mesh extension: '%s'", ext.c_str());
 
     if(PHYSFS_exists(file.c_str()))
     for(imesh_loader * l : m_loaders)
@@ -50,7 +50,7 @@ mesh_ptr mesh_loader::load(const std::string & file)
 
             if(len!=0)
             {
-                m_logger->log(LOG_LOG, "Mesh file size: %u", len);
+                _logger->log(LOG_LOG, "Mesh file size: %u", len);
 
                 res.path = file;
                 res.resource = mesh_ptr(l->load(buf,len));
@@ -60,13 +60,13 @@ mesh_ptr mesh_loader::load(const std::string & file)
             }
             else
             {
-                m_logger->log(LOG_ERROR, "File %s appears to be empty.",file.c_str());
+                _logger->log(LOG_ERROR, "File %s appears to be empty.",file.c_str());
             }
         }
     }
 
     if(!found_usable_loader)
-        m_logger->log(LOG_ERROR, "No loader can load '%s' mesh files.",ext.c_str());
+        _logger->log(LOG_ERROR, "No loader can load '%s' mesh files.",ext.c_str());
 
     return nullptr;
 }

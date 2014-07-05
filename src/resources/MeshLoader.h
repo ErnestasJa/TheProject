@@ -4,18 +4,18 @@
 #include "IMeshLoader.h"
 #include "ResourceCache.h"
 
-class logger;
+class Logger;
 class mesh_loader: public resource_cache<mesh>
 {
 public:
-    mesh_loader(logger * l);
+    mesh_loader(Logger * l);
     virtual ~mesh_loader();
 
     virtual void add_loader(imesh_loader * loader);
     virtual mesh_ptr load(const std::string & file);
 
 protected:
-    logger * m_logger;
+    Logger * _logger;
     std::vector<imesh_loader*> m_loaders;
 };
 

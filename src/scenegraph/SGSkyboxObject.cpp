@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include "Scenegraph.h"
+#include "SGScenegraph.h"
 #include "SGSkyboxObject.h"
 #include "SGGraphicsManager.h"
 #include "ISGRenderQueue.h"
@@ -9,7 +9,7 @@
 namespace sg
 {
 
-sg_skybox_object::sg_skybox_object(sg_scenegraph * sg, mesh_ptr ptr): isg_object(sg)
+sg_skybox_object::sg_skybox_object(SGScenegraph * sg, mesh_ptr ptr): isg_object(sg)
 {
     m_mesh = ptr;
 
@@ -36,7 +36,7 @@ uint32_t sg_skybox_object::get_type()
     return SGO_SKYBOX_OBJECT;
 }
 
-void sg_skybox_object::render(sg_scenegraph * sg)
+void sg_skybox_object::render(SGScenegraph * sg)
 {
     glDepthMask(0);
 

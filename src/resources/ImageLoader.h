@@ -4,14 +4,14 @@
 #include "ResourceCache.h"
 
 struct texture; typedef std::shared_ptr<texture> texture_ptr;
-class logger;
+class Logger;
 class image_loader: public resource_cache<image>
 {
 protected:
-    logger * m_logger;
+    Logger * _logger;
     std::vector<iimage_loader*> m_loaders;
 public:
-    image_loader(logger * l);
+    image_loader(Logger * l);
     virtual ~image_loader();
 
     virtual void add_loader(iimage_loader * loader);

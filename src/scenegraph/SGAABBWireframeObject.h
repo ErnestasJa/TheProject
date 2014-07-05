@@ -14,12 +14,12 @@ class sg_mesh_object; typedef std::shared_ptr<sg_mesh_object> sg_mesh_object_ptr
 class sg_aabb_wireframe_object: public isg_object
 {
 public:
-    sg_aabb_wireframe_object(sg_scenegraph * sg, sg_mesh_object_ptr mobj);
+    sg_aabb_wireframe_object(SGScenegraph * sg, sg_mesh_object_ptr mobj);
     virtual ~sg_aabb_wireframe_object();
 
     virtual uint32_t get_type();
 
-    virtual void render(sg_scenegraph * sg);
+    virtual void render(SGScenegraph * sg);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 

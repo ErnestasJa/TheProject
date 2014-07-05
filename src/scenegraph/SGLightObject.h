@@ -10,11 +10,11 @@ namespace sg
 class sg_light_object: public isg_object
 {
 public:
-    sg_light_object(sg_scenegraph * sg);
+    sg_light_object(SGScenegraph * sg);
     virtual ~sg_light_object();
 
 public:
-    virtual void            render(sg_scenegraph * sg);
+    virtual void            render(SGScenegraph * sg);
 
     virtual sg_aabb         get_aabb();
     virtual uint32_t        get_type();

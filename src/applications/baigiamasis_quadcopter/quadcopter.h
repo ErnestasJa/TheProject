@@ -32,7 +32,7 @@ public:
     quadcopter(app_context* app_ctx,int model,btVector3 init_pos,float init_height,btVector3 init_rotation,bool start_on);
     ~quadcopter();
 
-    void spawn(scenegraph* scenegraph,quad_model);
+    void spawn(SGScenegraph* scenegraph,quad_model);
 
     void variate_height(float step);
     void variate_gyro(const glm::vec3 &gyro_step);
