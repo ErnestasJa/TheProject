@@ -289,6 +289,7 @@
 		<Unit filename="../../src/scenegraph/SGSkyboxObject.cpp" />
 		<Unit filename="../../src/scenegraph/SGSkyboxObject.h" />
 		<Unit filename="../../src/utility/Logger.h" />
+		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.h" />
 		<Unit filename="../../src/utility/logger.cpp" />

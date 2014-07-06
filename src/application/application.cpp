@@ -3,10 +3,11 @@
 #include "Application/Window.h"
 #include "utility/Timer.h"
 #include "utility/Logger.h"
+#include "utility/StringUtil.h"
 
 #include "Application.h"
 
-void Application::OutputVersions()
+void Application::OutputPhysFSVersions()
 {
     PHYSFS_Version compiled;
     PHYSFS_Version linked;
@@ -34,7 +35,6 @@ Application::~Application()
 
 bool Application::Init(const std::string  &title, uint32_t width, uint32_t height)
 {
-
     _appContext->_timer = timer_ptr(new Timer());
 
     if(!PHYSFS_init(_argv[0]))
@@ -43,37 +43,24 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
-    std::string realDir = PHYSFS_getBaseDir();
-
-    std::string dir;
-
-    uint32_t pos = realDir.find_last_of(PHYSFS_getDirSeparator());
-    realDir = realDir.substr(0,pos);
-
-    pos = realDir.find_last_of(PHYSFS_getDirSeparator());
-    realDir = realDir.substr(0,pos);
-
-    pos = realDir.find_last_of(PHYSFS_getDirSeparator());
-    dir = realDir.substr(0,pos);
-
-    dir+=PHYSFS_getDirSeparator();
-
     _appContext->_logger=new Logger(this,0);
-    _appContext->_logger->log(LOG_LOG,"Initializing \"%s\"",title.c_str());
 
-    _appContext->_logger->log(LOG_LOG,"Base Directory: \"%s\"",PHYSFS_getBaseDir());
-    _appContext->_logger->log(LOG_LOG,"Directory: \"%s\"",dir.c_str());
+    OutputPhysFSVersions();
 
-    #ifdef RELEASE_FS
-    PHYSFS_mount(PHYSFS_getBaseDir(),NULL,0);
-    #else
-    PHYSFS_mount(dir.c_str(), NULL, 0);
+    std::string dir = PHYSFS_getBaseDir();
+
+    #ifndef RELEASE_FS
+        dir = util::GetParentDirectory(dir, PHYSFS_getDirSeparator());
+        dir = util::GetParentDirectory(dir, PHYSFS_getDirSeparator());
+        dir+=PHYSFS_getDirSeparator();
     #endif // RELEASE_FS
 
-    std::string combo=PHYSFS_getBaseDir();
-    combo+="res/";
+    PHYSFS_mount(dir.c_str(), NULL, 0);
+    _appContext->_logger->log(LOG_LOG,"Directory: \"%s\"", dir.c_str());
+
+    std::string combo= dir + "res/";
     PHYSFS_mount(combo.c_str(),NULL,0);
-    OutputVersions();
+
 
     _appContext->_window = new Window();
 
@@ -97,7 +84,7 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
     _appContext->_scenegraph = new sg::SGScenegraph(_appContext->_logger, _appContext->_timer);
     _appContext->_graphicsManager = _appContext->_scenegraph->get_graphics_manager();
 
-    _appContext->_logger->log(LOG_CRITICAL,(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+    _appContext->_logger->log(LOG_CRITICAL, "Shading language: %s", (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     if(!_appContext->IsInitialized())
         throw "Failed to initialize app context.";

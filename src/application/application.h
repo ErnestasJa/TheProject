@@ -14,7 +14,7 @@ protected:
 
     int32_t _argc;
     const char ** _argv;
-    virtual void OutputVersions();
+    virtual void OutputPhysFSVersions();
 public:
 
     Application(int32_t argc, const char ** argv);
