@@ -15,7 +15,7 @@ sg_light_object::~sg_light_object()
     //dtor
 }
 
-void sg_light_object::render(SGScenegraph * sg)
+void sg_light_object::Render(SGScenegraph * sg)
 {
 
 }

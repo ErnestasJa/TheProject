@@ -5,11 +5,11 @@
 class quad;
 class shader;
 template <typename T>
-class rect2d;
+class Rect2D;
 
 class gui_static_text;
 class gui_image;
-class gui_button:public gui_element
+class gui_button:public GUIElement
 {
 private:
     std::wstring m_text;
@@ -18,19 +18,19 @@ private:
     bool m_toggled,m_toggle;
     gui_image* m_overlay_image;
 public:
-    gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text=L"text", bool toggle=false, bool toggle_status=false);
+    gui_button(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", bool toggle=false, bool toggle_status=false);
     virtual ~gui_button();
 
     bool is_toggled(){return m_toggled;}
     void set_toggled(bool b){m_toggled=b;}
 
-    void render();
+    void Render();
 
     void set_text(const std::wstring &text);
     void set_image(gui_image *image);
     void remove_image();
 
-    virtual bool on_event(const gui_event & e);
+    virtual bool OnEvent(const GUIEvent & e);
 protected:
 };
 

@@ -27,7 +27,7 @@ struct texture: public gl_object
     };
 
     std::string name;
-    uint32_t type;
+    uint32_t Type;
 
     static uint32_t current, active_slot;
 

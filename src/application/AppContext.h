@@ -35,7 +35,7 @@ struct AppContext
     Window* _window;
     OpenGLUtil * _glUtil;
     sg::sg_graphics_manager_ptr _graphicsManager;
-    gui_environment* _guiEnv;
+    GUIEnvironment* _guiEnv;
     sg::SGScenegraph* _scenegraph;
     physics_manager* _physicsManager;
     sound_manager* _soundManager;

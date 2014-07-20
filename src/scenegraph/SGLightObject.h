@@ -14,7 +14,7 @@ public:
     virtual ~sg_light_object();
 
 public:
-    virtual void            render(SGScenegraph * sg);
+    virtual void            Render(SGScenegraph * sg);
 
     virtual sg_aabb         get_aabb();
     virtual uint32_t        get_type();

@@ -6,9 +6,9 @@
 #include "GUIEditBox.h"
 #include "font_rendering/Font.h"
 
-gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):gui_element(env,dimensions)
+gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):GUIElement(env,dimensions)
 {
-    this->type=GUIET_edit_box;
+    this->Type=GUIET_EDITBOX;
     environment=env;
 
     blinktimer=curspos=lastkey=reptimer=sx=0;
@@ -28,14 +28,14 @@ gui_edit_box::gui_edit_box(gui_environment* env, rect2d<int> dimensions, std::ws
 
     this->clearonsubmit=clearonsubmit;
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_edit_box::~gui_edit_box()
 {
 }
 
-void gui_edit_box::render()
+void gui_edit_box::Render()
 {
     blinktimer++;
 
@@ -58,11 +58,11 @@ void gui_edit_box::render()
     font_renderer* fr=this->environment->get_font_renderer();
 
     // RECT
-    if(this->is_focused())
+    if(this->IsFocused())
     {
         environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_hover);
     }
-    else if(this->is_enabled()==false)
+    else if(this->IsEnabled()==false)
     {
         environment->draw_sliced_gui_quad(absolute_rect,gui_skin_input_disabled);
     }
@@ -73,7 +73,7 @@ void gui_edit_box::render()
 
 
     glEnable(GL_SCISSOR_TEST);
-    glScissor(absolute_rect.x, environment->get_absolute_rect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
+    glScissor(absolute_rect.x, environment->GetAbsoluteRect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
         fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
         if(focused&&blink)
@@ -81,7 +81,7 @@ void gui_edit_box::render()
 
     glDisable(GL_SCISSOR_TEST);
 
-    this->render_children();
+    this->RenderChildren();
 }
 
 void gui_edit_box::set_text(const std::wstring &text)
@@ -90,7 +90,7 @@ void gui_edit_box::set_text(const std::wstring &text)
     curspos=text.length();
 }
 
-bool gui_edit_box::on_event(const gui_event & e)
+bool gui_edit_box::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -122,11 +122,11 @@ bool gui_edit_box::on_event(const gui_event & e)
                 {
                     this->m_text.clear();
                 }
-                this->set_focused(false);
+                this->SetFocused(false);
                 if(this->event_listener)
                 {
-                    GUI_FIRE_EVENT(gui_event(textbox_submit,this,this))
-                    GUI_FIRE_EVENT(gui_event(element_focus_lost,this,this))
+                    GUI_FIRE_EVENT(GUIEvent(textbox_submit,this,this))
+                    GUI_FIRE_EVENT(GUIEvent(element_focus_lost,this,this))
                 }
                 break;
             case GLFW_KEY_BACKSPACE:

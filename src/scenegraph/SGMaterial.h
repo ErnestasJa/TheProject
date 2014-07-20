@@ -15,7 +15,7 @@ class SGScenegraph;
 
 struct sg_material
 {
-    sg_material(shader_ptr mat_shader, uint32_t id = 0);
+    sg_material(shader_ptr mat_shader, uint32_t Id = 0);
     virtual ~sg_material(){}
 
     virtual void set();

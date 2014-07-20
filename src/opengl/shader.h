@@ -4,7 +4,7 @@ struct binding
 {
     std::string name;
     int32_t index;
-    uint32_t type;
+    uint32_t Type;
 };
 
 /**
@@ -14,7 +14,7 @@ struct binding
  * sh->link();
  * if(sh->program) good;
  *
- * ///render
+ * ///Render
  * sh->set();
  **/
 
@@ -90,9 +90,9 @@ struct shader
         }
     }
 
-    static void compile ( GLenum type, uint32_t &obj, const std::string & def, const std::string & tname, const std::string & name, bool msg = true )
+    static void compile ( GLenum Type, uint32_t &obj, const std::string & def, const std::string & tname, const std::string & name, bool msg = true )
     {
-        obj = glCreateShader ( type );
+        obj = glCreateShader ( Type );
         char const * str = def.c_str();
 
         glShaderSource ( obj, 1, &str, nullptr );
@@ -203,19 +203,19 @@ struct shader
         for(int i=0; i<total; ++i)
         {
             int name_len=-1, num=-1;
-            GLenum type = GL_ZERO;
+            GLenum Type = GL_ZERO;
             char name[100];
             glGetActiveUniform( program, GLuint(i), sizeof(name)-1,
-                &name_len, &num, &type, name );
+                &name_len, &num, &Type, name );
             name[name_len] = 0;
             GLuint location = glGetUniformLocation( program, name );
 
             b.index = location;
             b.name = name;
-            b.type = type;
+            b.Type = Type;
             bindings.push_back(b);
 
-            printf ( "Binding index=%i; name='%s'; type=%i;\n",  b.index, b.name.c_str(), b.type);
+            printf ( "Binding index=%i; name='%s'; Type=%i;\n",  b.index, b.name.c_str(), b.Type);
         }
     }
 };

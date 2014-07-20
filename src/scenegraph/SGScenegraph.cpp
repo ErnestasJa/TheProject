@@ -94,13 +94,13 @@ bool SGScenegraph::validate_transforms()
 
         if(!helpers::equals(pos,pos2))
         {
-            _logger->log(LOG_WARN,"{%s}(pos)[%f,%f,%f]!=[%f,%f,%f]",obj->get_name().c_str(),pos.x,pos.y,pos.z,pos2.x,pos2.y,pos2.z);
+            _logger->log(LOG_WARN,"{%s}(pos)[%f,%f,%f]!=[%f,%f,%f]",obj->GetName().c_str(),pos.x,pos.y,pos.z,pos2.x,pos2.y,pos2.z);
             success = false;
         }
 
         if(!helpers::equals(rot,rot2) && !helpers::equals(rot,-1.0f*rot2))
         {
-            _logger->log(LOG_WARN,"{%s}(rot)[%f,%f,%f,%f]!=[%f,%f,%f,%f]",obj->get_name().c_str(),rot.x,rot.y,rot.z,rot.w,rot2.x,rot2.y,rot2.z,rot2.w);
+            _logger->log(LOG_WARN,"{%s}(rot)[%f,%f,%f,%f]!=[%f,%f,%f,%f]",obj->GetName().c_str(),rot.x,rot.y,rot.z,rot.w,rot2.x,rot2.y,rot2.z,rot2.w);
             success = false;
         }
 

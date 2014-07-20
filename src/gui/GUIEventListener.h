@@ -1,9 +1,9 @@
 #pragma once
 #include "GUIEvent.h"
 
-class gui_event_listener
+class GUIEventListener
 {
 public:
-    virtual ~gui_event_listener() {}
-    virtual bool on_event(const gui_event & e)=0;
+    virtual ~GUIEventListener() {}
+    virtual bool OnEvent(const GUIEvent & e)=0;
 };

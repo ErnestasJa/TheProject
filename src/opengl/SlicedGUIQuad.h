@@ -145,7 +145,7 @@ public:
     {
         create_tcoords(tcoords);
 
-        glBindBuffer(GL_ARRAY_BUFFER, glmesh->buffers[1]->id);
+        glBindBuffer(GL_ARRAY_BUFFER, glmesh->buffers[1]->Id);
         glBufferData(GL_ARRAY_BUFFER, 16*sizeof(tex_coords->data[0]), &tex_coords->data[0], GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }

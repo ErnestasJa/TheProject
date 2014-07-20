@@ -1,10 +1,10 @@
 #pragma once
 
 template <typename T>
-class rect2d
+class Rect2D
 {
 public:
-    rect2d()
+    Rect2D()
     {
         this->x=0;
         this->y=0;
@@ -13,7 +13,7 @@ public:
 
         calculate_bounds();
     }
-    rect2d(T x, T y, T w, T h)
+    Rect2D(T x, T y, T w, T h)
     {
         this->x=x;
         this->y=y;
@@ -22,7 +22,7 @@ public:
 
         calculate_bounds();
     }
-    ~rect2d() {};
+    ~Rect2D() {};
     bool is_point_inside(T ox, T oy)
     {
         return ox>this->x&&oy>this->y&&ox<this->x2&&oy<this->y2;
@@ -40,9 +40,9 @@ public:
         calculate_bounds();
     }
 
-    rect2d<T> shrink(T w, T h)
+    Rect2D<T> shrink(T w, T h)
     {
-        rect2d<T> ret=*this;
+        Rect2D<T> ret=*this;
         if(ret.w>0+2*w && ret.y2>0+2*h)
         {
             ret.x+=w;
@@ -55,7 +55,7 @@ public:
         return ret;
     }
 
-    rect2d<T> shrink(T s)
+    Rect2D<T> shrink(T s)
     {
         return shrink(s,s);
     }
@@ -67,7 +67,7 @@ public:
         return std::string(buf);
     }
 
-    void clip(rect2d &other)
+    void clip(Rect2D &other)
     {
         if(x+w>=other.w)
             x=other.w-w;
@@ -80,9 +80,9 @@ public:
         calculate_bounds();
     }
     template <typename B>
-    rect2d<B> as()
+    Rect2D<B> as()
     {
-        return rect2d<B>(x,y,w,h);
+        return Rect2D<B>(x,y,w,h);
     }
 
     T x, y, x2, y2, w, h;

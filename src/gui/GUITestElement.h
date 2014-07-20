@@ -3,7 +3,7 @@
 
 #include "GUIElement.h"
 #include "GUIEnvironment.h"
-class gui_test_element:public gui_element
+class gui_test_element:public GUIElement
 {
 private:
     quad* _pane;
@@ -13,9 +13,9 @@ private:
     glm::vec2 mp,ds,dif;
     bool dragging;
 public:
-    gui_test_element(gui_environment *env, int x, int y, int w, int h):gui_element(env,x,y,w,h)
+    gui_test_element(GUIEnvironment *env, int x, int y, int w, int h):GUIElement(env,x,y,w,h)
     {
-        this->set_parent(env);
+        this->SetParent(env);
 
         this->_pane=new quad();
         _pane->generate();
@@ -24,47 +24,47 @@ public:
     }
     ~gui_test_element()
     {
-        this->environment->remove_child(this);
+        this->environment->RemoveChild(this);
     }
-    void on_event(gui_event e)
+    void OnEvent(GUIEvent e)
     {
         switch(e.get_type())
         {
         case element_focused:
-            this->event_listener->on_event(e);
+            this->event_listener->OnEvent(e);
             break;
         case element_focus_lost:
-            this->event_listener->on_event(e);
+            this->event_listener->OnEvent(e);
             break;
         case element_hovered:
-            this->event_listener->on_event(e);
+            this->event_listener->OnEvent(e);
             break;
         case element_exitted:
-            this->event_listener->on_event(e);
+            this->event_listener->OnEvent(e);
             break;
         case mouse_pressed:
             ds=environment->get_mouse_pos();
             if(dragging==false&&absolute_rect.is_point_inside(ds.x,ds.y))
                 dragging=true;
-            this->event_listener->on_event(gui_event(mouse_pressed,this));
+            this->event_listener->OnEvent(GUIEvent(mouse_pressed,this));
             break;
         case mouse_released:
             if(dragging) dragging=false;
-            this->event_listener->on_event(gui_event(mouse_released,this));
+            this->event_listener->OnEvent(GUIEvent(mouse_released,this));
             break;
         case mouse_dragged:
             mp=environment->get_mouse_pos();
             dif.x=mp.x-ds.x;
             dif.y=mp.y-ds.y;
             this->move(glm::vec2(dif.x,dif.y),true);
-            this->event_listener->on_event(gui_event(mouse_dragged,this));
+            this->event_listener->OnEvent(GUIEvent(mouse_dragged,this));
             break;
         default:
             break;
         }
     }
 
-    void render()
+    void Render()
     {
         this->_transform=glm::mat4(1.0f);
 
@@ -85,7 +85,7 @@ public:
             glBindTexture(GL_TEXTURE_2D,0);
             this->_pane->draw();
         }
-        this->render_children();
+        this->RenderChildren();
     }
 
     void set_material(shader* material)
@@ -104,10 +104,10 @@ public:
         this->relative_rect.y+=delta.y;
         if(clip)
         {
-            rect2d<int> par=parent->get_absolute_rect();
+            Rect2D<int> par=parent->GetAbsoluteRect();
             relative_rect.clip(par);
         }
-        update_absolute_pos();
+        UpdateAbsolutePos();
         ds=environment->get_mouse_pos();
     }
 };

@@ -3,8 +3,6 @@
 #define RELEASE_FS
 
 #include "Application/Application.h"
-#include "tests/GUIAndFontsApplication.h"
-#include "tests/TinyXMLTestApplication.h"
 #include "applications/material_test/MaterialTest.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"

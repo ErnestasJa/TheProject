@@ -35,14 +35,14 @@ uint32_t sg_mesh_object::get_type()
     return SGO_MESH;
 }
 
-void sg_mesh_object::render(SGScenegraph * sg)
+void sg_mesh_object::Render(SGScenegraph * sg)
 {
     for(uint32_t i = 0; i < m_mesh->sub_meshes.size(); i++)
     {
         if(i<this->get_material_count())
         {
             sg->get_render_queue()->set_material(this,m_materials[i]);
-            m_mesh->render(i);
+            m_mesh->Render(i);
         }
     }
 }

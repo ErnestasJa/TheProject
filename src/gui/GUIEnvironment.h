@@ -26,25 +26,25 @@ class Window;
 class gui_skin;
 class Logger;
 
-gui_element * search_elements(gui_element * el, const std::string & name);
+GUIElement * search_elements(GUIElement * el, const std::string & name);
 
-class gui_environment : public gui_element
+class GUIEnvironment : public GUIElement
 {
 public:
-    gui_environment(Window* win, Logger* log);
-    ~gui_environment();
+    GUIEnvironment(Window* win, Logger* log);
+    ~GUIEnvironment();
 
     void update(float delta);
-    void render();
+    void Render();
 
-    virtual bool on_event(const gui_event & e);
-    bool is_on_hover(gui_element *e);
-    bool is_on_focus(gui_element *e);
+    virtual bool OnEvent(const GUIEvent & e);
+    bool is_on_hover(GUIElement *e);
+    bool is_on_focus(GUIElement *e);
 
-    void draw_gui_quad(rect2d<int> size, std::shared_ptr<texture> tex, bool tile=false);
-    void draw_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
-    void draw_sliced_gui_quad(rect2d<int> size, std::shared_ptr<texture> tex, bool tile=false);
-    void draw_sliced_gui_quad(rect2d<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_gui_quad(Rect2D<int> size, std::shared_ptr<texture> tex, bool tile=false);
+    void draw_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<texture> tex, bool tile=false);
+    void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
 
     void set_skin(gui_skin* skin);
 
@@ -73,7 +73,7 @@ public:
     }
 
     template <typename T>
-    rect2d<T> scale_gui_rect(rect2d<T> unscaled)
+    Rect2D<T> scale_gui_rect(Rect2D<T> unscaled)
     {
         T gsx=get_gui_scale().x;
         T gsy=get_gui_scale().y;
@@ -82,7 +82,7 @@ public:
         T sx=unscaled.w/2*gsx;
         T sy=unscaled.h/2*gsy;
 
-        rect2d<T> ret=rect2d<T>(px,py,sx,sy);
+        Rect2D<T> ret=Rect2D<T>(px,py,sx,sy);
 
         return ret;
     }
@@ -91,7 +91,7 @@ public:
 
 
     ///GUI ELEMENTS
-    gui_element * get_element_by_name(const std::string & name);
+    GUIElement * get_element_by_name(const std::string & name);
 
     template<class T> T * get_element_by_name_t(const std::string & name)
     {
@@ -117,7 +117,7 @@ private:
 
     sigc::connection _sig_mouse_move,_sig_mouse_button,_sig_mouse_scroll,_sig_key,_sig_text;
 
-    gui_element *hover, *last_hover, *focus, *last_focus;
+    GUIElement *hover, *last_hover, *focus, *last_focus;
 
     bool m_mouse_down, m_mouse_moved, m_mouse_dragged;
 

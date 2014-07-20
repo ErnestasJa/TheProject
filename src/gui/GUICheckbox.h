@@ -5,11 +5,11 @@
 class quad;
 class shader;
 template <typename T>
-class rect2d;
+class Rect2D;
 
 class gui_static_text;
 
-class gui_checkbox:public gui_element
+class gui_checkbox:public GUIElement
 {
 private:
     std::string cross;
@@ -18,12 +18,12 @@ private:
 
     uint32_t cur_style;
 public:
-    gui_checkbox(gui_environment* env, rect2d<int> dimensions, bool checked);
+    gui_checkbox(GUIEnvironment* env, Rect2D<int> dimensions, bool checked);
     virtual ~gui_checkbox();
 
-    void render();
+    void Render();
 
-    bool on_event(const gui_event & e);
+    bool OnEvent(const GUIEvent & e);
 
     bool is_checked()
     {

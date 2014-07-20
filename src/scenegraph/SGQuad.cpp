@@ -56,10 +56,10 @@ uint32_t sg_quad::get_type()
     return SGO_QUAD;
 }
 
-void sg_quad::render(SGScenegraph * sg)
+void sg_quad::Render(SGScenegraph * sg)
 {
     sg->get_render_queue()->set_material(this,m_material);
-    m_mesh->render(0);
+    m_mesh->Render(0);
 }
 
 bool sg_quad::set_material(uint32_t index, sg_material_ptr material)

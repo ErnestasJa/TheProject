@@ -7,7 +7,7 @@
 #include "Font.h"
 
 
-font_renderer::font_renderer(gui_environment* env)
+font_renderer::font_renderer(GUIEnvironment* env)
 {
     this->m_env=env;
 

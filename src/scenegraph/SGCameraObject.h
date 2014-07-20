@@ -14,7 +14,7 @@ public:
     virtual ~sg_camera_object();
 
     virtual uint32_t get_type();
-    virtual void render(SGScenegraph * sg);
+    virtual void Render(SGScenegraph * sg);
     virtual void on_set_shader_constants(shader_ptr shader);
 
     virtual bool set_material(uint32_t index, sg_material_ptr mat);

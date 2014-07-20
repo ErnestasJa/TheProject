@@ -19,7 +19,7 @@ public:
 
 public:
 
-    virtual void render(SGScenegraph * sg);
+    virtual void Render(SGScenegraph * sg);
 
     virtual uint32_t get_type();
 

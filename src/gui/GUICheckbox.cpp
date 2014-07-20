@@ -9,9 +9,9 @@
 
 #include "GUIStaticText.h"
 
-gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool checked):gui_element(env,dimensions)
+gui_checkbox::gui_checkbox(GUIEnvironment* env, Rect2D<int> dimensions,bool checked):GUIElement(env,dimensions)
 {
-    this->type=GUIET_checkbox;
+    this->Type=GUIET_CHECKBOX;
     cur_style=checked?gui_skin_checkbox_c_active:gui_skin_checkbox_u_active;
 
     environment=env;
@@ -23,14 +23,14 @@ gui_checkbox::gui_checkbox(gui_environment* env, rect2d<int> dimensions,bool che
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_checkbox::~gui_checkbox()
 {
 }
 
-void gui_checkbox::render()
+void gui_checkbox::Render()
 {
     if(enabled&&!hovered)
         cur_style=this->checked?gui_skin_checkbox_c_active:gui_skin_checkbox_u_active;
@@ -40,7 +40,7 @@ void gui_checkbox::render()
     environment->draw_gui_quad(absolute_rect,cur_style);
 }
 
-bool gui_checkbox::on_event(const gui_event & e)
+bool gui_checkbox::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -48,11 +48,11 @@ bool gui_checkbox::on_event(const gui_event & e)
         {
         case gui_event_type::element_hovered:
             cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
-            GUI_FIRE_EVENT(gui_event(element_hovered,this,this))
+            GUI_FIRE_EVENT(GUIEvent(element_hovered,this,this))
             break;
 
         case gui_event_type::element_exitted:
-            GUI_FIRE_EVENT(gui_event(element_exitted,this,this));
+            GUI_FIRE_EVENT(GUIEvent(element_exitted,this,this));
             break;
 
         case gui_event_type::mouse_pressed:
@@ -62,7 +62,7 @@ bool gui_checkbox::on_event(const gui_event & e)
         case gui_event_type::mouse_released:
             checked=!checked;
             cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;
-            GUI_FIRE_EVENT(gui_event(checkbox_state_changed,this,this))
+            GUI_FIRE_EVENT(GUIEvent(checkbox_state_changed,this,this))
             break;
         default:
             break;

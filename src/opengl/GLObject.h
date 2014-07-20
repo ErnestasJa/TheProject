@@ -13,7 +13,7 @@ enum GLO_TYPE
 
 struct gl_object
 {
-    uint32_t id;
+    uint32_t Id;
 
     gl_object();
     virtual ~gl_object();

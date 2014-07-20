@@ -5,23 +5,23 @@
 class quad;
 class shader;
 template <typename T>
-class rect2d;
-class gui_pane:public gui_element
+class Rect2D;
+class gui_pane:public GUIElement
 {
 private:
     bool m_draw;
 public:
-    gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw=true);
+    gui_pane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw=true);
     virtual ~gui_pane();
 
-    void render();
+    void Render();
 
     //this does not do any events
-    void on_event(gui_event e)
+    void OnEvent(GUIEvent e)
     {
         if(this->event_listener)
         {
-            event_listener->on_event(e);
+            event_listener->OnEvent(e);
             return;
 
         }

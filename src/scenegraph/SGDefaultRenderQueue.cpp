@@ -68,12 +68,12 @@ void sg_default_render_queue::render_all()
 
     if(m_skybox)
     {
-        m_skybox->render(m_scenegraph);
+        m_skybox->Render(m_scenegraph);
     }
 
     for(isg_object * obj: m_objects)
     {
-        obj->render(m_scenegraph);
+        obj->Render(m_scenegraph);
     }
 
     post_render();

@@ -5,7 +5,7 @@ uint32_t render_buffer_object::current = 0;
 
 render_buffer_object::render_buffer_object()
 {
-    id=0;
+    Id=0;
 }
 
 render_buffer_object::~render_buffer_object()
@@ -15,10 +15,10 @@ render_buffer_object::~render_buffer_object()
 
 void render_buffer_object::set()
 {
-    if(current!=id)
+    if(current!=Id)
     {
-        current = id;
-        glBindRenderbuffer(GL_RENDERBUFFER,id);
+        current = Id;
+        glBindRenderbuffer(GL_RENDERBUFFER,Id);
     }
 }
 
@@ -30,7 +30,7 @@ void render_buffer_object::unset()
 
 void render_buffer_object::init(uint32_t internal_format, uint32_t w, uint32_t h)
 {
-    glGenRenderbuffers(1, &id);
+    glGenRenderbuffers(1, &Id);
 
     set();
     glRenderbufferStorage(GL_RENDERBUFFER, internal_format, w, h);

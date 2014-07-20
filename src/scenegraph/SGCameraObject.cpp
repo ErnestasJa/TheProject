@@ -39,7 +39,7 @@ uint32_t sg_camera_object::get_type()
     return SGO_CAMERA;
 }
 
-void sg_camera_object::render(SGScenegraph * sg) {};
+void sg_camera_object::Render(SGScenegraph * sg) {};
 void sg_camera_object::on_set_shader_constants(shader_ptr shader) {};
 
 bool sg_camera_object::set_material(uint32_t index, sg_material_ptr mat)

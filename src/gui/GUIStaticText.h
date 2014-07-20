@@ -5,8 +5,8 @@
 class quad;
 class shader;
 template <typename T>
-class rect2d;
-class gui_static_text:public gui_element
+class Rect2D;
+class gui_static_text:public GUIElement
 {
 private:
     std::wstring m_text;
@@ -15,10 +15,10 @@ private:
 
     bool draw_shadow;
 public:
-    gui_static_text(gui_environment* env, rect2d<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
+    gui_static_text(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
     virtual ~gui_static_text();
 
-    void render();
+    void Render();
 
     void set_text(const std::wstring &text);
 
@@ -28,7 +28,7 @@ public:
     }
 
     //this does not do any events
-    virtual bool on_event(const gui_event & e)
+    virtual bool OnEvent(const GUIEvent & e)
     {
         return false;
     }

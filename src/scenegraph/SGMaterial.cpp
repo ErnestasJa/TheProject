@@ -52,7 +52,7 @@ void sg_material::load_and_bind_vars()
 
     for(binding & t: mat_shader->bindings)
     {
-        switch(t.type)
+        switch(t.Type)
         {
         case GL_INT:
         case GL_SAMPLER_2D:

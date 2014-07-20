@@ -40,7 +40,7 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
         isg_object * o = nullptr;
         bool mesh_obj=false;
 
-        if(object->Attribute("type","MESH"))
+        if(object->Attribute("Type","MESH"))
         {
             mesh_obj=true;
             if(tinyxml2::XMLElement * file = object->FirstChildElement("iqm_file"))
@@ -53,20 +53,20 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
                 app_ctx->_scenegraph->add_object(obj);
             }
         }
-        else if(object->Attribute("type","LAMP"))
+        else if(object->Attribute("Type","LAMP"))
         {
 
             sg::sg_light_object_ptr  obj = app_ctx->_scenegraph->add_light_object();
             o = obj.get();
         }
-        else if(object->Attribute("type","CAMERA"))
+        else if(object->Attribute("Type","CAMERA"))
         {
             sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
             o = obj.get();
 
             app_ctx->_scenegraph->add_object(obj);
         }
-        else if(object->Attribute("type","EMPTY"))
+        else if(object->Attribute("Type","EMPTY"))
         {
             printf("ADDED EMPTY OBJ: %s\n",object->Attribute("name"));
             sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->_scenegraph));
@@ -79,7 +79,7 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
             continue;
         }
 
-        o->set_name(object->Attribute("name"));
+        o->SetName(object->Attribute("name"));
 
         if(tinyxml2::XMLElement * pos = object->FirstChildElement("position"))
         {
@@ -108,7 +108,7 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
 
         if(with_physics&&mesh_obj)
         {
-            sg_mesh_object_ptr mo=app_ctx->_scenegraph->get_mesh_obj(o->get_name());
+            sg_mesh_object_ptr mo=app_ctx->_scenegraph->get_mesh_obj(o->GetName());
             if(app_ctx->_physicsManager->create_trimesh_body(mo,physics_manager::glm_to_bt(o->get_scale()))==nullptr)
                 exit(-13337);
         }

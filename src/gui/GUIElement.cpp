@@ -2,13 +2,13 @@
 
 #include "gui/GUIElement.h"
 
-gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
+GUIElement::GUIElement(GUIEnvironment* env,Rect2D<int> dimensions)
 {
-    this->type=GUIET_element;
+    this->Type=GUIET_ELEMENT;
     absolute_rect = dimensions;
     relative_rect = dimensions;
 
-    id=-1;
+    Id=-1;
 
     hovered = false;
     visible = true;
@@ -19,42 +19,42 @@ gui_element::gui_element(gui_environment* env,rect2d<int> dimensions)
     this->parent = nullptr;
     this->event_listener = nullptr;
     this->environment = env;
-    set_name("gui_element_"+helpers::to_str(rand()%65535));
+    SetName("gui_element_"+helpers::to_str(rand()%65535));
 }
 
-gui_element::~gui_element()
+GUIElement::~GUIElement()
 {
-    destroy_children();
+    DestroyChildren();
 }
 
-void gui_element::set_id(uint32_t id)
+void GUIElement::SetId(uint32_t Id)
 {
-    this->id=id;
+    this->Id=Id;
 }
 
-uint32_t gui_element::get_id()
+uint32_t GUIElement::GetId()
 {
-    return this->id;
+    return this->Id;
 }
 
-void gui_element::destroy_children()
+void GUIElement::DestroyChildren()
 {
-    for(gui_element* el:children)
+    for(GUIElement* el:children)
     {
-        el->set_listening(false);
+        el->SetListening(false);
     }
 
     children.clear();
 }
 
-void gui_element::render()
+void GUIElement::Render()
 {
     //will be overriden by everything
 }
 
-void gui_element::add_child(gui_element *e)
+void GUIElement::AddChild(GUIElement *e)
 {
-    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
         return;
 
@@ -63,12 +63,12 @@ void gui_element::add_child(gui_element *e)
     printf("Definitely added a child. I has %d\n",children.size());
     e->relative_rect=e->absolute_rect;
 
-    update_absolute_pos();
+    UpdateAbsolutePos();
 }
 
-void gui_element::remove_child(gui_element *e)
+void GUIElement::RemoveChild(GUIElement *e)
 {
-    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
     {
         e->parent=nullptr;
@@ -78,9 +78,9 @@ void gui_element::remove_child(gui_element *e)
     }
 }
 
-void gui_element::bring_to_front(gui_element *e)
+void GUIElement::BringToFront(GUIElement *e)
 {
-    std::vector<gui_element*>::iterator i=std::find(children.begin(),children.end(),e);
+    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
     {
         i=children.erase(i);
@@ -89,160 +89,160 @@ void gui_element::bring_to_front(gui_element *e)
     }
 }
 
-void gui_element::render_children()
+void GUIElement::RenderChildren()
 {
-    for(gui_element* i : children)
+    for(GUIElement* i : children)
     {
-        if(i->is_visible())
-            i->render();
+        if(i->IsVisible())
+            i->Render();
     }
 }
 
-void gui_element::update_absolute_pos()
+void GUIElement::UpdateAbsolutePos()
 {
     if(this->parent!=nullptr)
         this->absolute_rect=
-            rect2d<int>(parent->absolute_rect.x+relative_rect.x,
+            Rect2D<int>(parent->absolute_rect.x+relative_rect.x,
                         parent->absolute_rect.y+relative_rect.y,
                         this->absolute_rect.w, this->absolute_rect.h);
-    for(gui_element *e : children)
-        e->update_absolute_pos();
+    for(GUIElement *e : children)
+        e->UpdateAbsolutePos();
 }
 
-void gui_element::set_name(std::string name)
+void GUIElement::SetName(std::string name)
 {
     this->name=name;
 }
 
-void gui_element::set_event_listener(gui_event_listener *listener)
+void GUIElement::SetEventListener(GUIEventListener *listener)
 {
     this->event_listener=listener;
 }
 
-gui_event_listener * gui_element::get_event_listener()
+GUIEventListener * GUIElement::GetEventListener()
 {
     return this->event_listener;
 }
 
-bool gui_element::on_event(const gui_event & e)
+bool GUIElement::OnEvent(const GUIEvent & e)
 {
-    if(this->event_listener && this->event_listener->on_event(e))
+    if(this->event_listener && this->event_listener->OnEvent(e))
         return true;
 
-    return parent ? parent->on_event(e) : false;
+    return parent ? parent->OnEvent(e) : false;
 }
 
-void gui_element::set_enabled(bool b)
+void GUIElement::SetEnabled(bool b)
 {
     this->enabled=b;
     if(children.size()>0)
-        for(gui_element *e : children)
-            e->set_enabled(true);
+        for(GUIElement *e : children)
+            e->SetEnabled(true);
 }
 
-void gui_element::set_focused(bool b)
+void GUIElement::SetFocused(bool b)
 {
     this->focused=b;
 }
 
-void gui_element::set_visible(bool b)
+void GUIElement::SetVisible(bool b)
 {
     this->visible=b;
-    for(gui_element* e:children)
-        e->set_visible(b);
+    for(GUIElement* e:children)
+        e->SetVisible(b);
 }
 
-void gui_element::set_hovered(bool b)
+void GUIElement::SetHovered(bool b)
 {
     this->hovered=b;
 }
 
-void gui_element::set_listening(bool b)
+void GUIElement::SetListening(bool b)
 {
     this->accept_events=b;
 }
 
-void gui_element::set_parent(gui_element *e)
+void GUIElement::SetParent(GUIElement *e)
 {
     if(e!=nullptr)
     {
         if(this->parent!=nullptr)
-            this->parent->remove_child(this);
-        e->add_child(this);
+            this->parent->RemoveChild(this);
+        e->AddChild(this);
     }
     else
         return;
 }
 
-bool gui_element::is_enabled()
+bool GUIElement::IsEnabled()
 {
     return this->enabled;
 }
 
-bool gui_element::is_focused()
+bool GUIElement::IsFocused()
 {
     return this->focused;
 }
 
-bool gui_element::is_visible()
+bool GUIElement::IsVisible()
 {
     return this->visible;
 }
 
-bool gui_element::is_hovered()
+bool GUIElement::IsHovered()
 {
     return this->hovered;
 }
 
-bool gui_element::accepts_events()
+bool GUIElement::AcceptsEvents()
 {
     return this->accept_events;
 }
 
-gui_environment *gui_element::get_environment()
+GUIEnvironment *GUIElement::GetEnvironment()
 {
     return this->environment;
 }
 
-gui_element *gui_element::get_parent()
+GUIElement *GUIElement::GetParent()
 {
     return this->parent;
 }
 
-std::vector<gui_element *> & gui_element::get_children()
+std::vector<GUIElement *> & GUIElement::GetChildren()
 {
     return this->children;
 }
 
-std::string gui_element::get_name()
+std::string GUIElement::GetName()
 {
     return this->name;
 }
 
-gui_element *gui_element::get_element_from_point(int x, int y)
+GUIElement *GUIElement::GetElementFromPoint(int x, int y)
 {
-    gui_element *ret=nullptr;
-    std::vector<gui_element*>::reverse_iterator i=children.rbegin();
+    GUIElement *ret=nullptr;
+    std::vector<GUIElement*>::reverse_iterator i=children.rbegin();
     for(; i!=children.rend(); i++)
     {
         if(*i!=nullptr)
         {
-            ret=(*i)->get_element_from_point(x,y);
-            if(ret!=nullptr&&ret->accepts_events())
+            ret=(*i)->GetElementFromPoint(x,y);
+            if(ret!=nullptr&&ret->AcceptsEvents())
                 return ret;
         }
     }
-    if(this->is_visible()&&absolute_rect.is_point_inside(x,y))
+    if(this->IsVisible()&&absolute_rect.is_point_inside(x,y))
         ret=this;
     return ret;
 }
 
-rect2d<int> &gui_element::get_absolute_rect()
+Rect2D<int> &GUIElement::GetAbsoluteRect()
 {
     return absolute_rect;
 }
 
-rect2d<int> &gui_element::get_relative_rect()
+Rect2D<int> &GUIElement::GetRelativeRect()
 {
     return relative_rect;
 }

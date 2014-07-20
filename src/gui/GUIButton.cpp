@@ -13,9 +13,9 @@
 
 #include "GUIImage.h"
 
-gui_button::gui_button(gui_environment* env, rect2d<int> dimensions, std::wstring text,bool toggle,bool toggle_status):gui_element(env,dimensions)
+gui_button::gui_button(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text,bool toggle,bool toggle_status):GUIElement(env,dimensions)
 {
-    this->type=GUIET_button;
+    this->Type=GUIET_BUTTON;
     environment=env;
 
     m_text=text;
@@ -29,14 +29,14 @@ gui_button::gui_button(gui_environment* env, rect2d<int> dimensions, std::wstrin
     m_toggle=toggle;
 
     m_overlay_image=nullptr;
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_button::~gui_button()
 {
 }
 
-void gui_button::render()
+void gui_button::Render()
 {
     if(!enabled)
         cur_col=col_disabled;
@@ -46,7 +46,7 @@ void gui_button::render()
     glm::vec2 dm=this->environment->get_font_renderer()->get_text_dimensions(this->m_text);
     this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+((this->absolute_rect.h-dm.y)/2)),glm::vec4(1),true);
 
-    this->render_children();
+    this->RenderChildren();
 }
 
 void gui_button::set_text(const std::wstring &text)
@@ -63,41 +63,41 @@ void gui_button::set_image(gui_image* img)
     else
     {
         this->m_overlay_image=img;
-        this->add_child(img);
+        this->AddChild(img);
     }
 }
 
 void gui_button::remove_image()
 {
-    this->remove_child(m_overlay_image);
+    this->RemoveChild(m_overlay_image);
     m_overlay_image=nullptr;
 }
 
-bool gui_button::on_event(const gui_event & e)
+bool gui_button::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
     switch(e.get_type())
     {
     case gui_event_type::element_hovered:
         cur_style=gui_skin_button_hover;
-            GUI_FIRE_EVENT(gui_event(element_hovered,this,this))
+            GUI_FIRE_EVENT(GUIEvent(element_hovered,this,this))
         break;
 
     case gui_event_type::element_exitted:
         cur_style=this->enabled?gui_skin_button_active:gui_skin_button_disabled;
-            GUI_FIRE_EVENT(gui_event(element_exitted,this,this))
+            GUI_FIRE_EVENT(GUIEvent(element_exitted,this,this))
         break;
 
     case gui_event_type::mouse_pressed:
         cur_style=gui_skin_button_click;
-            GUI_FIRE_EVENT(gui_event(button_pressed,this,this))
+            GUI_FIRE_EVENT(GUIEvent(button_pressed,this,this))
         break;
 
     case gui_event_type::mouse_released:
         if(m_toggle)
             m_toggled=!m_toggled;
         cur_style=hovered?gui_skin_button_hover:gui_skin_button_active;
-            GUI_FIRE_EVENT(gui_event(button_released,this,this))
+            GUI_FIRE_EVENT(GUIEvent(button_released,this,this))
         break;
 
     default:

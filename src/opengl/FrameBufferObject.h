@@ -25,15 +25,15 @@ struct frame_buffer_object: public gl_object
 
     frame_buffer_object()
     {
-        id = 0;
+        Id = 0;
         enabled_buffer_count = 0;
         target = GL_FRAMEBUFFER;
     }
 
     ~frame_buffer_object()
     {
-        if(id)
-        glDeleteFramebuffers(1,&id);
+        if(Id)
+        glDeleteFramebuffers(1,&Id);
     }
 
     void enable_buffer(uint32_t texture)
@@ -89,13 +89,13 @@ struct frame_buffer_object: public gl_object
 
     bool init()
     {
-        glGenFramebuffers(1,&id);
+        glGenFramebuffers(1,&Id);
         return true;
     }
 
     void set()
     {
-        glBindFramebuffer(target, id);
+        glBindFramebuffer(target, Id);
     }
 
     void set(FBO_TARGET target)
@@ -109,7 +109,7 @@ struct frame_buffer_object: public gl_object
         else
             throw target;
 
-        glBindFramebuffer(this->target, id);
+        glBindFramebuffer(this->target, Id);
     }
 
     void unset()
@@ -122,12 +122,12 @@ struct frame_buffer_object: public gl_object
         if(obj->get_type()==GLO_TEXTURE)
         {
             texture_ptr tex = std::static_pointer_cast<texture>(obj);
-            glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,tex->type,tex->id,level);
+            glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
             render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
-            glFramebufferRenderbuffer(target,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo->id);
+            glFramebufferRenderbuffer(target,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         depth_buffer_binding=obj;
@@ -138,12 +138,12 @@ struct frame_buffer_object: public gl_object
         if(obj->get_type()==GLO_TEXTURE)
         {
             texture_ptr tex = std::static_pointer_cast<texture>(obj);
-            glFramebufferTexture2D(target,GL_STENCIL_ATTACHMENT,tex->type,tex->id,level);
+            glFramebufferTexture2D(target,GL_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
             render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
-            glFramebufferRenderbuffer(target,GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->id);
+            glFramebufferRenderbuffer(target,GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         stencil_buffer_binding=obj;
@@ -154,12 +154,12 @@ struct frame_buffer_object: public gl_object
         if(obj->get_type()==GLO_TEXTURE)
         {
             texture_ptr tex = std::static_pointer_cast<texture>(obj);
-            glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,tex->type,tex->id,level);
+            glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
             render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
-            glFramebufferRenderbuffer(target,GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->id);
+            glFramebufferRenderbuffer(target,GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         depth_stencil_buffer_binding=obj;
@@ -172,12 +172,12 @@ struct frame_buffer_object: public gl_object
             if(obj->get_type()==GLO_TEXTURE)
             {
                 texture_ptr tex = std::static_pointer_cast<texture>(obj);
-                glFramebufferTexture2D(target, attachment_point+GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, level);
+                glFramebufferTexture2D(target, attachment_point+GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->Id, level);
             }
             else if(obj->get_type()==GLO_RENDERBUFFER)
             {
                 render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
-                glFramebufferRenderbuffer(target,attachment_point+GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo->id);
+                glFramebufferRenderbuffer(target,attachment_point+GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo->Id);
             }
 
             color_binding[attachment_point]=obj;

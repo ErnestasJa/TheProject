@@ -27,12 +27,12 @@ const glm::mat4x4 & isg_object::get_absolute_transform()
     return m_absolute_transform;
 }
 
-std::string & isg_object::get_name()
+std::string & isg_object::GetName()
 {
     return m_name;
 }
 
-void isg_object::set_name(const std::string & name)
+void isg_object::SetName(const std::string & name)
 {
     m_name = name;
 }

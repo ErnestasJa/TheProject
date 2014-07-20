@@ -19,7 +19,7 @@ public:
 
     virtual uint32_t get_type();
 
-    virtual void render(SGScenegraph * sg);
+    virtual void Render(SGScenegraph * sg);
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 

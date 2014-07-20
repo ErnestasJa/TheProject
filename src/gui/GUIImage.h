@@ -4,24 +4,24 @@
 
 class texture;
 template <typename T>
-class rect2d;
+class Rect2D;
 
-class gui_image:public gui_element
+class gui_image:public GUIElement
 {
 private:
     std::shared_ptr<texture> m_tex;
 public:
-    gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_ptr<texture> tex);
+    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<texture> tex);
     virtual ~gui_image();
 
-    void render();
+    void Render();
 
     //this does not do any events
-    void on_event(gui_event e)
+    void OnEvent(GUIEvent e)
     {
         if(this->event_listener)
         {
-            event_listener->on_event(e);
+            event_listener->OnEvent(e);
             return;
         }
     }

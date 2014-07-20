@@ -35,14 +35,14 @@ public:
 
     const glm::mat4x4 & get_absolute_transform();
 
-    void set_name(const std::string & name);
-    std::string &   get_name();
+    void SetName(const std::string & name);
+    std::string &   GetName();
     const sg_aabb & get_aabb();
     virtual uint32_t get_type() = 0;
 
 public:
     virtual bool register_for_rendering();
-    virtual void render(SGScenegraph * sg)=0;
+    virtual void Render(SGScenegraph * sg)=0;
     virtual void update(float delta_time);
 
     virtual sg_material_ptr get_material(uint32_t index)=0;

@@ -29,37 +29,37 @@ enum gui_event_type
     textbox_submit
 };
 
-#define GUI_BEGIN_ON_EVENT(e)  if(this->event_listener)  {if(this->event_listener->on_event(e)) return true;}
-#define GUI_END_ON_EVENT(e)    if(this->parent)    {if(this->parent->on_event(e)) return true;} return false;
-#define GUI_FIRE_EVENT(e)  if(this->event_listener) {if(this->event_listener->on_event(e)) return true;} if(this->parent){if(this->parent->on_event(e)) return true;}
-#define GUI_FIRE_ELEMENT_EVENT(el, ev) if((el)->on_event((ev))) return;
+#define GUI_BEGIN_ON_EVENT(e)  if(this->event_listener)  {if(this->event_listener->OnEvent(e)) return true;}
+#define GUI_END_ON_EVENT(e)    if(this->parent)    {if(this->parent->OnEvent(e)) return true;} return false;
+#define GUI_FIRE_EVENT(e)  if(this->event_listener) {if(this->event_listener->OnEvent(e)) return true;} if(this->parent){if(this->parent->OnEvent(e)) return true;}
+#define GUI_FIRE_ELEMENT_EVENT(el, ev) if((el)->OnEvent((ev))) return;
 
-class gui_element;
-struct gui_event
+class GUIElement;
+struct GUIEvent
 {
 public:
-    gui_event(gui_event_type type, gui_element *caller, gui_element * element)
+    GUIEvent(gui_event_type Type, GUIElement *caller, GUIElement * element)
     {
-        this->type=type;
+        this->Type=Type;
         this->caller=caller;
         this->element=element;
     }
 
     gui_event_type get_type() const
     {
-        return this->type;
+        return this->Type;
     }
 
-    gui_element *get_caller() const
+    GUIElement *get_caller() const
     {
         return this->caller;
     }
 
-    gui_element *get_element() const
+    GUIElement *get_element() const
     {
         return this->element;
     }
 private:
-    gui_event_type type;
-    gui_element *caller, *element;
+    gui_event_type Type;
+    GUIElement *caller, *element;
 };

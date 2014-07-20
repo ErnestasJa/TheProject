@@ -3,10 +3,10 @@
 #include "gui/GUIElement.h"
 
 template <typename T>
-class rect2d;
+class Rect2D;
 
 class gui_button;
-class gui_window:public gui_element
+class gui_window:public GUIElement
 {
 private:
     bool clip,showclose,modal,dragging,movable;
@@ -19,13 +19,13 @@ private:
     glm::vec2 mp,dif,ds;
     void move(glm::vec2 delta);
 
-    rect2d<int> tbr,bgr;
+    Rect2D<int> tbr,bgr;
 public:
-    gui_window(gui_environment* env, rect2d<int> dimensions, std::wstring titlebar_text=L"Window", bool clip=true, bool showclose=true, bool modal=false, bool movable=true);
+    gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text=L"Window", bool clip=true, bool showclose=true, bool modal=false, bool movable=true);
     virtual ~gui_window();
 
-    void render();
+    void Render();
 
-    virtual bool on_event(const gui_event & e);
+    virtual bool OnEvent(const GUIEvent & e);
 protected:
 };

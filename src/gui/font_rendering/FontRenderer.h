@@ -3,7 +3,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-class gui_environment;
+class GUIEnvironment;
 class shader;
 struct font;
 
@@ -16,7 +16,7 @@ private:
     FT_Library ft;
     FT_Face ff;
 
-    gui_environment* m_env;
+    GUIEnvironment* m_env;
 
     font* default_font;
     font* current_font;
@@ -30,7 +30,7 @@ private:
     GLuint vao;
     GLuint vbo;
 public:
-    font_renderer(gui_environment* env);
+    font_renderer(GUIEnvironment* env);
 
     ~font_renderer();
 

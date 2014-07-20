@@ -7,9 +7,9 @@
 
 #include "GUIPane.h"
 
-gui_pane::gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw):gui_element(env,dimensions)
+gui_pane::gui_pane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw):GUIElement(env,dimensions)
 {
-    this->type=GUIET_pane;
+    this->Type=GUIET_PANE;
     environment=env;
 
     m_draw=draw;
@@ -17,19 +17,19 @@ gui_pane::gui_pane(gui_environment* env, rect2d<int> dimensions, bool draw):gui_
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_pane::~gui_pane()
 {
 }
 
-void gui_pane::render()
+void gui_pane::Render()
 {
     if(this->m_draw)
     {
         environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background,true);
     }
 
-    this->render_children();
+    this->RenderChildren();
 }

@@ -26,7 +26,7 @@ public:
     texture_ptr load_texture(std::string file);
 
     ///vert_shader, frag_shader should be optional for most materials.
-    sg_material_ptr create_material(const std::string & vert_shader, const std::string & frag_shader, uint32_t id = 0);
+    sg_material_ptr create_material(const std::string & vert_shader, const std::string & frag_shader, uint32_t Id = 0);
 
 public:
     resource_cache<texture> & get_texture_cache();

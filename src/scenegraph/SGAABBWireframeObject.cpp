@@ -61,7 +61,7 @@ uint32_t sg_aabb_wireframe_object::get_type()
     return SGO_AABB_WIREFRAME_OBJECT;
 }
 
-void sg_aabb_wireframe_object::render(SGScenegraph * sg)
+void sg_aabb_wireframe_object::Render(SGScenegraph * sg)
 {
     m_mesh->render_lines();
 }

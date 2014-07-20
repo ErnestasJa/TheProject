@@ -15,7 +15,7 @@ public:
     sg_quad(SGScenegraph * sg);
     virtual ~sg_quad();
 
-    virtual void render(SGScenegraph * sg);
+    virtual void Render(SGScenegraph * sg);
 
     virtual uint32_t get_type();
     virtual bool set_material(uint32_t index, sg_material_ptr material);

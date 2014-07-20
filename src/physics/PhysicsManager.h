@@ -27,7 +27,7 @@ public:
     void update_render(btRigidBody* body);
 
     ///rope rendering is mostly for debug purposes, would need to extend somehow softbody implementation to add custom materials.
-    ///Also should use triangles to render them instead of lines.
+    ///Also should use triangles to Render them instead of lines.
     void render_ropes();
 
     void get_colliding_bodies(btDynamicsWorld *world);

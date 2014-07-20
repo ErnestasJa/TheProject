@@ -65,7 +65,7 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
     {
         iqmvertexarray va=vertexarrays[i];
 
-        switch(va.type)
+        switch(va.Type)
         {
         case IQM_POSITION:
             positions->data.resize(head.num_vertexes);

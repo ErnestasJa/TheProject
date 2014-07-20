@@ -6,9 +6,9 @@
 
 #include "GUIImage.h"
 
-gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_ptr<texture> tex):gui_element(env,dimensions)
+gui_image::gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<texture> tex):GUIElement(env,dimensions)
 {
-    this->type=GUIET_element;
+    this->Type=GUIET_ELEMENT;
     environment=env;
 
     absolute_rect=dimensions;
@@ -17,18 +17,18 @@ gui_image::gui_image(gui_environment* env, rect2d<int> dimensions, std::shared_p
     m_tex=tex;
 
     //it's an image...
-    this->set_listening(false);
+    this->SetListening(false);
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_image::~gui_image()
 {
 }
 
-void gui_image::render()
+void gui_image::Render()
 {
     environment->draw_gui_quad(absolute_rect,m_tex,true);
 
-    this->render_children();
+    this->RenderChildren();
 }

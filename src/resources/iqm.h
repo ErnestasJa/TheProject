@@ -93,7 +93,7 @@ enum
 
 struct iqmvertexarray
 {
-	uint32_t type;
+	uint32_t Type;
 	uint32_t flags;
 	uint32_t format;
 	uint32_t size;

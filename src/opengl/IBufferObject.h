@@ -16,7 +16,7 @@ struct ibuffer_object
         STREAM
     };
 
-    uint32_t id;
+    uint32_t Id;
     uint32_t usage_hint;
     //bool enabled;
 

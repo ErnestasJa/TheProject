@@ -86,7 +86,7 @@ struct gui_skin
         {
             if(e->NoChildren())
             {
-                rects[i]=rect2d<int>(e->IntAttribute("x"),e->IntAttribute("y"),e->IntAttribute("w"),e->IntAttribute("h"));
+                rects[i]=Rect2D<int>(e->IntAttribute("x"),e->IntAttribute("y"),e->IntAttribute("w"),e->IntAttribute("h"));
                 e=e->NextSiblingElement();
                 i++;
                 continue;
@@ -96,7 +96,7 @@ struct gui_skin
                 XMLElement* ce=e->FirstChildElement();
                 while(ce!=nullptr)
                 {
-                    rects[i]=rect2d<int>(ce->IntAttribute("x"),ce->IntAttribute("y"),ce->IntAttribute("w"),ce->IntAttribute("h"));
+                    rects[i]=Rect2D<int>(ce->IntAttribute("x"),ce->IntAttribute("y"),ce->IntAttribute("w"),ce->IntAttribute("h"));
                     ce=ce->NextSiblingElement();
                     i++;
                 }
@@ -124,7 +124,7 @@ struct gui_skin
             return;
     }
 
-    void set_style_element(int32_t style,rect2d<int> atlas_info)
+    void set_style_element(int32_t style,Rect2D<int> atlas_info)
     {
         if(style>gui_skin_style_count||style<0)
             return;
@@ -152,7 +152,7 @@ struct gui_skin
     {
     }
 private:
-    std::vector<rect2d<int> > rects;
+    std::vector<Rect2D<int> > rects;
     std::vector<glm::vec2> uvs;
 
 
@@ -169,7 +169,7 @@ private:
         uint32_t j=4;
         for(int32_t i=1; i<gui_skin_style_count; i++)
         {
-            rect2d<float> ir=rects[i].as<float>();
+            Rect2D<float> ir=rects[i].as<float>();
 
             uvs[j+0]=glm::vec2(ir.x/256.f,ir.y2/256.f);
             uvs[j+1]=glm::vec2(ir.x2/256.f,ir.y2/256.f);

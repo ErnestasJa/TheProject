@@ -19,14 +19,14 @@ struct trigger
     std::string name;
     sg::sg_empty_object_ptr obj;
 
-    int get_id() const
+    int GetId() const
     {
         return atoi(name.substr(name.length()-1).c_str());
     }
 
     bool operator<(const trigger &other) const
     {
-        return get_id()<other.get_id();
+        return GetId()<other.GetId();
     }
 };
 
@@ -90,7 +90,7 @@ public:
     {
         for(sg_object_ptr op:m_objects)
         {
-            if(op->get_name()==name)
+            if(op->GetName()==name)
             {
                 return std::static_pointer_cast<sg_mesh_object>(op);
             }

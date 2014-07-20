@@ -10,9 +10,9 @@
 
 #include "GUISlider.h"
 
-gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, float min, float max, float pos, bool vertical):gui_element(env,dimensions)
+gui_slider::gui_slider(GUIEnvironment* env, Rect2D<int> dimensions, float min, float max, float pos, bool vertical):GUIElement(env,dimensions)
 {
-    this->type=GUIET_slider;
+    this->Type=GUIET_SLIDER;
     environment=env;
 
     absolute_rect=dimensions;
@@ -32,30 +32,30 @@ gui_slider::gui_slider(gui_environment* env, rect2d<int> dimensions, float min, 
     }
     m_vertical=vertical;
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_slider::~gui_slider()
 {
 }
 
-void gui_slider::render()
+void gui_slider::Render()
 {
     if(m_vertical)
     {
-        environment->draw_sliced_gui_quad(rect2d<int>(absolute_rect.x+absolute_rect.w/4,absolute_rect.y,absolute_rect.w/2,absolute_rect.h),gui_skin_progress_h_bg,true);
-        environment->draw_gui_quad(rect2d<int>(absolute_rect.x,absolute_rect.y+m_slider_pos-6,absolute_rect.w,12),gui_skin_progress_h_bar,true);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+absolute_rect.w/4,absolute_rect.y,absolute_rect.w/2,absolute_rect.h),gui_skin_progress_h_bg,true);
+        environment->draw_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+m_slider_pos-6,absolute_rect.w,12),gui_skin_progress_h_bar,true);
     }
     else
     {
-        environment->draw_sliced_gui_quad(rect2d<int>(absolute_rect.x,absolute_rect.y+absolute_rect.h/4,absolute_rect.w,absolute_rect.h/2),gui_skin_scroll_h_bg,true);
-        environment->draw_sliced_gui_quad(rect2d<int>(absolute_rect.x+m_slider_pos-6,absolute_rect.y,12,absolute_rect.h),gui_skin_scroll_h_bar,true);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+absolute_rect.h/4,absolute_rect.w,absolute_rect.h/2),gui_skin_scroll_h_bg,true);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+m_slider_pos-6,absolute_rect.y,12,absolute_rect.h),gui_skin_scroll_h_bar,true);
     }
 
-    this->render_children();
+    this->RenderChildren();
 }
 
-bool gui_slider::on_event(const gui_event & e)
+bool gui_slider::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -66,7 +66,7 @@ bool gui_slider::on_event(const gui_event & e)
 
         if(m_cur_value!=m_old_value)
         {
-            GUI_FIRE_EVENT(gui_event(scrollbar_changed,this,this))
+            GUI_FIRE_EVENT(GUIEvent(scrollbar_changed,this,this))
             m_old_value=m_cur_value;
         }
 
@@ -76,7 +76,7 @@ bool gui_slider::on_event(const gui_event & e)
 
         if(m_cur_value!=m_old_value)
         {
-            GUI_FIRE_EVENT(gui_event(scrollbar_changed,this,this))
+            GUI_FIRE_EVENT(GUIEvent(scrollbar_changed,this,this))
             m_old_value=m_cur_value;
         }
         break;

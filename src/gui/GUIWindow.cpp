@@ -10,9 +10,9 @@
 #include "GUIPane.h"
 #include "GUIButton.h"
 
-gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal, bool movable):gui_element(env,dimensions)
+gui_window::gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal, bool movable):GUIElement(env,dimensions)
 {
-    this->type=GUIET_window;
+    this->Type=GUIET_WINDOW;
     environment=env;
 
     this->titlebar_text=titlebar_text;
@@ -27,28 +27,28 @@ gui_window::gui_window(gui_environment* env, rect2d<int> dimensions, std::wstrin
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
 
-    tbr=rect2d<int>(absolute_rect);
+    tbr=Rect2D<int>(absolute_rect);
     tbr.resize(tbr.w,20);
     printf("TBR: %s\n",tbr.to_string().c_str());
-    bgr=rect2d<int>(absolute_rect);
+    bgr=Rect2D<int>(absolute_rect);
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);
 
     if(showclose)
     {
-        close_btn=new gui_button(env,rect2d<int>(tbr.w-18,2,16,16),L"X");
-        close_btn->set_parent(this);
-        close_btn->set_event_listener(this);
+        close_btn=new gui_button(env,Rect2D<int>(tbr.w-18,2,16,16),L"X");
+        close_btn->SetParent(this);
+        close_btn->SetEventListener(this);
     }
 
-    this->set_parent(env);
+    this->SetParent(env);
 }
 
 gui_window::~gui_window()
 {
 }
 
-void gui_window::render()
+void gui_window::Render()
 {
     glBindTexture(GL_TEXTURE_2D,0);
 
@@ -57,13 +57,13 @@ void gui_window::render()
     environment->get_font_renderer()->render_string(titlebar_text,glm::vec2(tbr.x+6,tbr.y+6),glm::vec4(0,0,0,1),false);
 
     this->absolute_rect.move(0,20);
-    update_absolute_pos();
-    this->render_children();
+    UpdateAbsolutePos();
+    this->RenderChildren();
     this->absolute_rect.move(0,-20);
-    update_absolute_pos();
+    UpdateAbsolutePos();
 }
 
-bool gui_window::on_event(const gui_event & e)
+bool gui_window::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -96,8 +96,8 @@ bool gui_window::on_event(const gui_event & e)
     case button_released:
         if(e.get_caller()==this->close_btn)
         {
-            this->set_visible(false);
-            GUI_FIRE_EVENT(gui_event(window_closed,this,this))
+            this->SetVisible(false);
+            GUI_FIRE_EVENT(GUIEvent(window_closed,this,this))
         }
 
         break;
@@ -114,13 +114,13 @@ void gui_window::move(glm::vec2 delta)
     this->relative_rect.y+=delta.y;
     if(this->clip)
     {
-        rect2d<int> par=parent->get_absolute_rect();
+        Rect2D<int> par=parent->GetAbsoluteRect();
         relative_rect.clip(par);
     }
-    update_absolute_pos();
-    tbr=rect2d<int>(absolute_rect);
+    UpdateAbsolutePos();
+    tbr=Rect2D<int>(absolute_rect);
     tbr.resize(tbr.w,20);
-    bgr=rect2d<int>(absolute_rect);
+    bgr=Rect2D<int>(absolute_rect);
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);
     ds=environment->get_mouse_pos();
