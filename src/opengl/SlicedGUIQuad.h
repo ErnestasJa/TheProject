@@ -60,7 +60,7 @@ public:
     buffer_object<glm::vec2> *tex_coords;
     index_buffer_object<uint32_t> *indices;
 
-    std::shared_ptr<mesh> glmesh;
+    std::shared_ptr<Mesh> glmesh;
 
     static shader quad_shader_textured;
 
@@ -111,7 +111,7 @@ public:
 
     virtual bool generate()
     {
-        glmesh = share(new mesh());
+        glmesh = share(new Mesh());
         create_verts();
         std::vector<glm::vec2> defuv;
         defuv.push_back(glm::vec2(0,1));
@@ -127,7 +127,7 @@ public:
         glmesh->buffers[2]=indices;
 
 
-        glmesh->init();
+        glmesh->Init();
         return true;
     }
 

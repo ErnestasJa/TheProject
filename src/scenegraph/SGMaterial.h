@@ -23,14 +23,14 @@ struct sg_material
     template <class T> void bind_var(sg_mvar<T> & mvar);
     void load_and_bind_vars();
 
-    virtual texture_ptr get_texture(uint32_t index);
+    virtual Texture_ptr get_texture(uint32_t index);
     virtual int32_t     get_int(const std::string & name);
     virtual float       get_float(const std::string & name);
     virtual glm::vec3   get_vec3f(const std::string & name);
     virtual glm::mat4   get_mat4(const std::string & name);
     virtual glm::mat3   get_mat3(const std::string & name);
 
-    virtual void        set_texture(uint32_t value, texture_ptr tex);
+    virtual void        set_texture(uint32_t value, Texture_ptr tex);
     virtual void        set_int(const std::string & name, int32_t value);
     virtual void        set_float(const std::string & name, float value);
     virtual void        set_vec3f(const std::string & name, glm::vec3 value);
@@ -38,7 +38,7 @@ struct sg_material
     virtual void        set_mat3(const std::string & name, glm::mat3 value);
 
     ///-------------------------
-    std::vector< texture_ptr >          textures;
+    std::vector< Texture_ptr >          textures;
     std::vector< sg_mvar<int32_t> >     int_attr;
     std::vector< sg_mvar<float> >       float_attr;
     std::vector< sg_mvar<glm::vec3> >   vec3f_attr;

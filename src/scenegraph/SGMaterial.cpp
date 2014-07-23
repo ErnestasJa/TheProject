@@ -74,12 +74,12 @@ void sg_material::load_and_bind_vars()
     }
 }
 
-texture_ptr sg_material::get_texture(uint32_t index)
+Texture_ptr sg_material::get_texture(uint32_t index)
 {
     if(index<textures.size())
         return textures[index];
 
-    return texture_ptr();
+    return Texture_ptr();
 }
 
 #define get_attr(x,y) for(x attr: y) {if(attr.name==name) return attr.value;} return x().value
@@ -113,7 +113,7 @@ glm::mat3 sg_material::get_mat3(const std::string & name)
 #define set_attr(x,y) for(x & attr: y) {if(attr.name==name) { attr.value = value; return;}} assert(false);
 //#define set_attr(x,y) for(x attr: y) {if(attr.name==name) { attr.value = value; attr.set(mat_shader->get_binding(name).index);}}
 
-void sg_material::set_texture(uint32_t index, texture_ptr tex)
+void sg_material::set_texture(uint32_t index, Texture_ptr tex)
 {
     if(index<8)
         textures[index]=tex;

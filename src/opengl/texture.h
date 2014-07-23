@@ -49,4 +49,4 @@ struct texture: public gl_object
     virtual GLO_TYPE get_type();
 };
 
-typedef std::shared_ptr<texture> texture_ptr;
+typedef std::shared_ptr<texture> Texture_ptr;

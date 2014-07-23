@@ -18,7 +18,6 @@ public:
         m_obj = obj;
         m_trans = trans;
 
-
         btQuaternion quat = trans.getRotation();
         btVector3 pos = trans.getOrigin();
 

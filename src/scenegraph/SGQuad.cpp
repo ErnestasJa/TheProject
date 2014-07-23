@@ -9,13 +9,13 @@ namespace sg
 
 sg_quad::sg_quad(SGScenegraph * sg): isg_object(sg)
 {
-    m_aabb = sg_aabb(glm::vec3(-0.5,-0.5,-0.5),glm::vec3(0.5,0.5,0.5));
+    m_aabb = AABB(glm::vec3(-0.5,-0.5,-0.5),glm::vec3(0.5,0.5,0.5));
 
     buffer_object<glm::vec3> * pos;
     buffer_object<glm::vec2> * tex_coords;
     index_buffer_object<uint32_t> * indices;
 
-    m_mesh = share(new mesh());
+    m_mesh = share(new Mesh());
     pos = new buffer_object<glm::vec3>();
     pos->data.resize(4);
     pos->data[0]=glm::vec3(-1,-1,0);
@@ -40,10 +40,10 @@ sg_quad::sg_quad(SGScenegraph * sg): isg_object(sg)
     indices->data[4]=1;
     indices->data[5]=2;
 
-    m_mesh->buffers[mesh::BUFFER_OBJECT_INDEX::POSITION] = pos;
-    m_mesh->buffers[mesh::BUFFER_OBJECT_INDEX::TEXCOORD] = tex_coords;
-    m_mesh->buffers[mesh::BUFFER_OBJECT_INDEX::INDICES]  = indices;
-    m_mesh->init();
+    m_mesh->buffers[Mesh::BUFFER_OBJECT_INDEX::POSITION] = pos;
+    m_mesh->buffers[Mesh::BUFFER_OBJECT_INDEX::TEXCOORD] = tex_coords;
+    m_mesh->buffers[Mesh::BUFFER_OBJECT_INDEX::INDICES]  = indices;
+    m_mesh->Init();
 }
 
 sg_quad::~sg_quad()
@@ -88,7 +88,7 @@ uint32_t sg_quad::get_material_count()
     return 1;
 }
 
-sg_aabb sg_quad::get_aabb()
+AABB sg_quad::get_aabb()
 {
     return m_aabb;
 }

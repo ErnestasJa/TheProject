@@ -160,7 +160,7 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
 
     const uint16_t *p;
 
-	/* Use the texture containing the atlas */
+	/* Use the Texture containing the atlas */
 	GL_CHECK(glBindTexture(GL_TEXTURE_2D, current_font->tex));
 
     glBindVertexArray(vao);
@@ -177,7 +177,7 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
 
 	/* Loop through all characters */
 	for (p = (const uint16_t *)text.c_str(); *p; p++) {
-		/* Calculate the vertex and texture coordinates */
+		/* Calculate the vertex and Texture coordinates */
 		float x2 = pos.x + a->c[*p].bl * sx;
 		float y2 = -pos.y - a->c[*p].bt * sy;
 		float w = a->c[*p].bw * sx;

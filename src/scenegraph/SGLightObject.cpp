@@ -20,7 +20,7 @@ void sg_light_object::Render(SGScenegraph * sg)
 
 }
 
-sg_aabb sg_light_object::get_aabb()
+AABB sg_light_object::get_aabb()
 {
     return m_aabb;
 }

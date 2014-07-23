@@ -6,6 +6,7 @@ protected:
     uint32_t start_time;
     uint32_t time;
     uint32_t real_time;
+    uint32_t last_time;
 
     void update_real_time();
 
@@ -17,6 +18,7 @@ public:
 
     uint32_t get_time();
     uint32_t get_start_time();
+    uint32_t get_delta_time();
     void set_time(uint32_t time);
 
     uint32_t get_real_time();

@@ -13,12 +13,12 @@ namespace sg
 sg_aabb_wireframe_object::sg_aabb_wireframe_object(SGScenegraph * sg, sg_mesh_object_ptr mobj): isg_object(sg)
 {
     m_obj = mobj;
-    m_mesh = mesh_ptr(new mesh());
-    m_mesh->buffers[mesh::POSITION] = new buffer_object<glm::vec3>();
-    m_mesh->buffers[mesh::INDICES] = new index_buffer_object<uint32_t>();
+    m_mesh = MeshPtr(new Mesh());
+    m_mesh->buffers[Mesh::POSITION] = new buffer_object<glm::vec3>();
+    m_mesh->buffers[Mesh::INDICES] = new index_buffer_object<uint32_t>();
 
-    buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[mesh::POSITION]);
-    index_buffer_object<uint32_t> * ibo = static_cast<index_buffer_object<uint32_t> *>(m_mesh->buffers[mesh::INDICES]);
+    buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[Mesh::POSITION]);
+    index_buffer_object<uint32_t> * ibo = static_cast<index_buffer_object<uint32_t> *>(m_mesh->buffers[Mesh::INDICES]);
 
     glm::vec3 minp = m_obj->get_aabb().get_min();
     glm::vec3 maxp = m_obj->get_aabb().get_max();
@@ -48,7 +48,7 @@ sg_aabb_wireframe_object::sg_aabb_wireframe_object(SGScenegraph * sg, sg_mesh_ob
     ibo->data.push_back(6); ibo->data.push_back(2);
     ibo->data.push_back(7); ibo->data.push_back(3);
 
-    m_mesh->init();
+    m_mesh->Init();
 }
 
 sg_aabb_wireframe_object::~sg_aabb_wireframe_object()

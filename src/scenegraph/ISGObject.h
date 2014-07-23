@@ -3,7 +3,7 @@
 
 #include "SGObjectTypes.h"
 #include "SGMaterial.h"
-#include "SGAABB.h"
+#include "opengl/AABB.h"
 
 namespace sg
 {
@@ -37,7 +37,7 @@ public:
 
     void SetName(const std::string & name);
     std::string &   GetName();
-    const sg_aabb & get_aabb();
+    AABB get_aabb();
     virtual uint32_t get_type() = 0;
 
 public:
@@ -59,9 +59,10 @@ protected:
                     m_scale;
     glm::quat       m_rotation;
     glm::mat4x4     m_absolute_transform;
-    sg_aabb         m_aabb;
-
     std::string m_name;
+
+private:
+    AABB            p_aabb;
 };
 
 }

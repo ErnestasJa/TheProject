@@ -3,21 +3,23 @@
 #include "SGScenegraph.h"
 #include "SGEmptyObject.h"
 #include "application/AppContext.h"
+#include "physics/MotionState.h"
 
 namespace sg
 {
 
-sg_sg_scenegraph_loader::sg_sg_scenegraph_loader()
+ScenegraphLoader::ScenegraphLoader()
 {
     //ctor
 }
 
-sg_sg_scenegraph_loader::~sg_sg_scenegraph_loader()
+ScenegraphLoader::~ScenegraphLoader()
 {
     //dtor
 }
 
-bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string & filename,bool with_physics)
+void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, tinyxml2::XMLElement * el);
+bool ScenegraphLoader::LoadScene(AppContext * app_ctx, const std::string & filename,bool with_physics)
 {
     std::string scene_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "scene_path =" << scene_path.c_str() << std::endl;
@@ -35,19 +37,21 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
     tinyxml2::XMLElement * scene = doc.FirstChildElement("scene");
     tinyxml2::XMLElement * object = scene->FirstChildElement("object");
 
+    std::string collisionShapeType = "NULL";
+    sg_object_ptr sgobj;
+
     while(object)
     {
         isg_object * o = nullptr;
-        bool mesh_obj=false;
 
         if(object->Attribute("Type","MESH"))
         {
-            mesh_obj=true;
             if(tinyxml2::XMLElement * file = object->FirstChildElement("iqm_file"))
             {
                 std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
 
                 sg::sg_mesh_object_ptr  obj = app_ctx->_scenegraph->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
+                sgobj = obj;
                 o = obj.get();
 
                 app_ctx->_scenegraph->add_object(obj);
@@ -106,17 +110,81 @@ bool sg_sg_scenegraph_loader::load_scene(AppContext * app_ctx, const std::string
         else
             throw "nope.avi";
 
-        if(with_physics&&mesh_obj)
-        {
-            sg_mesh_object_ptr mo=app_ctx->_scenegraph->get_mesh_obj(o->GetName());
-            if(app_ctx->_physicsManager->create_trimesh_body(mo,physics_manager::glm_to_bt(o->get_scale()))==nullptr)
-                exit(-13337);
-        }
-
+        if(with_physics && sgobj->get_type() == SGO_MESH)
+            load_physics_for(app_ctx, sgobj,object);
         object = object->NextSiblingElement();
     }
 
     return true;
 }
 
+void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, tinyxml2::XMLElement * el)
+{
+    if(obj)
+    {
+        tinyxml2::XMLElement * e = el->FirstChildElement("game");
+        if(!e) return;
+        e = e->FirstChildElement();
+        if(!e) return;
+
+        PhysicsManager * pmgr = app_ctx->_physicsManager;
+
+        std::string collisionShapeType = "NULL";
+        std::string physicsType = "STATIC";
+        btCollisionShape * collisionShape = nullptr;
+        btVector3 localInertia;
+        float radius=1.0f;
+        float mass=1.0f;
+
+        while(e)
+        {
+            if(strcmp(e->Name(), "mass")==0)
+                mass = e->FloatAttribute("value");
+            else if(strcmp(e->Name(), "collision_bounds_type")==0)
+                collisionShapeType = e->Attribute("value");
+            else if(strcmp(e->Name(), "physics_type")==0)
+                physicsType = e->Attribute("value");
+            else if(strcmp(e->Name(), "radius")==0)
+                radius = e->FloatAttribute("value");
+
+            e = e->NextSiblingElement();
+        }
+
+        if(collisionShapeType == "SPHERE")
+            collisionShape = pmgr->createSphereShape(radius);
+        else if(collisionShapeType == "BOX")
+        {
+            btVector3 extents(1.0f, 1.0f, 1.0f);
+            AABB aabb = obj->get_aabb();
+            collisionShape = pmgr->createBoxShape(PhysicsManager::glm_to_bt(aabb.get_extent()));
+        }
+        else if(collisionShapeType == "TRIANGLE_MESH")
+        {
+            if(obj->get_type()==SGO_MESH)
+                collisionShape = pmgr->createTrimeshShape(static_cast<sg_mesh_object*>(obj.get())->get_mesh());
+        }
+        else if(collisionShapeType == "CONVEX_HULL")
+        {
+            throw "CONVEX_HULL shape type not supported";
+        }
+        else
+            throw collisionShapeType;
+
+        if(collisionShape)
+        {
+            btTransform transform;
+            transform.setOrigin(PhysicsManager::glm_to_bt(obj->get_position()));
+            transform.setRotation(PhysicsManager::quat_glm_to_bt(obj->get_rotation()));
+
+            if(physicsType == "STATIC")
+                mass = 0;
+            else
+                collisionShape->calculateLocalInertia(mass, localInertia);
+
+            btRigidBody *rb = pmgr->createRigidBody(btRigidBody::btRigidBodyConstructionInfo(mass, new cmotion_state(transform, obj), collisionShape, localInertia));
+            pmgr->addRigidBodyToWorld(rb);
+        }
+
+    }
+}
 }

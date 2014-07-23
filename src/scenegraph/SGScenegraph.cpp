@@ -202,7 +202,7 @@ void SGScenegraph::post_render()
 sg::sg_mesh_object_ptr SGScenegraph::load_mesh_object(std::string file, bool load_textures)
 {
     sg::sg_mesh_object_ptr ret;
-    mesh_ptr pmesh;
+    MeshPtr pmesh;
 
     pmesh = _graphicsManager->get_mesh_loader()->load(file);
 
@@ -226,13 +226,13 @@ sg::sg_mesh_object_ptr SGScenegraph::load_mesh_object(std::string file, bool loa
             _logger->log(LOG_LOG, "mat_name =%s", mat_name.c_str());
             _logger->log(LOG_LOG, "image_path =%s", image_path.c_str());
 
-            if(load_textures)
+                if(load_textures)
             {
                 sg::sg_material_ptr mat = ret->get_material(i);
 
                 if(image_path.length()!=0)
                 {
-                    auto tex = _graphicsManager->load_texture(texture_path + "/" + image_path);
+                    auto tex = _graphicsManager->load_texture(texture_path +  "textures/" + image_path);
 
                     if(tex)
                         mat->set_texture(0,tex);
@@ -248,7 +248,7 @@ sg::sg_mesh_object_ptr SGScenegraph::load_mesh_object(std::string file, bool loa
 sg::sg_skybox_object_ptr SGScenegraph::load_skybox(std::string file, bool load_textures)
 {
     sg::sg_skybox_object_ptr ret;
-    mesh_ptr pmesh;
+    MeshPtr pmesh;
 
     pmesh = _graphicsManager->get_mesh_loader()->load(file);
 

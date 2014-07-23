@@ -1,0 +1,1904 @@
+<?xml version="1.0" ?>
+<scene>
+  <object name="Cube.028" type="MESH">
+    <position x="0.37164556980133057" y="140.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.027" type="MESH">
+    <position x="0.37164556980133057" y="135.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.026" type="MESH">
+    <position x="0.37164556980133057" y="130.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.025" type="MESH">
+    <position x="0.37164556980133057" y="125.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.024" type="MESH">
+    <position x="0.37164556980133057" y="120.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.023" type="MESH">
+    <position x="0.37164556980133057" y="115.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.022" type="MESH">
+    <position x="0.37164556980133057" y="110.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.021" type="MESH">
+    <position x="0.37164556980133057" y="105.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.020" type="MESH">
+    <position x="0.37164556980133057" y="100.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.019" type="MESH">
+    <position x="0.37164556980133057" y="95.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.018" type="MESH">
+    <position x="0.37164556980133057" y="90.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.017" type="MESH">
+    <position x="0.37164556980133057" y="85.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.016" type="MESH">
+    <position x="0.37164556980133057" y="80.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.015" type="MESH">
+    <position x="0.37164556980133057" y="75.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.014" type="MESH">
+    <position x="0.37164556980133057" y="70.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.013" type="MESH">
+    <position x="0.37164556980133057" y="65.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.012" type="MESH">
+    <position x="0.37164556980133057" y="60.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.011" type="MESH">
+    <position x="0.37164556980133057" y="55.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.010" type="MESH">
+    <position x="0.37164556980133057" y="50.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.009" type="MESH">
+    <position x="0.37164556980133057" y="45.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.008" type="MESH">
+    <position x="0.37164556980133057" y="40.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.007" type="MESH">
+    <position x="0.37164556980133057" y="35.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.006" type="MESH">
+    <position x="0.37164556980133057" y="30.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.005" type="MESH">
+    <position x="0.37164556980133057" y="25.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.004" type="MESH">
+    <position x="0.37164556980133057" y="20.5828857421875" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.003" type="MESH">
+    <position x="0.37164556980133057" y="15.582886695861816" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.000" type="MESH">
+    <position x="0.37164556980133057" y="10.582886695861816" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Sphere" type="MESH">
+    <position x="0.0" y="2.2435476779937744" z="0.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+    <iqm_file name="Sphere.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="SPHERE"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.03999999910593033"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.03999999910593033"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="1.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.10000000149011612"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.002" type="MESH">
+    <position x="-5.0" y="1.0" z="-4.0"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+    <iqm_file name="Cube.002.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="STATIC"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="False"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="False"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Cube.001" type="MESH">
+    <position x="0.37164556980133057" y="5.582886695861816" z="-0.22915518283843994"/>
+    <rotation x="-1.230134" y="0.057501" z="0.176312"/>
+    <scale x="0.9999988079071045" y="0.9999995231628418" z="0.9999995827674866"/>
+    <iqm_file name="Cube.001.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="BOX"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.05999999865889549"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.02539999969303608"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="0.0"/>
+      <physics_type value="RIGID_BODY"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.1589999943971634"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="True"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Plane" type="MESH">
+    <position x="-0.00028776004910469055" y="-0.8125967979431152" z="3.9802107494324446e-06"/>
+    <rotation x="-1.570796" y="0.000000" z="0.000000"/>
+    <scale x="1.0" y="1.0" z="1.0"/>
+    <iqm_file name="Plane.iqm"/>
+    <game>
+      <__doc__ value="None"/>
+      <__module__ value="bpy.types"/>
+      <__slots__ value="()"/>
+      <actuators value="&lt;bpy_collection[0], GameObjectSettings.actuators&gt;"/>
+      <bl_rna value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <collision_bounds_type value="TRIANGLE_MESH"/>
+      <collision_group value="&lt;bpy_boolean[8], GameObjectSettings.collision_group&gt;"/>
+      <collision_margin value="0.03999999910593033"/>
+      <collision_mask value="&lt;bpy_boolean[8], GameObjectSettings.collision_mask&gt;"/>
+      <controllers value="&lt;bpy_collection[0], GameObjectSettings.controllers&gt;"/>
+      <damping value="0.03999999910593033"/>
+      <fall_speed value="55.0"/>
+      <form_factor value="0.4000000059604645"/>
+      <friction_coefficients value="&lt;bpy_float[3], GameObjectSettings.friction_coefficients&gt;"/>
+      <jump_speed value="10.0"/>
+      <lock_location_x value="False"/>
+      <lock_location_y value="False"/>
+      <lock_location_z value="False"/>
+      <lock_rotation_x value="False"/>
+      <lock_rotation_y value="False"/>
+      <lock_rotation_z value="False"/>
+      <mass value="1.0"/>
+      <obstacle_radius value="1.0"/>
+      <physics_type value="STATIC"/>
+      <properties value="&lt;bpy_collection[0], GameObjectSettings.properties&gt;"/>
+      <radius value="1.0"/>
+      <rna_type value="&lt;bpy_struct, Struct(&quot;GameObjectSettings&quot;)&gt;"/>
+      <rotation_damping value="0.10000000149011612"/>
+      <sensors value="&lt;bpy_collection[0], GameObjectSettings.sensors&gt;"/>
+      <show_actuators value="False"/>
+      <show_controllers value="False"/>
+      <show_debug_state value="False"/>
+      <show_sensors value="False"/>
+      <show_state_panel value="False"/>
+      <soft_body value="None"/>
+      <states_initial value="&lt;bpy_boolean[30], GameObjectSettings.states_initial&gt;"/>
+      <states_visible value="&lt;bpy_boolean[30], GameObjectSettings.states_visible&gt;"/>
+      <step_height value="0.15000000596046448"/>
+      <use_activity_culling value="True"/>
+      <use_actor value="False"/>
+      <use_all_states value="False"/>
+      <use_anisotropic_friction value="False"/>
+      <use_collision_bounds value="True"/>
+      <use_collision_compound value="False"/>
+      <use_ghost value="False"/>
+      <use_material_physics_fh value="False"/>
+      <use_obstacle_create value="False"/>
+      <use_record_animation value="False"/>
+      <use_rotate_from_normal value="False"/>
+      <use_sleep value="False"/>
+      <used_states value="&lt;bpy_boolean[30], GameObjectSettings.used_states&gt;"/>
+      <velocity_max value="0.0"/>
+      <velocity_min value="0.0"/>
+    </game>
+  </object>
+  <object name="Lamp" type="LAMP">
+    <position x="4.076245307922363" y="5.903861999511719" z="-1.0054539442062378"/>
+    <rotation x="-0.741179" y="1.871356" z="0.187512"/>
+    <scale x="0.9999995827674866" y="1.0000003576278687" z="1.0000019073486328"/>
+  </object>
+  <object name="Camera" type="CAMERA">
+    <position x="12.380011558532715" y="5.34366512298584" z="11.95850658416748"/>
+    <rotation x="-0.248397" y="0.696177" z="0.028184"/>
+    <scale x="0.9999997615814209" y="1.0" z="1.0"/>
+  </object>
+</scene>

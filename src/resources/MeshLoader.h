@@ -5,14 +5,14 @@
 #include "ResourceCache.h"
 
 class Logger;
-class mesh_loader: public resource_cache<mesh>
+class mesh_loader: public resource_cache<Mesh>
 {
 public:
     mesh_loader(Logger * l);
     virtual ~mesh_loader();
 
     virtual void add_loader(imesh_loader * loader);
-    virtual mesh_ptr load(const std::string & file);
+    virtual MeshPtr load(const std::string & file);
 
 protected:
     Logger * _logger;

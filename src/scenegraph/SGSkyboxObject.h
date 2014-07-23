@@ -3,8 +3,8 @@
 
 #include "ISGObject.h"
 
-class mesh;
-typedef std::shared_ptr<mesh> mesh_ptr;
+class Mesh;
+typedef std::shared_ptr<Mesh> MeshPtr;
 
 namespace sg
 {
@@ -12,10 +12,10 @@ namespace sg
 class sg_skybox_object: public isg_object
 {
 public:
-    sg_skybox_object(SGScenegraph * sg, mesh_ptr ptr);
+    sg_skybox_object(SGScenegraph * sg, MeshPtr ptr);
     virtual ~sg_skybox_object();
 
-    virtual mesh_ptr get_mesh();
+    virtual MeshPtr get_mesh();
 
 public:
 
@@ -27,12 +27,12 @@ public:
     virtual sg_material_ptr get_material(uint32_t index);
     virtual uint32_t get_material_count();
 
-    virtual sg_aabb get_aabb();
+    virtual AABB get_aabb();
     virtual void recalculate_aabb();
 
 protected:
-    sg_aabb m_aabb;
-    mesh_ptr m_mesh;
+    AABB m_aabb;
+    MeshPtr m_mesh;
     std::vector<sg_material_ptr> m_materials;
 };
 

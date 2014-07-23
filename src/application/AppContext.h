@@ -37,7 +37,7 @@ struct AppContext
     sg::sg_graphics_manager_ptr _graphicsManager;
     GUIEnvironment* _guiEnv;
     sg::SGScenegraph* _scenegraph;
-    physics_manager* _physicsManager;
+    PhysicsManager* _physicsManager;
     sound_manager* _soundManager;
     timer_ptr   _timer;
     Logger* _logger;

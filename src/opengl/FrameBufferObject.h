@@ -121,7 +121,7 @@ struct frame_buffer_object: public gl_object
     {
         if(obj->get_type()==GLO_TEXTURE)
         {
-            texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
             glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
@@ -137,7 +137,7 @@ struct frame_buffer_object: public gl_object
     {
         if(obj->get_type()==GLO_TEXTURE)
         {
-            texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
             glFramebufferTexture2D(target,GL_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
@@ -153,7 +153,7 @@ struct frame_buffer_object: public gl_object
     {
         if(obj->get_type()==GLO_TEXTURE)
         {
-            texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
             glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
@@ -171,7 +171,7 @@ struct frame_buffer_object: public gl_object
         {
             if(obj->get_type()==GLO_TEXTURE)
             {
-                texture_ptr tex = std::static_pointer_cast<texture>(obj);
+                Texture_ptr tex = std::static_pointer_cast<texture>(obj);
                 glFramebufferTexture2D(target, attachment_point+GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->Id, level);
             }
             else if(obj->get_type()==GLO_RENDERBUFFER)

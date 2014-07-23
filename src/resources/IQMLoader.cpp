@@ -21,9 +21,9 @@ bool iqmloader::check_by_extension(const std::string & ext)
     return ext == "iqm" || ext == ".iqm";
 }
 
-std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
+std::shared_ptr<Mesh> iqmloader::load (const char* data, const uint32_t size)
 {
-    std::shared_ptr<mesh> glmesh;
+    std::shared_ptr<Mesh> glmesh;
     iqmheader head;
 
     load_header(data,head);
@@ -37,7 +37,7 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
         return glmesh;
     }
 
-    glmesh = std::shared_ptr<mesh>(new mesh());
+    glmesh = std::shared_ptr<Mesh>(new Mesh());
 
     auto positions = new buffer_object<glm::vec3>();
 	auto texcoords = new buffer_object<glm::vec2>();
@@ -140,7 +140,7 @@ std::shared_ptr<mesh> iqmloader::load (const char* data, const uint32_t size)
     return glmesh;
 }
 
-void iqmloader::loadiqmanims(std::shared_ptr<mesh> m, const char* data, iqmheader & header)
+void iqmloader::loadiqmanims(std::shared_ptr<Mesh> m, const char* data, iqmheader & header)
 {
     if(header.num_poses != header.num_joints) return;
 

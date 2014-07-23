@@ -39,23 +39,23 @@ void animation::set_interp_frame(float f)
     }
 }
 
-mesh::mesh(): vao(0), anim(nullptr)
+Mesh::Mesh(): vao(0), anim(nullptr)
 {
     buffers.resize(BUFFER_COUNT);
 
     for(uint32_t i=0; i<BUFFER_COUNT; i++)
         buffers[i]=nullptr;
 }
-mesh::~mesh()
+Mesh::~Mesh()
 {
     for(ibuffer_object * b : buffers)
         if(b)
             delete b;
 }
 
-void mesh::init()
+void Mesh::Init()
 {
-    disable_empty_buffers();
+    DisableEmptyBuffers();
 
     glGenVertexArrays(1,&vao);
     glBindVertexArray(vao);
@@ -66,7 +66,6 @@ void mesh::init()
         {
             buffers[i]->init();
 
-
             if(buffers[i]->get_size())
                 buffers[i]->upload();
 
@@ -75,14 +74,13 @@ void mesh::init()
                 glEnableVertexAttribArray(i);
                 glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
             }
-
         }
     }
 
     glBindVertexArray(0);
 }
 
-void mesh::disable_empty_buffers()
+void Mesh::DisableEmptyBuffers()
 {
 
 }
@@ -99,7 +97,7 @@ void mesh::Render(uint32_t sub_mesh_index)
     glBindVertexArray(0);
 }
 
-void mesh::Render()
+void Mesh::render()
 {
     glBindVertexArray(vao);
 
@@ -118,7 +116,7 @@ void mesh::Render()
     glBindVertexArray(0);
 }
 
-void mesh::render_lines()
+void Mesh::render_lines()
 {
     glBindVertexArray(vao);
 
@@ -130,7 +128,7 @@ void mesh::render_lines()
     glBindVertexArray(0);
 }
 
-void mesh::render_triangle_strip()
+void Mesh::render_triangle_strip()
 {
     glBindVertexArray(vao);
 
@@ -139,7 +137,24 @@ void mesh::render_triangle_strip()
     glBindVertexArray(0);
 }
 
-void mesh::upload_buffers()
+void Mesh::RecalculateAABB()
+{
+    buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(buffers[0]);
+
+    if(bo->data.size()>0)
+    {
+        aabb.Reset(bo->data[0]);
+
+        for(uint32_t i = 1; i < bo->data.size(); i++)
+        {
+            aabb.AddPoint(bo->data[i]);
+        }
+    }
+    else
+        aabb.Reset(glm::vec3());
+}
+
+void Mesh::upload_buffers()
 {
     glBindVertexArray(vao);
 

@@ -6,10 +6,10 @@ struct font
 {
     std::string name;
 
-    GLuint tex;		// texture object
+    GLuint tex;		// Texture object
 
-    int w;			// width of texture in pixels
-    int h;			// height of texture in pixels
+    int w;			// width of Texture in pixels
+    int h;			// height of Texture in pixels
     float avgheight;
 
     struct
@@ -23,8 +23,8 @@ struct font
         float bl;	// bitmap_left;
         float bt;	// bitmap_top;
 
-        float tx;	// x offset of glyph in texture coordinates
-        float ty;	// y offset of glyph in texture coordinates
+        float tx;	// x offset of glyph in Texture coordinates
+        float ty;	// y offset of glyph in Texture coordinates
     } c[1024];		// character information
 
     font(FT_Face face, int height, std::string name)
@@ -41,7 +41,7 @@ struct font
         h = 0;
 
         memset(c, 0, sizeof c);
-        /* Find minimum size for a texture holding all visible ASCII characters */
+        /* Find minimum size for a Texture holding all visible ASCII characters */
         for (int i = 0; i < 1024; i++)
         {
             if (FT_Load_Char(face, i, FT_LOAD_RENDER))
@@ -63,13 +63,13 @@ struct font
         w = std::max(w, roww);
         h += rowh;
 
-        /* Create a texture that will be used to hold all ASCII glyphs */
+        /* Create a Texture that will be used to hold all ASCII glyphs */
         glGenTextures(1, &tex);
         glBindTexture(GL_TEXTURE_2D, tex);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_BGR, GL_UNSIGNED_BYTE, 0);
 
-        /* We require 1 byte alignment when uploading texture data */
+        /* We require 1 byte alignment when uploading Texture data */
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
         /* Clamping to edges is important to prevent artifacts when scaling */
@@ -120,7 +120,7 @@ struct font
             ox += g->bitmap.width + 1;
         }
         avgheight=avgheight/(float)cnth;
-        fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h, w * h / 1024);
+        fprintf(stderr, "Generated a %d x %d (%d kb) Texture atlas\n", w, h, w * h / 1024);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
 

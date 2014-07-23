@@ -845,8 +845,9 @@ def collectMeshes(context, bones, scale, matfun, useskel = True, usecol = False,
                 uvface = uvfaces and uvfaces[face.index]
                 facecol = colors and colors[face.index]
                 facealpha = alpha and alpha[face.index]
-                material = os.path.basename(uvface.image.filepath) if uvface and uvface.image else ''
-                matindex = face.material_index
+                #material = os.path.basename(uvface.image.filepath) if uvface and uvface.image else 'no_tex.png'
+                material = "no_tex.png"
+				matindex = face.material_index
                 try:
                     mesh = materials[obj.name, matindex, material] 
                 except:
@@ -1011,7 +1012,7 @@ def exportIQE(file, meshes, bones, anims):
     file.write('\n')
 
 
-def exportIQM(context, filename, usemesh = True, useskel = True, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: image), derigify = False):
+def exportIQM(context, filename, usemesh = True, useskel = True, usebbox = True, usecol = False, scale = 1.0, animspecs = None, matfun = (lambda prefix, image: prefix + "|" + image), derigify = False):
     armature = findArmature(context)
     if useskel and not armature:
         print('No armature selected')

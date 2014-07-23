@@ -9,12 +9,10 @@
 #include "opengl/Mesh.h"
 #include "opengl/BufferObject.h"
 
-physics_manager::physics_manager(btVector3 Gravity):m_handler(0)
+PhysicsManager::PhysicsManager(btVector3 Gravity):m_handler(0)
 {
     m_collisionConfiguration = new btSoftBodyRigidBodyCollisionConfiguration();
     m_broadPhase = new btDbvtBroadphase();
-    //m_ghostPairCallback = new btGhostPairCallback();
-    //m_broadPhase->getOverlappingPairCache()->setInternalGhostPairCallback(m_ghostPairCallback);
     m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
     m_solver = new btSequentialImpulseConstraintSolver();
     m_world = new btSoftRigidDynamicsWorld(m_dispatcher, m_broadPhase, m_solver, m_collisionConfiguration);
@@ -32,7 +30,7 @@ physics_manager::physics_manager(btVector3 Gravity):m_handler(0)
     m_world->setInternalTickCallback(myTickCallback,(void*)this,true);
 }
 
-physics_manager::~physics_manager()
+PhysicsManager::~PhysicsManager()
 {
     m_softBodyWorldInfo.m_sparsesdf.GarbageCollect();
     m_softBodyWorldInfo.m_sparsesdf.Reset();
@@ -72,7 +70,7 @@ physics_manager::~physics_manager()
     printf("~physics_manager\n");
 }
 
-void physics_manager::clear()
+void PhysicsManager::clear()
 {
     m_softBodyWorldInfo.m_sparsesdf.GarbageCollect();
     m_softBodyWorldInfo.m_sparsesdf.Reset();
@@ -97,7 +95,7 @@ void physics_manager::clear()
     m_softObjects.clear();
 }
 
-void physics_manager::destroy_body(btRigidBody * body)
+void PhysicsManager::destroy_body(btRigidBody * body)
 {
     if(body->getCollisionShape())
     {
@@ -116,41 +114,12 @@ void physics_manager::destroy_body(btRigidBody * body)
     delete body;
 }
 
-void physics_manager::update(float delta_time)
+void PhysicsManager::update(float delta_time)
 {
     m_world->stepSimulation(delta_time, 7);
 }
 
-void physics_manager::render_ropes()
-{
-    /*
-    irr::video::SMaterial mat;
-    mat.Lighting=false;
-    driver->setMaterial(mat);
-    driver->setTransform(irr::video::ETS_WORLD, irr::core::IdentityMatrix);
-    btSoftBodyArray&         softbodies(this->get_world()->getSoftBodyArray());
-    //For each soft bodies
-    for(int i=0; i<softbodies.size(); ++i)
-    {
-
-        btSoftBody*            softbody(softbodies[i]);
-        //Each soft body contain an array of vertices (nodes/particles_mass)
-
-        btSoftBody::tLinkArray&   links(softbody->m_links);
-
-
-        for(int j=0; j<links.size(); ++j)
-        {
-            btSoftBody::Node*   node_0=links[j].m_n[0];
-            btSoftBody::Node*   node_1=links[j].m_n[1];
-
-            driver->draw3DLine(utils::BtVecToIrrVec(node_1->m_x), utils::BtVecToIrrVec(node_0->m_x),irr::video::SColor(255,255,255,255));
-        }
-    }
-    */
-}
-
-void physics_manager::get_colliding_bodies(btDynamicsWorld *world)
+void PhysicsManager::get_colliding_bodies(btDynamicsWorld *world)
 {
     int numManifolds = world->getDispatcher()->getNumManifolds();
     for (int i=0; i<numManifolds; i++)
@@ -164,124 +133,36 @@ void physics_manager::get_colliding_bodies(btDynamicsWorld *world)
     }
 }
 
-btRigidBody* physics_manager::create_box(sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static, bool is_kinematic)
+btCollisionShape * PhysicsManager::createBoxShape(const btVector3 & extents)
 {
-    if(!mesh_obj)
-        return NULL;
-
-    btVector3 HalfExtents
-    (
-        mesh_obj->get_aabb().get_extent().x * 0.5f,
-        mesh_obj->get_aabb().get_extent().y * 0.5f,
-        mesh_obj->get_aabb().get_extent().z * 0.5f
-    );
-
-    std::cout << "Half extents: x = " << HalfExtents.getX() << " y = " << HalfExtents.getY() << " z = " << HalfExtents.getZ() << std::endl;
-
-    btTransform Transform;
-    Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
-
-    cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
-    btCollisionShape *Shape = new btBoxShape(HalfExtents);
-
-    btVector3 LocalInertia;
-    Shape->calculateLocalInertia(mass, LocalInertia);
-
-    btRigidBody *RigidBody = new btRigidBody( mass, MotionState, Shape, LocalInertia);
-
-    RigidBody->setActivationState(DISABLE_DEACTIVATION);
-
-    if(is_static)
-        RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
-    if(is_kinematic)
-        RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btRigidBody::CF_KINEMATIC_OBJECT);
-
-    RigidBody->setCcdMotionThreshold(1);
-    RigidBody->setCcdSweptSphereRadius(mesh_obj->get_aabb().get_extent().x*0.2f);
-
-    m_world->addRigidBody(RigidBody);
-    m_rigidObjects.push_back(RigidBody);
-    return RigidBody;
+    btCollisionShape * shape = new btBoxShape(extents * btVector3(0.5,0.5,0.5));
+    return shape;
 }
 
-btRigidBody* physics_manager::create_sphere(sg::sg_mesh_object_ptr mesh_obj, const btScalar mass, bool is_static, bool is_kinematic)
+btCollisionShape * PhysicsManager::createSphereShape(btScalar radius)
 {
-    if(!mesh_obj)
-        return NULL;
-
-    btVector3 HalfExtents
-    (
-        mesh_obj->get_aabb().get_extent().x * 0.5f,
-        mesh_obj->get_aabb().get_extent().y * 0.5f,
-        mesh_obj->get_aabb().get_extent().z * 0.5f
-    );
-
-    btTransform Transform;
-    Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
-    Transform.setRotation(quat_glm_to_bt(glm::quat_cast(mesh_obj->get_absolute_transform())));
-
-    cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
-    btCollisionShape *Shape = new btSphereShape(mesh_obj->get_aabb().get_extent().x*0.5f);
-
-    btVector3 LocalInertia;
-    Shape->calculateLocalInertia(mass, LocalInertia);
-
-    btRigidBody *RigidBody = new btRigidBody(mass, MotionState, Shape, LocalInertia);
-
-    //RigidBody->setActivationState(DISABLE_DEACTIVATION);
-    if(is_static)
-        RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
-    if(is_kinematic)
-        RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btRigidBody::CF_KINEMATIC_OBJECT);
-
-    m_world->addRigidBody((btRigidBody*)RigidBody);
-    m_rigidObjects.push_back(RigidBody);
-    return RigidBody;
+    btCollisionShape * shape = new btSphereShape(radius);
+    return shape;
 }
 
-btRigidBody* physics_manager::create_trimesh_body(sg::sg_mesh_object_ptr mesh_obj, const btVector3 & scale)
+btCollisionShape * PhysicsManager::createTrimeshShape(MeshPtr mesh, const btVector3 & scaling)
 {
-    if(!mesh_obj)
-        return NULL;
-
-    btTriangleMesh* indexVertexArrays = convert_mesh_to_bullet_trimesh(mesh_obj->get_mesh(), scale);
-    btBvhTriangleMeshShape * trimeshShape = new btBvhTriangleMeshShape(indexVertexArrays,true);
-
-    btTransform Transform;
-    Transform.setIdentity();
-    Transform.setOrigin(glm_to_bt(mesh_obj->get_position()));
-    glm::quat sq=mesh_obj->get_rotation();
-    btQuaternion quatty=btQuaternion(sq.x,sq.y,sq.z,sq.w);
-    Transform.setRotation(quatty);
-
-    cmotion_state *MotionState = new cmotion_state(Transform, mesh_obj);
-
-    btRigidBody *RigidBody=NULL;
-
-    RigidBody = new btRigidBody(0, MotionState, trimeshShape);
-    RigidBody->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
-
-
-    RigidBody->activate();
-    m_world->addRigidBody((btRigidBody*)RigidBody);
-    m_rigidObjects.push_back(RigidBody);
-
-    return RigidBody;
+    btTriangleMesh* indexVertexArrays = ConvertMeshToBulletTrimesh(mesh, scaling);
+    btBvhTriangleMeshShape * shape = new btBvhTriangleMeshShape(indexVertexArrays,true);
+    return shape;
 }
 
-btSoftBody* physics_manager::create_rope(const btVector3 & start, const btVector3 & end, const btScalar nodes, int fixeds)
+btRigidBody * PhysicsManager::createRigidBody(const btRigidBody::btRigidBodyConstructionInfo & info)
 {
-    btSoftBody*		psb=btSoftBodyHelpers::CreateRope(m_softBodyWorldInfo,start,end,nodes,fixeds);
-    m_softObjects.push_back(psb);
-    get_world()->addSoftBody(psb);
-
-    return psb;
+    return new btRigidBody(info);
 }
 
-void physics_manager::remove_and_delete_object(btCollisionObject * obj)
+void PhysicsManager::addRigidBodyToWorld(btRigidBody * rigidBody)
+{
+    m_world->addRigidBody(rigidBody);
+}
+
+void PhysicsManager::remove_and_delete_object(btCollisionObject * obj)
 {
     this->m_world->removeCollisionObject(obj);
     if(obj->getInternalType()== btCollisionObject::CO_RIGID_BODY)
@@ -315,12 +196,12 @@ void physics_manager::remove_and_delete_object(btCollisionObject * obj)
     }
 }
 
-void physics_manager::remove_object_from_simulation(btCollisionObject * obj)
+void PhysicsManager::remove_object_from_simulation(btCollisionObject * obj)
 {
     this->m_world->removeCollisionObject(obj);
 }
 
-btTriangleMesh* physics_manager::convert_mesh_to_bullet_trimesh(mesh_ptr pmesh, const btVector3 & scaling)
+btTriangleMesh* PhysicsManager::ConvertMeshToBulletTrimesh(MeshPtr pmesh, const btVector3 & scaling)
 {
     btVector3 vertices[3];
     btTriangleMesh * pTriMesh = nullptr;
@@ -328,8 +209,8 @@ btTriangleMesh* physics_manager::convert_mesh_to_bullet_trimesh(mesh_ptr pmesh, 
     if(pmesh)
     {
         pTriMesh = new btTriangleMesh();
-        buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(pmesh->buffers[mesh::POSITION]);
-        index_buffer_object<uint32_t> * ibo = static_cast<index_buffer_object<uint32_t> *>(pmesh->buffers[mesh::INDICES]);
+        buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(pmesh->buffers[Mesh::POSITION]);
+        index_buffer_object<uint32_t> * ibo = static_cast<index_buffer_object<uint32_t> *>(pmesh->buffers[Mesh::INDICES]);
 
         if(bo->data.size()>0&&ibo->data.size()>0)
 
@@ -346,24 +227,24 @@ btTriangleMesh* physics_manager::convert_mesh_to_bullet_trimesh(mesh_ptr pmesh, 
     return pTriMesh;
 };
 
-std::vector<btRigidBody *> & physics_manager::getObjectList()
+std::vector<btRigidBody *> & PhysicsManager::getObjectList()
 {
     return m_rigidObjects;
 }
 
-btSoftRigidDynamicsWorld* physics_manager::get_world()
+btSoftRigidDynamicsWorld* PhysicsManager::get_world()
 {
     return (btSoftRigidDynamicsWorld*)m_world;
 }
 
 void myTickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
-    physics_manager * physicsManager = static_cast<physics_manager*>(world->getWorldUserInfo());
+    PhysicsManager * physicsManager = static_cast<PhysicsManager*>(world->getWorldUserInfo());
     physicsManager->get_colliding_bodies(world);
 }
 
 ///RayCast
-btRigidBody * physics_manager::getRayCastResult(const btVector3 & start,const btVector3 & end)
+btRigidBody * PhysicsManager::getRayCastResult(const btVector3 & start,const btVector3 & end)
 {
     btRigidBody * body;
     btCollisionWorld::ClosestRayResultCallback cb(start,end);
@@ -379,7 +260,7 @@ btRigidBody * physics_manager::getRayCastResult(const btVector3 & start,const bt
     return 0;
 }
 
-btRigidBody * physics_manager::getRayCastResult(const btVector3 & start,const btVector3 & end, float & distance)
+btRigidBody * PhysicsManager::getRayCastResult(const btVector3 & start,const btVector3 & end, float & distance)
 {
     btRigidBody * body;
     btCollisionWorld::ClosestRayResultCallback cb(start,end);
@@ -396,11 +277,12 @@ btRigidBody * physics_manager::getRayCastResult(const btVector3 & start,const bt
     return 0;
 }
 
+#include "CollisionFilterResultCallbackOnlyThis.h"
 ///Filtered rayCast
-btRigidBody * physics_manager::getFilteredRayCastResult(const btVector3 & start,const btVector3 & end, short int filter)
+btRigidBody * PhysicsManager::getFilteredRayCastResult(const btVector3 & start,const btVector3 & end, short int filter)
 {
     btRigidBody * body;
-    CFRC_OnlyThis cb(start,end,filter);
+    CollisionFilterResultCallbackOnlyThis cb(start,end,filter);
     this->get_world()->rayTest(start,end,cb);
     if(cb.hasHit())
     {
@@ -413,10 +295,10 @@ btRigidBody * physics_manager::getFilteredRayCastResult(const btVector3 & start,
     return 0;
 }
 
-btRigidBody * physics_manager::getFilteredRayCastResult(const btVector3 & start,const btVector3 & end, short int filter, float & distance)
+btRigidBody * PhysicsManager::getFilteredRayCastResult(const btVector3 & start,const btVector3 & end, short int filter, float & distance)
 {
     btRigidBody * body;
-    CFRC_OnlyThis cb(start,end,filter);
+    CollisionFilterResultCallbackOnlyThis cb(start,end,filter);
     this->get_world()->rayTest(start,end,cb);
     if(cb.hasHit())
     {
@@ -430,3 +312,50 @@ btRigidBody * physics_manager::getFilteredRayCastResult(const btVector3 & start,
     return 0;
 }
 
+void PhysicsManager::set_collision_handler(icollision_handler * handler)
+{
+    m_handler=handler;
+}
+
+void PhysicsManager::QuaternionToEulerXYZ(const btQuaternion &quat,btVector3 &euler)
+{
+    float w=quat.getW();
+    float x=quat.getX();
+    float y=quat.getY();
+    float z=quat.getZ();
+    double sqw = w*w;
+    double sqx = x*x;
+    double sqy = y*y;
+    double sqz = z*z;
+    euler.setZ((atan2(2.0 * (x*y + z*w),(sqx - sqy - sqz + sqw))));
+    euler.setX((atan2(2.0 * (y*z + x*w),(-sqx - sqy + sqz + sqw))));
+    euler.setY((asin(-2.0 * (x*z - y*w))));
+}
+
+void PhysicsManager::EulerXYZToQuaternion(btVector3 &euler, btQuaternion &quat)
+{
+    btMatrix3x3 mat;
+    mat.setIdentity();
+    mat.setEulerZYX(euler.getX(), euler.getY(), euler.getZ());
+    mat.getRotation(quat);
+}
+
+const glm::vec3 PhysicsManager::bt_to_glm(const btVector3 & vec)
+{
+    return glm::vec3(vec.getX(),vec.getY(),vec.getZ());
+}
+
+const btVector3 PhysicsManager::glm_to_bt(const glm::vec3 & vec)
+{
+    return btVector3(vec.x,vec.y,vec.z);
+}
+
+const btVector3 PhysicsManager::glm_to_bt(const glm::vec4 & vec)
+{
+    return btVector3(vec.x,vec.y,vec.z);
+}
+
+const btQuaternion PhysicsManager::quat_glm_to_bt(const glm::quat & vec)
+{
+    return btQuaternion(vec.x,vec.y,vec.z,vec.w);
+}

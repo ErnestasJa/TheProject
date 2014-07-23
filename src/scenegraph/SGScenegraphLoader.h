@@ -4,13 +4,13 @@ struct AppContext;
 namespace sg
 {
 
-class sg_sg_scenegraph_loader
+class ScenegraphLoader
 {
 public:
-    sg_sg_scenegraph_loader();
-    virtual ~sg_sg_scenegraph_loader();
+    ScenegraphLoader();
+    virtual ~ScenegraphLoader();
 
-    bool load_scene(AppContext * app_ctx, const std::string & filename,bool with_physics);
+    bool LoadScene(AppContext * app_ctx, const std::string & filename,bool with_physics);
 
 protected:
 

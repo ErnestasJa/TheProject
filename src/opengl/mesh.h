@@ -1,6 +1,8 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include "AABB.h"
+
 typedef std::vector<glm::mat3x4> frame;
 typedef std::vector<frame> frame_vec;
 
@@ -42,7 +44,7 @@ struct sub_mesh
 };
 
 struct ibuffer_object;
-struct mesh
+struct Mesh
 {
     enum BUFFER_OBJECT_INDEX
     {
@@ -61,12 +63,13 @@ struct mesh
     std::vector<ibuffer_object*> buffers;
     std::vector<sub_mesh>   sub_meshes;
     animation * anim;
+    AABB aabb;
 
-    mesh();
-    virtual ~mesh();
+    Mesh();
+    virtual ~Mesh();
 
-    void init();
-    void disable_empty_buffers();
+    void Init();
+    void DisableEmptyBuffers();
 
     void Render();
     void Render(uint32_t sub_mesh_index);
@@ -74,11 +77,11 @@ struct mesh
     void render_lines();
     void render_triangle_strip();
 
+    void RecalculateAABB();
     void upload_buffers();
-
     void free();
 };
 
-typedef std::shared_ptr<mesh> mesh_ptr;
+typedef std::shared_ptr<Mesh> MeshPtr;
 
 #endif // MESH_H

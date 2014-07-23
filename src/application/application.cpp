@@ -82,6 +82,7 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
     }
 
     _appContext->_scenegraph = new sg::SGScenegraph(_appContext->_logger, _appContext->_timer);
+    _appContext->_physicsManager = new PhysicsManager(btVector3(0,-9.8f,0));
     _appContext->_graphicsManager = _appContext->_scenegraph->get_graphics_manager();
 
     _appContext->_logger->log(LOG_CRITICAL, "Shading language: %s", (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION));

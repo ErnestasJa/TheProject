@@ -9,7 +9,7 @@
 namespace sg
 {
 
-sg_skybox_object::sg_skybox_object(SGScenegraph * sg, mesh_ptr ptr): isg_object(sg)
+sg_skybox_object::sg_skybox_object(SGScenegraph * sg, MeshPtr ptr): isg_object(sg)
 {
     m_mesh = ptr;
 
@@ -52,7 +52,7 @@ void sg_skybox_object::Render(SGScenegraph * sg)
     glDepthMask(1);
 }
 
-mesh_ptr sg_skybox_object::get_mesh()
+MeshPtr sg_skybox_object::get_mesh()
 {
     return m_mesh;
 }
@@ -77,7 +77,7 @@ uint32_t sg_skybox_object::get_material_count()
     return m_materials.size();
 }
 
-sg_aabb sg_skybox_object::get_aabb()
+AABB sg_skybox_object::get_aabb()
 {
     return m_aabb;
 }
@@ -86,20 +86,20 @@ void sg_skybox_object::recalculate_aabb()
 {
     if(m_mesh)
     {
-        buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[mesh::POSITION]);
+        buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[Mesh::POSITION]);
 
         if(bo->data.size()>0)
         {
-            m_aabb.reset(bo->data[0]);
+            m_aabb.Reset(bo->data[0]);
 
             for(uint32_t i = 1; i < bo->data.size(); i++)
             {
-                m_aabb.add_point(bo->data[i]);
+                m_aabb.AddPoint(bo->data[i]);
             }
         }
     }
     else
-        m_aabb.reset(glm::vec3());
+        m_aabb.Reset(glm::vec3());
 }
 
 }

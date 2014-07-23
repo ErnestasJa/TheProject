@@ -24,10 +24,10 @@ void mesh_loader::add_loader(imesh_loader * loader)
         m_loaders.push_back(loader);
 }
 
-mesh_ptr mesh_loader::load(const std::string & file)
+MeshPtr mesh_loader::load(const std::string & file)
 {
     bool found_usable_loader=false;
-    resource<mesh> res;
+    resource<Mesh> res;
     res = this->get_resource(file);
 
     if(res.resource)
@@ -53,9 +53,9 @@ mesh_ptr mesh_loader::load(const std::string & file)
                 _logger->log(LOG_LOG, "Mesh file size: %u", len);
 
                 res.path = file;
-                res.resource = mesh_ptr(l->load(buf,len));
+                res.resource = MeshPtr(l->load(buf,len));
                 this->add_resource(res);
-                res.resource->init();
+                res.resource->Init();
                 return res.resource;
             }
             else

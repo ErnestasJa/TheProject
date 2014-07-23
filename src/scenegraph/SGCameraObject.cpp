@@ -10,7 +10,7 @@ namespace sg
 sg_camera_object::sg_camera_object(AppContext* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z): isg_object(ctx->_scenegraph)
 {
     _appContext=ctx;
-    m_fps=false;
+    m_fps=true;
     this->set_position(pos);
     this->set_rotation(glm::toQuat(glm::inverse(glm::lookAt(pos,target,up))));
 
@@ -25,9 +25,6 @@ sg_camera_object::sg_camera_object(AppContext* ctx, const glm::vec3 &pos,const g
     m_P = glm::perspective(field_of_view, aspect_ratio, near_z, far_z);
 
     this->update_absolute_transform();
-
-    _appContext->_scenegraph->GetLogger()->log(LOG_LOG,"m_rotation_quat(%f,%f,%f,%f)", m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w);
-    _appContext->_scenegraph->GetLogger()->log(LOG_LOG,"m_look(%f,%f,%f)", m_look.x, m_look.y, m_look.z);
 }
 
 sg_camera_object::~sg_camera_object()
@@ -67,12 +64,12 @@ const float sg_camera_object::get_fov() const
 
 const float sg_camera_object::get_far() const
 {
-    return m_fov;
+    return m_far;
 }
 
 const float sg_camera_object::get_near() const
 {
-    return m_fov;
+    return m_near;
 }
 
 const float sg_camera_object::get_aspect_ratio() const
@@ -89,11 +86,12 @@ void sg_camera_object::update(SGScenegraph * sg)
 {
     m_position+=m_translation;
     m_translation=glm::vec3(0);
+
     if(m_fps)
     {
         glm::ivec2 s=_appContext->_window->GetWindowSize();
-        _appContext->_window->set_mouse_pos(s/2);
         glm::ivec2 mp=_appContext->_window->GetMousePos();
+
         handle_mouse(mp.x,mp.y);
     }
 }

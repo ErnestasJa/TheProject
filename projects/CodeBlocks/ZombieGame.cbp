@@ -134,6 +134,9 @@
 			<Add directory="../../libs/irrKlang-1.5.0/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add option="-static" />
 			<Add library="libBulletSoftBody.a" />
 			<Add library="libBulletDynamics.a" />
 			<Add library="libBulletCollision.a" />
@@ -204,6 +207,8 @@
 		<Unit filename="../../src/gui/font_rendering/font.h" />
 		<Unit filename="../../src/network/NetworkManagerWin32.cpp" />
 		<Unit filename="../../src/network/NetworkManagerWin32.h" />
+		<Unit filename="../../src/opengl/AABB.cpp" />
+		<Unit filename="../../src/opengl/AABB.h" />
 		<Unit filename="../../src/opengl/BufferObject.cpp" />
 		<Unit filename="../../src/opengl/BufferObject.h" />
 		<Unit filename="../../src/opengl/FrameBufferObject.cpp" />
@@ -212,17 +217,18 @@
 		<Unit filename="../../src/opengl/GLObject.h" />
 		<Unit filename="../../src/opengl/IBufferObject.h" />
 		<Unit filename="../../src/opengl/IBuffer_Object.cpp" />
+		<Unit filename="../../src/opengl/Mesh.cpp" />
+		<Unit filename="../../src/opengl/Mesh.h" />
 		<Unit filename="../../src/opengl/OpenGLUtil.cpp" />
 		<Unit filename="../../src/opengl/OpenGLUtil.h" />
 		<Unit filename="../../src/opengl/RenderBufferObject.cpp" />
 		<Unit filename="../../src/opengl/RenderBufferObject.h" />
 		<Unit filename="../../src/opengl/SlicedGUIQuad.h" />
-		<Unit filename="../../src/opengl/mesh.cpp" />
-		<Unit filename="../../src/opengl/mesh.h" />
+		<Unit filename="../../src/opengl/Texture.cpp" />
+		<Unit filename="../../src/opengl/Texture.h" />
 		<Unit filename="../../src/opengl/quad.h" />
 		<Unit filename="../../src/opengl/shader.h" />
-		<Unit filename="../../src/opengl/texture.cpp" />
-		<Unit filename="../../src/opengl/texture.h" />
+		<Unit filename="../../src/physics/CollisionFilterResultCallbackOnlyThis.h" />
 		<Unit filename="../../src/physics/CollisionHandler.cpp" />
 		<Unit filename="../../src/physics/CollisionHandler.h" />
 		<Unit filename="../../src/physics/MotionState.h" />
@@ -258,8 +264,6 @@
 		<Unit filename="../../src/scenegraph/ISGObject.h" />
 		<Unit filename="../../src/scenegraph/ISGRenderQueue.cpp" />
 		<Unit filename="../../src/scenegraph/ISGRenderQueue.h" />
-		<Unit filename="../../src/scenegraph/SGAABB.cpp" />
-		<Unit filename="../../src/scenegraph/SGAABB.h" />
 		<Unit filename="../../src/scenegraph/SGAABBWireframeObject.cpp" />
 		<Unit filename="../../src/scenegraph/SGAABBWireframeObject.h" />
 		<Unit filename="../../src/scenegraph/SGCameraObject.cpp" />

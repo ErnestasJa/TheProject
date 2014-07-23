@@ -3,7 +3,7 @@
 #include "IImageLoader.h"
 #include "ResourceCache.h"
 
-struct texture; typedef std::shared_ptr<texture> texture_ptr;
+struct texture; typedef std::shared_ptr<texture> Texture_ptr;
 class Logger;
 class image_loader: public resource_cache<image>
 {

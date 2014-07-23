@@ -16,7 +16,7 @@ public:
 public:
     virtual void            Render(SGScenegraph * sg);
 
-    virtual sg_aabb         get_aabb();
+    virtual AABB         get_aabb();
     virtual uint32_t        get_type();
 
     virtual sg_material_ptr get_material(uint32_t index);
@@ -27,7 +27,7 @@ public:
     virtual glm::mat4x4     get_relative_transform();
 
 protected:
-    sg_aabb m_aabb;
+    AABB m_aabb;
     glm::vec3 m_look;
 	glm::vec3 m_up;
 	glm::vec3 m_right;

@@ -14,7 +14,7 @@ public:
     buffer_object<glm::vec2> * tex_coords;
     index_buffer_object<uint32_t> * indices;
 
-    std::shared_ptr<mesh> glmesh;
+    std::shared_ptr<Mesh> glmesh;
 
     quad(float size=1.0f)
     {
@@ -25,7 +25,7 @@ public:
 
     virtual bool generate()
     {
-        glmesh = share(new mesh());
+        glmesh = share(new Mesh());
         pos = new buffer_object<glm::vec3>();
         pos->data.resize(4);
         pos->data[0]=glm::vec3(-1,-1,0); /// LL
@@ -62,7 +62,7 @@ public:
 
     bool init()
     {
-        glmesh->init();
+        glmesh->Init();
         return true;
     }
 

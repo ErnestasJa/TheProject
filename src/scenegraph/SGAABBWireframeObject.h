@@ -4,8 +4,8 @@
 
 #include "ISGObject.h"
 
-class mesh;
-typedef std::shared_ptr<mesh> mesh_ptr;
+class Mesh;
+typedef std::shared_ptr<Mesh> MeshPtr;
 
 namespace sg
 {
@@ -27,7 +27,7 @@ public:
 
 protected:
     sg_mesh_object_ptr m_obj;
-    mesh_ptr m_mesh;
+    MeshPtr m_mesh;
     sg_material_ptr m_material;
 };
 

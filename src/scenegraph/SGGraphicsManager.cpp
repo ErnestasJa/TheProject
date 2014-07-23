@@ -16,7 +16,7 @@ sg_graphics_manager::sg_graphics_manager(Logger * l)
     m_mesh_loader = new mesh_loader(l);
     m_shader_loader = new shader_loader(l);
 
-    m_default_tex = load_texture("res/no_tex.png");
+    m_default_tex = load_texture("res/engine/textures/no_tex.png");
 }
 
 sg_graphics_manager::~sg_graphics_manager()
@@ -26,13 +26,13 @@ sg_graphics_manager::~sg_graphics_manager()
     delete m_shader_loader;
 }
 
-texture_ptr sg_graphics_manager::load_texture(std::string file)
+Texture_ptr sg_graphics_manager::load_texture(std::string file)
 {
     resource<texture> res = m_texture_cache.get_resource(file);
 
     if(res.resource)
     {
-        _logger->log(LOG_LOG, "Found texture in cache, skipping loading.");
+        _logger->log(LOG_LOG, "Found Texture in cache, skipping loading.");
         return res.resource;
     }
 
@@ -41,7 +41,7 @@ texture_ptr sg_graphics_manager::load_texture(std::string file)
     if(img)
     {
         res.path = file;
-        res.resource = texture_ptr(new texture());
+        res.resource = Texture_ptr(new texture());
         res.resource->init(img);
         m_texture_cache.add_resource(res);
     }

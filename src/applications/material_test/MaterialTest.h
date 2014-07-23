@@ -19,6 +19,9 @@ public:
 
     void OnWindowClose();
 
+    ///Events
+    void OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
+
 protected:
 };
 

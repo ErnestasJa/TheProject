@@ -8,7 +8,7 @@
 namespace sg
 {
 
-sg_mesh_object::sg_mesh_object(SGScenegraph * sg, mesh_ptr ptr): isg_object(sg)
+sg_mesh_object::sg_mesh_object(SGScenegraph * sg, MeshPtr ptr): isg_object(sg)
 {
     m_mesh = ptr;
 
@@ -20,7 +20,8 @@ sg_mesh_object::sg_mesh_object(SGScenegraph * sg, mesh_ptr ptr): isg_object(sg)
         for(uint32_t i=0; i<ptr->sub_meshes.size(); i++)
         {
             m_materials[i]=this->m_scenegraph->get_graphics_manager()
-                ->create_material("res/shaders/kursinis/color_mat.vert", "res/shaders/kursinis/color_mat.frag");
+                ->create_material("res/engine/shaders/solid_unlit_tex.vert", "res/engine/shaders/solid_unlit_tex.frag");
+            m_materials[i]->set_int("texture0",0);
         }
     }
 }
@@ -47,7 +48,7 @@ void sg_mesh_object::Render(SGScenegraph * sg)
     }
 }
 
-mesh_ptr sg_mesh_object::get_mesh()
+MeshPtr sg_mesh_object::get_mesh()
 {
     return m_mesh;
 }
@@ -72,29 +73,14 @@ uint32_t sg_mesh_object::get_material_count()
     return m_materials.size();
 }
 
-sg_aabb sg_mesh_object::get_aabb()
+AABB sg_mesh_object::get_aabb()
 {
-    return m_aabb;
+    return m_mesh->aabb;
 }
 
 void sg_mesh_object::recalculate_aabb()
 {
-    if(m_mesh)
-    {
-        buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[0]);
-
-        if(bo->data.size()>0)
-        {
-            m_aabb.reset(bo->data[0]);
-
-            for(uint32_t i = 1; i < bo->data.size(); i++)
-            {
-                m_aabb.add_point(bo->data[i]);
-            }
-        }
-    }
-    else
-        m_aabb.reset(glm::vec3());
+    m_mesh->RecalculateAABB();
 }
 
 }

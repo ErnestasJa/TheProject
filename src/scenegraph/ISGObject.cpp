@@ -37,9 +37,9 @@ void isg_object::SetName(const std::string & name)
     m_name = name;
 }
 
-const sg_aabb & isg_object::get_aabb()
+AABB isg_object::get_aabb()
 {
-    return m_aabb;
+    return p_aabb;
 }
 
 const glm::vec3 &  isg_object::get_position() const

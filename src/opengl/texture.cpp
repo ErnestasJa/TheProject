@@ -10,7 +10,6 @@ texture::texture()
 {
     Id = -1;
     Type = GL_TEXTURE_2D;
-
 }
 
 texture::~texture()
@@ -28,7 +27,7 @@ void texture::init(std::shared_ptr<image> img)
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-    /// either use texture with or without alpha channel
+    /// either use Texture with or without alpha channel
     switch(img->num_channels)
     {
     case 3:
@@ -69,7 +68,7 @@ void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format,
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    /// either use texture with or without alpha channel
+    /// either use Texture with or without alpha channel
     switch(image_format)
     {
     case GL_RED:
