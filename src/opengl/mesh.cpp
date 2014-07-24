@@ -85,7 +85,7 @@ void Mesh::DisableEmptyBuffers()
 
 }
 
-void mesh::Render(uint32_t sub_mesh_index)
+void Mesh::Render(uint32_t sub_mesh_index)
 {
     glBindVertexArray(vao);
 
@@ -97,7 +97,7 @@ void mesh::Render(uint32_t sub_mesh_index)
     glBindVertexArray(0);
 }
 
-void Mesh::render()
+void Mesh::Render()
 {
     glBindVertexArray(vao);
 

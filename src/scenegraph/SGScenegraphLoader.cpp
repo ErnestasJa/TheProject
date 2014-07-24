@@ -44,7 +44,7 @@ bool ScenegraphLoader::LoadScene(AppContext * app_ctx, const std::string & filen
     {
         isg_object * o = nullptr;
 
-        if(object->Attribute("Type","MESH"))
+        if(object->Attribute("type","MESH"))
         {
             if(tinyxml2::XMLElement * file = object->FirstChildElement("iqm_file"))
             {
@@ -57,20 +57,20 @@ bool ScenegraphLoader::LoadScene(AppContext * app_ctx, const std::string & filen
                 app_ctx->_scenegraph->add_object(obj);
             }
         }
-        else if(object->Attribute("Type","LAMP"))
+        else if(object->Attribute("type","LAMP"))
         {
 
             sg::sg_light_object_ptr  obj = app_ctx->_scenegraph->add_light_object();
             o = obj.get();
         }
-        else if(object->Attribute("Type","CAMERA"))
+        else if(object->Attribute("type","CAMERA"))
         {
             sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
             o = obj.get();
 
             app_ctx->_scenegraph->add_object(obj);
         }
-        else if(object->Attribute("Type","EMPTY"))
+        else if(object->Attribute("type","EMPTY"))
         {
             printf("ADDED EMPTY OBJ: %s\n",object->Attribute("name"));
             sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->_scenegraph));
