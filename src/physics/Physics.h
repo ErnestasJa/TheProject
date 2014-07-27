@@ -13,7 +13,6 @@ enum collisiontypes
     COL_SPECIAL2 = BIT(16)
 };
 
-
 #include "MotionState.h"
 #include "CollisionHandler.h"
 #include "PhysicsManager.h"

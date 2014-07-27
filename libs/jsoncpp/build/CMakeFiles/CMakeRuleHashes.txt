@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+baca89f8613cd4a9bdb88e91cfcbc277 src/jsontestrunner/CMakeFiles/jsoncpp_check
+1c49831f83e5820140c4514d0198692f src/jsontestrunner/CMakeFiles/jsoncpp_readerwriter_tests

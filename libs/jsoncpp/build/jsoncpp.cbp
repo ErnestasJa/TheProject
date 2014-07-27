@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="jsoncpp" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\lib_json\;CMake Files\src\jsontestrunner\;CMake Files\src\test_lib_json\;CMake Files\include\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 install" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/local">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 install/local" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/strip">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 install/strip" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="list_install_components">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 list_install_components" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="test">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 test" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_lib">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/lib/libjsoncpp.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_lib" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_lib/fast">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/lib/libjsoncpp.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_lib/fast" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/lib_json/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_check">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsoncpp_check" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_readerwriter_tests">
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsoncpp_readerwriter_tests" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsontestrunner_exe">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin/jsontestrunner_exe.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsontestrunner_exe" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsontestrunner_exe/fast">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin/jsontestrunner_exe.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsontestrunner_exe/fast" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_test">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin/jsoncpp_test.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_test" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="jsoncpp_test/fast">
+         <Option output="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin/jsoncpp_test.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="E:/Coding/ZombieGameProject/libs/jsoncpp/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="E:/Coding/ZombieGameProject/libs/jsoncpp/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include-fixed" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/backward" />
+            <Add directory="e:\codeblocks\mingw\bin\../lib/gcc/i686-w64-mingw32/4.8.1/include/c++/i686-w64-mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_test/fast" />
+            <CompileFile command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;E:/Coding/ZombieGameProject/libs/jsoncpp/build/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/jsontestrunner/main.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_reader.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_value.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_writer.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/test_lib_json/jsontest.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/test_lib_json/main.cpp">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/assertions.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/config.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/features.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/forwards.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/reader.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/value.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/version.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/json/writer.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_batchallocator.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_tool.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/json_valueiterator.inl">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/version.h.in">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/test_lib_json/jsontest.h">
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/version.h.in">
+          <Option virtualFolder="CMake Files\src\lib_json\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/lib_json/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\lib_json\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/jsontestrunner/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\jsontestrunner\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/src/test_lib_json/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\test_lib_json\" />
+      </Unit>
+      <Unit filename="E:/Coding/ZombieGameProject/libs/jsoncpp/include/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\include\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

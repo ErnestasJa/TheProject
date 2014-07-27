@@ -22,7 +22,7 @@ public:
     virtual sg_material_ptr get_material(uint32_t index);
     virtual void set_material(sg_material_ptr mat);
     virtual uint32_t get_material_count();
-    virtual AABB get_aabb();
+    virtual AABB GetAABB();
 
 protected:
     AABB     m_aabb;

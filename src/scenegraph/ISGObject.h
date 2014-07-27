@@ -37,7 +37,7 @@ public:
 
     void SetName(const std::string & name);
     std::string &   GetName();
-    AABB get_aabb();
+    AABB GetAABB();
     virtual uint32_t get_type() = 0;
 
 public:

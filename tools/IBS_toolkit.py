@@ -46,6 +46,7 @@ class linked_duplicate(bpy.types.Operator):
 class IBS_Tools(bpy.types.Panel):
 	"""IBS toolkit"""
 	bl_label = "IBS Toolkit"
+	bl_category = "IBS"
 	bl_space_type = "VIEW_3D"
 	bl_region_type = "TOOLS"
     

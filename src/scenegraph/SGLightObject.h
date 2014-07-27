@@ -16,7 +16,7 @@ public:
 public:
     virtual void            Render(SGScenegraph * sg);
 
-    virtual AABB         get_aabb();
+    virtual AABB         GetAABB();
     virtual uint32_t        get_type();
 
     virtual sg_material_ptr get_material(uint32_t index);

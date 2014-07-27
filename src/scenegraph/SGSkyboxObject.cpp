@@ -77,7 +77,7 @@ uint32_t sg_skybox_object::get_material_count()
     return m_materials.size();
 }
 
-AABB sg_skybox_object::get_aabb()
+AABB sg_skybox_object::GetAABB()
 {
     return m_aabb;
 }

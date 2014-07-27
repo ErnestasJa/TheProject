@@ -71,6 +71,7 @@
 					<Add library="libsigc++.a" />
 					<Add library="Ws2_32" />
 					<Add library="pthread" />
+					<Add library="jsoncpp" />
 					<Add directory="../../libs/glfw/lib" />
 					<Add directory="../../libs/physfs/lib" />
 					<Add directory="../../libs/freetype/lib" />
@@ -132,6 +133,7 @@
 			<Add directory="../../libs/libsigc++" />
 			<Add directory="../../libs/tinyxml2/src" />
 			<Add directory="../../libs/irrKlang-1.5.0/include" />
+			<Add directory="../../libs/jsoncpp/include/json" />
 		</Compiler>
 		<Linker>
 			<Add option="-static-libgcc" />
@@ -148,6 +150,7 @@
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/libsigc++/lib" />
 			<Add directory="../../libs/irrKlang-1.5.0/lib" />
+			<Add directory="../../libs/jsoncpp/build/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
@@ -168,7 +171,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../libs/stb_image/stb_image.h" />
-		<Unit filename="../../src/Main.cpp" />
 		<Unit filename="../../src/application/AppContext.h" />
 		<Unit filename="../../src/application/Application.cpp" />
 		<Unit filename="../../src/application/Application.h" />
@@ -205,6 +207,7 @@
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.cpp" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.h" />
 		<Unit filename="../../src/gui/font_rendering/font.h" />
+		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/network/NetworkManagerWin32.cpp" />
 		<Unit filename="../../src/network/NetworkManagerWin32.h" />
 		<Unit filename="../../src/opengl/AABB.cpp" />
@@ -217,17 +220,17 @@
 		<Unit filename="../../src/opengl/GLObject.h" />
 		<Unit filename="../../src/opengl/IBufferObject.h" />
 		<Unit filename="../../src/opengl/IBuffer_Object.cpp" />
-		<Unit filename="../../src/opengl/Mesh.cpp" />
-		<Unit filename="../../src/opengl/Mesh.h" />
 		<Unit filename="../../src/opengl/OpenGLUtil.cpp" />
 		<Unit filename="../../src/opengl/OpenGLUtil.h" />
 		<Unit filename="../../src/opengl/RenderBufferObject.cpp" />
 		<Unit filename="../../src/opengl/RenderBufferObject.h" />
 		<Unit filename="../../src/opengl/SlicedGUIQuad.h" />
-		<Unit filename="../../src/opengl/Texture.cpp" />
-		<Unit filename="../../src/opengl/Texture.h" />
+		<Unit filename="../../src/opengl/mesh.cpp" />
+		<Unit filename="../../src/opengl/mesh.h" />
 		<Unit filename="../../src/opengl/quad.h" />
 		<Unit filename="../../src/opengl/shader.h" />
+		<Unit filename="../../src/opengl/texture.cpp" />
+		<Unit filename="../../src/opengl/texture.h" />
 		<Unit filename="../../src/physics/CollisionFilterResultCallbackOnlyThis.h" />
 		<Unit filename="../../src/physics/CollisionHandler.cpp" />
 		<Unit filename="../../src/physics/CollisionHandler.h" />

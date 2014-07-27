@@ -20,8 +20,8 @@ sg_aabb_wireframe_object::sg_aabb_wireframe_object(SGScenegraph * sg, sg_mesh_ob
     buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(m_mesh->buffers[Mesh::POSITION]);
     index_buffer_object<uint32_t> * ibo = static_cast<index_buffer_object<uint32_t> *>(m_mesh->buffers[Mesh::INDICES]);
 
-    glm::vec3 minp = m_obj->get_aabb().get_min();
-    glm::vec3 maxp = m_obj->get_aabb().get_max();
+    glm::vec3 minp = m_obj->GetAABB().get_min();
+    glm::vec3 maxp = m_obj->GetAABB().get_max();
 
     bo->data.push_back(glm::vec3(minp.x,minp.y,minp.z));
     bo->data.push_back(glm::vec3(maxp.x,minp.y,minp.z));

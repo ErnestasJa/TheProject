@@ -147,7 +147,7 @@ sg_object_ptr SGScenegraph::object_depth_pick(int32_t x, int32_t y, int32_t w, i
     std::vector<sg_object_ptr> aabb_test_pass(m_objects);
     /*for(sg_object_ptr obj: this->m_objects)
     {
-        if(obj->get_aabb().is_point_inside(objPt))
+        if(obj->GetAABB().is_point_inside(objPt))
             aabb_test_pass.push_back(obj);
     }*/
 

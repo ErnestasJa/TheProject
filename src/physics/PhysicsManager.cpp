@@ -66,8 +66,6 @@ PhysicsManager::~PhysicsManager()
 
     if(m_collisionConfiguration)
         delete m_collisionConfiguration;
-
-    printf("~physics_manager\n");
 }
 
 void PhysicsManager::clear()

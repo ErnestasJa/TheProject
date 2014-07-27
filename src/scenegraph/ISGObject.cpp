@@ -37,7 +37,7 @@ void isg_object::SetName(const std::string & name)
     m_name = name;
 }
 
-AABB isg_object::get_aabb()
+AABB isg_object::GetAABB()
 {
     return p_aabb;
 }

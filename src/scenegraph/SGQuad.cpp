@@ -88,7 +88,7 @@ uint32_t sg_quad::get_material_count()
     return 1;
 }
 
-AABB sg_quad::get_aabb()
+AABB sg_quad::GetAABB()
 {
     return m_aabb;
 }

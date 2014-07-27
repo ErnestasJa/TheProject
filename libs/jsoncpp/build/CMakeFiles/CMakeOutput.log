@@ -1,0 +1,301 @@
+The system is: Windows - 6.2 - AMD64
+The system is: Windows - 6.2 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
+
+The C compiler identification is GNU, found in "E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/2.8.12.2/CompilerIdC/a.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
+
+The CXX compiler identification is GNU, found in "E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/2.8.12.2/CompilerIdCXX/a.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec94295732/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec94295732.dir\build.make CMakeFiles/cmTryCompileExec94295732.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec94295732.dir/testCCompiler.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec94295732.dir\testCCompiler.c.obj   -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCCompiler.c
+Linking C executable cmTryCompileExec94295732.exe
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec94295732.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec94295732.dir/objects.a
+E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec94295732.dir/objects.a @CMakeFiles\cmTryCompileExec94295732.dir\objects1.rsp
+E:\CodeBlocks\MinGW\bin\gcc.exe       -Wl,--whole-archive CMakeFiles\cmTryCompileExec94295732.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec94295732.exe -Wl,--out-implib,libcmTryCompileExec94295732.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec987134318/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec987134318.dir\build.make CMakeFiles/cmTryCompileExec987134318.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec987134318.dir/CMakeCCompilerABI.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec987134318.dir\CMakeCCompilerABI.c.obj   -c "C:\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCCompilerABI.c"
+Linking C executable cmTryCompileExec987134318.exe
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec987134318.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec987134318.dir/objects.a
+E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec987134318.dir/objects.a @CMakeFiles\cmTryCompileExec987134318.dir\objects1.rsp
+E:\CodeBlocks\MinGW\bin\gcc.exe     -v -Wl,--whole-archive CMakeFiles\cmTryCompileExec987134318.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec987134318.exe -Wl,--out-implib,libcmTryCompileExec987134318.dll.a -Wl,--major-image-version,0,--minor-image-version,0   
+Using built-in specs.
+COLLECT_GCC=E:\CodeBlocks\MinGW\bin\gcc.exe
+COLLECT_LTO_WRAPPER=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/lto-wrapper.exe
+Target: i686-w64-mingw32
+Configured with: ../../../src/gcc-4.8.1/configure --host=i686-w64-mingw32 --build=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=/mingw32 --with-sysroot=/tmp/x32-481-posix-sjlj-r5/mingw32 --enable-shared --enable-static --enable-targets=all --enable-multilib --enable-languages=ada,c,c++,fortran,objc,obj-c++,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-sjlj-exceptions --disable-isl-version-check --disable-cloog-version-check --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch-32=i686 --with-arch-64=nocona --with-tune-32=generic --with-tune-64=core2 --with-libiconv --with-system-zlib --with-gmp=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpfr=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpc=/tmp/mingw-prereq/i686-w64-mingw32-static --with-isl=/tmp/mingw-prereq/i686-w64-mingw32-static --with-cloog=/tmp/mingw-prereq/i686-w64-mingw32-static --enable-cloog-backend=isl --with-pkgversion='rev5, Built by MinGW-W64 project' --with-bugurl=http://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CPPFLAGS= LDFLAGS='-pipe -L/tmp/x32-481-posix-sjlj-r5/libs/lib -L/tmp/mingw-prereq/x32-zlib/lib -L/tmp/mingw-prereq/i686-w64-mingw32-static/lib -L/tmp/x32-481-posix-sjlj-r5/mingw32/opt/lib -Wl,--large-address-aware'
+Thread model: posix
+gcc version 4.8.1 (rev5, Built by MinGW-W64 project) 
+COMPILER_PATH=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/;e:/codeblocks/mingw/bin/../libexec/gcc/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/bin/
+LIBRARY_PATH=e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/;e:/codeblocks/mingw/bin/../lib/gcc/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec987134318.exe' '-mtune=generic' '-march=i686'
+ e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe --sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32 -m i386pe -Bdynamic -o cmTryCompileExec987134318.exe e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1 -Le:/codeblocks/mingw/bin/../lib/gcc -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../.. --whole-archive CMakeFiles\cmTryCompileExec987134318.dir/objects.a --no-whole-archive --out-implib libcmTryCompileExec987134318.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec987134318/fast"]
+  ignore line: [E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec987134318.dir\build.make CMakeFiles/cmTryCompileExec987134318.dir/build]
+  ignore line: [mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp']
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1]
+  ignore line: [Building C object CMakeFiles/cmTryCompileExec987134318.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec987134318.dir\CMakeCCompilerABI.c.obj   -c "C:\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCCompilerABI.c"]
+  ignore line: [Linking C executable cmTryCompileExec987134318.exe]
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec987134318.dir\link.txt --verbose=1]
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec987134318.dir/objects.a]
+  ignore line: [E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec987134318.dir/objects.a @CMakeFiles\cmTryCompileExec987134318.dir\objects1.rsp]
+  ignore line: [E:\CodeBlocks\MinGW\bin\gcc.exe     -v -Wl,--whole-archive CMakeFiles\cmTryCompileExec987134318.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec987134318.exe -Wl,--out-implib,libcmTryCompileExec987134318.dll.a -Wl,--major-image-version,0,--minor-image-version,0   ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=E:\CodeBlocks\MinGW\bin\gcc.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/lto-wrapper.exe]
+  ignore line: [Target: i686-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-4.8.1/configure --host=i686-w64-mingw32 --build=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=/mingw32 --with-sysroot=/tmp/x32-481-posix-sjlj-r5/mingw32 --enable-shared --enable-static --enable-targets=all --enable-multilib --enable-languages=ada,c,c++,fortran,objc,obj-c++,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-sjlj-exceptions --disable-isl-version-check --disable-cloog-version-check --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch-32=i686 --with-arch-64=nocona --with-tune-32=generic --with-tune-64=core2 --with-libiconv --with-system-zlib --with-gmp=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpfr=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpc=/tmp/mingw-prereq/i686-w64-mingw32-static --with-isl=/tmp/mingw-prereq/i686-w64-mingw32-static --with-cloog=/tmp/mingw-prereq/i686-w64-mingw32-static --enable-cloog-backend=isl --with-pkgversion='rev5, Built by MinGW-W64 project' --with-bugurl=http://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CPPFLAGS= LDFLAGS='-pipe -L/tmp/x32-481-posix-sjlj-r5/libs/lib -L/tmp/mingw-prereq/x32-zlib/lib -L/tmp/mingw-prereq/i686-w64-mingw32-static/lib -L/tmp/x32-481-posix-sjlj-r5/mingw32/opt/lib -Wl,--large-address-aware']
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.8.1 (rev5, Built by MinGW-W64 project) ]
+  ignore line: [COMPILER_PATH=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/]
+  ignore line: [e:/codeblocks/mingw/bin/../libexec/gcc/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec987134318.exe' '-mtune=generic' '-march=i686']
+  link line: [ e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe --sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32 -m i386pe -Bdynamic -o cmTryCompileExec987134318.exe e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1 -Le:/codeblocks/mingw/bin/../lib/gcc -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../.. --whole-archive CMakeFiles\cmTryCompileExec987134318.dir/objects.a --no-whole-archive --out-implib libcmTryCompileExec987134318.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o]
+    arg [e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe] ==> ignore
+    arg [--sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pe] ==> ignore
+    arg [-Bdynamic] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTryCompileExec987134318.exe] ==> ignore
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o] ==> ignore
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o] ==> ignore
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..]
+    arg [--whole-archive] ==> ignore
+    arg [CMakeFiles\cmTryCompileExec987134318.dir/objects.a] ==> ignore
+    arg [--no-whole-archive] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTryCompileExec987134318.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-liconv] ==> lib [iconv]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc_eh]
+  remove lib [gcc]
+  remove lib [gcc_eh]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1] ==> [e:/CodeBlocks/MinGW/lib/gcc/i686-w64-mingw32/4.8.1]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc] ==> [e:/CodeBlocks/MinGW/lib/gcc]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib] ==> [e:/CodeBlocks/MinGW/i686-w64-mingw32/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib] ==> [e:/CodeBlocks/MinGW/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib] ==> [e:/CodeBlocks/MinGW/i686-w64-mingw32/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..] ==> [e:/CodeBlocks/MinGW/lib]
+  implicit libs: [mingw32;moldname;mingwex;msvcrt;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;moldname;mingwex;msvcrt]
+  implicit dirs: [e:/CodeBlocks/MinGW/lib/gcc/i686-w64-mingw32/4.8.1;e:/CodeBlocks/MinGW/lib/gcc;e:/CodeBlocks/MinGW/i686-w64-mingw32/lib;e:/CodeBlocks/MinGW/lib]
+  implicit fwks: []
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec172763783/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec172763783.dir\build.make CMakeFiles/cmTryCompileExec172763783.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec172763783.dir/testCXXCompiler.cxx.obj
+E:\CodeBlocks\MinGW\bin\g++.exe     -o CMakeFiles\cmTryCompileExec172763783.dir\testCXXCompiler.cxx.obj -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCXXCompiler.cxx
+Linking CXX executable cmTryCompileExec172763783.exe
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec172763783.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec172763783.dir/objects.a
+E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec172763783.dir/objects.a @CMakeFiles\cmTryCompileExec172763783.dir\objects1.rsp
+E:\CodeBlocks\MinGW\bin\g++.exe       -Wl,--whole-archive CMakeFiles\cmTryCompileExec172763783.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec172763783.exe -Wl,--out-implib,libcmTryCompileExec172763783.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec3351964092/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec3351964092.dir\build.make CMakeFiles/cmTryCompileExec3351964092.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3351964092.dir/CMakeCXXCompilerABI.cpp.obj
+E:\CodeBlocks\MinGW\bin\g++.exe     -o CMakeFiles\cmTryCompileExec3351964092.dir\CMakeCXXCompilerABI.cpp.obj -c "C:\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXCompilerABI.cpp"
+Linking CXX executable cmTryCompileExec3351964092.exe
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec3351964092.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec3351964092.dir/objects.a
+E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec3351964092.dir/objects.a @CMakeFiles\cmTryCompileExec3351964092.dir\objects1.rsp
+E:\CodeBlocks\MinGW\bin\g++.exe     -v -Wl,--whole-archive CMakeFiles\cmTryCompileExec3351964092.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec3351964092.exe -Wl,--out-implib,libcmTryCompileExec3351964092.dll.a -Wl,--major-image-version,0,--minor-image-version,0   
+Using built-in specs.
+COLLECT_GCC=E:\CodeBlocks\MinGW\bin\g++.exe
+COLLECT_LTO_WRAPPER=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/lto-wrapper.exe
+Target: i686-w64-mingw32
+Configured with: ../../../src/gcc-4.8.1/configure --host=i686-w64-mingw32 --build=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=/mingw32 --with-sysroot=/tmp/x32-481-posix-sjlj-r5/mingw32 --enable-shared --enable-static --enable-targets=all --enable-multilib --enable-languages=ada,c,c++,fortran,objc,obj-c++,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-sjlj-exceptions --disable-isl-version-check --disable-cloog-version-check --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch-32=i686 --with-arch-64=nocona --with-tune-32=generic --with-tune-64=core2 --with-libiconv --with-system-zlib --with-gmp=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpfr=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpc=/tmp/mingw-prereq/i686-w64-mingw32-static --with-isl=/tmp/mingw-prereq/i686-w64-mingw32-static --with-cloog=/tmp/mingw-prereq/i686-w64-mingw32-static --enable-cloog-backend=isl --with-pkgversion='rev5, Built by MinGW-W64 project' --with-bugurl=http://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CPPFLAGS= LDFLAGS='-pipe -L/tmp/x32-481-posix-sjlj-r5/libs/lib -L/tmp/mingw-prereq/x32-zlib/lib -L/tmp/mingw-prereq/i686-w64-mingw32-static/lib -L/tmp/x32-481-posix-sjlj-r5/mingw32/opt/lib -Wl,--large-address-aware'
+Thread model: posix
+gcc version 4.8.1 (rev5, Built by MinGW-W64 project) 
+COMPILER_PATH=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/;e:/codeblocks/mingw/bin/../libexec/gcc/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/bin/
+LIBRARY_PATH=e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/;e:/codeblocks/mingw/bin/../lib/gcc/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/;e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3351964092.exe' '-shared-libgcc' '-mtune=generic' '-march=i686'
+ e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe --sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32 -m i386pe -Bdynamic -o cmTryCompileExec3351964092.exe e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1 -Le:/codeblocks/mingw/bin/../lib/gcc -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../.. --whole-archive CMakeFiles\cmTryCompileExec3351964092.dir/objects.a --no-whole-archive --out-implib libcmTryCompileExec3351964092.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:E:/CodeBlocks/MinGW/bin/mingw32-make.exe "cmTryCompileExec3351964092/fast"]
+  ignore line: [E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec3351964092.dir\build.make CMakeFiles/cmTryCompileExec3351964092.dir/build]
+  ignore line: [mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp']
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1]
+  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec3351964092.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [E:\CodeBlocks\MinGW\bin\g++.exe     -o CMakeFiles\cmTryCompileExec3351964092.dir\CMakeCXXCompilerABI.cpp.obj -c "C:\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXCompilerABI.cpp"]
+  ignore line: [Linking CXX executable cmTryCompileExec3351964092.exe]
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTryCompileExec3351964092.dir\link.txt --verbose=1]
+  ignore line: ["C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" -E remove -f CMakeFiles\cmTryCompileExec3351964092.dir/objects.a]
+  ignore line: [E:\CodeBlocks\MinGW\bin\ar.exe cr CMakeFiles\cmTryCompileExec3351964092.dir/objects.a @CMakeFiles\cmTryCompileExec3351964092.dir\objects1.rsp]
+  ignore line: [E:\CodeBlocks\MinGW\bin\g++.exe     -v -Wl,--whole-archive CMakeFiles\cmTryCompileExec3351964092.dir/objects.a -Wl,--no-whole-archive  -o cmTryCompileExec3351964092.exe -Wl,--out-implib,libcmTryCompileExec3351964092.dll.a -Wl,--major-image-version,0,--minor-image-version,0   ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=E:\CodeBlocks\MinGW\bin\g++.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/lto-wrapper.exe]
+  ignore line: [Target: i686-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-4.8.1/configure --host=i686-w64-mingw32 --build=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=/mingw32 --with-sysroot=/tmp/x32-481-posix-sjlj-r5/mingw32 --enable-shared --enable-static --enable-targets=all --enable-multilib --enable-languages=ada,c,c++,fortran,objc,obj-c++,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-sjlj-exceptions --disable-isl-version-check --disable-cloog-version-check --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch-32=i686 --with-arch-64=nocona --with-tune-32=generic --with-tune-64=core2 --with-libiconv --with-system-zlib --with-gmp=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpfr=/tmp/mingw-prereq/i686-w64-mingw32-static --with-mpc=/tmp/mingw-prereq/i686-w64-mingw32-static --with-isl=/tmp/mingw-prereq/i686-w64-mingw32-static --with-cloog=/tmp/mingw-prereq/i686-w64-mingw32-static --enable-cloog-backend=isl --with-pkgversion='rev5, Built by MinGW-W64 project' --with-bugurl=http://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -I/tmp/x32-481-posix-sjlj-r5/libs/include -I/tmp/mingw-prereq/x32-zlib/include -I/tmp/mingw-prereq/i686-w64-mingw32-static/include' CPPFLAGS= LDFLAGS='-pipe -L/tmp/x32-481-posix-sjlj-r5/libs/lib -L/tmp/mingw-prereq/x32-zlib/lib -L/tmp/mingw-prereq/i686-w64-mingw32-static/lib -L/tmp/x32-481-posix-sjlj-r5/mingw32/opt/lib -Wl,--large-address-aware']
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.8.1 (rev5, Built by MinGW-W64 project) ]
+  ignore line: [COMPILER_PATH=e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/]
+  ignore line: [e:/codeblocks/mingw/bin/../libexec/gcc/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/]
+  ignore line: [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec3351964092.exe' '-shared-libgcc' '-mtune=generic' '-march=i686']
+  link line: [ e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe --sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32 -m i386pe -Bdynamic -o cmTryCompileExec3351964092.exe e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1 -Le:/codeblocks/mingw/bin/../lib/gcc -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib -Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../.. --whole-archive CMakeFiles\cmTryCompileExec3351964092.dir/objects.a --no-whole-archive --out-implib libcmTryCompileExec3351964092.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o]
+    arg [e:/codeblocks/mingw/bin/../libexec/gcc/i686-w64-mingw32/4.8.1/collect2.exe] ==> ignore
+    arg [--sysroot=C:/Temp/msys64/tmp/x32-481-posix-sjlj-r5/mingw32] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pe] ==> ignore
+    arg [-Bdynamic] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTryCompileExec3351964092.exe] ==> ignore
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib/crt2.o] ==> ignore
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtbegin.o] ==> ignore
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib]
+    arg [-Le:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..] ==> dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..]
+    arg [--whole-archive] ==> ignore
+    arg [CMakeFiles\cmTryCompileExec3351964092.dir/objects.a] ==> ignore
+    arg [--no-whole-archive] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTryCompileExec3351964092.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-liconv] ==> lib [iconv]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/crtend.o] ==> ignore
+  remove lib [gcc_s]
+  remove lib [gcc]
+  remove lib [gcc_s]
+  remove lib [gcc]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1] ==> [e:/CodeBlocks/MinGW/lib/gcc/i686-w64-mingw32/4.8.1]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc] ==> [e:/CodeBlocks/MinGW/lib/gcc]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib/../lib] ==> [e:/CodeBlocks/MinGW/i686-w64-mingw32/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../lib] ==> [e:/CodeBlocks/MinGW/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../../../i686-w64-mingw32/lib] ==> [e:/CodeBlocks/MinGW/i686-w64-mingw32/lib]
+  collapse library dir [e:/codeblocks/mingw/bin/../lib/gcc/i686-w64-mingw32/4.8.1/../../..] ==> [e:/CodeBlocks/MinGW/lib]
+  implicit libs: [stdc++;mingw32;moldname;mingwex;msvcrt;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;moldname;mingwex;msvcrt]
+  implicit dirs: [e:/CodeBlocks/MinGW/lib/gcc/i686-w64-mingw32/4.8.1;e:/CodeBlocks/MinGW/lib/gcc;e:/CodeBlocks/MinGW/i686-w64-mingw32/lib;e:/CodeBlocks/MinGW/lib]
+  implicit fwks: []
+
+

@@ -73,7 +73,7 @@ uint32_t sg_mesh_object::get_material_count()
     return m_materials.size();
 }
 
-AABB sg_mesh_object::get_aabb()
+AABB sg_mesh_object::GetAABB()
 {
     return m_mesh->aabb;
 }

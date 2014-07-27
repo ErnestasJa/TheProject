@@ -4,6 +4,7 @@
 #include "SGEmptyObject.h"
 #include "application/AppContext.h"
 #include "physics/MotionState.h"
+#include "json.h"
 
 namespace sg
 {
@@ -18,13 +19,17 @@ ScenegraphLoader::~ScenegraphLoader()
     //dtor
 }
 
-void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, tinyxml2::XMLElement * el);
+glm::vec3 JsonReadVec3(const Json::Value & val);
+glm::quat JsonReadQuat(const Json::Value & val);
+void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, const Json::Value & el);
 bool ScenegraphLoader::LoadScene(AppContext * app_ctx, const std::string & filename,bool with_physics)
 {
     std::string scene_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "scene_path =" << scene_path.c_str() << std::endl;
 
-    tinyxml2::XMLDocument doc;
+    Json::Value root;
+    Json::Reader reader;
+
     uint32_t len;
     char * buf;
     len = helpers::read(filename, buf);
@@ -32,100 +37,111 @@ bool ScenegraphLoader::LoadScene(AppContext * app_ctx, const std::string & filen
     if(len==0)
         return false;
 
-    doc.Parse(buf);
+    bool success = reader.parse(buf, buf+len, root, false);
 
-    tinyxml2::XMLElement * scene = doc.FirstChildElement("scene");
-    tinyxml2::XMLElement * object = scene->FirstChildElement("object");
+    if(!success)
+        return false;
+
+    Json::Value scene = root["scene"];
 
     std::string collisionShapeType = "NULL";
     sg_object_ptr sgobj;
 
-    while(object)
+    for( uint32_t i = 0; i < scene.size(); i++)
     {
+        Json::Value object = scene[i];
         isg_object * o = nullptr;
 
-        if(object->Attribute("type","MESH"))
+        if(object.isNull()) continue;
+
+        std::string type = object["type"].asString();
+        std::string name = object["name"].asString();
+        std::cout <<"Got object [" << name << std::endl;
+
+        if(type == "MESH")
         {
-            if(tinyxml2::XMLElement * file = object->FirstChildElement("iqm_file"))
-            {
-                std::cout <<"Got object [" << object->Attribute("name") << "], file = " << file->Attribute("name") << std::endl;
+            std::string file = object["iqm_path"].asString();
+            std::cout << "File = " << file << std::endl;
 
-                sg::sg_mesh_object_ptr  obj = app_ctx->_scenegraph->load_mesh_object(scene_path+"/"+file->Attribute("name"),true);
-                sgobj = obj;
-                o = obj.get();
+            sg::sg_mesh_object_ptr  obj = app_ctx->_scenegraph->load_mesh_object(scene_path+"/"+file,true);
+            sgobj = obj;
+            o = obj.get();
 
-                app_ctx->_scenegraph->add_object(obj);
-            }
+            app_ctx->_scenegraph->add_object(obj);
         }
-        else if(object->Attribute("type","LAMP"))
+        else if(type == "LAMP")
         {
-
             sg::sg_light_object_ptr  obj = app_ctx->_scenegraph->add_light_object();
             o = obj.get();
         }
-        else if(object->Attribute("type","CAMERA"))
+        else if(type == "CAMERA")
         {
             sg::sg_camera_object_ptr  obj = sg_camera_object_ptr(new sg_camera_object(app_ctx,glm::vec3(0,0,0),glm::vec3(0,0,-1),glm::vec3(0,1,0)));
             o = obj.get();
 
             app_ctx->_scenegraph->add_object(obj);
         }
-        else if(object->Attribute("type","EMPTY"))
+        else if(type == "EMPTY")
         {
-            printf("ADDED EMPTY OBJ: %s\n",object->Attribute("name"));
             sg::sg_empty_object_ptr obj=share(new sg::sg_empty_object(app_ctx->_scenegraph));
-            app_ctx->_scenegraph->add_trigger(obj,object->Attribute("name"));
+            app_ctx->_scenegraph->add_trigger(obj,name);
             o = obj.get();
         }
         else
-        {
-            object = object->NextSiblingElement();
             continue;
-        }
 
-        o->SetName(object->Attribute("name"));
+        o->SetName(name);
 
-        if(tinyxml2::XMLElement * pos = object->FirstChildElement("position"))
-        {
-            o->set_position(glm::vec3(pos->FloatAttribute("x"),pos->FloatAttribute("y"),pos->FloatAttribute("z")));
-        }
+        Json::Value val = object["position"];
+        if(!val.isNull())
+            o->set_position(JsonReadVec3(val));
         else
             throw "nope.avi";
 
-        if(tinyxml2::XMLElement * rot = object->FirstChildElement("rotation"))
-        {
-            o->set_rotation(glm::quat(glm::vec3(rot->FloatAttribute("x"),rot->FloatAttribute("y"),rot->FloatAttribute("z"))));
-        }
-        else if(tinyxml2::XMLElement * rot = object->FirstChildElement("quat_rotation"))
-        {
-            o->set_rotation(glm::quat(rot->FloatAttribute("w"),rot->FloatAttribute("x"),rot->FloatAttribute("y"),rot->FloatAttribute("z")));
-        }
+        val = object["rotation"];
+        if(!val.isNull())
+            o->set_rotation(glm::quat(JsonReadVec3(val)));
         else
             throw "nope.avi";
 
-        if(tinyxml2::XMLElement * scale = object->FirstChildElement("scale"))
-        {
-            o->set_scale(glm::vec3(scale->FloatAttribute("x"),scale->FloatAttribute("y"),scale->FloatAttribute("z")));
-        }
+        val = object["scale"];
+        if(!val.isNull())
+            o->set_scale(JsonReadVec3(val));
         else
             throw "nope.avi";
 
         if(with_physics && sgobj->get_type() == SGO_MESH)
-            load_physics_for(app_ctx, sgobj,object);
-        object = object->NextSiblingElement();
+            load_physics_for(app_ctx, sgobj, object);
     }
 
     return true;
 }
 
-void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, tinyxml2::XMLElement * el)
+glm::vec3 JsonReadVec3(const Json::Value & val)
+{
+    glm::vec3 vec;
+    vec.x = val["x"].asFloat();
+    vec.y = val["y"].asFloat();
+    vec.z = val["z"].asFloat();
+    return vec;
+}
+
+glm::quat JsonReadQuat(const Json::Value & val)
+{
+    glm::quat quat;
+    quat.w = val["w"].asFloat();
+    quat.x = val["x"].asFloat();
+    quat.y = val["y"].asFloat();
+    quat.z = val["z"].asFloat();
+    return quat;
+}
+
+void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, const Json::Value & el)
 {
     if(obj)
     {
-        tinyxml2::XMLElement * e = el->FirstChildElement("game");
-        if(!e) return;
-        e = e->FirstChildElement();
-        if(!e) return;
+        Json::Value physics_data = el["physics_data"];
+        if(physics_data.isNull()) return;
 
         PhysicsManager * pmgr = app_ctx->_physicsManager;
 
@@ -136,26 +152,17 @@ void load_physics_for(AppContext * app_ctx, sg_object_ptr obj, tinyxml2::XMLElem
         float radius=1.0f;
         float mass=1.0f;
 
-        while(e)
-        {
-            if(strcmp(e->Name(), "mass")==0)
-                mass = e->FloatAttribute("value");
-            else if(strcmp(e->Name(), "collision_bounds_type")==0)
-                collisionShapeType = e->Attribute("value");
-            else if(strcmp(e->Name(), "physics_type")==0)
-                physicsType = e->Attribute("value");
-            else if(strcmp(e->Name(), "radius")==0)
-                radius = e->FloatAttribute("value");
-
-            e = e->NextSiblingElement();
-        }
+        mass = physics_data["mass"].asFloat();
+        radius = physics_data["radius"].asFloat();
+        collisionShapeType = physics_data["collision_bounds_type"].asString();
+        physicsType = physics_data["physics_type"].asString();
 
         if(collisionShapeType == "SPHERE")
             collisionShape = pmgr->createSphereShape(radius);
         else if(collisionShapeType == "BOX")
         {
             btVector3 extents(1.0f, 1.0f, 1.0f);
-            AABB aabb = obj->get_aabb();
+            AABB aabb = obj->GetAABB();
             collisionShape = pmgr->createBoxShape(PhysicsManager::glm_to_bt(aabb.get_extent()));
         }
         else if(collisionShapeType == "TRIANGLE_MESH")

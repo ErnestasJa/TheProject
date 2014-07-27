@@ -1,0 +1,268 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+gcc.exe: fatal error: no input files
+compilation terminated.
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+g++.exe: fatal error: no input files
+compilation terminated.
+Determining if the C compiler works failed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"E:/CodeBlocks/MinGW/bin/mingw32-make.exe" "cmTryCompileExec3147319597/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec3147319597.dir\build.make CMakeFiles/cmTryCompileExec3147319597.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3147319597.dir/testCCompiler.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec3147319597.dir\testCCompiler.c.obj   -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCCompiler.c
+CMakeFiles\cmTryCompileExec3147319597.dir\build.make:56: recipe for target 'CMakeFiles/cmTryCompileExec3147319597.dir/testCCompiler.c.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTryCompileExec3147319597.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [cmTryCompileExec3147319597/fast] Error 2
+Makefile:117: recipe for target 'cmTryCompileExec3147319597/fast' failed
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+gcc.exe: fatal error: no input files
+compilation terminated.
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+g++.exe: fatal error: no input files
+compilation terminated.
+Determining if the C compiler works failed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"E:/CodeBlocks/MinGW/bin/mingw32-make.exe" "cmTryCompileExec2223195626/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec2223195626.dir\build.make CMakeFiles/cmTryCompileExec2223195626.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2223195626.dir/testCCompiler.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec2223195626.dir\testCCompiler.c.obj   -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCCompiler.c
+CMakeFiles\cmTryCompileExec2223195626.dir\build.make:56: recipe for target 'CMakeFiles/cmTryCompileExec2223195626.dir/testCCompiler.c.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTryCompileExec2223195626.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+Makefile:117: recipe for target 'cmTryCompileExec2223195626/fast' failed
+mingw32-make.exe: *** [cmTryCompileExec2223195626/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+gcc.exe: fatal error: no input files
+compilation terminated.
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+g++.exe: fatal error: no input files
+compilation terminated.
+Determining if the C compiler works failed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"E:/CodeBlocks/MinGW/bin/mingw32-make.exe" "cmTryCompileExec1873930038/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec1873930038.dir\build.make CMakeFiles/cmTryCompileExec1873930038.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1873930038.dir/testCCompiler.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec1873930038.dir\testCCompiler.c.obj   -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCCompiler.c
+CMakeFiles\cmTryCompileExec1873930038.dir\build.make:56: recipe for target 'CMakeFiles/cmTryCompileExec1873930038.dir/testCCompiler.c.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTryCompileExec1873930038.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+Makefile:117: recipe for target 'cmTryCompileExec1873930038/fast' failed
+mingw32-make.exe: *** [cmTryCompileExec1873930038/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/gcc.exe 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+gcc.exe: fatal error: no input files
+compilation terminated.
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: E:/CodeBlocks/MinGW/bin/g++.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+
+
+Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+g++.exe: fatal error: no input files
+compilation terminated.
+Determining if the C compiler works failed with the following output:
+Change Dir: E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"E:/CodeBlocks/MinGW/bin/mingw32-make.exe" "cmTryCompileExec3197718299/fast"
+E:/CodeBlocks/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTryCompileExec3197718299.dir\build.make CMakeFiles/cmTryCompileExec3197718299.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_progress_report E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3197718299.dir/testCCompiler.c.obj
+E:\CodeBlocks\MinGW\bin\gcc.exe    -o CMakeFiles\cmTryCompileExec3197718299.dir\testCCompiler.c.obj   -c E:\Coding\ZombieGameProject\libs\jsoncpp\build\CMakeFiles\CMakeTmp\testCCompiler.c
+CMakeFiles\cmTryCompileExec3197718299.dir\build.make:56: recipe for target 'CMakeFiles/cmTryCompileExec3197718299.dir/testCCompiler.c.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTryCompileExec3197718299.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/Coding/ZombieGameProject/libs/jsoncpp/build/CMakeFiles/CMakeTmp'
+Makefile:117: recipe for target 'cmTryCompileExec3197718299/fast' failed
+mingw32-make.exe: *** [cmTryCompileExec3197718299/fast] Error 2
+
+
