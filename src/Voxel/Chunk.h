@@ -30,7 +30,10 @@ public:
 
     static const int CHUNK_SIZE = 16;
 
+    void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
+
 private:
+    bool m_dirty;
     MeshPtr m_mesh;
     shader_ptr m_shader;
     BufferObject<glm::vec4> *m_colBuf;

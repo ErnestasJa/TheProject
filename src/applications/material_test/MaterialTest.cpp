@@ -60,10 +60,10 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&MaterialTest::OnKeyEvent));
 
     glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	//glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-	glClearColor(0.2,1,0.2,0);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glClearColor(0.2,1,0.2,0);
 
     InitPlaneMesh(_appContext);
 
@@ -114,5 +114,25 @@ void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, in
         cam->Strafe(-1);
     if(key==GLFW_KEY_D)
         cam->Strafe(1);
+    if(key==GLFW_KEY_SPACE)
+    {
+        float ww,wh;
+        ww=_appContext->_window->GetWindowSize().x;
+        wh=_appContext->_window->GetWindowSize().y;
+        float depth;
+        glReadPixels(ww / 2, wh / 2, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
 
+        glm::vec4 viewport = glm::vec4(0, 0, ww, wh);
+        glm::vec3 wincoord = glm::vec3(ww / 2, wh / 2, depth);
+        glm::vec3 objcoord = glm::unProject(wincoord, cam->GetViewMat(), cam->GetProjectionMat(), viewport);
+
+        int x = floorf(objcoord.x);
+        int y = floorf(objcoord.y);
+        int z = floorf(objcoord.z);
+        printf("Voxel pos: %f %f %f\n",x,y,z);
+        chk->Set(0,0,0,EBT_SAND,false);
+        chk->Set(1,0,0,EBT_SAND,false);
+        chk->Set(0,1,0,EBT_SAND,false);
+        chk->Set(1,1,0,EBT_SAND,false);
+    }
 }

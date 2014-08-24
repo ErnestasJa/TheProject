@@ -5,6 +5,7 @@
 
 Chunk::Chunk()
 {
+    m_dirty=false;
     // Create the blocks
     m_pBlocks = new Block**[CHUNK_SIZE];
     for(int i = 0; i < CHUNK_SIZE; i++)
@@ -35,8 +36,82 @@ Chunk::~Chunk()
 
 void Chunk::Render()
 {
+    if(m_dirty)
+        Update(0);
     m_mesh->Render();
 }
+
+void Chunk::Update(float dt)
+{
+    m_posBuf->data.clear();
+    m_colBuf->data.clear();
+    m_indBuf->data.clear();
+
+    int indexTrack=0;
+
+    for (int z = 0; z < CHUNK_SIZE; z++)
+    {
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                if(!m_pBlocks[x][y][z].IsActive()) continue;
+
+                uint32_t flags=0;
+                AddBit(flags,EBS_LEFT);
+                AddBit(flags,EBS_RIGHT);
+                AddBit(flags,EBS_TOP);
+                AddBit(flags,EBS_BOTTOM);
+                AddBit(flags,EBS_FRONT);
+                AddBit(flags,EBS_BACK);
+
+                if(x > 0)
+                    if(m_pBlocks[x-1][y][z].IsActive())
+                        RemoveBit(flags,EBS_LEFT);
+
+                if(x < CHUNK_SIZE - 1)
+                    if(m_pBlocks[x+1][y][z].IsActive())
+                        RemoveBit(flags,EBS_RIGHT);
+
+                if(y > 0)
+                    if(m_pBlocks[x][y-1][z].IsActive())
+                        RemoveBit(flags,EBS_BOTTOM);
+
+                if(y < CHUNK_SIZE - 1)
+                    if(m_pBlocks[x][y+1][z].IsActive())
+                        RemoveBit(flags,EBS_TOP);
+
+                if(z > 0)
+                    if(m_pBlocks[x][y][z-1].IsActive())
+                        RemoveBit(flags,EBS_BACK);
+
+                if(z < CHUNK_SIZE - 1)
+                    if(m_pBlocks[x][y][z+1].IsActive())
+                        RemoveBit(flags,EBS_FRONT);
+
+                CreateCube(x,y,z,flags);
+                indexTrack+=8;
+            }
+        }
+    }
+
+    uint32_t size = m_posBuf->data.size();
+    uint32_t size2 = m_colBuf->data.size();
+    uint32_t size3 = m_indBuf->data.size();
+
+    m_mesh->UploadBuffers();
+
+    m_dirty=false;
+}
+
+void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
+{
+    m_pBlocks[x][y][z].SetActive(active);
+    m_pBlocks[x][y][z].SetBlockType(type);
+    m_dirty=true;
+}
+
+
 
 void Chunk::SetupSphere()
 {
@@ -46,12 +121,12 @@ void Chunk::SetupSphere()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                if (sqrt((float) (x-CHUNK_SIZE/2)*(x-CHUNK_SIZE/2) + (y-CHUNK_SIZE/2)*(y-CHUNK_SIZE/2) + (z-CHUNK_SIZE/2)*(z-CHUNK_SIZE/2)) <= CHUNK_SIZE/2)
-                {
+//                if (sqrt((float) (x-CHUNK_SIZE/2)*(x-CHUNK_SIZE/2) + (y-CHUNK_SIZE/2)*(y-CHUNK_SIZE/2) + (z-CHUNK_SIZE/2)*(z-CHUNK_SIZE/2)) <= CHUNK_SIZE/2)
+//                {
                     m_pBlocks[x][y][z].SetActive(true);
 
                     m_pBlocks[x][y][z].SetBlockType(EBT_GRASS);
-                }
+//                }
             }
         }
     }

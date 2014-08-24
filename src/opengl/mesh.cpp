@@ -165,7 +165,6 @@ void Mesh::UploadBuffers()
             ///enable on upload. MIGHT NOT BE A REALLY GOOD SOLUTION
             if(buffers[i]->GetSize()>0)
             {
-
                 buffers[i]->Upload();
 
                 if(buffers[i]->GetType()==IBufferObject::DATA)
