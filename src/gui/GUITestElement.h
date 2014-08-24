@@ -6,8 +6,8 @@
 class gui_test_element:public GUIElement
 {
 private:
-    quad* _pane;
-    shader* _material;
+    Quad* _pane;
+    Shader* _material;
     glm::mat4 _transform;
     glm::vec3 _color;
     glm::vec2 mp,ds,dif;
@@ -17,8 +17,8 @@ public:
     {
         this->SetParent(env);
 
-        this->_pane=new quad();
-        _pane->generate();
+        this->_pane=new Quad();
+        _pane->Init();
 
         dragging=false;
     }
@@ -28,7 +28,7 @@ public:
     }
     void OnEvent(GUIEvent e)
     {
-        switch(e.get_type())
+        switch(e.GetType())
         {
         case element_focused:
             this->event_listener->OnEvent(e);
@@ -79,16 +79,16 @@ public:
         this->_transform=glm::scale(this->_transform,glm::vec3(sx,sy,0));
         if(_material)
         {
-            _material->set();
+            _material->Set();
             glUniformMatrix4fv(_material->getparam("M"),1,GL_FALSE,glm::value_ptr(_transform));
             glUniform3fv(_material->getparam("C"),1,glm::value_ptr(this->_color));
             glBindTexture(GL_TEXTURE_2D,0);
-            this->_pane->draw();
+            this->_pane->Render();
         }
         this->RenderChildren();
     }
 
-    void set_material(shader* material)
+    void set_material(Shader* material)
     {
         this->_material=material;
     }

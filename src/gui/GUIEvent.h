@@ -45,7 +45,7 @@ public:
         this->element=element;
     }
 
-    gui_event_type get_type() const
+    gui_event_type GetType() const
     {
         return this->Type;
     }

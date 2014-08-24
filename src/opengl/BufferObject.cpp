@@ -3,25 +3,25 @@
 
 /// index buffer objects
 template <>
-uint32_t IndexBufferObject<uint8_t>::get_data_type()
+uint32_t IndexBufferObject<uint8_t>::GetDataType()
 {
     return GL_UNSIGNED_BYTE;
 }
 
 template <>
-uint32_t IndexBufferObject<uint8_t>::get_component_count()
+uint32_t IndexBufferObject<uint8_t>::GetComponentCount()
 {
     return 1;
 }
 
 template <>
-void IndexBufferObject<uint8_t>::init()
+void IndexBufferObject<uint8_t>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void IndexBufferObject<uint8_t>::upload()
+void IndexBufferObject<uint8_t>::Upload()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size()*sizeof(uint32_t),&data[0],GL_STATIC_DRAW);
@@ -29,25 +29,25 @@ void IndexBufferObject<uint8_t>::upload()
 }
 
 template <>
-uint32_t IndexBufferObject<uint32_t>::get_data_type()
+uint32_t IndexBufferObject<uint32_t>::GetDataType()
 {
     return GL_UNSIGNED_INT;
 }
 
 template <>
-uint32_t IndexBufferObject<uint32_t>::get_component_count()
+uint32_t IndexBufferObject<uint32_t>::GetComponentCount()
 {
     return 1;
 }
 
 template <>
-void IndexBufferObject<uint32_t>::init()
+void IndexBufferObject<uint32_t>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void IndexBufferObject<uint32_t>::upload()
+void IndexBufferObject<uint32_t>::Upload()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size()*sizeof(uint32_t),&data[0],GL_STATIC_DRAW);
@@ -56,25 +56,25 @@ void IndexBufferObject<uint32_t>::upload()
 
 ///buffer objects
 template <>
-uint32_t BufferObject<uint8_t>::get_data_type()
+uint32_t BufferObject<uint8_t>::GetDataType()
 {
     return GL_UNSIGNED_BYTE;
 }
 
 template <>
-uint32_t BufferObject<uint8_t>::get_component_count()
+uint32_t BufferObject<uint8_t>::GetComponentCount()
 {
     return 1;
 }
 
 template <>
-void BufferObject<uint8_t>::init()
+void BufferObject<uint8_t>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<uint8_t>::upload()
+void BufferObject<uint8_t>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(uint8_t),&data[0],GL_STATIC_DRAW);
@@ -82,25 +82,25 @@ void BufferObject<uint8_t>::upload()
 }
 
 template <>
-uint32_t BufferObject<helpers::u8vec4>::get_data_type()
+uint32_t BufferObject<helpers::u8vec4>::GetDataType()
 {
     return GL_UNSIGNED_BYTE;
 }
 
 template <>
-uint32_t BufferObject<helpers::u8vec4>::get_component_count()
+uint32_t BufferObject<helpers::u8vec4>::GetComponentCount()
 {
     return 4;
 }
 
 template <>
-void BufferObject<helpers::u8vec4>::init()
+void BufferObject<helpers::u8vec4>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<helpers::u8vec4>::upload()
+void BufferObject<helpers::u8vec4>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(helpers::u8vec4),&data[0],GL_STATIC_DRAW);
@@ -108,25 +108,25 @@ void BufferObject<helpers::u8vec4>::upload()
 }
 
 template <>
-uint32_t BufferObject<uint32_t>::get_data_type()
+uint32_t BufferObject<uint32_t>::GetDataType()
 {
     return GL_UNSIGNED_INT;
 }
 
 template <>
-uint32_t BufferObject<uint32_t>::get_component_count()
+uint32_t BufferObject<uint32_t>::GetComponentCount()
 {
     return 1;
 }
 
 template <>
-void BufferObject<uint32_t>::init()
+void BufferObject<uint32_t>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<uint32_t>::upload()
+void BufferObject<uint32_t>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(uint32_t),&data[0],GL_STATIC_DRAW);
@@ -134,25 +134,25 @@ void BufferObject<uint32_t>::upload()
 }
 
 template <>
-uint32_t BufferObject<glm::vec4>::get_data_type()
+uint32_t BufferObject<glm::vec4>::GetDataType()
 {
     return GL_FLOAT;
 }
 
 template <>
-uint32_t BufferObject<glm::vec4>::get_component_count()
+uint32_t BufferObject<glm::vec4>::GetComponentCount()
 {
     return 4;
 }
 
 template <>
-void BufferObject<glm::vec4>::init()
+void BufferObject<glm::vec4>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<glm::vec4>::upload()
+void BufferObject<glm::vec4>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(glm::vec4), &data[0], GL_STATIC_DRAW);
@@ -160,25 +160,25 @@ void BufferObject<glm::vec4>::upload()
 }
 
 template <>
-uint32_t BufferObject<glm::vec3>::get_data_type()
+uint32_t BufferObject<glm::vec3>::GetDataType()
 {
     return GL_FLOAT;
 }
 
 template <>
-uint32_t BufferObject<glm::vec3>::get_component_count()
+uint32_t BufferObject<glm::vec3>::GetComponentCount()
 {
     return 3;
 }
 
 template <>
-void BufferObject<glm::vec3>::init()
+void BufferObject<glm::vec3>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<glm::vec3>::upload()
+void BufferObject<glm::vec3>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
@@ -186,25 +186,25 @@ void BufferObject<glm::vec3>::upload()
 }
 
 template <>
-uint32_t BufferObject<glm::vec2>::get_data_type()
+uint32_t BufferObject<glm::vec2>::GetDataType()
 {
     return GL_FLOAT;
 }
 
 template <>
-uint32_t BufferObject<glm::vec2>::get_component_count()
+uint32_t BufferObject<glm::vec2>::GetComponentCount()
 {
     return 2;
 }
 
 template <>
-void BufferObject<glm::vec2>::init()
+void BufferObject<glm::vec2>::Init()
 {
     glGenBuffers(1, &this->Id);
 }
 
 template <>
-void BufferObject<glm::vec2>::upload()
+void BufferObject<glm::vec2>::Upload()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(glm::vec2), &data[0], GL_STATIC_DRAW);

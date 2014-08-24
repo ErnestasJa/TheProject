@@ -76,7 +76,7 @@ void gui_button::remove_image()
 bool gui_button::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
-    switch(e.get_type())
+    switch(e.GetType())
     {
     case gui_event_type::element_hovered:
         cur_style=gui_skin_button_hover;

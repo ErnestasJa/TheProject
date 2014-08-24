@@ -11,7 +11,7 @@ enum FBO_TARGET
     FBO_READ_AND_WRITE
 };
 
-struct frame_BufferObject: public gl_object
+struct FrameBufferObject: public GLObject
 {
     uint32_t target;
 
@@ -23,48 +23,48 @@ struct frame_BufferObject: public gl_object
     gl_object_ptr stencil_buffer_binding;
     gl_object_ptr depth_stencil_buffer_binding;
 
-    frame_BufferObject()
+    FrameBufferObject()
     {
         Id = 0;
         enabled_buffer_count = 0;
         target = GL_FRAMEBUFFER;
     }
 
-    ~frame_BufferObject()
+    ~FrameBufferObject()
     {
         if(Id)
         glDeleteFramebuffers(1,&Id);
     }
 
-    void enable_buffer(uint32_t texture)
+    void EnableBuffer(uint32_t Texture)
     {
-        if(texture > 8)
-            throw texture;
+        if(Texture > 8)
+            throw Texture;
 
-        texture += GL_COLOR_ATTACHMENT0;
+        Texture += GL_COLOR_ATTACHMENT0;
 
         for(uint8_t i = 0; i < enabled_buffer_count; i++)
         {
-            if(enabled_buffer[i]==texture)
+            if(enabled_buffer[i]==Texture)
                 return;
         }
 
-        enabled_buffer[enabled_buffer_count]=texture;
+        enabled_buffer[enabled_buffer_count]=Texture;
         enabled_buffer_count++;
 
         glDrawBuffers(enabled_buffer_count,enabled_buffer);
     }
 
-    void disable_buffer(uint32_t texture)
+    void DisableBuffer(uint32_t Texture)
     {
-        if(texture > 8)
-            throw texture;
+        if(Texture > 8)
+            throw Texture;
 
-        texture += GL_COLOR_ATTACHMENT0;
+        Texture += GL_COLOR_ATTACHMENT0;
 
         for(uint8_t i = 0; i < enabled_buffer_count; i++)
         {
-            if(enabled_buffer[i]==texture)
+            if(enabled_buffer[i]==Texture)
             {
                 enabled_buffer_count--;
                 for(uint8_t j = i; j < enabled_buffer_count; j++)
@@ -75,30 +75,30 @@ struct frame_BufferObject: public gl_object
         glDrawBuffers(enabled_buffer_count,enabled_buffer);
     }
 
-    void enable_single_buffer(uint32_t texture)
+    void EnableSingleBuffer(uint32_t Texture)
     {
-        if(texture > 8)
-            throw texture;
+        if(Texture > 8)
+            throw Texture;
 
-        texture += GL_COLOR_ATTACHMENT0;
+        Texture += GL_COLOR_ATTACHMENT0;
         enabled_buffer_count = 1;
-        enabled_buffer[0]=texture;
+        enabled_buffer[0]=Texture;
 
         glDrawBuffers(1,enabled_buffer);
     }
 
-    bool init()
+    bool Init()
     {
         glGenFramebuffers(1,&Id);
         return true;
     }
 
-    void set()
+    void Set()
     {
         glBindFramebuffer(target, Id);
     }
 
-    void set(FBO_TARGET target)
+    void Set(FBO_TARGET target)
     {
         if(target == FBO_READ)
             this->target = GL_READ_FRAMEBUFFER;
@@ -112,71 +112,71 @@ struct frame_BufferObject: public gl_object
         glBindFramebuffer(this->target, Id);
     }
 
-    void unset()
+    void Unset()
     {
         glBindFramebuffer(target,0);
     }
 
-    void attach_depth_texture(gl_object_ptr obj, uint32_t level=0)
+    void AttachDepthTexture(gl_object_ptr obj, uint32_t level=0)
     {
-        if(obj->get_type()==GLO_TEXTURE)
+        if(obj->GetType()==GLO_TEXTURE)
         {
-            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            TexturePtr tex = std::static_pointer_cast<Texture>(obj);
             glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,tex->Type,tex->Id,level);
         }
-        else if(obj->get_type()==GLO_RENDERBUFFER)
+        else if(obj->GetType()==GLO_RENDERBUFFER)
         {
-            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<RenderBufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         depth_buffer_binding=obj;
     }
 
-    void attach_stencil_texture(gl_object_ptr obj, uint32_t level=0)
+    void AttachStencilTexture(gl_object_ptr obj, uint32_t level=0)
     {
-        if(obj->get_type()==GLO_TEXTURE)
+        if(obj->GetType()==GLO_TEXTURE)
         {
-            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            TexturePtr tex = std::static_pointer_cast<Texture>(obj);
             glFramebufferTexture2D(target,GL_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
-        else if(obj->get_type()==GLO_RENDERBUFFER)
+        else if(obj->GetType()==GLO_RENDERBUFFER)
         {
-            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<RenderBufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         stencil_buffer_binding=obj;
     }
 
-    void attach_depth_stencil_texture(gl_object_ptr obj, uint32_t level=0)
+    void AttachDepthStencilTexture(gl_object_ptr obj, uint32_t level=0)
     {
-        if(obj->get_type()==GLO_TEXTURE)
+        if(obj->GetType()==GLO_TEXTURE)
         {
-            Texture_ptr tex = std::static_pointer_cast<texture>(obj);
+            TexturePtr tex = std::static_pointer_cast<Texture>(obj);
             glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,tex->Type,tex->Id,level);
         }
-        else if(obj->get_type()==GLO_RENDERBUFFER)
+        else if(obj->GetType()==GLO_RENDERBUFFER)
         {
-            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<RenderBufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
         depth_stencil_buffer_binding=obj;
     }
 
-    void attach_texture(uint32_t attachment_point, gl_object_ptr obj, uint32_t level=0)
+    void AttachTexture(uint32_t attachment_point, gl_object_ptr obj, uint32_t level=0)
     {
         if(attachment_point < 8)
         {
-            if(obj->get_type()==GLO_TEXTURE)
+            if(obj->GetType()==GLO_TEXTURE)
             {
-                Texture_ptr tex = std::static_pointer_cast<texture>(obj);
+                TexturePtr tex = std::static_pointer_cast<Texture>(obj);
                 glFramebufferTexture2D(target, attachment_point+GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->Id, level);
             }
-            else if(obj->get_type()==GLO_RENDERBUFFER)
+            else if(obj->GetType()==GLO_RENDERBUFFER)
             {
-                render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
+                render_BufferObject_ptr rbo = std::static_pointer_cast<RenderBufferObject>(obj);
                 glFramebufferRenderbuffer(target,attachment_point+GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo->Id);
             }
 
@@ -184,7 +184,7 @@ struct frame_BufferObject: public gl_object
         }
     }
 
-    void detach_texture(uint32_t attachment_point)
+    void DetachTexture(uint32_t attachment_point)
     {
         if(attachment_point < 8)
         {
@@ -193,39 +193,39 @@ struct frame_BufferObject: public gl_object
         }
     }
 
-    void detach_depth_texture()
+    void DetachDepthTexture()
     {
         glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,0,0,0);
         depth_buffer_binding=nullptr;
     }
 
-    void detach_stencil_texture()
+    void DetachStencilTexture()
     {
         glFramebufferTexture2D(target,GL_DEPTH_ATTACHMENT,0,0,0);
         stencil_buffer_binding=nullptr;
     }
 
-    void detach_depth_stencil_texture()
+    void DetachDepthStencilTexture()
     {
         glFramebufferTexture2D(target,GL_DEPTH_STENCIL_ATTACHMENT,0,0,0);
         depth_stencil_buffer_binding=nullptr;
     }
 
-    bool is_complete()
+    bool IsComplete()
     {
         return glCheckFramebufferStatus(target)==GL_FRAMEBUFFER_COMPLETE;
     }
 
-    uint32_t get_status()
+    uint32_t GetStatus()
     {
         return glCheckFramebufferStatus(target);
     }
 
-    GLO_TYPE get_type()
+    GLO_TYPE GetType()
     {
         return GLO_FRAMEBUFFER;
     }
 
 };
 
-typedef std::shared_ptr<frame_BufferObject> frame_BufferObject_ptr;
+typedef std::shared_ptr<FrameBufferObject> frame_BufferObject_ptr;

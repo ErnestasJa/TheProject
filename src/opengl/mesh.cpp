@@ -64,15 +64,15 @@ void Mesh::Init()
     {
         if(buffers[i])
         {
-            buffers[i]->init();
+            buffers[i]->Init();
 
-            if(buffers[i]->get_size())
-                buffers[i]->upload();
+            if(buffers[i]->GetSize())
+                buffers[i]->Upload();
 
-            if(buffers[i]->get_type()==IBufferObject::DATA)
+            if(buffers[i]->GetType()==IBufferObject::DATA)
             {
                 glEnableVertexAttribArray(i);
-                glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
+                glVertexAttribPointer(i,buffers[i]->GetComponentCount(),buffers[i]->GetDataType(),GL_FALSE,0,0);
             }
         }
     }
@@ -110,7 +110,7 @@ void Mesh::Render()
     }
     else
     {
-        glDrawElements(GL_TRIANGLES,buffers[INDICES]->get_size(),GL_UNSIGNED_INT,0);
+        glDrawElements(GL_TRIANGLES,buffers[INDICES]->GetSize(),GL_UNSIGNED_INT,0);
     }
 
     glBindVertexArray(0);
@@ -120,9 +120,9 @@ void Mesh::render_lines()
 {
     glBindVertexArray(vao);
 
-    uint32_t size = buffers[POSITION]->get_size();
+    uint32_t size = buffers[POSITION]->GetSize();
 
-    if(buffers[POSITION]&&buffers[POSITION]->get_size())
+    if(buffers[POSITION]&&buffers[POSITION]->GetSize())
         glDrawArrays(GL_LINES,0,size);
 
     glBindVertexArray(0);
@@ -132,7 +132,7 @@ void Mesh::render_triangle_strip()
 {
     glBindVertexArray(vao);
 
-    glDrawArrays(GL_TRIANGLES,0,buffers[POSITION]->get_size());
+    glDrawArrays(GL_TRIANGLES,0,buffers[POSITION]->GetSize());
 
     glBindVertexArray(0);
 }
@@ -154,7 +154,7 @@ void Mesh::RecalculateAABB()
         aabb.Reset(glm::vec3());
 }
 
-void Mesh::upload_buffers()
+void Mesh::UploadBuffers()
 {
     glBindVertexArray(vao);
 
@@ -163,15 +163,15 @@ void Mesh::upload_buffers()
         if(buffers[i])
         {
             ///enable on upload. MIGHT NOT BE A REALLY GOOD SOLUTION
-            if(buffers[i]->get_size()>0)
+            if(buffers[i]->GetSize()>0)
             {
 
-                buffers[i]->upload();
+                buffers[i]->Upload();
 
-                if(buffers[i]->get_type()==IBufferObject::DATA)
+                if(buffers[i]->GetType()==IBufferObject::DATA)
                 {
                     glEnableVertexAttribArray(i);
-                    glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
+                    glVertexAttribPointer(i,buffers[i]->GetComponentCount(),buffers[i]->GetDataType(),GL_FALSE,0,0);
                 }
             }
         }

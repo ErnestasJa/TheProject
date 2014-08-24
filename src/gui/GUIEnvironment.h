@@ -18,10 +18,10 @@
 #include "GUISkin.h"
 #include "font_rendering/FontRenderer.h"
 
-class shader;
-class quad;
-class sliced_gui_quad;
-class texture;
+class Shader;
+class Quad;
+class SlicedGUIQuad;
+class Texture;
 class Window;
 class gui_skin;
 class Logger;
@@ -41,9 +41,9 @@ public:
     bool is_on_hover(GUIElement *e);
     bool is_on_focus(GUIElement *e);
 
-    void draw_gui_quad(Rect2D<int> size, std::shared_ptr<texture> tex, bool tile=false);
+    void draw_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
     void draw_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
-    void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<texture> tex, bool tile=false);
+    void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
     void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
 
     void set_skin(gui_skin* skin);
@@ -106,11 +106,11 @@ public:
 //    gui_pane* add_gui_pane();
 private:
     gui_skin* skin;
-    texture* skin_atlas;
-    shader* gui_shader;
+    Texture* skin_atlas;
+    Shader* gui_shader;
 
-    quad* gui_quad;
-    sliced_gui_quad* sliced_quad;
+    Quad* gui_quad;
+    SlicedGUIQuad* sliced_quad;
 
     font_renderer* m_font_renderer;
     Window* m_window;

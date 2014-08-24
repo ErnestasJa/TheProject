@@ -35,21 +35,21 @@ GUIEnvironment::GUIEnvironment(Window* win,Logger* log):GUIElement(nullptr, Rect
     this->SetName("GUI_ENVIRONMENT");
     last_char=' ';
 
-    gui_shader=shader::load_shader("res/gui_quad");
-    gui_quad=new quad();
-    gui_quad->generate();
+    gui_shader=Shader::LoadShader("res/gui_quad");
+    gui_quad=new Quad();
+    gui_quad->Init();
 
-    sliced_quad=new sliced_gui_quad(1,0.125);
-    sliced_quad->generate();
+    sliced_quad=new SlicedGUIQuad(1,0.125);
+    sliced_quad->Init();
 
     skin=new gui_skin();
 
     skin->load("res/skin_default.xml");
 
-    skin_atlas=new texture();
+    skin_atlas=new Texture();
     image_loader* imgl=new image_loader(log);
     std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
-    skin_atlas->init(img);
+    skin_atlas->Init(img);
 
     m_font_renderer=new font_renderer(this);
 }
@@ -79,7 +79,7 @@ bool GUIEnvironment::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
-    switch(e.get_type())
+    switch(e.GetType())
     {
     case element_focused:
         this->BringToFront(e.get_caller());
@@ -251,16 +251,16 @@ font_renderer* GUIEnvironment::get_font_renderer()
     return m_font_renderer;
 }
 
-void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<texture> tex,bool tile)
+void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex,bool tile)
 {
     Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
     glEnable(GL_BLEND);
 
-    gui_shader->set();
-    tex->set(0);
+    gui_shader->Set();
+    tex->Set(0);
 
-    gui_quad->set_uv(skin->get_uv(gui_skin_whole_texture));
+    gui_quad->SetUV(skin->get_uv(gui_skin_whole_texture));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -269,7 +269,7 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<texture> tex
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
 
-    gui_quad->draw();
+    gui_quad->Render();
 
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
@@ -281,10 +281,10 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,uint32_t style,bool tile)
 
     glEnable(GL_BLEND);
 
-    gui_shader->set();
-    skin_atlas->set(0);
+    gui_shader->Set();
+    skin_atlas->Set(0);
 
-    gui_quad->set_uv(skin->get_uv(style));
+    gui_quad->SetUV(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -293,21 +293,21 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,uint32_t style,bool tile)
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
 
-    gui_quad->draw();
+    gui_quad->Render();
 
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
 
-void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<texture> tex,bool tile)
+void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex,bool tile)
 {
     Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
     glEnable(GL_BLEND);
 
-    gui_shader->set();
-    tex->set(0);
+    gui_shader->Set();
+    tex->Set(0);
 
     //sliced_quad->set_tcoords(skin->get_uv(gui_skin_background));
 
@@ -318,7 +318,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<textu
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
 
-    sliced_quad->draw();
+    sliced_quad->Render();
 
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
@@ -330,10 +330,10 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
 
     glEnable(GL_BLEND);
 
-    gui_shader->set();
-    skin_atlas->set(0);
+    gui_shader->Set();
+    skin_atlas->Set(0);
 
-    sliced_quad->set_tcoords(skin->get_uv(style));
+    sliced_quad->SetTCoords(skin->get_uv(style));
 
     glm::mat4 M=glm::mat4(1.0f);
 
@@ -344,7 +344,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
     glUniform1f(gui_shader->getparam("alpha"),0.9f);
 
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    sliced_quad->draw();
+    sliced_quad->Render();
     //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);

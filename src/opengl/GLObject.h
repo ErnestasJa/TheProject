@@ -11,17 +11,17 @@ enum GLO_TYPE
     GLO_SHADER_PROGRAM
 };
 
-struct gl_object
+struct GLObject
 {
     uint32_t Id;
 
-    gl_object();
-    virtual ~gl_object();
+    GLObject();
+    virtual ~GLObject();
 
-    virtual GLO_TYPE get_type()=0;
+    virtual GLO_TYPE GetType()=0;
 
 };
 
-typedef std::shared_ptr<gl_object> gl_object_ptr;
+typedef std::shared_ptr<GLObject> gl_object_ptr;
 
 #endif // GL_OBJECT_H

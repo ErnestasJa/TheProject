@@ -12,9 +12,9 @@ shader_loader::~shader_loader()
     //dtor
 }
 
-shader_ptr shader_loader::load(const std::string & vertex_file, const std::string & fragment_file)
+ShaderPtr shader_loader::load(const std::string & vertex_file, const std::string & fragment_file)
 {
-    resource<shader> res;
+    resource<Shader> res;
 
     ///not sure about this one.
     std::string res_name = vertex_file.substr(0,vertex_file.rfind('.')) + fragment_file.substr(0,fragment_file.rfind('.'));
@@ -30,17 +30,17 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
     char * vsh=NULL;
     char * fsh=NULL;
 
-    if(!helpers::read(vertex_file,vsh)) return shader_ptr();
-    if(!helpers::read(fragment_file,fsh)) return shader_ptr();
+    if(!helpers::read(vertex_file,vsh)) return ShaderPtr();
+    if(!helpers::read(fragment_file,fsh)) return ShaderPtr();
 
     _logger->log(LOG_LOG, "Shader name: %s", res_name.c_str());
-    shader * sh = new shader(res_name,vsh,fsh);
-	sh->compile();
+    Shader * sh = new Shader(res_name,vsh,fsh);
+	sh->Compile();
 	sh->link();
 
 	if(sh->program)
     {
-        res.resource = shader_ptr(sh);
+        res.resource = ShaderPtr(sh);
         res.path = res_name;
         this->add_resource(res);
     }
@@ -54,9 +54,9 @@ shader_ptr shader_loader::load(const std::string & vertex_file, const std::strin
     return res.resource;
 }
 
-shader_ptr shader_loader::load(const std::string & file)
+ShaderPtr shader_loader::load(const std::string & file)
 {
-    resource<shader> res;
+    resource<Shader> res;
 
     res = this->get_resource(file);
 
@@ -69,18 +69,18 @@ shader_ptr shader_loader::load(const std::string & file)
     char * vsh=NULL;
     char * fsh=NULL;
 
-    if(!helpers::read(file + ".vert",vsh)) return shader_ptr();
-    if(!helpers::read(file + ".frag",fsh)) return shader_ptr();
+    if(!helpers::read(file + ".vert",vsh)) return ShaderPtr();
+    if(!helpers::read(file + ".frag",fsh)) return ShaderPtr();
 
     std::string sh_name = file.substr(file.rfind("/")+1);
     _logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());
-    shader * sh = new shader(sh_name,vsh,fsh);
-	sh->compile();
+    Shader * sh = new Shader(sh_name,vsh,fsh);
+	sh->Compile();
 	//sh->link();
 
 	if(sh->program)
     {
-        res.resource = shader_ptr(sh);
+        res.resource = ShaderPtr(sh);
         res.path = file;
         this->add_resource(res);
     }
@@ -94,13 +94,13 @@ shader_ptr shader_loader::load(const std::string & file)
     return res.resource;
 }
 
-shader_ptr shader_loader::get_shader_by_name(const std::string & name)
+ShaderPtr shader_loader::get_shader_by_name(const std::string & name)
 {
-    for(resource<shader> & res: m_resources)
+    for(resource<Shader> & res: m_resources)
     {
         if(res.resource->name == name)
             return res.resource;
     }
 
-    return shader_ptr();
+    return ShaderPtr();
 }

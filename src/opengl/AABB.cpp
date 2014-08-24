@@ -32,7 +32,7 @@ void AABB::AddPoint(glm::vec3 point)
     if (point.z<m_min_point.z) m_min_point.z = point.z;
 }
 
-bool AABB::is_point_inside(glm::vec3 point) const
+bool AABB::IsPointInside(glm::vec3 point) const
 {
     return
     m_min_point.x <= point.x &&
@@ -43,17 +43,17 @@ bool AABB::is_point_inside(glm::vec3 point) const
     m_max_point.z >= point.z;
 }
 
-glm::vec3 AABB::get_extent() const
+glm::vec3 AABB::GetExtent() const
 {
     return m_max_point - m_min_point;
 }
 
-glm::vec3 AABB::get_min() const
+glm::vec3 AABB::GetMin() const
 {
     return m_min_point;
 }
 
-glm::vec3 AABB::get_max() const
+glm::vec3 AABB::GetMax() const
 {
     return m_max_point;
 }

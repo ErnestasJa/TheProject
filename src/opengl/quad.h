@@ -5,7 +5,7 @@
 #include "opengl/BufferObject.h"
 #include "resources/ResourceCache.h"
 
-class quad
+class Quad
 {
 private:
     float m_size;
@@ -16,14 +16,14 @@ public:
 
     std::shared_ptr<Mesh> glmesh;
 
-    quad(float size=1.0f)
+    Quad(float size=1.0f)
     {
         this->m_size=size;
     }
 
-    virtual ~quad(){};
+    virtual ~Quad(){};
 
-    virtual bool generate()
+    virtual bool Init()
     {
         glmesh = share(new Mesh());
         pos = new BufferObject<glm::vec3>();
@@ -56,24 +56,18 @@ public:
         glmesh->buffers[2] = indices;
 
 
-        init();
-        return true;
-    }
-
-    bool init()
-    {
         glmesh->Init();
         return true;
     }
 
-    void set_uv(std::vector<glm::vec2> uvs)
+    void SetUV(std::vector<glm::vec2> uvs)
     {
         glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[1]->Id);
         glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void draw()
+    void Render()
     {
         glBindVertexArray(glmesh->vao);
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);

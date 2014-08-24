@@ -95,7 +95,7 @@ bool gui_edit_box::OnEvent(const GUIEvent & e)
     GUI_BEGIN_ON_EVENT(e)
 
         std::wstring temp;
-        switch(e.get_type())
+        switch(e.GetType())
         {
         case element_focused:
             break;

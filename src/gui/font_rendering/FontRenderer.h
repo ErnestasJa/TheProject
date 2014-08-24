@@ -4,7 +4,7 @@
 #include FT_FREETYPE_H
 
 class GUIEnvironment;
-class shader;
+class Shader;
 struct font;
 
 typedef std::vector<font*> font_vector;
@@ -23,7 +23,7 @@ private:
 
     font_vector fonts;
 
-    shader* font_shader;
+    Shader* font_shader;
 
     void set_font_color(glm::vec4 color);
 

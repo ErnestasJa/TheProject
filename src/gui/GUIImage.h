@@ -2,16 +2,16 @@
 
 #include "gui/GUIElement.h"
 
-class texture;
+class Texture;
 template <typename T>
 class Rect2D;
 
 class gui_image:public GUIElement
 {
 private:
-    std::shared_ptr<texture> m_tex;
+    std::shared_ptr<Texture> m_tex;
 public:
-    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<texture> tex);
+    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex);
     virtual ~gui_image();
 
     void Render();

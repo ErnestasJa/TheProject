@@ -67,7 +67,7 @@ bool gui_window::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
-    switch(e.get_type())
+    switch(e.GetType())
     {
     case mouse_pressed:
         ds=environment->get_mouse_pos();

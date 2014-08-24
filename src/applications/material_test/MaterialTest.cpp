@@ -2,8 +2,8 @@
 #include "MaterialTest.h"
 #include "application/window.h"
 #include "opengl/Mesh.h"
-#include "opengl/shader.h"
-#include "opengl/SGMVar.h"
+#include "opengl/Shader.h"
+#include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 
@@ -19,7 +19,7 @@ MaterialTest::~MaterialTest()
 }
 
 MeshPtr mesh;
-shader_ptr sh;
+ShaderPtr sh;
 CameraPtr cam;
 
 void InitPlaneMesh(AppContext * ctx)
@@ -77,8 +77,8 @@ bool MaterialTest::Update()
         glm::mat4 Model = glm::mat4(1.0f);
         glm::mat4 MVP   = cam->GetViewProjMat() * Model;
 
-        sg_mvar<glm::mat4>(0, "mvp", MVP).set();
-        sh->set();
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        sh->Set();
         mesh->Render();
 
         _appContext->_window->SwapBuffers();

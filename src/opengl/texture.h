@@ -3,7 +3,7 @@
 #include "GLObject.h"
 
 struct image;
-struct texture: public gl_object
+struct Texture: public GLObject
 {
     enum FILTER_MIN
     {
@@ -31,22 +31,22 @@ struct texture: public gl_object
 
     static uint32_t current, active_slot;
 
-    texture();
-    ~texture();
+    Texture();
+    ~Texture();
 
-    void init(std::shared_ptr<image> img);
-    void init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h);
+    void Init(std::shared_ptr<image> img);
+    void Init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h);
 
-    void set_filters(texture::FILTER_MIN fmin, texture::FILTER_MAG fmag);
-    void set_clamp(texture::CLAMP x, texture::CLAMP y);
-    void set_border_color(const glm::vec4 & color);
-    void init_mipmap(uint32_t base, uint32_t max);
-    void init_mipmap();
-    void update_mipmaps();
-    void set(uint8_t slot);
-    void unset(uint8_t slot);
-    void free();
-    virtual GLO_TYPE get_type();
+    void SetFilters(Texture::FILTER_MIN fmin, Texture::FILTER_MAG fmag);
+    void SetClampMode(Texture::CLAMP x, Texture::CLAMP y);
+    void SetBorderColor(const glm::vec4 & color);
+    void InitMipmap(uint32_t base, uint32_t max);
+    void InitMipmap();
+    void UpdateMipmaps();
+    void Set(uint8_t slot);
+    void Unset(uint8_t slot);
+    void Free();
+    virtual GLO_TYPE GetType();
 };
 
-typedef std::shared_ptr<texture> Texture_ptr;
+typedef std::shared_ptr<Texture> TexturePtr;

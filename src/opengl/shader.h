@@ -1,6 +1,6 @@
 #pragma once
 
-struct binding
+struct Binding
 {
     std::string name;
     int32_t index;
@@ -18,22 +18,22 @@ struct binding
  * sh->set();
  **/
 
-struct shader
+struct Shader
 {
     std::string name, vsstr, psstr;
     uint32_t program, vsobj, psobj;
-    std::vector<binding> bindings;
+    std::vector<Binding> bindings;
 
-    shader ( const std::string & name, const std::string & vsstr = nullptr, const std::string & psstr = nullptr)
+    Shader ( const std::string & name, const std::string & vsstr = nullptr, const std::string & psstr = nullptr)
         : name ( name ), vsstr ( vsstr ), psstr ( psstr ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
 
-    ~shader()
+    ~Shader()
     {
         if(program)
         glDeleteProgram(program);
     }
 
-    static shader * load_shader(const std::string & name, const binding *uniforms = nullptr, const binding *texs = nullptr)
+    static Shader * LoadShader(const std::string & name, const Binding *uniforms = nullptr, const Binding *texs = nullptr)
     {
         char * vsh=nullptr;
         char * fsh=nullptr;
@@ -48,9 +48,9 @@ struct shader
         if(l2==0)
             return nullptr;
 
-        shader * sh = new shader(name,vsh,fsh);
+        Shader * sh = new Shader(name,vsh,fsh);
 
-        sh->compile();
+        sh->Compile();
         sh->link();
 
         delete [] vsh;
@@ -65,7 +65,7 @@ struct shader
         return sh;
     }
 
-    static void showinfo ( uint32_t obj, const std::string & tname, const std::string & name )
+    static void ShowCompilationInfo ( uint32_t obj, const std::string & tname, const std::string & name )
     {
         int32_t length = 0;
 
@@ -90,7 +90,7 @@ struct shader
         }
     }
 
-    static void compile ( GLenum Type, uint32_t &obj, const std::string & def, const std::string & tname, const std::string & name, bool msg = true )
+    static void Compile ( GLenum Type, uint32_t &obj, const std::string & def, const std::string & tname, const std::string & name, bool msg = true )
     {
         obj = glCreateShader ( Type );
         char const * str = def.c_str();
@@ -103,7 +103,7 @@ struct shader
 
         if ( !success )
         {
-            showinfo ( obj, tname, name );
+            ShowCompilationInfo ( obj, tname, name );
 
             glDeleteShader ( obj );
             obj = 0;
@@ -129,7 +129,7 @@ struct shader
             {
                 if ( program )
                 {
-                    showinfo ( program, "PROG", name );
+                    ShowCompilationInfo ( program, "PROG", name );
 
                     glDeleteProgram ( program );
                     program = 0;
@@ -141,24 +141,24 @@ struct shader
             {
                 glDetachShader(program, vsobj);
                 glDetachShader(program, psobj);
-                query_all_binding_locations();
+                QueryAllBindingLocations();
             }
         }
     }
 
-    void compile ( const std::string & vsdef, const std::string & psdef)
+    void Compile ( const std::string & vsdef, const std::string & psdef)
     {
-        compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
-        compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
+        Compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
+        Compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
         link ( true );
     }
 
-    void compile()
+    void Compile()
     {
-        if ( vsstr.size() && psstr.size() ) compile ( vsstr, psstr );
+        if ( vsstr.size() && psstr.size() ) Compile ( vsstr, psstr );
     }
 
-    void set()
+    void Set()
     {
         glUseProgram ( program );
     }
@@ -169,31 +169,21 @@ struct shader
         return  glGetUniformLocation ( program, pname.c_str() );
     }
 
-    binding get_binding ( const std::string & pname )
+    Binding GetBinding ( const std::string & pname )
     {
-        for ( binding &t : bindings)
+        for ( Binding &t : bindings)
         {
             if(t.name==pname)
                 return t;
         }
 
-        return binding();
+        return Binding();
     }
 
-    void query_binding_locations()
-    {
-        for ( binding &t : bindings)
-        {
-            t.index = glGetUniformLocation ( program, t.name.c_str() );
-            if(t.index==-1)
-            throw t;
-        }
-    }
-
-    void query_all_binding_locations()
+    void QueryAllBindingLocations()
     {
         bindings.clear();
-        binding b;
+        Binding b;
 
         int32_t total = -1;
         glGetProgramiv( program, GL_ACTIVE_UNIFORMS, &total );
@@ -220,4 +210,4 @@ struct shader
     }
 };
 
-typedef std::shared_ptr<shader> shader_ptr;
+typedef std::shared_ptr<Shader> ShaderPtr;

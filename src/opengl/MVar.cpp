@@ -1,9 +1,9 @@
 #include "Precomp.h"
-#include "SGMvar.h"
+#include "MVar.h"
 #include "opengl/Shader.h"
 
 template <>
-void sg_mvar<int32_t>::set() const
+void MVar<int32_t>::Set() const
 {
     glUniform1i(binding_index,value);
 
@@ -13,7 +13,7 @@ void sg_mvar<int32_t>::set() const
 
 
 template <>
-void sg_mvar<float>::set() const
+void MVar<float>::Set() const
 {
     glUniform1f(binding_index,value);
 
@@ -22,7 +22,7 @@ void sg_mvar<float>::set() const
 }
 
 template <>
-void sg_mvar<glm::mat4x4>::set() const
+void MVar<glm::mat4x4>::Set() const
 {
     glUniformMatrix4fv(binding_index, 1, GL_FALSE, glm::value_ptr(value));
 
@@ -31,7 +31,7 @@ void sg_mvar<glm::mat4x4>::set() const
 }
 
 template <>
-void sg_mvar<glm::mat3x3>::set() const
+void MVar<glm::mat3x3>::Set() const
 {
     glUniformMatrix3fv(binding_index, 1, GL_FALSE, glm::value_ptr(value));
 
@@ -41,7 +41,7 @@ void sg_mvar<glm::mat3x3>::set() const
 
 
 template <>
-void sg_mvar<glm::vec3>::set() const
+void MVar<glm::vec3>::Set() const
 {
     glUniform3fv(binding_index, 1, glm::value_ptr(value));
 
@@ -51,33 +51,33 @@ void sg_mvar<glm::vec3>::set() const
 
 ///binding index as param
 template <>
-void sg_mvar<int32_t>::set(int32_t bindex) const
+void MVar<int32_t>::Set(int32_t bindex) const
 {
     glUniform1i(bindex,value);
 }
 
 
 template <>
-void sg_mvar<float>::set(int32_t bindex) const
+void MVar<float>::Set(int32_t bindex) const
 {
     glUniform1f(bindex,value);
 }
 
 template <>
-void sg_mvar<glm::mat4x4>::set(int32_t bindex) const
+void MVar<glm::mat4x4>::Set(int32_t bindex) const
 {
     glUniformMatrix4fv(bindex, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 template <>
-void sg_mvar<glm::mat3x3>::set(int32_t bindex) const
+void MVar<glm::mat3x3>::Set(int32_t bindex) const
 {
     glUniformMatrix3fv(bindex, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 
 template <>
-void sg_mvar<glm::vec3>::set(int32_t bindex) const
+void MVar<glm::vec3>::Set(int32_t bindex) const
 {
     glUniform3fv(bindex, 1, glm::value_ptr(value));
 }

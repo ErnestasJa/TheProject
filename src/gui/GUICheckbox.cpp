@@ -44,7 +44,7 @@ bool gui_checkbox::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
-        switch(e.get_type())
+        switch(e.GetType())
         {
         case gui_event_type::element_hovered:
             cur_style=this->checked?gui_skin_checkbox_c_hover:gui_skin_checkbox_u_hover;

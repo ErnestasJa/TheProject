@@ -6,7 +6,7 @@
 
 #include "GUIImage.h"
 
-gui_image::gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<texture> tex):GUIElement(env,dimensions)
+gui_image::gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex):GUIElement(env,dimensions)
 {
     this->Type=GUIET_ELEMENT;
     environment=env;

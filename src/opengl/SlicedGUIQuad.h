@@ -5,13 +5,13 @@
 #include "utility/Rect2d.h"
 #include "opengl/BufferObject.h"
 #include "resources/ResourceCache.h"
-class sliced_gui_quad
+class SlicedGUIQuad
 {
 private:
     float m_size;
     float m_margin;
 
-    void create_verts()
+    void CreateVerts()
     {
         //float sx,sy;
 
@@ -50,7 +50,7 @@ private:
         /// ///////////////////////////////////////////////////////
     }
 
-    void create_inds()
+    void CreateInds()
     {
 
         indices->data=std::vector<uint32_t>({1,0,3,1,3,2,5,1,2,5,2,6,4,5,6,4,6,7,2,3,14,2,14,15,6,2,15,6,15,10,7,6,10,7,10,11,15,14,12,15,12,13,10,15,13,10,13,9,11,10,9,11,9,8});
@@ -62,9 +62,9 @@ public:
 
     std::shared_ptr<Mesh> glmesh;
 
-    static shader quad_shader_textured;
+    static Shader quad_shader_textured;
 
-    sliced_gui_quad(float size=1.0f, float margin=0.125f)
+    SlicedGUIQuad(float size=1.0f, float margin=0.125f)
     {
         this->m_size=size;
         this->m_margin=margin;
@@ -74,7 +74,7 @@ public:
         indices=new IndexBufferObject<uint32_t>();
     }
 
-    void create_tcoords(std::vector<glm::vec2> uvs)
+    void CreateTCoords(std::vector<glm::vec2> uvs)
     {
 
         tex_coords->data.resize(16);
@@ -107,19 +107,19 @@ public:
         tex_coords->data[15] = glm::vec2(d.x+tm,d.y+tm);
     }
 
-    virtual ~sliced_gui_quad(){};
+    virtual ~SlicedGUIQuad(){};
 
-    virtual bool generate()
+    virtual bool Init()
     {
         glmesh = share(new Mesh());
-        create_verts();
+        CreateVerts();
         std::vector<glm::vec2> defuv;
         defuv.push_back(glm::vec2(0,1));
         defuv.push_back(glm::vec2(1,1));
         defuv.push_back(glm::vec2(1,0));
         defuv.push_back(glm::vec2(0,0));
-        create_tcoords(defuv);
-        create_inds();
+        CreateTCoords(defuv);
+        CreateInds();
 
         glmesh->buffers.resize(3);
         glmesh->buffers[0]=pos;
@@ -131,7 +131,7 @@ public:
         return true;
     }
 
-    void draw()
+    void Render()
     {
         //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         //glBindTexture(GL_TEXTURE_2D,0);
@@ -141,9 +141,9 @@ public:
         //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
 
-    void set_tcoords(std::vector<glm::vec2> tcoords)
+    void SetTCoords(std::vector<glm::vec2> tcoords)
     {
-        create_tcoords(tcoords);
+        CreateTCoords(tcoords);
 
         glBindBuffer(GL_ARRAY_BUFFER, glmesh->buffers[1]->Id);
         glBufferData(GL_ARRAY_BUFFER, 16*sizeof(tex_coords->data[0]), &tex_coords->data[0], GL_STATIC_DRAW);

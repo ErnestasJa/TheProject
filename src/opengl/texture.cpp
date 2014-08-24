@@ -2,22 +2,22 @@
 #include "resources/image.h"
 #include "Texture.h"
 
-uint32_t texture::active_slot = 0;
-uint32_t texture::current = 0;
+uint32_t Texture::active_slot = 0;
+uint32_t Texture::current = 0;
 
 
-texture::texture()
+Texture::Texture()
 {
     Id = -1;
     Type = GL_TEXTURE_2D;
 }
 
-texture::~texture()
+Texture::~Texture()
 {
     glDeleteTextures(1,&Id);
 }
 
-void texture::init(std::shared_ptr<image> img)
+void Texture::Init(std::shared_ptr<image> img)
 {
     glGenTextures(1, &Id);
     glBindTexture(Type,Id);
@@ -56,7 +56,7 @@ void texture::init(std::shared_ptr<image> img)
  * @param filter
  * bit0 = linear, bit1 = mipmap
  */
-void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h)
+void Texture::Init(const uint8_t * data, uint32_t target, uint32_t image_format, uint32_t internal_format, int32_t w, int32_t h)
 {
     Type = target;
 
@@ -102,7 +102,7 @@ void texture::init(const uint8_t * data, uint32_t target, uint32_t image_format,
     glBindTexture(Type,current);
 }
 
-void texture::set_filters(FILTER_MIN fmin, FILTER_MAG fmag)
+void Texture::SetFilters(FILTER_MIN fmin, FILTER_MAG fmag)
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -114,7 +114,7 @@ void texture::set_filters(FILTER_MIN fmin, FILTER_MAG fmag)
     glBindTexture(Type,current);
 }
 
-void texture::set_clamp(texture::CLAMP x, texture::CLAMP y)
+void Texture::SetClampMode(Texture::CLAMP x, Texture::CLAMP y)
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -126,7 +126,7 @@ void texture::set_clamp(texture::CLAMP x, texture::CLAMP y)
     glBindTexture(Type,current);
 }
 
-void texture::set_border_color(const glm::vec4 & color)
+void Texture::SetBorderColor(const glm::vec4 & color)
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -137,7 +137,7 @@ void texture::set_border_color(const glm::vec4 & color)
     glBindTexture(Type,current);
 }
 
-void texture::init_mipmap()
+void Texture::InitMipmap()
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -148,7 +148,7 @@ void texture::init_mipmap()
     glBindTexture(Type,current);
 }
 
-void texture::init_mipmap(uint32_t base, uint32_t max)
+void Texture::InitMipmap(uint32_t base, uint32_t max)
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -161,7 +161,7 @@ void texture::init_mipmap(uint32_t base, uint32_t max)
     glBindTexture(Type,current);
 }
 
-void texture::update_mipmaps()
+void Texture::UpdateMipmaps()
 {
     if(current!=Id)
     glBindTexture(Type,Id);
@@ -172,7 +172,7 @@ void texture::update_mipmaps()
     glBindTexture(Type,current);
 }
 
-void texture::set(uint8_t slot)
+void Texture::Set(uint8_t slot)
 {
     glActiveTexture(GL_TEXTURE0+slot);
     glBindTexture(Type,Id);
@@ -181,7 +181,7 @@ void texture::set(uint8_t slot)
     current = Id;
 }
 
-void texture::unset(uint8_t slot)
+void Texture::Unset(uint8_t slot)
 {
     glActiveTexture(GL_TEXTURE0+slot);
     glBindTexture(Type,0);
@@ -190,12 +190,12 @@ void texture::unset(uint8_t slot)
     current = Id;
 }
 
-void texture::free()
+void Texture::Free()
 {
 
 }
 
-GLO_TYPE texture::get_type()
+GLO_TYPE Texture::GetType()
 {
     return GLO_TEXTURE;
 }

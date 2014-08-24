@@ -80,7 +80,7 @@ struct Mesh
     void render_triangle_strip();
 
     void RecalculateAABB();
-    void upload_buffers();
+    void UploadBuffers();
     void free();
 };
 

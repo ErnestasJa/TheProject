@@ -26,7 +26,7 @@ font_renderer::font_renderer(GUIEnvironment* env)
     glGenVertexArrays(1,&vao);
     glGenBuffers(1,&vbo);
 
-    font_shader=shader::load_shader("res/font");
+    font_shader=Shader::LoadShader("res/font");
 }
 
 font_renderer::~font_renderer()
@@ -155,7 +155,7 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    font_shader->set();
+    font_shader->Set();
     set_font_color(color);
 
     const uint16_t *p;
