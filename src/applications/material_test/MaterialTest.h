@@ -4,9 +4,6 @@
 #include "application/Application.h"
 #include "gui/GuiEventListener.h"
 
-#include "scenegraph/SGScenegraph.h"
-#include "scenegraph/SGGraphicsManager.h"
-
 class MaterialTest: public Application
 {
 public:

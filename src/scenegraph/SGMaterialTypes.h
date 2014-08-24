@@ -1,9 +1,0 @@
-#ifndef SG_MATERIAL_TYPES_H_INCLUDED
-#define SG_MATERIAL_TYPES_H_INCLUDED
-
-namespace sg
-{
-
-}
-
-#endif // SG_MATERIAL_TYPES_H_INCLUDED

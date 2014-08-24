@@ -5,8 +5,7 @@
 //
 #include "opengl/Shader.h"
 #include "opengl/Texture.h"
-#include "scenegraph/SGMaterialTypes.h"
-#include "scenegraph/SGMVar.h"
+#include "SGMVar.h"
 
 namespace sg
 {

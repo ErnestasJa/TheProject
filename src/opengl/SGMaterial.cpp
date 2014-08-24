@@ -1,6 +1,5 @@
 #include "Precomp.h"
 #include "SGMaterial.h"
-#include "SGScenegraph.h"
 #include "opengl/Shader.h"
 
 namespace sg

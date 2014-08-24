@@ -2,7 +2,6 @@
 
 class Window;
 class OpenGLUtil;
-class Timer; typedef std::shared_ptr<Timer> timer_ptr;
 class Logger;
 
 #include "AppContext.h"

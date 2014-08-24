@@ -79,7 +79,6 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Win32-Release">
@@ -208,8 +207,6 @@
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.h" />
 		<Unit filename="../../src/gui/font_rendering/font.h" />
 		<Unit filename="../../src/main.cpp" />
-		<Unit filename="../../src/network/NetworkManagerWin32.cpp" />
-		<Unit filename="../../src/network/NetworkManagerWin32.h" />
 		<Unit filename="../../src/opengl/AABB.cpp" />
 		<Unit filename="../../src/opengl/AABB.h" />
 		<Unit filename="../../src/opengl/BufferObject.cpp" />
@@ -224,6 +221,10 @@
 		<Unit filename="../../src/opengl/OpenGLUtil.h" />
 		<Unit filename="../../src/opengl/RenderBufferObject.cpp" />
 		<Unit filename="../../src/opengl/RenderBufferObject.h" />
+		<Unit filename="../../src/opengl/SGMVar.cpp" />
+		<Unit filename="../../src/opengl/SGMVar.h" />
+		<Unit filename="../../src/opengl/SGMaterial.cpp" />
+		<Unit filename="../../src/opengl/SGMaterial.h" />
 		<Unit filename="../../src/opengl/SlicedGUIQuad.h" />
 		<Unit filename="../../src/opengl/mesh.cpp" />
 		<Unit filename="../../src/opengl/mesh.h" />
@@ -231,13 +232,6 @@
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
-		<Unit filename="../../src/physics/CollisionFilterResultCallbackOnlyThis.h" />
-		<Unit filename="../../src/physics/CollisionHandler.cpp" />
-		<Unit filename="../../src/physics/CollisionHandler.h" />
-		<Unit filename="../../src/physics/MotionState.h" />
-		<Unit filename="../../src/physics/Physics.h" />
-		<Unit filename="../../src/physics/PhysicsManager.cpp" />
-		<Unit filename="../../src/physics/PhysicsManager.h" />
 		<Unit filename="../../src/precomp.h">
 			<Option compile="1" />
 			<Option weight="0" />
@@ -263,40 +257,6 @@
 		<Unit filename="../../src/resources/image.cpp" />
 		<Unit filename="../../src/resources/image.h" />
 		<Unit filename="../../src/resources/iqm.h" />
-		<Unit filename="../../src/scenegraph/ISGObject.cpp" />
-		<Unit filename="../../src/scenegraph/ISGObject.h" />
-		<Unit filename="../../src/scenegraph/ISGRenderQueue.cpp" />
-		<Unit filename="../../src/scenegraph/ISGRenderQueue.h" />
-		<Unit filename="../../src/scenegraph/SGAABBWireframeObject.cpp" />
-		<Unit filename="../../src/scenegraph/SGAABBWireframeObject.h" />
-		<Unit filename="../../src/scenegraph/SGCameraObject.cpp" />
-		<Unit filename="../../src/scenegraph/SGCameraObject.h" />
-		<Unit filename="../../src/scenegraph/SGDefaultRenderQueue.cpp" />
-		<Unit filename="../../src/scenegraph/SGDefaultRenderQueue.h" />
-		<Unit filename="../../src/scenegraph/SGEmptyObject.h" />
-		<Unit filename="../../src/scenegraph/SGGraphicsManager.cpp" />
-		<Unit filename="../../src/scenegraph/SGGraphicsManager.h" />
-		<Unit filename="../../src/scenegraph/SGLightObject.cpp" />
-		<Unit filename="../../src/scenegraph/SGLightObject.h" />
-		<Unit filename="../../src/scenegraph/SGMVar.cpp" />
-		<Unit filename="../../src/scenegraph/SGMVar.h" />
-		<Unit filename="../../src/scenegraph/SGMaterial.cpp" />
-		<Unit filename="../../src/scenegraph/SGMaterial.h" />
-		<Unit filename="../../src/scenegraph/SGMaterialTypes.h" />
-		<Unit filename="../../src/scenegraph/SGMeshObject.cpp" />
-		<Unit filename="../../src/scenegraph/SGMeshObject.h" />
-		<Unit filename="../../src/scenegraph/SGObjectTypes.h" />
-		<Unit filename="../../src/scenegraph/SGObjects.h" />
-		<Unit filename="../../src/scenegraph/SGQuad.cpp" />
-		<Unit filename="../../src/scenegraph/SGQuad.h" />
-		<Unit filename="../../src/scenegraph/SGScenegraph.cpp" />
-		<Unit filename="../../src/scenegraph/SGScenegraph.h" />
-		<Unit filename="../../src/scenegraph/SGScenegraphLoader.cpp" />
-		<Unit filename="../../src/scenegraph/SGScenegraphLoader.h" />
-		<Unit filename="../../src/scenegraph/SGSharedMatVars.cpp" />
-		<Unit filename="../../src/scenegraph/SGSharedMatVars.h" />
-		<Unit filename="../../src/scenegraph/SGSkyboxObject.cpp" />
-		<Unit filename="../../src/scenegraph/SGSkyboxObject.h" />
 		<Unit filename="../../src/utility/Logger.h" />
 		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
