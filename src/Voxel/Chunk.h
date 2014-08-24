@@ -28,7 +28,7 @@ public:
 
     void Render();
 
-    static const int CHUNK_SIZE = 128;
+    static const int CHUNK_SIZE = 16;
 
 private:
     MeshPtr m_mesh;
@@ -40,6 +40,7 @@ private:
     // The blocks data
     Block*** m_pBlocks;
 
-    void CreateCube(float x,float y,float z);
+    void CreateCube(float x,float y,float z, uint32_t sides);
+    void Optimize();
 };
 #endif // CHUNK_H

@@ -240,7 +240,7 @@ void iqmloader::loadiqmanims(std::shared_ptr<Mesh> m, const char* data, iqmheade
         iqmanim &a = anims[i];
         ai.name = &texts[a.name];
         ai.start = a.first_frame; ai.num = a.num_frames;
-        ai.loop = tbit(a.flags,IQM_LOOP);
+        ai.loop = CheckBit(a.flags,IQM_LOOP);
 
         _logger->log(LOG_DEBUG,"Loaded anim: %s.", ai.name.c_str());
     }

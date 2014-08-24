@@ -6,14 +6,19 @@ static constexpr uint32_t bit()
 	return 1 << b;
 }
 
-inline bool tbit(uint32_t b, uint32_t b2)
+inline bool CheckBit(uint32_t b, uint32_t b2)
 {
 	return (b&b2)==b2;
 }
 
-inline void rmbit(uint32_t & b, uint32_t b2)
+inline void RemoveBit(uint32_t & b, uint32_t b2)
 {
     b &= ~b2;
+}
+
+inline void AddBit(uint32_t & b, uint32_t b2)
+{
+    b |= b2;
 }
 
 enum BITS
