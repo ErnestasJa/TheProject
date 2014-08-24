@@ -52,6 +52,11 @@ class Block
             m_blockType=type;
         }
 
+        uint32_t GetBlockType()
+        {
+            return m_blockType;
+        }
+
         //static const int BLOCK_RENDER_SIZE=1;
     protected:
     private:

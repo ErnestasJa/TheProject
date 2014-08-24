@@ -43,11 +43,12 @@ void Chunk::Render()
 
 void Chunk::Update(float dt)
 {
+    printf("Updating...\n");
     m_posBuf->data.clear();
     m_colBuf->data.clear();
     m_indBuf->data.clear();
 
-    int indexTrack=0;
+    m_indexTrack=0;
 
     for (int z = 0; z < CHUNK_SIZE; z++)
     {
@@ -89,8 +90,8 @@ void Chunk::Update(float dt)
                     if(m_pBlocks[x][y][z+1].IsActive())
                         RemoveBit(flags,EBS_FRONT);
 
-                CreateCube(x,y,z,flags);
-                indexTrack+=8;
+                CreateCube(x,y,z,flags,m_pBlocks[x][y][z].GetBlockType());
+                m_indexTrack+=8;
             }
         }
     }
@@ -100,6 +101,8 @@ void Chunk::Update(float dt)
     uint32_t size3 = m_indBuf->data.size();
 
     m_mesh->UploadBuffers();
+
+    int a=m_indexTrack;
 
     m_dirty=false;
 }
@@ -132,14 +135,15 @@ void Chunk::SetupSphere()
     }
 }
 
-int vertTrack,indexTrack;
 void Chunk::Generate()
 {
-    vertTrack=0,indexTrack=0;
+    m_indexTrack=0;
 
     m_posBuf = new BufferObject<glm::vec3>();
     m_colBuf = new BufferObject<glm::vec4>();
     m_indBuf=new IndexBufferObject<uint32_t>();
+
+    Set(0,0,0,EBT_DEFAULT,false);
 
     for (int z = 0; z < CHUNK_SIZE; z++)
     {
@@ -181,8 +185,8 @@ void Chunk::Generate()
                     if(m_pBlocks[x][y][z+1].IsActive())
                         RemoveBit(flags,EBS_FRONT);
 
-                CreateCube(x,y,z,flags);
-                indexTrack+=8;
+                CreateCube(x,y,z,flags,m_pBlocks[x][y][z].GetBlockType());
+                m_indexTrack+=8;
             }
         }
     }
@@ -194,7 +198,7 @@ void Chunk::Generate()
     m_mesh->Init();
 }
 
-void Chunk::CreateCube(float x, float y, float z, uint32_t sides)
+void Chunk::CreateCube(float x, float y, float z, uint32_t sides, uint32_t type)
 {
     float BLOCK_RENDER_SIZE=0.5f;
     /// - - +
@@ -224,7 +228,23 @@ void Chunk::CreateCube(float x, float y, float z, uint32_t sides)
     m_posBuf->data.push_back(p7);
     m_posBuf->data.push_back(p8);
 
-    glm::vec4 col=glm::vec4(1.f/(std::rand()%64),1.f/(std::rand()%64),1.f/(std::rand()%64),1);
+    glm::vec4 col=glm::vec4(0.5,0.5,0.5,1);
+
+    switch(type)
+    {
+    case EBT_GRASS:
+        col=glm::vec4(0.075,0.5,0.075,1);
+        break;
+    case EBT_SAND:
+        col=glm::vec4(0.95,0.8867,0,1);
+        break;
+    case EBT_STONE:
+        glm::vec4(0.75,0.75,0.75,1);
+        break;
+    default:
+        break;
+    }
+
     m_colBuf->data.push_back(col);
     m_colBuf->data.push_back(col);
     m_colBuf->data.push_back(col);
@@ -237,72 +257,72 @@ void Chunk::CreateCube(float x, float y, float z, uint32_t sides)
     // Front
     if(CheckBit(sides,EBS_FRONT))
     {
-        m_indBuf->data.push_back(indexTrack+0);
-        m_indBuf->data.push_back(indexTrack+1);
-        m_indBuf->data.push_back(indexTrack+2);
+        m_indBuf->data.push_back(m_indexTrack+0);
+        m_indBuf->data.push_back(m_indexTrack+1);
+        m_indBuf->data.push_back(m_indexTrack+2);
 
-        m_indBuf->data.push_back(indexTrack+2);
-        m_indBuf->data.push_back(indexTrack+3);
-        m_indBuf->data.push_back(indexTrack+0);
+        m_indBuf->data.push_back(m_indexTrack+2);
+        m_indBuf->data.push_back(m_indexTrack+3);
+        m_indBuf->data.push_back(m_indexTrack+0);
     }
 
     // Top
     if(CheckBit(sides,EBS_TOP))
     {
-        m_indBuf->data.push_back(indexTrack+3);
-        m_indBuf->data.push_back(indexTrack+2);
-        m_indBuf->data.push_back(indexTrack+6);
+        m_indBuf->data.push_back(m_indexTrack+3);
+        m_indBuf->data.push_back(m_indexTrack+2);
+        m_indBuf->data.push_back(m_indexTrack+6);
 
-        m_indBuf->data.push_back(indexTrack+6);
-        m_indBuf->data.push_back(indexTrack+7);
-        m_indBuf->data.push_back(indexTrack+3);
+        m_indBuf->data.push_back(m_indexTrack+6);
+        m_indBuf->data.push_back(m_indexTrack+7);
+        m_indBuf->data.push_back(m_indexTrack+3);
     }
 
     // Back
     if(CheckBit(sides,EBS_BACK))
     {
-        m_indBuf->data.push_back(indexTrack+7);
-        m_indBuf->data.push_back(indexTrack+6);
-        m_indBuf->data.push_back(indexTrack+5);
+        m_indBuf->data.push_back(m_indexTrack+7);
+        m_indBuf->data.push_back(m_indexTrack+6);
+        m_indBuf->data.push_back(m_indexTrack+5);
 
-        m_indBuf->data.push_back(indexTrack+5);
-        m_indBuf->data.push_back(indexTrack+4);
-        m_indBuf->data.push_back(indexTrack+7);
+        m_indBuf->data.push_back(m_indexTrack+5);
+        m_indBuf->data.push_back(m_indexTrack+4);
+        m_indBuf->data.push_back(m_indexTrack+7);
     }
 
     // Bottom
     if(CheckBit(sides,EBS_BOTTOM))
     {
-        m_indBuf->data.push_back(indexTrack+4);
-        m_indBuf->data.push_back(indexTrack+5);
-        m_indBuf->data.push_back(indexTrack+1);
+        m_indBuf->data.push_back(m_indexTrack+4);
+        m_indBuf->data.push_back(m_indexTrack+5);
+        m_indBuf->data.push_back(m_indexTrack+1);
 
-        m_indBuf->data.push_back(indexTrack+1);
-        m_indBuf->data.push_back(indexTrack+0);
-        m_indBuf->data.push_back(indexTrack+4);
+        m_indBuf->data.push_back(m_indexTrack+1);
+        m_indBuf->data.push_back(m_indexTrack+0);
+        m_indBuf->data.push_back(m_indexTrack+4);
     }
 
     // Left
     if(CheckBit(sides,EBS_LEFT))
     {
-        m_indBuf->data.push_back(indexTrack+4);
-        m_indBuf->data.push_back(indexTrack+0);
-        m_indBuf->data.push_back(indexTrack+3);
+        m_indBuf->data.push_back(m_indexTrack+4);
+        m_indBuf->data.push_back(m_indexTrack+0);
+        m_indBuf->data.push_back(m_indexTrack+3);
 
-        m_indBuf->data.push_back(indexTrack+3);
-        m_indBuf->data.push_back(indexTrack+7);
-        m_indBuf->data.push_back(indexTrack+4);
+        m_indBuf->data.push_back(m_indexTrack+3);
+        m_indBuf->data.push_back(m_indexTrack+7);
+        m_indBuf->data.push_back(m_indexTrack+4);
     }
 
     // Right
     if(CheckBit(sides,EBS_RIGHT))
     {
-        m_indBuf->data.push_back(indexTrack+1);
-        m_indBuf->data.push_back(indexTrack+5);
-        m_indBuf->data.push_back(indexTrack+6);
+        m_indBuf->data.push_back(m_indexTrack+1);
+        m_indBuf->data.push_back(m_indexTrack+5);
+        m_indBuf->data.push_back(m_indexTrack+6);
 
-        m_indBuf->data.push_back(indexTrack+6);
-        m_indBuf->data.push_back(indexTrack+2);
-        m_indBuf->data.push_back(indexTrack+1);
+        m_indBuf->data.push_back(m_indexTrack+6);
+        m_indBuf->data.push_back(m_indexTrack+2);
+        m_indBuf->data.push_back(m_indexTrack+1);
     }
 }

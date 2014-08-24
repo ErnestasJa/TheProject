@@ -33,6 +33,7 @@ public:
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
 
 private:
+    int m_indexTrack;
     bool m_dirty;
     MeshPtr m_mesh;
     shader_ptr m_shader;
@@ -43,7 +44,7 @@ private:
     // The blocks data
     Block*** m_pBlocks;
 
-    void CreateCube(float x,float y,float z, uint32_t sides);
+    void CreateCube(float x,float y,float z, uint32_t sides,uint32_t type);
     void Optimize();
 };
 #endif // CHUNK_H
