@@ -28,7 +28,7 @@ public:
 
     void Render();
 
-    static const int CHUNK_SIZE = 16;
+    static const int CHUNK_SIZE = 128;
 
 private:
     MeshPtr m_mesh;

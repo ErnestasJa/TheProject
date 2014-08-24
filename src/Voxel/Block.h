@@ -40,7 +40,7 @@ class Block
             m_blockType=type;
         }
 
-        static const int BLOCK_RENDER_SIZE=1;
+        //static const int BLOCK_RENDER_SIZE=1;
     protected:
     private:
 
