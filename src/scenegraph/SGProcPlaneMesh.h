@@ -2,8 +2,6 @@
 #define SGPROCPLANEMESH_H
 
 #include "opengl/Mesh.h"
-#include "ISGObject.h"
-#include "SGMaterial.h"
 #include "resources/ResourceCache.h"
 
 namespace sg

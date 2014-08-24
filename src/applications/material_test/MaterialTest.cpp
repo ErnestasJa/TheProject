@@ -5,6 +5,7 @@
 #include "opengl/shader.h"
 #include "opengl/SGMVar.h"
 #include "resources/ShaderLoader.h"
+#include "scenegraph/Camera.h"
 
 
 MaterialTest::MaterialTest(uint32_t argc, const char ** argv): Application(argc,argv)
@@ -19,21 +20,22 @@ MaterialTest::~MaterialTest()
 
 MeshPtr mesh;
 shader_ptr sh;
+CameraPtr cam;
 
 void InitPlaneMesh(AppContext * ctx)
 {
     BufferObject<glm::vec3> * pos = new BufferObject<glm::vec3>();
     pos->data.push_back(glm::vec3(-0.5, 0.5, 0));
     pos->data.push_back(glm::vec3( 0.5, 0.5, 0));
-    pos->data.push_back(glm::vec3( 0.5,-0.5, 0));
-    pos->data.push_back(glm::vec3(-0.5,-0.5, 0));
+    pos->data.push_back(glm::vec3( -0.5,-0.5, 0));
+    pos->data.push_back(glm::vec3(0.5,-0.5, 0));
 
     IndexBufferObject<uint32_t> * id = new IndexBufferObject<uint32_t>();
     id->data.push_back(0);
-    id->data.push_back(2);
-    id->data.push_back(1);
     id->data.push_back(1);
     id->data.push_back(2);
+    id->data.push_back(2);
+    id->data.push_back(1);
     id->data.push_back(3);
 
     mesh = share(new Mesh());
@@ -42,6 +44,7 @@ void InitPlaneMesh(AppContext * ctx)
     mesh->Init();
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
+    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 }
 
 bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -66,18 +69,13 @@ bool MaterialTest::Update()
     if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
     {
         _appContext->_timer->tick();
+
+        cam->Update(0);
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-
-        glm::mat4 View = glm::lookAt(
-            glm::vec3(4,3,3),
-            glm::vec3(0,0,0),
-            glm::vec3(0,1,0)
-        );
-
         glm::mat4 Model = glm::mat4(1.0f);
-        glm::mat4 MVP   = Projection * View * Model;
+        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
 
         sg_mvar<glm::mat4>(0, "mvp", MVP).set();
         sh->set();
