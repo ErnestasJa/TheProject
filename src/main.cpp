@@ -10,7 +10,7 @@
 
 #define APP(AppName) [](int argc, const char ** argv)->Application*{ return new AppName(argc,argv);}
 
-int ShowAppMenu(ApplicationLauncher & launcher)
+char ShowAppMenu(ApplicationLauncher & launcher)
 {
     std::cout << std::endl << std::endl;
     std::cout<< "=================================" << std::endl;
@@ -25,8 +25,8 @@ int ShowAppMenu(ApplicationLauncher & launcher)
 
     std::cout<< std::endl << "Which application would you like to run: " << std::endl;
 
-    int choice = 0;
-    std::cin >> choice;
+    char choice = 0;
+    choice = std::cin.get();
     return choice;
 }
 
@@ -36,11 +36,12 @@ int main(int argc, const char ** argv)
     appLauncher.RegisterApplication("Material test", APP(MaterialTest));
 
 
-    int choice = ShowAppMenu(appLauncher);
+    char choice = ShowAppMenu(appLauncher);
+    int nr =  choice - '0';
 
-    while(choice > 0 && choice <= appLauncher.GetApplicationCount() )
+    while(choice != '\n' && nr > 0 && nr <= appLauncher.GetApplicationCount() )
     {
-        appLauncher.RunApplication(choice-1,argc,argv);
+        appLauncher.RunApplication(nr-1,argc,argv);
 
         if(appLauncher.GetCurrentApplication()->Init("ZGP Application v0.01 pre alpha beta gama banana.",1280,720))
         {
@@ -50,7 +51,10 @@ int main(int argc, const char ** argv)
             delete appLauncher.GetCurrentApplication();
         }
 
+        ///somehow first .get() gets input from application, so need to make one before showing menu
+        std::cin.get();
         choice = ShowAppMenu(appLauncher);
+        nr =  choice - '0';
     }
 
     return 0;
