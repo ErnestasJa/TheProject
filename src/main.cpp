@@ -27,6 +27,7 @@ char ShowAppMenu(ApplicationLauncher & launcher)
 
     char choice = 0;
     choice = std::cin.get();
+    std::cin.clear(); std::cin.ignore(INT_MAX,'\n');
     return choice;
 }
 
@@ -34,7 +35,6 @@ int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Material test", APP(MaterialTest));
-
 
     char choice = ShowAppMenu(appLauncher);
     int nr =  choice - '0';
@@ -51,8 +51,6 @@ int main(int argc, const char ** argv)
             delete appLauncher.GetCurrentApplication();
         }
 
-        ///somehow first .get() gets input from application, so need to make one before showing menu
-        std::cin.get();
         choice = ShowAppMenu(appLauncher);
         nr =  choice - '0';
     }
