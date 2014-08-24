@@ -1,5 +1,6 @@
 #ifndef BLOCK_H
 #define BLOCK_H
+#include <stdint.h>
 
 enum EBlockType
 {
@@ -42,9 +43,9 @@ class Block
         static const int BLOCK_RENDER_SIZE=1;
     protected:
     private:
-        bool m_active;
 
-        EBlockType m_blockType;
+        uint32_t m_active:1;
+        uint32_t m_blockType:31;
 };
 
 #endif // BLOCK_H
