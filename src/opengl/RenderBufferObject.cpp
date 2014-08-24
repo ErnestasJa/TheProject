@@ -1,19 +1,19 @@
 #include "Precomp.h"
 #include "RenderBufferObject.h"
 
-uint32_t render_buffer_object::current = 0;
+uint32_t render_BufferObject::current = 0;
 
-render_buffer_object::render_buffer_object()
+render_BufferObject::render_BufferObject()
 {
     Id=0;
 }
 
-render_buffer_object::~render_buffer_object()
+render_BufferObject::~render_BufferObject()
 {
     //dtor
 }
 
-void render_buffer_object::set()
+void render_BufferObject::set()
 {
     if(current!=Id)
     {
@@ -22,13 +22,13 @@ void render_buffer_object::set()
     }
 }
 
-void render_buffer_object::unset()
+void render_BufferObject::unset()
 {
     current = 0;
     glBindRenderbuffer(GL_RENDERBUFFER,0);
 }
 
-void render_buffer_object::init(uint32_t internal_format, uint32_t w, uint32_t h)
+void render_BufferObject::init(uint32_t internal_format, uint32_t w, uint32_t h)
 {
     glGenRenderbuffers(1, &Id);
 
@@ -36,7 +36,7 @@ void render_buffer_object::init(uint32_t internal_format, uint32_t w, uint32_t h
     glRenderbufferStorage(GL_RENDERBUFFER, internal_format, w, h);
 }
 
-GLO_TYPE render_buffer_object::get_type()
+GLO_TYPE render_BufferObject::get_type()
 {
     return GLO_RENDERBUFFER;
 }

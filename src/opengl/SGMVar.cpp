@@ -2,9 +2,6 @@
 #include "SGMvar.h"
 #include "opengl/Shader.h"
 
-namespace sg
-{
-
 template <>
 void sg_mvar<int32_t>::set() const
 {
@@ -83,6 +80,4 @@ template <>
 void sg_mvar<glm::vec3>::set(int32_t bindex) const
 {
     glUniform3fv(bindex, 1, glm::value_ptr(value));
-}
-
 }

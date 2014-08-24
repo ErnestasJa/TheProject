@@ -2,6 +2,8 @@
 #define MESH_H
 
 #include "AABB.h"
+#include "IBufferObject.h"
+#include "BufferObject.h"
 
 typedef std::vector<glm::mat3x4> frame;
 typedef std::vector<frame> frame_vec;
@@ -43,7 +45,7 @@ struct sub_mesh
     uint32_t start, num_indices;
 };
 
-struct ibuffer_object;
+struct IBufferObject;
 struct Mesh
 {
     enum BUFFER_OBJECT_INDEX
@@ -60,7 +62,7 @@ struct Mesh
     };
 
     uint32_t vao;
-    std::vector<ibuffer_object*> buffers;
+    std::vector<IBufferObject*> buffers;
     std::vector<sub_mesh>   sub_meshes;
     animation * anim;
     AABB aabb;

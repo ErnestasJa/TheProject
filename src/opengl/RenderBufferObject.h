@@ -3,12 +3,12 @@
 
 #include "GLObject.h"
 
-struct render_buffer_object: public gl_object
+struct render_BufferObject: public gl_object
 {
     static uint32_t current;
 
-    render_buffer_object();
-    virtual ~render_buffer_object();
+    render_BufferObject();
+    virtual ~render_BufferObject();
 
     void init(uint32_t internal_format, uint32_t w, uint32_t h);
     void set();
@@ -18,6 +18,6 @@ struct render_buffer_object: public gl_object
 
 };
 
-typedef std::shared_ptr<render_buffer_object> render_buffer_object_ptr;
+typedef std::shared_ptr<render_BufferObject> render_BufferObject_ptr;
 
 #endif // RENDER_BUFFER_OBJECT_H

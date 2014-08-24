@@ -4,9 +4,6 @@
 class shader;
 typedef std::shared_ptr<shader> shader_ptr;
 
-namespace sg
-{
-
 template <class T>
 struct sg_mvar
 {
@@ -64,8 +61,6 @@ sg_mvar<T> & sg_mvar<T>::operator = (const T & val)
 {
     value = val;
     return *this;
-}
-
 }
 
 #endif // SG_MVAR_H

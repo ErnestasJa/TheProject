@@ -10,9 +10,9 @@ class quad
 private:
     float m_size;
 public:
-    buffer_object<glm::vec3> * pos;
-    buffer_object<glm::vec2> * tex_coords;
-    index_buffer_object<uint32_t> * indices;
+    BufferObject<glm::vec3> * pos;
+    BufferObject<glm::vec2> * tex_coords;
+    IndexBufferObject<uint32_t> * indices;
 
     std::shared_ptr<Mesh> glmesh;
 
@@ -26,21 +26,21 @@ public:
     virtual bool generate()
     {
         glmesh = share(new Mesh());
-        pos = new buffer_object<glm::vec3>();
+        pos = new BufferObject<glm::vec3>();
         pos->data.resize(4);
         pos->data[0]=glm::vec3(-1,-1,0); /// LL
         pos->data[1]=glm::vec3(1,-1,0); /// LR
         pos->data[2]=glm::vec3(1,1,0); /// UR
         pos->data[3]=glm::vec3(-1,1,0); /// UL
 
-        tex_coords = new buffer_object<glm::vec2>();
+        tex_coords = new BufferObject<glm::vec2>();
         tex_coords->data.resize(4);
         tex_coords->data[0] = glm::vec2(0,0);
         tex_coords->data[1] = glm::vec2(1,0);
         tex_coords->data[2] = glm::vec2(1,1);
         tex_coords->data[3] = glm::vec2(0,1);
 
-        indices = new index_buffer_object<uint32_t>();
+        indices = new IndexBufferObject<uint32_t>();
         indices->data.resize(6);
         indices->data[0]=0;
         indices->data[1]=3;

@@ -56,9 +56,9 @@ private:
         indices->data=std::vector<uint32_t>({1,0,3,1,3,2,5,1,2,5,2,6,4,5,6,4,6,7,2,3,14,2,14,15,6,2,15,6,15,10,7,6,10,7,10,11,15,14,12,15,12,13,10,15,13,10,13,9,11,10,9,11,9,8});
     }
 public:
-    buffer_object<glm::vec3> *pos;
-    buffer_object<glm::vec2> *tex_coords;
-    index_buffer_object<uint32_t> *indices;
+    BufferObject<glm::vec3> *pos;
+    BufferObject<glm::vec2> *tex_coords;
+    IndexBufferObject<uint32_t> *indices;
 
     std::shared_ptr<Mesh> glmesh;
 
@@ -69,9 +69,9 @@ public:
         this->m_size=size;
         this->m_margin=margin;
 
-        pos=new buffer_object<glm::vec3>();
-        tex_coords=new buffer_object<glm::vec2>();
-        indices=new index_buffer_object<uint32_t>();
+        pos=new BufferObject<glm::vec3>();
+        tex_coords=new BufferObject<glm::vec2>();
+        indices=new IndexBufferObject<uint32_t>();
     }
 
     void create_tcoords(std::vector<glm::vec2> uvs)

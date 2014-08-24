@@ -48,7 +48,7 @@ Mesh::Mesh(): vao(0), anim(nullptr)
 }
 Mesh::~Mesh()
 {
-    for(ibuffer_object * b : buffers)
+    for(IBufferObject * b : buffers)
         if(b)
             delete b;
 }
@@ -69,7 +69,7 @@ void Mesh::Init()
             if(buffers[i]->get_size())
                 buffers[i]->upload();
 
-            if(buffers[i]->get_type()==ibuffer_object::DATA)
+            if(buffers[i]->get_type()==IBufferObject::DATA)
             {
                 glEnableVertexAttribArray(i);
                 glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);
@@ -92,7 +92,7 @@ void Mesh::Render(uint32_t sub_mesh_index)
     if(sub_meshes.size()!=0)
         glDrawElements(GL_TRIANGLES,sub_meshes[sub_mesh_index].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sub_meshes[sub_mesh_index].start));
     else
-        glDrawElements(GL_TRIANGLES,static_cast<index_buffer_object<uint32_t>*>(buffers[INDICES])->data.size(),GL_UNSIGNED_INT,(void*)(0));
+        glDrawElements(GL_TRIANGLES,static_cast<IndexBufferObject<uint32_t>*>(buffers[INDICES])->data.size(),GL_UNSIGNED_INT,(void*)(0));
 
     glBindVertexArray(0);
 }
@@ -139,7 +139,7 @@ void Mesh::render_triangle_strip()
 
 void Mesh::RecalculateAABB()
 {
-    buffer_object<glm::vec3> * bo = static_cast<buffer_object<glm::vec3> *>(buffers[0]);
+    BufferObject<glm::vec3> * bo = static_cast<BufferObject<glm::vec3> *>(buffers[0]);
 
     if(bo->data.size()>0)
     {
@@ -168,7 +168,7 @@ void Mesh::upload_buffers()
 
                 buffers[i]->upload();
 
-                if(buffers[i]->get_type()==ibuffer_object::DATA)
+                if(buffers[i]->get_type()==IBufferObject::DATA)
                 {
                     glEnableVertexAttribArray(i);
                     glVertexAttribPointer(i,buffers[i]->get_component_count(),buffers[i]->get_data_type(),GL_FALSE,0,0);

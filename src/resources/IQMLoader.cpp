@@ -39,14 +39,14 @@ std::shared_ptr<Mesh> iqmloader::load (const char* data, const uint32_t size)
 
     glmesh = std::shared_ptr<Mesh>(new Mesh());
 
-    auto positions = new buffer_object<glm::vec3>();
-	auto texcoords = new buffer_object<glm::vec2>();
-	auto normals = new buffer_object<glm::vec3>();
-	auto tangents = new buffer_object<glm::vec4>();
-	auto bindexes = new buffer_object<helpers::u8vec4>();
-	auto bweights = new buffer_object<helpers::u8vec4>();
-	auto colors  = new buffer_object<glm::vec3>();
-	auto indices = new index_buffer_object<uint32_t>();
+    auto positions = new BufferObject<glm::vec3>();
+	auto texcoords = new BufferObject<glm::vec2>();
+	auto normals = new BufferObject<glm::vec3>();
+	auto tangents = new BufferObject<glm::vec4>();
+	auto bindexes = new BufferObject<helpers::u8vec4>();
+	auto bweights = new BufferObject<helpers::u8vec4>();
+	auto colors  = new BufferObject<glm::vec3>();
+	auto indices = new IndexBufferObject<uint32_t>();
 
     iqmmesh         * submeshes;
 	iqmvertexarray  * vertexarrays; //IQM vertex array info

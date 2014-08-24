@@ -1,12 +1,12 @@
 #include "Precomp.h"
 #include "IBufferObject.h"
 
-ibuffer_object::ibuffer_object(): Id(0), usage_hint(STATIC)
+IBufferObject::IBufferObject(): Id(0), usage_hint(STATIC)
 {
 
 }
 
-ibuffer_object::~ibuffer_object()
+IBufferObject::~IBufferObject()
 {
     if(Id!=0)
     {

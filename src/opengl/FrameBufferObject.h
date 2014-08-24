@@ -11,7 +11,7 @@ enum FBO_TARGET
     FBO_READ_AND_WRITE
 };
 
-struct frame_buffer_object: public gl_object
+struct frame_BufferObject: public gl_object
 {
     uint32_t target;
 
@@ -23,14 +23,14 @@ struct frame_buffer_object: public gl_object
     gl_object_ptr stencil_buffer_binding;
     gl_object_ptr depth_stencil_buffer_binding;
 
-    frame_buffer_object()
+    frame_BufferObject()
     {
         Id = 0;
         enabled_buffer_count = 0;
         target = GL_FRAMEBUFFER;
     }
 
-    ~frame_buffer_object()
+    ~frame_BufferObject()
     {
         if(Id)
         glDeleteFramebuffers(1,&Id);
@@ -126,7 +126,7 @@ struct frame_buffer_object: public gl_object
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
-            render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
@@ -142,7 +142,7 @@ struct frame_buffer_object: public gl_object
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
-            render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
@@ -158,7 +158,7 @@ struct frame_buffer_object: public gl_object
         }
         else if(obj->get_type()==GLO_RENDERBUFFER)
         {
-            render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
+            render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
             glFramebufferRenderbuffer(target,GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo->Id);
         }
 
@@ -176,7 +176,7 @@ struct frame_buffer_object: public gl_object
             }
             else if(obj->get_type()==GLO_RENDERBUFFER)
             {
-                render_buffer_object_ptr rbo = std::static_pointer_cast<render_buffer_object>(obj);
+                render_BufferObject_ptr rbo = std::static_pointer_cast<render_BufferObject>(obj);
                 glFramebufferRenderbuffer(target,attachment_point+GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo->Id);
             }
 
@@ -228,4 +228,4 @@ struct frame_buffer_object: public gl_object
 
 };
 
-typedef std::shared_ptr<frame_buffer_object> frame_buffer_object_ptr;
+typedef std::shared_ptr<frame_BufferObject> frame_BufferObject_ptr;
