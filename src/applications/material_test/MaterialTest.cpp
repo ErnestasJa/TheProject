@@ -6,6 +6,7 @@
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
+#include "Voxel/Chunk.h"
 
 
 MaterialTest::MaterialTest(uint32_t argc, const char ** argv): Application(argc,argv)
@@ -21,6 +22,7 @@ MaterialTest::~MaterialTest()
 MeshPtr mesh;
 ShaderPtr sh;
 CameraPtr cam;
+Chunk *chk;
 
 void InitPlaneMesh(AppContext * ctx)
 {
@@ -45,6 +47,10 @@ void InitPlaneMesh(AppContext * ctx)
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
+
+    chk=new Chunk();
+    chk->SetupSphere();
+    chk->Generate();
 }
 
 bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -54,8 +60,9 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&MaterialTest::OnKeyEvent));
 
     glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	//glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 	glClearColor(0.2,1,0.2,0);
 
     InitPlaneMesh(_appContext);
@@ -80,6 +87,7 @@ bool MaterialTest::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
         mesh->Render();
+        chk->Render();
 
         _appContext->_window->SwapBuffers();
         return true;
@@ -96,8 +104,15 @@ void MaterialTest::OnWindowClose()
 {
 
 }
-
 void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
+    if(key==GLFW_KEY_W)
+        cam->Walk(1);
+    if(key==GLFW_KEY_S)
+        cam->Walk(-1);
+    if(key==GLFW_KEY_A)
+        cam->Strafe(-1);
+    if(key==GLFW_KEY_D)
+        cam->Strafe(1);
 
 }
