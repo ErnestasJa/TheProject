@@ -5,6 +5,7 @@
 #include "Application/Application.h"
 #include "Application/ApplicationLauncher.h"
 #include "applications/material_test/MaterialTest.h"
+#include "applications/voxel_octree/VoxelOctreeApp.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
 
@@ -35,6 +36,7 @@ int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Material test", APP(MaterialTest));
+    appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
 
     char choice = ShowAppMenu(appLauncher);
     int nr =  choice - '0';
@@ -43,7 +45,7 @@ int main(int argc, const char ** argv)
     {
         appLauncher.RunApplication(nr-1,argc,argv);
 
-        if(appLauncher.GetCurrentApplication()->Init("ZGP Application v0.01 pre alpha beta gama banana.",1280,720))
+        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,720))
         {
             while(appLauncher.GetCurrentApplication()->Update());
 

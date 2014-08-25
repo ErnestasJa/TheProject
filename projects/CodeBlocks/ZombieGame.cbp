@@ -18,6 +18,7 @@
 					<Add directory="src/applications/material_test" />
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -48,6 +49,7 @@
 					<Add directory="src/applications/material_test" />
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -65,6 +67,7 @@
 					<Add directory="src/applications/material_test" />
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -100,6 +103,7 @@
 					<Add directory="src/applications/material_test" />
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -191,6 +195,8 @@
 		<Unit filename="../../src/application/Window.h" />
 		<Unit filename="../../src/applications/material_test/MaterialTest.cpp" />
 		<Unit filename="../../src/applications/material_test/MaterialTest.h" />
+		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.cpp" />
+		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.h" />
 		<Unit filename="../../src/gui/GUIButton.cpp" />
 		<Unit filename="../../src/gui/GUIButton.h" />
 		<Unit filename="../../src/gui/GUICheckbox.cpp" />
@@ -235,7 +241,6 @@
 		<Unit filename="../../src/opengl/MVar.h" />
 		<Unit filename="../../src/opengl/Material.cpp" />
 		<Unit filename="../../src/opengl/Material.h" />
-		<Unit filename="../../src/opengl/Mesh.cpp" />
 		<Unit filename="../../src/opengl/Mesh.h" />
 		<Unit filename="../../src/opengl/OpenGLUtil.cpp" />
 		<Unit filename="../../src/opengl/OpenGLUtil.h" />
@@ -246,6 +251,7 @@
 		<Unit filename="../../src/opengl/SlicedGUIQuad.h" />
 		<Unit filename="../../src/opengl/Texture.cpp" />
 		<Unit filename="../../src/opengl/Texture.h" />
+		<Unit filename="../../src/opengl/mesh.cpp" />
 		<Unit filename="../../src/precomp.h">
 			<Option compile="1" />
 			<Option weight="0" />
