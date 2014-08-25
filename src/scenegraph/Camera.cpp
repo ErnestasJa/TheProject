@@ -130,7 +130,6 @@ void Camera::HandleMouse()
             return;
 
         glm::quat r = m_rot;
-        glm::vec3 rot_deg = glm::eulerAngles(r);
 
         glm::quat rot_x(glm::vec3(0,-delta_pos.x/100.0f,0)), rot_y(glm::vec3(-delta_pos.y/100.0f,0,0));
 

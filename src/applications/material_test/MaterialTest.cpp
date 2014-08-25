@@ -102,14 +102,7 @@ bool MaterialTest::Update()
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        //chk->Render();
-
-        glPolygonMode(GL_FRONT,GL_LINE);
         chk->Render();
-        glPolygonMode(GL_FRONT,GL_FILL);
-
-        env->update(0);
-        env->Render();
 
         _appContext->_window->SwapBuffers();
         return true;

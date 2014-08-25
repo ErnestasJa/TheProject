@@ -96,13 +96,7 @@ void Chunk::Update(float dt)
         }
     }
 
-    uint32_t size = m_posBuf->data.size();
-    uint32_t size2 = m_colBuf->data.size();
-    uint32_t size3 = m_indBuf->data.size();
-
     m_mesh->UploadBuffers();
-
-    int a=m_indexTrack;
 
     m_dirty=false;
 }

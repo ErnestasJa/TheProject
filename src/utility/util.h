@@ -135,7 +135,7 @@ inline void makeJointMatrix(glm::mat3x4 & mat, const glm::quat & rot, const glm:
     mat[2].w= pos.z;
 }
 
-static glm::mat3x4 mul(const glm::mat3x4 & m1, const glm::mat3x4 & m2)
+static inline glm::mat3x4 mul(const glm::mat3x4 & m1, const glm::mat3x4 & m2)
 {
     glm::vec4 v1(m2[0]*m1[0].x + m2[1]*m1[0].y + m2[2]*m1[0].z);
     v1.w+=m1[0].w;
