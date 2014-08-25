@@ -9,6 +9,7 @@
 #include "Voxel/Chunk.h"
 #include "GUI/GUIEnvironment.h"
 #include "GUI/GUIStaticText.h"
+#include "GUI/GUIButton.h"
 
 
 MaterialTest::MaterialTest(uint32_t argc, const char ** argv): Application(argc,argv)
@@ -21,13 +22,14 @@ MaterialTest::~MaterialTest()
 
 }
 
-MeshPtr mesh;
-ShaderPtr sh;
-CameraPtr cam;
-Chunk *chk;
-GUIEnvironment *env;
-gui_static_text *txt;
-glm::vec3 voxpos;
+static MeshPtr mesh;
+static ShaderPtr sh;
+static CameraPtr cam;
+static Chunk *chk;
+static GUIEnvironment *env;
+static gui_static_text *txt;
+static gui_button *btn;
+static glm::vec3 voxpos;
 
 void InitPlaneMesh(AppContext * ctx)
 {
@@ -61,6 +63,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
     txt=new gui_static_text(env,Rect2D<int>(0,0,100,20));
+    btn=new gui_button(env,Rect2D<int>(0,20,100,20),L"kukuble");
 }
 
 bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -72,8 +75,8 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&MaterialTest::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.2,1,0.2,0);
 
@@ -103,7 +106,7 @@ bool MaterialTest::Update()
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         chk->Render();
-
+        env->Render();
         _appContext->_window->SwapBuffers();
         return true;
     }
