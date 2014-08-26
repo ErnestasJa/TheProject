@@ -75,8 +75,8 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&MaterialTest::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.2,1,0.2,0);
 

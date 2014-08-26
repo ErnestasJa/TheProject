@@ -192,12 +192,12 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
 			continue;
 
 		coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
-		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
 		coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
+		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
 
 		coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
 		coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
+		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
 	}
 
 	/* Draw all the character on the screen in one go */
