@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 template <uint32_t b>
 static constexpr uint32_t bit()
 {

@@ -75,6 +75,7 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&MaterialTest::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -101,7 +102,6 @@ bool MaterialTest::Update()
 
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
-        mesh->Render();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();

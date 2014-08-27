@@ -1,7 +1,6 @@
 #ifndef BLOCK_H
 #define BLOCK_H
-#include <stdint.h>
-#include "Utility/Bit.h"
+
 enum EBlockType
 {
     EBT_DEFAULT,
@@ -15,18 +14,6 @@ enum EBlockType
     EBT_VOIDROCK,
 
     EBT_COUNT
-};
-
-enum EBlockSides
-{
-    EBS_FRONT=BIT0,
-    EBS_BACK=BIT1,
-    EBS_TOP=BIT2,
-    EBS_BOTTOM=BIT3,
-    EBS_LEFT=BIT4,
-    EBS_RIGHT=BIT5,
-
-    EBS_COUNT
 };
 
 class Block
