@@ -19,6 +19,7 @@
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
 					<Add directory="include" />
+					<Add directory="src/voxel_octree" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -50,6 +51,7 @@
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
 					<Add directory="include" />
+					<Add directory="src/voxel_octree" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -68,6 +70,7 @@
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
 					<Add directory="include" />
+					<Add directory="src/voxel_octree" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -104,6 +107,7 @@
 					<Add directory="src/Voxel" />
 					<Add directory="src/application" />
 					<Add directory="include" />
+					<Add directory="src/voxel_octree" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -292,6 +296,8 @@
 		<Unit filename="../../src/utility/timer.cpp" />
 		<Unit filename="../../src/utility/timer.h" />
 		<Unit filename="../../src/utility/util.h" />
+		<Unit filename="../../src/voxel_octree/VoxelOctree.cpp" />
+		<Unit filename="../../src/voxel_octree/VoxelOctree.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
