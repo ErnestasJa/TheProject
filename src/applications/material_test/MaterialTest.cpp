@@ -6,6 +6,7 @@
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
+#include "Opengl/CubeMesh.h"
 #include "Voxel/Chunk.h"
 #include "GUI/GUIEnvironment.h"
 #include "GUI/GUIStaticText.h"
@@ -25,11 +26,12 @@ MaterialTest::~MaterialTest()
 static MeshPtr mesh;
 static ShaderPtr sh;
 static CameraPtr cam;
+static CubeMesh *cub,*smallcub;
 static Chunk *chk;
 static GUIEnvironment *env;
-static gui_static_text *txt;
+static gui_static_text *txt,*camtxt;
 static gui_button *btn;
-static glm::vec3 voxpos;
+static glm::vec3 voxpos,pointpos;
 
 void InitPlaneMesh(AppContext * ctx)
 {
@@ -63,7 +65,11 @@ void InitPlaneMesh(AppContext * ctx)
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
     txt=new gui_static_text(env,Rect2D<int>(0,0,100,20));
-    btn=new gui_button(env,Rect2D<int>(0,20,100,20),L"kukuble");
+    camtxt=new gui_static_text(env,Rect2D<int>(0,20,100,20));
+    btn=new gui_button(env,Rect2D<int>(0,40,100,20),L"kukuble");
+
+    cub=new CubeMesh();
+    smallcub=new CubeMesh(0.25);
 }
 
 bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -75,11 +81,9 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&MaterialTest::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    glClearColor(0.2,1,0.2,0);
+    glClearColor(0.2,0.2,0.7,0);
 
     InitPlaneMesh(_appContext);
 
@@ -100,12 +104,24 @@ bool MaterialTest::Update()
         glm::mat4 Model = glm::mat4(1.0f);
         glm::mat4 MVP   = cam->GetViewProjMat() * Model;
 
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         chk->Render();
+
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(voxpos);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cub->Render(true);
+
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(pointpos);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        smallcub->Render(true);
+
         env->Render();
         _appContext->_window->SwapBuffers();
         return true;
@@ -138,6 +154,11 @@ void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, in
     }
 }
 
+static float dti(float val)
+{
+    return fabsf(val - roundf(val));
+}
+
 void MaterialTest::OnMouseMove(double x, double y)
 {
 
@@ -151,44 +172,38 @@ void MaterialTest::OnMouseMove(double x, double y)
     glm::vec3 wincoord = glm::vec3(ww / 2, wh / 2, depth);
     glm::vec3 objcoord = glm::unProject(wincoord, cam->GetViewMat(), cam->GetProjectionMat(), viewport);
 
-    voxpos.x=floorf(objcoord.x);
-    voxpos.y=floorf(objcoord.y);
-    voxpos.z=floorf(objcoord.z);
+    voxpos.x=glm::round(objcoord.x);
+    voxpos.y=glm::round(objcoord.y);
+    voxpos.z=glm::round(objcoord.z);
+
+    pointpos.x=(objcoord.x);
+    pointpos.y=(objcoord.y);
+    pointpos.z=(objcoord.z);
 
     wchar_t buf[256];
 
     std::swprintf(buf,256,L"Voxel coords: %f %f %f",voxpos.x,voxpos.y,voxpos.z);
 
     txt->set_text(buf);
-}
 
-void MaterialTest::OnMouseKey(int32_t button, int32_t action, int32_t mod)
-{
+    glm::vec3 lookat=glm::normalize(cam->GetLook());
 
-    float ww,wh;
-    ww=_appContext->_window->GetWindowSize().x;
-    wh=_appContext->_window->GetWindowSize().y;
-    float depth;
-    glReadPixels(ww / 2, wh / 2, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    std::swprintf(buf,256,L"Looking dir: %f %f %f",glm::round(lookat.x),glm::round(lookat.y),glm::round(lookat.z));
+    camtxt->set_text(buf);
+    }
 
-    glm::vec4 viewport = glm::vec4(0, 0, ww, wh);
-    glm::vec3 wincoord = glm::vec3(ww / 2, wh / 2, depth);
-    glm::vec3 objcoord = glm::unProject(wincoord, cam->GetViewMat(), cam->GetProjectionMat(), viewport);
-
-    int x = floorf(objcoord.x);
-    int y = floorf(objcoord.y);
-    int z = floorf(objcoord.z);
-
-    if(action==GLFW_PRESS)
+    void MaterialTest::OnMouseKey(int32_t button, int32_t action, int32_t mod)
     {
-        switch(button)
+        if(action==GLFW_PRESS)
         {
-        case GLFW_MOUSE_BUTTON_LEFT:
-            chk->Set(x,y,z,EBT_SAND,true);
-            break;
-        case GLFW_MOUSE_BUTTON_RIGHT:
-            chk->Set(x,y,z+1,EBT_DEFAULT,false);
-            break;
+            switch(button)
+            {
+            case GLFW_MOUSE_BUTTON_LEFT:
+                chk->Set(voxpos.x,voxpos.y,voxpos.z,EBT_SAND,true);
+                break;
+            case GLFW_MOUSE_BUTTON_RIGHT:
+                chk->Set(voxpos.x,voxpos.y,voxpos.z,EBT_DEFAULT,false);
+                break;
+            }
         }
     }
-}

@@ -33,7 +33,8 @@ public:
 
     void CreateVoxel(float x, float y, float z, uint32_t sides, glm::vec4 color);
     void Render();
-    void Rebuild();
+    virtual void Rebuild()=0;
+    void UpdateMesh();
     void Cleanup();
 protected:
     bool m_dirty;

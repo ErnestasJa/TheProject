@@ -5,6 +5,11 @@
 #include "opengl/Mesh.h"
 #include "resources/ResourceCache.h"
 
+static glm::vec4 getRandCol()
+{
+    return glm::vec4(1.f/(rand()%64),1.f/(rand()%64),1.f/(rand()%64),1);
+}
+
 Chunk::Chunk()
 {
     // Create the blocks
@@ -35,9 +40,8 @@ Chunk::~Chunk()
     delete [] m_pBlocks;
 }
 
-void Chunk::Update(float dt)
+void Chunk::Rebuild()
 {
-    printf("Updating...\n");
     Cleanup();
 
     for (int z = 0; z < CHUNK_SIZE; z++)
@@ -80,14 +84,20 @@ void Chunk::Update(float dt)
                     if(m_pBlocks[x][y][z+1].IsActive())
                         RemoveBit(flags,EBS_FRONT);
 
-                CreateVoxel(x,y,z,flags,glm::vec4(0.5,0.5,0.5,1));
+                CreateVoxel(x,y,z,flags,getRandCol());
             }
         }
     }
+
+    UpdateMesh();
+
+    m_dirty=false;
 }
 
 void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
+    if(m_pBlocks[x][y][z].IsActive()==active||(m_pBlocks[x][y][z].IsActive()==active&&m_pBlocks[x][y][z].GetBlockType()==type))
+        return;
     m_pBlocks[x][y][z].SetActive(active);
     m_pBlocks[x][y][z].SetBlockType(type);
     m_dirty=true;

@@ -20,6 +20,7 @@
 					<Add directory="src/application" />
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
+					<Add directory="src/opengl" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -52,6 +53,7 @@
 					<Add directory="src/application" />
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
+					<Add directory="src/opengl" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -71,6 +73,7 @@
 					<Add directory="src/application" />
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
+					<Add directory="src/opengl" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3_win32" />
@@ -108,6 +111,7 @@
 					<Add directory="src/application" />
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
+					<Add directory="src/opengl" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -194,6 +198,8 @@
 		<Unit filename="../../src/Voxel/Block.h" />
 		<Unit filename="../../src/Voxel/Chunk.cpp" />
 		<Unit filename="../../src/Voxel/Chunk.h" />
+		<Unit filename="../../src/Voxel/ChunkManager.cpp" />
+		<Unit filename="../../src/Voxel/ChunkManager.h" />
 		<Unit filename="../../src/Voxel/VoxelMesh.cpp" />
 		<Unit filename="../../src/Voxel/VoxelMesh.h" />
 		<Unit filename="../../src/Voxel/VoxelSprite.cpp" />
@@ -243,6 +249,8 @@
 		<Unit filename="../../src/opengl/AABB.h" />
 		<Unit filename="../../src/opengl/BufferObject.cpp" />
 		<Unit filename="../../src/opengl/BufferObject.h" />
+		<Unit filename="../../src/opengl/CubeMesh.cpp" />
+		<Unit filename="../../src/opengl/CubeMesh.h" />
 		<Unit filename="../../src/opengl/FrameBufferObject.cpp" />
 		<Unit filename="../../src/opengl/FrameBufferObject.h" />
 		<Unit filename="../../src/opengl/GLObject.cpp" />

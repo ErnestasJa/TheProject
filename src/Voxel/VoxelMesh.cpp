@@ -35,14 +35,9 @@ void VoxelMesh::Render()
     if(m_dirty)
         Rebuild();
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    m_mesh->Render();
+    if(!m_dirty)
+        m_mesh->Render();
     //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-}
-
-void VoxelMesh::Rebuild()
-{
-    m_mesh->UploadBuffers();
-    m_dirty=false;
 }
 
 void VoxelMesh::Cleanup()
@@ -50,10 +45,16 @@ void VoxelMesh::Cleanup()
     m_posBuf->data.clear();
     m_indBuf->data.clear();
     m_colBuf->data.clear();
+    m_indexTrack=0;
+}
 
+void VoxelMesh::UpdateMesh()
+{
     m_mesh->buffers[Mesh::POSITION] = m_posBuf;
     m_mesh->buffers[Mesh::COLOR] = m_colBuf;
     m_mesh->buffers[Mesh::INDICES] = m_indBuf;
+
+    m_mesh->UploadBuffers();
 }
 
 void VoxelMesh::CreateVoxel(float x, float y, float z, uint32_t sides, glm::vec4 color)

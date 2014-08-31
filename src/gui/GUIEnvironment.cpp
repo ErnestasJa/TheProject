@@ -202,7 +202,6 @@ void GUIEnvironment::on_mouse_button(int32_t button, int32_t action, int32_t mod
                 if (hover != this)
                 {
                     GUI_FIRE_ELEMENT_EVENT(focus,GUIEvent(gui_event_type::element_focused,this, focus))
-                    //focus->OnEvent(gui_event(gui_event_type::element_focused, focus));
                     focus->SetFocused(true);
                     focus->GetParent()->BringToFront(focus);
                 }
@@ -309,8 +308,6 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<Textu
     gui_shader->Set();
     tex->Set(0);
 
-    //sliced_quad->set_tcoords(skin->get_uv(gui_skin_background));
-
     glm::mat4 M=glm::mat4(1.0f);
 
     M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
@@ -343,9 +340,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
     glUniform1f(gui_shader->getparam("alpha"),0.9f);
 
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     sliced_quad->Render();
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }

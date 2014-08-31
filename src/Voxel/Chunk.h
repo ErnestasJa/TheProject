@@ -13,10 +13,9 @@ public:
     void SetupSphere();
     void Generate();
 
-    void Update(float dt);
+    void Rebuild();
 
     static const int CHUNK_SIZE = 16;
-    void method(glm::vec4 shittest);
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
 private:
     // The blocks data

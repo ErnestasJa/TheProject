@@ -8,6 +8,8 @@ class VoxelSprite:public VoxelMesh
     public:
         VoxelSprite();
         virtual ~VoxelSprite();
+
+
     protected:
     private:
 };
