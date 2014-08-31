@@ -59,24 +59,24 @@ void VoxelMesh::UpdateMesh()
 
 void VoxelMesh::CreateVoxel(float x, float y, float z, uint32_t sides, glm::vec4 color)
 {
-    float BLOCK_RENDER_SIZE=0.5;
+    float BLOCK_RENDER_SIZE=1;
     /// - - +
-    glm::vec3 p1(x-BLOCK_RENDER_SIZE, y-BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
+    glm::vec3 p1(x, y, z+BLOCK_RENDER_SIZE);
     /// + - +
-    glm::vec3 p2(x+BLOCK_RENDER_SIZE, y-BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
+    glm::vec3 p2(x+BLOCK_RENDER_SIZE, y, z+BLOCK_RENDER_SIZE);
     /// + + +
     glm::vec3 p3(x+BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
     /// - + +
-    glm::vec3 p4(x-BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
+    glm::vec3 p4(x, y+BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
 
     /// - - -
-    glm::vec3 p5(x-BLOCK_RENDER_SIZE, y-BLOCK_RENDER_SIZE, z-BLOCK_RENDER_SIZE);
+    glm::vec3 p5(x, y, z);
     /// + - -
-    glm::vec3 p6(x+BLOCK_RENDER_SIZE, y-BLOCK_RENDER_SIZE, z-BLOCK_RENDER_SIZE);
+    glm::vec3 p6(x+BLOCK_RENDER_SIZE, y, z);
     /// + + -
-    glm::vec3 p7(x+BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z-BLOCK_RENDER_SIZE);
+    glm::vec3 p7(x+BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z);
     /// - + -
-    glm::vec3 p8(x-BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z-BLOCK_RENDER_SIZE);
+    glm::vec3 p8(x, y+BLOCK_RENDER_SIZE, z);
 
     m_posBuf->data.push_back(p1);
     m_posBuf->data.push_back(p2);

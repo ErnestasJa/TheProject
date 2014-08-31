@@ -72,7 +72,9 @@ void GUIEnvironment::update(float delta)
 
 void GUIEnvironment::Render()
 {
+    glDepthFunc(GL_LEQUAL);
     this->RenderChildren();
+    glDepthFunc(GL_LESS);
 }
 
 bool GUIEnvironment::OnEvent(const GUIEvent & e)
@@ -343,29 +345,4 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
     sliced_quad->Render();
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
-}
-
-GUIElement * search_elements(GUIElement * el, const std::string & name)
-{
-    if(el->GetName()==name)
-    {
-        return el;
-    }
-
-    loopi(el->GetChildren().size())
-    {
-        GUIElement * e = search_elements(el->GetChildren()[i],name);
-
-        if(e)
-        {
-            return e;
-        }
-    }
-
-    return nullptr;
-}
-
-GUIElement * GUIEnvironment::get_element_by_name(const std::string & name)
-{
-    return search_elements(this,name);
 }

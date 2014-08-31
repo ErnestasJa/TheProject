@@ -215,6 +215,7 @@
 		<Unit filename="../../src/applications/material_test/MaterialTest.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.cpp" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.h" />
+		<Unit filename="../../src/gui/GUI.h" />
 		<Unit filename="../../src/gui/GUIButton.cpp" />
 		<Unit filename="../../src/gui/GUIButton.h" />
 		<Unit filename="../../src/gui/GUICheckbox.cpp" />
@@ -255,6 +256,7 @@
 		<Unit filename="../../src/opengl/FrameBufferObject.h" />
 		<Unit filename="../../src/opengl/GLObject.cpp" />
 		<Unit filename="../../src/opengl/GLObject.h" />
+		<Unit filename="../../src/opengl/GridMesh.h" />
 		<Unit filename="../../src/opengl/IBufferObject.cpp" />
 		<Unit filename="../../src/opengl/IBufferObject.h" />
 		<Unit filename="../../src/opengl/MVar.cpp" />

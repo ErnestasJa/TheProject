@@ -12,6 +12,7 @@ public:
     virtual glm::mat4 & GetProjectionMat();
 
 	const glm::vec3 GetLook() const;
+	const glm::vec3 GetPosition() const;
 
 	const float GetFar() const;
 	const float GetNear() const;

@@ -246,3 +246,28 @@ Rect2D<int> &GUIElement::GetRelativeRect()
 {
     return relative_rect;
 }
+
+GUIElement * GUIElement::search_elements(GUIElement * el, const std::string & name)
+{
+    if(el->GetName()==name)
+    {
+        return el;
+    }
+
+    loopi(el->GetChildren().size())
+    {
+        GUIElement * e = search_elements(el->GetChildren()[i],name);
+
+        if(e)
+        {
+            return e;
+        }
+    }
+
+    return nullptr;
+}
+
+GUIElement * GUIElement::get_element_by_name(const std::string & name)
+{
+    return search_elements(this,name);
+}

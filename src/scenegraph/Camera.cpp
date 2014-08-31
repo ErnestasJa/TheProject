@@ -59,6 +59,11 @@ const glm::vec3 Camera::GetLook() const
     return m_look;
 }
 
+const glm::vec3 Camera::GetPosition() const
+{
+    return m_pos;
+}
+
 void Camera::Update(float dt)
 {
     m_pos+=m_translation;

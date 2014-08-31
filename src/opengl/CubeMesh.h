@@ -34,25 +34,23 @@ public:
 
         pos = new BufferObject<glm::vec3>();
 
-        float halfsize=m_size/2.f;
-
         /// - - +
-        glm::vec3 p1(-halfsize, -halfsize, halfsize);
+        glm::vec3 p1(0, 0, m_size);
         /// + - +
-        glm::vec3 p2(halfsize, -halfsize, halfsize);
+        glm::vec3 p2(m_size, 0, m_size);
         /// + + +
-        glm::vec3 p3(halfsize, halfsize, halfsize);
+        glm::vec3 p3(m_size, m_size, m_size);
         /// - + +
-        glm::vec3 p4(-halfsize, halfsize, halfsize);
+        glm::vec3 p4(0, m_size, m_size);
 
         /// - - -
-        glm::vec3 p5(-halfsize, -halfsize, -halfsize);
+        glm::vec3 p5(0, 0, 0);
         /// + - -
-        glm::vec3 p6(halfsize, -halfsize, -halfsize);
+        glm::vec3 p6(m_size, 0, 0);
         /// + + -
-        glm::vec3 p7(halfsize, halfsize, -halfsize);
+        glm::vec3 p7(m_size, m_size, 0);
         /// - + -
-        glm::vec3 p8(-halfsize, halfsize, -halfsize);
+        glm::vec3 p8(0, m_size, 0);
 
         pos->data.resize(8);
         pos->data[0]=p1;

@@ -2,6 +2,7 @@
 
 namespace helpers
 {
+#define loop(var,count) for(uint32_t (var) = 0; (var) < (count); (var)++)
 #define loopi(count) for(uint32_t i = 0; i < (count); i++)
 
 template <typename T> inline std::string to_str(const T& t)

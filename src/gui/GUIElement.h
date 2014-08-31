@@ -86,9 +86,17 @@ public:
 
     GUIElement *GetElementFromPoint(int x, int y);
 
+    GUIElement * get_element_by_name(const std::string & name);
+
+    template<class T> T * get_element_by_name_t(const std::string & name)
+    {
+        return dynamic_cast<T*>(search_elements(this,name));
+    }
+
     Rect2D<int> &GetAbsoluteRect();
     Rect2D<int> &GetRelativeRect();
 private:
+    GUIElement * search_elements(GUIElement * el, const std::string & name);
 protected:
     GUIElementType Type;
     uint32_t Id;

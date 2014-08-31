@@ -1,19 +1,5 @@
 #pragma once
 
-// Stuff to still convert
-//!TODO (murloc992#1#): GUI Event
-//!TODO (murloc992#1#): GUI Event Listener
-//!TODO (murloc992#1#): Rectangle
-//!TODO (murloc992#1#): Vec2
-//!TODO (murloc992#1#): GUI Element
-//!TODO (murloc992#1#): GUI Environment
-//!TODO (murloc992#1#): Font Renderer
-//!TODO (murloc992#1#): GUI Static Text
-//!TODO (murloc992#1#): GUI Button
-//!TODO (murloc992#1#): GUI Window
-//TODO (murloc992#1#): GUI Text Field
-//TODO (murloc992#1#): GUI Slider
-
 #include "GUIElement.h"
 #include "GUISkin.h"
 #include "font_rendering/FontRenderer.h"
@@ -25,8 +11,6 @@ class Texture;
 class Window;
 class gui_skin;
 class Logger;
-
-GUIElement * search_elements(GUIElement * el, const std::string & name);
 
 class GUIEnvironment : public GUIElement
 {
@@ -89,14 +73,6 @@ public:
 
     font_renderer *get_font_renderer();
 
-
-    ///GUI ELEMENTS
-    GUIElement * get_element_by_name(const std::string & name);
-
-    template<class T> T * get_element_by_name_t(const std::string & name)
-    {
-        return dynamic_cast<T*>(search_elements(this,name));
-    }
 //    gui_static_text *add_gui_static_text();
 //    gui_button *add_gui_button();
 //    gui_checkbox *add_gui_checkbox();
