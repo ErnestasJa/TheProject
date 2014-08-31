@@ -16,7 +16,7 @@ enum gui_event_type
     // Window events
     window_dragged, window_closed,
 
-    // GUI Mouse events, pretty much internal test
+    // GUI Mouse events, pretty much internal
     mouse_pressed, mouse_released, mouse_moved, mouse_dragged,
 
     // GUI Keyboard events
