@@ -78,7 +78,7 @@ void InitPlaneMesh(AppContext * ctx)
     cub=new CubeMesh(1);
     smallcub=new CubeMesh(0.25);
 
-    grid=new GridMesh(1.f);
+    grid=new GridMesh(1.f,1024,16);
     chkmgr=new ChunkManager();
 }
 
@@ -118,6 +118,12 @@ bool MaterialTest::Update()
 
         Model = glm::mat4(1.0f);
         Model = glm::translate(voxpos);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cub->Render(true);
+
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(newvoxpos);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         cub->Render(true);
@@ -231,25 +237,13 @@ void MaterialTest::OnMouseMove(double x, double y)
     swprintf(buf,L"LookAt %.2f %.2f %.2f",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
-    swprintf(buf,L"TestPos(NoRound) %.2f %.2f %.2f",testpos.x,testpos.y,testpos.z);
-    env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
-
-    swprintf(buf,L"TestPos(Floor) %.2f %.2f %.2f",glm::floor(testpos.x),glm::floor(testpos.y),glm::floor(testpos.z));
-    env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
-
-    swprintf(buf,L"TestPos(Round) %.2f %.2f %.2f",glm::round(testpos.x),glm::round(testpos.y),glm::round(testpos.z));
-    env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
-
-    swprintf(buf,L"TestPos(Int) %.2f %.2f %.2f",int(testpos.x),int(testpos.y),int(testpos.z));
-    env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
-
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
 
     swprintf(buf,L"Chunk %.2f %.2f %.2f",aa.x,aa.y,aa.z);
-    env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
+    env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
 
     swprintf(buf,L"Chunk Coords %.2f %.2f %.2f",bb.x,bb.y,bb.z);
-    env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
+    env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
 
     /* Find out which face of the block we are looking at */
 
@@ -296,13 +290,13 @@ void MaterialTest::OnMouseMove(double x, double y)
     newvoxpos=glm::vec3(mx,my,mz);
 
     swprintf(buf,L"Face %d",face);
-    env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
+    env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
 
     swprintf(buf,L"VoxPos %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
-    env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
+    env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
 
     swprintf(buf,L"NewVoxPos %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
-    env->get_element_by_name_t<gui_static_text>("9")->set_text(buf);
+    env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
 void MaterialTest::OnMouseKey(int32_t button, int32_t action, int32_t mod)

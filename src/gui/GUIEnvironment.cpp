@@ -72,9 +72,9 @@ void GUIEnvironment::update(float delta)
 
 void GUIEnvironment::Render()
 {
-    glDepthFunc(GL_LEQUAL);
+    glDisable(GL_DEPTH_TEST);
     this->RenderChildren();
-    glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
 }
 
 bool GUIEnvironment::OnEvent(const GUIEvent & e)

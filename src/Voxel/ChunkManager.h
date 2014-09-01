@@ -34,21 +34,21 @@ inline glm::vec3 ChunkSpaceCoords2(const glm::vec3 &other)
     return glm::vec3(x,y,z);
 }
 
-inline glm::vec3 ChunkSpaceCoords (const glm::vec3 &pos)
+inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
 {
 	glm::vec3 ats;
 
-	ats.x = ((int)glm::abs(pos.x) % CHUNK_SIZE);
+	ats.x = (int)pos.x % CHUNK_SIZE;
 	if(pos.x<0)
-        ats.x=(CHUNK_SIZE-1)-ats.x;
+        ats.x= (CHUNK_SIZE-1)+ats.x;
 
-	ats.y = ((int)glm::abs(pos.y) % CHUNK_SIZE);
+	ats.y = (int)pos.y % CHUNK_SIZE;
 	if(pos.y<0)
-        ats.y=(CHUNK_SIZE-1)-ats.y;
+        ats.y=(CHUNK_SIZE-1)+ats.y;
 
-	ats.z = ((int)glm::abs(pos.z) % CHUNK_SIZE);
+	ats.z = (int)pos.z % CHUNK_SIZE;
 	if(pos.z<0)
-        ats.z=(CHUNK_SIZE-1)-ats.z;
+        ats.z=(CHUNK_SIZE-1)+ats.z;
 
 	return ats;
 }

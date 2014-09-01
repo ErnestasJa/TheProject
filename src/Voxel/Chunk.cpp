@@ -101,6 +101,8 @@ void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
     m_pBlocks[x][y][z].SetActive(active);
     m_pBlocks[x][y][z].SetBlockType(type);
     m_dirty=true;
+
+    printf("CHUNK SET: %d %d %d\n",x,y,z);
 }
 
 Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
