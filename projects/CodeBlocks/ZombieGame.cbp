@@ -190,10 +190,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../libs/stb_image/stb_image.h" />
-		<Unit filename="../../src/Precomp.h">
-			<Option compile="1" />
-			<Option weight="0" />
-		</Unit>
 		<Unit filename="../../src/Voxel/Block.cpp" />
 		<Unit filename="../../src/Voxel/Block.h" />
 		<Unit filename="../../src/Voxel/Chunk.cpp" />
@@ -209,8 +205,8 @@
 		<Unit filename="../../src/application/Application.h" />
 		<Unit filename="../../src/application/ApplicationLauncher.cpp" />
 		<Unit filename="../../src/application/ApplicationLauncher.h" />
-		<Unit filename="../../src/application/Window.cpp" />
-		<Unit filename="../../src/application/Window.h" />
+		<Unit filename="../../src/application/window.cpp" />
+		<Unit filename="../../src/application/window.h" />
 		<Unit filename="../../src/applications/material_test/MaterialTest.cpp" />
 		<Unit filename="../../src/applications/material_test/MaterialTest.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.cpp" />
@@ -263,26 +259,27 @@
 		<Unit filename="../../src/opengl/MVar.h" />
 		<Unit filename="../../src/opengl/Material.cpp" />
 		<Unit filename="../../src/opengl/Material.h" />
-		<Unit filename="../../src/opengl/Mesh.cpp" />
 		<Unit filename="../../src/opengl/OpenGLUtil.cpp" />
 		<Unit filename="../../src/opengl/OpenGLUtil.h" />
 		<Unit filename="../../src/opengl/RenderBufferObject.cpp" />
 		<Unit filename="../../src/opengl/RenderBufferObject.h" />
 		<Unit filename="../../src/opengl/SlicedGUIQuad.h" />
+		<Unit filename="../../src/opengl/mesh.cpp" />
 		<Unit filename="../../src/opengl/mesh.h" />
 		<Unit filename="../../src/opengl/quad.h" />
 		<Unit filename="../../src/opengl/shader.h" />
 		<Unit filename="../../src/opengl/texture.cpp" />
 		<Unit filename="../../src/opengl/texture.h" />
+		<Unit filename="../../src/precomp.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="../../src/resources/IImageLoader.cpp" />
 		<Unit filename="../../src/resources/IImageLoader.h" />
 		<Unit filename="../../src/resources/IMeshLoader.cpp" />
 		<Unit filename="../../src/resources/IMeshLoader.h" />
-		<Unit filename="../../src/resources/IQM.h" />
 		<Unit filename="../../src/resources/IQMLoader.cpp" />
 		<Unit filename="../../src/resources/IQMLoader.h" />
-		<Unit filename="../../src/resources/Image.cpp" />
-		<Unit filename="../../src/resources/Image.h" />
 		<Unit filename="../../src/resources/ImageLoader.cpp" />
 		<Unit filename="../../src/resources/ImageLoader.h" />
 		<Unit filename="../../src/resources/MeshLoader.cpp" />
@@ -295,17 +292,27 @@
 		<Unit filename="../../src/resources/SoundManager.h" />
 		<Unit filename="../../src/resources/TGALoader.cpp" />
 		<Unit filename="../../src/resources/TGALoader.h" />
+		<Unit filename="../../src/resources/image.cpp" />
+		<Unit filename="../../src/resources/image.h" />
+		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/scenegraph/Camera.cpp" />
 		<Unit filename="../../src/scenegraph/Camera.h" />
-		<Unit filename="../../src/utility/Logger.cpp" />
-		<Unit filename="../../src/utility/Logger.h" />
-		<Unit filename="../../src/utility/Rect2d.h" />
 		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.h" />
+		<Unit filename="../../src/utility/logger.cpp" />
+		<Unit filename="../../src/utility/logger.h" />
+		<Unit filename="../../src/utility/rect2d.h" />
 		<Unit filename="../../src/utility/timer.cpp" />
 		<Unit filename="../../src/utility/timer.h" />
 		<Unit filename="../../src/utility/util.h" />
+		<Unit filename="../../src/voxel_octree/Morton.h" />
+		<Unit filename="../../src/voxel_octree/MortonOctTree.cpp" />
+		<Unit filename="../../src/voxel_octree/MortonOctTree.h" />
+		<Unit filename="../../src/voxel_octree/Node.cpp" />
+		<Unit filename="../../src/voxel_octree/Node.h" />
+		<Unit filename="../../src/voxel_octree/VoxMeshGenerator.cpp" />
+		<Unit filename="../../src/voxel_octree/VoxMeshGenerator.h" />
 		<Unit filename="../../src/voxel_octree/VoxelOctree.cpp" />
 		<Unit filename="../../src/voxel_octree/VoxelOctree.h" />
 		<Extensions>

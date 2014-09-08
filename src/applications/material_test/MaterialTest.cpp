@@ -34,7 +34,7 @@ static GUIEnvironment *env;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel;
 static int face;
-
+#include <string>
 void InitPlaneMesh(AppContext * ctx)
 {
     validvoxel=false;
@@ -67,12 +67,15 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_static_text* texts[10];
 
-    char b[256];
+    std::stringstream ss;
+
     loopi(10)
     {
+        ss<<i;
         texts[i]=new gui_static_text(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
-        texts[i]->SetName(itoa(i,b,255));
+        texts[i]->SetName(ss.str());
         texts[i]->SetParent(pan);
+        ss.str(std::string()); ///clear stream
     }
 
     cub=new CubeMesh(1);
@@ -218,7 +221,6 @@ void MaterialTest::OnMouseMove(double x, double y)
     for(int i = 0; i < 100; i++)
     {
         /* Advance from our currect position to the direction we are looking at, in small steps */
-
         prevpos = testpos;
         testpos += lookat * 0.1f;
 

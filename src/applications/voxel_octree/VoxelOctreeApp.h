@@ -9,6 +9,8 @@
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
+#include "voxel_octree/MortonOctTree.h"
+#include "voxel_octree/VoxMeshGenerator.h"
 
 class VoxelOctreeApp: public Application
 {
@@ -31,6 +33,8 @@ private:
     MeshPtr mesh;
     ShaderPtr sh;
     CameraPtr cam;
+    MortonOctTree<16> * octree;
+    VoxMeshGenerator * octreeGen;
 };
 
 #endif // VOXELOCTREEAPP_H

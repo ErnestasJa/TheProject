@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "VoxelOctreeApp.h"
+#include "voxel_octree/VoxMeshGenerator.h"
 
 
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
@@ -15,27 +16,29 @@ VoxelOctreeApp::~VoxelOctreeApp()
 void VoxelOctreeApp::InitPlaneMesh()
 {
     AppContext * ctx = this->Ctx();
-    BufferObject<glm::vec3> * pos = new BufferObject<glm::vec3>();
-    pos->data.push_back(glm::vec3(-0.5, 0.5, 0));
-    pos->data.push_back(glm::vec3( 0.5, 0.5, 0));
-    pos->data.push_back(glm::vec3( -0.5,-0.5, 0));
-    pos->data.push_back(glm::vec3(0.5,-0.5, 0));
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_color");
+    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 
-    IndexBufferObject<uint32_t> * id = new IndexBufferObject<uint32_t>();
-    id->data.push_back(0);
-    id->data.push_back(1);
-    id->data.push_back(2);
-    id->data.push_back(2);
-    id->data.push_back(1);
-    id->data.push_back(3);
-
-    mesh = share(new Mesh());
-    mesh->buffers[Mesh::POSITION] = pos;
-    mesh->buffers[Mesh::INDICES] = id;
+    mesh = MeshPtr(new Mesh());
+    IndexBufferObject<uint32_t> * ibo = new IndexBufferObject<uint32_t>();
+    BufferObject<glm::vec3> *vbo = new BufferObject<glm::vec3>();
+    BufferObject<glm::vec3> *cbo = new BufferObject<glm::vec3>();
+    mesh->buffers[Mesh::POSITION] = vbo;
+    mesh->buffers[Mesh::INDICES] = ibo;
+    mesh->buffers[Mesh::COLOR] = cbo;
     mesh->Init();
 
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
-    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
+
+    octree = new MortonOctTree<16>();
+    octreeGen = new VoxMeshGenerator(octree);
+
+    loop(i,10)
+        loop(j,10)
+            loop(k,10)
+                octree->AddNode(MNode(k,j,i));
+
+    octree->RefineTree();
+    octreeGen->GenMesh(mesh);
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -49,8 +52,9 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    glClearColor(0.2,1,0.2,0);
+    glClearColor(0.4,1,0.2,0);
 
     InitPlaneMesh();
 
@@ -109,5 +113,58 @@ void VoxelOctreeApp::OnMouseMove(double x, double y)
 
 void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
+    glm::vec3 position=cam->GetPosition();
+    glm::vec3 lookat=glm::normalize(cam->GetLook());
 
+    if(action==GLFW_PRESS)
+    {
+        switch(button)
+        {
+        case GLFW_MOUSE_BUTTON_LEFT:
+        {
+            MNode n;
+            if(octree->Collide(n,position,lookat))
+            {
+                uint32_t x,y,z;
+                decodeMortonKey(n.start,x,y,z);
+                this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
+
+                auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), n);
+                if(it!=octree->GetChildNodes().end())
+                {
+                    octree->GetChildNodes().erase(it);
+                    octree->RefineTree();
+                    octreeGen->GenMesh(mesh);
+                }
+            }
+            break;
+        }
+        case GLFW_MOUSE_BUTTON_RIGHT:
+        {
+            MNode n;
+            if(octree->Collide(n,position,lookat))
+            {
+                uint32_t x,y,z;
+                decodeMortonKey(n.start,x,y,z);
+                this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
+
+                /// add node
+                VoxelSide side = octree->GetCollisionSide(glm::vec3(x,y,z),position,lookat);
+                glm::ivec3 pos = octree->VoxelSideToPosition(side);
+
+                if(pos.x==-1&&x==0 || pos.y==-1&&y==0 || pos.z==-1&&z==0)
+                    break;
+
+                x+=pos.x;
+                y+=pos.y;
+                z+=pos.z;
+
+                octree->AddNode(MNode(x,y,z));
+                octree->RefineTree();
+                octreeGen->GenMesh(mesh);
+            }
+            break;
+        }
+        }
+    }
 }

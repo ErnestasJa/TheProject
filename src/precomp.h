@@ -2,8 +2,11 @@
 #define _PRECOMP_H_
 
 // C/C++ SUITE INCLUDES
+#undef __STRICT_ANSI__
 #include <iostream>
+#include <sstream>
 #include <stdio.h>
+#include <cstdio>
 #include <stdint.h>
 #include <iomanip>
 #include <fstream>
