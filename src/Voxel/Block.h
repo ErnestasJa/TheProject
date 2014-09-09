@@ -6,6 +6,7 @@ enum EBlockType
     EBT_DEFAULT,
 
     EBT_STONE,
+    EBT_DIRT,
     EBT_GRASS,
     EBT_SAND,
     EBT_WATER,

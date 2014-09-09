@@ -25,15 +25,6 @@ inline glm::vec3 WorldToChunkCoords(const glm::vec3 &other)
     return glm::vec3(cx,cy,cz);
 }
 
-inline glm::vec3 ChunkSpaceCoords2(const glm::vec3 &other)
-{
-    int x = glm::abs((int)other.x)%CHUNK_SIZE;
-    int y = glm::abs((int)other.y)%CHUNK_SIZE;
-    int z = glm::abs((int)other.z)%CHUNK_SIZE;
-
-    return glm::vec3(x,y,z);
-}
-
 inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
 {
 	glm::vec3 ats;

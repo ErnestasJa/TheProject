@@ -10,6 +10,37 @@ static glm::vec4 getRandCol()
     return glm::vec4(1.f/(rand()%16),1.f/(rand()%16),1.f/(rand()%16),1);
 }
 
+static float col(int in)
+{
+    float out=(1.f/255.f)*in;
+    return out;
+}
+
+static glm::vec4 getTypeCol(uint32_t typ)
+{
+    glm::vec4 ret;
+    int nois=rand()%8;
+    switch(typ)
+    {
+    case EBT_VOIDROCK:
+        ret=glm::vec4(col(0+nois),col(0+nois),col(0+nois),1);
+        break;
+    case EBT_STONE:
+        ret=glm::vec4(col(128+nois),col(128+nois),col(128+nois),1);
+        break;
+    case EBT_DIRT:
+        ret=glm::vec4(col(64+nois),col(64+nois),col(0+nois),1);
+        break;
+    case EBT_GRASS:
+        ret=glm::vec4(col(0+nois),col(128+nois),col(0+nois),1);
+        break;
+    default:
+        ret=glm::vec4(col(255-nois),col(255-nois),col(255-nois),1);
+        break;
+    }
+    return ret;
+}
+
 Chunk::Chunk()
 {
     // Create the blocks
@@ -84,7 +115,7 @@ void Chunk::Rebuild()
                     if(m_pBlocks[x][y][z+1].IsActive())
                         RemoveBit(flags,EBS_FRONT);
 
-                CreateVoxel(x,y,z,flags,getRandCol());
+                CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
             }
         }
     }
@@ -101,8 +132,6 @@ void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
     m_pBlocks[x][y][z].SetActive(active);
     m_pBlocks[x][y][z].SetBlockType(type);
     m_dirty=true;
-
-    printf("CHUNK SET: %d %d %d\n",x,y,z);
 }
 
 Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
@@ -125,9 +154,9 @@ void Chunk::SetupSphere()
             {
 //                if (sqrt((float) (x-CHUNK_SIZE/2)*(x-CHUNK_SIZE/2) + (y-CHUNK_SIZE/2)*(y-CHUNK_SIZE/2) + (z-CHUNK_SIZE/2)*(z-CHUNK_SIZE/2)) <= CHUNK_SIZE/2)
 //                {
-                    m_pBlocks[x][y][z].SetActive(true);
+                m_pBlocks[x][y][z].SetActive(true);
 
-                    m_pBlocks[x][y][z].SetBlockType(EBT_GRASS);
+                m_pBlocks[x][y][z].SetBlockType(EBT_GRASS);
 //                }
 //                else
 //                {
@@ -185,3 +214,4 @@ void Chunk::Generate()
         }
     }
 }
+

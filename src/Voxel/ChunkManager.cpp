@@ -5,17 +5,49 @@
 #include "Scenegraph/Camera.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
+#include "SimplexNoise.h"
 
 ChunkManager::ChunkManager()
 {
-    //ctor
-    m_chunks[glm::vec3(0,0,0)]=new Chunk();
-    m_chunks[glm::vec3(0,0,0)]->SetupSphere();
-    m_chunks[glm::vec3(0,0,0)]->Generate();
+    int testsize=128;
+    int testheight=32;
 
-    m_chunks[glm::vec3(1,1,1)]=new Chunk();
-    m_chunks[glm::vec3(1,1,1)]->SetupSphere();
-    m_chunks[glm::vec3(1,1,1)]->Generate();
+    for(int i=-testsize; i<testsize; i++)
+    {
+        for(int j=-testsize; j<testsize; j++)
+        {
+            float h=scaled_raw_noise_2d(0,testheight,i/128.f,j/128.f);
+            for(int y=0; y<testheight; y++)
+            {
+                if(y==0)
+                {
+                    Set(glm::vec3(i,y,j),EBT_VOIDROCK,true);
+                    continue;
+                }
+                else if(y==(int)h)
+                {
+                    Set(glm::vec3(i,y,j),EBT_GRASS,true);
+                    continue;
+                }
+                else if(y>h)
+                {
+                    break;
+                }
+                else
+                {
+                    Set(glm::vec3(i,y,j),EBT_STONE,true);
+                }
+            }
+        }
+    }
+    //ctor
+//    m_chunks[glm::vec3(0,0,0)]=new Chunk();
+//    m_chunks[glm::vec3(0,0,0)]->SetupSphere();
+//    m_chunks[glm::vec3(0,0,0)]->Generate();
+//
+//    m_chunks[glm::vec3(1,1,1)]=new Chunk();
+//    m_chunks[glm::vec3(1,1,1)]->SetupSphere();
+//    m_chunks[glm::vec3(1,1,1)]->Generate();
 
 //    m_chunks[glm::vec3(-1,-1,-1)]=new Chunk();
 //    m_chunks[glm::vec3(-1,-1,-1)]->SetupSphere();
@@ -41,11 +73,7 @@ ChunkManager::~ChunkManager()
 
 void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
 {
-    printf("CHUNK MANAGER SET(RAW): (%.2f %.2f %.2f)\n",pos.x,pos.y,pos.z);
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
-
-    printf("CHUNK MANAGER SET(CONVERTED CHUNK): (%.2f %.2f %.2f)\n",chunkCoords.x,chunkCoords.y,chunkCoords.z);
-    printf("CHUNK MANAGER SET(CONVERTED VOX): (%.2f %.2f %.2f)\n",voxelCoords.x,voxelCoords.y,voxelCoords.z);
 
     if(m_chunks.find(chunkCoords)!=m_chunks.end())
     {
@@ -53,7 +81,6 @@ void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
     }
     else
     {
-        printf("Chunk added at %f %f %f\n",chunkCoords.x,chunkCoords.y,chunkCoords.z);
         m_chunks[chunkCoords]=new Chunk();
         m_chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
@@ -63,7 +90,7 @@ Block ChunkManager::Get(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
     if(m_chunks.find(chunkCoords)!=m_chunks.end())
-    return m_chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
+        return m_chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
     else
         return Block();
 }
