@@ -7,7 +7,7 @@
 
 static glm::vec4 getRandCol()
 {
-    return glm::vec4(1.f/(rand()%64),1.f/(rand()%64),1.f/(rand()%64),1);
+    return glm::vec4(1.f/(rand()%16),1.f/(rand()%16),1.f/(rand()%16),1);
 }
 
 Chunk::Chunk()

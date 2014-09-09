@@ -96,7 +96,7 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-    glClearColor(0.2,0.2,0.7,0);
+    glClearColor(0.5,0.5,0.7,0);
 
     InitPlaneMesh(_appContext);
 

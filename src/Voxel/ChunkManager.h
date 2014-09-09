@@ -39,16 +39,16 @@ inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
 	glm::vec3 ats;
 
 	ats.x = (int)pos.x % CHUNK_SIZE;
-	if(pos.x<0)
-        ats.x= (CHUNK_SIZE-1)+ats.x;
+	if(pos.x<0&&ats.x!=0)
+        ats.x= (CHUNK_SIZE)+ats.x;
 
 	ats.y = (int)pos.y % CHUNK_SIZE;
-	if(pos.y<0)
-        ats.y=(CHUNK_SIZE-1)+ats.y;
+	if(pos.y<0&&ats.y!=0)
+        ats.y=(CHUNK_SIZE)+ats.y;
 
 	ats.z = (int)pos.z % CHUNK_SIZE;
-	if(pos.z<0)
-        ats.z=(CHUNK_SIZE-1)+ats.z;
+	if(pos.z<0&&ats.z!=0)
+        ats.z=(CHUNK_SIZE)+ats.z;
 
 	return ats;
 }
