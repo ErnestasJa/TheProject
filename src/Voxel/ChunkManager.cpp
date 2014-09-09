@@ -71,6 +71,35 @@ ChunkManager::~ChunkManager()
     //dtor
 }
 
+static const char* v3str(const glm::vec3 & vec)
+{
+    char buf[256];
+    sprintf(buf,"vec3(%f %f %f)",vec.x,vec.y,vec.z);
+    return std::string(buf).c_str();
+}
+
+void ChunkManager::Explode(glm::vec3 pos,float power)
+{
+    glm::vec3 startpos=pos-power;
+    glm::vec3 endpos=pos+power;
+
+    printf("BOOM! Position:%s Startbound:%s Endbound:%s \n",v3str(pos),v3str(startpos),v3str(endpos));
+
+    for(int x=startpos.x; x<endpos.x; x++)
+    {
+        for(int y=startpos.y; y<endpos.y; y++)
+        {
+            for(int z=startpos.z; z<endpos.z; z++)
+            {
+                if (sqrt((float) glm::pow((pos.x-x),2.f) + glm::pow((pos.y-y),2.f) + glm::pow((pos.z-z),2.f)) <= power/2)
+                {
+                    Set(glm::vec3(x,y,z),EBT_DEFAULT,false);
+                }
+            }
+        }
+    }
+}
+
 void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
@@ -111,3 +140,4 @@ void ChunkManager::Render(Camera *cam)
         a.second->Render();
     }
 }
+

@@ -49,6 +49,9 @@ class ChunkManager
 public:
     ChunkManager();
     virtual ~ChunkManager();
+
+    void Explode(glm::vec3 pos,float power);
+
     void Set(glm::vec3 pos,EBlockType type,bool active);
     Block Get(glm::vec3 pos);
 

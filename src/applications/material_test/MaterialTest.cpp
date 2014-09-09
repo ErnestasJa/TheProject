@@ -173,9 +173,9 @@ void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, in
         cam->Strafe(-1);
     if(key==GLFW_KEY_D)
         cam->Strafe(1);
-    if(key==GLFW_KEY_SPACE)
+    if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-
+        chkmgr->Explode(voxpos,20);
     }
 }
 
