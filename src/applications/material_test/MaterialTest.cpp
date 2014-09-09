@@ -179,35 +179,8 @@ void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, in
     }
 }
 
-static float fract(float value)
-{
-    float f = value - floorf(value);
-    if(f > 0.5)
-        return 1 - f;
-    else
-        return f;
-}
 void MaterialTest::OnMouseMove(double x, double y)
 {
-
-//    float ww,wh;
-//    ww=_appContext->_window->GetWindowSize().x;
-//    wh=_appContext->_window->GetWindowSize().y;
-//    float depth;
-//    glReadPixels(ww / 2, wh / 2, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-//
-//    glm::vec4 viewport = glm::vec4(0, 0, ww, wh);
-//    glm::vec3 wincoord = glm::vec3(ww / 2, wh / 2, depth);
-//    glm::vec3 objcoord = glm::unProject(wincoord, cam->GetViewMat(), cam->GetProjectionMat(), viewport);
-//
-//    voxpos.x=glm::round(objcoord.x);
-//    voxpos.y=glm::round(objcoord.y);
-//    voxpos.z=glm::round(objcoord.z);
-//
-//    pointpos.x=(objcoord.x);
-//    pointpos.y=(objcoord.y);
-//    pointpos.z=(objcoord.z);
-
     /* Very naive ray casting algorithm to find out which block we are looking at */
 
     glm::vec3 position=cam->GetPosition();
@@ -229,7 +202,7 @@ void MaterialTest::OnMouseMove(double x, double y)
         mz = glm::floor(testpos.z);
 
         /* If we find a block that is not air, we are done */
-        if(chkmgr->Get(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_DEFAULT)
+        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_DEFAULT)
         {
             validvoxel=true;
             break;
@@ -268,7 +241,7 @@ void MaterialTest::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->Get(glm::vec3(mx, my, mz)).GetBlockType()==EBT_DEFAULT)
+    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()==EBT_DEFAULT)
     {
         mx = my = mz = 99999;
         validvoxel=false;
@@ -309,11 +282,11 @@ void MaterialTest::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         {
         case GLFW_MOUSE_BUTTON_LEFT:
             if(validvoxel)
-                chkmgr->Set(voxpos,EBT_DEFAULT,false);
+                chkmgr->SetBlock(voxpos,EBT_DEFAULT,false);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             if(validvoxel)
-                chkmgr->Set(newvoxpos,EBT_GRASS,true);
+                chkmgr->SetBlock(newvoxpos,EBT_GRASS,true);
             break;
         }
     }

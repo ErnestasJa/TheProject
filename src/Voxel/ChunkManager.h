@@ -52,8 +52,10 @@ public:
 
     void Explode(glm::vec3 pos,float power);
 
-    void Set(glm::vec3 pos,EBlockType type,bool active);
-    Block Get(glm::vec3 pos);
+    void SetBlock(glm::vec3 pos,EBlockType type,bool active);
+    Block GetBlock(glm::vec3 pos);
+
+    Chunk *GetChunk(glm::vec3 pos);
 
     void Render(Camera *cam);
 protected:

@@ -21,12 +21,12 @@ ChunkManager::ChunkManager()
             {
                 if(y==0)
                 {
-                    Set(glm::vec3(i,y,j),EBT_VOIDROCK,true);
+                    SetBlock(glm::vec3(i,y,j),EBT_VOIDROCK,true);
                     continue;
                 }
                 else if(y==(int)h)
                 {
-                    Set(glm::vec3(i,y,j),EBT_GRASS,true);
+                    SetBlock(glm::vec3(i,y,j),EBT_GRASS,true);
                     continue;
                 }
                 else if(y>h)
@@ -35,35 +35,11 @@ ChunkManager::ChunkManager()
                 }
                 else
                 {
-                    Set(glm::vec3(i,y,j),EBT_STONE,true);
+                    SetBlock(glm::vec3(i,y,j),EBT_STONE,true);
                 }
             }
         }
     }
-    //ctor
-//    m_chunks[glm::vec3(0,0,0)]=new Chunk();
-//    m_chunks[glm::vec3(0,0,0)]->SetupSphere();
-//    m_chunks[glm::vec3(0,0,0)]->Generate();
-//
-//    m_chunks[glm::vec3(1,1,1)]=new Chunk();
-//    m_chunks[glm::vec3(1,1,1)]->SetupSphere();
-//    m_chunks[glm::vec3(1,1,1)]->Generate();
-
-//    m_chunks[glm::vec3(-1,-1,-1)]=new Chunk();
-//    m_chunks[glm::vec3(-1,-1,-1)]->SetupSphere();
-//    m_chunks[glm::vec3(-1,-1,-1)]->Generate();
-//
-//    m_chunks[glm::vec3(-1,0,-1)]=new Chunk();
-//    m_chunks[glm::vec3(-1,0,-1)]->SetupSphere();
-//    m_chunks[glm::vec3(-1,0,-1)]->Generate();
-//
-//    m_chunks[glm::vec3(0,0,-1)]=new Chunk();
-//    m_chunks[glm::vec3(0,0,-1)]->SetupSphere();
-//    m_chunks[glm::vec3(0,0,-1)]->Generate();
-//
-//    m_chunks[glm::vec3(-1,0,0)]=new Chunk();
-//    m_chunks[glm::vec3(-1,0,0)]->SetupSphere();
-//    m_chunks[glm::vec3(-1,0,0)]->Generate();
 }
 
 ChunkManager::~ChunkManager()
@@ -93,14 +69,14 @@ void ChunkManager::Explode(glm::vec3 pos,float power)
             {
                 if (sqrt((float) glm::pow((pos.x-x),2.f) + glm::pow((pos.y-y),2.f) + glm::pow((pos.z-z),2.f)) <= power/2)
                 {
-                    Set(glm::vec3(x,y,z),EBT_DEFAULT,false);
+                    SetBlock(glm::vec3(x,y,z),EBT_DEFAULT,false);
                 }
             }
         }
     }
 }
 
-void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
+void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 
@@ -115,7 +91,16 @@ void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
     }
 }
 
-Block ChunkManager::Get(glm::vec3 pos)
+Chunk *ChunkManager::GetChunk(glm::vec3 pos)
+{
+    glm::vec3 chunkCoords=WorldToChunkCoords(pos);
+    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+        return m_chunks[chunkCoords];
+    else
+        return nullptr;
+}
+
+Block ChunkManager::GetBlock(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
     if(m_chunks.find(chunkCoords)!=m_chunks.end())

@@ -94,12 +94,12 @@ void Chunk::Rebuild()
                 float yy=m_chunkPos.y*CHUNK_SIZEF+y;
                 float zz=m_chunkPos.z*CHUNK_SIZEF+z;
 
-                if(m_chunkManager->Get(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
-                if(m_chunkManager->Get(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
-                if(m_chunkManager->Get(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
-                if(m_chunkManager->Get(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
-                if(m_chunkManager->Get(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
-                if(m_chunkManager->Get(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
+                if(m_chunkManager->GetBlock(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
+                if(m_chunkManager->GetBlock(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
+                if(m_chunkManager->GetBlock(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
+                if(m_chunkManager->GetBlock(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
+                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
+                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
 
                 if(flags!=0) // Only a visible voxel should be added
                     CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
