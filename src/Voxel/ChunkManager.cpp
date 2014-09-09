@@ -10,8 +10,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=128;
-    int testheight=64;
+    int testsize=32;
+    int testheight=32;
 
     Timer timer;
 

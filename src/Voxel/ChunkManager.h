@@ -16,6 +16,12 @@ struct glmvec3comparino
     }
 };
 
+struct chunkhasher {
+    size_t operator()(const glm::vec3& a) const {
+          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2);
+    }
+};
+
 inline glm::vec3 WorldToChunkCoords(const glm::vec3 &other)
 {
     int cx = glm::floor(other.x / CHUNK_SIZEF);
@@ -60,7 +66,7 @@ public:
     void Render(Camera *cam);
 protected:
 private:
-    std::map<glm::vec3,Chunk*,glmvec3comparino> m_chunks;
+    std::unordered_map<glm::vec3,Chunk*,chunkhasher> m_chunks;
 };
 
 #endif // CHUNKMANAGER_H
