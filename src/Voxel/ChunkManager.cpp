@@ -6,17 +6,22 @@
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
 #include "utility/SimplexNoise.h"
+#include "utility/timer.h"
 
 ChunkManager::ChunkManager()
 {
     int testsize=128;
-    int testheight=32;
+    int testheight=64;
+
+    Timer timer;
+
+    timer.tick();
 
     for(int i=-testsize; i<testsize; i++)
     {
         for(int j=-testsize; j<testsize; j++)
         {
-            float h=scaled_raw_noise_2d(0,testheight,i/128.f,j/128.f);
+            float h=scaled_raw_noise_2d(0,testheight,i/256.f,j/256.f);
             for(int y=0; y<testheight; y++)
             {
                 if(y==0)
@@ -40,6 +45,10 @@ ChunkManager::ChunkManager()
             }
         }
     }
+
+    timer.tick();
+
+    printf("Building took: %d ms\n",timer.get_delta_time());
 }
 
 ChunkManager::~ChunkManager()
