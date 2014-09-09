@@ -196,8 +196,6 @@
 		<Unit filename="../../src/Voxel/Chunk.h" />
 		<Unit filename="../../src/Voxel/ChunkManager.cpp" />
 		<Unit filename="../../src/Voxel/ChunkManager.h" />
-		<Unit filename="../../src/Voxel/SimplexNoise.cpp" />
-		<Unit filename="../../src/Voxel/SimplexNoise.h" />
 		<Unit filename="../../src/Voxel/VoxelMesh.cpp" />
 		<Unit filename="../../src/Voxel/VoxelMesh.h" />
 		<Unit filename="../../src/Voxel/VoxelSprite.cpp" />
@@ -299,6 +297,8 @@
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/scenegraph/Camera.cpp" />
 		<Unit filename="../../src/scenegraph/Camera.h" />
+		<Unit filename="../../src/utility/SimplexNoise.cpp" />
+		<Unit filename="../../src/utility/SimplexNoise.h" />
 		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.h" />

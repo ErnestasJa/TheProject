@@ -5,7 +5,7 @@
 #include "Scenegraph/Camera.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
-#include "SimplexNoise.h"
+#include "utility/SimplexNoise.h"
 
 ChunkManager::ChunkManager()
 {
@@ -110,7 +110,7 @@ void ChunkManager::Set(glm::vec3 pos,EBlockType type,bool active)
     }
     else
     {
-        m_chunks[chunkCoords]=new Chunk();
+        m_chunks[chunkCoords]=new Chunk(this,chunkCoords);
         m_chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
 }

@@ -2,13 +2,10 @@
 
 #include "Chunk.h"
 
+#include "ChunkManager.h"
+
 #include "opengl/Mesh.h"
 #include "resources/ResourceCache.h"
-
-static glm::vec4 getRandCol()
-{
-    return glm::vec4(1.f/(rand()%16),1.f/(rand()%16),1.f/(rand()%16),1);
-}
 
 static float col(int in)
 {
@@ -41,9 +38,11 @@ static glm::vec4 getTypeCol(uint32_t typ)
     return ret;
 }
 
-Chunk::Chunk()
+Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos)
 {
     // Create the blocks
+    m_chunkManager = chunkManager;
+    m_chunkPos = chunkPos;
     m_pBlocks = new Block**[CHUNK_SIZE];
     for(int i = 0; i < CHUNK_SIZE; i++)
     {
@@ -91,31 +90,19 @@ void Chunk::Rebuild()
                 AddBit(flags,EBS_FRONT);
                 AddBit(flags,EBS_BACK);
 
-                if(x > 0)
-                    if(m_pBlocks[x-1][y][z].IsActive())
-                        RemoveBit(flags,EBS_LEFT);
+                float xx=m_chunkPos.x*CHUNK_SIZEF+x;
+                float yy=m_chunkPos.y*CHUNK_SIZEF+y;
+                float zz=m_chunkPos.z*CHUNK_SIZEF+z;
 
-                if(x < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x+1][y][z].IsActive())
-                        RemoveBit(flags,EBS_RIGHT);
+                if(m_chunkManager->Get(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
+                if(m_chunkManager->Get(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
+                if(m_chunkManager->Get(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
+                if(m_chunkManager->Get(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
+                if(m_chunkManager->Get(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
+                if(m_chunkManager->Get(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
 
-                if(y > 0)
-                    if(m_pBlocks[x][y-1][z].IsActive())
-                        RemoveBit(flags,EBS_BOTTOM);
-
-                if(y < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x][y+1][z].IsActive())
-                        RemoveBit(flags,EBS_TOP);
-
-                if(z > 0)
-                    if(m_pBlocks[x][y][z-1].IsActive())
-                        RemoveBit(flags,EBS_BACK);
-
-                if(z < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x][y][z+1].IsActive())
-                        RemoveBit(flags,EBS_FRONT);
-
-                CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
+                if(flags!=0) // Only a visible voxel should be added
+                    CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
             }
         }
     }
