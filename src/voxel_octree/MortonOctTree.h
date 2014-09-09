@@ -68,7 +68,6 @@ public:
 
     void AddNode(const MNode & node)
     {
-        //assert(node.size==1);
         m_nodes[Depth-1].push_back(node);
     }
 
@@ -183,7 +182,7 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
                 collided = true;
                 if(i==Depth-1)
                 {
-                    distance = glm::distance2(vox_start,rayStart);
+                    distance = glm::distance2(vox_start,rayStart); /// could do this earlier to avoid collision checks.
 
                     if( distance < nearestDistance)
                     {
