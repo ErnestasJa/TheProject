@@ -1,5 +1,5 @@
 #include "precomp.h"
-#include "MaterialTest.h"
+#include "Voxelz.h"
 #include "application/window.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
@@ -13,13 +13,12 @@
 #include "Voxel/ChunkManager.h"
 #include "GUI/GUI.h"
 
-
-MaterialTest::MaterialTest(uint32_t argc, const char ** argv): Application(argc,argv)
+Voxelz::Voxelz(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
 }
 
-MaterialTest::~MaterialTest()
+Voxelz::~Voxelz()
 {
 
 }
@@ -34,7 +33,7 @@ static GUIEnvironment *env;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel;
 static int face;
-#include <string>
+
 void InitPlaneMesh(AppContext * ctx)
 {
     validvoxel=false;
@@ -87,13 +86,13 @@ void InitPlaneMesh(AppContext * ctx)
     chkmgr=new ChunkManager();
 }
 
-bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t height)
+bool Voxelz::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
 
-    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&MaterialTest::OnKeyEvent));
-    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&MaterialTest::OnMouseKey));
-    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&MaterialTest::OnMouseMove));
+    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&Voxelz::OnKeyEvent));
+    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&Voxelz::OnMouseKey));
+    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&Voxelz::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -110,7 +109,7 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     return true;
 }
 
-bool MaterialTest::Update()
+bool Voxelz::Update()
 {
     if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
     {
@@ -160,16 +159,16 @@ bool MaterialTest::Update()
     return false;
 }
 
-void MaterialTest::Exit()
+void Voxelz::Exit()
 {
     Application::Exit();
 }
 
-void MaterialTest::OnWindowClose()
+void Voxelz::OnWindowClose()
 {
 
 }
-void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
+void Voxelz::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
     if(key==GLFW_KEY_W)
         cam->Walk(1);
@@ -185,7 +184,7 @@ void MaterialTest::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, in
     }
 }
 
-void MaterialTest::OnMouseMove(double x, double y)
+void Voxelz::OnMouseMove(double x, double y)
 {
     /* Very naive ray casting algorithm to find out which block we are looking at */
 
@@ -280,7 +279,7 @@ void MaterialTest::OnMouseMove(double x, double y)
     env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
-void MaterialTest::OnMouseKey(int32_t button, int32_t action, int32_t mod)
+void Voxelz::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
     if(action==GLFW_PRESS)
     {

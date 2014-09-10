@@ -4,7 +4,7 @@
 
 #include "Application/Application.h"
 #include "Application/ApplicationLauncher.h"
-#include "applications/material_test/MaterialTest.h"
+#include "applications/voxelz/Voxelz.h"
 #include "applications/voxel_octree/VoxelOctreeApp.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
@@ -35,7 +35,7 @@ char ShowAppMenu(ApplicationLauncher & launcher)
 int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
-    appLauncher.RegisterApplication("Material test", APP(MaterialTest));
+    appLauncher.RegisterApplication("Material test", APP(Voxelz));
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
 
     char choice = ShowAppMenu(appLauncher);

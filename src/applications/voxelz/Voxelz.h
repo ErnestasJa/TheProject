@@ -1,14 +1,14 @@
-#ifndef MATERIALTEST_H
-#define MATERIALTEST_H
+#ifndef VOXELZ_H
+#define VOXELZ_H
 
 #include "application/Application.h"
 #include "gui/GuiEventListener.h"
 
-class MaterialTest: public Application
+class Voxelz: public Application
 {
 public:
-    MaterialTest(uint32_t argc, const char ** argv);
-    virtual ~MaterialTest();
+    Voxelz(uint32_t argc, const char ** argv);
+    virtual ~Voxelz();
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool Update();
@@ -24,4 +24,4 @@ public:
 protected:
 };
 
-#endif // MATERIALTEST_H
+#endif // VOXELZ_H
