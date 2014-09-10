@@ -13,9 +13,7 @@ public:
     Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos);
     ~Chunk();
 
-    void SetupSphere();
-    void Generate();
-
+    void Fill();
     void Rebuild();
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);

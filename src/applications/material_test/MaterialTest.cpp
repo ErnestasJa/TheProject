@@ -82,6 +82,8 @@ void InitPlaneMesh(AppContext * ctx)
     smallcub=new CubeMesh(0.25);
 
     grid=new GridMesh(1.f,1024,16);
+    Timer timer;
+
     chkmgr=new ChunkManager();
 }
 
@@ -98,9 +100,13 @@ bool MaterialTest::Init(const std::string & title, uint32_t width, uint32_t heig
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
 
+    _appContext->_timer->tick();
+
     InitPlaneMesh(_appContext);
 
     _appContext->_timer->tick();
+
+    printf("Building took: %d ms\n",_appContext->_timer->get_delta_time());
     return true;
 }
 

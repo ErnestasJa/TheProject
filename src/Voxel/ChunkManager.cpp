@@ -13,10 +13,6 @@ ChunkManager::ChunkManager()
     int testsize=32;
     int testheight=32;
 
-    Timer timer;
-
-    timer.tick();
-
     for(int i=-testsize; i<testsize; i++)
     {
         for(int j=-testsize; j<testsize; j++)
@@ -45,10 +41,6 @@ ChunkManager::ChunkManager()
             }
         }
     }
-
-    timer.tick();
-
-    printf("Building took: %d ms\n",timer.get_delta_time());
 }
 
 ChunkManager::~ChunkManager()

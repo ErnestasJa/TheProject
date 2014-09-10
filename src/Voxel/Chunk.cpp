@@ -131,30 +131,7 @@ Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
     return m_pBlocks[x][y][z];
 }
 
-void Chunk::SetupSphere()
-{
-    for (int z = 0; z < CHUNK_SIZE; z++)
-    {
-        for (int y = 0; y < CHUNK_SIZE; y++)
-        {
-            for (int x = 0; x < CHUNK_SIZE; x++)
-            {
-//                if (sqrt((float) (x-CHUNK_SIZE/2)*(x-CHUNK_SIZE/2) + (y-CHUNK_SIZE/2)*(y-CHUNK_SIZE/2) + (z-CHUNK_SIZE/2)*(z-CHUNK_SIZE/2)) <= CHUNK_SIZE/2)
-//                {
-                m_pBlocks[x][y][z].SetActive(true);
-
-                m_pBlocks[x][y][z].SetBlockType(EBT_GRASS);
-//                }
-//                else
-//                {
-//                    m_pBlocks[x][y][z].SetBlockType(EBT_DEFAULT);
-//                }
-            }
-        }
-    }
-}
-
-void Chunk::Generate()
+void Chunk::Fill()
 {
     for (int z = 0; z < CHUNK_SIZE; z++)
     {
