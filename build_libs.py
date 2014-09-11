@@ -17,7 +17,7 @@ if os.path.isdir("build") == False:
 
 os.chdir("build")
 
-subprocess.call('cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ../ -G "MinGW Makefiles"', shell=True)
+subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=DEBUG -G "MinGW Makefiles"', shell=True)
 subprocess.call('mingw32-make -j5', shell=True)
 
 os.chdir("..")

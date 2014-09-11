@@ -10,8 +10,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=32;
-    int testheight=32;
+    int testsize=64;
+    int testheight=16;
 
     for(int i=-testsize; i<testsize; i++)
     {
