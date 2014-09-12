@@ -7,6 +7,10 @@ ELSE(JSONCPP_LIB_BUILD_SHARED)
 ENDIF(JSONCPP_LIB_BUILD_SHARED)
 
 
+if( CMAKE_COMPILER_IS_GNUCXX )
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=strict-aliasing")
+endif( CMAKE_COMPILER_IS_GNUCXX )
+
 SET( JSONCPP_INCLUDE_DIR ../../include )
 
 SET( PUBLIC_HEADERS
@@ -30,7 +34,6 @@ ADD_LIBRARY( jsoncpp_lib ${JSONCPP_LIB_TYPE}
              json_valueiterator.inl
              json_value.cpp
              json_writer.cpp
-             version.h.in
              )
 SET_TARGET_PROPERTIES( jsoncpp_lib PROPERTIES OUTPUT_NAME jsoncpp )
 SET_TARGET_PROPERTIES( jsoncpp_lib PROPERTIES VERSION ${JSON_CPP_VERSION} SOVERSION ${JSON_CPP_VERSION} )

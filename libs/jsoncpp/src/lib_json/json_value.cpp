@@ -34,7 +34,8 @@ namespace Json {
 #define ALIGNAS(byte_alignment)
 #endif
 static const unsigned char ALIGNAS(8) kNull[sizeof(Value)] = {0};
-const Value& Value::null = reinterpret_cast<const Value&>(kNull);
+const unsigned char& kNullRef = kNull[0];
+const Value& Value::null = reinterpret_cast<const Value&>(kNullRef);
 
 const Int Value::minInt = Int(~(UInt(-1) / 2));
 const Int Value::maxInt = Int(UInt(-1) / 2);
@@ -104,8 +105,7 @@ static inline char *duplicateStringValue(const char *value,
 /** Free the string duplicated by duplicateStringValue().
  */
 static inline void releaseStringValue(char *value) {
-  if (value)
-    free(value);
+  free(value);
 }
 
 } // namespace Json
@@ -190,9 +190,8 @@ void Value::CZString::swap(CZString &other) {
   std::swap(index_, other.index_);
 }
 
-Value::CZString &Value::CZString::operator=(const CZString &other) {
-  CZString temp(other);
-  swap(temp);
+Value::CZString &Value::CZString::operator=(CZString other) {
+  swap(other);
   return *this;
 }
 
@@ -481,9 +480,8 @@ Value::~Value() {
     delete[] comments_;
 }
 
-Value &Value::operator=(const Value &other) {
-  Value temp(other);
-  swap(temp);
+Value &Value::operator=(Value other) {
+  swap(other);
   return *this;
 }
 

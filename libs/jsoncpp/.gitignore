@@ -1,6 +1,6 @@
+/build/
 *.pyc
 *.swp
-
 *.actual
 *.actual-rewrite
 *.process-output
@@ -10,4 +10,3 @@
 /libs/
 /doc/doxyfile
 /dist/
-/include/json/version.h
