@@ -13,32 +13,32 @@ static float col(int in)
     return out;
 }
 
-static glm::vec4 getTypeCol(uint32_t typ)
+static u8vec4 getTypeCol(uint32_t typ)
 {
-    glm::vec4 ret;
+    u8vec4 ret;
     int nois=rand()%8;
     switch(typ)
     {
     case EBT_VOIDROCK:
-        ret=glm::vec4(col(0+nois),col(0+nois),col(0+nois),1);
+        ret=u8vec4(0+nois,0+nois,0+nois,255);
         break;
     case EBT_STONE:
-        ret=glm::vec4(col(128+nois),col(128+nois),col(128+nois),1);
+        ret=u8vec4(128+nois,128+nois,128+nois,255);
         break;
     case EBT_DIRT:
-        ret=glm::vec4(col(64+nois),col(64+nois),col(0+nois),1);
+        ret=u8vec4(64+nois,64+nois,0+nois,255);
         break;
     case EBT_GRASS:
-        ret=glm::vec4(col(0+nois),col(128+nois),col(0+nois),1);
+        ret=u8vec4(0+nois,128+nois,0+nois,255);
         break;
     case EBT_LEAF:
-        ret=glm::vec4(col(0+nois),col(192+nois),col(0+nois),1);
+        ret=u8vec4(0+nois,192+nois,0+nois,255);
         break;
     case EBT_WOOD:
-        ret=glm::vec4(col(128+nois),col(128+nois),col(0+nois),1);
+        ret=u8vec4(128+nois,128+nois,0+nois,255);
         break;
     default:
-        ret=glm::vec4(col(255-nois),col(255-nois),col(255-nois),1);
+        ret=u8vec4(255-nois,255-nois,255-nois,255);
         break;
     }
     return ret;
@@ -59,6 +59,7 @@ Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos)
             m_pBlocks[i][j] = new Block[CHUNK_SIZE];
         }
     }
+    leftN=rightN=botN=topN=backN=frontN=nullptr;
 }
 
 Chunk::~Chunk()
@@ -80,11 +81,11 @@ void Chunk::Rebuild()
 {
     Cleanup();
 
-    for (int z = 0; z < CHUNK_SIZE; z++)
+    for (int x = 0; x < CHUNK_SIZE; x++)
     {
-        for (int y = 0; y < CHUNK_SIZE; y++)
+        for (int z = 0; z < CHUNK_SIZE; z++)
         {
-            for (int x = 0; x < CHUNK_SIZE; x++)
+            for (int y = 0; y < CHUNK_SIZE; y++)
             {
                 if(!m_pBlocks[x][y][z].IsActive()) continue;
 
@@ -107,6 +108,15 @@ void Chunk::Rebuild()
                 if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
                 if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
 
+//                if(x>0&&m_pBlocks[x-1][y][z].IsActive()) RemoveBit(flags,EBS_LEFT);
+//                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive()) RemoveBit(flags,EBS_RIGHT);
+//
+//                if(y>0&&m_pBlocks[x][y-1][z].IsActive()) RemoveBit(flags,EBS_BOTTOM);
+//                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive()) RemoveBit(flags,EBS_TOP);
+//
+//                if(z>0&&m_pBlocks[x][y][z-1].IsActive()) RemoveBit(flags,EBS_BACK);
+//                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive()) RemoveBit(flags,EBS_FRONT);
+
                 if(flags!=0) // Only a visible voxel should be added
                     CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
             }
@@ -120,20 +130,15 @@ void Chunk::Rebuild()
 
 void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
-    if(m_pBlocks[x][y][z].IsActive()==active||(m_pBlocks[x][y][z].IsActive()==active&&m_pBlocks[x][y][z].GetBlockType()==type))
-        return;
     m_pBlocks[x][y][z].SetActive(active);
     m_pBlocks[x][y][z].SetBlockType(type);
     m_dirty=true;
 }
 
-Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
+const Block &Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
 {
-    Block b=Block();
-    b.SetActive(false);
-    b.SetBlockType(EBT_DEFAULT);
     if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
-        return b;
+        return EMPTY_BLOCK;
     return m_pBlocks[x][y][z];
 }
 
@@ -145,41 +150,8 @@ void Chunk::Fill()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                if(!m_pBlocks[x][y][z].IsActive()) continue;
-
-                uint32_t flags=0;
-                AddBit(flags,EBS_LEFT);
-                AddBit(flags,EBS_RIGHT);
-                AddBit(flags,EBS_TOP);
-                AddBit(flags,EBS_BOTTOM);
-                AddBit(flags,EBS_FRONT);
-                AddBit(flags,EBS_BACK);
-
-                if(x > 0)
-                    if(m_pBlocks[x-1][y][z].IsActive())
-                        RemoveBit(flags,EBS_LEFT);
-
-                if(x < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x+1][y][z].IsActive())
-                        RemoveBit(flags,EBS_RIGHT);
-
-                if(y > 0)
-                    if(m_pBlocks[x][y-1][z].IsActive())
-                        RemoveBit(flags,EBS_BOTTOM);
-
-                if(y < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x][y+1][z].IsActive())
-                        RemoveBit(flags,EBS_TOP);
-
-                if(z > 0)
-                    if(m_pBlocks[x][y][z-1].IsActive())
-                        RemoveBit(flags,EBS_BACK);
-
-                if(z < CHUNK_SIZE - 1)
-                    if(m_pBlocks[x][y][z+1].IsActive())
-                        RemoveBit(flags,EBS_FRONT);
-
-                CreateVoxel(x,y,z,flags,glm::vec4(0.5,0.5,0.5,1));
+                m_pBlocks[x][y][z].SetBlockType(EBT_STONE);
+                m_pBlocks[x][y][z].SetActive(true);
             }
         }
     }

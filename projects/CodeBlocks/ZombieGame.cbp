@@ -201,6 +201,8 @@
 		<Unit filename="../../src/Voxel/VoxelMesh.h" />
 		<Unit filename="../../src/Voxel/VoxelSprite.cpp" />
 		<Unit filename="../../src/Voxel/VoxelSprite.h" />
+		<Unit filename="../../src/Voxel/VoxelTypes.cpp" />
+		<Unit filename="../../src/Voxel/VoxelTypes.h" />
 		<Unit filename="../../src/application/AppContext.h" />
 		<Unit filename="../../src/application/Application.cpp" />
 		<Unit filename="../../src/application/Application.h" />

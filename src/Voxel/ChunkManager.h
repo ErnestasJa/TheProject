@@ -8,7 +8,7 @@ enum EBlockType;
 
 struct chunkhasher {
     size_t operator()(const glm::vec3& a) const {
-          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2);
+          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2)/(double)(rand()%5+1);
     }
 };
 
@@ -62,11 +62,14 @@ public:
 
     Chunk *GetChunk(glm::vec3 pos);
     Chunk *GetChunkWorld(glm::vec3 pos);
+    void SetChunkNeighbours(Chunk* chunk,glm::vec3 pos);
 
     Chunk *AddChunk(glm::vec3 pos);
     Chunk *AddChunkWorld(glm::vec3 pos);
 
     void Render(Camera *cam);
+
+    void Clear();
 protected:
 private:
     std::unordered_map<glm::vec3,Chunk*,chunkhasher> m_chunks;

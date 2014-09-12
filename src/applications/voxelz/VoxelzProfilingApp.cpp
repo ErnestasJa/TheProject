@@ -41,10 +41,10 @@ static void AddSingleChunk(AppContext * ctx)
 static void AddManyChunks(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int i=-16; i<16; i++)
-        for(int j=-16; j<16; j++)
-            for(int k=-16; k<16; k++)
-                chkmgr->AddChunk(glm::vec3(i,j,k))->Fill();
+    for(int x=-8; x<8; x++)
+        for(int z=-8; z<8; z++)
+            for(int y=0; y<16; y++)
+                chkmgr->AddChunk(glm::vec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
 }
 
@@ -58,24 +58,23 @@ static void SingleChunkRebuild(AppContext * ctx)
 static void AllChunksRebuild(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int i=-16; i<16; i++)
-        for(int j=-16; j<16; j++)
-            for(int k=-16; k<16; k++)
-                chkmgr->GetChunk(glm::vec3(i,j,k))->Rebuild();
+    for(int x=-8; x<8; x++)
+        for(int z=-8; z<8; z++)
+            for(int y=0; y<16; y++)
+                chkmgr->GetChunk(glm::vec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
 }
 
 void VoxelzProfilingApp::Benchmark()
 {
     AddSingleChunk(_appContext);
-    Update();
+
     SingleChunkRebuild(_appContext);
-    Update();
 
     AddManyChunks(_appContext);
-    Update();
+
     AllChunksRebuild(_appContext);
-    Update();
+
 }
 
 bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -95,9 +94,36 @@ bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_
     cam = share(new Camera(_appContext,glm::vec3(0,128,128),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     chkmgr=new ChunkManager();
+//    printf("\nPROFILE ME TIMBERS!\n");
+//    Benchmark();
+//    printf("TIMBERRRRR!\n");
 
-    Benchmark();
+AppContext *ctx=_appContext;
 
+std::map<std::string,int> mapas;
+
+loop(i,10000000)
+{
+    char buf[32];
+    itoa(i,buf,10);
+    mapas[buf]=i;
+}
+BEGIN_BENCHMARK
+if(mapas.count("1")==0)
+    return false;
+END_BENCHMARK("count");
+
+BEGIN_BENCHMARK
+if(mapas.find("10524")!=mapas.end())
+END_BENCHMARK("find");
+
+    printf("SIZEOF u8vec4: %d\n",sizeof(glm::detail::tvec4<uint8_t>(0)));
+    printf("SIZEOF u16vec4: %d\n",sizeof(glm::detail::tvec4<uint16_t>(0)));
+
+    printf("SIZEOF u8vec3: %d\n",sizeof(glm::detail::tvec3<uint8_t>(0)));
+    printf("SIZEOF u16vec3: %d\n",sizeof(glm::detail::tvec3<uint16_t>(0)));
+
+    //Exit();
     return true;
 }
 

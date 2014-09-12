@@ -112,6 +112,20 @@ void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
     }
 }
 
+void ChunkManager::SetChunkNeighbours(Chunk* chunk,glm::vec3 pos)
+{
+    glm::vec3 posXNeg(pos.x-1,pos.y,pos.z),posXPos(pos.x+1,pos.y,pos.z),posYNeg(pos.x,pos.y-1,pos.z),posYPos(pos.x,pos.y+1,pos.z),posZNeg(pos.x,pos.y,pos.z-1),posZPos(pos.x,pos.y,pos.z+1);
+
+    if(m_chunks.count(posXNeg)!=0) m_chunks[pos]->leftN=m_chunks[posXNeg];
+    if(m_chunks.count(posXPos)!=0) m_chunks[pos]->rightN=m_chunks[posXPos];
+
+    if(m_chunks.count(posYNeg)!=0) m_chunks[pos]->botN=m_chunks[posYNeg];
+    if(m_chunks.count(posYPos)!=0) m_chunks[pos]->topN=m_chunks[posYPos];
+
+    if(m_chunks.count(posZNeg)!=0) m_chunks[pos]->backN=m_chunks[posZNeg];
+    if(m_chunks.count(posZPos)!=0) m_chunks[pos]->frontN=m_chunks[posZPos];
+}
+
 //! pos: in CHUNK coordinates
 Chunk *ChunkManager::AddChunk(glm::vec3 pos)
 {
@@ -166,7 +180,7 @@ Block ChunkManager::GetBlock(glm::vec3 pos)
     if(m_chunks.find(chunkCoords)!=m_chunks.end())
         return m_chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
     else
-        return Block();
+        return EMPTY_BLOCK;
 }
 
 void ChunkManager::Render(Camera *cam)
@@ -183,6 +197,14 @@ void ChunkManager::Render(Camera *cam)
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         a.second->Render();
+    }
+}
+
+void ChunkManager::Clear()
+{
+    for(std::unordered_map<glm::vec3,Chunk*,chunkhasher>::iterator it=m_chunks.begin(); it!=m_chunks.end();)
+    {
+        m_chunks.erase(it++);
     }
 }
 

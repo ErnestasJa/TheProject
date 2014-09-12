@@ -1,6 +1,8 @@
 #ifndef VOXELMESH_H
 #define VOXELMESH_H
 
+#include "VoxelTypes.h"
+
 enum EBlockSides
 {
     EBS_FRONT=BIT0,
@@ -31,7 +33,7 @@ public:
     VoxelMesh();
     virtual ~VoxelMesh();
 
-    void CreateVoxel(float x, float y, float z, uint32_t sides, glm::vec4 color);
+    void CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8vec4 color);
     void Render();
     virtual void Rebuild()=0;
     void UpdateMesh();
@@ -39,11 +41,12 @@ public:
 protected:
     bool m_dirty;
     uint32_t m_indexTrack;
+    uint32_t m_vertexTrack;
     MeshPtr m_mesh;
     shader_ptr m_shader;
-    BufferObject<glm::vec4> *m_colBuf;
-    BufferObject<glm::vec3> *m_posBuf;
-    IndexBufferObject<uint32_t> *m_indBuf;
+    BufferObject<u8vec4> *m_colBuf;
+    BufferObject<u8vec3> *m_posBuf;
+    IndexBufferObject<uint16_t> *m_indBuf;
 private:
 };
 #endif // VOXELMESH_H
