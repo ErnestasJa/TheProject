@@ -4,11 +4,11 @@
 #include "application/Application.h"
 #include "gui/GuiEventListener.h"
 
-class Voxelz: public Application
+class VoxelzApp: public Application
 {
 public:
-    Voxelz(uint32_t argc, const char ** argv);
-    virtual ~Voxelz();
+    VoxelzApp(uint32_t argc, const char ** argv);
+    virtual ~VoxelzApp();
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool Update();

@@ -1,5 +1,5 @@
 #include "precomp.h"
-#include "Voxelz.h"
+#include "VoxelzApp.h"
 #include "application/window.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
@@ -13,12 +13,12 @@
 #include "Voxel/ChunkManager.h"
 #include "GUI/GUI.h"
 
-Voxelz::Voxelz(uint32_t argc, const char ** argv): Application(argc,argv)
+VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
 }
 
-Voxelz::~Voxelz()
+VoxelzApp::~VoxelzApp()
 {
 
 }
@@ -86,13 +86,13 @@ void InitPlaneMesh(AppContext * ctx)
     chkmgr=new ChunkManager();
 }
 
-bool Voxelz::Init(const std::string & title, uint32_t width, uint32_t height)
+bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
 
-    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&Voxelz::OnKeyEvent));
-    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&Voxelz::OnMouseKey));
-    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&Voxelz::OnMouseMove));
+    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelzApp::OnKeyEvent));
+    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelzApp::OnMouseKey));
+    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelzApp::OnMouseMove));
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -109,7 +109,7 @@ bool Voxelz::Init(const std::string & title, uint32_t width, uint32_t height)
     return true;
 }
 
-bool Voxelz::Update()
+bool VoxelzApp::Update()
 {
     if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
     {
@@ -159,16 +159,16 @@ bool Voxelz::Update()
     return false;
 }
 
-void Voxelz::Exit()
+void VoxelzApp::Exit()
 {
     Application::Exit();
 }
 
-void Voxelz::OnWindowClose()
+void VoxelzApp::OnWindowClose()
 {
 
 }
-void Voxelz::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
+void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
     if(key==GLFW_KEY_W)
         cam->Walk(1);
@@ -184,7 +184,7 @@ void Voxelz::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t 
     }
 }
 
-void Voxelz::OnMouseMove(double x, double y)
+void VoxelzApp::OnMouseMove(double x, double y)
 {
     /* Very naive ray casting algorithm to find out which block we are looking at */
 
@@ -279,7 +279,7 @@ void Voxelz::OnMouseMove(double x, double y)
     env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
-void Voxelz::OnMouseKey(int32_t button, int32_t action, int32_t mod)
+void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
     if(action==GLFW_PRESS)
     {
