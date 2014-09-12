@@ -10,33 +10,53 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=128;
-    int testheight=64;
+    int testsize=64;
+    int testheight=32;
 
-    for(int i=-testsize; i<testsize; i++)
+    for(int x=-testsize; x<testsize; x++)
     {
-        for(int j=-testsize; j<testsize; j++)
+        for(int z=-testsize; z<testsize; z++)
         {
-            float h=scaled_raw_noise_2d(0,testheight,i/256.f,j/256.f);
+            float h=scaled_raw_noise_2d(0,testheight,x/256.f,z/256.f);
             for(int y=0; y<testheight; y++)
             {
                 if(y==0)
                 {
-                    SetBlock(glm::vec3(i,y,j),EBT_VOIDROCK,true);
+                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
                     continue;
                 }
                 else if(y==(int)h)
                 {
-                    SetBlock(glm::vec3(i,y,j),EBT_GRASS,true);
+                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
                     continue;
                 }
                 else if(y>h)
                 {
+                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
+                    {
+                        // Trunk
+                        h = (rand() & 0x3) + 3;
+                        for(int i = 0; i < h; i++)
+                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
+
+                        // Leaves
+                        for(int ix = -3; ix <= 3; ix++)
+                        {
+                            for(int iy = -1; iy <= 1; iy++)
+                            {
+                                for(int iz = -3; iz <= 3; iz++)
+                                {
+                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
+                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
+                                }
+                            }
+                        }
+                    }
                     break;
                 }
                 else
                 {
-                    SetBlock(glm::vec3(i,y,j),EBT_STONE,true);
+                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
                 }
             }
         }

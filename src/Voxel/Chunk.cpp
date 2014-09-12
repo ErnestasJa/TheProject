@@ -31,6 +31,12 @@ static glm::vec4 getTypeCol(uint32_t typ)
     case EBT_GRASS:
         ret=glm::vec4(col(0+nois),col(128+nois),col(0+nois),1);
         break;
+    case EBT_LEAF:
+        ret=glm::vec4(col(0+nois),col(192+nois),col(0+nois),1);
+        break;
+    case EBT_WOOD:
+        ret=glm::vec4(col(128+nois),col(128+nois),col(0+nois),1);
+        break;
     default:
         ret=glm::vec4(col(255-nois),col(255-nois),col(255-nois),1);
         break;
