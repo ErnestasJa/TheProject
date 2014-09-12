@@ -85,6 +85,8 @@
 					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
+					<Add library="libglxw" />
+					<Add library="libstb_image_lib" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -118,6 +120,8 @@
 					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
+					<Add library="libglxw" />
+					<Add library="libstb_image_lib" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -132,6 +136,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg" />
+					<Add option="-g" />
 					<Add option="-DDEBUG" />
 					<Add directory="src/applications/material_test" />
 					<Add directory="src/Voxel" />
@@ -151,6 +156,8 @@
 					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
+					<Add library="libglxw" />
+					<Add library="libstb_image_lib" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -181,26 +188,6 @@
 			<Add option="-static-libstdc++" />
 			<Add option="-static" />
 		</Linker>
-		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
-		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
-		<Unit filename="../../libs/glxw/src/glxw.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../libs/glxw/src/glxw_glx.c">
-			<Option compilerVar="CC" />
-			<Option target="Linux-Debug" />
-			<Option target="(UNUSED)Release" />
-		</Unit>
-		<Unit filename="../../libs/glxw/src/glxw_wgl.c">
-			<Option compilerVar="CC" />
-			<Option target="Win32-Debug" />
-			<Option target="Win32-Release" />
-			<Option target="Win32-Profile" />
-		</Unit>
-		<Unit filename="../../libs/stb_image/stb_image.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../libs/stb_image/stb_image.h" />
 		<Unit filename="../../src/Voxel/Block.cpp" />
 		<Unit filename="../../src/Voxel/Block.h" />
 		<Unit filename="../../src/Voxel/Chunk.cpp" />
