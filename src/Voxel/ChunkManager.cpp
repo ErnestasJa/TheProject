@@ -10,57 +10,57 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=64;
-    int testheight=128;
-
-    for(int x=-testsize; x<testsize; x++)
-    {
-        for(int z=-testsize; z<testsize; z++)
-        {
-            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f);
-            for(int y=0; y<testheight; y++)
-            {
-                if(y==0)
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
-                    continue;
-                }
-                else if(y==(int)h)
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
-                    continue;
-                }
-                else if(y>h)
-                {
-                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
-                    {
-                        // Trunk
-                        h = (rand() & 0x3) + 3;
-                        for(int i = 0; i < h; i++)
-                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
-
-                        // Leaves
-                        for(int ix = -3; ix <= 3; ix++)
-                        {
-                            for(int iy = -1; iy <= 1; iy++)
-                            {
-                                for(int iz = -3; iz <= 3; iz++)
-                                {
-                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
-                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-                else
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
-                }
-            }
-        }
-    }
+//    int testsize=16;
+//    int testheight=32;
+//
+//    for(int x=-testsize; x<testsize; x++)
+//    {
+//        for(int z=-testsize; z<testsize; z++)
+//        {
+//            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f);
+//            for(int y=0; y<testheight; y++)
+//            {
+//                if(y==0)
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
+//                    continue;
+//                }
+//                else if(y==(int)h)
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
+//                    continue;
+//                }
+//                else if(y>h)
+//                {
+//                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
+//                    {
+//                        // Trunk
+//                        h = (rand() & 0x3) + 3;
+//                        for(int i = 0; i < h; i++)
+//                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
+//
+//                        // Leaves
+//                        for(int ix = -3; ix <= 3; ix++)
+//                        {
+//                            for(int iy = -1; iy <= 1; iy++)
+//                            {
+//                                for(int iz = -3; iz <= 3; iz++)
+//                                {
+//                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
+//                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//                else
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
+//                }
+//            }
+//        }
+//    }
 }
 
 ChunkManager::~ChunkManager()

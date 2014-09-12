@@ -9,5 +9,3 @@ cd ..
 cls
 
 rmdir /s /q build
-
-pause
