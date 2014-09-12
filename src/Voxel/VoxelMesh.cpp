@@ -34,10 +34,10 @@ void VoxelMesh::Render()
 {
     if(m_dirty)
         Rebuild();
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
     if(!m_dirty)
         m_mesh->Render();
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
 }
 
 void VoxelMesh::Cleanup()

@@ -6,16 +6,6 @@ class Block;
 class Chunk;
 enum EBlockType;
 
-struct glmvec3comparino
-{
-    bool operator()(const glm::vec3& a, const glm::vec3& b) const
-    {
-        return  (a.x<b.x && !helpers::equals(a.x, b.x)) ||
-                (helpers::equals(a.x, b.x) && a.y<b.y && !helpers::equals(a.y, b.y)) ||
-                (helpers::equals(a.x, b.x) && helpers::equals(a.y, b.y) && a.z<b.z && !helpers::equals(a.z, b.z));
-    }
-};
-
 struct chunkhasher {
     size_t operator()(const glm::vec3& a) const {
           return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2);
@@ -27,6 +17,15 @@ inline glm::vec3 WorldToChunkCoords(const glm::vec3 &other)
     int cx = glm::floor(other.x / CHUNK_SIZEF);
     int cy = glm::floor(other.y / CHUNK_SIZEF);
     int cz = glm::floor(other.z / CHUNK_SIZEF);
+
+    return glm::vec3(cx,cy,cz);
+}
+
+inline glm::vec3 ChunkToWorldCoords(const glm::vec3 &other)
+{
+    int cx = glm::floor(other.x * CHUNK_SIZEF);
+    int cy = glm::floor(other.y * CHUNK_SIZEF);
+    int cz = glm::floor(other.z * CHUNK_SIZEF);
 
     return glm::vec3(cx,cy,cz);
 }
@@ -62,6 +61,10 @@ public:
     Block GetBlock(glm::vec3 pos);
 
     Chunk *GetChunk(glm::vec3 pos);
+    Chunk *GetChunkWorld(glm::vec3 pos);
+
+    Chunk *AddChunk(glm::vec3 pos);
+    Chunk *AddChunkWorld(glm::vec3 pos);
 
     void Render(Camera *cam);
 protected:

@@ -31,12 +31,13 @@ static GridMesh *grid;
 static ChunkManager *chkmgr;
 static GUIEnvironment *env;
 static glm::vec3 voxpos,newvoxpos,pointpos;
-static bool validvoxel;
+static bool validvoxel,wireframe;
 static int face;
 
 void InitPlaneMesh(AppContext * ctx)
 {
     validvoxel=false;
+    wireframe=false;
     voxpos=glm::vec3(0);
 
     BufferObject<glm::vec3> * pos = new BufferObject<glm::vec3>();
@@ -116,7 +117,10 @@ bool VoxelzApp::Update()
         _appContext->_timer->tick();
 
         cam->Update(0);
-
+        if(wireframe==true)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
@@ -151,7 +155,10 @@ bool VoxelzApp::Update()
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         chkmgr->Render(cam.get());
-
+        if(wireframe==true)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+        }
         env->Render();
         _appContext->_window->SwapBuffers();
         return true;
@@ -181,6 +188,10 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
         chkmgr->Explode(voxpos,20);
+    }
+    if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
+    {
+        wireframe=!wireframe;
     }
 }
 

@@ -10,8 +10,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=64;
-    int testheight=16;
+    int testsize=128;
+    int testheight=64;
 
     for(int i=-testsize; i<testsize; i++)
     {
@@ -92,7 +92,46 @@ void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
     }
 }
 
+//! pos: in CHUNK coordinates
+Chunk *ChunkManager::AddChunk(glm::vec3 pos)
+{
+    if(m_chunks.find(pos)!=m_chunks.end())
+    {
+        return m_chunks[pos];
+    }
+    else
+    {
+        m_chunks[pos]=new Chunk(this,ChunkToWorldCoords(pos));
+        return m_chunks[pos];
+    }
+}
+
+//! pos: in WORLD coordinates
+Chunk *ChunkManager::AddChunkWorld(glm::vec3 pos)
+{
+    glm::vec3 chunkCoords=WorldToChunkCoords(pos);
+    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+    {
+        return m_chunks[chunkCoords];
+    }
+    else
+    {
+        m_chunks[chunkCoords]=new Chunk(this,ChunkToWorldCoords(chunkCoords));
+        return m_chunks[chunkCoords];
+    }
+}
+
+//! pos: in CHUNK coordinates
 Chunk *ChunkManager::GetChunk(glm::vec3 pos)
+{
+    if(m_chunks.find(pos)!=m_chunks.end())
+        return m_chunks[pos];
+    else
+        return nullptr;
+}
+
+//! pos: in WORLD coordinates
+Chunk *ChunkManager::GetChunkWorld(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.find(chunkCoords)!=m_chunks.end())
