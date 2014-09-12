@@ -11,13 +11,13 @@
 ChunkManager::ChunkManager()
 {
     int testsize=64;
-    int testheight=32;
+    int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
     {
         for(int z=-testsize; z<testsize; z++)
         {
-            float h=scaled_raw_noise_2d(0,testheight,x/256.f,z/256.f);
+            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f);
             for(int y=0; y<testheight; y++)
             {
                 if(y==0)
