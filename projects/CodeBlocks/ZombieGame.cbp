@@ -66,7 +66,6 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
 					<Add directory="src/applications/material_test" />
@@ -77,20 +76,16 @@
 					<Add directory="src/opengl" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
-					<Add library="glfw3_win32" />
+					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs_win32" />
+					<Add library="physfs" />
 					<Add library="freetype" />
-					<Add library="tinyxml2_win32" />
+					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
-					<Add directory="../../libs/freetype/lib" />
-					<Add directory="../../libs/bullet/lib/win32" />
+					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
@@ -103,7 +98,6 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O3" />
 					<Add option="-std=c++11" />
 					<Add option="-DRELEASE" />
 					<Add directory="src/applications/material_test" />
@@ -115,19 +109,16 @@
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
-					<Add library="glfw3_win32" />
+					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs_win32" />
+					<Add library="physfs" />
 					<Add library="freetype" />
-					<Add library="tinyxml2_win32" />
+					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
-					<Add directory="../../libs/freetype/lib" />
-					<Add directory="../../libs/bullet/lib/win32" />
+					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
@@ -152,19 +143,16 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="glfw3_win32" />
+					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs_win32" />
+					<Add library="physfs" />
 					<Add library="freetype" />
-					<Add library="tinyxml2_win32" />
+					<Add library="tinyxml2_lib" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
-					<Add directory="../../libs/freetype/lib" />
-					<Add directory="../../libs/bullet/lib/win32" />
+					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
@@ -193,16 +181,6 @@
 			<Add option="-static-libgcc" />
 			<Add option="-static-libstdc++" />
 			<Add option="-static" />
-			<Add library="libBulletSoftBody.a" />
-			<Add library="libBulletDynamics.a" />
-			<Add library="libBulletCollision.a" />
-			<Add library="libLinearMath.a" />
-			<Add directory="../../libs/glfw/lib" />
-			<Add directory="../../libs/physfs/lib" />
-			<Add directory="../../libs/tinyxml2/lib" />
-			<Add directory="../../libs/glfw/src" />
-			<Add directory="../../libs/libsigc++/lib" />
-			<Add directory="../../libs/jsoncpp/build/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3native.h" />
