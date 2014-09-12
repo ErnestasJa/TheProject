@@ -121,6 +121,43 @@
 					<Add library="gdi32" />
 					<Add library="physfs_win32" />
 					<Add library="freetype" />
+					<Add directory="../../libs/glfw/lib" />
+					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
+					<Add library="tinyxml2_win32" />
+					<Add library="libsigc++.a" />
+					<Add library="jsoncpp" />
+					<Add directory="../../libs/bullet/lib/win32" />
+				</Linker>
+				<ExtraCommands>
+					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Win32-Profile">
+				<Option output="../../bin/Debug/ZombieGame" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin/Debug" />
+				<Option object_output="../../bin/Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add directory="src/applications/material_test" />
+					<Add directory="src/Voxel" />
+					<Add directory="src/application" />
+					<Add directory="include" />
+					<Add directory="src/voxel_octree" />
+					<Add directory="src/opengl" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="glfw3_win32" />
+					<Add library="opengl32" />
+					<Add library="glu32" />
+					<Add library="gdi32" />
+					<Add library="physfs_win32" />
+					<Add library="freetype" />
 					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
@@ -150,7 +187,6 @@
 			<Add directory="../../libs/freetype/include" />
 			<Add directory="../../libs/libsigc++" />
 			<Add directory="../../libs/tinyxml2/src" />
-			<Add directory="../../libs/irrKlang-1.5.0/include" />
 			<Add directory="../../libs/jsoncpp/include/json" />
 		</Compiler>
 		<Linker>
@@ -161,13 +197,11 @@
 			<Add library="libBulletDynamics.a" />
 			<Add library="libBulletCollision.a" />
 			<Add library="libLinearMath.a" />
-			<Add library="libirrklang.a" />
 			<Add directory="../../libs/glfw/lib" />
 			<Add directory="../../libs/physfs/lib" />
 			<Add directory="../../libs/tinyxml2/lib" />
 			<Add directory="../../libs/glfw/src" />
 			<Add directory="../../libs/libsigc++/lib" />
-			<Add directory="../../libs/irrKlang-1.5.0/lib" />
 			<Add directory="../../libs/jsoncpp/build/lib" />
 		</Linker>
 		<Unit filename="../../libs/glfw/include/GLFW/glfw3.h" />
@@ -184,6 +218,7 @@
 			<Option compilerVar="CC" />
 			<Option target="Win32-Debug" />
 			<Option target="Win32-Release" />
+			<Option target="Win32-Profile" />
 		</Unit>
 		<Unit filename="../../libs/stb_image/stb_image.c">
 			<Option compilerVar="CC" />
@@ -210,6 +245,8 @@
 		<Unit filename="../../src/applications/material_test/MaterialTest.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.cpp" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.h" />
+		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp" />
+		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h" />
 		<Unit filename="../../src/gui/GUI.h" />
 		<Unit filename="../../src/gui/GUIButton.cpp" />
 		<Unit filename="../../src/gui/GUIButton.h" />

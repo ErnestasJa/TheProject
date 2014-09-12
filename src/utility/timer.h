@@ -27,3 +27,4 @@ public:
 };
 
 typedef std::shared_ptr<Timer> timer_ptr;
+typedef std::shared_ptr<Timer> TimerPtr;

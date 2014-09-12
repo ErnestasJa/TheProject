@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "VoxelOctreeApp.h"
 #include "voxel_octree/VoxMeshGenerator.h"
+#include "utility/SimplexNoise.h"
 
 
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
@@ -29,15 +30,18 @@ void VoxelOctreeApp::InitPlaneMesh()
     mesh->Init();
 
 
-    octree = new MortonOctTree<16>();
+    octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshGenerator(octree);
 
-    loop(i,10)
-        loop(j,10)
-            loop(k,10)
-                octree->AddNode(MNode(k,j,i));
 
-    octree->RefineTree();
+    loop(i,16)
+        loop(j,16)
+            loop(k,16)
+                if(raw_noise_3d(k,j,i)<0.05)
+                    octree->AddOrphanNode(MNode(k,j,i));
+
+    octree->SortLeafNodes();
+    octree->RebuildTree();
     octreeGen->GenMesh(mesh);
 }
 
@@ -133,7 +137,8 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                 if(it!=octree->GetChildNodes().end())
                 {
                     octree->GetChildNodes().erase(it);
-                    octree->RefineTree();
+                    ///for now the erase means full rebuild
+                    octree->RebuildTree();
                     octreeGen->GenMesh(mesh);
                 }
             }
@@ -152,7 +157,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                 VoxelSide side = octree->GetCollisionSide(glm::vec3(x,y,z),position,lookat);
                 glm::ivec3 pos = octree->VoxelSideToPosition(side);
 
-                if(pos.x==-1&&x==0 || pos.y==-1&&y==0 || pos.z==-1&&z==0)
+                if((pos.x==-1&&x==0) || (pos.y==-1&&y==0) || (pos.z==-1&&z==0))
                     break;
 
                 x+=pos.x;
@@ -160,7 +165,6 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                 z+=pos.z;
 
                 octree->AddNode(MNode(x,y,z));
-                octree->RefineTree();
                 octreeGen->GenMesh(mesh);
             }
             break;

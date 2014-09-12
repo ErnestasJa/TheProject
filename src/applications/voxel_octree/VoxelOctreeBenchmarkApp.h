@@ -1,5 +1,5 @@
-#ifndef VOXELOCTREEAPP_H
-#define VOXELOCTREEAPP_H
+#ifndef VOXELOCTREEBENCHMARKAPP_H
+#define VOXELOCTREEBENCHMARKAPP_H
 
 #include "application/Application.h"
 #include "gui/GuiEventListener.h"
@@ -12,14 +12,16 @@
 #include "voxel_octree/MortonOctTree.h"
 #include "voxel_octree/VoxMeshGenerator.h"
 
-class VoxelOctreeApp: public Application
+class VoxelOctreeBenchmarkApp: public Application
 {
 public:
-    VoxelOctreeApp(uint32_t argc, const char ** argv);
-    virtual ~VoxelOctreeApp();
+    VoxelOctreeBenchmarkApp(uint32_t argc, const char ** argv);
+    virtual ~VoxelOctreeBenchmarkApp();
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
-    void InitPlaneMesh();
+    void InitOctree();
+    void BuildOctree();
+    void FreeOctree();
     virtual bool Update();
     void Exit();
 
@@ -35,6 +37,7 @@ private:
     CameraPtr cam;
     MortonOctTree<10> * octree;
     VoxMeshGenerator * octreeGen;
+    timer_ptr timer;
 };
 
 #endif // VOXELOCTREEAPP_H

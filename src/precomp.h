@@ -52,7 +52,7 @@
 
 /// DEFINES
 #ifdef RELEASE
-#define RELEASE_FS
+//#define RELEASE_FS
 #endif
 
 #ifdef DEBUG

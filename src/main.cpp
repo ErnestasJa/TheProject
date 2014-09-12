@@ -6,6 +6,7 @@
 #include "Application/ApplicationLauncher.h"
 #include "applications/voxelz/Voxelz.h"
 #include "applications/voxel_octree/VoxelOctreeApp.h"
+#include "applications/voxel_octree/VoxelOctreeBenchmarkApp.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
 
@@ -34,9 +35,13 @@ char ShowAppMenu(ApplicationLauncher & launcher)
 
 int main(int argc, const char ** argv)
 {
+    int why;
+    std::cin >> why;
+
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Material test", APP(Voxelz));
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
+    appLauncher.RegisterApplication("Voxel octree benchmark application", APP(VoxelOctreeBenchmarkApp));
 
     char choice = ShowAppMenu(appLauncher);
     int nr =  choice - '0';
@@ -56,6 +61,7 @@ int main(int argc, const char ** argv)
         choice = ShowAppMenu(appLauncher);
         nr =  choice - '0';
     }
+
 
     return 0;
 }

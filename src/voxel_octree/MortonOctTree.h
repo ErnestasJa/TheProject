@@ -36,7 +36,7 @@ struct MNode {
 
     MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1)
     {
-        start = encodeMortonKey(x,y,z);
+        start = encodeMK(x,y,z);
         size = nodeSize;
         object_id = 0;
         size = 0;
@@ -68,22 +68,33 @@ public:
 
     void AddNode(const MNode & node)
     {
+        auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), node);
+
+        if( found ==m_nodes[Depth-1].end() || (*found).start != node.start)
+        {
+            m_nodes[Depth-1].insert(found,node);
+            PopulateParents(node);
+        }
+    }
+
+    void AddOrphanNode(const MNode & node)
+    {
         m_nodes[Depth-1].push_back(node);
     }
 
     //sort and build tree, ...
-    void RefineTree()
+    void RebuildTree()
     {
-        std::sort(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end());
-
         for(int i = 0; i < Depth-1; i++)
-            m_nodes[i].clear();
+            m_nodes[i].clear(), m_nodes[i].end();
 
         for(auto node : m_nodes[Depth-1])
             PopulateParents(node);
+    }
 
-        for(int i = 0; i < Depth-1; i++)
-            std::sort(m_nodes[i].begin(), m_nodes[i].end());
+    void SortLeafNodes()
+    {
+        std::sort(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end());
     }
 
     void PopulateParents(const MNode & node)
@@ -99,16 +110,30 @@ public:
 
             MNode parent = MNode(x,y,z,Depth-i);
 
-            auto found = std::find(m_nodes[i].begin(), m_nodes[i].end(), parent);
+            auto found = std::lower_bound(m_nodes[i].begin(), m_nodes[i].end(), parent);
 
-            if( found ==m_nodes[i].end() )
-                m_nodes[i].push_back(parent);
+            if( found ==m_nodes[i].end() || (*found).start != parent.start)
+                m_nodes[i].insert(found,parent);
+            else
+                break;
         }
     }
 
-    bool CheckNode(float x, float y, float z)
+    inline bool CheckNodeFloat(float x, float y, float z)
     {
-        return false;
+        if(x<0||y<0||z<0)
+            return false;
+
+        return CheckNode(x,y,z);
+    }
+
+    inline bool CheckNode(uint32_t x, uint32_t y, uint32_t z)
+    {
+        MNode n(x,y,z,Depth-1);
+
+        auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), n);
+
+        return ( found !=m_nodes[Depth-1].end() || (*found).start == n.start);
     }
 
     std::vector<MNode> & GetChildNodes()

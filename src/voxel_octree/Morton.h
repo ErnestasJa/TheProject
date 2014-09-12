@@ -5,7 +5,7 @@
 #include <vector>
 #include <limits.h>
 
-#define MAXMORTONKEY 1317624576693539401 //21 bits MAX morton key
+#define MAXMORTONKEY 1073741824 //21 bits MAX morton key
 
 static const uint32_t mortonkeyX[256] =
 {
@@ -119,7 +119,7 @@ static const uint32_t mortonkeyZ[256] = {
 };
 
 
-inline static uint64_t encodeMortonKey(uint32_t x, uint32_t y, uint32_t z){
+inline static uint64_t encodeMK(uint32_t x, uint32_t y, uint32_t z){
 	uint64_t result = 0;
 	result = mortonkeyZ[(z >> 16) & 0xFF] |
 		mortonkeyY[(y >> 16) & 0xFF] |
@@ -135,7 +135,7 @@ inline static uint64_t encodeMortonKey(uint32_t x, uint32_t y, uint32_t z){
 	return result;
 }
 
-inline static void decodeMortonKey(uint64_t key, uint32_t & x, uint32_t & y, uint32_t & z)
+inline static void decodeMK(uint64_t key, uint32_t & x, uint32_t & y, uint32_t & z)
 {
     x = y = z = 0;
 	for (uint64_t i = 0; i < (sizeof(uint64_t) * CHAR_BIT)/3; ++i) {
@@ -144,5 +144,43 @@ inline static void decodeMortonKey(uint64_t key, uint32_t & x, uint32_t & y, uin
 		z |= ((key & (uint64_t( 1ull ) << uint64_t((3ull * i) + 2ull))) >> uint64_t(((3ull * i) + 2ull)-i));
 	}
 }
+
+inline static void decodeMortonKey( const uint32_t morton,
+                                 uint32_t& index1, uint32_t& index2, uint32_t& index3 )
+    { // unpack 3 10-bit indices from a 30-bit Morton code
+      static uint32_t value1 = morton;
+      static uint32_t value2 = ( value1 >> 1 );
+      static uint32_t value3 = ( value1 >> 2 );
+      value1 &= 0x09249249;
+      value2 &= 0x09249249;
+      value3 &= 0x09249249;
+      value1 |= ( value1 >> 2 );
+      value2 |= ( value2 >> 2 );
+      value3 |= ( value3 >> 2 );
+      value1 &= 0x030c30c3;
+      value2 &= 0x030c30c3;
+      value3 &= 0x030c30c3;
+      value1 |= ( value1 >> 4 );
+      value2 |= ( value2 >> 4 );
+      value3 |= ( value3 >> 4 );
+      value1 &= 0x0300f00f;
+      value2 &= 0x0300f00f;
+      value3 &= 0x0300f00f;
+      value1 |= ( value1 >> 8 );
+      value2 |= ( value2 >> 8 );
+      value3 |= ( value3 >> 8 );
+      value1 &= 0x030000ff;
+      value2 &= 0x030000ff;
+      value3 &= 0x030000ff;
+      value1 |= ( value1 >> 16 );
+      value2 |= ( value2 >> 16 );
+      value3 |= ( value3 >> 16 );
+      value1 &= 0x000003ff;
+      value2 &= 0x000003ff;
+      value3 &= 0x000003ff;
+      index1 = value1;
+      index2 = value2;
+      index3 = value3;
+    }
 
 #endif // MORTON_H_INCLUDED

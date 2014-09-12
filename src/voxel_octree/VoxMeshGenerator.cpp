@@ -3,7 +3,7 @@
 #include "Morton.h"
 #include "stdlib.h"
 
-VoxMeshGenerator::VoxMeshGenerator(MortonOctTree<16> * octree)
+VoxMeshGenerator::VoxMeshGenerator(MortonOctTree<10> * octree)
 {
     m_octree = octree;
 }
@@ -24,16 +24,17 @@ void VoxMeshGenerator::GenMesh(MeshPtr mesh)
     vbo->data.clear();
     cbo->data.clear();
 
-    for(const MNode & node : m_octree->GetChildNodes())
+    for(auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
     {
-        AddVoxelToMesh(mesh.get(),node);
+        AddVoxelToMesh(mesh.get(),it);
     }
 
     mesh->UploadBuffers();
 }
 
-void VoxMeshGenerator::AddVoxelToMesh(Mesh* mesh, const MNode & node)
+void VoxMeshGenerator::AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nodeIt)
 {
+    MNode & node = (*nodeIt);
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
     BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
     BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
@@ -44,12 +45,12 @@ void VoxMeshGenerator::AddVoxelToMesh(Mesh* mesh, const MNode & node)
     z=0;
     decodeMortonKey(node.start, x,y,z);
 
-    uint8_t sides = GetVisibleSides(x,y,z);
+    uint8_t sides = GetVisibleSides(x,y,z,nodeIt);
 
     uint32_t si = vbo->data.size();
 
     ///vertices
-    vbo->data.reserve(vbo->data.size()+8);
+    //vbo->data.reserve(vbo->data.size()+8);
     vbo->data.push_back(glm::vec3(x,  y,  z));
     vbo->data.push_back(glm::vec3(x+1,y,  z));
     vbo->data.push_back(glm::vec3(x+1,y,  z+1));
@@ -72,7 +73,7 @@ void VoxMeshGenerator::AddVoxelToMesh(Mesh* mesh, const MNode & node)
     cbo->data.push_back(color);
 
     ///faces
-    ibo->data.reserve(ibo->data.size()+36);
+    //ibo->data.reserve(ibo->data.size()+36);
 
     //back face
     if(CheckBit(sides,BACK))
@@ -152,35 +153,35 @@ bool myfunction (const MNode & i,const MNode & j)
     return (i.start<j.start);
 }
 
-inline uint8_t VoxMeshGenerator::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z)
+inline uint8_t VoxMeshGenerator::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, std::vector<MNode>::iterator nodeIt)
 {
     uint8_t sides=ALL;
 
     static MNode n;
 
     n = MNode(x,y+1,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
+    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
         RemoveBit(sides, TOP);
 
-    n = MNode(x,y-1,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, BOTTOM);
-
-    n = MNode(x-1,y,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, RIGHT);
+    n = MNode(x,y,z+1);
+    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
+        RemoveBit(sides, FRONT);
 
     n = MNode(x+1,y,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
+    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
         RemoveBit(sides, LEFT);
 
+    n = MNode(x-1,y,z);
+    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
+        RemoveBit(sides, RIGHT);
+
     n = MNode(x,y,z-1);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
+    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
         RemoveBit(sides, BACK);
 
-    n = MNode(x,y,z+1);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, FRONT);
+    n = MNode(x,y-1,z);
+    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
+        RemoveBit(sides, BOTTOM);
 
     return sides;
 }
