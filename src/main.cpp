@@ -35,9 +35,6 @@ char ShowAppMenu(ApplicationLauncher & launcher)
 
 int main(int argc, const char ** argv)
 {
-    int why;
-    std::cin >> why;
-
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Material test", APP(Voxelz));
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));

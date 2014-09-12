@@ -121,12 +121,12 @@
 					<Add library="gdi32" />
 					<Add library="physfs_win32" />
 					<Add library="freetype" />
-					<Add directory="../../libs/glfw/lib" />
-					<Add directory="../../libs/physfs/lib" />
-					<Add directory="../../libs/freetype/lib" />
 					<Add library="tinyxml2_win32" />
 					<Add library="libsigc++.a" />
 					<Add library="jsoncpp" />
+					<Add directory="../../libs/glfw/lib" />
+					<Add directory="../../libs/physfs/lib" />
+					<Add directory="../../libs/freetype/lib" />
 					<Add directory="../../libs/bullet/lib/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -241,12 +241,12 @@
 		<Unit filename="../../src/application/ApplicationLauncher.h" />
 		<Unit filename="../../src/application/window.cpp" />
 		<Unit filename="../../src/application/window.h" />
-		<Unit filename="../../src/applications/material_test/MaterialTest.cpp" />
-		<Unit filename="../../src/applications/material_test/MaterialTest.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.cpp" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h" />
+		<Unit filename="../../src/applications/voxelz/Voxelz.cpp" />
+		<Unit filename="../../src/applications/voxelz/Voxelz.h" />
 		<Unit filename="../../src/gui/GUI.h" />
 		<Unit filename="../../src/gui/GUIButton.cpp" />
 		<Unit filename="../../src/gui/GUIButton.h" />
