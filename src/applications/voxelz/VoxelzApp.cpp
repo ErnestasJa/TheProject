@@ -155,7 +155,7 @@ bool VoxelzApp::Update()
         vsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(glm::mat4(1)*cam->GetViewMat())).Set();
+        MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat()*glm::mat4(1))).Set();
         glm::mat3 m_3x3_inv_transp = glm::transpose(glm::inverse(glm::mat3(glm::mat4(1))));
         MVar<glm::mat3>(vsh->getparam("m_3x3_inv_transp"), "m_3x3_inv_transp", m_3x3_inv_transp).Set();
         MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();

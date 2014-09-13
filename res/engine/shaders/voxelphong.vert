@@ -1,5 +1,10 @@
 #version 330
 
+// THE FOOD CHAIN GOES LIKE DIS
+// Vert
+// Geom
+// Frag
+
 layout (location=0) in vec3 pos;
 layout (location=6) in vec4 col;
 
@@ -11,7 +16,6 @@ out vec4 position;
 
 out vData
 {
-    vec3 normal;
     vec4 color;
 }vertex;
 

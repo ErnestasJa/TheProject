@@ -1,5 +1,10 @@
 #version 330
- 
+
+// THE FOOD CHAIN GOES LIKE DIS
+// Vert
+// Geom
+// Frag
+
 layout (triangles) in;
 layout (triangle_strip, max_vertices=3) out;
 
@@ -7,7 +12,6 @@ uniform mat3 m_3x3_inv_transp;
  
 in vData
 {
-    vec3 normal;
     vec4 color;
 }vertex[];
 

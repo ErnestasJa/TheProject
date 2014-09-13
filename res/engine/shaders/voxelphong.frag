@@ -1,5 +1,10 @@
 #version 330
 
+// THE FOOD CHAIN GOES LIKE DIS
+// Vert
+// Geom
+// Frag
+
 in vec4 position;  // position of the vertex (and fragment) in world space
 
 in fData
@@ -27,12 +32,12 @@ struct lightSource
 const int numberOfLights = 1;
 lightSource lights[numberOfLights];
 lightSource light0 = lightSource(
-                         vec4(0.0,  16.0,  0.0, 1.0),
+                         vec4(0.0,  4.0,  0.0, 1.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
-                         0.0, 10.0, 0.0,
+                         1.0, 1.0, 1.0,
                          180.0, 0.0,
-                         vec3(0.0, -1.0, 0.0)
+                         vec3(0.0, 0.0, 0.0)
                      );
 lightSource light1 = lightSource(
                          vec4(0.0, -2.0,  0.0, 1.0),
@@ -42,7 +47,7 @@ lightSource light1 = lightSource(
                          80.0, 10.0,
                          vec3(0.0, 1.0, 0.0)
                      );
-vec4 scene_ambient = vec4(0.2, 0.2, 0.2, 1.0);
+vec4 scene_ambient = vec4(0.0, 0.0, 0.0, 1.0);
 
 struct material
 {
@@ -118,5 +123,5 @@ void main()
         totalLighting = totalLighting + diffuseReflection + specularReflection;
     }
 
-    fragcolor = vec4(totalLighting, 1.0)*frag.color;
+    fragcolor = vec4(totalLighting, 1.0);
 }
