@@ -8,32 +8,31 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices=3) out;
 
-uniform mat3 m_3x3_inv_transp;
+uniform mat3 normMatrix;
+uniform mat4 M;
  
 in vData
 {
     vec4 color;
+	vec4 pos;
 }vertex[];
 
-out fData
-{
-    vec3 normal;
-    vec4 color;
-}frag; 
+out vec3 normal;
+out vec4 color;
  
  void main()
 {
-	vec3 ab = gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;
-	vec3 ac = gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz;
-	vec3 tnormal=normalize(cross(ab, ac));
-	vec3 onormal=normalize(m_3x3_inv_transp*tnormal);
-	
-	for (int i = 0; i < 3; i++)
-    {
-		frag.color = vertex[i].color;
-		frag.normal = onormal;
-        gl_Position = gl_in[i].gl_Position;
-        EmitVertex();
-    }
+	normal = normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
+	color = vertex[0].color;
+    gl_Position = gl_in[0].gl_Position;
+    EmitVertex();
+	normal = normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
+	color = vertex[1].color;
+    gl_Position = gl_in[1].gl_Position;
+    EmitVertex();
+	normal = normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
+	color = vertex[2].color;
+    gl_Position = gl_in[2].gl_Position;
+    EmitVertex();
     EndPrimitive();
 }

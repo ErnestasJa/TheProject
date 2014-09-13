@@ -61,7 +61,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
-    cam=share(new Camera(ctx,glm::vec3(0,0,5),glm::vec3(0,0,-5),glm::vec3(0,1,0)));
+    cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
@@ -155,12 +155,10 @@ bool VoxelzApp::Update()
         vsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat()*glm::mat4(1))).Set();
-        glm::mat3 m_3x3_inv_transp = glm::transpose(glm::inverse(glm::mat3(glm::mat4(1))));
-        MVar<glm::mat3>(vsh->getparam("m_3x3_inv_transp"), "m_3x3_inv_transp", m_3x3_inv_transp).Set();
+        if(vsh->getparam("v_inv")!=-1)
+            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
         MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         MVar<glm::mat4>(vsh->getparam("V"), "V", cam->GetViewMat()).Set();
-        MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
         chkmgr->Render(cam.get(),vsh);
 
         if(wireframe==true)
@@ -196,7 +194,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
         cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(voxpos,20);
+        chkmgr->Explode(voxpos,5);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {

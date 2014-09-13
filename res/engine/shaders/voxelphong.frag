@@ -6,12 +6,8 @@
 // Frag
 
 in vec4 position;  // position of the vertex (and fragment) in world space
-
-in fData
-{
-    vec3 normal;
-    vec4 color;
-}frag;
+in vec3 normal;
+in vec4 color;
 
 out vec4 fragcolor;
 
@@ -32,22 +28,22 @@ struct lightSource
 const int numberOfLights = 1;
 lightSource lights[numberOfLights];
 lightSource light0 = lightSource(
-                         vec4(0.0,  4.0,  0.0, 1.0),
+                         vec4(0.0,  360.0,  360.0, 0.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
-                         1.0, 1.0, 1.0,
+                         0.0, 1.0, 0.0,
                          180.0, 0.0,
                          vec3(0.0, 0.0, 0.0)
                      );
 lightSource light1 = lightSource(
-                         vec4(0.0, -2.0,  0.0, 1.0),
+                         vec4(0.0, 36.0,  0.0, 1.0),
                          vec4(2.0,  0.0,  0.0, 1.0),
                          vec4(0.1,  0.1,  0.1, 1.0),
                          0.0, 1.0, 0.0,
                          80.0, 10.0,
-                         vec3(0.0, 1.0, 0.0)
+                         vec3(0.0, -1.0, 0.0)
                      );
-vec4 scene_ambient = vec4(0.0, 0.0, 0.0, 1.0);
+vec4 scene_ambient = vec4(0.25, 0.25, 0.25, 1.0);
 
 struct material
 {
@@ -57,7 +53,7 @@ struct material
     float shininess;
 };
 material frontMaterial = material(
-                             vec4(1, 1, 1, 1.0),
+                             vec4(1.0, 1.0, 1.0, 1.0),
                              vec4(1.0, 1.0, 1.0, 1.0),
                              vec4(1.0, 1.0, 1.0, 1.0),
                              5.0
@@ -68,7 +64,7 @@ void main()
     lights[0] = light0;
     //lights[1] = light1;
 
-    vec3 normalDirection = normalize(frag.normal);
+    vec3 normalDirection = normalize(normal);
     vec3 viewDirection = normalize(vec3(v_inv * vec4(0.0, 0.0, 0.0, 1.0) - position));
     vec3 lightDirection;
     float attenuation;
@@ -123,5 +119,5 @@ void main()
         totalLighting = totalLighting + diffuseReflection + specularReflection;
     }
 
-    fragcolor = vec4(totalLighting, 1.0);
+    fragcolor = vec4(totalLighting,1)*color;//vec4(1,1,1, 1.0)*vec4(normal,1);
 }

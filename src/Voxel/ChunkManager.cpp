@@ -17,7 +17,7 @@ ChunkManager::ChunkManager()
     {
         for(int z=-testsize; z<testsize; z++)
         {
-            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f)/2.f;
+            float h=scaled_raw_noise_2d(5,testheight,x/256.f,z/256.f);
             for(int y=0; y<testheight; y++)
             {
                 if(y==0)
@@ -27,7 +27,7 @@ ChunkManager::ChunkManager()
                 }
                 else if(y==(int)h)
                 {
-                    float b=scaled_raw_noise_3d(0,testheight,x/128.f,y/128.f,z/128.f)/2.f;
+                    float b=scaled_raw_noise_3d(0,testheight,x/256.f,y/256.f,z/256.f);
                     if(b*(rand()%5+1)<32)
                     {
                         SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
@@ -209,6 +209,8 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
         Model = glm::translate(Model,pos);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
+        glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(Model)));
+        MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
         a.second->Render();
     }
 }
