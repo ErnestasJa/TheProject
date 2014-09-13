@@ -59,7 +59,7 @@ void InitPlaneMesh(AppContext * ctx)
     mesh->buffers[Mesh::INDICES] = id;
     mesh->Init();
 
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
     cam=share(new Camera(ctx,glm::vec3(0,0,5),glm::vec3(0,0,-5),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);

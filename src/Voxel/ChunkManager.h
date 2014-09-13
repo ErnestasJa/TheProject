@@ -8,7 +8,7 @@ enum EBlockType;
 
 struct chunkhasher {
     size_t operator()(const glm::vec3& a) const {
-          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2)/(double)(rand()%5+1);
+          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2);
     }
 };
 

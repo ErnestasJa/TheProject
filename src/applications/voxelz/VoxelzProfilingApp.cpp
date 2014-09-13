@@ -94,37 +94,11 @@ bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_
     cam = share(new Camera(_appContext,glm::vec3(0,128,128),glm::vec3(0,0,0),glm::vec3(0,1,0)));
 
     chkmgr=new ChunkManager();
-//    printf("\nPROFILE ME TIMBERS!\n");
-//    Benchmark();
-//    printf("TIMBERRRRR!\n");
-
-AppContext *ctx=_appContext;
-
-std::map<std::string,int> mapas;
-
-loop(i,10000000)
-{
-    char buf[32];
-    itoa(i,buf,10);
-    mapas[buf]=i;
-}
-BEGIN_BENCHMARK
-if(mapas.count("1")==0)
+    printf("\nPROFILE ME TIMBERS!\n");
+    Benchmark();
+    printf("TIMBERRRRR!\n");
+    Exit();
     return false;
-END_BENCHMARK("count");
-
-BEGIN_BENCHMARK
-if(mapas.find("10524")!=mapas.end())
-END_BENCHMARK("find");
-
-    printf("SIZEOF u8vec4: %d\n",sizeof(glm::detail::tvec4<uint8_t>(0)));
-    printf("SIZEOF u16vec4: %d\n",sizeof(glm::detail::tvec4<uint16_t>(0)));
-
-    printf("SIZEOF u8vec3: %d\n",sizeof(glm::detail::tvec3<uint8_t>(0)));
-    printf("SIZEOF u16vec3: %d\n",sizeof(glm::detail::tvec3<uint16_t>(0)));
-
-    //Exit();
-    return true;
 }
 
 bool VoxelzProfilingApp::Update()

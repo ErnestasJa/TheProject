@@ -7,12 +7,6 @@
 #include "opengl/Mesh.h"
 #include "resources/ResourceCache.h"
 
-static float col(int in)
-{
-    float out=(1.f/255.f)*in;
-    return out;
-}
-
 static u8vec4 getTypeCol(uint32_t typ)
 {
     u8vec4 ret;
@@ -97,25 +91,34 @@ void Chunk::Rebuild()
                 AddBit(flags,EBS_FRONT);
                 AddBit(flags,EBS_BACK);
 
-                float xx=m_chunkPos.x*CHUNK_SIZEF+x;
-                float yy=m_chunkPos.y*CHUNK_SIZEF+y;
-                float zz=m_chunkPos.z*CHUNK_SIZEF+z;
-
-                if(m_chunkManager->GetBlock(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
-                if(m_chunkManager->GetBlock(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
-                if(m_chunkManager->GetBlock(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
-                if(m_chunkManager->GetBlock(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
-                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
-                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
-
-//                if(x>0&&m_pBlocks[x-1][y][z].IsActive()) RemoveBit(flags,EBS_LEFT);
-//                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive()) RemoveBit(flags,EBS_RIGHT);
+//                float xx=m_chunkPos.x*CHUNK_SIZEF+x;
+//                float yy=m_chunkPos.y*CHUNK_SIZEF+y;
+//                float zz=m_chunkPos.z*CHUNK_SIZEF+z;
 //
-//                if(y>0&&m_pBlocks[x][y-1][z].IsActive()) RemoveBit(flags,EBS_BOTTOM);
-//                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive()) RemoveBit(flags,EBS_TOP);
-//
-//                if(z>0&&m_pBlocks[x][y][z-1].IsActive()) RemoveBit(flags,EBS_BACK);
-//                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive()) RemoveBit(flags,EBS_FRONT);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
+//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
+
+                if(x>0&&m_pBlocks[x-1][y][z].IsActive()) RemoveBit(flags,EBS_LEFT);
+                else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive()) RemoveBit(flags,EBS_LEFT);
+
+                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive()) RemoveBit(flags,EBS_RIGHT);
+                else if(x==CHUNK_SIZE-1&&rightN!=nullptr&&rightN->Get(0,y,z).IsActive()) RemoveBit(flags,EBS_RIGHT);
+
+                if(y>0&&m_pBlocks[x][y-1][z].IsActive()) RemoveBit(flags,EBS_BOTTOM);
+                else if(y==0&&botN!=nullptr&&botN->Get(15,y,z).IsActive()) RemoveBit(flags,EBS_BOTTOM);
+
+                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive()) RemoveBit(flags,EBS_TOP);
+                else if(y==CHUNK_SIZE-1&&topN!=nullptr&&topN->Get(0,y,z).IsActive()) RemoveBit(flags,EBS_TOP);
+
+                if(z>0&&m_pBlocks[x][y][z-1].IsActive()) RemoveBit(flags,EBS_BACK);
+                else if(z==0&&backN!=nullptr&&backN->Get(15,y,z).IsActive()) RemoveBit(flags,EBS_BACK);
+
+                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive()) RemoveBit(flags,EBS_FRONT);
+                else if(z==CHUNK_SIZE-1&&frontN!=nullptr&&frontN->Get(0,y,z).IsActive()) RemoveBit(flags,EBS_FRONT);
 
                 if(flags!=0) // Only a visible voxel should be added
                     CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
@@ -135,7 +138,7 @@ void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
     m_dirty=true;
 }
 
-const Block &Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
+Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
 {
     if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
         return EMPTY_BLOCK;
@@ -155,5 +158,6 @@ void Chunk::Fill()
             }
         }
     }
+    m_dirty=true;
 }
 

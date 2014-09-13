@@ -20,7 +20,7 @@ public:
     void Rebuild();
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
-    const Block &Get(uint32_t x,uint32_t y,uint32_t z);
+    Block Get(uint32_t x,uint32_t y,uint32_t z);
 private:
     ChunkManager *m_chunkManager;
     glm::vec3 m_chunkPos;
