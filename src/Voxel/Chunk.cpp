@@ -101,17 +101,6 @@ void Chunk::Rebuild()
                 AddBit(flags,EBS_FRONT);
                 AddBit(flags,EBS_BACK);
 
-//                float xx=m_chunkPos.x*CHUNK_SIZEF+x;
-//                float yy=m_chunkPos.y*CHUNK_SIZEF+y;
-//                float zz=m_chunkPos.z*CHUNK_SIZEF+z;
-//
-//                if(m_chunkManager->GetBlock(glm::vec3(xx-1,yy,zz)).IsActive()) RemoveBit(flags,EBS_LEFT);
-//                if(m_chunkManager->GetBlock(glm::vec3(xx+1,yy,zz)).IsActive()) RemoveBit(flags,EBS_RIGHT);
-//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy-1,zz)).IsActive()) RemoveBit(flags,EBS_BOTTOM);
-//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy+1,zz)).IsActive()) RemoveBit(flags,EBS_TOP);
-//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz-1)).IsActive()) RemoveBit(flags,EBS_BACK);
-//                if(m_chunkManager->GetBlock(glm::vec3(xx,yy,zz+1)).IsActive()) RemoveBit(flags,EBS_FRONT);
-
                 if(x>0&&m_pBlocks[x-1][y][z].IsActive()) RemoveBit(flags,EBS_LEFT);
                 else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive()) RemoveBit(flags,EBS_LEFT);
 

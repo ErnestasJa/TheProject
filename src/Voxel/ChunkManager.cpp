@@ -10,7 +10,7 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=512;
+    int testsize=256;
     int testheight=64;
 
     for(int x=-testsize; x<testsize; x++)
@@ -106,7 +106,7 @@ void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 
-    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+    if(m_chunks.count(chunkCoords)!=0)
     {
         m_chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
@@ -134,7 +134,7 @@ void ChunkManager::SetChunkNeighbours(Chunk* chunk,glm::vec3 pos)
 //! pos: in CHUNK coordinates
 Chunk *ChunkManager::AddChunk(glm::vec3 pos)
 {
-    if(m_chunks.find(pos)!=m_chunks.end())
+    if(m_chunks.count(pos)!=0)
     {
         return m_chunks[pos];
     }
@@ -150,7 +150,7 @@ Chunk *ChunkManager::AddChunk(glm::vec3 pos)
 Chunk *ChunkManager::AddChunkWorld(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
-    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+    if(m_chunks.count(chunkCoords)!=0)
     {
         return m_chunks[chunkCoords];
     }
@@ -164,7 +164,7 @@ Chunk *ChunkManager::AddChunkWorld(glm::vec3 pos)
 //! pos: in CHUNK coordinates
 Chunk *ChunkManager::GetChunk(glm::vec3 pos)
 {
-    if(m_chunks.find(pos)!=m_chunks.end())
+    if(m_chunks.count(pos)!=0)
         return m_chunks[pos];
     else
         return nullptr;
@@ -174,7 +174,7 @@ Chunk *ChunkManager::GetChunk(glm::vec3 pos)
 Chunk *ChunkManager::GetChunkWorld(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
-    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+    if(m_chunks.count(chunkCoords)!=0)
         return m_chunks[chunkCoords];
     else
         return nullptr;
@@ -183,7 +183,7 @@ Chunk *ChunkManager::GetChunkWorld(glm::vec3 pos)
 Block ChunkManager::GetBlock(glm::vec3 pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
-    if(m_chunks.find(chunkCoords)!=m_chunks.end())
+    if(m_chunks.count(chunkCoords)!=0)
         return m_chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
     else
         return EMPTY_BLOCK;

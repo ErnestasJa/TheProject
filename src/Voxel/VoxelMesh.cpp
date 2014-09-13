@@ -36,7 +36,7 @@ VoxelMesh::~VoxelMesh()
 
 bool VoxelMesh::Empty()
 {
-    return m_indexTrack==0;
+    return m_vertexTrack==0;
 }
 
 void VoxelMesh::Render()
