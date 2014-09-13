@@ -20,12 +20,21 @@ struct Binding
 
 struct Shader
 {
-    std::string name, vsstr, psstr;
-    uint32_t program, vsobj, psobj;
+    std::string name, vsstr, psstr, gsstr;
+    uint32_t program, vsobj, psobj, gsobj;
+    bool geom;
     std::vector<Binding> bindings;
 
-    Shader ( const std::string & name, const std::string & vsstr = nullptr, const std::string & psstr = nullptr)
-        : name ( name ), vsstr ( vsstr ), psstr ( psstr ), program ( 0 ), vsobj ( 0 ), psobj ( 0 ) {}
+    Shader ( const std::string & name, const std::string & vsstr, const std::string & psstr)
+        : name ( name ), vsstr ( vsstr ), psstr ( psstr ) , program ( 0 ), vsobj ( 0 ), psobj ( 0 ), geom(false)
+        {
+        };
+
+    Shader ( const std::string & name, const std::string & vsstr, const std::string & psstr, const std::string & gsstr)
+        : name ( name ), vsstr ( vsstr ), psstr ( psstr ) , gsstr (gsstr) , program ( 0 ), vsobj ( 0 ), psobj ( 0 ), gsobj ( 0 ), geom ( true )
+        {
+
+        };
 
     ~Shader()
     {
@@ -112,6 +121,27 @@ struct Shader
         }
     }
 
+    void Compile ( const std::string & vsdef, const std::string & psdef)
+    {
+        Compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
+        Compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
+        link ( true );
+    }
+
+    void Compile ( const std::string & vsdef, const std::string & psdef, const std::string & gsdef)
+    {
+        Compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
+        Compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
+        Compile ( GL_GEOMETRY_SHADER, gsobj, gsdef, "GS", name );
+        link ( true );
+    }
+
+    void Compile()
+    {
+        if ( geom ) Compile ( vsstr, psstr, gsstr );
+        else Compile ( vsstr, psstr );
+    }
+
     void link (bool msg = true )
     {
         program = vsobj && psobj ? glCreateProgram() : 0;
@@ -121,6 +151,8 @@ struct Shader
         {
             glAttachShader ( program, vsobj );
             glAttachShader ( program, psobj );
+            if(geom)
+                glAttachShader ( program, gsobj );
 
             glLinkProgram ( program );
             glGetProgramiv ( program, GL_LINK_STATUS, &success );
@@ -141,21 +173,11 @@ struct Shader
             {
                 glDetachShader(program, vsobj);
                 glDetachShader(program, psobj);
+                if(geom)
+                    glDetachShader ( program, gsobj );
                 QueryAllBindingLocations();
             }
         }
-    }
-
-    void Compile ( const std::string & vsdef, const std::string & psdef)
-    {
-        Compile ( GL_VERTEX_SHADER,   vsobj, vsdef, "VS", name );
-        Compile ( GL_FRAGMENT_SHADER, psobj, psdef, "PS", name );
-        link ( true );
-    }
-
-    void Compile()
-    {
-        if ( vsstr.size() && psstr.size() ) Compile ( vsstr, psstr );
     }
 
     void Set()

@@ -19,6 +19,9 @@ static u8vec4 getTypeCol(uint32_t typ)
     case EBT_STONE:
         ret=u8vec4(128+nois,128+nois,128+nois,255);
         break;
+    case EBT_SAND:
+        ret=u8vec4(192+nois,192+nois,64+nois,255);
+        break;
     case EBT_DIRT:
         ret=u8vec4(64+nois,64+nois,0+nois,255);
         break;
@@ -158,5 +161,23 @@ void Chunk::Fill()
         }
     }
     m_dirty=true;
+}
+
+uint32_t Chunk::GetBlockCount()
+{
+    uint32_t ret=0;
+
+    for (int x = 0; x < CHUNK_SIZE; x++)
+    {
+        for (int z = 0; z < CHUNK_SIZE; z++)
+        {
+            for (int y = 0; y < CHUNK_SIZE; y++)
+            {
+                if(m_pBlocks[x][y][z].IsActive()) ret++;
+            }
+        }
+    }
+
+    return ret;
 }
 

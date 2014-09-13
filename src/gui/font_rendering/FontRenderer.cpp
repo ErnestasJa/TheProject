@@ -25,7 +25,6 @@ font_renderer::font_renderer(GUIEnvironment* env)
 
     glGenVertexArrays(1,&vao);
     glGenBuffers(1,&vbo);
-
     font_shader=Shader::LoadShader("res/font");
 }
 

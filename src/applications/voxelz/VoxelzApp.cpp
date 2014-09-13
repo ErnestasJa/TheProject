@@ -60,7 +60,7 @@ void InitPlaneMesh(AppContext * ctx)
     mesh->Init();
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
-    vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
+    vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
     cam=share(new Camera(ctx,glm::vec3(0,0,5),glm::vec3(0,0,-5),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
@@ -155,8 +155,13 @@ bool VoxelzApp::Update()
         vsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        chkmgr->Render(cam.get());
+        MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(glm::mat4(1)*cam->GetViewMat())).Set();
+        glm::mat3 m_3x3_inv_transp = glm::transpose(glm::inverse(glm::mat3(glm::mat4(1))));
+        MVar<glm::mat3>(vsh->getparam("m_3x3_inv_transp"), "m_3x3_inv_transp", m_3x3_inv_transp).Set();
+        MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        MVar<glm::mat4>(vsh->getparam("V"), "V", cam->GetViewMat()).Set();
+        MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
+        chkmgr->Render(cam.get(),vsh);
 
         if(wireframe==true)
         {
@@ -298,6 +303,12 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
     if(action==GLFW_PRESS)
     {
+        wchar_t buf[256];
+        swprintf(buf,L"Total Chunks %d",chkmgr->GetChunkCount());
+        env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
+
+        swprintf(buf,L"Total Blocks %d",chkmgr->GetTotalBlocks());
+        env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
         switch(button)
         {
         case GLFW_MOUSE_BUTTON_LEFT:

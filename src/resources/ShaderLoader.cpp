@@ -34,7 +34,7 @@ ShaderPtr shader_loader::load(const std::string & vertex_file, const std::string
     if(!helpers::read(fragment_file,fsh)) return ShaderPtr();
 
     _logger->log(LOG_LOG, "Shader name: %s", res_name.c_str());
-    Shader * sh = new Shader(res_name,vsh,fsh);
+    Shader * sh = new Shader(res_name,vsh,fsh,"");
 	sh->Compile();
 	sh->link();
 
@@ -68,13 +68,23 @@ ShaderPtr shader_loader::load(const std::string & file)
 
     char * vsh=NULL;
     char * fsh=NULL;
-
+    char * gsh=NULL;
+    bool geom=true;
     if(!helpers::read(file + ".vert",vsh)) return ShaderPtr();
     if(!helpers::read(file + ".frag",fsh)) return ShaderPtr();
+    if(!helpers::read(file + ".geom",gsh)) geom=false;
 
     std::string sh_name = file.substr(file.rfind("/")+1);
     _logger->log(LOG_LOG, "Shader name: %s", sh_name.c_str());
-    Shader * sh = new Shader(sh_name,vsh,fsh);
+    Shader * sh = nullptr;
+    if(geom)
+    {
+        sh=new Shader(sh_name,vsh,fsh,gsh);
+    }
+    else
+    {
+        sh=new Shader(sh_name,vsh,fsh);
+    }
 	sh->Compile();
 	//sh->link();
 
@@ -87,6 +97,8 @@ ShaderPtr shader_loader::load(const std::string & file)
 
 	delete [] vsh;
 	delete [] fsh;
+	if(geom)
+        delete [] gsh;
 
 	if(res.resource)
         _logger->log(LOG_LOG, "Shader '%s' loaded.",file.c_str());

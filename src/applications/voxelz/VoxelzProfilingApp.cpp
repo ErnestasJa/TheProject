@@ -117,7 +117,7 @@ bool VoxelzProfilingApp::Update()
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        chkmgr->Render(cam.get());
+        chkmgr->Render(cam.get(),sh);
 
         _appContext->_window->SwapBuffers();
         return true;

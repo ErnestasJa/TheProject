@@ -10,8 +10,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=256;
-    int testheight=64;
+    int testsize=128;
+    int testheight=32;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -27,6 +27,12 @@ ChunkManager::ChunkManager()
                 }
                 else if(y==(int)h)
                 {
+                    float b=scaled_raw_noise_3d(0,testheight,x/128.f,y/128.f,z/128.f)/2.f;
+                    if(b*(rand()%5+1)<32)
+                    {
+                        SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
+                        continue;
+                    }
                     SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
                     continue;
                 }
@@ -189,10 +195,11 @@ Block ChunkManager::GetBlock(glm::vec3 pos)
         return EMPTY_BLOCK;
 }
 
-void ChunkManager::Render(Camera *cam)
+void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 {
 
     glm::mat4 Model,MVP;
+    uint32_t m;
 
     for(std::pair<glm::vec3,Chunk*> a:m_chunks)
     {
@@ -201,7 +208,7 @@ void ChunkManager::Render(Camera *cam)
         Model = glm::mat4(1.0f);
         Model = glm::translate(Model,pos);
         MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
         a.second->Render();
     }
 }
@@ -212,5 +219,20 @@ void ChunkManager::Clear()
     {
         m_chunks.erase(it++);
     }
+}
+
+uint32_t ChunkManager::GetChunkCount()
+{
+    return m_chunks.size();
+}
+
+uint32_t ChunkManager::GetTotalBlocks()
+{
+    uint32_t ret=0;
+    for(std::pair<glm::vec3,Chunk*> a:m_chunks)
+    {
+        ret+=a.second->GetBlockCount();
+    }
+    return ret;
 }
 

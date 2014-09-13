@@ -4,7 +4,9 @@
 typedef glm::detail::tvec4<uint8_t> u8vec4;
 typedef glm::detail::tvec4<uint16_t> u16vec4;
 
+typedef glm::detail::tvec3<int8_t> s8vec3;
+typedef glm::detail::tvec3<int16_t> s16vec3;
 typedef glm::detail::tvec3<uint8_t> u8vec3;
-typedef glm::detail::tvec3<uint8_t> u16vec3;
+typedef glm::detail::tvec3<uint16_t> u16vec3;
 
 #endif // VOXELTYPES_H_INCLUDED

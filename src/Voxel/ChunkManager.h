@@ -1,6 +1,8 @@
 #ifndef CHUNKMANAGER_H
 #define CHUNKMANAGER_H
 
+#include "OpenGL/Shader.h"
+
 class Camera;
 class Block;
 class Chunk;
@@ -67,9 +69,13 @@ public:
     Chunk *AddChunk(glm::vec3 pos);
     Chunk *AddChunkWorld(glm::vec3 pos);
 
-    void Render(Camera *cam);
+    void Render(Camera *cam,ShaderPtr vsh);
 
     void Clear();
+
+    uint32_t GetChunkCount();
+
+    uint32_t GetTotalBlocks();
 protected:
 private:
     std::unordered_map<glm::vec3,Chunk*,chunkhasher> m_chunks;
