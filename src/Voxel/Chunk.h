@@ -18,6 +18,7 @@ public:
 
     void Fill();
     void Rebuild();
+    void UpdateNeighbours();
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
     Block Get(uint32_t x,uint32_t y,uint32_t z);

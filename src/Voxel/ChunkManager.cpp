@@ -10,14 +10,14 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=64;
-    int testheight=32;
+    int testsize=512;
+    int testheight=64;
 
     for(int x=-testsize; x<testsize; x++)
     {
         for(int z=-testsize; z<testsize; z++)
         {
-            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f);
+            float h=scaled_raw_noise_2d(0,testheight,x/128.f,z/128.f)/2.f;
             for(int y=0; y<testheight; y++)
             {
                 if(y==0)
@@ -60,6 +60,11 @@ ChunkManager::ChunkManager()
                 }
             }
         }
+    }
+
+    for(std::pair<glm::vec3,Chunk*> a:m_chunks)
+    {
+        SetChunkNeighbours(a.second,a.first);
     }
 }
 
@@ -107,7 +112,7 @@ void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
     }
     else
     {
-        m_chunks[chunkCoords]=new Chunk(this,chunkCoords);
+        AddChunk(chunkCoords);
         m_chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
 }
@@ -137,7 +142,6 @@ Chunk *ChunkManager::AddChunk(glm::vec3 pos)
     {
         m_chunks[pos]=new Chunk(this,ChunkToWorldCoords(pos));
         SetChunkNeighbours(m_chunks[pos],pos);
-        m_chunks[pos]->Fill();
         return m_chunks[pos];
     }
 }

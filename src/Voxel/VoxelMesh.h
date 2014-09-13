@@ -38,6 +38,7 @@ public:
     virtual void Rebuild()=0;
     void UpdateMesh();
     void Cleanup();
+    bool Empty();
 protected:
     bool m_dirty;
     uint32_t m_indexTrack;
@@ -46,7 +47,7 @@ protected:
     shader_ptr m_shader;
     BufferObject<u8vec4> *m_colBuf;
     BufferObject<u8vec3> *m_posBuf;
-    IndexBufferObject<uint16_t> *m_indBuf;
+    IndexBufferObject<uint32_t> *m_indBuf;
 private:
 };
 #endif // VOXELMESH_H

@@ -5,21 +5,22 @@
 #include "opengl/Shader.h"
 #include "opengl/BufferObject.h"
 #include "resources/ResourceCache.h"
+#include "Voxel/VoxelTypes.h"
 
 class CubeMesh
 {
 private:
     float m_size;
 public:
-    BufferObject<glm::vec3> * pos;
-    BufferObject<glm::vec4> * col;
+    BufferObject<u8vec3> * pos;
+    BufferObject<u8vec4> * col;
     BufferObject<glm::vec2> * tex_coords;
     IndexBufferObject<uint32_t> * indices;
-    glm::vec4 m_color;
+    u8vec4 m_color;
 
     std::shared_ptr<Mesh> glmesh;
 
-    CubeMesh(float size=1.0f,glm::vec4 color=glm::vec4(1))
+    CubeMesh(float size=1.0f,u8vec4 color=u8vec4(1))
     {
         this->m_size=size;
         this->m_color=color;
@@ -32,25 +33,25 @@ public:
     {
         glmesh = share(new Mesh());
 
-        pos = new BufferObject<glm::vec3>();
+        pos = new BufferObject<u8vec3>();
 
         /// - - +
-        glm::vec3 p1(0, 0, m_size);
+        u8vec3 p1(0, 0, m_size);
         /// + - +
-        glm::vec3 p2(m_size, 0, m_size);
+        u8vec3 p2(m_size, 0, m_size);
         /// + + +
-        glm::vec3 p3(m_size, m_size, m_size);
+        u8vec3 p3(m_size, m_size, m_size);
         /// - + +
-        glm::vec3 p4(0, m_size, m_size);
+        u8vec3 p4(0, m_size, m_size);
 
         /// - - -
-        glm::vec3 p5(0, 0, 0);
+        u8vec3 p5(0, 0, 0);
         /// + - -
-        glm::vec3 p6(m_size, 0, 0);
+        u8vec3 p6(m_size, 0, 0);
         /// + + -
-        glm::vec3 p7(m_size, m_size, 0);
+        u8vec3 p7(m_size, m_size, 0);
         /// - + -
-        glm::vec3 p8(0, m_size, 0);
+        u8vec3 p8(0, m_size, 0);
 
         pos->data.resize(8);
         pos->data[0]=p1;
@@ -62,7 +63,7 @@ public:
         pos->data[6]=p7;
         pos->data[7]=p8;
 
-        col = new BufferObject<glm::vec4>();
+        col = new BufferObject<u8vec4>();
 
         col->data.resize(8);
         col->data[0]=m_color;

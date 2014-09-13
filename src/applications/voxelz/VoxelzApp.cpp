@@ -24,7 +24,7 @@ VoxelzApp::~VoxelzApp()
 }
 
 static MeshPtr mesh;
-static ShaderPtr sh;
+static ShaderPtr sh,vsh;
 static CameraPtr cam;
 static CubeMesh *cub,*smallcub;
 static GridMesh *grid;
@@ -59,7 +59,8 @@ void InitPlaneMesh(AppContext * ctx)
     mesh->buffers[Mesh::INDICES] = id;
     mesh->Init();
 
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
+    vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
     cam=share(new Camera(ctx,glm::vec3(0,0,5),glm::vec3(0,0,-5),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
@@ -151,14 +152,17 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
 
+        vsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         chkmgr->Render(cam.get());
+
         if(wireframe==true)
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         }
+
         env->Render();
         _appContext->_window->SwapBuffers();
         return true;

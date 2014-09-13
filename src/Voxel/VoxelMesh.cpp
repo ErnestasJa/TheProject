@@ -15,7 +15,7 @@ VoxelMesh::VoxelMesh()
 //    m_colBuf->data.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE*8);
     m_posBuf=new BufferObject<u8vec3>();
 //    m_posBuf->data.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE*8);
-    m_indBuf=new IndexBufferObject<uint16_t>();
+    m_indBuf=new IndexBufferObject<uint32_t>();
     //m_indBuf->data.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE*36);
 
     m_mesh = share(new Mesh());
@@ -34,32 +34,43 @@ VoxelMesh::~VoxelMesh()
     delete m_indBuf;
 }
 
+bool VoxelMesh::Empty()
+{
+    return m_indexTrack==0;
+}
+
 void VoxelMesh::Render()
 {
     if(m_dirty)
         Rebuild();
 
-    if(!m_dirty)
+    if(!Empty()&&!m_dirty)
         m_mesh->Render();
 
 }
 
 void VoxelMesh::Cleanup()
 {
-    m_posBuf->data.clear();
-    m_indBuf->data.clear();
-    m_colBuf->data.clear();
-    m_indexTrack=0;
-    m_vertexTrack=0;
+    if(!Empty())
+    {
+        m_posBuf->data.clear();
+        m_indBuf->data.clear();
+        m_colBuf->data.clear();
+        m_indexTrack=0;
+        m_vertexTrack=0;
+    }
 }
 
 void VoxelMesh::UpdateMesh()
 {
-    m_mesh->buffers[Mesh::POSITION] = m_posBuf;
-    m_mesh->buffers[Mesh::COLOR] = m_colBuf;
-    m_mesh->buffers[Mesh::INDICES] = m_indBuf;
+    if(!Empty())
+    {
+        m_mesh->buffers[Mesh::POSITION] = m_posBuf;
+        m_mesh->buffers[Mesh::COLOR] = m_colBuf;
+        m_mesh->buffers[Mesh::INDICES] = m_indBuf;
 
-    m_mesh->UploadBuffers();
+        m_mesh->UploadBuffers();
+    }
 }
 
 void VoxelMesh::CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8vec4 color)
@@ -204,7 +215,7 @@ void VoxelMesh::CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8v
 //    }
 
 
-        // Front
+    // Front
     if(CheckBit(sides,EBS_FRONT))
     {
         m_indBuf->data.push_back(m_vertexTrack+0);

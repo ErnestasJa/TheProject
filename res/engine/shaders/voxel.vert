@@ -7,6 +7,6 @@ layout (location=6) in vec4 col;
 out vec4 _col;
 
 void main(){
-		//_col=vec4(1.0/255.0*col.x,1.0/255.0*col.y,1.0/255.0*col.z,1.0/255.0*col.w);
+		_col=vec4(col.x/255,col.y/255,col.z/255,col.w/255);
         gl_Position = mvp * vec4(pos,1);
 }

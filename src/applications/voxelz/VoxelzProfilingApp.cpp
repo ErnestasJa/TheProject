@@ -41,8 +41,8 @@ static void AddSingleChunk(AppContext * ctx)
 static void AddManyChunks(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int x=-8; x<8; x++)
-        for(int z=-8; z<8; z++)
+    for(int x=-16; x<16; x++)
+        for(int z=-16; z<16; z++)
             for(int y=0; y<16; y++)
                 chkmgr->AddChunk(glm::vec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
@@ -58,8 +58,8 @@ static void SingleChunkRebuild(AppContext * ctx)
 static void AllChunksRebuild(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int x=-8; x<8; x++)
-        for(int z=-8; z<8; z++)
+    for(int x=-16; x<16; x++)
+        for(int z=-16; z<16; z++)
             for(int y=0; y<16; y++)
                 chkmgr->GetChunk(glm::vec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
