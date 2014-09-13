@@ -163,8 +163,8 @@ private:
     {
         uvs[0]=glm::vec2(0,1);
         uvs[1]=glm::vec2(1,1);
-        uvs[2]=glm::vec2(1,0);
-        uvs[3]=glm::vec2(0,0);
+        uvs[2]=glm::vec2(0,0);
+        uvs[3]=glm::vec2(1,0);
 
         uint32_t j=4;
         for(int32_t i=1; i<gui_skin_style_count; i++)

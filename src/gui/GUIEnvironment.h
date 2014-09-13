@@ -25,7 +25,7 @@ public:
     bool is_on_hover(GUIElement *e);
     bool is_on_focus(GUIElement *e);
 
-    void draw_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
+    void draw_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false, bool multichannel=true);
     void draw_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
     void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
     void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);

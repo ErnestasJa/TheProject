@@ -4,6 +4,8 @@
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
+#include "OpenGl/FrameBufferObject.h"
+#include "OpenGl/RenderBufferObject.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 #include "Opengl/CubeMesh.h"
@@ -24,15 +26,45 @@ VoxelzApp::~VoxelzApp()
 }
 
 static MeshPtr mesh;
-static ShaderPtr sh,vsh;
+static ShaderPtr sh,vsh,qsh;
 static CameraPtr cam;
 static CubeMesh *cub,*smallcub;
 static GridMesh *grid;
 static ChunkManager *chkmgr;
 static GUIEnvironment *env;
+static gui_image *guiImg;
+FrameBufferObject* fbo;
+TexturePtr fboTex,fboDTex;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel,wireframe;
 static int face;
+
+bool InitPostProc()
+{
+    RenderBufferObject* rbo=new RenderBufferObject();
+    rbo->Init(GL_DEPTH_COMPONENT16,1280,720);
+
+    fboTex=share(new Texture());
+    fboTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,720);
+    fboDTex=share(new Texture());
+    fboDTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,720);
+
+    fbo=new FrameBufferObject();
+    fbo->Init();
+    fbo->Set();
+
+    fbo->AttachDepthTexture(share(rbo));
+    fbo->AttachTexture(0,fboTex);
+    fbo->AttachTexture(1,fboDTex);
+
+    fbo->Unset();
+    if(!fbo->IsComplete()) return false;
+
+    guiImg=new gui_image(env,Rect2D<int>(1280-256,0,256,256),fboTex);
+    guiImg=new gui_image(env,Rect2D<int>(1280-256,256,256,256),fboDTex,false);
+
+    return true;
+}
 
 void InitPlaneMesh(AppContext * ctx)
 {
@@ -41,26 +73,34 @@ void InitPlaneMesh(AppContext * ctx)
     voxpos=glm::vec3(0);
 
     BufferObject<glm::vec3> * pos = new BufferObject<glm::vec3>();
-    pos->data.push_back(glm::vec3(-0.5, 0.5, 0));
-    pos->data.push_back(glm::vec3( 0.5, 0.5, 0));
-    pos->data.push_back(glm::vec3( -0.5,-0.5, 0));
-    pos->data.push_back(glm::vec3(0.5,-0.5, 0));
+    pos->data.push_back(glm::vec3(-1, 1, 0));
+    pos->data.push_back(glm::vec3( 1, 1, 0));
+    pos->data.push_back(glm::vec3( -1,-1, 0));
+    pos->data.push_back(glm::vec3(1,-1, 0));
+
+    BufferObject<glm::vec2> *uv = new BufferObject<glm::vec2>();
+    uv->data.push_back(glm::vec2(0,1));
+    uv->data.push_back(glm::vec2(1,1));
+    uv->data.push_back(glm::vec2(0,0));
+    uv->data.push_back(glm::vec2(1,0));
 
     IndexBufferObject<uint32_t> * id = new IndexBufferObject<uint32_t>();
     id->data.push_back(0);
-    id->data.push_back(1);
-    id->data.push_back(2);
     id->data.push_back(2);
     id->data.push_back(1);
+    id->data.push_back(2);
     id->data.push_back(3);
+    id->data.push_back(1);
 
     mesh = share(new Mesh());
     mesh->buffers[Mesh::POSITION] = pos;
+    mesh->buffers[Mesh::TEXCOORD] = uv;
     mesh->buffers[Mesh::INDICES] = id;
     mesh->Init();
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
+    qsh = (new shader_loader(ctx->_logger))->load("res/quad");
     cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
@@ -96,6 +136,7 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
     _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelzApp::OnMouseKey));
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelzApp::OnMouseMove));
 
+    glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -104,6 +145,8 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
     _appContext->_timer->tick();
 
     InitPlaneMesh(_appContext);
+    if(!InitPostProc())
+        return false;
 
     _appContext->_timer->tick();
 
@@ -122,6 +165,10 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         }
+        fbo->Set();
+        fbo->EnableBuffer(0);
+        fbo->EnableBuffer(1);
+        glClearColor(0.45, 0.45, 0.45, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
@@ -155,8 +202,8 @@ bool VoxelzApp::Update()
         vsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        if(vsh->getparam("v_inv")!=-1)
-            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
+//        if(vsh->getparam("v_inv")!=-1)
+//            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
         MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         MVar<glm::mat4>(vsh->getparam("V"), "V", cam->GetViewMat()).Set();
         chkmgr->Render(cam.get(),vsh);
@@ -165,8 +212,17 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         }
+        fbo->Unset();
+
+        glClearColor(0.0, 0.0, 0.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        qsh->Set();
+
+        fboTex->Set(0);
+        mesh->Render();
 
         env->Render();
+
         _appContext->_window->SwapBuffers();
         return true;
     }

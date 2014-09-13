@@ -28,7 +28,7 @@ struct lightSource
 const int numberOfLights = 1;
 lightSource lights[numberOfLights];
 lightSource light0 = lightSource(
-                         vec4(0.0,  360.0,  360.0, 0.0),
+                         vec4(0.0,  100.0,  100.0, 0.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
                          vec4(1.0,  1.0,  1.0, 1.0),
                          0.0, 1.0, 0.0,
@@ -116,7 +116,7 @@ void main()
                                  * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), frontMaterial.shininess);
         }
 
-        totalLighting = totalLighting + diffuseReflection + specularReflection;
+        totalLighting = totalLighting + diffuseReflection; //+ specularReflection;
     }
 
     fragcolor = vec4(totalLighting,1)*color;//vec4(1,1,1, 1.0)*vec4(normal,1);

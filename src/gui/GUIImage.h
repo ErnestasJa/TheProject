@@ -10,8 +10,9 @@ class gui_image:public GUIElement
 {
 private:
     std::shared_ptr<Texture> m_tex;
+    bool m_multichannel;
 public:
-    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex);
+    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel=true);
     virtual ~gui_image();
 
     void Render();

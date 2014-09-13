@@ -252,7 +252,7 @@ font_renderer* GUIEnvironment::get_font_renderer()
     return m_font_renderer;
 }
 
-void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex,bool tile)
+void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex,bool tile,bool multichannel)
 {
     Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
@@ -269,6 +269,10 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    if(!multichannel)
+        glUniform1ui(gui_shader->getparam("singlechannel"),GL_TRUE);
+    else
+        glUniform1ui(gui_shader->getparam("singlechannel"),GL_FALSE);
 
     gui_quad->Render();
 
