@@ -266,6 +266,7 @@ bool VoxelzApp::Update()
         if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
 
         if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
 
         mesh->Render();
 

@@ -27,6 +27,8 @@ void Texture::Init(std::shared_ptr<image> img)
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+
     /// either use Texture with or without alpha channel
     switch(img->num_channels)
     {
@@ -67,6 +69,8 @@ void Texture::Init(const uint8_t * data, uint32_t target, uint32_t image_format,
     glTexParameteri(Type, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
 
     /// either use Texture with or without alpha channel
     switch(image_format)

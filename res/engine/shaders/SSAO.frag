@@ -6,6 +6,8 @@ uniform sampler2D g_buffer_pos;
 uniform sampler2D g_random;
 uniform sampler2D g_depth;
 
+uniform mat4 MV;
+
 const float g_screen_size=1280*768;
 const float random_size=1280*768;
 const float g_sample_rad=0.006;
@@ -20,7 +22,7 @@ out vec4 fragColor;
 
 vec3 getPosition(vec2 uv)
 {
-return texture2D(g_buffer_pos,uv).xyz;
+return vec3(MV*texture2D(g_buffer_pos,uv));
 }
 
 vec3 getNormal(vec2 uv)

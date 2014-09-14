@@ -12,6 +12,7 @@ uniform mat3 normMatrix;
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
+uniform mat4 v_inv;
 
  
 in vData
@@ -30,17 +31,17 @@ void main()
 	vec3 calcNorm=normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
 	normal = calcNorm;
 	color = vertex[0].color;
-	position = vertex[0].pos;
+	position = v_inv*M*gl_in[0].gl_Position;
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[1].color;
-	position = vertex[1].pos;
+	position = v_inv*M*gl_in[1].gl_Position;
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[2].color;
-	position = vertex[2].pos;
+	position = v_inv*M*gl_in[2].gl_Position;
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
     EndPrimitive();
