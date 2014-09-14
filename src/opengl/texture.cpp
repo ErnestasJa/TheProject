@@ -181,6 +181,14 @@ void Texture::Set(uint8_t slot)
     current = Id;
 }
 
+void Texture::SetSubImage2D(const uint8_t * data,uint32_t xoffset,uint32_t yoffset,uint32_t width,uint32_t height)
+{
+    glActiveTexture(GL_TEXTURE0+active_slot);
+    glBindTexture(Type,Id);
+
+    glTexSubImage2D(Type,0,xoffset,yoffset,width,height,GL_RGB,GL_UNSIGNED_BYTE,data);
+}
+
 void Texture::Unset(uint8_t slot)
 {
     glActiveTexture(GL_TEXTURE0+slot);

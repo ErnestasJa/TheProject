@@ -8,6 +8,7 @@
 #include "OpenGl/RenderBufferObject.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
+#include "resources/ImageLoader.h"
 #include "Opengl/CubeMesh.h"
 #include "Opengl/GridMesh.h"
 #include "Voxel/Block.h"
@@ -26,7 +27,7 @@ VoxelzApp::~VoxelzApp()
 }
 
 static MeshPtr mesh;
-static ShaderPtr sh,vsh,qsh,gbsh;
+static ShaderPtr sh,vsh,qsh,gbsh,ssaosh;
 static CameraPtr cam;
 static CubeMesh *cub,*smallcub;
 static GridMesh *grid;
@@ -34,12 +35,12 @@ static ChunkManager *chkmgr;
 static GUIEnvironment *env;
 static gui_image *guiImg;
 static FrameBufferObject* GBuffer;
-static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord;
+static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord,SSAONormal;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel,wireframe;
 static int face;
 
-bool InitPostProc()
+bool InitPostProc(AppContext* ctx)
 {
 //    RenderBufferObject* rbo=new RenderBufferObject();
 //    rbo->Init(GL_DEPTH_COMPONENT16,1280,720);
@@ -59,11 +60,24 @@ bool InitPostProc()
     GBtexcoord=share(new Texture());
     GL_CHECK(GBtexcoord->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
 
+    SSAONormal=share(new Texture());
+    image_loader* loader=new image_loader(ctx->_logger);
+    std::shared_ptr<image> img=std::shared_ptr<image>(loader->load("res/SSAO_noise.png"));
+    SSAONormal->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768);
+    int sx=1280/64;
+    int sy=768/64;
+
+    loop(x,sx)
+        loop(y,sy)
+            SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
+
+
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,384,320,192),GBposition);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
+    guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
 
     GBuffer=new FrameBufferObject();
     GBuffer->Init();
@@ -122,6 +136,7 @@ void InitPlaneMesh(AppContext * ctx)
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
     qsh = (new shader_loader(ctx->_logger))->load("res/quad");
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
+    ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
     cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
 
@@ -167,7 +182,7 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
     _appContext->_timer->tick();
 
     InitPlaneMesh(_appContext);
-    if(!InitPostProc())
+    if(!InitPostProc(_appContext))
         return false;
 
     _appContext->_timer->tick();
@@ -190,7 +205,6 @@ bool VoxelzApp::Update()
         GBuffer->Set();
         GBuffer->EnableBuffer(0);
         GBuffer->EnableBuffer(1);
-        glClearColor(0.45, 0.45, 0.45, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
@@ -224,8 +238,8 @@ bool VoxelzApp::Update()
         gbsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-//        if(vsh->getparam("v_inv")!=-1)
-//            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
+        if(vsh->getparam("v_inv")!=-1)
+            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
         MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         MVar<glm::mat4>(vsh->getparam("V"), "V", cam->GetViewMat()).Set();
         chkmgr->Render(cam.get(),vsh);
@@ -236,11 +250,23 @@ bool VoxelzApp::Update()
         }
         GBuffer->Unset();
 
-        glClearColor(0.0, 0.0, 0.0, 1.0);
+        /// RENDER TO QUAD
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        qsh->Set();
+        ssaosh->Set();
 
         GBdiffuse->Set(0);
+        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
+        GBnormal->Set(1);
+        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
+        GBposition->Set(2);
+        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
+        SSAONormal->Set(3);
+        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
+        GBdepth->Set(4);
+        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
+
+        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+
         mesh->Render();
 
         env->Render();
