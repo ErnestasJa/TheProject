@@ -26,15 +26,15 @@ VoxelzApp::~VoxelzApp()
 }
 
 static MeshPtr mesh;
-static ShaderPtr sh,vsh,qsh;
+static ShaderPtr sh,vsh,qsh,gbsh;
 static CameraPtr cam;
 static CubeMesh *cub,*smallcub;
 static GridMesh *grid;
 static ChunkManager *chkmgr;
 static GUIEnvironment *env;
 static gui_image *guiImg;
-FrameBufferObject* fbo;
-TexturePtr fboTex,fboDTex;
+static FrameBufferObject* GBuffer;
+static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel,wireframe;
 static int face;
@@ -43,25 +43,45 @@ bool InitPostProc()
 {
 //    RenderBufferObject* rbo=new RenderBufferObject();
 //    rbo->Init(GL_DEPTH_COMPONENT16,1280,720);
+    /// DEPTH
+    GBdepth=share(new Texture());
+    GL_CHECK(GBdepth->Init(nullptr,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT,1280,768));
+    /// DIFFUSE
+    GBdiffuse=share(new Texture());
+    GL_CHECK(GBdiffuse->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
+    /// NORMALS
+    GBnormal=share(new Texture());
+    GL_CHECK(GBnormal->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
+    /// POSITION
+    GBposition=share(new Texture());
+    GL_CHECK(GBposition->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
+    /// TEXCOORD
+    GBtexcoord=share(new Texture());
+    GL_CHECK(GBtexcoord->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
 
-    fboTex=share(new Texture());
-    GL_CHECK(fboTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
-    fboDTex=share(new Texture());
-    GL_CHECK(fboDTex->Init(nullptr,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT,1280,768));
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
+    guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,384,320,192),GBposition);
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
 
-    fbo=new FrameBufferObject();
-    fbo->Init();
-    fbo->Set();
+    GBuffer=new FrameBufferObject();
+    GBuffer->Init();
+    GBuffer->Set();
 
-    fbo->AttachDepthTexture(fboDTex);
-    fbo->AttachTexture(0,fboTex);
-    //fbo->AttachTexture(1,fboDTex);
+    GBuffer->AttachDepthTexture(GBdepth);
+    GBuffer->AttachTexture(0,GBdiffuse);
+    GBuffer->AttachTexture(1,GBnormal);
+    GBuffer->AttachTexture(2,GBposition);
+    GBuffer->AttachTexture(3,GBtexcoord);
 
-    fbo->Unset();
-    if(!fbo->IsComplete()) return false;
+    GBuffer->EnableBuffer(0);
+    GBuffer->EnableBuffer(1);
+    GBuffer->EnableBuffer(2);
+    GBuffer->EnableBuffer(3);
 
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),fboTex);
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),fboDTex,false);
+    GBuffer->Unset();
+    if(!GBuffer->IsComplete()) return false;
 
     return true;
 }
@@ -101,6 +121,8 @@ void InitPlaneMesh(AppContext * ctx)
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
     qsh = (new shader_loader(ctx->_logger))->load("res/quad");
+    gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
+
     cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
 
     env=new GUIEnvironment(ctx->_window,ctx->_logger);
@@ -165,9 +187,9 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         }
-        fbo->Set();
-        fbo->EnableBuffer(0);
-        fbo->EnableBuffer(1);
+        GBuffer->Set();
+        GBuffer->EnableBuffer(0);
+        GBuffer->EnableBuffer(1);
         glClearColor(0.45, 0.45, 0.45, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -199,7 +221,7 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
 
-        vsh->Set();
+        gbsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
 //        if(vsh->getparam("v_inv")!=-1)
@@ -212,13 +234,13 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         }
-        fbo->Unset();
+        GBuffer->Unset();
 
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         qsh->Set();
 
-        fboTex->Set(0);
+        GBdiffuse->Set(0);
         mesh->Render();
 
         env->Render();
