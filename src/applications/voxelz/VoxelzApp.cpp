@@ -41,27 +41,27 @@ static int face;
 
 bool InitPostProc()
 {
-    RenderBufferObject* rbo=new RenderBufferObject();
-    rbo->Init(GL_DEPTH_COMPONENT16,1280,720);
+//    RenderBufferObject* rbo=new RenderBufferObject();
+//    rbo->Init(GL_DEPTH_COMPONENT16,1280,720);
 
     fboTex=share(new Texture());
-    fboTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,720);
+    GL_CHECK(fboTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768));
     fboDTex=share(new Texture());
-    fboDTex->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,720);
+    GL_CHECK(fboDTex->Init(nullptr,GL_TEXTURE_2D,GL_DEPTH_COMPONENT,GL_DEPTH_COMPONENT,1280,768));
 
     fbo=new FrameBufferObject();
     fbo->Init();
     fbo->Set();
 
-    fbo->AttachDepthTexture(share(rbo));
+    fbo->AttachDepthTexture(fboDTex);
     fbo->AttachTexture(0,fboTex);
-    fbo->AttachTexture(1,fboDTex);
+    //fbo->AttachTexture(1,fboDTex);
 
     fbo->Unset();
     if(!fbo->IsComplete()) return false;
 
-    guiImg=new gui_image(env,Rect2D<int>(1280-256,0,256,256),fboTex);
-    guiImg=new gui_image(env,Rect2D<int>(1280-256,256,256,256),fboDTex,false);
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),fboTex);
+    guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),fboDTex,false);
 
     return true;
 }

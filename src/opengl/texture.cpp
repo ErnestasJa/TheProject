@@ -92,7 +92,7 @@ void Texture::Init(const uint8_t * data, uint32_t target, uint32_t image_format,
 
     uint32_t data_type = GL_UNSIGNED_BYTE;
 
-    if(internal_format==GL_RGBA32F)
+    if(internal_format==GL_RGBA32F||internal_format==GL_DEPTH_COMPONENT)
         data_type = GL_FLOAT;
 
     glTexImage2D(Type,0,internal_format,w,h,0,image_format, data_type,data);

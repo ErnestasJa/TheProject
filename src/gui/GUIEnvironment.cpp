@@ -273,6 +273,7 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex
         glUniform1ui(gui_shader->getparam("singlechannel"),GL_TRUE);
     else
         glUniform1ui(gui_shader->getparam("singlechannel"),GL_FALSE);
+    glUniform1f(gui_shader->getparam("alpha"),1.f);
 
     gui_quad->Render();
 
