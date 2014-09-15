@@ -36,6 +36,9 @@ if choice != None :
     elif choice == "8":
         buildcores += "-j9"
 
+if os.path.isdir("build") == False:
+    os.mkdir("build")
+
 #COMPILE BOOST
 
 #warn if no boost
@@ -50,7 +53,7 @@ else:
         print("Calling boost: bootstrap gcc")
         subprocess.call('bootstrap gcc', shell=True)
 
-        buildstr = "b2 " + buildcores + " toolset=gcc link=static threading=multi release stage"
+        buildstr = 'b2 ' + buildcores + ' --build-dir="../../build"  toolset=gcc link=static threading=multi release'
         
         print("Calling boost: " + buildstr)
         subprocess.call(buildstr, shell=True)
@@ -59,8 +62,6 @@ else:
 
 
 #COMPILE
-if os.path.isdir("build") == False:
-    os.mkdir("build")
 
 os.chdir("build")
 
@@ -71,7 +72,7 @@ os.chdir("..")
 
 #COPY ALL LIBS
 matches = []
-directories = ["build","libs/boost/lib","libs/freetype"]
+directories = ["build","libs/freetype"]
 
 for directory in directories:
     matches.extend(get_libs_from_dir(directory))
