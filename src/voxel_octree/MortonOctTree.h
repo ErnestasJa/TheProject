@@ -5,8 +5,28 @@
 
 #include <assert.h>
 #include <stdint.h>
+//#include <algorithm>
+#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm_ext.hpp>
+
+#define BOOST_VECTOR
+//#define BOOST_VECTOR_WITH_ALOCATOR
+
+#ifdef BOOST_VECTOR
+#include <boost/container/vector.hpp>
+template<typename T>
+using vector = boost::container::vector<T>;
+#elif defined BOOST_VECTOR_WITH_ALOCATOR
+#include <boost/container/vector.hpp>
+#include <boost/container/allocator.hpp>
+template<typename T>
+using vector = boost::container::vector<T,boost::container::allocator<T>>;
+#else
 #include <vector>
-#include <algorithm>
+template<typename T>
+using vector = std::vector<T>;
+#error std vec
+#endif
 
 enum VoxelSide
 {
@@ -21,59 +41,87 @@ enum VoxelSide
 };
 
 static const uint8_t MAX_DEPTH_LEVEL = 10;
-static const uint32_t DEPTH_HALF_TABLE[]={0,1,2,4,8,16,32,64,128,256,512,2048,4096,8192,16384,32768};    ///HALF NODE COUNT AT LEVEL X
+static const uint32_t DEPTH_HALF_TABLE[]= {0,1,2,4,8,16,32,64,128,256,512,2048,4096,8192,16384,32768};   ///HALF NODE COUNT AT LEVEL X
 static const uint32_t DEPTH_TABLE[]=     {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536}; ///NODE COUNT AT LEVEL X
 static const uint32_t POSITION_MASK[]=   {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
 
-struct MNode {
+struct MNode
+{
+private:
+    BOOST_MOVABLE_BUT_NOT_COPYABLE(MNode)
+
+public:
+
     uint32_t start;
     uint32_t contained_by : 24;
     uint32_t size : 8;
 
-    MNode()
+    MNode(BOOST_RV_REF(MNode) n): start(n.start), size(n.size) {}
+
+    MNode& operator=(BOOST_RV_REF(MNode) x) // Move assign
     {
-        start = 0;
+        start = x.start;
+        size  = x.size;
+        return *this;
     }
 
     MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1)
     {
         start = encodeMK(x,y,z);
         size = nodeSize;
-        size = 0;
         contained_by = 0;
     }
 
-    inline uint32_t range_end() const {
+    MNode(uint32_t morton, uint8_t nodeSize=1)
+    {
+        start = morton;
+        size = nodeSize;
+        contained_by = 0;
+    }
+
+    MNode()
+    {
+    }
+
+    inline uint32_t range_end() const
+    {
         return start + (uint32_t(1) << (size * 3));
     }
 
-    bool operator<(const MNode &other) const {/// ordering: z order, plus on equal sizes largest first
+    bool operator<(const MNode &other) const  /// ordering: z order, plus on equal sizes largest first
+    {
         return start == other.start ? size > other.size : start < other.start;
     }
 
-    bool operator==(const MNode &other) const {
+    bool operator==(const MNode &other) const
+    {
         return start == other.start && size == other.size;
     }
 };
+
+static inline bool myfunction (const MNode & i,const MNode & j)
+{
+    return (i.start<j.start);
+}
 
 template <int Depth>
 class MortonOctTree
 {
 public:
-    void AddNode(const MNode & node)
+    void AddNode(MNode node)
     {
         auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), node);
 
         if( found ==m_nodes[Depth-1].end() || (*found).start != node.start)
         {
-            m_nodes[Depth-1].insert(found,node);
+            m_nodes[Depth-1].insert(found,boost::move(node));
             PopulateParents(node);
         }
     }
 
-    void AddOrphanNode(const MNode & node)
+    void AddOrphanNode(MNode node)
     {
-        m_nodes[Depth-1].push_back(node);
+        m_nodes[Depth-1].push_back(boost::move(node));
     }
 
     //sort and build tree, ...
@@ -82,13 +130,18 @@ public:
         for(int i = 0; i < Depth-1; i++)
             m_nodes[i].clear(), m_nodes[i].end();
 
-        for(auto node : m_nodes[Depth-1])
+        for(const MNode & node : m_nodes[Depth-1])
             PopulateParents(node);
+    }
+
+    bool IsSorted()
+    {
+        boost::range::is_sorted(m_nodes[Depth-1], myfunction);
     }
 
     void SortLeafNodes()
     {
-        std::sort(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end());
+        boost::range::sort(m_nodes[Depth-1], myfunction);
     }
 
     void PopulateParents(const MNode & node)
@@ -102,12 +155,12 @@ public:
             y &= POSITION_MASK[i];
             z &= POSITION_MASK[i];
 
-            MNode parent = MNode(x,y,z,Depth-i);
+            MNode parent(x,y,z,Depth-i);
 
-            auto found = std::lower_bound(m_nodes[i].begin(), m_nodes[i].end(), parent);
+            auto found = boost::range::lower_bound(m_nodes[i], MNode(x,y,z,Depth-i));
 
             if( found ==m_nodes[i].end() || (*found).start != parent.start)
-                m_nodes[i].insert(found,parent);
+                m_nodes[i].insert(found, boost::move(parent));
             else
                 break;
         }
@@ -123,14 +176,49 @@ public:
 
     inline bool CheckNode(uint32_t x, uint32_t y, uint32_t z)
     {
-        MNode n(x,y,z,Depth-1);
-
-        auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), n);
-
-        return ( found !=m_nodes[Depth-1].end() || (*found).start == n.start);
+        MNode n(x,y,z,1);
+        return boost::range::binary_search(boost::make_iterator_range(GetChildNodes().begin(),GetChildNodes().end()),n,myfunction);
     }
 
-    std::vector<MNode> & GetChildNodes()
+    uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt)
+    {
+        MNode & node = (*nodeIt);
+        uint8_t sides=ALL;
+
+        static MNode n;
+        n.size = 1;
+
+        auto urange = boost::make_iterator_range(nodeIt,GetChildNodes().end());
+        auto lrange = boost::make_iterator_range(GetChildNodes().begin(),nodeIt);
+
+        n.start = encodeMK(x,y+1,z);
+        if (boost::range::binary_search(urange,n,myfunction))
+            RemoveBit(sides, TOP);
+
+        n.start = encodeMK(x,y,z+1);
+        if (boost::range::binary_search(urange,n,myfunction))
+            RemoveBit(sides, FRONT);
+
+        n.start = encodeMK(x+1,y,z);
+        if (boost::range::binary_search(urange,n,myfunction))
+            RemoveBit(sides, LEFT);
+
+        n.start = encodeMK(x-1,y,z);
+        if (boost::range::binary_search(lrange,n,myfunction))
+            RemoveBit(sides, RIGHT);
+
+        n.start = encodeMK(x,y,z-1);
+        if (boost::range::binary_search(lrange,n,myfunction))
+            RemoveBit(sides, BACK);
+
+        n.start = encodeMK(x,y-1,z);
+        if (boost::range::binary_search(lrange,n,myfunction))
+            RemoveBit(sides, BOTTOM);
+
+        return sides;
+    }
+
+    vector<MNode> & GetChildNodes()
     {
         return m_nodes[Depth-1];
     }
@@ -140,10 +228,11 @@ public:
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
 
+
     friend class VoxMeshManager;
 
 private:
-    std::vector<MNode> m_nodes[Depth];
+    vector<MNode> m_nodes[Depth];
 };
 
 template <int Depth>
@@ -194,7 +283,7 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
             uint32_t x,y,z;
             decodeMK(n.start,x,y,z);
             glm::vec3   vox_start(x,y,z),
-                        vox_end(x+size,y+size,z+size);
+                vox_end(x+size,y+size,z+size);
 
             if(CheckCollision(vox_start,vox_end,rayStart,rayDirection))
             {
@@ -206,7 +295,7 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
                     if( distance < nearestDistance)
                     {
                         nearestDistance = distance;
-                        node = n;
+                        node.start =  n.start;
                     }
                 }
             }
@@ -258,37 +347,37 @@ VoxelSide MortonOctTree<Depth>::GetCollisionSide(glm::vec3 voxPos, glm::vec3 ray
     VoxelSide side = NONE;
 
     if(IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,0),voxPos+glm::vec3(1,1,0), voxPos+glm::vec3(0,1,1), up, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(1,1,1),voxPos+glm::vec3(1,1,0), voxPos+glm::vec3(0,1,1), up, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(1,1,1),voxPos+glm::vec3(1,1,0), voxPos+glm::vec3(0,1,1), up, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel top" << std::endl;
         side = TOP;
     }
     else if(IsRayIntersectingTriangle(voxPos,voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(0,0,1), down, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(1,0,1),voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(0,0,1), down, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(1,0,1),voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(0,0,1), down, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel bottom" << std::endl;
         side = BOTTOM;
     }
     else if(IsRayIntersectingTriangle(voxPos+glm::vec3(0,0,0),voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(0,1,0), back, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,0),voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(1,1,0), back, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,0),voxPos+glm::vec3(1,0,0), voxPos+glm::vec3(1,1,0), back, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel back" << std::endl;
         side = BACK;
     }
     else if(IsRayIntersectingTriangle(voxPos+glm::vec3(0,0,1),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(0,1,1), front, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,1),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(1,1,1), front, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,1),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(1,1,1), front, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel front" << std::endl;
         side = FRONT;
     }
     else if(IsRayIntersectingTriangle(voxPos+glm::vec3(0,0,0),voxPos+glm::vec3(0,0,1), voxPos+glm::vec3(0,1,0), left, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,1),voxPos+glm::vec3(0,0,1), voxPos+glm::vec3(0,1,0), left, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(0,1,1),voxPos+glm::vec3(0,0,1), voxPos+glm::vec3(0,1,0), left, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel left" << std::endl;
         side = LEFT;
     }
     else if(IsRayIntersectingTriangle(voxPos+glm::vec3(1,0,0),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(1,1,0), right, rayStart, rayDirection)||
-       IsRayIntersectingTriangle(voxPos+glm::vec3(1,1,1),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(1,1,0), right, rayStart, rayDirection))
+            IsRayIntersectingTriangle(voxPos+glm::vec3(1,1,1),voxPos+glm::vec3(1,0,1), voxPos+glm::vec3(1,1,0), right, rayStart, rayDirection))
     {
         //std::cout << "Collided with voxel right" << std::endl;
         side = RIGHT;

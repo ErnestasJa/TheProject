@@ -5,8 +5,6 @@
 #include "opengl/Mesh.h"
 #include "utility/bit.h"
 
-
-
 class VoxMeshManager
 {
 private:
@@ -16,8 +14,7 @@ public:
     VoxMeshManager(MortonOctTree<10> * octree);
     virtual ~VoxMeshManager();
     void GenMesh(MeshPtr mesh);
-    void AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nodeIt);
-    inline uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, std::vector<MNode>::iterator nodeIt);
+    void AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt);
 };
 
 #endif // VOXMESHGENERATOR_H

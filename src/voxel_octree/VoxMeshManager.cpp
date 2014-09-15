@@ -32,21 +32,18 @@ void VoxMeshManager::GenMesh(MeshPtr mesh)
     mesh->UploadBuffers();
 }
 
-void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nodeIt)
+void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt)
 {
-    MNode node = (*nodeIt);
+    MNode & node = (*nodeIt);
+
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
     BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
     BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
 
     uint32_t x, y, z;
-
-    x=0;
-    y=2;
-    z=0;
     decodeMK(node.start, x,y,z);
 
-    uint8_t sides = GetVisibleSides(x,y,z,nodeIt);
+    uint8_t sides = m_octree->GetVisibleSides(x,y,z,nodeIt);
 
     uint32_t si = vbo->data.size();
 
@@ -147,42 +144,4 @@ void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nod
         ibo->data.push_back(si+4);
         ibo->data.push_back(si+6);
     }
-}
-
-bool myfunction (const MNode & i,const MNode & j)
-{
-    return (i.start<j.start);
-}
-
-inline uint8_t VoxMeshManager::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, std::vector<MNode>::iterator nodeIt)
-{
-    uint8_t sides=ALL;
-
-    static MNode n;
-
-    n = MNode(x,y+1,z);
-    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, TOP);
-
-    n = MNode(x,y,z+1);
-    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, FRONT);
-
-    n = MNode(x+1,y,z);
-    if (std::binary_search(nodeIt,m_octree->GetChildNodes().end(),n,myfunction))
-        RemoveBit(sides, LEFT);
-
-    n = MNode(x-1,y,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
-        RemoveBit(sides, RIGHT);
-
-    n = MNode(x,y,z-1);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
-        RemoveBit(sides, BACK);
-
-    n = MNode(x,y-1,z);
-    if (std::binary_search(m_octree->GetChildNodes().begin(),nodeIt,n,myfunction))
-        RemoveBit(sides, BOTTOM);
-
-    return sides;
 }

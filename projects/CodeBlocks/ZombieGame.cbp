@@ -87,6 +87,7 @@
 					<Add library="jsoncpp" />
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
+					<Add library="boost_container-mgw48-mt-s-1_56" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -123,6 +124,7 @@
 					<Add library="jsoncpp" />
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
+					<Add library="boost_container-mgw48-mt-s-1_56" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -160,7 +162,7 @@
 					<Add library="jsoncpp" />
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
-					<Add library="..\..\libs\win32\objects.a" />
+					<Add library="boost_container-mgw48-mt-s-1_56" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -323,8 +325,6 @@
 		<Unit filename="../../src/voxel_octree/Node.h" />
 		<Unit filename="../../src/voxel_octree/VoxMeshManager.cpp" />
 		<Unit filename="../../src/voxel_octree/VoxMeshManager.h" />
-		<Unit filename="../../src/voxel_octree/VoxelOctree.cpp" />
-		<Unit filename="../../src/voxel_octree/VoxelOctree.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

@@ -3,7 +3,6 @@
 #include "voxel_octree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
 
-
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
@@ -29,16 +28,14 @@ void VoxelOctreeApp::InitPlaneMesh()
     mesh->buffers[Mesh::COLOR] = cbo;
     mesh->Init();
 
-
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
-    for(uint32_t i = 0; i < 1024; i++)
-        for(uint32_t j = 0; j < 4; j++)
-            for(uint32_t k = 0; k < 1024; k++)
-                octree->AddOrphanNode(MNode(k,j,i));
 
-    uint32_t size = octree->GetChildNodes().size();
+    for(uint32_t i = 0; i < 32; i++)
+        for(uint32_t j = 0; j < 32; j++)
+            for(uint32_t k = 0; k < 32; k++)
+                octree->AddOrphanNode(MNode(k,j,i));
 
     /*
     for(auto it = octree->GetChildNodes().begin(); it != octree->GetChildNodes().end(); it++ )
@@ -148,6 +145,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                     ///for now the erase means full rebuild
                     octree->RebuildTree();
                     octreeGen->GenMesh(mesh);
+                    Ctx()->_logger->log(LOG_WARN, "Full octree rebuild..");
                 }
             }
             break;

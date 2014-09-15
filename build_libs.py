@@ -25,6 +25,17 @@ else:
 libpath = os.path.join("libs", platform);
 fullLibPath = os.path.join(os.getcwd(), libpath)
 
+buildcores = ""
+
+choices = ["4", "8"]
+choice = easygui.choicebox("Choose number of cores available", "Core choice", choices)
+
+if choice != None :
+    if choice == "4":
+        buildcores += "-j5"
+    elif choice == "8":
+        buildcores += "-j9"
+
 #COMPILE BOOST
 
 #warn if no boost
@@ -38,19 +49,8 @@ else:
         os.chdir(boostpath)
         print("Calling boost: bootstrap gcc")
         subprocess.call('bootstrap gcc', shell=True)
-        
-        choices = ["1", "4", "8"]
-        choice = easygui.choicebox("Choose number of cores available", "Core choice", choices)
 
-        buildstr = "b2 "
-
-        if choice != None :
-            if choice == "4":
-                buildstr += "-j5 "
-            elif choice == "8":
-                buildstr += "-j9 "
-
-        buildstr += "toolset=gcc link=static threading=multi release stage"
+        buildstr = "b2 " + buildcores + " toolset=gcc link=static threading=multi release stage"
         
         print("Calling boost: " + buildstr)
         subprocess.call(buildstr, shell=True)
@@ -65,7 +65,7 @@ if os.path.isdir("build") == False:
 os.chdir("build")
 
 subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "MinGW Makefiles"', shell=True)
-subprocess.call('mingw32-make -j5', shell=True)
+subprocess.call('mingw32-make ' + buildcores, shell=True)
 
 os.chdir("..")
 

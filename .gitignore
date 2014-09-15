@@ -4,6 +4,7 @@
 *.bak
 *~
 *.orig
+*.gch
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
@@ -13,3 +14,4 @@ libs/boost/
 libs/win32/
 libs/linux/
 __pycache__/
+tests/bin/
