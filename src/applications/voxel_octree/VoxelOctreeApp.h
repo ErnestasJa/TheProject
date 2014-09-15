@@ -10,7 +10,7 @@
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 #include "voxel_octree/MortonOctTree.h"
-#include "voxel_octree/VoxMeshGenerator.h"
+#include "voxel_octree/VoxMeshManager.h"
 
 class VoxelOctreeApp: public Application
 {
@@ -34,7 +34,7 @@ private:
     ShaderPtr sh;
     CameraPtr cam;
     MortonOctTree<10> * octree;
-    VoxMeshGenerator * octreeGen;
+    VoxMeshManager * octreeGen;
 };
 
 #endif // VOXELOCTREEAPP_H

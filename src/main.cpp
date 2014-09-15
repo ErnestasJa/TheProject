@@ -31,6 +31,7 @@ char ShowAppMenu(ApplicationLauncher & launcher)
     char choice = 0;
     choice = std::cin.get();
     std::cin.clear(); std::cin.ignore(INT_MAX,'\n');
+
     return choice;
 }
 

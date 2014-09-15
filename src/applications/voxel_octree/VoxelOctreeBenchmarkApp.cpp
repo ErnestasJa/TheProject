@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "VoxelOctreeBenchmarkApp.h"
-#include "voxel_octree/VoxMeshGenerator.h"
+#include "voxel_octree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
 
 
@@ -30,7 +30,7 @@ void VoxelOctreeBenchmarkApp::InitOctree()
     mesh->Init();
 
     octree = new MortonOctTree<10>();
-    octreeGen = new VoxMeshGenerator(octree);
+    octreeGen = new VoxMeshManager(octree);
 }
 
 #define START(x) timer->tick(); x = timer->get_real_time()

@@ -20,31 +20,31 @@ enum VoxelSide
     LEFT = bit<5>()
 };
 
+static const uint8_t MAX_DEPTH_LEVEL = 10;
+static const uint32_t DEPTH_HALF_TABLE[]={0,1,2,4,8,16,32,64,128,256,512,2048,4096,8192,16384,32768};    ///HALF NODE COUNT AT LEVEL X
+static const uint32_t DEPTH_TABLE[]=     {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536}; ///NODE COUNT AT LEVEL X
+static const uint32_t POSITION_MASK[]=   {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
+
 struct MNode {
-    int64_t start;
-    unsigned contained_by : 24;
-    unsigned size : 8;
-    int object_id;
+    uint32_t start;
+    uint32_t contained_by : 24;
+    uint32_t size : 8;
 
     MNode()
     {
         start = 0;
-        object_id = 0;
-        size = 0;
-        contained_by = 0;
     }
 
     MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1)
     {
         start = encodeMK(x,y,z);
         size = nodeSize;
-        object_id = 0;
         size = 0;
         contained_by = 0;
     }
 
-    inline int64_t range_end() const {
-        return start + (int64_t(1) << (size * 3));
+    inline uint32_t range_end() const {
+        return start + (uint32_t(1) << (size * 3));
     }
 
     bool operator<(const MNode &other) const {/// ordering: z order, plus on equal sizes largest first
@@ -56,16 +56,10 @@ struct MNode {
     }
 };
 
-static const uint8_t MAX_DEPTH_LEVEL = 16;
-static const uint32_t DEPTH_HALF_TABLE[]={0,1,2,4,8,16,32,64,128,256,512,2048,4096,8192,16384,32768};    ///HALF NODE COUNT AT LEVEL X
-static const uint32_t DEPTH_TABLE[]=     {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536}; ///NODE COUNT AT LEVEL X
-static const uint32_t POSITION_MASK[]=   {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
-
 template <int Depth>
 class MortonOctTree
 {
 public:
-
     void AddNode(const MNode & node)
     {
         auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), node);
@@ -100,7 +94,7 @@ public:
     void PopulateParents(const MNode & node)
     {
         uint32_t x,y,z;
-        decodeMortonKey(node.start, x, y, z);
+        decodeMK(node.start, x, y, z);
 
         for( int i = Depth - 2; i > -1; i--)
         {
@@ -146,7 +140,7 @@ public:
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
 
-    friend class VoxMeshGenerator;
+    friend class VoxMeshManager;
 
 private:
     std::vector<MNode> m_nodes[Depth];
@@ -198,7 +192,7 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
         for(MNode & n : m_nodes[i])
         {
             uint32_t x,y,z;
-            decodeMortonKey(n.start,x,y,z);
+            decodeMK(n.start,x,y,z);
             glm::vec3   vox_start(x,y,z),
                         vox_end(x+size,y+size,z+size);
 
@@ -327,6 +321,8 @@ glm::ivec3 MortonOctTree<Depth>::VoxelSideToPosition(VoxelSide side)
         break;
     case BACK:
         pos.z=-1;
+        break;
+    default:
         break;
     }
 

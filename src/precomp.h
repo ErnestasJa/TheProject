@@ -55,8 +55,6 @@
 #define RELEASE_FS
 #endif
 
-#ifdef DEBUG
 #define LOG_OUTPUT
-#endif
 
 #endif

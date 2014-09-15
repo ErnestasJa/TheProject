@@ -1,19 +1,19 @@
 #include "precomp.h"
-#include "VoxMeshGenerator.h"
+#include "VoxMeshManager.h"
 #include "Morton.h"
 #include "stdlib.h"
 
-VoxMeshGenerator::VoxMeshGenerator(MortonOctTree<10> * octree)
+VoxMeshManager::VoxMeshManager(MortonOctTree<10> * octree)
 {
     m_octree = octree;
 }
 
-VoxMeshGenerator::~VoxMeshGenerator()
+VoxMeshManager::~VoxMeshManager()
 {
     //dtor
 }
 
-void VoxMeshGenerator::GenMesh(MeshPtr mesh)
+void VoxMeshManager::GenMesh(MeshPtr mesh)
 {
     srand(12345);
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
@@ -32,18 +32,19 @@ void VoxMeshGenerator::GenMesh(MeshPtr mesh)
     mesh->UploadBuffers();
 }
 
-void VoxMeshGenerator::AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nodeIt)
+void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, std::vector<MNode>::iterator nodeIt)
 {
-    MNode & node = (*nodeIt);
+    MNode node = (*nodeIt);
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
     BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
     BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
-    static uint32_t x, y, z;
+
+    uint32_t x, y, z;
 
     x=0;
-    y=0;
+    y=2;
     z=0;
-    decodeMortonKey(node.start, x,y,z);
+    decodeMK(node.start, x,y,z);
 
     uint8_t sides = GetVisibleSides(x,y,z,nodeIt);
 
@@ -153,7 +154,7 @@ bool myfunction (const MNode & i,const MNode & j)
     return (i.start<j.start);
 }
 
-inline uint8_t VoxMeshGenerator::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, std::vector<MNode>::iterator nodeIt)
+inline uint8_t VoxMeshManager::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, std::vector<MNode>::iterator nodeIt)
 {
     uint8_t sides=ALL;
 

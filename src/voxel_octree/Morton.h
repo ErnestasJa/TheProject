@@ -45,7 +45,8 @@ static const uint32_t mortonkeyX[256] =
 };
 
 // pre-shifted table for Y coordinates (1 bit to the left)
-static const uint32_t mortonkeyY[256] = {
+static const uint32_t mortonkeyY[256] =
+{
     0x00000000,
     0x00000002, 0x00000010, 0x00000012, 0x00000080, 0x00000082, 0x00000090, 0x00000092, 0x00000400,
     0x00000402, 0x00000410, 0x00000412, 0x00000480, 0x00000482, 0x00000490, 0x00000492, 0x00002000,
@@ -82,7 +83,8 @@ static const uint32_t mortonkeyY[256] = {
 };
 
 // Pre-shifted table for z (2 bits to the left)
-static const uint32_t mortonkeyZ[256] = {
+static const uint32_t mortonkeyZ[256] =
+{
     0x00000000,
     0x00000004, 0x00000020, 0x00000024, 0x00000100, 0x00000104, 0x00000120, 0x00000124, 0x00000800,
     0x00000804, 0x00000820, 0x00000824, 0x00000900, 0x00000904, 0x00000920, 0x00000924, 0x00004000,
@@ -119,68 +121,54 @@ static const uint32_t mortonkeyZ[256] = {
 };
 
 
-inline static uint64_t encodeMK(uint32_t x, uint32_t y, uint32_t z){
-	uint64_t result = 0;
-	result = mortonkeyZ[(z >> 16) & 0xFF] |
-		mortonkeyY[(y >> 16) & 0xFF] |
-		mortonkeyX[(x >> 16) & 0xFF];
-	result = result << 48 |
-		mortonkeyZ[(z >> 8) & 0xFF] |
-		mortonkeyY[(y >> 8) & 0xFF] |
-		mortonkeyX[(x >> 8) & 0xFF];
-	result = result << 24 |
-		mortonkeyZ[(z)& 0xFF] |
-		mortonkeyY[(y)& 0xFF] |
-		mortonkeyX[(x)& 0xFF];
-	return result;
-}
-
-inline static void decodeMK(uint64_t key, uint32_t & x, uint32_t & y, uint32_t & z)
+inline static uint32_t encodeMK(uint32_t x, uint32_t y, uint32_t z)
 {
-    x = y = z = 0;
-	for (uint64_t i = 0; i < (sizeof(uint64_t) * CHAR_BIT)/3; ++i) {
-		x |= ((key & (uint64_t( 1ull ) << uint64_t((3ull * i) + 0ull))) >> uint64_t(((3ull * i) + 0ull)-i));
-		y |= ((key & (uint64_t( 1ull ) << uint64_t((3ull * i) + 1ull))) >> uint64_t(((3ull * i) + 1ull)-i));
-		z |= ((key & (uint64_t( 1ull ) << uint64_t((3ull * i) + 2ull))) >> uint64_t(((3ull * i) + 2ull)-i));
-	}
+    uint32_t result = 0;
+    result = result |
+             mortonkeyZ[(z >> 8) & 0xFF] |
+             mortonkeyY[(y >> 8) & 0xFF] |
+             mortonkeyX[(x >> 8) & 0xFF];
+    result = result << 24 |
+             mortonkeyZ[(z)& 0xFF] |
+             mortonkeyY[(y)& 0xFF] |
+             mortonkeyX[(x)& 0xFF];
+    return result;
 }
 
-inline static void decodeMortonKey( const uint32_t morton,
-                                 uint32_t& index1, uint32_t& index2, uint32_t& index3 )
-    { // unpack 3 10-bit indices from a 30-bit Morton code
-      static uint32_t value1 = morton;
-      static uint32_t value2 = ( value1 >> 1 );
-      static uint32_t value3 = ( value1 >> 2 );
-      value1 &= 0x09249249;
-      value2 &= 0x09249249;
-      value3 &= 0x09249249;
-      value1 |= ( value1 >> 2 );
-      value2 |= ( value2 >> 2 );
-      value3 |= ( value3 >> 2 );
-      value1 &= 0x030c30c3;
-      value2 &= 0x030c30c3;
-      value3 &= 0x030c30c3;
-      value1 |= ( value1 >> 4 );
-      value2 |= ( value2 >> 4 );
-      value3 |= ( value3 >> 4 );
-      value1 &= 0x0300f00f;
-      value2 &= 0x0300f00f;
-      value3 &= 0x0300f00f;
-      value1 |= ( value1 >> 8 );
-      value2 |= ( value2 >> 8 );
-      value3 |= ( value3 >> 8 );
-      value1 &= 0x030000ff;
-      value2 &= 0x030000ff;
-      value3 &= 0x030000ff;
-      value1 |= ( value1 >> 16 );
-      value2 |= ( value2 >> 16 );
-      value3 |= ( value3 >> 16 );
-      value1 &= 0x000003ff;
-      value2 &= 0x000003ff;
-      value3 &= 0x000003ff;
-      index1 = value1;
-      index2 = value2;
-      index3 = value3;
-    }
+
+static void decodeMK( const uint32_t morton,
+                      uint32_t& index1, uint32_t& index2, uint32_t& index3 )
+{
+    index1 = morton;
+    index2 = ( index1 >> 1 );
+    index3 = ( index1 >> 2 );
+    index1 &= 0x09249249;
+    index2 &= 0x09249249;
+    index3 &= 0x09249249;
+    index1 |= ( index1 >> 2 );
+    index2 |= ( index2 >> 2 );
+    index3 |= ( index3 >> 2 );
+    index1 &= 0x030c30c3;
+    index2 &= 0x030c30c3;
+    index3 &= 0x030c30c3;
+    index1 |= ( index1 >> 4 );
+    index2 |= ( index2 >> 4 );
+    index3 |= ( index3 >> 4 );
+    index1 &= 0x0300f00f;
+    index2 &= 0x0300f00f;
+    index3 &= 0x0300f00f;
+    index1 |= ( index1 >> 8 );
+    index2 |= ( index2 >> 8 );
+    index3 |= ( index3 >> 8 );
+    index1 &= 0x030000ff;
+    index2 &= 0x030000ff;
+    index3 &= 0x030000ff;
+    index1 |= ( index1 >> 16 );
+    index2 |= ( index2 >> 16 );
+    index3 |= ( index3 >> 16 );
+    index1 &= 0x000003ff;
+    index2 &= 0x000003ff;
+    index3 &= 0x000003ff;
+}
 
 #endif // MORTON_H_INCLUDED

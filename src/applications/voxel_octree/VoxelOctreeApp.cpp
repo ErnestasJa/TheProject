@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "VoxelOctreeApp.h"
-#include "voxel_octree/VoxMeshGenerator.h"
+#include "voxel_octree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
 
 
@@ -31,14 +31,22 @@ void VoxelOctreeApp::InitPlaneMesh()
 
 
     octree = new MortonOctTree<10>();
-    octreeGen = new VoxMeshGenerator(octree);
+    octreeGen = new VoxMeshManager(octree);
 
+    for(uint32_t i = 0; i < 1024; i++)
+        for(uint32_t j = 0; j < 4; j++)
+            for(uint32_t k = 0; k < 1024; k++)
+                octree->AddOrphanNode(MNode(k,j,i));
 
-    loop(i,16)
-        loop(j,16)
-            loop(k,16)
-                if(raw_noise_3d(k,j,i)<0.05)
-                    octree->AddOrphanNode(MNode(k,j,i));
+    uint32_t size = octree->GetChildNodes().size();
+
+    /*
+    for(auto it = octree->GetChildNodes().begin(); it != octree->GetChildNodes().end(); it++ )
+    {
+        MNode node = (*it);
+        if(node.start!=0)
+            std::cout << "Start = " << node.start << std::endl;
+    }*/
 
     octree->SortLeafNodes();
     octree->RebuildTree();
@@ -130,7 +138,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
             if(octree->Collide(n,position,lookat))
             {
                 uint32_t x,y,z;
-                decodeMortonKey(n.start,x,y,z);
+                decodeMK(n.start,x,y,z);
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
                 auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), n);
@@ -150,7 +158,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
             if(octree->Collide(n,position,lookat))
             {
                 uint32_t x,y,z;
-                decodeMortonKey(n.start,x,y,z);
+                decodeMK(n.start,x,y,z);
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
                 /// add node
