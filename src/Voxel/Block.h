@@ -27,7 +27,7 @@ class Block
         }
         virtual ~Block(){};
 
-        bool IsActive()
+        bool IsActive() const
         {
             return m_active;
         }
@@ -40,7 +40,7 @@ class Block
             m_blockType=type;
         }
 
-        uint32_t GetBlockType()
+        uint32_t GetBlockType() const
         {
             return m_blockType;
         }

@@ -25,7 +25,7 @@ public:
     void UpdateNeighbours();
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
-    Block Get(uint32_t x,uint32_t y,uint32_t z);
+    const Block &Get(uint32_t x,uint32_t y,uint32_t z);
 
     uint32_t GetBlockCount();
 private:
@@ -33,6 +33,8 @@ private:
     glm::vec3 m_chunkPos;
     BlockArray m_pBlocks;
 public:
-    Chunk *leftN,*rightN,*botN,*topN,*backN,*frontN;
+    typedef std::shared_ptr<Chunk> chkptr;
+    chkptr leftN,rightN,botN,topN,backN,frontN;
 };
+typedef Chunk::chkptr ChunkPtr;
 #endif // CHUNK_H

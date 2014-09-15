@@ -52,7 +52,7 @@ Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):m_pBlocks(boost::ex
 
 Chunk::~Chunk()
 {
-
+    Cleanup();
 }
 
 void Chunk::UpdateNeighbours()
@@ -121,7 +121,7 @@ void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
     m_dirty=true;
 }
 
-Block Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
+const Block &Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
 {
     if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
         return EMPTY_BLOCK;

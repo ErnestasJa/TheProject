@@ -87,7 +87,7 @@ static const char* v3str(const glm::vec3 & vec)
     return std::string(buf).c_str();
 }
 
-void ChunkManager::Explode(glm::vec3 pos,float power)
+void ChunkManager::Explode(const glm::vec3 &pos,float power)
 {
     glm::vec3 startpos=pos-power;
     glm::vec3 endpos=pos+power;
@@ -109,7 +109,7 @@ void ChunkManager::Explode(glm::vec3 pos,float power)
     }
 }
 
-void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
+void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 
@@ -124,7 +124,7 @@ void ChunkManager::SetBlock(glm::vec3 pos,EBlockType type,bool active)
     }
 }
 
-void ChunkManager::SetChunkNeighbours(Chunk* chunk,glm::vec3 pos)
+void ChunkManager::SetChunkNeighbours(ChunkPtr chunk,const glm::vec3 &pos)
 {
     glm::vec3 posXNeg(pos.x-1,pos.y,pos.z),posXPos(pos.x+1,pos.y,pos.z),posYNeg(pos.x,pos.y-1,pos.z),posYPos(pos.x,pos.y+1,pos.z),posZNeg(pos.x,pos.y,pos.z-1),posZPos(pos.x,pos.y,pos.z+1);
 
@@ -139,7 +139,7 @@ void ChunkManager::SetChunkNeighbours(Chunk* chunk,glm::vec3 pos)
 }
 
 //! pos: in CHUNK coordinates
-Chunk *ChunkManager::AddChunk(glm::vec3 pos)
+ChunkPtr ChunkManager::AddChunk(const glm::vec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
     {
@@ -147,14 +147,14 @@ Chunk *ChunkManager::AddChunk(glm::vec3 pos)
     }
     else
     {
-        m_chunks[pos]=new Chunk(this,ChunkToWorldCoords(pos));
+        m_chunks[pos]=ChunkPtr(new Chunk(this,ChunkToWorldCoords(pos)));
         SetChunkNeighbours(m_chunks[pos],pos);
         return m_chunks[pos];
     }
 }
 
 //! pos: in WORLD coordinates
-Chunk *ChunkManager::AddChunkWorld(glm::vec3 pos)
+ChunkPtr ChunkManager::AddChunkWorld(const glm::vec3 &pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
@@ -163,13 +163,13 @@ Chunk *ChunkManager::AddChunkWorld(glm::vec3 pos)
     }
     else
     {
-        m_chunks[chunkCoords]=new Chunk(this,ChunkToWorldCoords(chunkCoords));
+        m_chunks[chunkCoords]=ChunkPtr(new Chunk(this,ChunkToWorldCoords(chunkCoords)));
         return m_chunks[chunkCoords];
     }
 }
 
 //! pos: in CHUNK coordinates
-Chunk *ChunkManager::GetChunk(glm::vec3 pos)
+ChunkPtr ChunkManager::GetChunk(const glm::vec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
         return m_chunks[pos];
@@ -178,7 +178,7 @@ Chunk *ChunkManager::GetChunk(glm::vec3 pos)
 }
 
 //! pos: in WORLD coordinates
-Chunk *ChunkManager::GetChunkWorld(glm::vec3 pos)
+ChunkPtr ChunkManager::GetChunkWorld(const glm::vec3 &pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
@@ -187,7 +187,7 @@ Chunk *ChunkManager::GetChunkWorld(glm::vec3 pos)
         return nullptr;
 }
 
-Block ChunkManager::GetBlock(glm::vec3 pos)
+const Block &ChunkManager::GetBlock(const glm::vec3 &pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)

@@ -59,7 +59,7 @@ inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
 	return ats;
 }
 
-typedef boost::unordered_map<glm::vec3, Chunk*, chunk_hash> ChunkMap;
+typedef boost::unordered_map<glm::vec3, ChunkPtr, chunk_hash> ChunkMap;
 
 class ChunkManager
 {
@@ -67,17 +67,17 @@ public:
     ChunkManager();
     virtual ~ChunkManager();
 
-    void Explode(glm::vec3 pos,float power);
+    void Explode(const glm::vec3 &pos,float power);
 
-    void SetBlock(glm::vec3 pos,EBlockType type,bool active);
-    Block GetBlock(glm::vec3 pos);
+    void SetBlock(const glm::vec3 &pos,EBlockType type,bool active);
+    const Block &GetBlock(const glm::vec3 &pos);
 
-    Chunk *GetChunk(glm::vec3 pos);
-    Chunk *GetChunkWorld(glm::vec3 pos);
-    void SetChunkNeighbours(Chunk* chunk,glm::vec3 pos);
+    ChunkPtr GetChunk(const glm::vec3 &pos);
+    ChunkPtr GetChunkWorld(const glm::vec3 &pos);
+    void SetChunkNeighbours(ChunkPtr chunk,const glm::vec3 &pos);
 
-    Chunk *AddChunk(glm::vec3 pos);
-    Chunk *AddChunkWorld(glm::vec3 pos);
+    ChunkPtr AddChunk(const glm::vec3 &pos);
+    ChunkPtr AddChunkWorld(const glm::vec3 &pos);
 
     void Render(Camera *cam,ShaderPtr vsh);
 
