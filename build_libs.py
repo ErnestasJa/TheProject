@@ -40,17 +40,20 @@ matches = []
 directories = ["build","libs/boost/lib","libs/freetype"]
 
 for directory in directories:
-    matches.append(get_libs_from_dir(directory))
+    matches.extend(get_libs_from_dir(directory))
 
 if os.path.isdir(fullLibPath) == False:
     os.makedirs(fullLibPath)
 
 for f in matches:
-    shutil.copyfile(f[1], os.path.join(libpath, f[0]))
+    filename = "" + os.path.join(libpath, f[0])
+    shutil.copyfile(f[1], filename)
 
 #Write lib names to file for easy config
 fname = os.path.join(libpath, "liblist.txt")
 file = open(fname, "w")
+
+print("Libs found: " + str(len(matches)))
 
 for f in matches:
     name = f[0]
