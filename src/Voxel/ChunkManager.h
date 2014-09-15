@@ -2,15 +2,23 @@
 #define CHUNKMANAGER_H
 
 #include "OpenGL/Shader.h"
+#include <boost/unordered_map.hpp>
+#include <boost/functional/hash.hpp>
 
 class Camera;
 class Block;
 class Chunk;
 enum EBlockType;
 
-struct chunkhasher {
-    size_t operator()(const glm::vec3& a) const {
-          return pow(((a.x+a.y+a.z)+(a.x-a.y-a.z))*((a.x+a.y+a.z)-(a.x-a.y-a.z)),2);
+struct chunk_hash : std::unary_function<glm::vec3, std::size_t>
+{
+    std::size_t operator()(glm::vec3 const& v) const
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, v.x);
+        boost::hash_combine(seed, v.y);
+        boost::hash_combine(seed, v.z);
+        return seed;
     }
 };
 
@@ -51,6 +59,8 @@ inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
 	return ats;
 }
 
+typedef boost::unordered_map<glm::vec3, Chunk*, chunk_hash> ChunkMap;
+
 class ChunkManager
 {
 public:
@@ -78,7 +88,7 @@ public:
     uint32_t GetTotalBlocks();
 protected:
 private:
-    std::unordered_map<glm::vec3,Chunk*,chunkhasher> m_chunks;
+    ChunkMap m_chunks;
 };
 
 #endif // CHUNKMANAGER_H

@@ -1,6 +1,8 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include <boost/multi_array.hpp>
+
 #include "VoxelMesh.h"
 #include "Block.h"
 
@@ -9,6 +11,8 @@
 class ChunkManager;
 
 static Block EMPTY_BLOCK=Block();
+
+typedef boost::multi_array<Block, 3> BlockArray;
 
 class Chunk:public VoxelMesh
 {
@@ -27,7 +31,7 @@ public:
 private:
     ChunkManager *m_chunkManager;
     glm::vec3 m_chunkPos;
-    Block*** m_pBlocks;
+    BlockArray m_pBlocks;
 public:
     Chunk *leftN,*rightN,*botN,*topN,*backN,*frontN;
 };

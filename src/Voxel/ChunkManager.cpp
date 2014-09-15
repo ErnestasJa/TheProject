@@ -7,10 +7,11 @@
 #include "opengl/MVar.h"
 #include "utility/SimplexNoise.h"
 #include "utility/timer.h"
+#include <boost/foreach.hpp>
 
 ChunkManager::ChunkManager()
 {
-    int testsize=128;
+    int testsize=512;
     int testheight=32;
 
     for(int x=-testsize; x<testsize; x++)
@@ -68,7 +69,7 @@ ChunkManager::ChunkManager()
         }
     }
 
-    for(std::pair<glm::vec3,Chunk*> a:m_chunks)
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         SetChunkNeighbours(a.second,a.first);
     }
@@ -101,7 +102,7 @@ void ChunkManager::Explode(glm::vec3 pos,float power)
             {
                 if (sqrt((float) glm::pow((pos.x-x),2.f) + glm::pow((pos.y-y),2.f) + glm::pow((pos.z-z),2.f)) <= power/2)
                 {
-                    SetBlock(glm::vec3(x,y,z),EBT_DEFAULT,false);
+                    SetBlock(glm::vec3(x,y,z),EBT_AIR,false);
                 }
             }
         }
@@ -199,7 +200,7 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 {
     glm::mat4 Model;
 
-    for(std::pair<glm::vec3,Chunk*> a:m_chunks)
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         glm::vec3 pos=a.first*CHUNK_SIZEF;
 
@@ -215,10 +216,11 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 
 void ChunkManager::Clear()
 {
-    for(std::unordered_map<glm::vec3,Chunk*,chunkhasher>::iterator it=m_chunks.begin(); it!=m_chunks.end();)
-    {
-        m_chunks.erase(it++);
-    }
+//    for(boost::unordered_map<glm::vec3,Chunk*,chunkhasher>::iterator it=m_chunks.begin(); it!=m_chunks.end();)
+//    {
+//        m_chunks.erase(it++);
+//    }
+    m_chunks.clear();
 }
 
 uint32_t ChunkManager::GetChunkCount()
@@ -229,7 +231,7 @@ uint32_t ChunkManager::GetChunkCount()
 uint32_t ChunkManager::GetTotalBlocks()
 {
     uint32_t ret=0;
-    for(std::pair<glm::vec3,Chunk*> a:m_chunks)
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         ret+=a.second->GetBlockCount();
     }

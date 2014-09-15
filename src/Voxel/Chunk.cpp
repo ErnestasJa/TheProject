@@ -41,37 +41,18 @@ static u8vec4 getTypeCol(uint32_t typ)
     return ret;
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos)
+Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     // Create the blocks
     m_chunkManager = chunkManager;
     m_chunkPos = chunkPos;
-    m_pBlocks = new Block**[CHUNK_SIZE];
-    for(int i = 0; i < CHUNK_SIZE; i++)
-    {
-        m_pBlocks[i] = new Block*[CHUNK_SIZE];
 
-        for(int j = 0; j < CHUNK_SIZE; j++)
-        {
-            m_pBlocks[i][j] = new Block[CHUNK_SIZE];
-        }
-    }
     leftN=rightN=botN=topN=backN=frontN=nullptr;
 }
 
 Chunk::~Chunk()
 {
-    // Delete the blocks
-    for (int i = 0; i < CHUNK_SIZE; ++i)
-    {
-        for (int j = 0; j < CHUNK_SIZE; ++j)
-        {
-            delete [] m_pBlocks[i][j];
-        }
 
-        delete [] m_pBlocks[i];
-    }
-    delete [] m_pBlocks;
 }
 
 void Chunk::UpdateNeighbours()

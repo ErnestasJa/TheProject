@@ -3,7 +3,7 @@
 
 enum EBlockType
 {
-    EBT_DEFAULT,
+    EBT_AIR,
 
     EBT_STONE,
     EBT_DIRT,
@@ -23,7 +23,7 @@ class Block
         Block()
         {
             m_active=false;
-            m_blockType=EBT_DEFAULT;
+            m_blockType=EBT_AIR;
         }
         virtual ~Block(){};
 

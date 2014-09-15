@@ -330,7 +330,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
         mz = glm::floor(testpos.z);
 
         /* If we find a block that is not air, we are done */
-        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_DEFAULT)
+        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_AIR)
         {
             validvoxel=true;
             break;
@@ -369,7 +369,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()==EBT_DEFAULT)
+    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()==EBT_AIR)
     {
         mx = my = mz = 99999;
         validvoxel=false;
@@ -416,7 +416,7 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         {
         case GLFW_MOUSE_BUTTON_LEFT:
             if(validvoxel)
-                chkmgr->SetBlock(voxpos,EBT_DEFAULT,false);
+                chkmgr->SetBlock(voxpos,EBT_AIR,false);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             if(validvoxel)
