@@ -197,9 +197,7 @@ Block ChunkManager::GetBlock(glm::vec3 pos)
 
 void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 {
-
-    glm::mat4 Model,MVP;
-    uint32_t m;
+    glm::mat4 Model;
 
     for(std::pair<glm::vec3,Chunk*> a:m_chunks)
     {
@@ -207,9 +205,9 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 
         Model = glm::mat4(1.0f);
         Model = glm::translate(Model,pos);
-        MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
-        glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(Model)));
+        glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
+        glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
         MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
         a.second->Render();
     }

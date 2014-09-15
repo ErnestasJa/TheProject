@@ -39,6 +39,7 @@ struct Texture: public GLObject
 
     void SetFilters(Texture::FILTER_MIN fmin, Texture::FILTER_MAG fmag);
     void SetClampMode(Texture::CLAMP x, Texture::CLAMP y);
+    void SetSubImage2D(const uint8_t * data,uint32_t xoffset,uint32_t yoffset,uint32_t width,uint32_t height);
     void SetBorderColor(const glm::vec4 & color);
     void InitMipmap(uint32_t base, uint32_t max);
     void InitMipmap();

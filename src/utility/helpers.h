@@ -118,12 +118,42 @@ inline float coslerp(float y1,float y2,float mu)
 
 #include <assert.h>
 ///TO IMPLEMENT!
+inline const char* getErr(uint32_t err)
+{
+    switch(err)
+    {
+    case GL_INVALID_ENUM:
+        return "GL_INVALID_ENUM";
+        break;
+    case GL_INVALID_VALUE:
+        return "GL_INVALID_VALUE";
+        break;
+    case GL_INVALID_OPERATION:
+        return "GL_INVALID_OPERATION";
+        break;
+    case GL_STACK_OVERFLOW:
+        return "GL_STACK_OVERFLOW";
+        break;
+    case GL_STACK_UNDERFLOW:
+        return "GL_STACK_UNDERFLOW";
+        break;
+    case GL_OUT_OF_MEMORY:
+        return "GL_OUT_OF_MEMORY";
+        break;
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+        return "GL_INVALID_FRAMEBUFFER_OPERATION";
+        break;
+    default:
+        return "UNKNOWN_ERROR";
+        break;
+    }
+}
 inline void CheckOpenGLError(const char* stmt, const char* fname, int line)
 {
     GLenum err = glGetError();
     if (err != GL_NO_ERROR)
     {
-        printf("OpenGL error %08x, at %s:%i - for %s\n", err, fname, line, stmt);
+        printf("OpenGL error %s:\n%s:%i\n%s\n", getErr(err), fname, line, stmt);
         abort();
     }
 }

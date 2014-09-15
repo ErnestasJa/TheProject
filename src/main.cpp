@@ -50,7 +50,7 @@ int main(int argc, const char ** argv)
     {
         appLauncher.RunApplication(nr-1,argc,argv);
 
-        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,720))
+        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,768))
         {
             while(appLauncher.GetCurrentApplication()->Update());
 

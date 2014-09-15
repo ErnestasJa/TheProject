@@ -27,6 +27,8 @@ void Texture::Init(std::shared_ptr<image> img)
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+
     /// either use Texture with or without alpha channel
     switch(img->num_channels)
     {
@@ -68,6 +70,8 @@ void Texture::Init(const uint8_t * data, uint32_t target, uint32_t image_format,
     glTexParameteri(Type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(Type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+
     /// either use Texture with or without alpha channel
     switch(image_format)
     {
@@ -92,7 +96,7 @@ void Texture::Init(const uint8_t * data, uint32_t target, uint32_t image_format,
 
     uint32_t data_type = GL_UNSIGNED_BYTE;
 
-    if(internal_format==GL_RGBA32F)
+    if(internal_format==GL_RGBA32F||internal_format==GL_DEPTH_COMPONENT)
         data_type = GL_FLOAT;
 
     glTexImage2D(Type,0,internal_format,w,h,0,image_format, data_type,data);
@@ -179,6 +183,14 @@ void Texture::Set(uint8_t slot)
 
     active_slot = slot;
     current = Id;
+}
+
+void Texture::SetSubImage2D(const uint8_t * data,uint32_t xoffset,uint32_t yoffset,uint32_t width,uint32_t height)
+{
+    glActiveTexture(GL_TEXTURE0+active_slot);
+    glBindTexture(Type,Id);
+
+    glTexSubImage2D(Type,0,xoffset,yoffset,width,height,GL_RGB,GL_UNSIGNED_BYTE,data);
 }
 
 void Texture::Unset(uint8_t slot)
