@@ -1,6 +1,7 @@
 import fnmatch
 import os, shutil, subprocess
 import subprocess
+from tools import easygui
 
 def get_libs_from_dir( dir ):
     match = []
@@ -23,6 +24,11 @@ else:
 
 libpath = os.path.join("libs", platform);
 fullLibPath = os.path.join(os.getcwd(), libpath)
+
+#warn if no boost
+boostpath = os.path.join(os.getcwd(), "libs/boost")
+if (os.path.isdir(boostpath) == False) or (len(os.listdir(boostpath)) == 0):
+    easygui.msgbox("You do not have boost sources inside libs folder.\nClose this message box to continue.", title="Boost missing!")
 
 #COMPILE
 if os.path.isdir("build") == False:

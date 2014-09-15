@@ -12,3 +12,4 @@ build
 libs/boost/
 libs/win32/
 libs/linux/
+__pycache__/
