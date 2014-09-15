@@ -72,12 +72,12 @@ public:
     void SetBlock(const glm::vec3 &pos,EBlockType type,bool active);
     const Block &GetBlock(const glm::vec3 &pos);
 
-    ChunkPtr GetChunk(const glm::vec3 &pos);
-    ChunkPtr GetChunkWorld(const glm::vec3 &pos);
-    void SetChunkNeighbours(ChunkPtr chunk,const glm::vec3 &pos);
+    const ChunkPtr &GetChunk(const glm::vec3 &pos);
+    const ChunkPtr &GetChunkWorld(const glm::vec3 &pos);
+    void SetChunkNeighbours(const ChunkPtr &chunk,const glm::vec3 &pos);
 
-    ChunkPtr AddChunk(const glm::vec3 &pos);
-    ChunkPtr AddChunkWorld(const glm::vec3 &pos);
+    const ChunkPtr & AddChunk(const glm::vec3 &pos);
+    const ChunkPtr & AddChunkWorld(const glm::vec3 &pos);
 
     void Render(Camera *cam,ShaderPtr vsh);
 
@@ -89,6 +89,7 @@ public:
 protected:
 private:
     ChunkMap m_chunks;
+    ChunkPtr NullChunk;
 };
 
 #endif // CHUNKMANAGER_H

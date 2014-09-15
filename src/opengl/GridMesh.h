@@ -9,12 +9,12 @@
 class GridMesh:public Mesh
 {
 public:
-    GridMesh(float density,int size=256,int gridlines=16,bool drawSections=false)
+    GridMesh(float density,uint32_t size=256,uint32_t gridlines=16,bool drawSections=false)
     {
         BufferObject<glm::vec3> *pos=new BufferObject<glm::vec3>();
         BufferObject<glm::vec4> *col=new BufferObject<glm::vec4>();
 
-        int halfsize=size/2;
+        uint32_t halfsize=size/2;
 
         /// XAxis
         pos->data.push_back(glm::vec3(-halfsize,0,0));

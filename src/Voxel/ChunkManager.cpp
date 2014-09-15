@@ -11,8 +11,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=512;
-    int testheight=32;
+    int testsize=256;
+    int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -39,6 +39,12 @@ ChunkManager::ChunkManager()
                 }
                 else if(y>h)
                 {
+                    if(y<60)
+                    {
+                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+                        continue;
+                    }
+                    else
                     if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
                     {
                         // Trunk
@@ -77,7 +83,7 @@ ChunkManager::ChunkManager()
 
 ChunkManager::~ChunkManager()
 {
-    //dtor
+    m_chunks.clear();
 }
 
 static const char* v3str(const glm::vec3 & vec)
@@ -124,7 +130,7 @@ void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
     }
 }
 
-void ChunkManager::SetChunkNeighbours(ChunkPtr chunk,const glm::vec3 &pos)
+void ChunkManager::SetChunkNeighbours(const ChunkPtr &chunk,const glm::vec3 &pos)
 {
     glm::vec3 posXNeg(pos.x-1,pos.y,pos.z),posXPos(pos.x+1,pos.y,pos.z),posYNeg(pos.x,pos.y-1,pos.z),posYPos(pos.x,pos.y+1,pos.z),posZNeg(pos.x,pos.y,pos.z-1),posZPos(pos.x,pos.y,pos.z+1);
 
@@ -139,7 +145,7 @@ void ChunkManager::SetChunkNeighbours(ChunkPtr chunk,const glm::vec3 &pos)
 }
 
 //! pos: in CHUNK coordinates
-ChunkPtr ChunkManager::AddChunk(const glm::vec3 &pos)
+const ChunkPtr & ChunkManager::AddChunk(const glm::vec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
     {
@@ -154,7 +160,7 @@ ChunkPtr ChunkManager::AddChunk(const glm::vec3 &pos)
 }
 
 //! pos: in WORLD coordinates
-ChunkPtr ChunkManager::AddChunkWorld(const glm::vec3 &pos)
+const ChunkPtr & ChunkManager::AddChunkWorld(const glm::vec3 &pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
@@ -169,22 +175,22 @@ ChunkPtr ChunkManager::AddChunkWorld(const glm::vec3 &pos)
 }
 
 //! pos: in CHUNK coordinates
-ChunkPtr ChunkManager::GetChunk(const glm::vec3 &pos)
+const ChunkPtr & ChunkManager::GetChunk(const glm::vec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
         return m_chunks[pos];
     else
-        return nullptr;
+        return NullChunk;
 }
 
 //! pos: in WORLD coordinates
-ChunkPtr ChunkManager::GetChunkWorld(const glm::vec3 &pos)
+const ChunkPtr & ChunkManager::GetChunkWorld(const glm::vec3 &pos)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
         return m_chunks[chunkCoords];
     else
-        return nullptr;
+        return NullChunk;
 }
 
 const Block &ChunkManager::GetBlock(const glm::vec3 &pos)

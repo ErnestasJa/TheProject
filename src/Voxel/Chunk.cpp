@@ -6,6 +6,7 @@
 
 #include "opengl/Mesh.h"
 #include "resources/ResourceCache.h"
+#include <boost/foreach.hpp>
 
 static u8vec4 getTypeCol(uint32_t typ)
 {
@@ -33,6 +34,9 @@ static u8vec4 getTypeCol(uint32_t typ)
         break;
     case EBT_WOOD:
         ret=u8vec4(128+nois,128+nois,0+nois,255);
+        break;
+    case EBT_WATER:
+        ret=u8vec4(0+nois,0+nois,128+nois,128);
         break;
     default:
         ret=u8vec4(255-nois,255-nois,255-nois,255);
@@ -85,26 +89,64 @@ void Chunk::Rebuild()
                 AddBit(flags,EBS_FRONT);
                 AddBit(flags,EBS_BACK);
 
-                if(x>0&&m_pBlocks[x-1][y][z].IsActive()) RemoveBit(flags,EBS_LEFT);
-                else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive()) RemoveBit(flags,EBS_LEFT);
+                if(x>0&&m_pBlocks[x-1][y][z].IsActive())
+                {
+                    RemoveBit(flags,EBS_LEFT);
+                }
+                else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive())
+                {
+                    RemoveBit(flags,EBS_LEFT);
+                }
 
-                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive()) RemoveBit(flags,EBS_RIGHT);
-                else if(x==(CHUNK_SIZE-1)&&rightN!=nullptr&&rightN->Get(0,y,z).IsActive()) RemoveBit(flags,EBS_RIGHT);
+                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive())
+                {
+                    RemoveBit(flags,EBS_RIGHT);
+                }
+                else if(x==(CHUNK_SIZE-1)&&rightN!=nullptr&&rightN->Get(0,y,z).IsActive())
+                {
+                    RemoveBit(flags,EBS_RIGHT);
+                }
 
-                if(y>0&&m_pBlocks[x][y-1][z].IsActive()) RemoveBit(flags,EBS_BOTTOM);
-                else if(y==0&&botN!=nullptr&&botN->Get(x,15,z).IsActive()) RemoveBit(flags,EBS_BOTTOM);
+                if(y>0&&m_pBlocks[x][y-1][z].IsActive())
+                {
+                    RemoveBit(flags,EBS_BOTTOM);
+                }
+                else if(y==0&&botN!=nullptr&&botN->Get(x,15,z).IsActive())
+                {
+                    RemoveBit(flags,EBS_BOTTOM);
+                }
 
-                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive()) RemoveBit(flags,EBS_TOP);
-                else if(y==CHUNK_SIZE-1&&topN!=nullptr&&topN->Get(x,0,z).IsActive()) RemoveBit(flags,EBS_TOP);
+                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive())
+                {
+                    RemoveBit(flags,EBS_TOP);
+                }
+                else if(y==CHUNK_SIZE-1&&topN!=nullptr&&topN->Get(x,0,z).IsActive())
+                {
+                    RemoveBit(flags,EBS_TOP);
+                }
 
-                if(z>0&&m_pBlocks[x][y][z-1].IsActive()) RemoveBit(flags,EBS_BACK);
-                else if(z==0&&backN!=nullptr&&backN->Get(x,y,15).IsActive()) RemoveBit(flags,EBS_BACK);
+                if(z>0&&m_pBlocks[x][y][z-1].IsActive())
+                {
+                    RemoveBit(flags,EBS_BACK);
+                }
+                else if(z==0&&backN!=nullptr&&backN->Get(x,y,15).IsActive())
+                {
+                    RemoveBit(flags,EBS_BACK);
+                }
 
-                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive()) RemoveBit(flags,EBS_FRONT);
-                else if(z==(CHUNK_SIZE-1)&&frontN!=nullptr&&frontN->Get(x,y,0).IsActive()) RemoveBit(flags,EBS_FRONT);
+                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive())
+                {
+                    RemoveBit(flags,EBS_FRONT);
+                }
+                else if(z==(CHUNK_SIZE-1)&&frontN!=nullptr&&frontN->Get(x,y,0).IsActive())
+                {
+                    RemoveBit(flags,EBS_FRONT);
+                }
 
                 if(flags!=0) // Only a visible voxel should be added
+                {
                     CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
+                }
             }
         }
     }

@@ -64,20 +64,22 @@ bool InitPostProc(AppContext* ctx)
     image_loader* loader=new image_loader(ctx->_logger);
     std::shared_ptr<image> img=std::shared_ptr<image>(loader->load("res/SSAO_noise.png"));
     SSAONormal->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768);
-    int sx=1280/64;
-    int sy=768/64;
+    uint32_t sx=1280/64;
+    uint32_t sy=768/64;
 
     loop(x,sx)
         loop(y,sy)
             SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
 
+    #ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,384,320,192),GBposition);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
+    #endif
 
     GBuffer=new FrameBufferObject();
     GBuffer->Init();
@@ -162,7 +164,10 @@ void InitPlaneMesh(AppContext * ctx)
     grid=new GridMesh(1.f,1024,16);
     Timer timer;
 
+    ctx->_timer->tick();
     chkmgr=new ChunkManager();
+    ctx->_timer->tick();
+    printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
 }
 
 bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -179,15 +184,9 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
 
-    _appContext->_timer->tick();
-
-    InitPlaneMesh(_appContext);
+    InitPlaneMesh(_appContext);;
     if(!InitPostProc(_appContext))
         return false;
-
-    _appContext->_timer->tick();
-
-    printf("Building took: %d ms\n",_appContext->_timer->get_delta_time());
     return true;
 }
 
@@ -280,6 +279,7 @@ bool VoxelzApp::Update()
 
 void VoxelzApp::Exit()
 {
+    delete chkmgr;
     Application::Exit();
 }
 
