@@ -1,13 +1,12 @@
 #version 330
-
-// THE FOOD CHAIN GOES LIKE DIS
+// THE FOOD CHAIN GOES LIKE THIS
 // Vert
 // Geom
 // Frag
 
-in vec4 position;  // position of the vertex (and fragment) in world space
-in vec3 normal; // normal of the vertex in world space
-in vec4 color; // color of the vertex
+in vec4 position;
+in vec3 normal;
+in vec4 color;
 
 layout (location = 0) out vec3 Gdiffuse;
 layout (location = 1) out vec3 Gnormal;

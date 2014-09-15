@@ -238,11 +238,11 @@ bool VoxelzApp::Update()
         gbsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        if(vsh->getparam("v_inv")!=-1)
-            MVar<glm::mat4>(vsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
-        MVar<glm::mat4>(vsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-        MVar<glm::mat4>(vsh->getparam("V"), "V", cam->GetViewMat()).Set();
-        chkmgr->Render(cam.get(),vsh);
+        if(gbsh->getparam("v_inv")!=-1)
+            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
+        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
+        chkmgr->Render(cam.get(),gbsh);
 
         if(wireframe==true)
         {

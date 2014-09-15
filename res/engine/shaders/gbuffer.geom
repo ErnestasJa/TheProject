@@ -1,6 +1,5 @@
 #version 330
-
-// THE FOOD CHAIN GOES LIKE DIS
+// THE FOOD CHAIN GOES LIKE THIS
 // Vert
 // Geom
 // Frag
@@ -12,7 +11,6 @@ uniform mat3 normMatrix;
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
-uniform mat4 v_inv;
 
  
 in vData
@@ -27,21 +25,20 @@ out vec4 position;
 
 void main()
 {
-	mat4 MVP=P*V*M;
 	vec3 calcNorm=normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
 	normal = calcNorm;
 	color = vertex[0].color;
-	position = v_inv*M*gl_in[0].gl_Position;
+	position = M*vertex[0].pos;
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[1].color;
-	position = v_inv*M*gl_in[1].gl_Position;
+	position = M*vertex[1].pos;
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[2].color;
-	position = v_inv*M*gl_in[2].gl_Position;
+	position = M*vertex[2].pos;
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
     EndPrimitive();
