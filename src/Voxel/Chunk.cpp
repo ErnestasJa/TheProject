@@ -10,39 +10,37 @@
 
 static u8vec4 getTypeCol(uint32_t typ)
 {
-    u8vec4 ret;
-    int nois=rand()%8;
+    uint32_t nois=rand()%8;
     switch(typ)
     {
     case EBT_VOIDROCK:
-        ret=u8vec4(0+nois,0+nois,0+nois,255);
+        return u8vec4(0+nois,0+nois,0+nois,255);
         break;
     case EBT_STONE:
-        ret=u8vec4(128+nois,128+nois,128+nois,255);
+        return u8vec4(128+nois,128+nois,128+nois,255);
         break;
     case EBT_SAND:
-        ret=u8vec4(192+nois,192+nois,64+nois,255);
+        return u8vec4(192+nois,192+nois,64+nois,255);
         break;
     case EBT_DIRT:
-        ret=u8vec4(64+nois,64+nois,0+nois,255);
+        return u8vec4(64+nois,64+nois,0+nois,255);
         break;
     case EBT_GRASS:
-        ret=u8vec4(0+nois,128+nois,0+nois,255);
+        return u8vec4(0+nois,128+nois,0+nois,255);
         break;
     case EBT_LEAF:
-        ret=u8vec4(0+nois,192+nois,0+nois,255);
+        return u8vec4(0+nois,192+nois,0+nois,255);
         break;
     case EBT_WOOD:
-        ret=u8vec4(128+nois,128+nois,0+nois,255);
+        return u8vec4(128+nois,128+nois,0+nois,255);
         break;
     case EBT_WATER:
-        ret=u8vec4(0+nois,0+nois,128+nois,128);
+        return u8vec4(0+nois,0+nois,128+nois,128);
         break;
     default:
-        ret=u8vec4(255-nois,255-nois,255-nois,255);
+        return u8vec4(255-nois,255-nois,255-nois,255);
         break;
     }
-    return ret;
 }
 
 Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
