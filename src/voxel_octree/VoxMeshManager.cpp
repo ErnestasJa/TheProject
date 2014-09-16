@@ -3,14 +3,25 @@
 #include "Morton.h"
 #include "stdlib.h"
 
-VoxMeshManager::VoxMeshManager(MortonOctTree<10> * octree)
+VoxMeshManager::VoxMeshManager(MortonOctTree<10> * octree, uint32_t level)
 {
     m_octree = octree;
+    m_level = level;
 }
 
 VoxMeshManager::~VoxMeshManager()
 {
     //dtor
+}
+
+Map & VoxMeshManager::GetMeshes()
+{
+    return m_map;
+}
+
+void VoxMeshManager::GenAllChunks()
+{
+
 }
 
 void VoxMeshManager::GenMesh(MeshPtr mesh)
@@ -47,7 +58,6 @@ void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt)
 
     uint32_t si = vbo->data.size();
 
-    ///vertices
     //vbo->data.reserve(vbo->data.size()+8);
     vbo->data.push_back(glm::vec3(x,  y,  z));
     vbo->data.push_back(glm::vec3(x+1,y,  z));

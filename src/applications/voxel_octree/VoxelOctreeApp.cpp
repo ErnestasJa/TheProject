@@ -32,9 +32,9 @@ void VoxelOctreeApp::InitPlaneMesh()
     octreeGen = new VoxMeshManager(octree);
 
 
-    for(uint32_t i = 0; i < 32; i++)
-        for(uint32_t j = 0; j < 32; j++)
-            for(uint32_t k = 0; k < 32; k++)
+    for(uint32_t i = 0; i < 128; i++)
+        for(uint32_t j = 0; j < 128; j++)
+            for(uint32_t k = 0; k < 128; k++)
                 octree->AddOrphanNode(MNode(k,j,i));
 
     /*
@@ -132,6 +132,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         case GLFW_MOUSE_BUTTON_LEFT:
         {
             MNode n;
+            n.size = 1;
             if(octree->Collide(n,position,lookat))
             {
                 uint32_t x,y,z;
@@ -139,6 +140,9 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
                 auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), n);
+                decodeMK(it->start,x,y,z);
+                this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
+
                 if(it!=octree->GetChildNodes().end())
                 {
                     octree->GetChildNodes().erase(it);

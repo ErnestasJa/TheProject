@@ -41,11 +41,11 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
     uint32_t time, addTime, sortTime, rebuildTime, generationTime;
 
     START(addTime);
+        octree->GetChildNodes().reserve(128*128*128);
         loop(i,128)
             loop(j,128)
                 loop(k,128)
                     octree->AddOrphanNode(MNode(k,j,i));
-
     END(addTime);
 
     START(sortTime);

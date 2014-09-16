@@ -41,9 +41,10 @@ enum VoxelSide
 };
 
 static const uint8_t MAX_DEPTH_LEVEL = 10;
-static const uint32_t DEPTH_HALF_TABLE[]= {0,1,2,4,8,16,32,64,128,256,512,2048,4096,8192,16384,32768};   ///HALF NODE COUNT AT LEVEL X
-static const uint32_t DEPTH_TABLE[]=     {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536}; ///NODE COUNT AT LEVEL X
-static const uint32_t POSITION_MASK[]=   {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
+static const uint32_t DEPTH_HALF_TABLE[]= {0,1,2,4,8,16,32,64,128,256,512,1024};    ///HALF NODE COUNT AT LEVEL X
+static const uint32_t SIZE_TABLE[]=       {1,2,4,8,16,32,64,128,256,512};      ///NODE SIZE AT LEVEL X
+static const uint32_t DEPTH_TABLE[]=      {2,4,8,16,32,64,128,256,512,1024};        ///NODE COUNT AT LEVEL X
+static const uint32_t POSITION_MASK[]= {0xfffffe00,0xffffff00,0xffffff80,0xffffffc0,0xffffffe0,0xfffffff0,0xfffffff8,0xfffffffc,0xfffffffe,0xffffffff}; /// Don't question the hax
 
 struct MNode
 {
@@ -157,7 +158,7 @@ public:
 
             MNode parent(x,y,z,Depth-i);
 
-            auto found = boost::range::lower_bound(m_nodes[i], MNode(x,y,z,Depth-i));
+            auto found = boost::range::lower_bound(m_nodes[i], MNode(parent.start,Depth-i));
 
             if( found ==m_nodes[i].end() || (*found).start != parent.start)
                 m_nodes[i].insert(found, boost::move(parent));
@@ -228,9 +229,7 @@ public:
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
 
-
     friend class VoxMeshManager;
-
 private:
     vector<MNode> m_nodes[Depth];
 };
@@ -273,10 +272,12 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
     float nearestDistance = INFINITY;
     float distance;
 
+    printf("==== COLLISION BEGIN =====\n");
+
     for(int i = 0; i < Depth; i++)
     {
         bool collided=false;
-        uint32_t size = DEPTH_TABLE[(Depth-1)-i];
+        uint32_t size = SIZE_TABLE[(Depth-1)-i];
 
         for(MNode & n : m_nodes[i])
         {
@@ -285,8 +286,10 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
             glm::vec3   vox_start(x,y,z),
                 vox_end(x+size,y+size,z+size);
 
+
             if(CheckCollision(vox_start,vox_end,rayStart,rayDirection))
             {
+                //printf("(%.2u)[%u, %u, %u]->[%u, %u, %u]\n",i,x,y,z,x+size,y+size,z+size);
                 collided = true;
                 if(i==Depth-1)
                 {
@@ -304,6 +307,8 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
         if(collided == false)
             return false;
     }
+
+    printf("==== COLLISION END =====\n");
 
     return true;
 }
