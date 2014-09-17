@@ -1,6 +1,13 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
+enum INTERSECT_RESULT
+{
+    IR_OUTSIDE,
+    IR_INSIDE,
+    IR_INTERSECT
+};
+
 struct AppContext;
 
 class Camera
@@ -28,11 +35,38 @@ public:
 	virtual glm::mat4x4 GetViewMat();
 	virtual glm::mat4x4 GetViewProjMat();
 	void Orbit(glm::vec3 point,float distance,float angleX,float angleY);
+
+	INTERSECT_RESULT PointInFrustum(const glm::vec3 &point)
+	{
+        INTERSECT_RESULT res=IR_INSIDE;
+        loop(i,6)
+        {
+            if(frustumPlanes[i].distance(p) < 0)
+                return IR_OUTSIDE;
+        }
+        return res;
+	}
+
+	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
+	{
+
+	}
+
+	INTERSECT_RESULT BoxInFrustum(const AABB &box)
+	{
+
+	}
 private:
+    void InitFrustum();
     void HandleMouse();
 protected:
     float m_fov, m_aspect_ratio, m_far, m_near;
 	static glm::vec3 UP;
+    //frustrum
+    Plane3d planes[6];
+	glm::vec3 ntl,ntr,nbl,nbr,ftl,ftr,fbl,fbr;
+    float nw,nh,fw,fh;
+	//frustrum
 	glm::vec3 m_pos;
 	glm::vec3 m_look;
 	glm::vec3 m_up;
