@@ -2,6 +2,7 @@
 #define	MORTONOCTTREE_H
 
 #include "Morton.h"
+#include "utility/helpers.h"
 
 #include <assert.h>
 #include <stdint.h>
@@ -42,9 +43,10 @@ enum VoxelSide
 
 static const uint8_t MAX_DEPTH_LEVEL = 10;
 static const uint32_t DEPTH_HALF_TABLE[]= {0,1,2,4,8,16,32,64,128,256,512,1024};    ///HALF NODE COUNT AT LEVEL X
-static const uint32_t SIZE_TABLE[]=       {1,2,4,8,16,32,64,128,256,512};      ///NODE SIZE AT LEVEL X
+static const uint32_t SIZE_TABLE[]=       {1024,512,256,128,64,32,16,8,4,2,1};      ///NODE SIZE AT LEVEL X
 static const uint32_t DEPTH_TABLE[]=      {2,4,8,16,32,64,128,256,512,1024};        ///NODE COUNT AT LEVEL X
 static const uint32_t POSITION_MASK[]= {0xfffffe00,0xffffff00,0xffffff80,0xffffffc0,0xffffffe0,0xfffffff0,0xfffffff8,0xfffffffc,0xfffffffe,0xffffffff}; /// Don't question the hax
+static const uint32_t CHUNK_MASK= ~0x7FFF;
 
 struct MNode
 {
@@ -105,66 +107,49 @@ static inline bool myfunction (const MNode & i,const MNode & j)
     return (i.start<j.start);
 }
 
+struct CollisionInfo
+{
+    CollisionInfo(glm::vec3 ray_start, glm::vec3 ray_direction)
+    {
+        nearestDistance = INFINITY;
+        rayStart = ray_start;
+        rayDirection = ray_direction;
+        helpers::invert(rayDirection);
+    }
+
+    MNode node;
+    float nearestDistance;
+    glm::vec3 rayStart, rayDirection;
+};
+
 template <int Depth>
 class MortonOctTree
 {
 public:
     void AddNode(MNode node)
     {
-        auto found = std::lower_bound(m_nodes[Depth-1].begin(), m_nodes[Depth-1].end(), node);
-
-        if( found ==m_nodes[Depth-1].end() || (*found).start != node.start)
-        {
-            m_nodes[Depth-1].insert(found,boost::move(node));
-            PopulateParents(node);
-        }
+        m_nodes.insert(boost::range::lower_bound(m_nodes, MNode(node.start)),boost::move(node));
     }
 
     void AddOrphanNode(MNode node)
     {
-        m_nodes[Depth-1].push_back(boost::move(node));
+        m_nodes.push_back(boost::move(node));
     }
 
     //sort and build tree, ...
     void RebuildTree()
     {
-        for(int i = 0; i < Depth-1; i++)
-            m_nodes[i].clear(), m_nodes[i].end();
 
-        for(const MNode & node : m_nodes[Depth-1])
-            PopulateParents(node);
     }
 
     bool IsSorted()
     {
-        boost::range::is_sorted(m_nodes[Depth-1], myfunction);
+        boost::range::is_sorted(m_nodes, myfunction);
     }
 
     void SortLeafNodes()
     {
-        boost::range::sort(m_nodes[Depth-1], myfunction);
-    }
-
-    void PopulateParents(const MNode & node)
-    {
-        uint32_t x,y,z;
-        decodeMK(node.start, x, y, z);
-
-        for( int i = Depth - 2; i > -1; i--)
-        {
-            x &= POSITION_MASK[i];
-            y &= POSITION_MASK[i];
-            z &= POSITION_MASK[i];
-
-            MNode parent(x,y,z,Depth-i);
-
-            auto found = boost::range::lower_bound(m_nodes[i], MNode(parent.start,Depth-i));
-
-            if( found ==m_nodes[i].end() || (*found).start != parent.start)
-                m_nodes[i].insert(found, boost::move(parent));
-            else
-                break;
-        }
+        boost::range::sort(m_nodes, myfunction);
     }
 
     inline bool CheckNodeFloat(float x, float y, float z)
@@ -178,7 +163,7 @@ public:
     inline bool CheckNode(uint32_t x, uint32_t y, uint32_t z)
     {
         MNode n(x,y,z,1);
-        return boost::range::binary_search(boost::make_iterator_range(GetChildNodes().begin(),GetChildNodes().end()),n,myfunction);
+        return boost::range::binary_search(boost::make_iterator_range(m_nodes.begin(),m_nodes.end()),n,myfunction);
     }
 
     uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt)
@@ -189,8 +174,8 @@ public:
         static MNode n;
         n.size = 1;
 
-        auto urange = boost::make_iterator_range(nodeIt,GetChildNodes().end());
-        auto lrange = boost::make_iterator_range(GetChildNodes().begin(),nodeIt);
+        auto urange = boost::make_iterator_range(nodeIt,m_nodes.end());
+        auto lrange = boost::make_iterator_range(m_nodes.begin(),nodeIt);
 
         n.start = encodeMK(x,y+1,z);
         if (boost::range::binary_search(urange,n,myfunction))
@@ -221,21 +206,21 @@ public:
 
     vector<MNode> & GetChildNodes()
     {
-        return m_nodes[Depth-1];
+        return m_nodes;
     }
 
-    bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, glm::vec3 rayStart,  glm::vec3 rayDirectionInverse);
-    bool Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 rayDirection);
+    bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse);
+    void Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart);
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
 
     friend class VoxMeshManager;
 private:
-    vector<MNode> m_nodes[Depth];
+    vector<MNode> m_nodes;
 };
 
 template <int Depth>
-bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, glm::vec3 rayStart,  glm::vec3 rayDirectionInverse)
+bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse)
 {
     double tx1 = (bmin.x - rayStart.x)*rayDirectionInverse.x;
     double tx2 = (bmax.x - rayStart.x)*rayDirectionInverse.x;
@@ -258,38 +243,61 @@ bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec
     return tmax >= tmin;
 }
 
-
 template <int Depth>
-bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 rayDirection)
+void MortonOctTree<Depth>::Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart)
 {
-    if(rayDirection.x)
-        rayDirection.x = 1.0f / rayDirection.x;
-    if(rayDirection.y)
-        rayDirection.y = 1.0f / rayDirection.y;
-    if(rayDirection.z)
-        rayDirection.z = 1.0f / rayDirection.z;
+    glm::vec3 s(octStart.x,octStart.y,octStart.z);
+    if(CheckCollision(s,s+glm::vec3(SIZE_TABLE[depthLevel]),colInfo.rayStart,colInfo.rayDirection))
+    {
+        if( depthLevel == Depth )
+        {
+            const float dist = glm::distance2(colInfo.rayStart,s);
+            if(dist < colInfo.nearestDistance && CheckNode(octStart.x,octStart.y,octStart.z))
+            {
+                colInfo.nearestDistance = dist;
+                colInfo.node.start = encodeMK(octStart.x,octStart.y,octStart.z);
+                colInfo.node.size = 1;
+            }
+            return;
+        }
+
+        depthLevel+=1;
+        const uint32_t size = SIZE_TABLE[depthLevel];
+        Collide(colInfo,depthLevel,octStart);
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(size,0,0));
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(size,0,size));
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(0,0,size));
+
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(0,size,0));
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(size,size,0));
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(size,size,size));
+        Collide(colInfo,depthLevel,octStart+glm::ivec3(0,size,size));
+    }
+
+    return;
+}
+
+/**
+template <int Depth>
+bool MortonOctTree<Depth>::Collide(MNode & node, uint32_t size, const glm::vec3 & octStart, const glm::vec3 & rayStart, const glm::vec3 & rayDirection)
+{
 
     float nearestDistance = INFINITY;
     float distance;
-
-    printf("==== COLLISION BEGIN =====\n");
 
     for(int i = 0; i < Depth; i++)
     {
         bool collided=false;
         uint32_t size = SIZE_TABLE[(Depth-1)-i];
 
-        for(MNode & n : m_nodes[i])
+        for(MNode & n : m_nodes)
         {
             uint32_t x,y,z;
             decodeMK(n.start,x,y,z);
-            glm::vec3   vox_start(x,y,z),
-                vox_end(x+size,y+size,z+size);
-
+            glm::vec3 vox_start(x,y,z), vox_end(x+size,y+size,z+size);
 
             if(CheckCollision(vox_start,vox_end,rayStart,rayDirection))
             {
-                //printf("(%.2u)[%u, %u, %u]->[%u, %u, %u]\n",i,x,y,z,x+size,y+size,z+size);
                 collided = true;
                 if(i==Depth-1)
                 {
@@ -308,11 +316,10 @@ bool MortonOctTree<Depth>::Collide(MNode & node, glm::vec3 rayStart,  glm::vec3 
             return false;
     }
 
-    printf("==== COLLISION END =====\n");
-
     return true;
 }
-#include "utility/helpers.h"
+**/
+
 static bool IsRayIntersectingTriangle(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 normal, glm::vec3 rayStart,  glm::vec3 rayDirection)
 {
     if(glm::dot(normal, rayDirection)>0.0f)

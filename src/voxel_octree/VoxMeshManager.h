@@ -15,13 +15,17 @@ private:
     MortonOctTree<10> * m_octree;
     Map m_map;
     uint32_t m_level;
+
+    MeshPtr CreateEmptyMesh();
+    void ClearMesh(Mesh* mesh);
 public:
     VoxMeshManager(MortonOctTree<10> * octree, uint32_t level = 5);
     virtual ~VoxMeshManager();
 
     Map & GetMeshes();
+    void RebuildChunk(uint32_t chunk);
+    void RenderAllMeshes();
     void GenAllChunks();
-    void GenMesh(MeshPtr mesh);
     void AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt);
 };
 
