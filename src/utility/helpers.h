@@ -4,6 +4,7 @@ namespace helpers
 {
 #define loop(var,count) for(uint32_t (var) = 0; (var) < (count); (var)++)
 #define loopi(count) for(uint32_t i = 0; i < (count); i++)
+#define ROUNDING_ERROR 0.00001f
 
 template <typename T> inline std::string to_str(const T& t)
 {
@@ -64,7 +65,15 @@ inline const glm::vec4 color255(uint8_t r=255,uint8_t g=255,uint8_t b=255,uint8_
     return glm::vec4((float)r/255,(float)g/255,(float)b/255,(float)a/255);
 }
 
-#define ROUNDING_ERROR 0.00001f
+inline void invert(glm::vec3 & vec)
+{
+    if(vec.x)
+        vec.x = 1.0f / vec.x;
+    if(vec.y)
+        vec.y = 1.0f / vec.y;
+    if(vec.z)
+        vec.z = 1.0f / vec.z;
+}
 
 template <class T>
 bool equals(const T & v1, const T & v2);
@@ -114,7 +123,6 @@ inline float coslerp(float y1,float y2,float mu)
 }
 
 }
-
 
 #include <assert.h>
 ///TO IMPLEMENT!

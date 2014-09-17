@@ -47,7 +47,7 @@ void VoxelOctreeApp::InitPlaneMesh()
 
     octree->SortLeafNodes();
     octree->RebuildTree();
-    octreeGen->GenMesh(mesh);
+    octreeGen->GenAllChunks();
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -86,7 +86,7 @@ bool VoxelOctreeApp::Update()
 
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
-        mesh->Render();
+        octreeGen->RenderAllMeshes();
 
         _appContext->_window->SwapBuffers();
         return true;
@@ -131,36 +131,37 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         {
         case GLFW_MOUSE_BUTTON_LEFT:
         {
-            MNode n;
-            n.size = 1;
-            if(octree->Collide(n,position,lookat))
+            CollisionInfo info(position,lookat);
+            octree->Collide(info,0,glm::ivec3(0));
+
+            if(info.nearestDistance<INFINITY)
             {
                 uint32_t x,y,z;
-                decodeMK(n.start,x,y,z);
+                decodeMK(info.node.start,x,y,z);
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
-                auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), n);
+                auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), info.node);
                 decodeMK(it->start,x,y,z);
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
+                uint32_t mk = info.node.start & CHUNK_MASK;
                 if(it!=octree->GetChildNodes().end())
                 {
                     octree->GetChildNodes().erase(it);
-                    ///for now the erase means full rebuild
-                    octree->RebuildTree();
-                    octreeGen->GenMesh(mesh);
-                    Ctx()->_logger->log(LOG_WARN, "Full octree rebuild..");
+                    octreeGen->RebuildChunk(mk);
                 }
             }
             break;
         }
         case GLFW_MOUSE_BUTTON_RIGHT:
         {
-            MNode n;
-            if(octree->Collide(n,position,lookat))
+            CollisionInfo info(position,lookat);
+            octree->Collide(info,0,glm::ivec3(0));
+
+            if(info.nearestDistance<INFINITY)
             {
                 uint32_t x,y,z;
-                decodeMK(n.start,x,y,z);
+                decodeMK(info.node.start,x,y,z);
                 this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]",x,y,z);
 
                 /// add node
@@ -174,8 +175,9 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
                 y+=pos.y;
                 z+=pos.z;
 
-                octree->AddNode(MNode(x,y,z));
-                octreeGen->GenMesh(mesh);
+                uint32_t mk = encodeMK(x,y,z);
+                octree->AddNode(MNode(mk));
+                octreeGen->RebuildChunk(mk&CHUNK_MASK);
             }
             break;
         }

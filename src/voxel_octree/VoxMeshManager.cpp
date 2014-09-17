@@ -21,35 +21,43 @@ Map & VoxMeshManager::GetMeshes()
 
 void VoxMeshManager::GenAllChunks()
 {
+    uint32_t currentChunkMortonKey = ~0;
 
-}
+    MeshPtr mesh;
+    IndexBufferObject<uint32_t> * ibo;
+    BufferObject<glm::vec3> *vbo;
+    BufferObject<glm::vec3> *cbo;
 
-void VoxMeshManager::GenMesh(MeshPtr mesh)
-{
-    srand(12345);
-    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
-    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
-    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
-
-    ibo->data.clear();
-    vbo->data.clear();
-    cbo->data.clear();
-
-    for(auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
+    for( auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
     {
-        AddVoxelToMesh(mesh.get(),it);
+        MNode & node = (*it);
+
+        const uint32_t nodeChunk = node.start & CHUNK_MASK; /// get chunk (size 32x32x32)
+
+        if(nodeChunk!=currentChunkMortonKey)
+        {
+            mesh = CreateEmptyMesh();
+            m_map[nodeChunk] = mesh;
+            currentChunkMortonKey = nodeChunk;
+            ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
+            vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
+            cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
+        }
+
+        AddVoxelToMesh( mesh.get(), it );
     }
 
-    mesh->UploadBuffers();
+    for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
+        it->second->UploadBuffers();
 }
 
 void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt)
 {
     MNode & node = (*nodeIt);
 
-    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
-    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
-    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
+    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) mesh->buffers[Mesh::INDICES];
+    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::POSITION];
+    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
 
     uint32_t x, y, z;
     decodeMK(node.start, x,y,z);
@@ -154,4 +162,74 @@ void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt)
         ibo->data.push_back(si+4);
         ibo->data.push_back(si+6);
     }
+}
+
+MeshPtr VoxMeshManager::CreateEmptyMesh()
+{
+    MeshPtr mesh = MeshPtr(new Mesh());
+
+    IndexBufferObject<uint32_t> * ibo = new IndexBufferObject<uint32_t>();
+    BufferObject<glm::vec3> *vbo = new BufferObject<glm::vec3>();
+    BufferObject<glm::vec3> *cbo = new BufferObject<glm::vec3>();
+
+    mesh->buffers[Mesh::POSITION] = vbo;
+    mesh->buffers[Mesh::INDICES] = ibo;
+    mesh->buffers[Mesh::COLOR] = cbo;
+    mesh->Init();
+
+    return mesh;
+}
+
+void VoxMeshManager::ClearMesh(Mesh * mesh)
+{
+    auto ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
+    auto vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
+    auto cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
+
+    ibo->data.clear();
+    vbo->data.clear();
+    cbo->data.clear();
+}
+
+void VoxMeshManager::RebuildChunk(uint32_t chunk)
+{
+    uint32_t x,y,z;
+    decodeMK(chunk,x,y,z);
+    printf("Rebuilding chunk [%u,%u,%u]\n", x, y, z);
+
+    auto it = boost::range::lower_bound(m_octree->GetChildNodes(), MNode(chunk));
+    const uint32_t fchunk = (it->start&CHUNK_MASK);
+
+    MapIterator mit;
+
+    if(fchunk==chunk) /// chunk exists
+        mit = m_map.find(chunk);
+    else
+    {
+        m_map.erase(fchunk);
+        return;
+    }
+
+    Mesh * mesh = mit->second.get();
+
+    ClearMesh(mesh);
+
+    for( ; it != m_octree->GetChildNodes().end(); it++ )
+    {
+        MNode & node = (*it);
+        const uint32_t nodeChunk = node.start & CHUNK_MASK; /// get chunk (size 32x32x32)
+
+        if(nodeChunk!=fchunk)
+            break;
+
+        AddVoxelToMesh( mesh, it );
+    }
+
+    mesh->UploadBuffers();
+}
+
+void VoxMeshManager::RenderAllMeshes()
+{
+    for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
+        it->second->Render();
 }

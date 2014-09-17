@@ -52,17 +52,12 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
         octree->SortLeafNodes();
     END(sortTime);
 
-    START(rebuildTime);
-        octree->RebuildTree();
-    END(rebuildTime);
-
     START(generationTime);
-        octreeGen->GenMesh(mesh);
+        octreeGen->GenAllChunks();
     END(generationTime);
 
     DEBUG_PRINT(addTime);
     DEBUG_PRINT(sortTime);
-    DEBUG_PRINT(rebuildTime);
     DEBUG_PRINT(generationTime);
 }
 

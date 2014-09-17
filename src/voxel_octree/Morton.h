@@ -1,9 +1,9 @@
 #ifndef MORTON_H_INCLUDED
 #define MORTON_H_INCLUDED
 
-#include <cstdint>
+
 #include <vector>
-#include <limits.h>
+#include <cstdint>
 
 #define MAXMORTONKEY 1073741824 //21 bits MAX morton key
 
