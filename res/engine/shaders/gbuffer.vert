@@ -19,9 +19,9 @@ out vData
 
 void main()
 {
-	vec4 _col=vec4(col.x/255,col.y/255,col.z/255,col.w/255);
+	vec4 _col=col/255.0;
 	mat4 MVP = P*V*M;
 	vertex.color=_col;
-	vertex.pos=vec4(pos,1.0);
+	vertex.pos=V*M*vec4(pos,1.0);
 	gl_Position = MVP * vec4(pos,1);
 }

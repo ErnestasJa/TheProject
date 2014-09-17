@@ -25,20 +25,20 @@ out vec4 position;
 
 void main()
 {
-	vec3 calcNorm=normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz));
+	vec3 calcNorm=normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz))*0.5+vec3(0.5);
 	normal = calcNorm;
 	color = vertex[0].color;
-	position = M*vertex[0].pos;
+	position = vertex[0].pos;
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[1].color;
-	position = M*vertex[1].pos;
+	position = vertex[1].pos;
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
 	normal = calcNorm;
 	color = vertex[2].color;
-	position = M*vertex[2].pos;
+	position = vertex[2].pos;
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
     EndPrimitive();
