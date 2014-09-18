@@ -1,5 +1,5 @@
 #include "Precomp.h"
-
+#include "Utility/helpers.h"
 #include "opengl/Shader.h"
 #include "opengl/OpenGLUtil.h"
 #include "gui/GUIEnvironment.h"
