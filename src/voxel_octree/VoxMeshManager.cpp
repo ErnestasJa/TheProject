@@ -66,9 +66,6 @@ void VoxMeshManager::GenAllChunks()
     uint32_t currentChunkMortonKey = ~0;
     int8_t sides;
     MeshPtr mesh;
-    IndexBufferObject<uint32_t> * ibo;
-    BufferObject<glm::vec3> *vbo;
-    BufferObject<glm::vec3> *cbo;
 
     for( auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
     {
@@ -80,10 +77,6 @@ void VoxMeshManager::GenAllChunks()
         {
             mesh = CreateEmptyMesh();
             m_map[nodeChunk] = mesh;
-            ibo = (IndexBufferObject<uint32_t> *)mesh->buffers[Mesh::INDICES];
-            vbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::POSITION];
-            cbo = (BufferObject<glm::vec3> *)mesh->buffers[Mesh::COLOR];
-
             currentChunkMortonKey = nodeChunk;
 
             loop(i,32)

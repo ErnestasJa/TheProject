@@ -125,7 +125,7 @@ public:
 
     bool IsSorted()
     {
-        boost::range::is_sorted(m_nodes, myfunction);
+        return boost::range::is_sorted(m_nodes, myfunction);
     }
 
     void SortLeafNodes()
@@ -149,7 +149,6 @@ public:
 
     uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt)
     {
-        MNode & node = (*nodeIt);
         uint8_t sides=ALL;
 
         static MNode n;

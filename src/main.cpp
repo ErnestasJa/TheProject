@@ -44,7 +44,7 @@ int main(int argc, const char ** argv)
     appLauncher.RegisterApplication("Voxel octree benchmark application", APP(VoxelOctreeBenchmarkApp));
 
     char choice = ShowAppMenu(appLauncher);
-    int nr =  choice - '0';
+    uint32_t nr =  choice - '0';
 
     while(choice != '\n' && nr > 0 && nr <= appLauncher.GetApplicationCount() )
     {
