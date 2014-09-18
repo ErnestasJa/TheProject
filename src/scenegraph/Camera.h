@@ -1,6 +1,20 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
+#include "utility/Plane3d.h"
+
+enum FRUSTUM_PLANES
+{
+    FP_TOP,
+    FP_BOTTOM,
+    FP_LEFT,
+    FP_RIGHT,
+    FP_NEAR,
+    FP_FAR,
+
+    FP_COUNT
+};
+
 enum INTERSECT_RESULT
 {
     IR_OUTSIDE,
@@ -41,21 +55,21 @@ public:
         INTERSECT_RESULT res=IR_INSIDE;
         loop(i,6)
         {
-            if(frustumPlanes[i].distance(p) < 0)
+            if(frustumPlanes[i].Distance(point) < 0)
                 return IR_OUTSIDE;
         }
         return res;
 	}
 
-	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
-	{
-
-	}
-
-	INTERSECT_RESULT BoxInFrustum(const AABB &box)
-	{
-
-	}
+//	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
+//	{
+//
+//	}
+//
+//	INTERSECT_RESULT BoxInFrustum(const AABB &box)
+//	{
+//
+//	}
 private:
     void InitFrustum();
     void HandleMouse();
@@ -63,7 +77,7 @@ protected:
     float m_fov, m_aspect_ratio, m_far, m_near;
 	static glm::vec3 UP;
     //frustrum
-    Plane3d planes[6];
+    Plane3d frustumPlanes[FP_COUNT];
 	glm::vec3 ntl,ntr,nbl,nbr,ftl,ftr,fbl,fbr;
     float nw,nh,fw,fh;
 	//frustrum

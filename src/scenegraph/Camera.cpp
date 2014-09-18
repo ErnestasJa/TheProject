@@ -22,11 +22,54 @@ Camera::Camera(AppContext* ctx, const glm::vec3 &pos,const glm::vec3 &target,con
 
     m_P = glm::perspective(field_of_view, aspect_ratio, near_z, far_z);
 
+    InitFrustum();
+
     ///this->update_absolute_transform();
 }
 
 Camera::~Camera()
 {
+}
+#define ANG2RAD 3.14159265358979323846/180.0
+void Camera::InitFrustum()
+{
+    float tang=(float)glm::tan(ANG2RAD*m_fov*0.5);
+    nh=m_near*tang;
+    nw=nh*m_aspect_ratio;
+    fh=m_far*tang;
+    fw=fh*m_aspect_ratio;
+
+    glm::vec3 Z=m_pos-m_look;
+    Z=glm::normalize(Z);
+
+    glm::vec3 X=m_up*Z;
+
+    glm::vec3 Y=Z*X;
+
+    glm::vec3 nc=m_pos-Z*m_near;
+    glm::vec3 fc=m_pos-Z*m_far;
+
+    // compute the 4 corners of the frustum on the near plane
+	ntl = nc + Y * nh - X * nw;
+	ntr = nc + Y * nh + X * nw;
+	nbl = nc - Y * nh - X * nw;
+	nbr = nc - Y * nh + X * nw;
+
+	// compute the 4 corners of the frustum on the far plane
+	ftl = fc + Y * fh - X * fw;
+	ftr = fc + Y * fh + X * fw;
+	fbl = fc - Y * fh - X * fw;
+	fbr = fc - Y * fh + X * fw;
+
+	// compute the six planes
+	// the function set3Points assumes that the points
+	// are given in counter clockwise order
+	pl[TOP].set3Points(ntr,ntl,ftl);
+	pl[BOTTOM].set3Points(nbl,nbr,fbr);
+	pl[LEFT].set3Points(ntl,nbl,fbl);
+	pl[RIGHT].set3Points(nbr,ntr,fbr);
+	pl[NEARP].set3Points(ntl,ntr,nbr);
+	pl[FARP].set3Points(ftr,ftl,fbl);
 }
 
 glm::mat4 & Camera::GetProjectionMat()
