@@ -1,7 +1,7 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
-#include "utility/Plane3d.h"
+#include "Utility/Plane3d.h"
 
 enum FRUSTUM_PLANES
 {
@@ -50,16 +50,12 @@ public:
 	virtual glm::mat4x4 GetViewProjMat();
 	void Orbit(glm::vec3 point,float distance,float angleX,float angleY);
 
-	INTERSECT_RESULT PointInFrustum(const glm::vec3 &point)
+	void DrawFrustum()
 	{
-        INTERSECT_RESULT res=IR_INSIDE;
-        loop(i,6)
-        {
-            if(frustumPlanes[i].Distance(point) < 0)
-                return IR_OUTSIDE;
-        }
-        return res;
+
 	}
+
+	INTERSECT_RESULT PointInFrustum(const glm::vec3 &point);
 
 //	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
 //	{
