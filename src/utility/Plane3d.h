@@ -37,6 +37,11 @@ public:
         points[3]=glm::cross(pB,pC);
     }
 
+    const glm::vec3 *GetPoints()
+    {
+        return points;
+    }
+
     float Distance(const glm::vec3 &p)
     {
         return glm::dot(n,p)+D;

@@ -72,6 +72,7 @@ bool InitPostProc(AppContext* ctx)
             SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
 
+    #define DEBUG_FBO
     #ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);

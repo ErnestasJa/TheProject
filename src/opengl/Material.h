@@ -16,7 +16,7 @@ struct Material
     void LoadAndBindVars();
 
     virtual ShaderPtr   GetShader();
-    virtual TexturePtr GetTexture(uint32_t index);
+    virtual TexturePtr  GetTexture(uint32_t index);
     virtual int32_t     GetInt(const std::string & name);
     virtual float       GetFloat(const std::string & name);
     virtual glm::vec3   GetVec3f(const std::string & name);
