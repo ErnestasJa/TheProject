@@ -2,11 +2,7 @@
 #define	MORTONOCTTREE_H
 
 #include "Morton.h"
-#include "utility/helpers.h"
 #include "utility/vector.h"
-
-#include <assert.h>
-#include <stdint.h>
 #include <boost/move/move.hpp>
 
 enum VoxelSide
