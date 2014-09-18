@@ -2,6 +2,7 @@
 #include "utility/Logger.h"
 #include "Camera.h"
 #include "application/AppContext.h"
+#include "OpenGL/AABB.h"
 
 Camera::Camera(AppContext* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z)
 {
@@ -79,6 +80,29 @@ INTERSECT_RESULT Camera::PointInFrustum(const glm::vec3 &point)
     return res;
 }
 
+INTERSECT_RESULT Camera::BoxInFrustum(const AABB &box)
+{
+    INTERSECT_RESULT res=IR_INSIDE;
+    bool in=false,out=false;
+    loop(i,6)
+    {
+        in=false;
+        out=false;
+        for(int j=0; j<8 && (in==false || out==false); j++)
+        {
+            if(frustumPlanes[i].Distance(box.GetPoint(j))<0)
+                out=true;
+            else
+                in=true;
+        }
+        if(!in)
+            return IR_OUTSIDE;
+        else if(out)
+            res = IR_INTERSECT;
+    }
+    return res;
+}
+
 glm::mat4 & Camera::GetProjectionMat()
 {
     return m_P;
@@ -126,6 +150,11 @@ void Camera::Update(float dt)
         _appContext->_window->set_mouse_pos(s/2);
         m_last_mouse_pos=_appContext->_window->GetMousePos();
         HandleMouse();
+
+        m_look  = glm::vec3(m_rot*glm::vec3(0,0,-1));
+        m_up    = glm::vec3(m_rot*glm::vec3(0,1,0));
+        m_right = glm::cross(m_look, m_up);
+
         InitFrustum();
     }
 }

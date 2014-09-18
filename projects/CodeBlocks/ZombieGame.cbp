@@ -308,6 +308,7 @@
 		<Unit filename="../../src/resources/TGALoader.h" />
 		<Unit filename="../../src/scenegraph/Camera.cpp" />
 		<Unit filename="../../src/scenegraph/Camera.h" />
+		<Unit filename="../../src/utility/Box3d.h" />
 		<Unit filename="../../src/utility/Logger.cpp" />
 		<Unit filename="../../src/utility/Plane3d.h" />
 		<Unit filename="../../src/utility/Rect2d.h" />

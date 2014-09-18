@@ -23,6 +23,7 @@ enum INTERSECT_RESULT
 };
 
 struct AppContext;
+class AABB;
 
 class Camera
 {
@@ -56,6 +57,7 @@ public:
 	}
 
 	INTERSECT_RESULT PointInFrustum(const glm::vec3 &point);
+	INTERSECT_RESULT BoxInFrustum(const AABB &box);
 
 //	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
 //	{
