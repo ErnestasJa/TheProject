@@ -60,7 +60,7 @@ public:
         return true;
     }
 
-    void SetUV(std::vector<glm::vec2> uvs)
+    void SetUV(vector<glm::vec2> uvs)
     {
         glBindBuffer(GL_ARRAY_BUFFER,glmesh->buffers[1]->Id);
         glBufferData(GL_ARRAY_BUFFER, 4*sizeof(uvs[0]), &uvs[0], GL_DYNAMIC_DRAW);

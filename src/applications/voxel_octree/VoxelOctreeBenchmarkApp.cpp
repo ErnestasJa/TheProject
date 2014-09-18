@@ -61,6 +61,10 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
     DEBUG_PRINT(generationTime);
 }
 
+#undef START
+#undef END
+#undef DEBUG_PRINT
+
 void VoxelOctreeBenchmarkApp::FreeOctree()
 {
     delete octree;

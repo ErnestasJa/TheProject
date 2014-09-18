@@ -52,8 +52,8 @@ private:
 
     void CreateInds()
     {
-
-        indices->data=std::vector<uint32_t>({1,3,0,1,2,3,5,2,1,5,6,2,4,6,5,4,7,6,2,14,3,2,15,14,6,15,2,6,10,15,7,10,6,7,11,10,15,12,14,15,13,12,10,13,15,10,9,13,11,9,10,11,8,9});
+        const static uint32_t ind_vec[]{1,3,0,1,2,3,5,2,1,5,6,2,4,6,5,4,7,6,2,14,3,2,15,14,6,15,2,6,10,15,7,10,6,7,11,10,15,12,14,15,13,12,10,13,15,10,9,13,11,9,10,11,8,9};
+        indices->data.insert(indices->data.begin(),ind_vec,ind_vec+54);
     }
 public:
     BufferObject<glm::vec3> *pos;
@@ -74,7 +74,7 @@ public:
         indices=new IndexBufferObject<uint32_t>();
     }
 
-    void CreateTCoords(std::vector<glm::vec2> uvs)
+    void CreateTCoords(vector<glm::vec2> uvs)
     {
 
         tex_coords->data.resize(16);
@@ -113,7 +113,7 @@ public:
     {
         glmesh = share(new Mesh());
         CreateVerts();
-        std::vector<glm::vec2> defuv;
+        vector<glm::vec2> defuv;
         defuv.push_back(glm::vec2(0,1));
         defuv.push_back(glm::vec2(1,1));
         defuv.push_back(glm::vec2(1,0));
@@ -141,7 +141,7 @@ public:
         //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
 
-    void SetTCoords(std::vector<glm::vec2> tcoords)
+    void SetTCoords(vector<glm::vec2> tcoords)
     {
         CreateTCoords(tcoords);
 

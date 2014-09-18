@@ -7,7 +7,7 @@ class GUIEnvironment;
 class Shader;
 struct font;
 
-typedef std::vector<font*> font_vector;
+typedef vector<font*> font_vector;
 typedef font_vector::iterator fvi; //font_vector_iterator
 
 class font_renderer

@@ -2,11 +2,12 @@
 #define BUFFER_OBJECT_H
 
 #include "IBufferObject.h"
+#include "utility/vector.h"
 
 template <class T>
 struct BufferObject: public IBufferObject
 {
-    std::vector<T> data;
+    vector<T> data;
 
     //void Init_buffers();
     virtual void Init();
@@ -21,7 +22,7 @@ struct BufferObject: public IBufferObject
 template <class T>
 struct IndexBufferObject: public IBufferObject
 {
-    std::vector<T> data;
+    vector<T> data;
 
     //void Init_buffers();
     virtual void Init();

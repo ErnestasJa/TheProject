@@ -54,7 +54,7 @@ void GUIElement::Render()
 
 void GUIElement::AddChild(GUIElement *e)
 {
-    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
+    vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
         return;
 
@@ -68,7 +68,7 @@ void GUIElement::AddChild(GUIElement *e)
 
 void GUIElement::RemoveChild(GUIElement *e)
 {
-    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
+    vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
     {
         e->parent=nullptr;
@@ -80,7 +80,7 @@ void GUIElement::RemoveChild(GUIElement *e)
 
 void GUIElement::BringToFront(GUIElement *e)
 {
-    std::vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
+    vector<GUIElement*>::iterator i=std::find(children.begin(),children.end(),e);
     if(i!=children.end())
     {
         i=children.erase(i);
@@ -209,7 +209,7 @@ GUIElement *GUIElement::GetParent()
     return this->parent;
 }
 
-std::vector<GUIElement *> & GUIElement::GetChildren()
+vector<GUIElement *> & GUIElement::GetChildren()
 {
     return this->children;
 }
@@ -222,7 +222,7 @@ std::string GUIElement::GetName()
 GUIElement *GUIElement::GetElementFromPoint(int x, int y)
 {
     GUIElement *ret=nullptr;
-    std::vector<GUIElement*>::reverse_iterator i=children.rbegin();
+    vector<GUIElement*>::reverse_iterator i=children.rbegin();
     for(; i!=children.rend(); i++)
     {
         if(*i!=nullptr)

@@ -5,8 +5,8 @@
 #include "IBufferObject.h"
 #include "BufferObject.h"
 
-typedef std::vector<glm::mat3x4> frame;
-typedef std::vector<frame> frame_vec;
+typedef vector<glm::mat3x4> frame;
+typedef vector<frame> frame_vec;
 
 struct bone
 {
@@ -16,7 +16,7 @@ struct bone
     glm::quat rot;
     glm::vec3 scale;
 };
-typedef std::vector<bone> bone_vec;
+typedef vector<bone> bone_vec;
 
 struct animation_info
 {
@@ -25,7 +25,7 @@ struct animation_info
     float framerate;
     bool loop;
 };
-typedef std::vector<animation_info> anim_info_vec;
+typedef vector<animation_info> anim_info_vec;
 
 struct animation
 {
@@ -62,8 +62,8 @@ struct Mesh
     };
 
     uint32_t vao;
-    std::vector<IBufferObject*> buffers;
-    std::vector<sub_mesh>   sub_meshes;
+    vector<IBufferObject*> buffers;
+    vector<sub_mesh>   sub_meshes;
     animation * anim;
     AABB aabb;
 

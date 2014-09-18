@@ -1,5 +1,5 @@
 #pragma once
-
+#include <sstream>
 namespace helpers
 {
 #define loop(var,count) for(uint32_t (var) = 0; (var) < (count); (var)++)

@@ -4,7 +4,7 @@
 
 class toggle_group
 {
-    std::vector<gui_button*> elements;
+    vector<gui_button*> elements;
     bool multitoggle;
     int m_current_toggle;
 
@@ -40,7 +40,7 @@ public:
         this->multitoggle=multitoggle;
     }
 
-    toggle_group(std::vector<gui_button*> predef,bool multitoggle=false,int deftoggle=0)
+    toggle_group(vector<gui_button*> predef,bool multitoggle=false,int deftoggle=0)
     {
         this->multitoggle=multitoggle;
         elements=predef;

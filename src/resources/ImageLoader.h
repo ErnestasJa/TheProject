@@ -9,7 +9,7 @@ class image_loader: public resource_cache<image>
 {
 protected:
     Logger * _logger;
-    std::vector<iimage_loader*> m_loaders;
+    vector<iimage_loader*> m_loaders;
 public:
     image_loader(Logger * l);
     virtual ~image_loader();

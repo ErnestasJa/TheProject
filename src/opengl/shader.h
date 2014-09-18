@@ -18,12 +18,14 @@ struct Binding
  * sh->set();
  **/
 
+#include "utility/vector.h"
+
 struct Shader
 {
     std::string name, vsstr, psstr, gsstr;
     uint32_t program, vsobj, psobj, gsobj;
     bool geom;
-    std::vector<Binding> bindings;
+    vector<Binding> bindings;
 
     Shader ( const std::string & name, const std::string & vsstr, const std::string & psstr)
         : name ( name ), vsstr ( vsstr ), psstr ( psstr ) , program ( 0 ), vsobj ( 0 ), psobj ( 0 ), geom(false)

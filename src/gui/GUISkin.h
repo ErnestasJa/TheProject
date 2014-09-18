@@ -1,5 +1,6 @@
 #pragma once
 
+
 using namespace tinyxml2;
 
 enum gui_style
@@ -132,9 +133,9 @@ struct gui_skin
         rects[style]=atlas_info;
     }
 
-    std::vector<glm::vec2> get_uv(uint32_t style)
+    vector<glm::vec2> get_uv(uint32_t style)
     {
-        std::vector<glm::vec2> ret;
+        vector<glm::vec2> ret;
         ret.resize(4);
         ret[0]=uvs[style*4];
         ret[1]=uvs[style*4+1];
@@ -152,8 +153,8 @@ struct gui_skin
     {
     }
 private:
-    std::vector<Rect2D<int> > rects;
-    std::vector<glm::vec2> uvs;
+    vector<Rect2D<int> > rects;
+    vector<glm::vec2> uvs;
 
 
     std::string name,atlas;

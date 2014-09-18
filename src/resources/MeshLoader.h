@@ -16,7 +16,7 @@ public:
 
 protected:
     Logger * _logger;
-    std::vector<imesh_loader*> m_loaders;
+    vector<imesh_loader*> m_loaders;
 };
 
 #endif // MESH_LOADER_H

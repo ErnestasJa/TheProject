@@ -1,4 +1,5 @@
 #pragma once
+#include "utility/vector.h"
 
 template <class T>
 struct resource
@@ -30,13 +31,13 @@ public:
     }
 
 protected:
-    std::vector< resource<T> >  m_resources;
+    vector< resource<T> >  m_resources;
 };
 
 template <class T>
-std::vector<std::shared_ptr<T> > * create_resource_cache()
+vector<std::shared_ptr<T> > * create_resource_cache()
 {
-    return new std::vector<std::shared_ptr<T> >();
+    return new vector<std::shared_ptr<T> >();
 }
 
 template <class T>

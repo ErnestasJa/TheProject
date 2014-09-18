@@ -1,32 +1,21 @@
 #ifndef _PRECOMP_H_
 #define _PRECOMP_H_
 
+#include "Config.h"
+
 // C/C++ SUITE INCLUDES
-#undef __STRICT_ANSI__
+//#include <stdio.h>
 #include <iostream>
-#include <sstream>
-#include <stdio.h>
 #include <cstdio>
 #include <stdint.h>
-#include <iomanip>
-#include <fstream>
-#include <memory>
-#include <vector>
-#include <functional>
 #include <map>
 #include <unordered_map>
+#include <memory>
+#include <chrono>
 
 #include <string.h>
 #include <string>
-
-#include <sstream>
 #include <stdarg.h>
-
-#include <ctime>
-#include <chrono>
-
-#include <iterator>
-#include <algorithm>
 
 // OPENGL RELATED LIBS
 #include <GLXW/glxw.h>
@@ -50,11 +39,8 @@
 #include "utility/bit.h"
 #include "utility/helpers.h"
 
-/// DEFINES
-#ifdef RELEASE
-#define RELEASE_FS
-#endif
+// BOOST INCLUDES
+// jk, don't include boost here. pch size too big.
 
-#define LOG_OUTPUT
 
 #endif

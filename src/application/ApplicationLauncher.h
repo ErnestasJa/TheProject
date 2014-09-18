@@ -2,7 +2,6 @@
 #define APPLICATIONLAUNCHER_H
 
 
-#include <vector>
 #include <string>
 #include <tuple>
 #include <stdint.h>
@@ -26,7 +25,7 @@ class ApplicationLauncher
         //virtual void RunApplication(std::string name, int argc, const char ** argv);
 
     protected:
-        std::vector<std::tuple<std::string, CreateAppFunc> > m_creationFuncs;
+        vector<std::tuple<std::string, CreateAppFunc> > m_creationFuncs;
         Application * m_currentApplication;
     private:
 };

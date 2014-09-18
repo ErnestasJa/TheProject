@@ -28,7 +28,7 @@ private:
     int m_verbosity;
     Application * m_app;
     PHYSFS_File * m_logfile;
-    //std::vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
+    //vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
 
     std::string timestamp(); //timestamp generation
 };

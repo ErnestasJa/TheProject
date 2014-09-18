@@ -194,6 +194,7 @@
 			<Add option="-static-libstdc++" />
 			<Add option="-static" />
 		</Linker>
+		<Unit filename="../../src/Config.h" />
 		<Unit filename="../../src/Voxel/Block.cpp" />
 		<Unit filename="../../src/Voxel/Block.h" />
 		<Unit filename="../../src/Voxel/Chunk.cpp" />

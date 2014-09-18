@@ -3,31 +3,11 @@
 
 #include "Morton.h"
 #include "utility/helpers.h"
+#include "utility/vector.h"
 
 #include <assert.h>
 #include <stdint.h>
-//#include <algorithm>
-#include <boost/range/algorithm.hpp>
-#include <boost/range/algorithm_ext.hpp>
-
-#define BOOST_VECTOR
-//#define BOOST_VECTOR_WITH_ALOCATOR
-
-#ifdef BOOST_VECTOR
-#include <boost/container/vector.hpp>
-template<typename T>
-using vector = boost::container::vector<T>;
-#elif defined BOOST_VECTOR_WITH_ALOCATOR
-#include <boost/container/vector.hpp>
-#include <boost/container/allocator.hpp>
-template<typename T>
-using vector = boost::container::vector<T,boost::container::allocator<T>>;
-#else
-#include <vector>
-template<typename T>
-using vector = std::vector<T>;
-#error std vec
-#endif
+#include <boost/move/move.hpp>
 
 enum VoxelSide
 {
