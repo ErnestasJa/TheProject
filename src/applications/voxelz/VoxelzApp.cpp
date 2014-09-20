@@ -105,7 +105,7 @@ bool InitPostProc(AppContext* ctx)
     loop(y,sy)
     SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
-#define DEBUG_FBO
+#define _DEBUG_FBO
 #ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
@@ -138,7 +138,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=VoxelSprite::LoadFromImage(loader->load("res/wiz.png"),8,u8vec4(0));
+    spr=VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),8,u8vec4(0));
 
     return true;
 }
@@ -203,7 +203,7 @@ void InitPlaneMesh(AppContext * ctx)
     cub=new CubeMesh(1);
     smallcub=new CubeMesh(0.25);
 
-    grid=new GridMesh(1.f,1024,16,true);
+    grid=new GridMesh(1.f,1024,16);
 
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
@@ -238,10 +238,6 @@ bool VoxelzApp::Update()
         _appContext->_timer->tick();
 
         cam->Update(0);
-        if(wireframe==true)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-        }
         //GBuffer->Set();
         //GBuffer->EnableBuffer(0);
         //GBuffer->EnableBuffer(1);
@@ -289,11 +285,6 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
         chkmgr->Render(cam.get(),gbsh);
-
-        if(wireframe==true)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-        }
         //GBuffer->Unset();
 
         /// RENDER TO QUAD
