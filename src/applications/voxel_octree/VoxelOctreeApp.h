@@ -30,7 +30,6 @@ public:
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
 private:
-    MeshPtr mesh;
     ShaderPtr sh;
     CameraPtr cam;
     MortonOctTree<10> * octree;

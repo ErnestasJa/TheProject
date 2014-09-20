@@ -12,7 +12,6 @@ VoxMeshManager::VoxMeshManager(MortonOctTree<10> * octree, uint32_t level)
 
 VoxMeshManager::~VoxMeshManager()
 {
-    //dtor
 }
 
 Map & VoxMeshManager::GetMeshes()
@@ -22,10 +21,8 @@ Map & VoxMeshManager::GetMeshes()
 
 void VoxMeshManager::ClearBuildNodes()
 {
-    loop(i,32)
-    loop(j,32)
-    loop(k,32)
-        m_buildNodes[i][j][k].size = 0;
+    loopxyz(32,32,32)
+    m_buildNodes[x][y][z].size = 0;
 }
 
 void VoxMeshManager::SetBuildNode(const MNode & node)
@@ -34,6 +31,210 @@ void VoxMeshManager::SetBuildNode(const MNode & node)
     decodeMK(node.start&LOCAL_VOXEL_MASK, x, y, z);
     m_buildNodes[x][y][z].start = node.start;
     m_buildNodes[x][y][z].size = 1;
+}
+
+void VoxMeshManager::BuildChunk(Mesh* mesh)
+{
+    uint8_t sides;
+
+    loopxyz(32,32,32)
+    if(m_buildNodes[x][y][z].size>0)
+    {
+        sides = GetVisibleBuildNodeSides(x,y,z);
+        if(sides)
+            AddVoxelToMesh( mesh, m_buildNodes[x][y][z], sides);
+    }
+
+    loopxyz(32,32,32) m_buildNodes[x][y][z].size=0;
+}
+
+bool vf_equals(const MNode & n1, const MNode & n2)
+{
+    return n1.size == 1 && n1.size == n2.size;
+}
+
+#define clear_mask(mask) loop(i,32) loop(j,32) mask[i][j] = false;
+
+uint32_t length(uint32_t x, uint32_t y, bool mask[32][32])
+{
+    for(uint32_t i = x; i < 32; i++)
+        if(mask[i][y]==false)
+            return i-x;
+
+    return 32-x;
+}
+
+uint32_t height(uint32_t x, uint32_t y, uint32_t len, bool mask[32][32])
+{
+    uint32_t h = 0;
+
+    for(uint32_t i = y; i < 32; i++)
+        if(length(x,i,mask)==len)
+            h++;
+        else
+            break;
+
+    return h;
+}
+
+void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
+{
+    bool mask[32][32];
+    MNode tmpNode;
+    glm::vec3 face[4];
+    glm::ivec2 qstart, qdims;
+
+    loopr(dim, 0, 3)
+    {
+        clear_mask(mask);
+        loop(z, 32)
+        {
+            switch(dim)
+            {
+            case 0: //xy slices
+            {
+                loop(y,32) loop(x,32)
+                {
+                    GetBuildNode(tmpNode,x,y,z);
+                    mask[x][y] = (tmpNode.size==1);
+                }
+                break;
+            }
+            case 1: //xz slices
+            {
+                loop(y,32) loop(x,32)
+                {
+                    GetBuildNode(tmpNode,x,z,y);
+                    mask[x][y] = (tmpNode.size==1);
+                }
+                break;
+            }
+            case 2: //yz slices
+            {
+                loop(y,32) loop(x,32)
+                {
+                    GetBuildNode(tmpNode,y,z,x);
+                    mask[x][y] = (tmpNode.size==1);
+                }
+                break;
+            }
+            default:
+                break;
+            }
+
+            qstart.x = 0;
+            qstart.y = 0;
+
+            loop(y, 32)
+            {
+                loop(x, 32)
+                {
+                    if(mask[x][y])
+                    {
+                        /*
+                        *    We found our victim, lets find out how fat he is.
+                        */
+                        qstart.x=x;
+                        qstart.y=y;
+                        qdims.x =length(x,y,mask);
+                        qdims.y =height(x,y,qdims.x,mask);
+
+                        /*
+                        *    Now that we know how fat that little prick is, lets erase his identity.
+                        */
+                        for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
+                            for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
+                                mask[xi][yi]=false;
+
+                        switch(dim)
+                        {
+                        case 0: //xy
+                        {
+                            face[3]=glm::vec3(qstart.x,         qstart.y,           z)+offset;
+                            face[2]=glm::vec3(qstart.x+qdims.x, qstart.y,           z)+offset;
+                            face[1]=glm::vec3(qstart.x+qdims.x, qstart.y+qdims.y,   z)+offset;
+                            face[0]=glm::vec3(qstart.x,         qstart.y+qdims.y,   z)+offset;
+                            AddQuadToMesh(mesh,face);
+
+                            face[0]=glm::vec3(qstart.x,         qstart.y,           z+1)+offset;
+                            face[1]=glm::vec3(qstart.x+qdims.x, qstart.y,           z+1)+offset;
+                            face[2]=glm::vec3(qstart.x+qdims.x, qstart.y+qdims.y,   z+1)+offset;
+                            face[3]=glm::vec3(qstart.x,         qstart.y+qdims.y,   z+1)+offset;
+                            AddQuadToMesh(mesh,face);
+                            break;
+                        }
+                        case 1: //xz
+                        {
+                            face[0]=glm::vec3(qstart.x,         z,                  qstart.y)+offset;
+                            face[1]=glm::vec3(qstart.x+qdims.x, z,                  qstart.y)+offset;
+                            face[2]=glm::vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y)+offset;
+                            face[3]=glm::vec3(qstart.x,         z,                  qstart.y+qdims.y)+offset;
+                            AddQuadToMesh(mesh,face);
+
+                            face[3]=glm::vec3(qstart.x,         z+1,                qstart.y)+offset;
+                            face[2]=glm::vec3(qstart.x+qdims.x, z+1,                qstart.y)+offset;
+                            face[1]=glm::vec3(qstart.x+qdims.x, z+1,                qstart.y+qdims.y)+offset;
+                            face[0]=glm::vec3(qstart.x,         z+1,                qstart.y+qdims.y)+offset;
+                            AddQuadToMesh(mesh,face);
+                            break;
+                        }
+                        case 2: //yz
+                        {
+                            face[3]=glm::vec3(z,                qstart.x,         qstart.y)+offset;
+                            face[2]=glm::vec3(z,                qstart.x+qdims.x, qstart.y)+offset;
+                            face[1]=glm::vec3(z,                qstart.x+qdims.x, qstart.y+qdims.y)+offset;
+                            face[0]=glm::vec3(z,                qstart.x,         qstart.y+qdims.y)+offset;
+                            AddQuadToMesh(mesh,face);
+
+                            face[0]=glm::vec3(z+1,              qstart.x,         qstart.y)+offset;
+                            face[1]=glm::vec3(z+1,              qstart.x+qdims.x, qstart.y)+offset;
+                            face[2]=glm::vec3(z+1,              qstart.x+qdims.x, qstart.y+qdims.y)+offset;
+                            face[3]=glm::vec3(z+1,              qstart.x,         qstart.y+qdims.y)+offset;
+                            AddQuadToMesh(mesh,face);
+                            break;
+                        }
+                        default:
+                            break;
+                        }
+
+                        /*
+                        *    Set route for next victim search
+                        */
+                        x=qstart.x;
+                        y=qstart.y;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void VoxMeshManager::AddQuadToMesh(Mesh* mesh, const glm::vec3 * face)
+{
+    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::POSITION];
+    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) mesh->buffers[Mesh::INDICES];
+    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
+
+    uint32_t indicesStart = vbo->data.size();
+    glm::vec3 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f);
+
+    vbo->data.push_back(face[0]);
+    vbo->data.push_back(face[1]);
+    vbo->data.push_back(face[2]);
+    vbo->data.push_back(face[3]);
+
+    cbo->data.push_back(color);
+    cbo->data.push_back(color);
+    cbo->data.push_back(color);
+    cbo->data.push_back(color);
+
+    ibo->data.push_back(indicesStart);
+    ibo->data.push_back(indicesStart+2);
+    ibo->data.push_back(indicesStart+3);
+
+    ibo->data.push_back(indicesStart);
+    ibo->data.push_back(indicesStart+1);
+    ibo->data.push_back(indicesStart+2);
 }
 
 uint8_t VoxMeshManager::GetVisibleBuildNodeSides(uint32_t x, uint32_t y, uint32_t z)
@@ -61,158 +262,57 @@ uint8_t VoxMeshManager::GetVisibleBuildNodeSides(uint32_t x, uint32_t y, uint32_
     return sides;
 }
 
+void VoxMeshManager::GetBuildNode(MNode & n, uint32_t x, uint32_t y, uint32_t z)
+{
+    if(x>31 || y>31 || z>31)
+    {
+        n.size = 0;
+        n.start = 0;
+    }
+    else
+    {
+        n.size=m_buildNodes[x][y][z].size;
+        n.start=m_buildNodes[x][y][z].start;
+    }
+}
+
 void VoxMeshManager::GenAllChunks()
 {
-    uint32_t currentChunkMortonKey = ~0;
-    int8_t sides;
-    MeshPtr mesh;
+    if(m_octree->GetChildNodes().size()==0)
+        return;
+
+    ClearBuildNodes();
+
+    uint32_t currentChunkMortonKey = m_octree->GetChildNodes()[0].start & CHUNK_MASK;
+    uint32_t x,y,z;
+    decodeMK(currentChunkMortonKey,x,y,z);
+
+    MeshPtr mesh = CreateEmptyMesh();
+    m_map[currentChunkMortonKey] = mesh;
 
     for( auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
     {
         MNode & node = (*it);
-
         const uint32_t nodeChunk = node.start & CHUNK_MASK; /// get chunk (size 32x32x32)
 
-        if(nodeChunk!=currentChunkMortonKey)
+        if(nodeChunk!=currentChunkMortonKey) /// THIS PIECE OF CODE IS GARBAGE, PLS FIX
         {
+            GreedyBuildChunk(mesh.get(), glm::vec3(x,y,z));
+
             mesh = CreateEmptyMesh();
             m_map[nodeChunk] = mesh;
             currentChunkMortonKey = nodeChunk;
-
-            loop(i,32)
-                loop(j,32)
-                    loop(k,32)
-                        if(m_buildNodes[k][j][i].size>0)
-                        {
-                            sides = GetVisibleBuildNodeSides(k,j,i);
-                            if(sides)
-                                AddVoxelToMesh( mesh.get(), m_buildNodes[k][j][i], sides);
-                        }
-            ClearBuildNodes();
+            decodeMK(currentChunkMortonKey,x,y,z);
         }
 
         SetBuildNode(node);
     }
 
-
+    GreedyBuildChunk(mesh.get(), glm::vec3(x,y,z));
 
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->UploadBuffers();
 }
-
-void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, vector<MNode>::iterator nodeIt)
-{
-    MNode & node = (*nodeIt);
-
-    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) mesh->buffers[Mesh::INDICES];
-    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::POSITION];
-    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
-
-    uint32_t x, y, z;
-    decodeMK(node.start, x,y,z);
-
-    uint8_t sides = m_octree->GetVisibleSides(x,y,z,nodeIt);
-
-    uint32_t si = vbo->data.size();
-
-    //vbo->data.reserve(vbo->data.size()+8);
-    vbo->data.push_back(glm::vec3(x,  y,  z));
-    vbo->data.push_back(glm::vec3(x+1,y,  z));
-    vbo->data.push_back(glm::vec3(x+1,y,  z+1));
-    vbo->data.push_back(glm::vec3(x,  y,  z+1));
-
-    vbo->data.push_back(glm::vec3(x,  y+1,z));
-    vbo->data.push_back(glm::vec3(x+1,y+1,z));
-    vbo->data.push_back(glm::vec3(x+1,y+1,z+1));
-    vbo->data.push_back(glm::vec3(x,  y+1,z+1));
-
-    ///color data
-    glm::vec3 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-
-    ///faces
-    //ibo->data.reserve(ibo->data.size()+36);
-
-    //back face
-    if(CheckBit(sides,BACK))
-    {
-        ibo->data.push_back(si);
-        ibo->data.push_back(si+4);
-        ibo->data.push_back(si+1);
-
-        ibo->data.push_back(si+1);
-        ibo->data.push_back(si+4);
-        ibo->data.push_back(si+5);
-    }
-
-    //left face
-    if(CheckBit(sides,LEFT))
-    {
-        ibo->data.push_back(si+1);
-        ibo->data.push_back(si+5);
-        ibo->data.push_back(si+2);
-
-        ibo->data.push_back(si+2);
-        ibo->data.push_back(si+5);
-        ibo->data.push_back(si+6);
-    }
-
-    //front face
-    if(CheckBit(sides,FRONT))
-    {
-        ibo->data.push_back(si+2);
-        ibo->data.push_back(si+6);
-        ibo->data.push_back(si+3);
-
-        ibo->data.push_back(si+3);
-        ibo->data.push_back(si+6);
-        ibo->data.push_back(si+7);
-    }
-
-    //right face
-    if(CheckBit(sides,RIGHT))
-    {
-        ibo->data.push_back(si+3);
-        ibo->data.push_back(si+7);
-        ibo->data.push_back(si+0);
-
-        ibo->data.push_back(si+0);
-        ibo->data.push_back(si+7);
-        ibo->data.push_back(si+4);
-    }
-
-    //bot face
-    if(CheckBit(sides,BOTTOM))
-    {
-        ibo->data.push_back(si+0);
-        ibo->data.push_back(si+2);
-        ibo->data.push_back(si+3);
-
-        ibo->data.push_back(si+0);
-        ibo->data.push_back(si+1);
-        ibo->data.push_back(si+2);
-    }
-
-    //top face
-    if(CheckBit(sides,TOP))
-    {
-        ibo->data.push_back(si+6);
-        ibo->data.push_back(si+4);
-        ibo->data.push_back(si+7);
-
-        ibo->data.push_back(si+5);
-        ibo->data.push_back(si+4);
-        ibo->data.push_back(si+6);
-    }
-}
-
 
 void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, const MNode & node, uint8_t sides)
 {
@@ -327,13 +427,9 @@ MeshPtr VoxMeshManager::CreateEmptyMesh()
 {
     MeshPtr mesh = MeshPtr(new Mesh());
 
-    IndexBufferObject<uint32_t> * ibo = new IndexBufferObject<uint32_t>();
-    BufferObject<glm::vec3> *vbo = new BufferObject<glm::vec3>();
-    BufferObject<glm::vec3> *cbo = new BufferObject<glm::vec3>();
-
-    mesh->buffers[Mesh::POSITION] = vbo;
-    mesh->buffers[Mesh::INDICES] = ibo;
-    mesh->buffers[Mesh::COLOR] = cbo;
+    mesh->buffers[Mesh::POSITION] = new BufferObject<glm::vec3>();
+    mesh->buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
+    mesh->buffers[Mesh::COLOR] = new BufferObject<glm::vec3>();
     mesh->Init();
 
     return mesh;
@@ -396,14 +492,14 @@ void VoxMeshManager::RebuildChunk(uint32_t chunk)
     }
 
     loop(i,32)
-        loop(j,32)
-            loop(k,32)
-                if(m_buildNodes[k][j][i].size>0)
-                {
-                    uint8_t sides = GetVisibleBuildNodeSides(k,j,i);
-                    if(sides)
-                        AddVoxelToMesh( mesh, m_buildNodes[k][j][i], sides);
-                }
+    loop(j,32)
+    loop(k,32)
+    if(m_buildNodes[k][j][i].size>0)
+    {
+        uint8_t sides = GetVisibleBuildNodeSides(k,j,i);
+        if(sides)
+            AddVoxelToMesh( mesh, m_buildNodes[k][j][i], sides);
+    }
 
     mesh->UploadBuffers();
 }
@@ -413,3 +509,5 @@ void VoxMeshManager::RenderAllMeshes()
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->Render();
 }
+
+

@@ -312,12 +312,14 @@
 		<Unit filename="../../src/utility/SimplexNoise.h" />
 		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
+		<Unit filename="../../src/utility/helpers.cpp" />
 		<Unit filename="../../src/utility/helpers.h" />
 		<Unit filename="../../src/utility/logger.cpp" />
 		<Unit filename="../../src/utility/logger.h" />
 		<Unit filename="../../src/utility/rect2d.h" />
 		<Unit filename="../../src/utility/timer.cpp" />
 		<Unit filename="../../src/utility/timer.h" />
+		<Unit filename="../../src/utility/util.cpp" />
 		<Unit filename="../../src/utility/util.h" />
 		<Unit filename="../../src/voxel_octree/Morton.h" />
 		<Unit filename="../../src/voxel_octree/MortonOctTree.cpp" />

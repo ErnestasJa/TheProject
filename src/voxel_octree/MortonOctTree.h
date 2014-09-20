@@ -61,6 +61,7 @@ public:
 
     MNode()
     {
+        size = 0;
     }
 
     inline uint32_t range_end() const
@@ -111,12 +112,6 @@ public:
     void AddOrphanNode(MNode node)
     {
         m_nodes.push_back(boost::move(node));
-    }
-
-    //sort and build tree, ...
-    void RebuildTree()
-    {
-
     }
 
     bool IsSorted()

@@ -19,23 +19,19 @@ void VoxelOctreeApp::InitPlaneMesh()
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_color");
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 
-    mesh = MeshPtr(new Mesh());
-    IndexBufferObject<uint32_t> * ibo = new IndexBufferObject<uint32_t>();
-    BufferObject<glm::vec3> *vbo = new BufferObject<glm::vec3>();
-    BufferObject<glm::vec3> *cbo = new BufferObject<glm::vec3>();
-    mesh->buffers[Mesh::POSITION] = vbo;
-    mesh->buffers[Mesh::INDICES] = ibo;
-    mesh->buffers[Mesh::COLOR] = cbo;
-    mesh->Init();
-
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
 
-    for(uint32_t i = 0; i < 128; i++)
-        for(uint32_t j = 0; j < 128; j++)
-            for(uint32_t k = 0; k < 128; k++)
-                octree->AddOrphanNode(MNode(k,j,i));
+
+    loopxyz(32,32,32)
+    {
+        if(!((x==2&&y==2) || (x==6&&y==8) || (x==19&&y==30)))
+        {
+            printf("Added node [%u, %u, %u]\n",x,y,z);
+            octree->AddOrphanNode(MNode(x,y,z));
+        }
+    }
 
     /*
     for(auto it = octree->GetChildNodes().begin(); it != octree->GetChildNodes().end(); it++ )
@@ -46,7 +42,6 @@ void VoxelOctreeApp::InitPlaneMesh()
     }*/
 
     octree->SortLeafNodes();
-    octree->RebuildTree();
     octreeGen->GenAllChunks();
 }
 
@@ -62,7 +57,6 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.4,1,0.2,0);
 
     InitPlaneMesh();
@@ -103,6 +97,7 @@ void VoxelOctreeApp::OnWindowClose()
 {
 
 }
+
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
     if(key==GLFW_KEY_W)
@@ -113,6 +108,11 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
         cam->Strafe(-1);
     if(key==GLFW_KEY_D)
         cam->Strafe(1);
+
+    if(key==GLFW_KEY_1)
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    if(key==GLFW_KEY_2)
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 void VoxelOctreeApp::OnMouseMove(double x, double y)
