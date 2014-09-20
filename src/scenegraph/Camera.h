@@ -43,6 +43,11 @@ public:
 
     virtual void Update(float dt);
 
+    void SetFPS(bool b)
+    {
+        m_fps=b;
+    }
+
 public:
 	void Walk(const float amount);
 	void Strafe(const float amount);

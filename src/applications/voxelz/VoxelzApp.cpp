@@ -15,6 +15,7 @@
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
 #include "GUI/GUI.h"
+#include "GUI/custom_elements/GUIColorPicker.h"
 
 VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -39,6 +40,37 @@ static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord,SSAONormal;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel,wireframe;
 static int face;
+
+//static glm::vec3 rgb2hsv(float r, float g, float b)
+//{
+//    float h,s,v;
+//
+//    float min, max, delta;
+//    min = MIN( r, g, b );
+//    max = MAX( r, g, b );
+//    v = max;				// v
+//    delta = max - min;
+//    if( max != 0 )
+//        s = delta / max;		// s
+//    else
+//    {
+//        // r = g = b = 0		// s = 0, v is undefined
+//        s = 0;
+//        h = -1;
+//        return;
+//    }
+//    if( r == max )
+//        h = ( g - b ) / delta;		// between yellow & magenta
+//    else if( g == max )
+//        h = 2 + ( b - r ) / delta;	// between cyan & yellow
+//    else
+//        h = 4 + ( r - g ) / delta;	// between magenta & cyan
+//    h *= 60;				// degrees
+//    if( h < 0 )
+//        h += 360;
+//
+//    return glm::vec3(h,s,v);
+//}
 
 bool InitPostProc(AppContext* ctx)
 {
@@ -68,19 +100,20 @@ bool InitPostProc(AppContext* ctx)
     uint32_t sy=768/64;
 
     loop(x,sx)
-        loop(y,sy)
-            SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
+    loop(y,sy)
+    SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
-
-    #define DEBUG_FBO
-    #ifdef DEBUG_FBO
+#define DEBUG_FBO
+#ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,384,320,192),GBposition);
     guiImg=new gui_image(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
-    #endif
+#endif
+
+    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,256,256,256));
 
     GBuffer=new FrameBufferObject();
     GBuffer->Init();
@@ -142,8 +175,9 @@ void InitPlaneMesh(AppContext * ctx)
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
     cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
+    cam->SetFPS(false);
 
-    env=new GUIEnvironment(ctx->_window,ctx->_logger);
+    env=new GUIEnvironment(ctx);
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
 
     gui_static_text* texts[10];

@@ -53,7 +53,7 @@ void gui_window::Render()
     glBindTexture(GL_TEXTURE_2D,0);
 
     environment->draw_sliced_gui_quad(tbr,gui_skin_titlebar);
-    environment->draw_sliced_gui_quad(bgr);
+    environment->draw_sliced_gui_quad(bgr,gui_skin_background);
     environment->get_font_renderer()->render_string(titlebar_text,glm::vec2(tbr.x+6,tbr.y+6),glm::vec4(0,0,0,1),false);
 
     this->absolute_rect.move(0,20);

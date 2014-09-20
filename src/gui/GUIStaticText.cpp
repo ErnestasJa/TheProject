@@ -33,7 +33,7 @@ void gui_static_text::Render()
     if(this->m_draw_background)
     {
         glBindTexture(GL_TEXTURE_2D,0);
-        environment->draw_gui_quad(absolute_rect);
+        environment->draw_gui_quad(absolute_rect,gui_skin_background);
     }
     this->environment->get_font_renderer()->render_string(this->m_text,glm::vec2(this->absolute_rect.x+1,this->absolute_rect.y+2),this->m_text_color,draw_shadow);
 

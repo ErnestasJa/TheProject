@@ -20,6 +20,7 @@ inline const glm::vec4 color255(uint8_t r=255,uint8_t g=255,uint8_t b=255,uint8_
 inline void invert(glm::vec3 & vec);
 template <class T> bool equals(const T & v1, const T & v2);
 inline float coslerp(float y1,float y2,float mu);
+inline glm::vec3 hsv2rgb(float h,float s,float v);
 
 #include "helpers.inl"
 }
