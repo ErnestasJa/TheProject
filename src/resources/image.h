@@ -1,6 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include "Voxel/VoxelTypes.h"
+
 struct image
 {
     uint32_t width, height, num_channels;
@@ -46,9 +48,9 @@ struct image
         if(num_channels==4) data[y*width*num_channels+x*num_channels+3]=a;
     }
 
-    glm::vec4 GetPixel(uint32_t x, uint32_t y)
+    u8vec4 GetPixel(uint32_t x, uint32_t y)
     {
-        if(x>width||y>height) return glm::vec4(0,0,0,0);
+        if(x>width||y>height) return u8vec4(0,0,0,0);
 
         uint8_t r=data[y*width*num_channels+x*num_channels];
         uint8_t g=data[y*width*num_channels+x*num_channels+1];
@@ -56,7 +58,7 @@ struct image
         uint8_t a=255;
         if(num_channels==4) a=data[y*width*num_channels+x*num_channels+3];
 
-        return glm::vec4(r,g,b,a);
+        return u8vec4(r,g,b,a);
     }
 };
 

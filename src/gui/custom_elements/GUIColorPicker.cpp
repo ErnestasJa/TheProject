@@ -131,7 +131,7 @@ bool GUIColorPicker::OnEvent(const GUIEvent &e)
 
 void GUIColorPicker::UpdateValues()
 {
-    colRGB=imgBuf->GetPixel(cursorPos.x+4,imgBuf->height-cursorPos.y-4);
+    colRGB=imgBuf->GetPixel(cursorPos.x+4,imgBuf->height-1-cursorPos.y-4);
 
     ebR->set_text(helpers::to_wstr(colRGB.x));
     ebG->set_text(helpers::to_wstr(colRGB.y));

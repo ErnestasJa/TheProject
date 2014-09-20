@@ -14,6 +14,7 @@
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
+#include "Voxel/VoxelSprite.h"
 #include "GUI/GUI.h"
 #include "GUI/custom_elements/GUIColorPicker.h"
 
@@ -40,6 +41,7 @@ static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord,SSAONormal;
 static glm::vec3 voxpos,newvoxpos,pointpos;
 static bool validvoxel,wireframe;
 static int face;
+static VoxelSprite *spr;
 
 //static glm::vec3 rgb2hsv(float r, float g, float b)
 //{
@@ -113,10 +115,10 @@ bool InitPostProc(AppContext* ctx)
     guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
 #endif
 
-    gui_window *twin=new gui_window(env,Rect2D<int>(0,0,512,512),L"Voxelmator3000",true,false,false,true);
-
-    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,16,128,128),false);
-    cp->SetParent(twin);
+//    gui_window *twin=new gui_window(env,Rect2D<int>(0,0,512,512),L"Voxelmator3000",true,false,false,true);
+//
+//    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,16,128,128),false);
+//    cp->SetParent(twin);
 
     GBuffer=new FrameBufferObject();
     GBuffer->Init();
@@ -135,6 +137,8 @@ bool InitPostProc(AppContext* ctx)
 
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
+
+    spr=VoxelSprite::LoadFromImage(loader->load("res/wiz.png"),8,u8vec4(0));
 
     return true;
 }
@@ -172,13 +176,13 @@ void InitPlaneMesh(AppContext * ctx)
     mesh->Init();
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
-    vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxelphong");
+    vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
     qsh = (new shader_loader(ctx->_logger))->load("res/quad");
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
     cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
-    cam->SetFPS(false);
+    //cam->SetFPS(false);
 
     env=new GUIEnvironment(ctx);
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
@@ -199,8 +203,7 @@ void InitPlaneMesh(AppContext * ctx)
     cub=new CubeMesh(1);
     smallcub=new CubeMesh(0.25);
 
-    grid=new GridMesh(1.f,1024,16);
-    Timer timer;
+    grid=new GridMesh(1.f,1024,16,true);
 
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
@@ -239,9 +242,9 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         }
-        GBuffer->Set();
-        GBuffer->EnableBuffer(0);
-        GBuffer->EnableBuffer(1);
+        //GBuffer->Set();
+        //GBuffer->EnableBuffer(0);
+        //GBuffer->EnableBuffer(1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
@@ -272,6 +275,12 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
 
+        vsh->Set();
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        spr->Render();
+
         gbsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
@@ -285,27 +294,27 @@ bool VoxelzApp::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         }
-        GBuffer->Unset();
+        //GBuffer->Unset();
 
         /// RENDER TO QUAD
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        ssaosh->Set();
+//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//        ssaosh->Set();
+//
+//        GBdiffuse->Set(0);
+//        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
+//        GBnormal->Set(1);
+//        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
+//        GBposition->Set(2);
+//        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
+//        SSAONormal->Set(3);
+//        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
+//        GBdepth->Set(4);
+//        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
+//
+//        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+//        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
 
-        GBdiffuse->Set(0);
-        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
-        GBnormal->Set(1);
-        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
-        GBposition->Set(2);
-        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
-        SSAONormal->Set(3);
-        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
-        GBdepth->Set(4);
-        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
-
-        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
-
-        mesh->Render();
+        //mesh->Render();
 
         env->Render();
 

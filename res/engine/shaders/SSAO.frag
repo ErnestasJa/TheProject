@@ -75,5 +75,5 @@ ao/=iterations*4.0;
 //**END**//
 
 //Do stuff here with your occlusion value Ã¢aoÃ¢: modulate ambient lighting, write it to a buffer for later //use, etc.
-fragColor=texture2D(g_buffer_diff, _uv)*(1-ao);
+fragColor=texture2D(g_buffer_diff, _uv);//*(1-ao);
 }
