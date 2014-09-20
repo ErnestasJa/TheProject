@@ -31,7 +31,7 @@ private:
 
     void UpdateValues();
 public:
-    GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions);
+    GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions,bool drawbackground=true);
     virtual ~GUIColorPicker();
 
     void Render();

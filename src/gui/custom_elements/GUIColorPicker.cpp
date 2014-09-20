@@ -6,7 +6,7 @@
 #include "opengl/texture.h"
 #include "Application/AppContext.h"
 
-GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions):GUIElement(env,dimensions)
+GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions, bool drawbackground):GUIElement(env,dimensions)
 {
     this->Type=GUIET_PANE;
     environment=env;
@@ -16,9 +16,12 @@ GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions):GUIE
 
     cursorPos=glm::vec2(0,0);
 
-    bg=new gui_pane(env,Rect2D<int>(0,0,dimensions.w+64+16,dimensions.h+32));
-    bg->SetParent(this);
-    bg->SetListening(false);
+    if(drawbackground)
+    {
+        bg=new gui_pane(env,Rect2D<int>(0,0,dimensions.w+64+16,dimensions.h+32));
+        bg->SetParent(this);
+        bg->SetListening(false);
+    }
 
     imgBuf=share(new image());
     imgBuf->Init(dimensions.w,dimensions.h,3);
@@ -88,8 +91,8 @@ bool GUIColorPicker::OnEvent(const GUIEvent &e)
             float my=environment->get_mouse_pos().y;
             if(picker->GetAbsoluteRect().is_point_inside(mx,my))
             {
-                float x=mx-relative_rect.x-picker->GetRelativeRect().x-4;
-                float y=my-relative_rect.y-picker->GetRelativeRect().y-4;
+                float x=mx-absolute_rect.x-picker->GetRelativeRect().x-4;
+                float y=my-absolute_rect.y-picker->GetRelativeRect().y-4;
                 cursorPos=glm::vec2(x,y);
                 cursor->Move(cursorPos);
 //                cursor->GetRelativeRect().clip(picker->GetAbsoluteRect());
@@ -109,10 +112,10 @@ bool GUIColorPicker::OnEvent(const GUIEvent &e)
     case button_released:
         if(e.get_element()==btnSet)
         {
-        uint32_t r=_wtoi(ebR->get_text().c_str());
-        uint32_t g=_wtoi(ebG->get_text().c_str());
-        uint32_t b=_wtoi(ebB->get_text().c_str());
-        colRGB=glm::vec4(r,g,b,255);
+            uint32_t r=_wtoi(ebR->get_text().c_str());
+            uint32_t g=_wtoi(ebG->get_text().c_str());
+            uint32_t b=_wtoi(ebB->get_text().c_str());
+            colRGB=glm::vec4(r,g,b,255);
         }
         break;
     case scrollbar_changed:

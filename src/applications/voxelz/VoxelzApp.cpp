@@ -113,7 +113,10 @@ bool InitPostProc(AppContext* ctx)
     guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
 #endif
 
-    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,256,256,256));
+    gui_window *twin=new gui_window(env,Rect2D<int>(0,0,512,512),L"Voxelmator3000",true,false,false,true);
+
+    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,16,128,128),false);
+    cp->SetParent(twin);
 
     GBuffer=new FrameBufferObject();
     GBuffer->Init();

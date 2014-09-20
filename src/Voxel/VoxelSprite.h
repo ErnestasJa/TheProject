@@ -9,7 +9,7 @@ class VoxelSprite:public VoxelMesh
         VoxelSprite();
         virtual ~VoxelSprite();
 
-
+        //void LoadFromImage(std::shared_ptr<image> img);
     protected:
     private:
 };
