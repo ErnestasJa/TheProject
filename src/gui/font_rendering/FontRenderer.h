@@ -10,6 +10,13 @@ struct font;
 typedef vector<font*> font_vector;
 typedef font_vector::iterator fvi; //font_vector_iterator
 
+struct SubStrInfo
+{
+    std::wstring text;
+    glm::vec4 col;
+    bool bold;
+};
+
 class font_renderer
 {
 private:
@@ -51,6 +58,8 @@ public:
     void render_string(std::wstring text, glm::vec2 pos,glm::vec4 color,bool drawshadow);
 
     void render_string(std::wstring text, glm::vec2 pos,bool drawshadow);
+
+    void render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow);
 
     glm::vec2 get_text_dimensions(const std::wstring & text,const std::string &font_name="default");
 };

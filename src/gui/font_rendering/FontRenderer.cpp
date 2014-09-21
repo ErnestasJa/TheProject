@@ -5,6 +5,8 @@
 #include "gui/GUIEnvironment.h"
 #include "FontRenderer.h"
 #include "Font.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 
 
 font_renderer::font_renderer(GUIEnvironment* env)
@@ -221,6 +223,114 @@ void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshad
     if(drawshadow)
         render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
     render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
+}
+
+static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
+{
+    bool dowehavetags=str.find_first_of(L"<")!=str.npos;
+    bool alltagsdone=false;
+    if(dowehavetags)
+    {
+        SubStrInfo inf;
+        inf.bold=false;
+        inf.col=glm::vec4(1);
+        while(!alltagsdone)
+        {
+            if(str.find_first_of(L"<")!=0&&str.find_first_of(L"<")!=str.npos)
+            {
+                inf.text=str.substr(0,str.find_first_of(L"<"));
+                ssi.push_back(inf);
+                str=str.substr(inf.text.length());
+                continue;
+            }
+            else if(str.find_first_of(L"<")==str.npos&&str.length()==0)
+            {
+                alltagsdone=true;
+                break;
+            }
+            else if(str.length()!=0&&str.find_first_of(L"<")==str.npos)
+            {
+                inf.text=str;
+                ssi.push_back(inf);
+                alltagsdone=true;
+                break;
+            }
+
+            wchar_t tag=str.substr(str.find_first_of(L"<")+1,1).c_str()[0];
+
+            uint32_t tagstart=str.find_first_of(tag);
+            uint32_t tagend=str.find_last_of(tag);
+
+            switch(tag)
+            {
+            /// <c 255,255,255> </c>
+            case L'c':
+                const wchar_t *sr=str.substr(tagstart+1,3).c_str();
+                const wchar_t *sg=str.substr(tagstart+5,3).c_str();
+                const wchar_t *sb=str.substr(tagstart+9,3).c_str();
+
+                glm::vec4 col=glm::vec4(1);
+                float r,g,b;
+                try
+                {
+                    r=1.f/255.f*_wtoi(sr);
+                    g=1.f/255.f*_wtoi(sg);
+                    b=1.f/255.f*_wtoi(sb);
+                }
+                catch(std::exception e)
+                {
+                    inf.col=col;
+                }
+                inf.col=glm::vec4(r,g,b,1);
+
+                str=str.substr(tagstart+13,tagend-2);
+                break;
+            case L'b':
+                inf.bold=true;
+                str=str.substr(tagstart+13,tagend-2);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow)
+{
+    /// Planned flow
+    /// Split by newlines
+    /// Get color and other tags, set variables, strip tags, push pre-tag info first, then tags, then post-tag info
+    /// Check for length wrapping failures, newline accordingly with the same data
+
+
+    vector<std::wstring> strs;
+    boost::split(strs, text, boost::is_any_of(L"\n"));
+
+    vector<SubStrInfo> strstodraw;
+
+    ReadAndStripTags(strs[0],strstodraw);
+
+    std::wstring carry=L"";
+
+    loop(i,strs.size())
+    {
+
+    }
+
+    loop(i,strs.size())
+    {
+        glm::vec2 substrdims=get_text_dimensions(strs[i],current_font->name);
+        if(substrdims.x>linewidth)
+        {
+
+        }
+        glm::vec2 linepos=glm::vec2(0,(float)i*(current_font->avgheight+current_font->avgheight/2));
+        render_string(strs[i],pos+linepos,glm::vec4(1,1,1,1),true);
+    }
+//    if(drawshadow)
+//        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
+//    render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
 void font_renderer::set_font_color(glm::vec4 color)

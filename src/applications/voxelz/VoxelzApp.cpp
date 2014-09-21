@@ -309,6 +309,9 @@ bool VoxelzApp::Update()
 
         env->Render();
 
+        glDisable(GL_DEPTH_TEST);
+        env->get_font_renderer()->render_string_formatted(L"multiline\nyadda yadda\nsuch wow\nlietuviškai,broli",glm::vec2(0,256),200,true);
+        glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
         return true;
     }
