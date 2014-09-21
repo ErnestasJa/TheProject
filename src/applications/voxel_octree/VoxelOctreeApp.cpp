@@ -16,30 +16,15 @@ VoxelOctreeApp::~VoxelOctreeApp()
 void VoxelOctreeApp::InitPlaneMesh()
 {
     AppContext * ctx = this->Ctx();
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_color");
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
-
-
     loopxyz(32,32,32)
-    {
-        if(!((x==2&&y==2) || (x==6&&y==8) || (x==19&&y==30)))
-        {
-            printf("Added node [%u, %u, %u]\n",x,y,z);
+        //if(!((x==2&&y==2) || (x==6&&y==8) || (x==19&&y==30)))
             octree->AddOrphanNode(MNode(x,y,z));
-        }
-    }
-
-    /*
-    for(auto it = octree->GetChildNodes().begin(); it != octree->GetChildNodes().end(); it++ )
-    {
-        MNode node = (*it);
-        if(node.start!=0)
-            std::cout << "Start = " << node.start << std::endl;
-    }*/
 
     octree->SortLeafNodes();
     octreeGen->GenAllChunks();

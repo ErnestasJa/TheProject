@@ -102,16 +102,10 @@ void Mesh::Render()
     glBindVertexArray(vao);
 
     if(sub_meshes.size()!=0)
-    {
         for(uint32_t i = 0; i < sub_meshes.size(); i++)
-        {
             glDrawElements(GL_TRIANGLES,sub_meshes[i].num_indices,GL_UNSIGNED_INT,(void*)(sizeof(uint32_t)*sub_meshes[i].start));
-        }
-    }
     else
-    {
         glDrawElements(GL_TRIANGLES,buffers[INDICES]->GetSize(),GL_UNSIGNED_INT,0);
-    }
 
     glBindVertexArray(0);
 }
