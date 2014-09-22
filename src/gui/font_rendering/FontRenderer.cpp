@@ -248,19 +248,19 @@ static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
         bool alltagsdone=false;
         if(dowehavetags)
         {
+            TextLine _line;
             SubLineInfo inf;
             inf.bold=false;
             inf.color=glm::vec4(1);
             inf.shadow=false;
-
-            TextLine _line;
-
             while(!alltagsdone)
             {
                 uint32_t ts=current.find(L"['");
-                uint32_t te=current.find(L"]");
-                uint32_t tc=current.find(L"']");
-                uint32_t tl=(tc-2)-(te+1);
+                wchar_t tagchar=current.substr(ts+2,1).c_str()[0];
+                uint32_t te=current.find(L"]",ts);
+                std::wstring curtagend=L""; curtagend+=tagchar; curtagend+=L"']";
+                uint32_t tc=current.find(curtagend);
+                uint32_t tl=(tc-1)-(te+1);
 
                 if(ts!=0&&ts!=std::wstring::npos)
                 {
@@ -285,7 +285,6 @@ static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
                 }
                 else
                 {
-                    wchar_t tagchar=current.substr(ts+2,1).c_str()[0];
                     switch(tagchar)
                     {
                     case L'c':
@@ -302,7 +301,9 @@ static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
                         inf.color=glm::vec4(r,g,b,a);
                         inf.text=current.substr(te+1,tl);
                         _line.content.push_back(inf);
-                        current=current.substr(tc+2);
+                        current=current.substr(tc+3);
+                        /// cut out the tag and join the text to the substr
+                        //current=current.substr(te+1,tl)+current.substr(tc+3);
                         continue;
                     }
                     break;
@@ -313,9 +314,13 @@ static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
                     break;
                     case L's':
                     {
-//                        inf.shadow=true;
-//                        current=current.substr(tc+2);
-//                        continue;
+                        inf.shadow=true;
+                        inf.text=current.substr(te+1,tl);
+                        _line.content.push_back(inf);
+                        current=current.substr(tc+3);
+                        /// cut out the tag and join the text to the substr
+                        //current=current.substr(te+1,tl)+current.substr(tc+3);
+                        continue;
                     }
                     break;
                     default:
