@@ -13,7 +13,7 @@ typedef font_vector::iterator fvi; //font_vector_iterator
 struct SubLineInfo
 {
     std::wstring text;
-    glm::vec4 col;
+    glm::vec4 color;
     bool bold;
     bool shadow;
     //unused

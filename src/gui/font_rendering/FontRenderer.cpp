@@ -233,74 +233,103 @@ void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshad
 ///yes: continue, no: this is the </tag> we are looking for. Get it's data and strip it.
 ///
 ///DO NOT newline inside tags(for now)(pls b0ss)
-static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
+static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
 {
-    bool dowehavetags=str.find_first_of(L"<")!=str.npos;
-    bool alltagsdone=false;
-    if(dowehavetags)
+    SubLineInfo definf;
+    definf.bold=false;
+    definf.color=glm::vec4(1);
+    definf.shadow=false;
+
+    loop(i,strs.size())
     {
-        SubStrInfo inf;
-        inf.bold=false;
-        inf.col=glm::vec4(1);
-        while(!alltagsdone)
+        std::wstring current=strs[i];
+
+        bool dowehavetags=current.find(L"['")!=std::wstring::npos;
+        bool alltagsdone=false;
+        if(dowehavetags)
         {
-            if(str.find_first_of(L"<")!=0&&str.find_first_of(L"<")!=str.npos)
-            {
-                inf.text=str.substr(0,str.find_first_of(L"<"));
-                ssi.push_back(inf);
-                str=str.substr(inf.text.length());
-                continue;
-            }
-            else if(str.find_first_of(L"<")==str.npos&&str.length()==0)
-            {
-                alltagsdone=true;
-                break;
-            }
-            else if(str.length()!=0&&str.find_first_of(L"<")==str.npos)
-            {
-                inf.text=str;
-                ssi.push_back(inf);
-                alltagsdone=true;
-                break;
-            }
+            SubLineInfo inf;
+            inf.bold=false;
+            inf.color=glm::vec4(1);
+            inf.shadow=false;
 
-            wchar_t tag=str.substr(str.find_first_of(L"<")+1,1).c_str()[0];
+            TextLine _line;
 
-            uint32_t tagstart=str.find_first_of(tag);
-            uint32_t tagend=str.find_last_of(tag);
-
-            switch(tag)
+            while(!alltagsdone)
             {
-            /// <c 255,255,255,255> </c>
-            case L'c':
-                const wchar_t *sr=str.substr(tagstart+1,3).c_str();
-                const wchar_t *sg=str.substr(tagstart+5,3).c_str();
-                const wchar_t *sb=str.substr(tagstart+9,3).c_str();
-                const wchar_t *sa=str.substr(tagstart+13,3).c_str();
+                uint32_t ts=current.find(L"['");
+                uint32_t te=current.find(L"]");
+                uint32_t tc=current.find(L"']");
+                uint32_t tl=(tc-2)-(te+1);
 
-                glm::vec4 col=glm::vec4(1);
-                float r,g,b;
-                try
+                if(ts!=0&&ts!=std::wstring::npos)
                 {
-                    r=1.f/255.f*_wtoi(sr);
-                    g=1.f/255.f*_wtoi(sg);
-                    b=1.f/255.f*_wtoi(sb);
+                    inf.text=current.substr(0,ts);
+                    _line.content.push_back(inf);
+                    current=current.substr(ts);
+                    continue;
                 }
-                catch(std::exception e)
+                else if(ts==std::wstring::npos&&current.length()>0)
                 {
-                    inf.col=col;
+                    definf.text=current;
+                    _line.content.push_back(definf);
+                    ssi.push_back(_line);
+                    alltagsdone=true;
+                    break;
                 }
-                inf.col=glm::vec4(r,g,b,1);
+                else if(ts==std::wstring::npos&&current.length()==0)
+                {
+                    ssi.push_back(_line);
+                    alltagsdone=true;
+                    break;
+                }
+                else
+                {
+                    wchar_t tagchar=current.substr(ts+2,1).c_str()[0];
+                    switch(tagchar)
+                    {
+                    case L'c':
+                    {
+                        std::vector<std::wstring> tagvals;
+                        std::wstring tagvalsubstr=current.substr(ts+4,te);
+                        boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
 
-                str=str.substr(tagstart+17,tagend-2);
-                break;
-            case L'b':
-                inf.bold=true;
-                str=str.substr(tagstart+17,tagend-2);
-                break;
-            default:
-                break;
+                        float r,g,b,a;
+                        r=1.f/255.f*_wtoi(tagvals[0].c_str());
+                        g=1.f/255.f*_wtoi(tagvals[1].c_str());
+                        b=1.f/255.f*_wtoi(tagvals[2].c_str());
+                        a=1.f/255.f*_wtoi(tagvals[3].c_str());
+                        inf.color=glm::vec4(r,g,b,a);
+                        inf.text=current.substr(te+1,tl);
+                        _line.content.push_back(inf);
+                        current=current.substr(tc+2);
+                        continue;
+                    }
+                    break;
+                    case L'b':
+                    {
+
+                    }
+                    break;
+                    case L's':
+                    {
+//                        inf.shadow=true;
+//                        current=current.substr(tc+2);
+//                        continue;
+                    }
+                    break;
+                    default:
+                        break;
+                    }
+                }
             }
+        }
+        else
+        {
+            TextLine _line;
+            definf.text=current;
+            _line.content.push_back(definf);
+            ssi.push_back(_line);
         }
     }
 }
@@ -314,50 +343,28 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
 {
 
     vector<std::wstring> strs;
-    boost::split(strs, text, boost::is_any_of(L'\n'));
+    boost::split(strs, text, boost::is_any_of(L"\n"));
+    if(strs.size()==0)
+        strs.push_back(text);
 
     vector<TextLine> linesToDraw;
-    linesToDraw.resize(strs.size());
 
-    SubLineInfo defaultinf;
-    defaultinf.bold=false;
-    defaultinf.col=glm::vec4(1);
-    defaultinf.text=L"";
-
-    /// For each new line of text, format it
-    loop(i,strs.size())
+    ReadAndStripTags(strs,linesToDraw);
+    printf("LinesToDraw: %d\n",linesToDraw.size());
+    loop(i,linesToDraw.size())
     {
-        uint32_t pretag=strs[i].find_first_of(L"<");
-        uint32_t aftertag=strs[i].find_last_of(L"</")+2;
-        std::wstring aftertagtext;
-        if(pretag!=0)
+        printf("Line %d elements: %d\n",i,linesToDraw[i].content.size());
+        glm::vec2 dims=glm::vec2(0,current_font->avgheight);
+        TextLine _current=linesToDraw[i];
+        loop(j,_current.content.size())
         {
-            defaultinf.text=strs[i].substr(0,pretag);
-            linesToDraw[i].content.push_back(defaultinf);
-            strs[i]=strs[i].substr(pretag);
+            SubLineInfo _celem=_current.content[j];
+            if(j!=0)
+                render_string(_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+            else
+                render_string(_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+            dims=glm::vec2(dims.x+get_text_dimensions(_celem.text,current_font->name).x,dims.y);
         }
-        if(aftertag!=npos)
-        {
-            aftertagtext=strs[i].substr(aftertag);
-            strs[i]=strs[i].substr(0,aftertag);
-        }
-        ReadAndStripTags(strs[i],linesToDraw[i].content);
-        if(aftertagtext.length()!=0)
-        {
-            defaultinf.text=aftertagtext;
-            linesToDraw[i].content.push_back(defaultinf);
-        }
-    }
-
-    loop(i,strs.size())
-    {
-        glm::vec2 substrdims=get_text_dimensions(strs[i],current_font->name);
-        if(substrdims.x>linewidth)
-        {
-
-        }
-        glm::vec2 linepos=glm::vec2(0,(float)i*(current_font->avgheight+current_font->avgheight/2));
-        render_string(strs[i],pos+linepos,glm::vec4(1,1,1,1),true);
     }
 }
 
@@ -371,9 +378,9 @@ glm::vec2 font_renderer::get_text_dimensions(const std::wstring & text,const std
     font* a=get_font(font_name);
 
     int len=0;
-    for(uint16_t gl:text)
+    for(wchar_t gl:text)
     {
-        len+=a->c[gl].ax;
+        len+=a->c[(int)gl].ax;
     }
     return glm::vec2(len,a->avgheight);
 }

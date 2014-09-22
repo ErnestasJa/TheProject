@@ -310,7 +310,8 @@ bool VoxelzApp::Update()
         env->Render();
 
         glDisable(GL_DEPTH_TEST);
-        env->get_font_renderer()->render_string_formatted(L"multiline\nyadda yadda\nsuch wow\nlietuviškai,broli",glm::vec2(0,256),200,true);
+        env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
+        //env->get_font_renderer()->render_string_formatted(L"Normal before ['c 0,0,255,255]blue[c'] normal after\nNewline normal ['c 0,0,255,255]blue[c']",glm::vec2(0,256),200,true);
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
         return true;
