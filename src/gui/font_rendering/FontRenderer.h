@@ -10,11 +10,20 @@ struct font;
 typedef vector<font*> font_vector;
 typedef font_vector::iterator fvi; //font_vector_iterator
 
-struct SubStrInfo
+struct SubLineInfo
 {
     std::wstring text;
     glm::vec4 col;
     bool bold;
+    bool shadow;
+    //unused
+    std::string font_name;
+    float fontsize;
+};
+
+struct TextLine
+{
+    vector<SubLineInfo> content;
 };
 
 class font_renderer

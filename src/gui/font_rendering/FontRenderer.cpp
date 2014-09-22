@@ -225,6 +225,14 @@ void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshad
     render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
+///tag nesting
+///<c><b></b><c></c></c>
+///
+///if found any other similar <tag> after the initial <tag>, ending is not the first one </tag>.
+///Continue to look past </tag>, found any other <tag>?
+///yes: continue, no: this is the </tag> we are looking for. Get it's data and strip it.
+///
+///DO NOT newline inside tags(for now)(pls b0ss)
 static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
 {
     bool dowehavetags=str.find_first_of(L"<")!=str.npos;
@@ -263,11 +271,12 @@ static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
 
             switch(tag)
             {
-            /// <c 255,255,255> </c>
+            /// <c 255,255,255,255> </c>
             case L'c':
                 const wchar_t *sr=str.substr(tagstart+1,3).c_str();
                 const wchar_t *sg=str.substr(tagstart+5,3).c_str();
                 const wchar_t *sb=str.substr(tagstart+9,3).c_str();
+                const wchar_t *sa=str.substr(tagstart+13,3).c_str();
 
                 glm::vec4 col=glm::vec4(1);
                 float r,g,b;
@@ -283,11 +292,11 @@ static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
                 }
                 inf.col=glm::vec4(r,g,b,1);
 
-                str=str.substr(tagstart+13,tagend-2);
+                str=str.substr(tagstart+17,tagend-2);
                 break;
             case L'b':
                 inf.bold=true;
-                str=str.substr(tagstart+13,tagend-2);
+                str=str.substr(tagstart+17,tagend-2);
                 break;
             default:
                 break;
@@ -296,26 +305,48 @@ static void ReadAndStripTags(std::wstring str,vector<SubStrInfo> &ssi)
     }
 }
 
+/// Planned flow:
+/// Split by newlines
+/// Strip pre-tag text, strip after-tag text, strip and set tag info
+/// Check for length wrapping failures, newline accordingly with the same data used for the formatted lines
+/// Regex case: <([a-zA-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>
 void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow)
 {
-    /// Planned flow
-    /// Split by newlines
-    /// Get color and other tags, set variables, strip tags, push pre-tag info first, then tags, then post-tag info
-    /// Check for length wrapping failures, newline accordingly with the same data
-
 
     vector<std::wstring> strs;
-    boost::split(strs, text, boost::is_any_of(L"\n"));
+    boost::split(strs, text, boost::is_any_of(L'\n'));
 
-    vector<SubStrInfo> strstodraw;
+    vector<TextLine> linesToDraw;
+    linesToDraw.resize(strs.size());
 
-    ReadAndStripTags(strs[0],strstodraw);
+    SubLineInfo defaultinf;
+    defaultinf.bold=false;
+    defaultinf.col=glm::vec4(1);
+    defaultinf.text=L"";
 
-    std::wstring carry=L"";
-
+    /// For each new line of text, format it
     loop(i,strs.size())
     {
-
+        uint32_t pretag=strs[i].find_first_of(L"<");
+        uint32_t aftertag=strs[i].find_last_of(L"</")+2;
+        std::wstring aftertagtext;
+        if(pretag!=0)
+        {
+            defaultinf.text=strs[i].substr(0,pretag);
+            linesToDraw[i].content.push_back(defaultinf);
+            strs[i]=strs[i].substr(pretag);
+        }
+        if(aftertag!=npos)
+        {
+            aftertagtext=strs[i].substr(aftertag);
+            strs[i]=strs[i].substr(0,aftertag);
+        }
+        ReadAndStripTags(strs[i],linesToDraw[i].content);
+        if(aftertagtext.length()!=0)
+        {
+            defaultinf.text=aftertagtext;
+            linesToDraw[i].content.push_back(defaultinf);
+        }
     }
 
     loop(i,strs.size())
@@ -328,9 +359,6 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
         glm::vec2 linepos=glm::vec2(0,(float)i*(current_font->avgheight+current_font->avgheight/2));
         render_string(strs[i],pos+linepos,glm::vec4(1,1,1,1),true);
     }
-//    if(drawshadow)
-//        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
-//    render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
 void font_renderer::set_font_color(glm::vec4 color)
