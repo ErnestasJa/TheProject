@@ -317,6 +317,7 @@ bool VoxelzApp::Update()
         //env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
         env->get_font_renderer()->use_font("bits");
         env->get_font_renderer()->render_string_formatted(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['v]lazy[v'] dog.[s']",glm::vec2(0,256),200,true);
+        env->get_font_renderer()->render_string_formatted(L"['s]Tags ['s]inside tags[s'] ['s]by the side of inside tags[s'][s']",glm::vec2(0,296),200,true);
         env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();

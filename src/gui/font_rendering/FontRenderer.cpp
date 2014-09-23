@@ -148,7 +148,9 @@ void font_renderer::set_default_font(font* new_font)
 void font_renderer::render_string_internal(std::wstring text,glm::vec2 pos,glm::vec4 color)
 {
     glm::vec2 gs=m_env->get_gui_scale();
-    float sx,sy; sx=gs.x; sy=gs.y;
+    float sx,sy;
+    sx=gs.x;
+    sy=gs.y;
 
     pos.x=-1+pos.x*sx;
     pos.y=1-pos.y*sy-current_font->avgheight*sy;
@@ -161,54 +163,55 @@ void font_renderer::render_string_internal(std::wstring text,glm::vec2 pos,glm::
 
     const uint16_t *p;
 
-	/* Use the Texture containing the atlas */
-	GL_CHECK(glBindTexture(GL_TEXTURE_2D, current_font->tex));
+    /* Use the Texture containing the atlas */
+    GL_CHECK(glBindTexture(GL_TEXTURE_2D, current_font->tex));
 
     glBindVertexArray(vao);
 
-	/* Set up the VBO for our vertex data */
-	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vbo));
-	GL_CHECK(glEnableVertexAttribArray(0));
-	GL_CHECK(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
+    /* Set up the VBO for our vertex data */
+    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vbo));
+    GL_CHECK(glEnableVertexAttribArray(0));
+    GL_CHECK(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
 
-	glm::vec4 coords[6 * text.length()];
-	int c = 0;
+    glm::vec4 coords[6 * text.length()];
+    int c = 0;
 
     font* a=current_font;
 
-	/* Loop through all characters */
-	for (p = (const uint16_t *)text.c_str(); *p; p++) {
-		/* Calculate the vertex and Texture coordinates */
-		float x2 = pos.x + a->c[*p].bl * sx;
-		float y2 = -pos.y - a->c[*p].bt * sy;
-		float w = a->c[*p].bw * sx;
-		float h = a->c[*p].bh * sy;
+    /* Loop through all characters */
+    for (p = (const uint16_t *)text.c_str(); *p; p++)
+    {
+        /* Calculate the vertex and Texture coordinates */
+        float x2 = pos.x + a->c[*p].bl * sx;
+        float y2 = -pos.y - a->c[*p].bt * sy;
+        float w = a->c[*p].bw * sx;
+        float h = a->c[*p].bh * sy;
 
-		/* Advance the cursor to the start of the next character */
-		pos.x += a->c[*p].ax * sx;
-		pos.y += a->c[*p].ay * sy;
+        /* Advance the cursor to the start of the next character */
+        pos.x += a->c[*p].ax * sx;
+        pos.y += a->c[*p].ay * sy;
 
-		/* Skip glyphs that have no pixels */
-		if (!w || !h)
-			continue;
+        /* Skip glyphs that have no pixels */
+        if (!w || !h)
+            continue;
 
-		coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
-		coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+        coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
 
-		coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-		coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
-		coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
-	}
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+    }
 
-	/* Draw all the character on the screen in one go */
-	GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW));
-	GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, c));
+    /* Draw all the character on the screen in one go */
+    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW));
+    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, c));
 
-	GL_CHECK(glDisableVertexAttribArray(0));
-	glBindVertexArray(0);
+    GL_CHECK(glDisableVertexAttribArray(0));
+    glBindVertexArray(0);
 
-	glDisable(GL_BLEND);
+    glDisable(GL_BLEND);
 }
 
 void font_renderer::render_string(std::string fontname,std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
@@ -304,97 +307,52 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
         return;
     }
 
+    SubLineInfo oldinf=inf;
     switch(tag)
     {
     case L'c':
-        {
-            SubLineInfo oldinf=inf;
-            ///printf("colour tag found\n");
-            std::vector<std::wstring> tagvals;
-            std::wstring tagvalsubstr=in.substr(firsttag+4,tagclose-4);
-            ///wprintf(L"colour tag values %s\n",tagvalsubstr.c_str());
-            boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
+    {
+        std::vector<std::wstring> tagvals;
+        std::wstring tagvalsubstr=in.substr(firsttag+4,tagclose-4);
+        boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
 
-            float r,g,b,a;
-            r=1.f/255.f*_wtoi(tagvals[0].c_str());
-            g=1.f/255.f*_wtoi(tagvals[1].c_str());
-            b=1.f/255.f*_wtoi(tagvals[2].c_str());
-            a=1.f/255.f*_wtoi(tagvals[3].c_str());
-            inf.color=glm::vec4(r,g,b,a);
-            std::wstring before=in.substr(tagclose+1,taglength);
-            ///wprintf(L"colour tag before %s\n",before.c_str());
-            std::wstring after=in.substr(tagend+4);
-            ///wprintf(L"colour tag after %s\n",after.c_str());
-            in=before+after;
-            ///wprintf(L"colour tag combo %s\n",in.c_str());
-            FormatTags(tl,before,inf);
-            FormatTags(tl,after,oldinf);
-            return;
-        }
-        break;
-    case L's':
-        {
-            SubLineInfo oldinf=inf;
-            ///printf("shdow tag found\n");
-            inf.shadow=true;
-            std::wstring before=in.substr(tagclose+1,taglength);
-            ///wprintf(L"shdow tag before %s\n",before.c_str());
-            std::wstring after=in.substr(tagend+4);
-            ///wprintf(L"shdow tag after %s\n",after.c_str());
-            in=before+after;
-            ///wprintf(L"shdow tag combo %s\n",in.c_str());
-            FormatTags(tl,before,inf);
-            FormatTags(tl,after,oldinf);
-            return;
-        }
-        break;
-    case L'b':
-        {
-            SubLineInfo oldinf=inf;
-            ///printf("bold tag found\n");
-            inf.bold=true;
-            std::wstring before=in.substr(tagclose+1,taglength);
-            ///wprintf(L"bold tag before %s\n",before.c_str());
-            std::wstring after=in.substr(tagend+4);
-            ///wprintf(L"bold tag after %s\n",after.c_str());
-            in=before+after;
-            ///wprintf(L"bold tag combo %s\n",in.c_str());
-            FormatTags(tl,before,inf);
-            FormatTags(tl,after,oldinf);
-        }
-        break;
-        case L'i':
-        {
-            SubLineInfo oldinf=inf;
-            ///printf("italic tag found\n");
-            inf.italic=true;
-            std::wstring before=in.substr(tagclose+1,taglength);
-            ///wprintf(L"italic tag before %s\n",before.c_str());
-            std::wstring after=in.substr(tagend+4);
-            ///wprintf(L"italic tag after %s\n",after.c_str());
-            in=before+after;
-            ///wprintf(L"italic tag combo %s\n",in.c_str());
-            FormatTags(tl,before,inf);
-            FormatTags(tl,after,oldinf);
-        }
-        break;
-        case L'v':
-        {
-            SubLineInfo oldinf=inf;
-            ///printf("italic tag found\n");
-            inf.bold=true;
-            inf.italic=true;
-            std::wstring before=in.substr(tagclose+1,taglength);
-            ///wprintf(L"italic tag before %s\n",before.c_str());
-            std::wstring after=in.substr(tagend+4);
-            ///wprintf(L"italic tag after %s\n",after.c_str());
-            in=before+after;
-            ///wprintf(L"italic tag combo %s\n",in.c_str());
-            FormatTags(tl,before,inf);
-            FormatTags(tl,after,oldinf);
-        }
-        break;
+        float r,g,b,a;
+        r=1.f/255.f*_wtoi(tagvals[0].c_str());
+        g=1.f/255.f*_wtoi(tagvals[1].c_str());
+        b=1.f/255.f*_wtoi(tagvals[2].c_str());
+        a=1.f/255.f*_wtoi(tagvals[3].c_str());
+        inf.color=glm::vec4(r,g,b,a);
     }
+    break;
+    case L's':
+    {
+        inf.shadow=true;
+    }
+    break;
+    case L'b':
+    {
+        inf.bold=true;
+    }
+    break;
+    case L'i':
+    {
+        inf.italic=true;
+    }
+    break;
+    case L'v':
+    {
+        inf.bold=true;
+        inf.italic=true;
+    }
+    break;
+    }
+
+    std::wstring before=in.substr(tagclose+1,taglength);
+    std::wstring after=in.substr(tagend+4);
+    in=before+after;
+    FormatTags(tl,before,inf);
+    FormatTags(tl,after,oldinf);
+    return;
 }
 
 /// Planned flow:
@@ -494,3 +452,4 @@ glm::vec2 font_renderer::get_text_dimensions(const std::wstring & text,const std
     }
     return glm::vec2(len,a->avgheight);
 }
+
