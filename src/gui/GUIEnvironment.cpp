@@ -37,7 +37,7 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
     this->SetName("GUI_ENVIRONMENT");
     last_char=' ';
 
-    gui_shader=Shader::LoadShader("res/gui_quad");
+    gui_shader=Shader::LoadShader("res/engine/shaders/gui_quad");
     gui_quad=new Quad();
     gui_quad->Init();
 
@@ -46,12 +46,14 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
 
     skin=new gui_skin();
 
-    skin->load("res/skin_default.xml");
+    skin->load("res/gui/skins/skin_default.xml");
 
     skin_atlas=new Texture();
     image_loader* imgl=new image_loader(m_context->_logger);
-    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/gui/skins/skin_default.png"));
     skin_atlas->Init(img);
+
+    delete imgl;
 
     m_font_renderer=new font_renderer(this);
 }

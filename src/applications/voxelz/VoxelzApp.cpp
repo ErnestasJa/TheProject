@@ -177,7 +177,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
-    qsh = (new shader_loader(ctx->_logger))->load("res/quad");
+    qsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/quad");
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
@@ -185,6 +185,7 @@ void InitPlaneMesh(AppContext * ctx)
     //cam->SetFPS(false);
 
     env=new GUIEnvironment(ctx);
+    env->get_font_renderer()->create_font("bits","res/gui/fonts/polygon.ttf",36);
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
 
     gui_static_text* texts[10];
@@ -311,7 +312,9 @@ bool VoxelzApp::Update()
 
         glDisable(GL_DEPTH_TEST);
         //env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
-        env->get_font_renderer()->render_string_formatted(L"['c 255,0,0,255]['s]RED[s']['c 0,255,0,255]GREEN['c 0,0,255,255]BLUE[c'][c'][c'] <normal human text>\nNewlines ['s]still[s'] work you mofuka",glm::vec2(0,256),200,true);
+        env->get_font_renderer()->use_font("bits");
+        env->get_font_renderer()->render_string_formatted(L"['c 255,0,0,255]['s]RED [s']['c 0,255,0,255]GREEN ['c 0,0,255,255]BLUE [c'][c'][c']<normal human text>\nNewlines ['s]still[s'] work you mofuka",glm::vec2(0,256),200,true);
+        env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
         return true;

@@ -6,7 +6,6 @@
 #include "FontRenderer.h"
 #include "Font.h"
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
 
 
 font_renderer::font_renderer(GUIEnvironment* env)
@@ -21,13 +20,13 @@ font_renderer::font_renderer(GUIEnvironment* env)
         exit(-1);
     }
 
-    set_default_font(create_font("default","res/freesans.ttf"));
+    set_default_font(create_font("default","res/gui/fonts/freesans.ttf"));
     use_font();
     printf("Current font:%s\n",current_font->name.c_str());
 
     glGenVertexArrays(1,&vao);
     glGenBuffers(1,&vbo);
-    font_shader=Shader::LoadShader("res/font");
+    font_shader=Shader::LoadShader("res/engine/shaders/font");
 }
 
 font_renderer::~font_renderer()

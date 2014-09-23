@@ -257,6 +257,7 @@
 		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.cpp" />
 		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.h" />
 		<Unit filename="../../src/gui/custom_elements/ToggleGroup.h" />
+		<Unit filename="../../src/gui/font_rendering/Font.cpp" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.cpp" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.h" />
 		<Unit filename="../../src/gui/font_rendering/font.h" />
