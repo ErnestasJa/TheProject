@@ -20,7 +20,10 @@ font_renderer::font_renderer(GUIEnvironment* env)
         exit(-1);
     }
 
-    set_default_font(create_font("default","res/gui/fonts/freesans.ttf"));
+    set_default_font(create_font("default","res/gui/fonts/OpenSans-Regular.ttf"));
+    create_font("default-bold","res/gui/fonts/OpenSans-Bold.ttf");
+    create_font("default-italic","res/gui/fonts/OpenSans-Italic.ttf");
+    create_font("default-bolditalic","res/gui/fonts/OpenSans-BoldItalic.ttf");
     use_font();
     printf("Current font:%s\n",current_font->name.c_str());
 
@@ -142,10 +145,8 @@ void font_renderer::set_default_font(font* new_font)
     default_font=new_font;
 }
 
-void font_renderer::render_string(std::string font_name,std::wstring text,glm::vec2 pos,glm::vec4 color)
+void font_renderer::render_string_internal(std::wstring text,glm::vec2 pos,glm::vec4 color)
 {
-    use_font(font_name);
-
     glm::vec2 gs=m_env->get_gui_scale();
     float sx,sy; sx=gs.x; sy=gs.y;
 
@@ -210,6 +211,16 @@ void font_renderer::render_string(std::string font_name,std::wstring text,glm::v
 	glDisable(GL_BLEND);
 }
 
+void font_renderer::render_string(std::string fontname,std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
+{
+    std::string oldfont=current_font->name;
+    use_font(fontname);
+    if(drawshadow)
+        render_string_internal(text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
+    render_string_internal(text,pos,color);
+    use_font(oldfont);
+}
+
 void font_renderer::render_string(std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
 {
     if(drawshadow)
@@ -236,7 +247,7 @@ static uint32_t FindTagEnd(std::wstring str,const wchar_t tag)
 
     uint32_t tagstart=str.find(thistagopen);
 
-    uint32_t naiveend=str.find(thistagclose);
+    uint32_t naiveend=str.find(thistagclose,tagstart);
 
     uint32_t track=tagstart;
     uint32_t realend=naiveend;
@@ -321,7 +332,7 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
             return;
         }
         break;
-    case 's':
+    case L's':
         {
             SubLineInfo oldinf=inf;
             ///printf("shdow tag found\n");
@@ -337,9 +348,50 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
             return;
         }
         break;
-    case 'b':
+    case L'b':
         {
-
+            SubLineInfo oldinf=inf;
+            ///printf("bold tag found\n");
+            inf.bold=true;
+            std::wstring before=in.substr(tagclose+1,taglength);
+            ///wprintf(L"bold tag before %s\n",before.c_str());
+            std::wstring after=in.substr(tagend+4);
+            ///wprintf(L"bold tag after %s\n",after.c_str());
+            in=before+after;
+            ///wprintf(L"bold tag combo %s\n",in.c_str());
+            FormatTags(tl,before,inf);
+            FormatTags(tl,after,oldinf);
+        }
+        break;
+        case L'i':
+        {
+            SubLineInfo oldinf=inf;
+            ///printf("italic tag found\n");
+            inf.italic=true;
+            std::wstring before=in.substr(tagclose+1,taglength);
+            ///wprintf(L"italic tag before %s\n",before.c_str());
+            std::wstring after=in.substr(tagend+4);
+            ///wprintf(L"italic tag after %s\n",after.c_str());
+            in=before+after;
+            ///wprintf(L"italic tag combo %s\n",in.c_str());
+            FormatTags(tl,before,inf);
+            FormatTags(tl,after,oldinf);
+        }
+        break;
+        case L'v':
+        {
+            SubLineInfo oldinf=inf;
+            ///printf("italic tag found\n");
+            inf.bold=true;
+            inf.italic=true;
+            std::wstring before=in.substr(tagclose+1,taglength);
+            ///wprintf(L"italic tag before %s\n",before.c_str());
+            std::wstring after=in.substr(tagend+4);
+            ///wprintf(L"italic tag after %s\n",after.c_str());
+            in=before+after;
+            ///wprintf(L"italic tag combo %s\n",in.c_str());
+            FormatTags(tl,before,inf);
+            FormatTags(tl,after,oldinf);
         }
         break;
     }
@@ -352,6 +404,23 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
 /// Regex case: <([a-zA-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>
 void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow)
 {
+    std::string oldfont;
+
+    char boldname[256];
+    sprintf(boldname,"%s-bold",current_font->name.c_str());
+    font* boldie=get_font(boldname);
+    bool canbold=boldie!=nullptr;
+
+    char italicname[256];
+    sprintf(italicname,"%s-italic",current_font->name.c_str());
+    font* italie=get_font(italicname);
+    bool canitalic=italie!=nullptr;
+
+    char bolditalicname[256];
+    sprintf(bolditalicname,"%s-bolditalic",current_font->name.c_str());
+    font* boldieitalie=get_font(bolditalicname);
+    bool canbolditalic=boldieitalie!=nullptr;
+
 
     vector<std::wstring> strs;
     boost::split(strs, text, boost::is_any_of(L"\n"));
@@ -365,6 +434,7 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
     inf.color=glm::vec4(1);
     inf.shadow=false;
     inf.bold=false;
+    inf.italic=false;
 
     loop(i,strs.size())
     {
@@ -380,11 +450,30 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
         loop(j,_current.content.size())
         {
             SubLineInfo _celem=_current.content[j];
+            if(_celem.bold&&canbold&&!_celem.italic)
+            {
+                oldfont=current_font->name;
+                use_font(std::string(boldname));
+            }
+            else if(_celem.italic&&canitalic&&!_celem.bold)
+            {
+                oldfont=current_font->name;
+                use_font(std::string(italicname));
+            }
+            else if(_celem.bold&&_celem.italic&&canbolditalic)
+            {
+                oldfont=current_font->name;
+                use_font(std::string(bolditalicname));
+            }
             if(j!=0)
-                render_string(_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+                render_string(current_font->name,_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
             else
-                render_string(_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+                render_string(current_font->name,_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
             dims=glm::vec2(dims.x+get_text_dimensions(_celem.text,current_font->name).x,dims.y);
+            if(_celem.bold||_celem.italic)
+            {
+                use_font(oldfont);
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ struct SubLineInfo
     glm::vec4 color;
     bool bold;
     bool shadow;
+    bool italic;
     //unused
     std::string font_name;
     float fontsize;
@@ -62,7 +63,9 @@ public:
 
     void set_default_font(font* new_font);
 
-    void render_string(std::string font_name, std::wstring text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1));
+    void render_string_internal(std::wstring text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1));
+
+    void render_string(std::string fontname, std::wstring text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1),bool drawshadow=false);
 
     void render_string(std::wstring text, glm::vec2 pos,glm::vec4 color,bool drawshadow);
 
