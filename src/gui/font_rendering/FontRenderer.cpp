@@ -225,117 +225,124 @@ void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshad
     render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
 }
 
-///tag nesting
-///<c><b></b><c></c></c>
-///
-///if found any other similar <tag> after the initial <tag>, ending is not the first one </tag>.
-///Continue to look past </tag>, found any other <tag>?
-///yes: continue, no: this is the </tag> we are looking for. Get it's data and strip it.
-///
-///DO NOT newline inside tags(for now)(pls b0ss)
-static void ReadAndStripTags(vector<std::wstring> &strs,vector<TextLine> &ssi)
+static uint32_t FindTagEnd(std::wstring str,const wchar_t tag)
 {
-    SubLineInfo definf;
-    definf.bold=false;
-    definf.color=glm::vec4(1);
-    definf.shadow=false;
+    wchar_t buf[32];
 
-    loop(i,strs.size())
+    swprintf(buf,L"['%c",tag);
+    std::wstring thistagopen=buf;
+
+    swprintf(buf,L"[%c']",tag);
+    std::wstring thistagclose=buf;
+
+    uint32_t tagstart=str.find(thistagopen);
+
+    uint32_t naiveend=str.find(thistagclose);
+
+    uint32_t track=tagstart;
+    uint32_t realend=naiveend;
+    while(1)
     {
-        std::wstring current=strs[i];
+        bool nested=str.find(thistagopen,track+3)!=std::wstring::npos;
 
-        bool dowehavetags=current.find(L"['")!=std::wstring::npos;
-        bool alltagsdone=false;
-        if(dowehavetags)
+        if(nested)
         {
-            TextLine _line;
-            SubLineInfo inf;
-            inf.bold=false;
-            inf.color=glm::vec4(1);
-            inf.shadow=false;
-            while(!alltagsdone)
-            {
-                uint32_t ts=current.find(L"['");
-                wchar_t tagchar=current.substr(ts+2,1).c_str()[0];
-                uint32_t te=current.find(L"]",ts);
-                std::wstring curtagend=L""; curtagend+=tagchar; curtagend+=L"']";
-                uint32_t tc=current.find(curtagend);
-                uint32_t tl=(tc-1)-(te+1);
-
-                if(ts!=0&&ts!=std::wstring::npos)
-                {
-                    inf.text=current.substr(0,ts);
-                    _line.content.push_back(inf);
-                    current=current.substr(ts);
-                    continue;
-                }
-                else if(ts==std::wstring::npos&&current.length()>0)
-                {
-                    definf.text=current;
-                    _line.content.push_back(definf);
-                    ssi.push_back(_line);
-                    alltagsdone=true;
-                    break;
-                }
-                else if(ts==std::wstring::npos&&current.length()==0)
-                {
-                    ssi.push_back(_line);
-                    alltagsdone=true;
-                    break;
-                }
-                else
-                {
-                    switch(tagchar)
-                    {
-                    case L'c':
-                    {
-                        std::vector<std::wstring> tagvals;
-                        std::wstring tagvalsubstr=current.substr(ts+4,te);
-                        boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
-
-                        float r,g,b,a;
-                        r=1.f/255.f*_wtoi(tagvals[0].c_str());
-                        g=1.f/255.f*_wtoi(tagvals[1].c_str());
-                        b=1.f/255.f*_wtoi(tagvals[2].c_str());
-                        a=1.f/255.f*_wtoi(tagvals[3].c_str());
-                        inf.color=glm::vec4(r,g,b,a);
-                        inf.text=current.substr(te+1,tl);
-                        _line.content.push_back(inf);
-                        current=current.substr(tc+3);
-                        /// cut out the tag and join the text to the substr
-                        //current=current.substr(te+1,tl)+current.substr(tc+3);
-                        continue;
-                    }
-                    break;
-                    case L'b':
-                    {
-
-                    }
-                    break;
-                    case L's':
-                    {
-                        inf.shadow=true;
-                        inf.text=current.substr(te+1,tl);
-                        _line.content.push_back(inf);
-                        current=current.substr(tc+3);
-                        /// cut out the tag and join the text to the substr
-                        //current=current.substr(te+1,tl)+current.substr(tc+3);
-                        continue;
-                    }
-                    break;
-                    default:
-                        break;
-                    }
-                }
-            }
+            track=str.find(thistagopen,track+3);
+            naiveend=str.find(thistagclose,naiveend+4);
         }
         else
+            break;
+    }
+    realend=naiveend;
+    return realend;
+}
+
+static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
+{
+    if(in.length()==0)return;
+    uint32_t firsttag,tagclose,tagend,taglength;
+    wchar_t tag;
+
+    firsttag=in.find(L"['");
+
+    if(firsttag!=std::wstring::npos)
+    {
+        ///printf("tag found\n");
+        tag=in.substr(firsttag+2,1)[0];
+        tagclose=in.find(L"]",firsttag);
+        tagend=FindTagEnd(in,tag);
+        taglength=tagend-(tagclose+1);
+    }
+    else /// apparently, no tags
+    {
+        ///printf("no tag found\n");
+        if(in.length()>0)
         {
-            TextLine _line;
-            definf.text=current;
-            _line.content.push_back(definf);
-            ssi.push_back(_line);
+            inf.text=in;
+            tl.content.push_back(inf);
         }
+        return;
+    }
+    /// do we have pre-text? if yes, cut it and try again. keep formatting data.
+    if(firsttag!=0)
+    {
+        inf.text=in.substr(0,firsttag);
+        tl.content.push_back(inf);
+        in=in.substr(firsttag);
+        ///wprintf(L"pretag found applying formatting if any\nsubstr:%ls\n",in.c_str());
+        FormatTags(tl,in,inf);
+        return;
+    }
+
+    switch(tag)
+    {
+    case L'c':
+        {
+            SubLineInfo oldinf=inf;
+            ///printf("colour tag found\n");
+            std::vector<std::wstring> tagvals;
+            std::wstring tagvalsubstr=in.substr(firsttag+4,tagclose-4);
+            ///wprintf(L"colour tag values %s\n",tagvalsubstr.c_str());
+            boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
+
+            float r,g,b,a;
+            r=1.f/255.f*_wtoi(tagvals[0].c_str());
+            g=1.f/255.f*_wtoi(tagvals[1].c_str());
+            b=1.f/255.f*_wtoi(tagvals[2].c_str());
+            a=1.f/255.f*_wtoi(tagvals[3].c_str());
+            inf.color=glm::vec4(r,g,b,a);
+            std::wstring before=in.substr(tagclose+1,taglength);
+            ///wprintf(L"colour tag before %s\n",before.c_str());
+            std::wstring after=in.substr(tagend+4);
+            ///wprintf(L"colour tag after %s\n",after.c_str());
+            in=before+after;
+            ///wprintf(L"colour tag combo %s\n",in.c_str());
+            FormatTags(tl,before,inf);
+            FormatTags(tl,after,oldinf);
+            return;
+        }
+        break;
+    case 's':
+        {
+            SubLineInfo oldinf=inf;
+            ///printf("shdow tag found\n");
+            inf.shadow=true;
+            std::wstring before=in.substr(tagclose+1,taglength);
+            ///wprintf(L"shdow tag before %s\n",before.c_str());
+            std::wstring after=in.substr(tagend+4);
+            ///wprintf(L"shdow tag after %s\n",after.c_str());
+            in=before+after;
+            ///wprintf(L"shdow tag combo %s\n",in.c_str());
+            FormatTags(tl,before,inf);
+            FormatTags(tl,after,oldinf);
+            return;
+        }
+        break;
+    case 'b':
+        {
+
+        }
+        break;
     }
 }
 
@@ -353,12 +360,22 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
         strs.push_back(text);
 
     vector<TextLine> linesToDraw;
+    linesToDraw.resize(strs.size());
 
-    ReadAndStripTags(strs,linesToDraw);
-    printf("LinesToDraw: %d\n",linesToDraw.size());
+    SubLineInfo inf;
+    inf.color=glm::vec4(1);
+    inf.shadow=false;
+    inf.bold=false;
+
+    loop(i,strs.size())
+    {
+        FormatTags(linesToDraw[i],strs[i],inf);
+    }
+
+    //ReadAndStripTags(strs,linesToDraw);
+    //printf("LinesToDraw: %d\n",linesToDraw.size());
     loop(i,linesToDraw.size())
     {
-        printf("Line %d elements: %d\n",i,linesToDraw[i].content.size());
         glm::vec2 dims=glm::vec2(0,current_font->avgheight);
         TextLine _current=linesToDraw[i];
         loop(j,_current.content.size())
