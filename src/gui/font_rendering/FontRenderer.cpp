@@ -96,7 +96,7 @@ FontFamily* FontRenderer::CreateFontFamily(const std::string &name,uint32_t size
 
     _fontFamilies[name]=ret;
 
-    return _fontFamilies[name];
+    return ret;
 }
 
 void FontRenderer::UseFontFamily(const std::string &familyName)
@@ -107,13 +107,12 @@ void FontRenderer::UseFontFamily(const std::string &familyName)
         if(candidate!=nullptr)
         {
             _currentFamily=candidate;
-            UseFont(FFT_REGULAR);
+            _currentFamily->currentType=FFT_REGULAR;
             return;
         }
     }
 
     _currentFamily=_defaultFamily;
-     UseFont(FFT_REGULAR);
 }
 
 void FontRenderer::UseFont(FONT_FAMILY_TYPE f)
@@ -358,13 +357,17 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos,const g
 /// Regex case: <([a-zA-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>
 void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,float linewidth, std::string fontFamilyName)
 {
+    FontFamily* old=_currentFamily;
+
+    if(GetFontFamily(fontFamilyName)!=nullptr)
+        UseFontFamily(fontFamilyName);
+    UseFont(FFT_REGULAR);
     FontFamily* current=_currentFamily;
+    bool canbold=current->Has(FFT_BOLD);
+    bool canitalic=current->Has(FFT_ITALIC);
+    bool canbolditalic=current->Has(FFT_BOLD_ITALIC);
 
-    bool canbold=_currentFamily->Has(FFT_BOLD);
-    bool canitalic=_currentFamily->Has(FFT_ITALIC);
-    bool canbolditalic=_currentFamily->Has(FFT_BOLD_ITALIC);
-
-    FONT_FAMILY_TYPE oldStyle=_currentFamily->currentType;
+    FONT_FAMILY_TYPE oldStyle=current->currentType;
 
 
     vector<std::wstring> strs;
@@ -388,8 +391,6 @@ void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,f
 
     //ReadAndStripTags(strs,linesToDraw);
     //printf("LinesToDraw: %d\n",linesToDraw.size());
-    if(GetFontFamily(fontFamilyName)!=nullptr)
-        UseFontFamily(fontFamilyName);
     loop(i,linesToDraw.size())
     {
         glm::vec2 dims=glm::vec2(0,_currentFont->avgheight);
@@ -399,17 +400,17 @@ void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,f
             SubLineInfo _celem=_current.content[j];
             if(_celem.bold&&canbold&&!_celem.italic)
             {
-                oldStyle=_currentFamily->currentType;
+                oldStyle=current->currentType;
                 UseFont(FFT_BOLD);
             }
             else if(_celem.italic&&canitalic&&!_celem.bold)
             {
-                oldStyle=_currentFamily->currentType;
+                oldStyle=current->currentType;
                 UseFont(FFT_ITALIC);
             }
             else if(_celem.bold&&_celem.italic&&canbolditalic)
             {
-                oldStyle=_currentFamily->currentType;
+                oldStyle=current->currentType;
                 UseFont(FFT_BOLD_ITALIC);
             }
             if(j!=0)
@@ -429,7 +430,7 @@ void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,f
         }
     }
     if(GetFontFamily(fontFamilyName)!=nullptr)
-        UseFontFamily(current->familyName);
+        UseFontFamily(old->familyName);
 }
 
 void FontRenderer::_SetFontColor(const glm::vec4 &color)

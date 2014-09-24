@@ -189,7 +189,10 @@ void InitPlaneMesh(AppContext * ctx)
 //    env->get_font_renderer()->create_font("bits-bold","res/gui/fonts/OpenSans-Bold.ttf",36);
 //    env->get_font_renderer()->create_font("bits-italic","res/gui/fonts/OpenSans-Italic.ttf",36);
 //    env->get_font_renderer()->create_font("bits-bolditalic","res/gui/fonts/OpenSans-BoldItalic.ttf",36);
-    env->get_font_renderer()->CreateFontFamily(std::string("polygon"),36,std::string("res/gui/fonts/polygon.ttf"));
+    env->get_font_renderer()->CreateFontFamily("polygon",36,std::string("res/gui/fonts/polygon.ttf"));
+    env->get_font_renderer()->CreateFontFamily("default",36,
+                                               "res/gui/fonts/OpenSans-Regular.ttf","res/gui/fonts/OpenSans-Bold.ttf",
+                                               "res/gui/fonts/OpenSans-Italic.ttf","res/gui/fonts/OpenSans-BoldItalic.ttf");
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
 
     gui_static_text* texts[10];
@@ -317,8 +320,8 @@ bool VoxelzApp::Update()
         glDisable(GL_DEPTH_TEST);
         //env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
 //        env->get_font_renderer()->use_font("bits");
-        env->get_font_renderer()->RenderString(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['v]lazy[v'] dog.[s']",glm::vec2(0,256),0,"pixel");
-        env->get_font_renderer()->RenderString(L"['s]Tags ['s]['c 128,128,255,64]['b]inside[b'][c'] tags[s'] ['s]by the side of inside tags[s'][s']",glm::vec2(0,296),0);
+        env->get_font_renderer()->RenderString(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['v]lazy[v'] dog.[s']",glm::vec2(0,256),0,"default36");
+        env->get_font_renderer()->RenderString(L"['s]Tags ['s]['c 128,128,255,64]['b]inside[b'][c'] tags[s'] ['s]by the side of inside tags[s'][s']",glm::vec2(0,296),0,"polygon");
 //        env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
