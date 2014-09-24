@@ -256,9 +256,10 @@ static uint32_t FindTagEnd(std::wstring str,const wchar_t tag)
     uint32_t realend=naiveend;
     while(1)
     {
-        bool nested=str.find(thistagopen,track+3)!=std::wstring::npos;
+        uint32_t nestedcheck=str.find(thistagopen,track+3);
+        bool nested=nestedcheck!=std::wstring::npos;
 
-        if(nested)
+        if(nested&&nestedcheck<naiveend)
         {
             track=str.find(thistagopen,track+3);
             naiveend=str.find(thistagclose,naiveend+4);
