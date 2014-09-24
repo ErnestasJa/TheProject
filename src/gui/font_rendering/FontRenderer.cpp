@@ -1,247 +1,161 @@
 #include "Precomp.h"
 #include "Utility/helpers.h"
+#include "Application/AppContext.h"
+#include "Utility/Logger.h"
 #include "opengl/Shader.h"
 #include "opengl/OpenGLUtil.h"
 #include "gui/GUIEnvironment.h"
 #include "FontRenderer.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include "Font.h"
-#include "FontFamily.h"
 #include <boost/algorithm/string.hpp>
 
 
-font_renderer::font_renderer(GUIEnvironment* env)
+FontRenderer::FontRenderer(AppContext* ctx)
 {
-    this->m_env=env;
+    this->_appContext=ctx;
+    this->_guiEnvironment=_appContext->_guiEnv;
+    this->_logger=_appContext->_logger;
 
-    FT_Error err=FT_Init_FreeType(&ft);
+    FT_Error err=FT_Init_FreeType(&_ftLib);
 
     if (err)
     {
-        printf("Error on init:%u\n",err);
+        _logger->log(LOG_ERROR,"Error on init:%u\n",err);
         exit(-1);
     }
 
-    set_default_font(create_font("default","res/gui/fonts/OpenSans-Regular.ttf"));
-    create_font("default-bold","res/gui/fonts/OpenSans-Bold.ttf");
-    create_font("default-italic","res/gui/fonts/OpenSans-Italic.ttf");
-    create_font("default-bolditalic","res/gui/fonts/OpenSans-BoldItalic.ttf");
-    use_font();
-    printf("Current font:%s\n",current_font->name.c_str());
+    _defaultFamily=CreateFontFamily("default",12,
+                                    "res/gui/fonts/OpenSans-Regular.ttf","res/gui/fonts/OpenSans-Bold.ttf",
+                                    "res/gui/fonts/OpenSans-Italic.ttf","res/gui/fonts/OpenSans-BoldItalic.ttf");
+    if(_defaultFamily==nullptr)
+        exit(-1);
+    UseFontFamily(_defaultFamily->familyName);
+    UseFont(FFT_REGULAR);
+    if(_currentFamily!=_defaultFamily)
+        exit(-1);
 
-    glGenVertexArrays(1,&vao);
-    glGenBuffers(1,&vbo);
-    font_shader=Shader::LoadShader("res/engine/shaders/font");
+    glGenVertexArrays(1,&_VAO);
+    glGenBuffers(1,&_VBO);
+    _fontShader=Shader::LoadShader("res/engine/shaders/font");
 }
 
-font_renderer::~font_renderer()
+FontRenderer::~FontRenderer()
 {
-    for(fvi i=fonts.begin(); i!=fonts.end(); i++)
-    {
-        delete (*i);
-    }
-    fonts.clear();
-    FT_Done_FreeType(ft);
+//    for(fvi i=fonts.begin(); i!=fonts.end(); i++)
+//    {
+//        delete (*i);
+//    }
+    _fontFamilies.clear();
+    FT_Done_FreeType(_ftLib);
 }
 
-font* font_renderer::create_font(std::string name, std::string filename, int32_t size)
+Font* FontRenderer::_CreateFont(const std::string &name, const std::string &filename, const int32_t &size)
 {
-    font* f=get_font(name);
-    if(f!=nullptr)
-    {
-        return f;
-    }
-
     char* buf=NULL;
 
     uint32_t fl=helpers::read(filename,buf);
 
-    printf("BUF: %u\n",fl);
+    _logger->log(LOG_DEBUG,"BUF: %u\n",fl);
 
     if(fl<=0)
     {
-        printf("Font file appears to be empty or corrupt.\n");
+        _logger->log(LOG_ERROR,"Font file appears to be empty or corrupt.\n");
         exit(-1);
     }
 
-    FT_Error err=FT_New_Memory_Face(ft, reinterpret_cast<FT_Byte*>(buf), fl, 0, &ff);
+    FT_Error err=FT_New_Memory_Face(_ftLib, reinterpret_cast<FT_Byte*>(buf), fl, 0, &_ftFace);
     if(err)
     {
-        printf("Error on creating a font: %d\n",err);
+        _logger->log(LOG_ERROR,"Error on creating a font: %d\n",err);
         exit(-1);
     }
 
-    font* temp=new font(ff, size, name);
-
-    fonts.push_back(temp);
+    Font* temp=new Font(_ftFace, size, name);
 
     delete buf;
 
-    FT_Done_Face(ff);
+    FT_Done_Face(_ftFace);
 
     return temp;
 }
 
-bool font_renderer::remove_font(std::string font_to_remove)
+FontFamily* FontRenderer::CreateFontFamily(const std::string &name,uint32_t size,
+        std::string regularFileName,std::string boldFileName,
+        std::string italicFileName,std::string boldItalicFileName)
 {
-    if(font_to_remove==default_font->name)
-    {
-        printf("Cannot remove default font.\n");
-        return false;
-    }
+    FontFamily* check=GetFontFamily(name);
+    if(check!=nullptr) return check;
 
-    for(fvi i=fonts.begin(); i!=fonts.end(); i++)
-    {
-        if((*i)->name==font_to_remove)
-        {
-            i=fonts.erase(i);
-            delete (*i);
-            return true;
-        }
-    }
+    FontFamily* ret=new FontFamily(name);
 
-    //if everything else fails.
-    printf("fuck you.\n");
-    return false;
+    if(regularFileName.length()>0) ret->AddFont(FFT_REGULAR,_CreateFont(name+"-Regular",regularFileName,size));
+    if(boldFileName.length()>0) ret->AddFont(FFT_BOLD,_CreateFont(name+"-Bold",boldFileName,size));
+    if(italicFileName.length()>0) ret->AddFont(FFT_ITALIC,_CreateFont(name+"-Italic",italicFileName,size));
+    if(boldItalicFileName.length()>0) ret->AddFont(FFT_BOLD_ITALIC,_CreateFont(name+"-BoldItalic",boldItalicFileName,size));
+
+    ret->currentType=FFT_REGULAR;
+
+    _fontFamilies[name]=ret;
+
+    return _fontFamilies[name];
 }
 
-void font_renderer::use_font(std::string font_name)
+void FontRenderer::UseFontFamily(const std::string &familyName)
 {
-    if(font_name=="default"&&default_font!=nullptr)
+    if(familyName.length()>0)
     {
-        current_font=default_font;
-        return;
-    }
-
-    for(fvi i=fonts.begin(); i!=fonts.end(); i++)
-    {
-        if((*i)->name==font_name)
+        FontFamily* candidate=GetFontFamily(familyName);
+        if(candidate!=nullptr)
         {
-            current_font=(*i);
+            _currentFamily=candidate;
+            UseFont(FFT_REGULAR);
             return;
         }
     }
 
-    current_font=default_font;
-    return;
+    _currentFamily=_defaultFamily;
+     UseFont(FFT_REGULAR);
 }
 
-font* font_renderer::get_font(std::string name)
+void FontRenderer::UseFont(FONT_FAMILY_TYPE f)
 {
-    for(fvi i=fonts.begin(); i!=fonts.end(); i++)
+    if(_currentFamily->Has(f))
     {
-        if((*i)->name == name)
-            return (*i);
+        _currentFont=_currentFamily->GetFamilyFont(f);;
+        _currentFamily->currentType=f;
+        return;
     }
+}
 
+FontFamily* FontRenderer::GetFontFamily(const std::string &name)
+{
+    if(_fontFamilies.count(name)>0)
+        return _fontFamilies[name];
     return nullptr;
 }
 
-font* font_renderer::get_default_font()
+FontFamily* FontRenderer::GetDefaultFontFamily()
 {
-    return default_font;
+    return _defaultFamily;
 }
 
-void font_renderer::set_default_font(font* new_font)
+FontFamily* FontRenderer::GetCurrentFontFamily()
 {
-    default_font=new_font;
+    return _currentFamily;
 }
 
-void font_renderer::render_string_internal(std::wstring text,glm::vec2 pos,glm::vec4 color)
+Font* FontRenderer::GetCurrentFont()
 {
-    glm::vec2 gs=m_env->get_gui_scale();
-    float sx,sy;
-    sx=gs.x;
-    sy=gs.y;
-
-    pos.x=-1+pos.x*sx;
-    pos.y=1-pos.y*sy-current_font->avgheight*sy;
-
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    font_shader->Set();
-    set_font_color(color);
-
-    const uint16_t *p;
-
-    /* Use the Texture containing the atlas */
-    GL_CHECK(glBindTexture(GL_TEXTURE_2D, current_font->tex));
-
-    glBindVertexArray(vao);
-
-    /* Set up the VBO for our vertex data */
-    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vbo));
-    GL_CHECK(glEnableVertexAttribArray(0));
-    GL_CHECK(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
-
-    glm::vec4 coords[6 * text.length()];
-    int c = 0;
-
-    font* a=current_font;
-
-    /* Loop through all characters */
-    for (p = (const uint16_t *)text.c_str(); *p; p++)
-    {
-        /* Calculate the vertex and Texture coordinates */
-        float x2 = pos.x + a->c[*p].bl * sx;
-        float y2 = -pos.y - a->c[*p].bt * sy;
-        float w = a->c[*p].bw * sx;
-        float h = a->c[*p].bh * sy;
-
-        /* Advance the cursor to the start of the next character */
-        pos.x += a->c[*p].ax * sx;
-        pos.y += a->c[*p].ay * sy;
-
-        /* Skip glyphs that have no pixels */
-        if (!w || !h)
-            continue;
-
-        coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
-        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
-
-        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
-    }
-
-    /* Draw all the character on the screen in one go */
-    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW));
-    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, c));
-
-    GL_CHECK(glDisableVertexAttribArray(0));
-    glBindVertexArray(0);
-
-    glDisable(GL_BLEND);
+    return _currentFont;
 }
 
-void font_renderer::render_string(std::string fontname,std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
+void FontRenderer::SetDefaultFontFamily(const std::string &familyName)
 {
-    std::string oldfont=current_font->name;
-    use_font(fontname);
-    if(drawshadow)
-        render_string_internal(text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
-    render_string_internal(text,pos,color);
-    use_font(oldfont);
+    FontFamily* candidate=GetFontFamily(familyName);
+    if(candidate!=nullptr)
+        _defaultFamily=candidate;
 }
 
-void font_renderer::render_string(std::wstring text,glm::vec2 pos,glm::vec4 color,bool drawshadow)
-{
-    if(drawshadow)
-        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
-    render_string(current_font->name,text,pos,color);
-}
-
-void font_renderer::render_string(std::wstring text, glm::vec2 pos,bool drawshadow)
-{
-    if(drawshadow)
-        render_string(current_font->name,text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,1));
-    render_string(current_font->name,text,pos,glm::vec4(1,1,1,1));
-}
-
-static uint32_t FindTagEnd(std::wstring str,const wchar_t tag)
+uint32_t FontRenderer::_FindTagEnd(std::wstring str,const wchar_t tag)
 {
     wchar_t buf[32];
 
@@ -274,7 +188,7 @@ static uint32_t FindTagEnd(std::wstring str,const wchar_t tag)
     return realend;
 }
 
-static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
+void FontRenderer::_FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
 {
     if(in.length()==0)return;
     uint32_t firsttag,tagclose,tagend,taglength;
@@ -287,7 +201,7 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
         ///printf("tag found\n");
         tag=in.substr(firsttag+2,1)[0];
         tagclose=in.find(L"]",firsttag);
-        tagend=FindTagEnd(in,tag);
+        tagend=_FindTagEnd(in,tag);
         taglength=tagend-(tagclose+1);
     }
     else /// apparently, no tags
@@ -307,7 +221,7 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
         tl.content.push_back(inf);
         in=in.substr(firsttag);
         ///wprintf(L"pretag found applying formatting if any\nsubstr:%ls\n",in.c_str());
-        FormatTags(tl,in,inf);
+        _FormatTags(tl,in,inf);
         return;
     }
 
@@ -354,9 +268,87 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
     std::wstring before=in.substr(tagclose+1,taglength);
     std::wstring after=in.substr(tagend+4);
     in=before+after;
-    FormatTags(tl,before,inf);
-    FormatTags(tl,after,oldinf);
+    _FormatTags(tl,before,inf);
+    _FormatTags(tl,after,oldinf);
     return;
+}
+
+void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos, const glm::vec4 &color)
+{
+    glm::vec2 gs=_guiEnvironment->get_gui_scale();
+    float sx,sy;
+    sx=gs.x;
+    sy=gs.y;
+
+    glm::vec2 _pos=pos;
+
+    _pos.x=-1+_pos.x*sx;
+    _pos.y=1-_pos.y*sy-_currentFont->avgheight*sy;
+
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    _fontShader->Set();
+    _SetFontColor(color);
+
+    const uint16_t *p;
+
+    /* Use the Texture containing the atlas */
+    GL_CHECK(glBindTexture(GL_TEXTURE_2D, _currentFont->tex));
+
+    glBindVertexArray(_VAO);
+
+    /* Set up the VBO for our vertex data */
+    GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, _VBO));
+    GL_CHECK(glEnableVertexAttribArray(0));
+    GL_CHECK(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
+
+    glm::vec4 coords[6 * text.length()];
+    int c = 0;
+
+    Font* a=_currentFont;
+
+    /* Loop through all characters */
+    for (p = (const uint16_t *)text.c_str(); *p; p++)
+    {
+        /* Calculate the vertex and Texture coordinates */
+        float x2 = _pos.x + a->c[*p].bl * sx;
+        float y2 = -_pos.y - a->c[*p].bt * sy;
+        float w = a->c[*p].bw * sx;
+        float h = a->c[*p].bh * sy;
+
+        /* Advance the cursor to the start of the next character */
+        _pos.x += a->c[*p].ax * sx;
+        _pos.y += a->c[*p].ay * sy;
+
+        /* Skip glyphs that have no pixels */
+        if (!w || !h)
+            continue;
+
+        coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+    }
+
+    /* Draw all the character on the screen in one go */
+    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW));
+    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, c));
+
+    GL_CHECK(glDisableVertexAttribArray(0));
+    glBindVertexArray(0);
+
+    glDisable(GL_BLEND);
+}
+
+void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos,const glm::vec4 &color,bool drawShadow)
+{
+    if(drawShadow)
+        _RenderString(text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
+    _RenderString(text,pos,color);
 }
 
 /// Planned flow:
@@ -364,24 +356,15 @@ static void FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
 /// Strip pre-tag text, strip after-tag text, strip and set tag info
 /// Check for length wrapping failures, newline accordingly with the same data used for the formatted lines
 /// Regex case: <([a-zA-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>
-void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow)
+void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,float linewidth, std::string fontFamilyName)
 {
-    std::string oldfont;
+    FontFamily* current=_currentFamily;
 
-    char boldname[256];
-    sprintf(boldname,"%s-bold",current_font->name.c_str());
-    font* boldie=get_font(boldname);
-    bool canbold=boldie!=nullptr;
+    bool canbold=_currentFamily->Has(FFT_BOLD);
+    bool canitalic=_currentFamily->Has(FFT_ITALIC);
+    bool canbolditalic=_currentFamily->Has(FFT_BOLD_ITALIC);
 
-    char italicname[256];
-    sprintf(italicname,"%s-italic",current_font->name.c_str());
-    font* italie=get_font(italicname);
-    bool canitalic=italie!=nullptr;
-
-    char bolditalicname[256];
-    sprintf(bolditalicname,"%s-bolditalic",current_font->name.c_str());
-    font* boldieitalie=get_font(bolditalicname);
-    bool canbolditalic=boldieitalie!=nullptr;
+    FONT_FAMILY_TYPE oldStyle=_currentFamily->currentType;
 
 
     vector<std::wstring> strs;
@@ -400,60 +383,67 @@ void font_renderer::render_string_formatted(std::wstring text, glm::vec2 pos,flo
 
     loop(i,strs.size())
     {
-        FormatTags(linesToDraw[i],strs[i],inf);
+        _FormatTags(linesToDraw[i],strs[i],inf);
     }
 
     //ReadAndStripTags(strs,linesToDraw);
     //printf("LinesToDraw: %d\n",linesToDraw.size());
+    if(GetFontFamily(fontFamilyName)!=nullptr)
+        UseFontFamily(fontFamilyName);
     loop(i,linesToDraw.size())
     {
-        glm::vec2 dims=glm::vec2(0,current_font->avgheight);
+        glm::vec2 dims=glm::vec2(0,_currentFont->avgheight);
         TextLine _current=linesToDraw[i];
         loop(j,_current.content.size())
         {
             SubLineInfo _celem=_current.content[j];
             if(_celem.bold&&canbold&&!_celem.italic)
             {
-                oldfont=current_font->name;
-                use_font(std::string(boldname));
+                oldStyle=_currentFamily->currentType;
+                UseFont(FFT_BOLD);
             }
             else if(_celem.italic&&canitalic&&!_celem.bold)
             {
-                oldfont=current_font->name;
-                use_font(std::string(italicname));
+                oldStyle=_currentFamily->currentType;
+                UseFont(FFT_ITALIC);
             }
             else if(_celem.bold&&_celem.italic&&canbolditalic)
             {
-                oldfont=current_font->name;
-                use_font(std::string(bolditalicname));
+                oldStyle=_currentFamily->currentType;
+                UseFont(FFT_BOLD_ITALIC);
             }
             if(j!=0)
-                render_string(current_font->name,_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+            {
+                _RenderString(_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+            }
             else
-                render_string(current_font->name,_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
-            dims=glm::vec2(dims.x+get_text_dimensions(_celem.text,current_font->name).x,dims.y);
+            {
+                _RenderString(_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+            }
+            dims=glm::vec2(dims.x+GetTextDimensions(_celem.text).x,dims.y);
             if(_celem.bold||_celem.italic)
             {
-                use_font(oldfont);
+                UseFont(oldStyle);
             }
+
         }
     }
+    if(GetFontFamily(fontFamilyName)!=nullptr)
+        UseFontFamily(current->familyName);
 }
 
-void font_renderer::set_font_color(glm::vec4 color)
+void FontRenderer::_SetFontColor(const glm::vec4 &color)
 {
-    glUniform4fv(font_shader->getparam("color"),1,glm::value_ptr(color));
+    glUniform4fv(_fontShader->getparam("color"),1,glm::value_ptr(color));
 }
 
-glm::vec2 font_renderer::get_text_dimensions(const std::wstring & text,const std::string &font_name)
+glm::vec2 FontRenderer::GetTextDimensions(const std::wstring & text)
 {
-    font* a=get_font(font_name);
-
     int len=0;
     for(wchar_t gl:text)
     {
-        len+=a->c[(int)gl].ax;
+        len+=_currentFont->c[(int)gl].ax;
     }
-    return glm::vec2(len,a->avgheight);
+    return glm::vec2(len,_currentFont->avgheight);
 }
 

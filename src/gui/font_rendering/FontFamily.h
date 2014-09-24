@@ -3,27 +3,29 @@
 
 struct font;
 
-enum FONT_FAMILY
+enum FONT_FAMILY_TYPE
 {
-    FF_REGULAR,
-    FF_BOLD,
-    FF_ITALIC,
-    FF_BOLD_ITALIC,
+    FFT_REGULAR,
+    FFT_BOLD,
+    FFT_ITALIC,
+    FFT_BOLD_ITALIC,
 
-    FF_COUNT
+    FFT_COUNT
 };
 
 struct FontFamily
 {
 public:
     std::string familyName;
+    FONT_FAMILY_TYPE currentType;
 private:
-    font *fonts[FF_COUNT];
+    Font *_fonts[FFT_COUNT];
 public:
-    std::string GetFamilyFontName(FONT_FAMILY f);
-    font* GetFamilyFont(FONT_FAMILY f);
-    bool Has(FONT_FAMILY f);
-    void AddFont(FONT_FAMILY f,font* fnt);
+    FontFamily(const std::string &name);
+    std::string GetFamilyFontName(FONT_FAMILY_TYPE f);
+    Font* GetFamilyFont(FONT_FAMILY_TYPE f);
+    bool Has(FONT_FAMILY_TYPE f);
+    void AddFont(FONT_FAMILY_TYPE f,Font* fnt);
 };
 
 #endif // FONTFAMILY_H

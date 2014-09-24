@@ -2,14 +2,17 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include <boost/unordered_map.hpp>
+#include <boost/functional/hash.hpp>
+#include "Font.h"
+#include "FontFamily.h"
 
+class AppContext;
+class Logger;
 class GUIEnvironment;
 class Shader;
-struct FontFamily;
-struct font;
 
-typedef vector<font*> font_vector;
-typedef font_vector::iterator fvi; //font_vector_iterator
+typedef boost::unordered_map<std::string,FontFamily*> FontFamilyMap;
 
 struct SubLineInfo
 {
@@ -18,9 +21,6 @@ struct SubLineInfo
     bool bold;
     bool shadow;
     bool italic;
-    //unused
-    std::string font_name;
-    float fontsize;
 };
 
 struct TextLine
@@ -28,53 +28,57 @@ struct TextLine
     vector<SubLineInfo> content;
 };
 
-class font_renderer
+class FontRenderer
 {
 private:
-    FT_Library ft;
-    FT_Face ff;
+    FT_Library _ftLib;
+    FT_Face _ftFace;
 
-    GUIEnvironment* m_env;
+    AppContext* _appContext;
+    Logger* _logger;
+    GUIEnvironment* _guiEnvironment;
 
-    font* default_font;
-    font* current_font;
+    FontFamily* _defaultFamily;
+    FontFamily* _currentFamily;
+    Font* _currentFont;
 
-    font_vector fonts;
+    FontFamilyMap _fontFamilies;
 
-    Shader* font_shader;
+    Shader* _fontShader;
+    void _SetFontColor(const glm::vec4 &color);
+    Font* _CreateFont(const std::string &name,const std::string &filename, const int32_t &size=12);
+    void _RenderString(const std::wstring &text, glm::vec2 pos, const glm::vec4 &color);
+    void _RenderString(const std::wstring &text, glm::vec2 pos,const glm::vec4 &color,bool drawShadow);
 
-    void set_font_color(glm::vec4 color);
+    void _FormatTags(TextLine &tl, std::wstring in, SubLineInfo inf);
+    uint32_t _FindTagEnd(std::wstring str,const wchar_t tag);
 
-    GLuint vao;
-    GLuint vbo;
+    GLuint _VAO;
+    GLuint _VBO;
 public:
-    font_renderer(GUIEnvironment* env);
+    FontRenderer(AppContext* ctx);
 
-    ~font_renderer();
+    ~FontRenderer();
 
-    font* create_font(std::string name, std::string filename, int32_t size=12);
+    FontFamily* CreateFontFamily(const std::string &name,uint32_t size=12,
+                                std::string regularFileName="", std::string boldFileName="",
+                                std::string italicFileName="", std::string boldItalicFileName="");
 
-    //FontFamily* CreateFontFamily(std::string name,int32_t size=12,std::string regular,std::string bold,std::string italic,std::string boldItalic);
+    void UseFontFamily(const std::string &familyName="default");
 
-    bool remove_font(std::string font_to_remove);
+    void UseFont(FONT_FAMILY_TYPE f);
 
-    void use_font(std::string font_name="default");
+    FontFamily* GetFontFamily(const std::string &name);
 
-    font* get_font(std::string name);
+    FontFamily* GetDefaultFontFamily();
 
-    font* get_default_font();
+    FontFamily* GetCurrentFontFamily();
 
-    void set_default_font(font* new_font);
+    Font* GetCurrentFont();
 
-    void render_string_internal(std::wstring text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1));
+    void SetDefaultFontFamily(const std::string &familyName);
 
-    void render_string(std::string fontname, std::wstring text, glm::vec2 pos, glm::vec4 color=glm::vec4(1,1,1,1),bool drawshadow=false);
+    void RenderString(const std::wstring &text, const glm::vec2 &pos,float linewidth=0.f, std::string fontFamilyName="default");
 
-    void render_string(std::wstring text, glm::vec2 pos,glm::vec4 color,bool drawshadow);
-
-    void render_string(std::wstring text, glm::vec2 pos,bool drawshadow);
-
-    void render_string_formatted(std::wstring text, glm::vec2 pos,float linewidth,bool drawshadow);
-
-    glm::vec2 get_text_dimensions(const std::wstring & text,const std::string &font_name="default");
+    glm::vec2 GetTextDimensions(const std::wstring & text);
 };

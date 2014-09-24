@@ -4,7 +4,7 @@
 #include "Font.h"
 #include "FontFamily.h"
 
-font::font(FT_Face face, int height, std::string name)
+Font::Font(FT_Face face, int height, std::string name)
 {
     this->avgheight=height;
     this->name=name;
@@ -103,7 +103,7 @@ font::font(FT_Face face, int height, std::string name)
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-font::~font()
+Font::~Font()
 {
     glDeleteTextures(1, &tex);
 }

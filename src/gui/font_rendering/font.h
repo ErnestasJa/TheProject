@@ -5,7 +5,7 @@
 
 struct FontFamily;
 
-struct font
+struct Font
 {
     FontFamily *myFamily;
 
@@ -32,7 +32,7 @@ struct font
         float ty;	// y offset of glyph in Texture coordinates
     } c[1024];		// character information
 
-    font(FT_Face face, int height, std::string name);
+    Font(FT_Face face, int height, std::string name);
 
-    ~font();
+    ~Font();
 };

@@ -14,6 +14,7 @@
 GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(0,0,ctx->_window->GetWindowSize().x,ctx->_window->GetWindowSize().y))
 {
     m_context=ctx;
+    ctx->_guiEnv=this;
     this->m_window=ctx->_window;
 
     _sig_mouse_move=m_window->SigMouseMoved().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_moved));
@@ -55,7 +56,7 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
 
     delete imgl;
 
-    m_font_renderer=new font_renderer(this);
+    m_font_renderer=new FontRenderer(ctx);
 }
 
 GUIEnvironment::~GUIEnvironment()
@@ -251,7 +252,7 @@ glm::vec2 GUIEnvironment::get_gui_scale()
     return gui_scale;
 }
 
-font_renderer* GUIEnvironment::get_font_renderer()
+FontRenderer* GUIEnvironment::get_font_renderer()
 {
     return m_font_renderer;
 }

@@ -4,21 +4,30 @@
 #include "Font.h"
 #include "FontFamily.h"
 
-std::string FontFamily::GetFamilyFontName(FONT_FAMILY f)
+FontFamily::FontFamily(const std::string &name)
 {
-    if(Has(f)) return fonts[f]->name;
+    _fonts[FFT_REGULAR]=nullptr;
+    _fonts[FFT_BOLD]=nullptr;
+    _fonts[FFT_ITALIC]=nullptr;
+    _fonts[FFT_BOLD_ITALIC]=nullptr;
+    familyName=name;
+}
+
+std::string FontFamily::GetFamilyFontName(FONT_FAMILY_TYPE f)
+{
+    if(Has(f)) return _fonts[f]->name;
     else return std::string("___INVALID___");
 }
-font* FontFamily::GetFamilyFont(FONT_FAMILY f)
+Font* FontFamily::GetFamilyFont(FONT_FAMILY_TYPE f)
 {
-    if(Has(f)) return fonts[f];
+    if(Has(f)) return _fonts[f];
     else return nullptr;
 }
-bool FontFamily::Has(FONT_FAMILY f)
+bool FontFamily::Has(FONT_FAMILY_TYPE f)
 {
-    return fonts[f]!=nullptr;
+    return _fonts[f]!=nullptr;
 }
-void FontFamily::AddFont(FONT_FAMILY f,font* fnt)
+void FontFamily::AddFont(FONT_FAMILY_TYPE f,Font* fnt)
 {
-    if(!Has(f)) fonts[f]=fnt;
+    if(!Has(f)) _fonts[f]=fnt;
 }

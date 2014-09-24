@@ -80,7 +80,7 @@ public:
         return ret;
     }
 
-    font_renderer *get_font_renderer();
+    FontRenderer *get_font_renderer();
 
 //    gui_static_text *add_gui_static_text();
 //    gui_button *add_gui_button();
@@ -98,7 +98,7 @@ private:
     Quad* gui_quad;
     SlicedGUIQuad* sliced_quad;
 
-    font_renderer* m_font_renderer;
+    FontRenderer* m_font_renderer;
     Window* m_window;
 
     sigc::connection _sig_mouse_move,_sig_mouse_button,_sig_mouse_scroll,_sig_key,_sig_text;
