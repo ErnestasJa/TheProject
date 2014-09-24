@@ -5,6 +5,7 @@
 
 class GUIEnvironment;
 class Shader;
+struct FontFamily;
 struct font;
 
 typedef vector<font*> font_vector;
@@ -52,6 +53,8 @@ public:
     ~font_renderer();
 
     font* create_font(std::string name, std::string filename, int32_t size=12);
+
+    //FontFamily* CreateFontFamily(std::string name,int32_t size=12,std::string regular,std::string bold,std::string italic,std::string boldItalic);
 
     bool remove_font(std::string font_to_remove);
 

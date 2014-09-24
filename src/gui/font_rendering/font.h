@@ -2,8 +2,13 @@
 
 #define MAX_FONT_ATLAS_WIDTH 1024
 #define MAX_FONT_ATLAS_HEIGHT 1024
+
+struct FontFamily;
+
 struct font
 {
+    FontFamily *myFamily;
+
     std::string name;
 
     GLuint tex;		// Texture object
@@ -30,5 +35,4 @@ struct font
     font(FT_Face face, int height, std::string name);
 
     ~font();
-
 };

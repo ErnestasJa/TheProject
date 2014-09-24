@@ -4,7 +4,10 @@
 #include "opengl/OpenGLUtil.h"
 #include "gui/GUIEnvironment.h"
 #include "FontRenderer.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include "Font.h"
+#include "FontFamily.h"
 #include <boost/algorithm/string.hpp>
 
 

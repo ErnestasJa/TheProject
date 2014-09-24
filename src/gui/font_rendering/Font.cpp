@@ -2,6 +2,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include "Font.h"
+#include "FontFamily.h"
 
 font::font(FT_Face face, int height, std::string name)
 {
