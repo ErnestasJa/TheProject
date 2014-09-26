@@ -14,6 +14,7 @@
 GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(0,0,ctx->_window->GetWindowSize().x,ctx->_window->GetWindowSize().y))
 {
     m_context=ctx;
+    ctx->_guiEnv=this;
     this->m_window=ctx->_window;
 
     _sig_mouse_move=m_window->SigMouseMoved().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_moved));
@@ -37,7 +38,7 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
     this->SetName("GUI_ENVIRONMENT");
     last_char=' ';
 
-    gui_shader=Shader::LoadShader("res/gui_quad");
+    gui_shader=Shader::LoadShader("res/engine/shaders/gui_quad");
     gui_quad=new Quad();
     gui_quad->Init();
 
@@ -46,14 +47,16 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
 
     skin=new gui_skin();
 
-    skin->load("res/skin_default.xml");
+    skin->load("res/gui/skins/skin_default.xml");
 
     skin_atlas=new Texture();
     image_loader* imgl=new image_loader(m_context->_logger);
-    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/gui/skins/skin_default.png"));
     skin_atlas->Init(img);
 
-    m_font_renderer=new font_renderer(this);
+    delete imgl;
+
+    m_font_renderer=new FontRenderer(ctx);
 }
 
 GUIEnvironment::~GUIEnvironment()
@@ -249,7 +252,7 @@ glm::vec2 GUIEnvironment::get_gui_scale()
     return gui_scale;
 }
 
-font_renderer* GUIEnvironment::get_font_renderer()
+FontRenderer* GUIEnvironment::get_font_renderer()
 {
     return m_font_renderer;
 }

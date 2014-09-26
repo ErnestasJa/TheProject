@@ -22,6 +22,7 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -56,6 +57,7 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -77,6 +79,7 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3" />
@@ -114,6 +117,7 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -154,6 +158,7 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -257,6 +262,9 @@
 		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.cpp" />
 		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.h" />
 		<Unit filename="../../src/gui/custom_elements/ToggleGroup.h" />
+		<Unit filename="../../src/gui/font_rendering/Font.cpp" />
+		<Unit filename="../../src/gui/font_rendering/FontFamily.cpp" />
+		<Unit filename="../../src/gui/font_rendering/FontFamily.h" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.cpp" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.h" />
 		<Unit filename="../../src/gui/font_rendering/font.h" />
@@ -299,8 +307,6 @@
 		<Unit filename="../../src/resources/IMeshLoader.h" />
 		<Unit filename="../../src/resources/IQMLoader.cpp" />
 		<Unit filename="../../src/resources/IQMLoader.h" />
-		<Unit filename="../../src/resources/Image.cpp" />
-		<Unit filename="../../src/resources/Image.h" />
 		<Unit filename="../../src/resources/ImageLoader.cpp" />
 		<Unit filename="../../src/resources/ImageLoader.h" />
 		<Unit filename="../../src/resources/MeshLoader.cpp" />
@@ -313,6 +319,8 @@
 		<Unit filename="../../src/resources/SoundManager.h" />
 		<Unit filename="../../src/resources/TGALoader.cpp" />
 		<Unit filename="../../src/resources/TGALoader.h" />
+		<Unit filename="../../src/resources/image.cpp" />
+		<Unit filename="../../src/resources/image.h" />
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/scenegraph/Camera.cpp" />
 		<Unit filename="../../src/scenegraph/Camera.h" />

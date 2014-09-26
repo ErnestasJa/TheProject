@@ -177,7 +177,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_unlit");
     vsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/voxel");
-    qsh = (new shader_loader(ctx->_logger))->load("res/quad");
+    qsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/quad");
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
@@ -185,6 +185,14 @@ void InitPlaneMesh(AppContext * ctx)
     //cam->SetFPS(false);
 
     env=new GUIEnvironment(ctx);
+//    env->get_font_renderer()->create_font("bits","res/gui/fonts/OpenSans-Regular.ttf",36);
+//    env->get_font_renderer()->create_font("bits-bold","res/gui/fonts/OpenSans-Bold.ttf",36);
+//    env->get_font_renderer()->create_font("bits-italic","res/gui/fonts/OpenSans-Italic.ttf",36);
+//    env->get_font_renderer()->create_font("bits-bolditalic","res/gui/fonts/OpenSans-BoldItalic.ttf",36);
+    env->get_font_renderer()->CreateFontFamily("polygon",36,std::string("res/gui/fonts/polygon.ttf"));
+    env->get_font_renderer()->CreateFontFamily("default36",36,
+                                               "res/gui/fonts/OpenSans-Regular.ttf","res/gui/fonts/OpenSans-Bold.ttf",
+                                               "res/gui/fonts/OpenSans-Italic.ttf","res/gui/fonts/OpenSans-BoldItalic.ttf");
     gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
 
     gui_static_text* texts[10];
@@ -225,7 +233,8 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
 
-    InitPlaneMesh(_appContext);;
+    InitPlaneMesh(_appContext);
+
     if(!InitPostProc(_appContext))
         return false;
     return true;
@@ -309,6 +318,13 @@ bool VoxelzApp::Update()
 
         env->Render();
 
+        glDisable(GL_DEPTH_TEST);
+        //env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
+//        env->get_font_renderer()->use_font("bits");
+        env->get_font_renderer()->RenderString(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['i]['b]lazy[b'][i'] dog.[s']",glm::vec2(0,256),0,"default36");
+        env->get_font_renderer()->RenderString(L"['s]Tags ['s]['c 128,128,255,64]['b]inside[b'][c'] tags[s'] ['s]by the side of inside tags[s'][s']",glm::vec2(0,296),0,"polygon");
+//        env->get_font_renderer()->use_font("default");
+        glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
         return true;
     }
@@ -375,15 +391,15 @@ void VoxelzApp::OnMouseMove(double x, double y)
         }
     }
 
-    swprintf(buf,L"LookAt %.2f %.2f %.2f",lookat.x,lookat.y,lookat.z);
+    swprintf(buf,L"LookAt: %.2f %.2f %.2f",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
 
-    swprintf(buf,L"Chunk %.2f %.2f %.2f",aa.x,aa.y,aa.z);
+    swprintf(buf,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
     env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
 
-    swprintf(buf,L"Chunk Coords %.2f %.2f %.2f",bb.x,bb.y,bb.z);
+    swprintf(buf,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
     env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
 
     /* Find out which face of the block we are looking at */
@@ -430,13 +446,13 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     newvoxpos=glm::vec3(mx,my,mz);
 
-    swprintf(buf,L"Face %d",face);
+    swprintf(buf,L"Face: %d",face);
     env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
 
-    swprintf(buf,L"VoxPos %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
+    swprintf(buf,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
     env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
 
-    swprintf(buf,L"NewVoxPos %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
+    swprintf(buf,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
     env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
