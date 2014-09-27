@@ -14,7 +14,7 @@ public:
         BufferObject<glm::vec3> *pos=new BufferObject<glm::vec3>();
         BufferObject<glm::vec4> *col=new BufferObject<glm::vec4>();
 
-        uint32_t halfsize=size/2;
+        int32_t halfsize=size/2;
 
         /// XAxis
         pos->data.push_back(glm::vec3(-halfsize,0,0));

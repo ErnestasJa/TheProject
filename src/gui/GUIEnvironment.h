@@ -11,11 +11,12 @@ class Texture;
 class Window;
 class gui_skin;
 class Logger;
+class AppContext;
 
 class GUIEnvironment : public GUIElement
 {
 public:
-    GUIEnvironment(Window* win, Logger* log);
+    GUIEnvironment(AppContext* ctx);
     ~GUIEnvironment();
 
     void update(float delta);
@@ -27,8 +28,11 @@ public:
 
     void draw_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false, bool multichannel=true);
     void draw_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_gui_quad(Rect2D<int> dims,glm::vec4 col=glm::vec4(1.f));
+
     void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
     void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
+    void draw_sliced_gui_quad(Rect2D<int> dims,glm::vec4 col=glm::vec4(1.f));
 
     void set_skin(gui_skin* skin);
 
@@ -40,6 +44,11 @@ public:
     void on_mouse_scroll(double sx, double sy);
     void on_key_event(int32_t key, int32_t scan_code, int32_t action, int32_t mod);
     void on_char_typed(int32_t scan_code);
+
+    AppContext* GetContext()
+    {
+        return m_context;
+    }
 
     const std::wstring &get_clipboard()
     {
@@ -71,7 +80,7 @@ public:
         return ret;
     }
 
-    font_renderer *get_font_renderer();
+    FontRenderer *get_font_renderer();
 
 //    gui_static_text *add_gui_static_text();
 //    gui_button *add_gui_button();
@@ -81,6 +90,7 @@ public:
 //    gui_window *add_gui_window();
 //    gui_pane* add_gui_pane();
 private:
+    AppContext* m_context;
     gui_skin* skin;
     Texture* skin_atlas;
     Shader* gui_shader;
@@ -88,7 +98,7 @@ private:
     Quad* gui_quad;
     SlicedGUIQuad* sliced_quad;
 
-    font_renderer* m_font_renderer;
+    FontRenderer* m_font_renderer;
     Window* m_window;
 
     sigc::connection _sig_mouse_move,_sig_mouse_button,_sig_mouse_scroll,_sig_key,_sig_text;

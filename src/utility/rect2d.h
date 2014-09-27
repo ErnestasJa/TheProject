@@ -40,6 +40,13 @@ public:
         calculate_bounds();
     }
 
+    void SetPosition(T mx, T my)
+    {
+        this->x=mx;
+        this->y=my;
+        calculate_bounds();
+    }
+
     Rect2D<T> shrink(T w, T h)
     {
         Rect2D<T> ret=*this;

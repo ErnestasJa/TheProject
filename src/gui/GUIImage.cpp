@@ -27,6 +27,14 @@ gui_image::~gui_image()
 {
 }
 
+void gui_image::SetImage(std::shared_ptr<Texture> tex)
+{
+    if(tex!=nullptr)
+    m_tex=tex;
+    else
+        return;
+}
+
 void gui_image::Render()
 {
     environment->draw_gui_quad(absolute_rect,m_tex,false,m_multichannel);

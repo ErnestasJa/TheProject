@@ -15,6 +15,8 @@ public:
     gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel=true);
     virtual ~gui_image();
 
+    void SetImage(std::shared_ptr<Texture> tex);
+
     void Render();
 
     //this does not do any events
