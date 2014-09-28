@@ -3,6 +3,7 @@
 
 #include "Morton.h"
 #include "utility/vector.h"
+#include "opengl/AABB.h"
 #include <boost/move/move.hpp>
 
 enum VoxelSide
@@ -181,6 +182,7 @@ public:
     }
 
     bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse);
+    bool CheckCollision(const AABB & aabb);
     void Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart);
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
@@ -212,6 +214,41 @@ bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec
     tmax = std::min(tmax, std::max(tz1, tz2));
 
     return tmax >= tmin;
+}
+
+template <int Depth>
+bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
+{
+    auto clamp = [] (float & x) { if(x<0) x=0; else if(x>1023) x=1023; };
+    auto clampVec = [&clamp] (glm::vec3 & x) { clamp(x.x); clamp(x.y); clamp(x.z); };
+
+    glm::vec3 min = aabb.GetMin(),
+              max = aabb.GetMax();
+
+    clampVec(min);
+    clampVec(max);
+
+    auto low = boost::range::lower_bound(m_nodes,MNode(comp(min)));
+    auto hi  = boost::range::lower_bound(m_nodes,MNode(comp(max)));
+
+    if(hi!=m_nodes.end())
+        hi++;
+
+    uint32_t nodeCount=0;
+    uint32_t x,y,z;
+    for(; low != hi && low != m_nodes.end(); low++)
+    {
+        nodeCount++;
+        decodeMK(low->start,x,y,z);
+        if(aabb.CollidesWith(glm::vec3(x,y,z),glm::vec3(x+1,y+1,z+1)))
+        {
+            std::cout<<"Nodes queried: " << nodeCount << std::endl;
+            return true;
+        }
+    }
+
+    //std::cout<<"Nodes queried: " << nodeCount << std::endl;
+    return false;
 }
 
 template <int Depth>

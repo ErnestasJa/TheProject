@@ -2,6 +2,10 @@
 #include "VoxelOctreeApp.h"
 #include "voxel_octree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
+#include "opengl/CubeMesh.h"
+#include "py/cpputils.h"
+#include "py/OctreeUtils.h"
+#include <boost/algorithm/string/replace.hpp>
 
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -13,18 +17,45 @@ VoxelOctreeApp::~VoxelOctreeApp()
 
 }
 
+void VoxelOctreeApp::InitPython()
+{
+    /*char * buf;
+    uint32_t len = helpers::read("res/voxel_octree/init.py", buf);
+*/
+    PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
+    PyImport_AppendInittab("octree", &PyInit_Octree);
+    Py_Initialize();
+
+    std::string path = this->GetAbsoluteResourcePath();
+
+    path.erase(path.length()-1);
+    boost::algorithm::replace_all(path,"\\","\\\\"); //just windows things
+
+    std::string scriptLoadString = "script_path = os.path.join(('" + path + "'),'python')";
+
+    std::string initString = "import sys, os\n";
+                initString += scriptLoadString+"\n";
+                initString += "sys.path.append(script_path)\n";
+                //initString += "print('Python search path: ' + str(sys.path))\n";
+
+    PyRun_SimpleString(initString.c_str());
+}
+
 void VoxelOctreeApp::InitPlaneMesh()
 {
     AppContext * ctx = this->Ctx();
     sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
-    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
+    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
+                         1.7777777f,45.0f,0.1,1024.0f));
 
+    AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+    //cube = new CubeMesh(1);
+    cube = new TCubeMesh<glm::vec3>(aabb);
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
     loopxyz(32,32,32)
-        //if(!((x==2&&y==2) || (x==6&&y==8) || (x==19&&y==30)))
-            octree->AddOrphanNode(MNode(x,y,z));
+        octree->AddOrphanNode(MNode(x,y,z));
 
     octree->SortLeafNodes();
     octreeGen->GenAllChunks();
@@ -33,6 +64,8 @@ void VoxelOctreeApp::InitPlaneMesh()
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
+
+    InitPython();
 
     _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
     _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
@@ -58,14 +91,26 @@ bool VoxelOctreeApp::Update()
 
         cam->Update(0);
 
+        AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+        aabb.Translate(cam->GetPosition());
+
+        if(octree->CheckCollision(aabb))
+            Ctx()->_logger->log(LOG_LOG, "Camera collided with octree node");
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 Model = glm::mat4(1.0f);
-        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
+        glm::mat4 Model = glm::translate(glm::mat4(1.0f),cam->GetPosition()); // glm::mat4(1.0f);//
+        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cube->Render(true,false);
+
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
         octreeGen->RenderAllMeshes();
+
+
 
         _appContext->_window->SwapBuffers();
         return true;
@@ -83,16 +128,24 @@ void VoxelOctreeApp::OnWindowClose()
 
 }
 
+float speed = 1;
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
+
+    if(action == GLFW_PRESS && key==GLFW_KEY_LEFT_SHIFT)
+        speed = 0.1;
+
+    if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_SHIFT)
+        speed = 1;
+
     if(key==GLFW_KEY_W)
-        cam->Walk(1);
+        cam->Walk(speed);
     if(key==GLFW_KEY_S)
-        cam->Walk(-1);
+        cam->Walk(-speed);
     if(key==GLFW_KEY_A)
-        cam->Strafe(-1);
+        cam->Strafe(-speed);
     if(key==GLFW_KEY_D)
-        cam->Strafe(1);
+        cam->Strafe(speed);
 
     if(key==GLFW_KEY_1)
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );

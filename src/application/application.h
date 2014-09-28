@@ -9,8 +9,9 @@ class Logger;
 class Application
 {
 protected:
+    std::string _resourcePath;
+    std::string _workingDirectoryPath;
     AppContext * _appContext;
-
     int32_t _argc;
     const char ** _argv;
     virtual void OutputPhysFSVersions();
@@ -25,5 +26,7 @@ public:
 
     virtual void OnWindowClose() = 0;
 
+    virtual std::string GetAbsoluteResourcePath();
+    virtual std::string GetAbsoluteWorkingDirectoryPath();
     virtual AppContext * Ctx();
 };

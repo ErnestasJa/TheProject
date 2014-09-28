@@ -21,6 +21,7 @@
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
+					<Add directory="src/py" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -54,6 +55,7 @@
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
+					<Add directory="src/py" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -74,6 +76,7 @@
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
+					<Add directory="src/py" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3" />
@@ -88,6 +91,7 @@
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
 					<Add library="boost_container-mgw48-mt-1_56" />
+					<Add library="python34" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -110,6 +114,7 @@
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
+					<Add directory="src/py" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -125,6 +130,7 @@
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
 					<Add library="boost_container-mgw48-mt-1_56" />
+					<Add library="python34" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -148,6 +154,7 @@
 					<Add directory="include" />
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
+					<Add directory="src/py" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -163,6 +170,7 @@
 					<Add library="libglxw" />
 					<Add library="libstb_image_lib" />
 					<Add library="boost_container-mgw48-mt-1_56" />
+					<Add library="python34" />
 					<Add directory="../../libs/win32" />
 				</Linker>
 				<ExtraCommands>
@@ -171,8 +179,8 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add option="-DGL3_PROTOTYPES" />
 			<Add directory="../../src" />
 			<Add directory="../../src/math" />
@@ -285,6 +293,10 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="../../src/py/OctreeUtils.cpp" />
+		<Unit filename="../../src/py/OctreeUtils.h" />
+		<Unit filename="../../src/py/cpputils.cpp" />
+		<Unit filename="../../src/py/cpputils.h" />
 		<Unit filename="../../src/resources/IImageLoader.cpp" />
 		<Unit filename="../../src/resources/IImageLoader.h" />
 		<Unit filename="../../src/resources/IMeshLoader.cpp" />

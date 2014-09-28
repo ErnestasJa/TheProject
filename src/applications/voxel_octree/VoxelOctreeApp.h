@@ -12,6 +12,9 @@
 #include "voxel_octree/MortonOctTree.h"
 #include "voxel_octree/VoxMeshManager.h"
 
+template <class T>
+class TCubeMesh;
+
 class VoxelOctreeApp: public Application
 {
 public:
@@ -20,6 +23,7 @@ public:
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
     void InitPlaneMesh();
+    void InitPython();
     virtual bool Update();
     void Exit();
 
@@ -34,6 +38,8 @@ private:
     CameraPtr cam;
     MortonOctTree<10> * octree;
     VoxMeshManager * octreeGen;
+    TCubeMesh<glm::vec3> * cube;
 };
+
 
 #endif // VOXELOCTREEAPP_H

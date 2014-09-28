@@ -47,19 +47,19 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
 
     OutputPhysFSVersions();
 
-    std::string dir = PHYSFS_getBaseDir();
+    _workingDirectoryPath = PHYSFS_getBaseDir();
 
     #ifndef RELEASE_FS
-        dir = util::GetParentDirectory(dir, PHYSFS_getDirSeparator());
-        dir = util::GetParentDirectory(dir, PHYSFS_getDirSeparator());
-        dir+=PHYSFS_getDirSeparator();
-    #endif // RELEASE_FS
+        _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
+        _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
+        _workingDirectoryPath += PHYSFS_getDirSeparator();
+    #endif
 
-    PHYSFS_mount(dir.c_str(), NULL, 0);
-    _appContext->_logger->log(LOG_LOG,"Directory: \"%s\"", dir.c_str());
+    PHYSFS_mount(_workingDirectoryPath.c_str(), NULL, 0);
+    _appContext->_logger->log(LOG_LOG,"Directory: \"%s\"", _workingDirectoryPath.c_str());
 
-    std::string combo= dir + "res/";
-    PHYSFS_mount(combo.c_str(),NULL,0);
+    _resourcePath = _workingDirectoryPath + "res" + PHYSFS_getDirSeparator();
+    PHYSFS_mount(_resourcePath.c_str(),NULL,0);
 
 
     _appContext->_window = new Window();
@@ -105,4 +105,14 @@ void Application::Exit()
 AppContext * Application::Ctx()
 {
     return _appContext;
+}
+
+std::string Application::GetAbsoluteResourcePath()
+{
+    return _resourcePath;
+}
+
+std::string Application::GetAbsoluteWorkingDirectoryPath()
+{
+    return _workingDirectoryPath;
 }
