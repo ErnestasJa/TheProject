@@ -199,7 +199,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     std::stringstream ss;
 
-    loopi(10)
+    loopi(i,10)
     {
         ss<<i;
         texts[i]=new gui_static_text(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
@@ -258,30 +258,25 @@ bool VoxelzApp::Update()
         vsh->Set();
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         chkmgr->Render(cam.get(),vsh);
-//
-//        Model = glm::mat4(1.0f);
-//        Model = glm::translate(voxpos);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        MVar<glm::mat4>(0, "mvp", MVP).Set();
-//        cub->Render(true);
-//
-//        Model = glm::mat4(1.0f);
-//        Model = glm::translate(newvoxpos);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        MVar<glm::mat4>(0, "mvp", MVP).Set();
-//        cub->Render(true);
-//
-//        Model = glm::mat4(1.0f);
-//        Model = glm::translate(pointpos);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        MVar<glm::mat4>(0, "mvp", MVP).Set();
-//        smallcub->Render(true);
-//
-//        Model = glm::mat4(1.0f);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        MVar<glm::mat4>(0, "mvp", MVP).Set();
-//        grid->render_lines();
-//
+
+        sh->Set();
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(voxpos);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cub->Render(true);
+
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(newvoxpos);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cub->Render(true);
+
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        grid->render_lines();
+
 //        vsh->Set();
 //        Model = glm::mat4(1.0f);
 //        MVP   = cam->GetViewProjMat() * Model;
@@ -355,7 +350,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
         cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(voxpos,5);
+        chkmgr->Explode(voxpos,25);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {

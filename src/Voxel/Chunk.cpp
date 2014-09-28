@@ -42,7 +42,7 @@ static u8vec4 getTypeCol(uint32_t typ)
     }
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE,CHUNK_SIZE,CHUNK_SIZE),m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE),m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     // Create the blocks
     m_chunkManager = chunkManager;
@@ -65,93 +65,6 @@ void Chunk::UpdateNeighbours()
     if(backN) backN->Rebuild();
     if(frontN) frontN->Rebuild();
 }
-
-//void Chunk::Rebuild()
-//{
-//    Cleanup();
-//
-//    for (int x = 0; x < CHUNK_SIZE; x++)
-//    {
-//        for (int z = 0; z < CHUNK_SIZE; z++)
-//        {
-//            for (int y = 0; y < CHUNK_SIZE; y++)
-//            {
-//                if(!m_pBlocks[x][y][z].IsActive()) continue;
-//
-//                uint32_t flags=0;
-//                AddBit(flags,EBS_LEFT);
-//                AddBit(flags,EBS_RIGHT);
-//                AddBit(flags,EBS_TOP);
-//                AddBit(flags,EBS_BOTTOM);
-//                AddBit(flags,EBS_FRONT);
-//                AddBit(flags,EBS_BACK);
-//
-//                if(x>0&&m_pBlocks[x-1][y][z].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_LEFT);
-//                }
-//                else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_LEFT);
-//                }
-//
-//                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_RIGHT);
-//                }
-//                else if(x==(CHUNK_SIZE-1)&&rightN!=nullptr&&rightN->Get(0,y,z).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_RIGHT);
-//                }
-//
-//                if(y>0&&m_pBlocks[x][y-1][z].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_BOTTOM);
-//                }
-//                else if(y==0&&botN!=nullptr&&botN->Get(x,15,z).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_BOTTOM);
-//                }
-//
-//                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_TOP);
-//                }
-//                else if(y==CHUNK_SIZE-1&&topN!=nullptr&&topN->Get(x,0,z).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_TOP);
-//                }
-//
-//                if(z>0&&m_pBlocks[x][y][z-1].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_BACK);
-//                }
-//                else if(z==0&&backN!=nullptr&&backN->Get(x,y,15).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_BACK);
-//                }
-//
-//                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive())
-//                {
-//                    RemoveBit(flags,EBS_FRONT);
-//                }
-//                else if(z==(CHUNK_SIZE-1)&&frontN!=nullptr&&frontN->Get(x,y,0).IsActive())
-//                {
-//                    RemoveBit(flags,EBS_FRONT);
-//                }
-//
-//                if(flags!=0) // Only a visible voxel should be added
-//                {
-//                    CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
-//                }
-//            }
-//        }
-//    }
-//
-//    UpdateMesh();
-//
-//    m_dirty=false;
-//}
 
 void Chunk::Rebuild()
 {

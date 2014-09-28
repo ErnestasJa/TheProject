@@ -3,7 +3,7 @@
 namespace helpers
 {
 #define loop(var,count) for(uint32_t (var) = 0; (var) < (count); (var)++)
-#define loopi(count) for(uint32_t i = 0; i < (count); i++)
+#define loopi(var,count) for(int32_t (var) = 0; (var) < (count); (var)++)
 #define ROUNDING_ERROR 0.00001f
 
 struct u8vec4

@@ -5,38 +5,26 @@
 #include "Chunk.h"
 #include "VoxelMesh.h"
 
-VoxelMesh::VoxelMesh(uint8_t xsize,uint8_t ysize,uint8_t zsize):m_vox(boost::extents[xsize][ysize][zsize])
+VoxelMesh::VoxelMesh(uint32_t size):m_vox(boost::extents[size][size][size])
 {
-    m_xsize=xsize;
-    m_ysize=ysize;
-    m_zsize=zsize;
+    m_size=size;
     m_dirty=false;
-    m_indexTrack=0;
-    m_vertexTrack=0;
 
-    m_posBuf=new BufferObject<u8vec3>();
-    m_colBuf=new BufferObject<u8vec4>();
-    m_indBuf=new IndexBufferObject<uint32_t>();
+    buffers[Mesh::POSITION] = new BufferObject<u8vec3>();
+    buffers[Mesh::COLOR] = new BufferObject<u8vec4>();
+    buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
 
-    m_mesh = share(new Mesh());
-
-    m_mesh->buffers[Mesh::POSITION] = m_posBuf;
-    m_mesh->buffers[Mesh::COLOR] = m_colBuf;
-    m_mesh->buffers[Mesh::INDICES] = m_indBuf;
-
-    m_mesh->Init();
+    Init();
 }
 
 VoxelMesh::~VoxelMesh()
 {
-    delete m_colBuf;
-    delete m_posBuf;
-    delete m_indBuf;
 }
 
 bool VoxelMesh::Empty()
 {
-    return m_vox.size()==0;
+    loop(x,m_size) loop(y,m_size) loop(z,m_size) if(m_vox[x][y][z].active){return false;}
+    return true;
 }
 
 void VoxelMesh::Render()
@@ -45,7 +33,7 @@ void VoxelMesh::Render()
         Rebuild();
 
     if(!Empty()&&!m_dirty)
-        m_mesh->Render();
+        Mesh::Render();
 
 }
 
@@ -53,12 +41,14 @@ void VoxelMesh::Cleanup()
 {
     if(!Empty())
     {
-        loop(x,m_xsize)loop(y,m_ysize)loop(z,m_zsize)m_vox[x][y][z].active=false;
-        m_posBuf->data.clear();
-        m_colBuf->data.clear();
-        m_indBuf->data.clear();
-        m_indexTrack=0;
-        m_vertexTrack=0;
+        loop(x,m_size)
+        loop(y,m_size)
+        loop(z,m_size)
+        m_vox[x][y][z].active=false;
+
+        ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.clear();
+        ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.clear();
+        ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.clear();
     }
 }
 
@@ -66,38 +56,15 @@ void VoxelMesh::UpdateMesh()
 {
     if(!Empty())
     {
-        GreedyBuild(u8vec3(0));
+        GreedyBuild();
 
-        m_mesh->buffers[Mesh::POSITION] = m_posBuf;
-        m_mesh->buffers[Mesh::COLOR] = m_colBuf;
-        m_mesh->buffers[Mesh::INDICES] = m_indBuf;
-
-        m_mesh->UploadBuffers();
+        UploadBuffers();
     }
 }
 
-struct MaskNode
+void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
 {
-    uint8_t exists:1;
-    uint8_t frontFace:1;
-    uint8_t backFace:1;
-    uint8_t align:5;
-
-    MaskNode & operator = (bool value)
-    {
-        exists = value;
-        return *this;
-    }
-
-    operator bool()
-    {
-        return exists==1 && (frontFace || backFace);
-    }
-};
-
-void VoxelMesh::GetBuildNode(Voxel &vox,uint8_t x,uint8_t y, uint8_t z)
-{
-    if(x>m_xsize-1 || y>m_ysize-1 || z>m_zsize-1)
+    if(x>m_size-1 || x<0 || y>m_size-1 || y<0 || z>m_size-1 || z<0)
     {
         vox.active=0;
         vox.type=0;
@@ -109,22 +76,30 @@ void VoxelMesh::GetBuildNode(Voxel &vox,uint8_t x,uint8_t y, uint8_t z)
     }
 }
 
-#define clear_mask(mask) loop(i,16) loop(j,16) {mask[i][j].frontFace = false;mask[i][j].backFace = false; mask[i][j].exists = false;}
-
-uint32_t length(uint32_t x, uint32_t y, MaskNode mask[16][16], bool front = true)
+void VoxelMesh::clear_mask(MaskNode **mask)
 {
-    for(uint32_t i = x; i < 16; i++)
+    loop(i,m_size) loop(j,m_size)
+    {
+        mask[i][j].frontFace = false;
+        mask[i][j].backFace = false;
+        mask[i][j].exists = false;
+    }
+}
+
+uint32_t VoxelMesh::length(uint32_t x, uint32_t y, MaskNode **mask, bool front)
+{
+    for(uint32_t i = x; i < m_size; i++)
         if(!mask[i][y].exists || (front?mask[i][y].frontFace==false:mask[i][y].backFace==false))
             return i-x;
 
-    return 16-x;
+    return m_size-x;
 }
 
-uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode mask[16][16], bool front = true)
+uint32_t VoxelMesh::height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask, bool front)
 {
     uint32_t h = 0;
 
-    for(uint32_t i = y; i < 16; i++)
+    for(uint32_t i = y; i < m_size; i++)
         if(length(x,i,mask,front)==len)
             h++;
         else
@@ -133,9 +108,11 @@ uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode mask[16][16], boo
     return h;
 }
 
-void VoxelMesh::GreedyBuild(const u8vec3 & offset)
+void VoxelMesh::GreedyBuild()
 {
-    MaskNode mask[16][16];
+    MaskNode **mask=new MaskNode*[m_size];
+    loop(i,m_size) mask[i]=new MaskNode[m_size];
+
     MaskNode mn;
     Voxel tmpVoxel;
 
@@ -148,57 +125,57 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
     for(uint32_t dim=0; dim<3; dim++)
     {
         clear_mask(mask);
-        loop(z, 16)
+        loopi(z, m_size)
         {
             switch(dim)
             {
             case 0: //xy slices
             {
-                loop(y,16) loop(x,16)
+                loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetBuildNode(tmpVoxel,x,y,z);
+                    GetVoxel(tmpVoxel,x,y,z);
                     n = (tmpVoxel.active==1);
 
-                    GetBuildNode(tmpVoxel,x,y,z+1);
+                    GetVoxel(tmpVoxel,x,y,z+1);
                     n .frontFace = (tmpVoxel.active==0);
 
-                    GetBuildNode(tmpVoxel,x,y,z-1);
+                    GetVoxel(tmpVoxel,x,y,z-1);
                     n .backFace = (tmpVoxel.active==0);
                 }
                 break;
             }
             case 1: //xz slices
             {
-                loop(y,16) loop(x,16)
+                loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetBuildNode(tmpVoxel,x,z,y);
+                    GetVoxel(tmpVoxel,x,z,y);
                     n = (tmpVoxel.active==1);
 
-                    GetBuildNode(tmpVoxel,x,z+1,y);
+                    GetVoxel(tmpVoxel,x,z+1,y);
                     n.frontFace = (tmpVoxel.active==0);
 
-                    GetBuildNode(tmpVoxel,x,z-1,y);
+                    GetVoxel(tmpVoxel,x,z-1,y);
                     n.backFace = (tmpVoxel.active==0);
                 }
                 break;
             }
             case 2: //yz slices
             {
-                loop(y,16) loop(x,16)
+                loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetBuildNode(tmpVoxel,z,y,x);
+                    GetVoxel(tmpVoxel,z,y,x);
                     n = (tmpVoxel.active==1);
 
-                    GetBuildNode(tmpVoxel,z+1,y,x);
+                    GetVoxel(tmpVoxel,z+1,y,x);
                     n.frontFace = (tmpVoxel.active==0);
 
-                    GetBuildNode(tmpVoxel,z-1,y,x);
+                    GetVoxel(tmpVoxel,z-1,y,x);
                     n.backFace = (tmpVoxel.active==0);
                 }
                 break;
@@ -210,9 +187,9 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
             qstart.x = 0;
             qstart.y = 0;
 
-            loop(y, 16)
+            loop(y, m_size)
             {
-                loop(x, 16)
+                loop(x, m_size)
                 {
                     mn = mask[x][y];
                     if(mn)
@@ -260,20 +237,20 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
                         {
                             if(mn.backFace)
                             {
-                                face[3]=u8vec3(qstart.x,             qstart.y,           z)+offset;
-                                face[2]=u8vec3(qstart.x+qdims.x,     qstart.y,           z)+offset;
-                                face[1]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z)+offset;
-                                face[0]=u8vec3(qstart.x,             qstart.y+qdims.y,   z)+offset;
+                                face[3]=u8vec3(qstart.x,             qstart.y,           z);
+                                face[2]=u8vec3(qstart.x+qdims.x,     qstart.y,           z);
+                                face[1]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z);
+                                face[0]=u8vec3(qstart.x,             qstart.y+qdims.y,   z);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
 
                             if(mn.frontFace)
                             {
-                                face[0]=u8vec3(qbstart.x,            qbstart.y,              z+1)+offset;
-                                face[1]=u8vec3(qbstart.x+qbdims.x,   qbstart.y,              z+1)+offset;
-                                face[2]=u8vec3(qbstart.x+qbdims.x,   qbstart.y+qbdims.y,     z+1)+offset;
-                                face[3]=u8vec3(qbstart.x,            qbstart.y+qbdims.y,     z+1)+offset;
+                                face[0]=u8vec3(qbstart.x,            qbstart.y,              z+1);
+                                face[1]=u8vec3(qbstart.x+qbdims.x,   qbstart.y,              z+1);
+                                face[2]=u8vec3(qbstart.x+qbdims.x,   qbstart.y+qbdims.y,     z+1);
+                                face[3]=u8vec3(qbstart.x,            qbstart.y+qbdims.y,     z+1);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
@@ -283,20 +260,20 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
                         {
                             if(mn.backFace)
                             {
-                                face[0]=u8vec3(qstart.x,         z,                  qstart.y)+offset;
-                                face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y)+offset;
-                                face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y)+offset;
-                                face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y)+offset;
+                                face[0]=u8vec3(qstart.x,         z,                  qstart.y);
+                                face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y);
+                                face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
+                                face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
 
                             if(mn.frontFace)
                             {
-                                face[3]=u8vec3(qbstart.x,         z+1,                qbstart.y)+offset;
-                                face[2]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y)+offset;
-                                face[1]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y+qbdims.y)+offset;
-                                face[0]=u8vec3(qbstart.x,         z+1,                qbstart.y+qbdims.y)+offset;
+                                face[3]=u8vec3(qbstart.x,         z+1,                qbstart.y);
+                                face[2]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y);
+                                face[1]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y+qbdims.y);
+                                face[0]=u8vec3(qbstart.x,         z+1,                qbstart.y+qbdims.y);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
@@ -306,20 +283,20 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
                         {
                             if(mn.backFace)
                             {
-                                face[0]=u8vec3(z,                qstart.y,           qstart.x)+offset;
-                                face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x)+offset;
-                                face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x)+offset;
-                                face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x)+offset;
+                                face[0]=u8vec3(z,                qstart.y,           qstart.x);
+                                face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
+                                face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
+                                face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
 
                             if(mn.frontFace)
                             {
-                                face[3]=u8vec3(z+1,              qbstart.y,           qbstart.x)+offset;
-                                face[2]=u8vec3(z+1,              qbstart.y,           qbstart.x+qbdims.x)+offset;
-                                face[1]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x+qbdims.x)+offset;
-                                face[0]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x)+offset;
+                                face[3]=u8vec3(z+1,              qbstart.y,           qbstart.x);
+                                face[2]=u8vec3(z+1,              qbstart.y,           qbstart.x+qbdims.x);
+                                face[1]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x+qbdims.x);
+                                face[0]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x);
                                 AddQuadToMesh(face);
                                 faceCount++;
                             }
@@ -334,14 +311,17 @@ void VoxelMesh::GreedyBuild(const u8vec3 & offset)
         }
     }
 
-    //std::cout << "Added " << faceCount << " faces to mesh" << std::endl;
+    loop(i,m_size) delete mask[i];
+    delete mask;
+
+    std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
 }
 
 void VoxelMesh::AddQuadToMesh(const u8vec3 * face)
 {
-    BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) m_mesh->buffers[Mesh::POSITION];
-    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) m_mesh->buffers[Mesh::INDICES];
-    BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) m_mesh->buffers[Mesh::COLOR];
+    BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
+    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
+    BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
     uint32_t indicesStart = vbo->data.size();
     u8vec4 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f,1.f);
@@ -365,138 +345,8 @@ void VoxelMesh::AddQuadToMesh(const u8vec3 * face)
     ibo->data.push_back(indicesStart+2);
 }
 
-void VoxelMesh::CreateVox(uint8_t x, uint8_t y, uint8_t z)
+void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z)
 {
-    Voxel a;
-    a.active=true;
-    a.type=0;
-    m_vox[x][y][z]=a;
-}
-
-void VoxelMesh::CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8vec4 color)
-{
-    uint8_t BLOCK_RENDER_SIZE=1;
-    /// - - +
-    u8vec3 p1(x, y, z+BLOCK_RENDER_SIZE);
-    /// + - +
-    u8vec3 p2(x+BLOCK_RENDER_SIZE, y, z+BLOCK_RENDER_SIZE);
-    /// + + +
-    u8vec3 p3(x+BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
-    /// - + +
-    u8vec3 p4(x, y+BLOCK_RENDER_SIZE, z+BLOCK_RENDER_SIZE);
-
-    /// - - -
-    u8vec3 p5(x, y, z);
-    /// + - -
-    u8vec3 p6(x+BLOCK_RENDER_SIZE, y, z);
-    /// + + -
-    u8vec3 p7(x+BLOCK_RENDER_SIZE, y+BLOCK_RENDER_SIZE, z);
-    /// - + -
-    u8vec3 p8(x, y+BLOCK_RENDER_SIZE, z);
-
-    m_posBuf->data.push_back(p1);
-    m_posBuf->data.push_back(p2);
-    m_posBuf->data.push_back(p3);
-    m_posBuf->data.push_back(p4);
-    m_posBuf->data.push_back(p5);
-    m_posBuf->data.push_back(p6);
-    m_posBuf->data.push_back(p7);
-    m_posBuf->data.push_back(p8);
-
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-    m_colBuf->data.push_back(color);
-
-
-    // Front
-    if(CheckBit(sides,EBS_FRONT))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+0);
-        m_indBuf->data.push_back(m_vertexTrack+1);
-        m_indBuf->data.push_back(m_vertexTrack+2);
-
-        m_indBuf->data.push_back(m_vertexTrack+2);
-        m_indBuf->data.push_back(m_vertexTrack+3);
-        m_indBuf->data.push_back(m_vertexTrack+0);
-
-        m_indexTrack+=6;
-    }
-
-    // Top
-    if(CheckBit(sides,EBS_TOP))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+3);
-        m_indBuf->data.push_back(m_vertexTrack+2);
-        m_indBuf->data.push_back(m_vertexTrack+6);
-
-        m_indBuf->data.push_back(m_vertexTrack+6);
-        m_indBuf->data.push_back(m_vertexTrack+7);
-        m_indBuf->data.push_back(m_vertexTrack+3);
-
-        m_indexTrack+=6;
-    }
-
-    // Back
-    if(CheckBit(sides,EBS_BACK))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+7);
-        m_indBuf->data.push_back(m_vertexTrack+6);
-        m_indBuf->data.push_back(m_vertexTrack+5);
-
-        m_indBuf->data.push_back(m_vertexTrack+5);
-        m_indBuf->data.push_back(m_vertexTrack+4);
-        m_indBuf->data.push_back(m_vertexTrack+7);
-
-        m_indexTrack+=6;
-    }
-
-    // Bottom
-    if(CheckBit(sides,EBS_BOTTOM))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+4);
-        m_indBuf->data.push_back(m_vertexTrack+5);
-        m_indBuf->data.push_back(m_vertexTrack+1);
-
-        m_indBuf->data.push_back(m_vertexTrack+1);
-        m_indBuf->data.push_back(m_vertexTrack+0);
-        m_indBuf->data.push_back(m_vertexTrack+4);
-
-        m_indexTrack+=6;
-    }
-
-    // Left
-    if(CheckBit(sides,EBS_LEFT))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+4);
-        m_indBuf->data.push_back(m_vertexTrack+0);
-        m_indBuf->data.push_back(m_vertexTrack+3);
-
-        m_indBuf->data.push_back(m_vertexTrack+3);
-        m_indBuf->data.push_back(m_vertexTrack+7);
-        m_indBuf->data.push_back(m_vertexTrack+4);
-
-        m_indexTrack+=6;
-    }
-
-    // Right
-    if(CheckBit(sides,EBS_RIGHT))
-    {
-        m_indBuf->data.push_back(m_vertexTrack+1);
-        m_indBuf->data.push_back(m_vertexTrack+5);
-        m_indBuf->data.push_back(m_vertexTrack+6);
-
-        m_indBuf->data.push_back(m_vertexTrack+6);
-        m_indBuf->data.push_back(m_vertexTrack+2);
-        m_indBuf->data.push_back(m_vertexTrack+1);
-
-        m_indexTrack+=6;
-    }
-    m_dirty=true;
-    m_vertexTrack+=8;
+    m_vox[x][y][z].active=true;
 }
 

@@ -1,6 +1,8 @@
 #ifndef VOXELMESH_H
 #define VOXELMESH_H
 
+#include "OpenGL/Mesh.h"
+
 #include "Voxel.h"
 #include "VoxelTypes.h"
 
@@ -18,48 +20,65 @@ enum EBlockSides
     EBS_COUNT
 };
 
-class Mesh;
-typedef std::shared_ptr<Mesh> MeshPtr;
-
 class shader;
 typedef std::shared_ptr<shader> shader_ptr;
 
-template<typename T>
-class BufferObject;
-
-template<typename T>
-class IndexBufferObject;
-
 typedef boost::multi_array<Voxel, 3> VoxelArray;
 
-class VoxelMesh
+static Voxel EMPTY_VOXEL=Voxel();
+
+class VoxelMesh:Mesh
 {
+private:
+    struct MaskNode
+    {
+        uint8_t exists:1;
+        uint8_t frontFace:1;
+        uint8_t backFace:1;
+        uint8_t align:5;
+
+        MaskNode & operator = (bool value)
+        {
+            exists = value;
+            return *this;
+        }
+
+        operator bool()
+        {
+            return exists==1 && (frontFace || backFace);
+        }
+    };
 public:
-    VoxelMesh(uint8_t xsize,uint8_t ysize,uint8_t zsize);
+    VoxelMesh(uint32_t size);
     virtual ~VoxelMesh();
 
-    void CreateVox(uint8_t x, uint8_t y, uint8_t z);
-    void CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8vec4 color);
+    void CreateVox(int32_t x, int32_t y, int32_t z);
+
     void Render();
+
     virtual void Rebuild()=0;
+
     void UpdateMesh();
+
     void Cleanup();
+
     bool Empty();
+
 protected:
     VoxelArray m_vox;
-    bool m_dirty;
-    uint8_t m_xsize,m_ysize,m_zsize;
-    uint32_t m_indexTrack;
-    uint32_t m_vertexTrack;
-    MeshPtr m_mesh;
-    shader_ptr m_shader;
-    BufferObject<u8vec4> *m_colBuf;
-    BufferObject<u8vec3> *m_posBuf;
-    IndexBufferObject<uint32_t> *m_indBuf;
-private:
 
-    void GetBuildNode(Voxel &vox,uint8_t x,uint8_t y, uint8_t z);
-    void GreedyBuild(const u8vec3 & offset);
+    bool m_dirty;
+
+    int32_t m_size;
+    shader_ptr m_shader;
+
+    uint32_t length(uint32_t x, uint32_t y, MaskNode **mask, bool front = true);
+    uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask, bool front = true);
+    void clear_mask(MaskNode **mask);
+    void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
+    void GreedyBuild();
     void AddQuadToMesh(const u8vec3 * face);
+private:
 };
 #endif // VOXELMESH_H
+
