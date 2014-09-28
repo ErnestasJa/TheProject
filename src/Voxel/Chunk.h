@@ -1,8 +1,6 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <boost/multi_array.hpp>
-
 #include "VoxelMesh.h"
 #include "Block.h"
 

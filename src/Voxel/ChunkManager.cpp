@@ -11,8 +11,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=128;
-    int testheight=128;
+    int testsize=64;
+    int testheight=64;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -205,19 +205,25 @@ const Block &ChunkManager::GetBlock(const glm::vec3 &pos)
 void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
 {
     glm::mat4 Model;
-
+    #define WIREFRAME_CHUNKS
+    #ifdef WIREFRAME_CHUNKS
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    #endif // WIREFRAME_CHUNKS
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         glm::vec3 pos=a.first*CHUNK_SIZEF;
 
         Model = glm::mat4(1.0f);
         Model = glm::translate(Model,pos);
-        MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
+        if(vsh->getparam("M")!=-1) MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
         glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
         glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
-        MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
+        if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
         a.second->Render();
     }
+    #ifdef WIREFRAME_CHUNKS
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    #endif // WIREFRAME_CHUNKS
 }
 
 void ChunkManager::Clear()

@@ -212,6 +212,7 @@
 		<Unit filename="../../src/Voxel/Chunk.h" />
 		<Unit filename="../../src/Voxel/ChunkManager.cpp" />
 		<Unit filename="../../src/Voxel/ChunkManager.h" />
+		<Unit filename="../../src/Voxel/Voxel.h" />
 		<Unit filename="../../src/Voxel/VoxelMesh.cpp" />
 		<Unit filename="../../src/Voxel/VoxelMesh.h" />
 		<Unit filename="../../src/Voxel/VoxelSprite.cpp" />

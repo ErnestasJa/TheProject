@@ -3,7 +3,7 @@
 
 #include "resources/image.h"
 
-VoxelSprite::VoxelSprite()
+VoxelSprite::VoxelSprite():VoxelMesh(1,1,1)
 {
 
 }

@@ -1,7 +1,10 @@
 #ifndef VOXELMESH_H
 #define VOXELMESH_H
 
+#include "Voxel.h"
 #include "VoxelTypes.h"
+
+#include <boost/multi_array.hpp>
 
 enum EBlockSides
 {
@@ -27,12 +30,15 @@ class BufferObject;
 template<typename T>
 class IndexBufferObject;
 
+typedef boost::multi_array<Voxel, 3> VoxelArray;
+
 class VoxelMesh
 {
 public:
-    VoxelMesh();
+    VoxelMesh(uint8_t xsize,uint8_t ysize,uint8_t zsize);
     virtual ~VoxelMesh();
 
+    void CreateVox(uint8_t x, uint8_t y, uint8_t z);
     void CreateVoxel(uint8_t x, uint8_t y, uint8_t z, uint32_t sides, u8vec4 color);
     void Render();
     virtual void Rebuild()=0;
@@ -40,7 +46,9 @@ public:
     void Cleanup();
     bool Empty();
 protected:
+    VoxelArray m_vox;
     bool m_dirty;
+    uint8_t m_xsize,m_ysize,m_zsize;
     uint32_t m_indexTrack;
     uint32_t m_vertexTrack;
     MeshPtr m_mesh;
@@ -49,5 +57,9 @@ protected:
     BufferObject<u8vec3> *m_posBuf;
     IndexBufferObject<uint32_t> *m_indBuf;
 private:
+
+    void GetBuildNode(Voxel &vox,uint8_t x,uint8_t y, uint8_t z);
+    void GreedyBuild(const u8vec3 & offset);
+    void AddQuadToMesh(const u8vec3 * face);
 };
 #endif // VOXELMESH_H
