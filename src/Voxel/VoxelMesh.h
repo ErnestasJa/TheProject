@@ -3,8 +3,9 @@
 
 #include "OpenGL/Mesh.h"
 
-#include "Voxel.h"
 #include "VoxelTypes.h"
+
+#include "Voxel.h"
 
 #include <boost/multi_array.hpp>
 
@@ -35,7 +36,7 @@ private:
         uint8_t exists:1;
         uint8_t frontFace:1;
         uint8_t backFace:1;
-        uint8_t align:5;
+        u8vec4 color;
 
         MaskNode & operator = (bool value)
         {
@@ -52,7 +53,7 @@ public:
     VoxelMesh(uint32_t size);
     virtual ~VoxelMesh();
 
-    void CreateVox(int32_t x, int32_t y, int32_t z);
+    void CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col);
 
     void Render();
 
@@ -77,7 +78,7 @@ protected:
     void clear_mask(MaskNode **mask);
     void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
     void GreedyBuild();
-    void AddQuadToMesh(const u8vec3 * face);
+    void AddQuadToMesh(const u8vec3 * face,const u8vec4 &col);
 private:
 };
 #endif // VOXELMESH_H

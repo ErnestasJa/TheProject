@@ -7,9 +7,11 @@ struct Voxel
     {
         active=false;
         type=0;
+        color=u8vec4(255);
     }
-    bool active;
-    uint8_t type;
+    uint8_t active:1;
+    uint8_t type:1;
+    u8vec4 color;
 };
 
 #endif // VOXEL_H_INCLUDED

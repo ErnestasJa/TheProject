@@ -77,7 +77,7 @@ void Chunk::Rebuild()
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
                 if(!m_pBlocks[x][y][z].IsActive()) continue;
-                    CreateVox(x,y,z);
+                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
             }
         }
     }

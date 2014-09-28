@@ -60,7 +60,7 @@ void GUIElement::AddChild(GUIElement *e)
 
     e->parent=this;
     children.push_back(e);
-    printf("Definitely added a child. I has %d\n",children.size());
+
     e->relative_rect=e->absolute_rect;
 
     UpdateAbsolutePos();

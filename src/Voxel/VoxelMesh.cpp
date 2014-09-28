@@ -137,6 +137,7 @@ void VoxelMesh::GreedyBuild()
 
                     GetVoxel(tmpVoxel,x,y,z);
                     n = (tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
 
                     GetVoxel(tmpVoxel,x,y,z+1);
                     n .frontFace = (tmpVoxel.active==0);
@@ -154,6 +155,7 @@ void VoxelMesh::GreedyBuild()
 
                     GetVoxel(tmpVoxel,x,z,y);
                     n = (tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
 
                     GetVoxel(tmpVoxel,x,z+1,y);
                     n.frontFace = (tmpVoxel.active==0);
@@ -171,6 +173,7 @@ void VoxelMesh::GreedyBuild()
 
                     GetVoxel(tmpVoxel,z,y,x);
                     n = (tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
 
                     GetVoxel(tmpVoxel,z+1,y,x);
                     n.frontFace = (tmpVoxel.active==0);
@@ -241,7 +244,7 @@ void VoxelMesh::GreedyBuild()
                                 face[2]=u8vec3(qstart.x+qdims.x,     qstart.y,           z);
                                 face[1]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z);
                                 face[0]=u8vec3(qstart.x,             qstart.y+qdims.y,   z);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
 
@@ -251,7 +254,7 @@ void VoxelMesh::GreedyBuild()
                                 face[1]=u8vec3(qbstart.x+qbdims.x,   qbstart.y,              z+1);
                                 face[2]=u8vec3(qbstart.x+qbdims.x,   qbstart.y+qbdims.y,     z+1);
                                 face[3]=u8vec3(qbstart.x,            qbstart.y+qbdims.y,     z+1);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
                             break;
@@ -264,7 +267,7 @@ void VoxelMesh::GreedyBuild()
                                 face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y);
                                 face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
                                 face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
 
@@ -274,7 +277,7 @@ void VoxelMesh::GreedyBuild()
                                 face[2]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y);
                                 face[1]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y+qbdims.y);
                                 face[0]=u8vec3(qbstart.x,         z+1,                qbstart.y+qbdims.y);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
                             break;
@@ -287,7 +290,7 @@ void VoxelMesh::GreedyBuild()
                                 face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
                                 face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
                                 face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
 
@@ -297,7 +300,7 @@ void VoxelMesh::GreedyBuild()
                                 face[2]=u8vec3(z+1,              qbstart.y,           qbstart.x+qbdims.x);
                                 face[1]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x+qbdims.x);
                                 face[0]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x);
-                                AddQuadToMesh(face);
+                                AddQuadToMesh(face,mn.color);
                                 faceCount++;
                             }
                             break;
@@ -314,27 +317,27 @@ void VoxelMesh::GreedyBuild()
     loop(i,m_size) delete mask[i];
     delete mask;
 
-    std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
+    //std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
 }
 
-void VoxelMesh::AddQuadToMesh(const u8vec3 * face)
+void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
 {
     BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
     uint32_t indicesStart = vbo->data.size();
-    u8vec4 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f,1.f);
+    u8vec4 color((rand()%128+128),(rand()%128+128),(rand()%128+128),1.f);
 
     vbo->data.push_back(face[0]);
     vbo->data.push_back(face[1]);
     vbo->data.push_back(face[2]);
     vbo->data.push_back(face[3]);
 
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
 
     ibo->data.push_back(indicesStart);
     ibo->data.push_back(indicesStart+2);
@@ -345,8 +348,9 @@ void VoxelMesh::AddQuadToMesh(const u8vec3 * face)
     ibo->data.push_back(indicesStart+2);
 }
 
-void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z)
+void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
 {
     m_vox[x][y][z].active=true;
+    m_vox[x][y][z].color=col;
 }
 
