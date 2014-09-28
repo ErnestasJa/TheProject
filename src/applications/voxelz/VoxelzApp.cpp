@@ -105,7 +105,7 @@ bool InitPostProc(AppContext* ctx)
     loop(y,sy)
     SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
-#define _DEBUG_FBO
+#define DEBUG_FBO
 #ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
@@ -247,9 +247,9 @@ bool VoxelzApp::Update()
         _appContext->_timer->tick();
 
         cam->Update(0);
-        //GBuffer->Set();
-        //GBuffer->EnableBuffer(0);
-        //GBuffer->EnableBuffer(1);
+        GBuffer->Set();
+        GBuffer->EnableBuffer(0);
+        GBuffer->EnableBuffer(1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
@@ -294,27 +294,27 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
         chkmgr->Render(cam.get(),gbsh);
-        //GBuffer->Unset();
+        GBuffer->Unset();
 
         /// RENDER TO QUAD
-//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//        ssaosh->Set();
-//
-//        GBdiffuse->Set(0);
-//        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
-//        GBnormal->Set(1);
-//        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
-//        GBposition->Set(2);
-//        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
-//        SSAONormal->Set(3);
-//        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
-//        GBdepth->Set(4);
-//        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
-//
-//        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-//        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        ssaosh->Set();
 
-        //mesh->Render();
+        GBdiffuse->Set(0);
+        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
+        GBnormal->Set(1);
+        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
+        GBposition->Set(2);
+        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
+        SSAONormal->Set(3);
+        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
+        GBdepth->Set(4);
+        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
+
+        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
+
+        mesh->Render();
 
         env->Render();
 
@@ -391,7 +391,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
         }
     }
 
-    swprintf(buf,L"LookAt: %.2f %.2f %.2f",lookat.x,lookat.y,lookat.z);
+    swprintf(buf,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));

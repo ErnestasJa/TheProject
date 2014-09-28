@@ -10,35 +10,34 @@
 
 static u8vec4 getTypeCol(uint32_t typ)
 {
-    uint32_t nois=rand()%8;
     switch(typ)
     {
     case EBT_VOIDROCK:
-        return u8vec4(0+nois,0+nois,0+nois,255);
+        return u8vec4(0,0,0,255);
         break;
     case EBT_STONE:
-        return u8vec4(128+nois,128+nois,128+nois,255);
+        return u8vec4(128,128,128,255);
         break;
     case EBT_SAND:
-        return u8vec4(192+nois,192+nois,64+nois,255);
+        return u8vec4(192,192,64,255);
         break;
     case EBT_DIRT:
-        return u8vec4(64+nois,64+nois,0+nois,255);
+        return u8vec4(64,64,0,255);
         break;
     case EBT_GRASS:
-        return u8vec4(0+nois,128+nois,0+nois,255);
+        return u8vec4(0,128,0,255);
         break;
     case EBT_LEAF:
-        return u8vec4(0+nois,192+nois,0+nois,255);
+        return u8vec4(0,192,0,255);
         break;
     case EBT_WOOD:
-        return u8vec4(128+nois,128+nois,0+nois,255);
+        return u8vec4(128,128,0,255);
         break;
     case EBT_WATER:
-        return u8vec4(0+nois,0+nois,128+nois,128);
+        return u8vec4(0,0,128,128);
         break;
     default:
-        return u8vec4(255-nois,255-nois,255-nois,255);
+        return u8vec4(255,255,255,255);
         break;
     }
 }
