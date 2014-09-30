@@ -86,6 +86,11 @@ static inline bool myfunction (const MNode & i,const MNode & j)
     return (i.start<j.start);
 }
 
+static inline bool myeqfunction (const MNode & i,const MNode & j)
+{
+    return (i.start==j.start);
+}
+
 struct CollisionInfo
 {
     CollisionInfo(glm::vec3 ray_start, glm::vec3 ray_direction)
@@ -123,6 +128,11 @@ public:
     void SortLeafNodes()
     {
         boost::range::sort(m_nodes, myfunction);
+    }
+
+    void RemoveDuplicateNodes()
+    {
+        boost::erase(m_nodes, boost::unique<boost::return_found_end>(m_nodes,myeqfunction));
     }
 
     inline bool CheckNodeFloat(float x, float y, float z)

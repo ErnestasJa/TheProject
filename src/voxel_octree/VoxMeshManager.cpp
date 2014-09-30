@@ -307,7 +307,7 @@ void VoxMeshManager::AddQuadToMesh(Mesh* mesh, const glm::vec3 * face)
     BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
 
     uint32_t indicesStart = vbo->data.size();
-    glm::vec3 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f);
+    glm::vec3 color(0,150.0f/255.f,1.0f);
 
     vbo->data.push_back(face[0]);
     vbo->data.push_back(face[1]);
@@ -374,32 +374,34 @@ void VoxMeshManager::GenAllChunks()
 
     ClearBuildNodes();
 
-    uint32_t currentChunkMortonKey = m_octree->GetChildNodes()[0].start & CHUNK_MASK;
-    uint32_t x,y,z;
-    decodeMK(currentChunkMortonKey,x,y,z);
 
-    MeshPtr mesh = CreateEmptyMesh();
-    m_map[currentChunkMortonKey] = mesh;
+    uint32_t nodeChunk, x, y, z;
+    uint32_t currentChunkMortonKey = nodeChunk = m_octree->GetChildNodes()[0].start & CHUNK_MASK;
 
     for( auto it = m_octree->GetChildNodes().begin(); it != m_octree->GetChildNodes().end(); it++ )
     {
         MNode & node = (*it);
-        const uint32_t nodeChunk = node.start & CHUNK_MASK; /// get chunk (size 32x32x32)
+        nodeChunk = node.start & CHUNK_MASK; /// get chunk (size 32x32x32)
 
         if(nodeChunk!=currentChunkMortonKey) /// THIS PIECE OF CODE IS GARBAGE, PLS FIX
         {
-            GreedyBuildChunk(mesh.get(), glm::vec3(x,y,z));
-
-            mesh = CreateEmptyMesh();
-            m_map[nodeChunk] = mesh;
-            currentChunkMortonKey = nodeChunk;
             decodeMK(currentChunkMortonKey,x,y,z);
+            auto mesh = CreateEmptyMesh();
+            m_map[currentChunkMortonKey] = mesh;
+            GreedyBuildChunk(mesh.get(), glm::vec3(x,y,z));
+            ClearBuildNodes();
+
+            currentChunkMortonKey = nodeChunk;
         }
 
         SetBuildNode(node);
     }
 
+
+    decodeMK(nodeChunk,x,y,z);
+    auto mesh = CreateEmptyMesh();
     GreedyBuildChunk(mesh.get(), glm::vec3(x,y,z));
+    m_map[nodeChunk] = mesh;
 
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->UploadBuffers();

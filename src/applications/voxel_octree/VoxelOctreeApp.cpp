@@ -41,6 +41,30 @@ void VoxelOctreeApp::InitPython()
     PyRun_SimpleString(initString.c_str());
 }
 
+//This method is not bugged, mesh builder is, pls fix, k thx.
+void ReadBVoxFile(MortonOctTree<10> * mot, const std::string &fileName)
+{
+    char * buf;
+    uint32_t len;
+    len=helpers::read(fileName,buf);
+    uint32_t * data = (uint32_t*)((void*)&buf[0]);
+
+    uint32_t voxel_count = data[0];
+    data++;
+
+    std::cout << "File len: " << len << std::endl;
+    std::cout << "Voxel count: " << voxel_count << std::endl;
+
+    for(int i = 0; i < voxel_count; i++)
+    {
+        uint32_t x = data[0], y = data[1], z = data[2];
+        mot->AddOrphanNode(MNode(x,y,z));
+        data+=3;
+    }
+
+    delete[] buf;
+}
+
 void VoxelOctreeApp::InitPlaneMesh()
 {
     AppContext * ctx = this->Ctx();
@@ -49,15 +73,15 @@ void VoxelOctreeApp::InitPlaneMesh()
                          1.7777777f,45.0f,0.1,1024.0f));
 
     AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
-    //cube = new CubeMesh(1);
     cube = new TCubeMesh<glm::vec3>(aabb);
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
-    loopxyz(32,32,32)
-        octree->AddOrphanNode(MNode(x,y,z));
+    ReadBVoxFile(octree,"res/voxel_octree/rooftops.bvox");
 
     octree->SortLeafNodes();
+    octree->RemoveDuplicateNodes();
+    std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
     octreeGen->GenAllChunks();
 }
 
@@ -83,6 +107,7 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     return true;
 }
 
+static bool renderWireframe = false;
 bool VoxelOctreeApp::Update()
 {
     if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
@@ -108,6 +133,12 @@ bool VoxelOctreeApp::Update()
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
+
+        if(renderWireframe)
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        else
+            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
         octreeGen->RenderAllMeshes();
 
 
@@ -148,9 +179,9 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
         cam->Strafe(speed);
 
     if(key==GLFW_KEY_1)
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    if(key==GLFW_KEY_2)
-        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        renderWireframe = true;
+    else if(key==GLFW_KEY_2)
+        renderWireframe = false;
 }
 
 void VoxelOctreeApp::OnMouseMove(double x, double y)
