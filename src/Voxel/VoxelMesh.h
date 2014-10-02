@@ -34,8 +34,6 @@ private:
     struct MaskNode
     {
         uint8_t exists:1;
-        uint8_t frontFace:1;
-        uint8_t backFace:1;
         u8vec4 color;
 
         MaskNode & operator = (bool value)
@@ -46,7 +44,7 @@ private:
 
         operator bool()
         {
-            return exists==1 && (frontFace || backFace);
+            return exists==1;
         }
     };
 public:
@@ -73,9 +71,10 @@ protected:
     int32_t m_size;
     shader_ptr m_shader;
 
-    uint32_t length(uint32_t x, uint32_t y, MaskNode **mask, bool front = true);
-    uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask, bool front = true);
+    uint32_t length(uint32_t x, uint32_t y, MaskNode **mask);
+    uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask);
     void clear_mask(MaskNode **mask);
+    void clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey);
     void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
     void GreedyBuild();
     void AddQuadToMesh(const u8vec3 * face,const u8vec4 &col);

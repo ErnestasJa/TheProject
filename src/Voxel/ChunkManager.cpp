@@ -11,72 +11,72 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=256;
-    int testheight=128;
+//    int testsize=64;
+//    int testheight=128;
+//
+//    for(int x=-testsize; x<testsize; x++)
+//    {
+//        for(int z=-testsize; z<testsize; z++)
+//        {
+//            float h=scaled_raw_noise_2d(5,testheight,x/256.f,z/256.f);
+//            for(int y=0; y<testheight; y++)
+//            {
+//                if(y==0)
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
+//                    continue;
+//                }
+//                else if(y==(int)h)
+//                {
+//                    float b=scaled_raw_noise_3d(0,testheight,x/256.f,y/256.f,z/256.f);
+//                    if(b*(rand()%5+1)<32)
+//                    {
+//                        SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
+//                        continue;
+//                    }
+//                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
+//                    continue;
+//                }
+//                else if(y>h)
+//                {
+//                    if(y<60)
+//                    {
+//                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+//                        continue;
+//                    }
+//                    else
+//                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
+//                    {
+//                        // Trunk
+//                        h = (rand() & 0x3) + 3;
+//                        for(int i = 0; i < h; i++)
+//                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
+//
+//                        // Leaves
+//                        for(int ix = -3; ix <= 3; ix++)
+//                        {
+//                            for(int iy = -1; iy <= 1; iy++)
+//                            {
+//                                for(int iz = -3; iz <= 3; iz++)
+//                                {
+//                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
+//                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//                else
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
+//                }
+//            }
+//        }
+//    }
 
-    for(int x=-testsize; x<testsize; x++)
-    {
-        for(int z=-testsize; z<testsize; z++)
-        {
-            float h=scaled_raw_noise_2d(5,testheight,x/256.f,z/256.f);
-            for(int y=0; y<testheight; y++)
-            {
-                if(y==0)
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
-                    continue;
-                }
-                else if(y==(int)h)
-                {
-                    float b=scaled_raw_noise_3d(0,testheight,x/256.f,y/256.f,z/256.f);
-                    if(b*(rand()%5+1)<32)
-                    {
-                        SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
-                        continue;
-                    }
-                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
-                    continue;
-                }
-                else if(y>h)
-                {
-                    if(y<60)
-                    {
-                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
-                        continue;
-                    }
-                    else
-                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
-                    {
-                        // Trunk
-                        h = (rand() & 0x3) + 3;
-                        for(int i = 0; i < h; i++)
-                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
-
-                        // Leaves
-                        for(int ix = -3; ix <= 3; ix++)
-                        {
-                            for(int iy = -1; iy <= 1; iy++)
-                            {
-                                for(int iz = -3; iz <= 3; iz++)
-                                {
-                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
-                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-                else
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
-                }
-            }
-        }
-    }
-
-//    AddChunk(glm::vec3(0));
-//    m_chunks[glm::vec3(0)]->Fill();
+    AddChunk(glm::vec3(0));
+    m_chunks[glm::vec3(0)]->Fill();
 
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {

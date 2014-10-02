@@ -23,7 +23,10 @@ VoxelMesh::~VoxelMesh()
 
 bool VoxelMesh::Empty()
 {
-    loop(x,m_size) loop(y,m_size) loop(z,m_size) if(m_vox[x][y][z].active){return false;}
+    loop(x,m_size) loop(y,m_size) loop(z,m_size) if(m_vox[x][y][z].active)
+    {
+        return false;
+    }
     return true;
 }
 
@@ -68,11 +71,13 @@ void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     {
         vox.active=0;
         vox.type=0;
+        vox.color=u8vec4(255);
     }
     else
     {
         vox.active=m_vox[x][y][z].active;
         vox.type=m_vox[x][y][z].type;
+        vox.color=m_vox[x][y][z].color;
     }
 }
 
@@ -80,27 +85,33 @@ void VoxelMesh::clear_mask(MaskNode **mask)
 {
     loop(i,m_size) loop(j,m_size)
     {
-        mask[i][j].frontFace = false;
-        mask[i][j].backFace = false;
         mask[i][j].exists = false;
     }
 }
 
-uint32_t VoxelMesh::length(uint32_t x, uint32_t y, MaskNode **mask, bool front)
+void VoxelMesh::clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey)
+{
+    for(int i=sx; i<ex; i++) for(int j=sy; j<ey; j++)
+    {
+        mask[i][j].exists = false;
+    }
+}
+
+uint32_t VoxelMesh::length(uint32_t x, uint32_t y, MaskNode **mask)
 {
     for(uint32_t i = x; i < m_size; i++)
-        if(!mask[i][y].exists || (front?mask[i][y].frontFace==false:mask[i][y].backFace==false))
+        if(mask[i][y].color!=mask[x][y].color || !mask[i][y].exists)
             return i-x;
 
     return m_size-x;
 }
 
-uint32_t VoxelMesh::height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask, bool front)
+uint32_t VoxelMesh::height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask)
 {
     uint32_t h = 0;
 
     for(uint32_t i = y; i < m_size; i++)
-        if(length(x,i,mask,front)==len)
+        if(length(x,i,mask)==len)
             h++;
         else
             break;
@@ -118,77 +129,92 @@ void VoxelMesh::GreedyBuild()
 
     u8vec3 face[4];
 
-    glm::ivec2 qstart, qdims, qbstart, qbdims;
+    glm::ivec2 qstart, qdims;
 
     uint32_t faceCount = 0;
 
-    for(uint32_t dim=0; dim<3; dim++)
+    for(uint32_t dim=0; dim<6; dim++)
     {
         clear_mask(mask);
         loopi(z, m_size)
         {
             switch(dim)
             {
-            case 0: //xy slices
+            case 0: //z-
             {
                 loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
-
-                    GetVoxel(tmpVoxel,x,y,z);
-                    n = (tmpVoxel.active==1);
-                    n.color=tmpVoxel.color;
-
-                    GetVoxel(tmpVoxel,x,y,z+1);
-                    n .frontFace = (tmpVoxel.active==0);
 
                     GetVoxel(tmpVoxel,x,y,z-1);
-                    n .backFace = (tmpVoxel.active==0);
+                    n.exists = !(tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
                 }
                 break;
             }
-            case 1: //xz slices
+            case 1: //z+
             {
                 loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,z,y);
-                    n = (tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,y,z+1);
+                    n.exists = !(tmpVoxel.active==1);
                     n.color=tmpVoxel.color;
+                }
+                break;
+            }
+            case 2: //y-
+            {
+                loopi(y,m_size) loopi(x,m_size)
+                {
+                    MaskNode & n = mask[x][y];
 
                     GetVoxel(tmpVoxel,x,z+1,y);
-                    n.frontFace = (tmpVoxel.active==0);
-
-                    GetVoxel(tmpVoxel,x,z-1,y);
-                    n.backFace = (tmpVoxel.active==0);
+                    n.exists = !(tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
                 }
                 break;
             }
-            case 2: //yz slices
+            case 3: //y+
             {
                 loopi(y,m_size) loopi(x,m_size)
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,z,y,x);
-                    n = (tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,z-1,y);
+                    n.exists = !(tmpVoxel.active==1);
                     n.color=tmpVoxel.color;
-
-                    GetVoxel(tmpVoxel,z+1,y,x);
-                    n.frontFace = (tmpVoxel.active==0);
+                }
+                break;
+            }
+            case 4: //x+
+            {
+                loopi(y,m_size) loopi(x,m_size)
+                {
+                    MaskNode & n = mask[x][y];
 
                     GetVoxel(tmpVoxel,z-1,y,x);
-                    n.backFace = (tmpVoxel.active==0);
+                    n.exists = !(tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
+                }
+                break;
+            }
+            case 5: //x-
+            {
+                loopi(y,m_size) loopi(x,m_size)
+                {
+                    MaskNode & n = mask[x][y];
+
+                    GetVoxel(tmpVoxel,z+1,y,x);
+                    n.exists = !(tmpVoxel.active==1);
+                    n.color=tmpVoxel.color;
                 }
                 break;
             }
             default:
                 break;
             }
-
-            qstart.x = 0;
-            qstart.y = 0;
 
             loop(y, m_size)
             {
@@ -200,114 +226,78 @@ void VoxelMesh::GreedyBuild()
                         /*
                         *    We found our victim, lets find out how fat he is.
                         */
-                        if(mn.backFace)
-                        {
-                            qstart.x=x;
-                            qstart.y=y;
-                            qdims.x =length(x,y,mask,false);
-                            qdims.y =height(x,y,qdims.x,mask,false);
-                        }
-                        if(mn.frontFace)
-                        {
-                            qbstart.x=x;
-                            qbstart.y=y;
-                            qbdims.x =length(x,y,mask);
-                            qbdims.y =height(x,y,qbdims.x,mask);
-                        }
-
-                        /*
-                        *    Now that we know how fat that little prick is, lets erase his identity.
-                        */
-                        if(mn.backFace)
-                            for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
-                                for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
-                                {
-                                    mask[xi][yi].backFace=false;
-                                    mask[xi][yi].exists=mask[xi][yi].frontFace;
-                                }
-
-                        if(mn.frontFace)
-                            for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
-                                for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
-                                {
-                                    mask[xi][yi].frontFace=false;
-                                    mask[xi][yi].exists=mask[xi][yi].backFace;
-                                }
+                        qstart.x=x;
+                        qstart.y=y;
+                        qdims.x =length(x,y,mask);
+                        qdims.y =height(x,y,qdims.x,mask);
 
                         switch(dim)
                         {
-                        case 0: //xy
+                        case 0: //z+
                         {
-                            if(mn.backFace)
-                            {
-                                face[3]=u8vec3(qstart.x,             qstart.y,           z);
-                                face[2]=u8vec3(qstart.x+qdims.x,     qstart.y,           z);
-                                face[1]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z);
-                                face[0]=u8vec3(qstart.x,             qstart.y+qdims.y,   z);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[0]=u8vec3(qbstart.x,            qbstart.y,              z+1);
-                                face[1]=u8vec3(qbstart.x+qbdims.x,   qbstart.y,              z+1);
-                                face[2]=u8vec3(qbstart.x+qbdims.x,   qbstart.y+qbdims.y,     z+1);
-                                face[3]=u8vec3(qbstart.x,            qbstart.y+qbdims.y,     z+1);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
+                            face[3]=u8vec3(qstart.x,            qstart.y,              z);
+                            face[2]=u8vec3(qstart.x+qdims.x,   qstart.y,              z);
+                            face[1]=u8vec3(qstart.x+qdims.x,   qstart.y+qdims.y,     z);
+                            face[0]=u8vec3(qstart.x,            qstart.y+qdims.y,     z);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
                             break;
                         }
-                        case 1: //xz
+                        case 1: //z-
                         {
-                            if(mn.backFace)
-                            {
-                                face[0]=u8vec3(qstart.x,         z,                  qstart.y);
-                                face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y);
-                                face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
-                                face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[3]=u8vec3(qbstart.x,         z+1,                qbstart.y);
-                                face[2]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y);
-                                face[1]=u8vec3(qbstart.x+qbdims.x, z+1,                qbstart.y+qbdims.y);
-                                face[0]=u8vec3(qbstart.x,         z+1,                qbstart.y+qbdims.y);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
+                            face[0]=u8vec3(qstart.x,             qstart.y,           z+1);
+                            face[1]=u8vec3(qstart.x+qdims.x,     qstart.y,           z+1);
+                            face[2]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z+1);
+                            face[3]=u8vec3(qstart.x,             qstart.y+qdims.y,   z+1);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
                             break;
                         }
-                        case 2: //yz
+                        case 2: //y+
                         {
-                            if(mn.backFace)
-                            {
-                                face[0]=u8vec3(z,                qstart.y,           qstart.x);
-                                face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
-                                face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
-                                face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[3]=u8vec3(z+1,              qbstart.y,           qbstart.x);
-                                face[2]=u8vec3(z+1,              qbstart.y,           qbstart.x+qbdims.x);
-                                face[1]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x+qbdims.x);
-                                face[0]=u8vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x);
-                                AddQuadToMesh(face,mn.color);
-                                faceCount++;
-                            }
+                            face[3]=u8vec3(qstart.x,         z,                qstart.y);
+                            face[2]=u8vec3(qstart.x+qdims.x, z,                qstart.y);
+                            face[1]=u8vec3(qstart.x+qdims.x, z,                qstart.y+qdims.y);
+                            face[0]=u8vec3(qstart.x,         z,                qstart.y+qdims.y);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
+                            break;
+                        }
+                        case 3: //y-
+                        {
+                            face[0]=u8vec3(qstart.x,         z+1,                  qstart.y);
+                            face[1]=u8vec3(qstart.x+qdims.x, z+1,                  qstart.y);
+                            face[2]=u8vec3(qstart.x+qdims.x, z+1,                  qstart.y+qdims.y);
+                            face[3]=u8vec3(qstart.x,         z+1,                  qstart.y+qdims.y);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
+                            break;
+                        }
+                        case 5:
+                        {
+                            face[3]=u8vec3(z+1,              qstart.y,           qstart.x);
+                            face[2]=u8vec3(z+1,              qstart.y,           qstart.x+qdims.x);
+                            face[1]=u8vec3(z+1,              qstart.y+qdims.y,   qstart.x+qdims.x);
+                            face[0]=u8vec3(z+1,              qstart.y+qdims.y,   qstart.x);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
+                            break;
+                        }
+                        case 4: //x-
+                        {
+                            face[0]=u8vec3(z,                qstart.y,           qstart.x);
+                            face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
+                            face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
+                            face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x);
+                            AddQuadToMesh(face,mn.color);
+                            faceCount++;
                             break;
                         }
                         default:
                             break;
                         }
+
+                        clear_mask_ranged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y);
                     }
                 }
             }
@@ -317,7 +307,7 @@ void VoxelMesh::GreedyBuild()
     loop(i,m_size) delete mask[i];
     delete mask;
 
-    //std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
+    std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
 }
 
 void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
