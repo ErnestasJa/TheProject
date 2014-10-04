@@ -33,7 +33,7 @@ class VoxelMesh:Mesh
 private:
     struct MaskNode
     {
-        uint8_t exists:1;
+        uint8_t exists;
         u8vec4 color;
 
         MaskNode & operator = (bool value)
@@ -63,12 +63,14 @@ public:
 
     bool Empty();
 
+    uint32_t GetFaceCount();
+
 protected:
     VoxelArray m_vox;
 
     bool m_dirty;
 
-    int32_t m_size;
+    int32_t m_size,m_faceCount;
     shader_ptr m_shader;
 
     uint32_t length(uint32_t x, uint32_t y, MaskNode **mask);

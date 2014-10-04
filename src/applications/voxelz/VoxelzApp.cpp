@@ -257,7 +257,7 @@ bool VoxelzApp::Update()
 
         vsh->Set();
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        chkmgr->Render(cam.get(),vsh);
+        chkmgr->Render(cam.get(),vsh,wireframe);
 
         sh->Set();
         Model = glm::mat4(1.0f);
@@ -463,6 +463,9 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 
         swprintf(buf,L"Total Blocks %d",chkmgr->GetTotalBlocks());
         env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
+
+        swprintf(buf,L"Total Faces %d",chkmgr->GetTotalFaces());
+        env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
         switch(button)
         {
         case GLFW_MOUSE_BUTTON_LEFT:

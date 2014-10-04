@@ -14,6 +14,8 @@ VoxelMesh::VoxelMesh(uint32_t size):m_vox(boost::extents[size][size][size])
     buffers[Mesh::COLOR] = new BufferObject<u8vec4>();
     buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
 
+    m_faceCount=0;
+
     Init();
 }
 
@@ -71,7 +73,7 @@ void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     {
         vox.active=0;
         vox.type=0;
-        vox.color=u8vec4(255);
+        vox.color=u8vec4(128);
     }
     else
     {
@@ -111,7 +113,7 @@ uint32_t VoxelMesh::height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask
     uint32_t h = 0;
 
     for(uint32_t i = y; i < m_size; i++)
-        if(length(x,i,mask)==len)
+        if(length(x,i,mask)==len&&mask[x][i].color==mask[x][y].color)
             h++;
         else
             break;
@@ -146,9 +148,14 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,y,z-1);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,y,z);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+
+                        GetVoxel(tmpVoxel,x,y,z-1);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -158,9 +165,13 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,y,z+1);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,y,z);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+                        GetVoxel(tmpVoxel,x,y,z+1);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -170,9 +181,13 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,z+1,y);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,z,y);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+                        GetVoxel(tmpVoxel,x,z+1,y);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -182,9 +197,13 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,z-1,y);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,x,z,y);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+                        GetVoxel(tmpVoxel,x,z-1,y);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -194,9 +213,13 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,z-1,y,x);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,z,y,x);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+                        GetVoxel(tmpVoxel,z-1,y,x);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -206,9 +229,13 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,z+1,y,x);
-                    n.exists = !(tmpVoxel.active==1);
+                    GetVoxel(tmpVoxel,z,y,x);
                     n.color=tmpVoxel.color;
+                    if(tmpVoxel.active)
+                    {
+                        GetVoxel(tmpVoxel,z+1,y,x);
+                        n.exists = !(tmpVoxel.active==1);
+                    }
                 }
                 break;
             }
@@ -255,20 +282,20 @@ void VoxelMesh::GreedyBuild()
                         }
                         case 2: //y+
                         {
-                            face[3]=u8vec3(qstart.x,         z,                qstart.y);
-                            face[2]=u8vec3(qstart.x+qdims.x, z,                qstart.y);
-                            face[1]=u8vec3(qstart.x+qdims.x, z,                qstart.y+qdims.y);
-                            face[0]=u8vec3(qstart.x,         z,                qstart.y+qdims.y);
+                            face[3]=u8vec3(qstart.x,         z+1,                qstart.y);
+                            face[2]=u8vec3(qstart.x+qdims.x, z+1,                qstart.y);
+                            face[1]=u8vec3(qstart.x+qdims.x, z+1,                qstart.y+qdims.y);
+                            face[0]=u8vec3(qstart.x,         z+1,                qstart.y+qdims.y);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 3: //y-
                         {
-                            face[0]=u8vec3(qstart.x,         z+1,                  qstart.y);
-                            face[1]=u8vec3(qstart.x+qdims.x, z+1,                  qstart.y);
-                            face[2]=u8vec3(qstart.x+qdims.x, z+1,                  qstart.y+qdims.y);
-                            face[3]=u8vec3(qstart.x,         z+1,                  qstart.y+qdims.y);
+                            face[0]=u8vec3(qstart.x,         z,                  qstart.y);
+                            face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y);
+                            face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
+                            face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
@@ -296,7 +323,6 @@ void VoxelMesh::GreedyBuild()
                         default:
                             break;
                         }
-
                         clear_mask_ranged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y);
                     }
                 }
@@ -307,7 +333,7 @@ void VoxelMesh::GreedyBuild()
     loop(i,m_size) delete mask[i];
     delete mask;
 
-    std::cout << "Added " << faceCount*2 << " faces to mesh" << std::endl;
+    m_faceCount=faceCount*2;
 }
 
 void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
@@ -342,5 +368,10 @@ void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
 {
     m_vox[x][y][z].active=true;
     m_vox[x][y][z].color=col;
+}
+
+uint32_t VoxelMesh::GetFaceCount()
+{
+    return m_faceCount;
 }
 
