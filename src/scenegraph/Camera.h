@@ -1,7 +1,29 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
+#include "Utility/Plane3d.h"
+
+enum FRUSTUM_PLANES
+{
+    FP_TOP,
+    FP_BOTTOM,
+    FP_LEFT,
+    FP_RIGHT,
+    FP_NEAR,
+    FP_FAR,
+
+    FP_COUNT
+};
+
+enum INTERSECT_RESULT
+{
+    IR_OUTSIDE,
+    IR_INSIDE,
+    IR_INTERSECT
+};
+
 struct AppContext;
+class AABB;
 
 class Camera
 {
@@ -21,6 +43,11 @@ public:
 
     virtual void Update(float dt);
 
+    void SetFPS(bool b)
+    {
+        m_fps=b;
+    }
+
 public:
 	void Walk(const float amount);
 	void Strafe(const float amount);
@@ -28,11 +55,35 @@ public:
 	virtual glm::mat4x4 GetViewMat();
 	virtual glm::mat4x4 GetViewProjMat();
 	void Orbit(glm::vec3 point,float distance,float angleX,float angleY);
+
+	void DrawFrustum()
+	{
+
+	}
+
+	INTERSECT_RESULT PointInFrustum(const glm::vec3 &point);
+	INTERSECT_RESULT BoxInFrustum(const AABB &box);
+
+//	INTERSECT_RESULT SphereInFrustum(const glm::vec3 &point,float radius)
+//	{
+//
+//	}
+//
+//	INTERSECT_RESULT BoxInFrustum(const AABB &box)
+//	{
+//
+//	}
 private:
+    void InitFrustum();
     void HandleMouse();
 protected:
     float m_fov, m_aspect_ratio, m_far, m_near;
 	static glm::vec3 UP;
+    //frustrum
+    Plane3d frustumPlanes[FP_COUNT];
+	glm::vec3 ntl,ntr,nbl,nbr,ftl,ftr,fbl,fbr;
+    float nw,nh,fw,fh;
+	//frustrum
 	glm::vec3 m_pos;
 	glm::vec3 m_look;
 	glm::vec3 m_up;

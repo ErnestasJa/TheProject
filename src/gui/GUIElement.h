@@ -47,6 +47,8 @@ public:
 
     void UpdateAbsolutePos();
 
+    void Move(const glm::vec2 &pos);
+
     void SetName(std::string name);
 
     void SetEventListener(GUIEventListener *listener);

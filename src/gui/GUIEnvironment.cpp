@@ -9,16 +9,19 @@
 #include "resources/ImageLoader.h"
 #include "opengl/Texture.h"
 #include "Application/Window.h"
+#include "Application/AppContext.h"
 
-GUIEnvironment::GUIEnvironment(Window* win,Logger* log):GUIElement(nullptr, Rect2D<int>(0,0,win->GetWindowSize().x,win->GetWindowSize().y))
+GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(0,0,ctx->_window->GetWindowSize().x,ctx->_window->GetWindowSize().y))
 {
-    _sig_mouse_move=win->SigMouseMoved().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_moved));
-    _sig_mouse_button=win->SigMouseKey().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_button));
-    _sig_mouse_scroll=win->SigMouseScroll().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_scroll));
-    _sig_key=win->SigKeyEvent().connect(sigc::mem_fun(this,&GUIEnvironment::on_key_event));
-    _sig_text=win->SigTextEvent().connect(sigc::mem_fun(this,&GUIEnvironment::on_char_typed));
+    m_context=ctx;
+    ctx->_guiEnv=this;
+    this->m_window=ctx->_window;
 
-    this->m_window=win;
+    _sig_mouse_move=m_window->SigMouseMoved().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_moved));
+    _sig_mouse_button=m_window->SigMouseKey().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_button));
+    _sig_mouse_scroll=m_window->SigMouseScroll().connect(sigc::mem_fun(this,&GUIEnvironment::on_mouse_scroll));
+    _sig_key=m_window->SigKeyEvent().connect(sigc::mem_fun(this,&GUIEnvironment::on_key_event));
+    _sig_text=m_window->SigTextEvent().connect(sigc::mem_fun(this,&GUIEnvironment::on_char_typed));
 
     glm::ivec2 win_dims=m_window->GetWindowSize();
     this->disp_w=win_dims.x;
@@ -35,7 +38,7 @@ GUIEnvironment::GUIEnvironment(Window* win,Logger* log):GUIElement(nullptr, Rect
     this->SetName("GUI_ENVIRONMENT");
     last_char=' ';
 
-    gui_shader=Shader::LoadShader("res/gui_quad");
+    gui_shader=Shader::LoadShader("res/engine/shaders/gui_quad");
     gui_quad=new Quad();
     gui_quad->Init();
 
@@ -44,14 +47,16 @@ GUIEnvironment::GUIEnvironment(Window* win,Logger* log):GUIElement(nullptr, Rect
 
     skin=new gui_skin();
 
-    skin->load("res/skin_default.xml");
+    skin->load("res/gui/skins/skin_default.xml");
 
     skin_atlas=new Texture();
-    image_loader* imgl=new image_loader(log);
-    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/skin_default.png"));
+    image_loader* imgl=new image_loader(m_context->_logger);
+    std::shared_ptr<image> img=std::shared_ptr<image>(imgl->load("res/gui/skins/skin_default.png"));
     skin_atlas->Init(img);
 
-    m_font_renderer=new font_renderer(this);
+    delete imgl;
+
+    m_font_renderer=new FontRenderer(ctx);
 }
 
 GUIEnvironment::~GUIEnvironment()
@@ -247,7 +252,7 @@ glm::vec2 GUIEnvironment::get_gui_scale()
     return gui_scale;
 }
 
-font_renderer* GUIEnvironment::get_font_renderer()
+FontRenderer* GUIEnvironment::get_font_renderer()
 {
     return m_font_renderer;
 }
@@ -269,6 +274,7 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),0);
     if(!multichannel)
         glUniform1ui(gui_shader->getparam("singlechannel"),GL_TRUE);
     else
@@ -298,11 +304,30 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,uint32_t style,bool tile)
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),0);
 
     gui_quad->Render();
 
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
+}
+
+void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,glm::vec4 col)
+{
+    Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    gui_shader->Set();
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),1);
+    glUniform4fv(gui_shader->getparam("color"),1,glm::value_ptr(col));
+
+    gui_quad->Render();
 }
 
 
@@ -321,6 +346,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<Textu
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),0);
 
     sliced_quad->Render();
 
@@ -345,9 +371,28 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
     M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),0);
     glUniform1f(gui_shader->getparam("alpha"),0.9f);
 
     sliced_quad->Render();
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
+}
+
+void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,glm::vec4 col)
+{
+    Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
+
+    gui_shader->Set();
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+    M=glm::translate(M,glm::vec3(scaled_dims.x,scaled_dims.y,0));
+    M=glm::scale(M,glm::vec3(scaled_dims.w,scaled_dims.h,0));
+
+    glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
+    glUniform1ui(gui_shader->getparam("coloured"),1);
+    glUniform4fv(gui_shader->getparam("color"),1,glm::value_ptr(col));
+
+    sliced_quad->Render();
 }

@@ -11,7 +11,7 @@ out vec3 _norm;
 
 void main(){
 	_pos=pos;
-	_col=vec4(col.x/255,col.y/255,col.z/255,col.w/255);
+	_col=vec4(1.f/255.f*col.x,1.f/255.f*col.y,1.f/255.f*col.z,1.f/255.f*col.w);
 	_norm=norm;
     gl_Position = mvp * vec4(pos,1);
 }

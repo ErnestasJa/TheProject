@@ -22,6 +22,8 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/py" />
+					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -56,6 +58,8 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/py" />
+					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -77,6 +81,8 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/py" />
+					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3" />
@@ -115,6 +121,8 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/py" />
+					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -136,6 +144,7 @@
 				<ExtraCommands>
 					<Add after='xcopy /y &quot;..\..\libs\irrKlang-1.5.0\dll\irrKlang.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
 					<Add after='xcopy /y &quot;..\..\res&quot; &quot;$(TARGET_OUTPUT_DIR)res\&quot; /E' />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Win32-Profile">
@@ -155,6 +164,8 @@
 					<Add directory="src/voxel_octree" />
 					<Add directory="src/opengl" />
 					<Add directory="src/py" />
+					<Add directory="src/gui/custom_elements" />
+					<Add directory="src/gui/font_rendering" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -256,7 +267,12 @@
 		<Unit filename="../../src/gui/GUITestElement.h" />
 		<Unit filename="../../src/gui/GUIWindow.cpp" />
 		<Unit filename="../../src/gui/GUIWindow.h" />
+		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.cpp" />
+		<Unit filename="../../src/gui/custom_elements/GUIColorPicker.h" />
 		<Unit filename="../../src/gui/custom_elements/ToggleGroup.h" />
+		<Unit filename="../../src/gui/font_rendering/Font.cpp" />
+		<Unit filename="../../src/gui/font_rendering/FontFamily.cpp" />
+		<Unit filename="../../src/gui/font_rendering/FontFamily.h" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.cpp" />
 		<Unit filename="../../src/gui/font_rendering/FontRenderer.h" />
 		<Unit filename="../../src/gui/font_rendering/font.h" />
@@ -320,12 +336,15 @@
 		<Unit filename="../../src/resources/iqm.h" />
 		<Unit filename="../../src/scenegraph/Camera.cpp" />
 		<Unit filename="../../src/scenegraph/Camera.h" />
+		<Unit filename="../../src/utility/Box3d.h" />
+		<Unit filename="../../src/utility/Plane3d.h" />
 		<Unit filename="../../src/utility/SimplexNoise.cpp" />
 		<Unit filename="../../src/utility/SimplexNoise.h" />
 		<Unit filename="../../src/utility/StringUtil.h" />
 		<Unit filename="../../src/utility/bit.h" />
 		<Unit filename="../../src/utility/helpers.cpp" />
 		<Unit filename="../../src/utility/helpers.h" />
+		<Unit filename="../../src/utility/helpers.inl" />
 		<Unit filename="../../src/utility/logger.cpp" />
 		<Unit filename="../../src/utility/logger.h" />
 		<Unit filename="../../src/utility/rect2d.h" />

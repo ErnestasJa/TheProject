@@ -12,7 +12,7 @@ gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wst
     environment=env;
 
     blinktimer=curspos=lastkey=reptimer=sx=0;
-    font_size=env->get_font_renderer()->get_default_font()->avgheight;
+    font_size=env->get_font_renderer()->GetCurrentFont()->avgheight;
 
     absolute_rect=dimensions;
     relative_rect=absolute_rect;
@@ -51,11 +51,11 @@ void gui_edit_box::Render()
     _mw=absolute_rect.w - 5;
     _my=absolute_rect.y + (absolute_rect.h-font_size)/2;
 
-    sx=_mw-8-environment->get_font_renderer()->get_text_dimensions(m_text.substr(0,curspos)).x;
+    sx=_mw-8-environment->get_font_renderer()->GetTextDimensions(m_text.substr(0,curspos)).x;
     if(sx>0)
         sx=0;
 
-    font_renderer* fr=this->environment->get_font_renderer();
+    FontRenderer* fr=this->environment->get_font_renderer();
 
     // RECT
     if(this->IsFocused())
@@ -75,9 +75,9 @@ void gui_edit_box::Render()
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->GetAbsoluteRect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
-        fr->render_string(m_text,glm::vec2(_mx + sx, _my), m_text_color,false);
+        fr->RenderString(m_text,glm::vec2(_mx + sx, _my));
         if(focused&&blink)
-            fr->render_string(L"l",glm::vec2(_mx-1 + sx + fr->get_text_dimensions(m_text.substr(0,curspos)).x,_my),m_text_color,false);
+            fr->RenderString(L"l",glm::vec2(_mx-1 + sx + fr->GetTextDimensions(m_text.substr(0,curspos)).x,_my));
 
     glDisable(GL_SCISSOR_TEST);
 

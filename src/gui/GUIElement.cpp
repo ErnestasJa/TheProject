@@ -109,6 +109,12 @@ void GUIElement::UpdateAbsolutePos()
         e->UpdateAbsolutePos();
 }
 
+void GUIElement::Move(const glm::vec2 &pos)
+{
+    relative_rect.SetPosition(pos.x,pos.y);
+    UpdateAbsolutePos();
+}
+
 void GUIElement::SetName(std::string name)
 {
     this->name=name;
