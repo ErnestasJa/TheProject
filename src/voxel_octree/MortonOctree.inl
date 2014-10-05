@@ -1,206 +1,92 @@
-#ifndef MORTONOCTTREE_H
-#define	MORTONOCTTREE_H
-
-#include "Morton.h"
-#include "utility/vector.h"
-#include "opengl/AABB.h"
-#include <boost/move/move.hpp>
-
-enum VoxelSide
+template <int Depth>
+void MortonOctTree<Depth>::AddNode(MNode node)
 {
-    NONE = 0,
-    ALL = bit<0>() | bit<1>() | bit<2>() | bit<3>() | bit<4>() | bit<5>(),
-    TOP = bit<0>(),
-    BOTTOM = bit<1>(),
-    FRONT = bit<2>(),
-    RIGHT = bit<3>(),
-    BACK = bit<4>(),
-    LEFT = bit<5>()
-};
-
-static const uint8_t MAX_DEPTH_LEVEL = 10;
-static const uint32_t DEPTH_HALF_TABLE[]= {0,1,2,4,8,16,32,64,128,256,512,1024};    ///HALF NODE COUNT AT LEVEL X
-static const uint32_t SIZE_TABLE[]=       {1024,512,256,128,64,32,16,8,4,2,1};      ///NODE SIZE AT LEVEL X
-static const uint32_t DEPTH_TABLE[]=      {2,4,8,16,32,64,128,256,512,1024};        ///NODE COUNT AT LEVEL X
-static const uint32_t POSITION_MASK[]= {0xfffffe00,0xffffff00,0xffffff80,0xffffffc0,0xffffffe0,0xfffffff0,0xfffffff8,0xfffffffc,0xfffffffe,0xffffffff}; /// Don't question the hax
-static const uint32_t CHUNK_MASK= ~0x7FFF;
-static const uint32_t LOCAL_VOXEL_MASK= 0x7FFF;
-
-struct MNode
-{
-private:
-    BOOST_MOVABLE_BUT_NOT_COPYABLE(MNode)
-
-public:
-
-    uint32_t start;
-    uint32_t contained_by : 24;
-    uint32_t size : 8;
-
-    MNode(BOOST_RV_REF(MNode) n): start(n.start), size(n.size) {}
-
-    MNode& operator=(BOOST_RV_REF(MNode) x) // Move assign
-    {
-        start = x.start;
-        size  = x.size;
-        return *this;
-    }
-
-    MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1)
-    {
-        start = encodeMK(x,y,z);
-        size = nodeSize;
-        contained_by = 0;
-    }
-
-    MNode(uint32_t morton, uint8_t nodeSize=1)
-    {
-        start = morton;
-        size = nodeSize;
-        contained_by = 0;
-    }
-
-    MNode()
-    {
-        size = 0;
-    }
-
-    inline uint32_t range_end() const
-    {
-        return start + (uint32_t(1) << (size * 3));
-    }
-
-    bool operator<(const MNode &other) const  /// ordering: z order, plus on equal sizes largest first
-    {
-        return start == other.start ? size > other.size : start < other.start;
-    }
-
-    bool operator==(const MNode &other) const
-    {
-        return start == other.start && size == other.size;
-    }
-};
-
-static inline bool myfunction (const MNode & i,const MNode & j)
-{
-    return (i.start<j.start);
+    m_nodes.insert(boost::range::lower_bound(m_nodes, MNode(node.start)),boost::move(node));
 }
-
-static inline bool myeqfunction (const MNode & i,const MNode & j)
-{
-    return (i.start==j.start);
-}
-
-struct CollisionInfo
-{
-    CollisionInfo(glm::vec3 ray_start, glm::vec3 ray_direction)
-    {
-        nearestDistance = INFINITY;
-        rayStart = ray_start;
-        rayDirection = ray_direction;
-        helpers::invert(rayDirection);
-    }
-
-    MNode node;
-    float nearestDistance;
-    glm::vec3 rayStart, rayDirection;
-};
 
 template <int Depth>
-class MortonOctTree
+void MortonOctTree<Depth>::AddOrphanNode(MNode node)
 {
-public:
-    void AddNode(MNode node)
-    {
-        m_nodes.insert(boost::range::lower_bound(m_nodes, MNode(node.start)),boost::move(node));
-    }
+    m_nodes.push_back(boost::move(node));
+}
 
-    void AddOrphanNode(MNode node)
-    {
-        m_nodes.push_back(boost::move(node));
-    }
+template <int Depth>
+bool MortonOctTree<Depth>::IsSorted()
+{
+    return boost::range::is_sorted(m_nodes, myfunction);
+}
 
-    bool IsSorted()
-    {
-        return boost::range::is_sorted(m_nodes, myfunction);
-    }
+template <int Depth>
+void MortonOctTree<Depth>::SortLeafNodes()
+{
+    boost::range::sort(m_nodes, myfunction);
+}
 
-    void SortLeafNodes()
-    {
-        boost::range::sort(m_nodes, myfunction);
-    }
+template <int Depth>
+void MortonOctTree<Depth>::RemoveDuplicateNodes()
+{
+    boost::erase(m_nodes, boost::unique<boost::return_found_end>(m_nodes,myeqfunction));
+}
 
-    void RemoveDuplicateNodes()
-    {
-        boost::erase(m_nodes, boost::unique<boost::return_found_end>(m_nodes,myeqfunction));
-    }
+template <int Depth>
+inline bool MortonOctTree<Depth>::CheckNodeFloat(float x, float y, float z)
+{
+    if(x<0||y<0||z<0)
+        return false;
 
-    inline bool CheckNodeFloat(float x, float y, float z)
-    {
-        if(x<0||y<0||z<0)
-            return false;
+    return CheckNode(x,y,z);
+}
 
-        return CheckNode(x,y,z);
-    }
+template <int Depth>
+inline bool MortonOctTree<Depth>::CheckNode(uint32_t x, uint32_t y, uint32_t z)
+{
+    MNode n(x,y,z,1);
+    return boost::range::binary_search(boost::make_iterator_range(m_nodes.begin(),m_nodes.end()),n,myfunction);
+}
 
-    inline bool CheckNode(uint32_t x, uint32_t y, uint32_t z)
-    {
-        MNode n(x,y,z,1);
-        return boost::range::binary_search(boost::make_iterator_range(m_nodes.begin(),m_nodes.end()),n,myfunction);
-    }
+template <int Depth>
+uint8_t MortonOctTree<Depth>::GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt)
+{
+    uint8_t sides=ALL;
 
-    uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt)
-    {
-        uint8_t sides=ALL;
+    static MNode n;
+    n.size = 1;
 
-        static MNode n;
-        n.size = 1;
+    auto urange = boost::make_iterator_range(nodeIt,m_nodes.end());
+    auto lrange = boost::make_iterator_range(m_nodes.begin(),nodeIt);
 
-        auto urange = boost::make_iterator_range(nodeIt,m_nodes.end());
-        auto lrange = boost::make_iterator_range(m_nodes.begin(),nodeIt);
+    n.start = encodeMK(x,y+1,z);
+    if (boost::range::binary_search(urange,n,myfunction))
+        RemoveBit(sides, TOP);
 
-        n.start = encodeMK(x,y+1,z);
-        if (boost::range::binary_search(urange,n,myfunction))
-            RemoveBit(sides, TOP);
+    n.start = encodeMK(x,y,z+1);
+    if (boost::range::binary_search(urange,n,myfunction))
+        RemoveBit(sides, FRONT);
 
-        n.start = encodeMK(x,y,z+1);
-        if (boost::range::binary_search(urange,n,myfunction))
-            RemoveBit(sides, FRONT);
+    MortonOctTree<Depth>::n.start = encodeMK(x+1,y,z);
+    if (boost::range::binary_search(urange,n,myfunction))
+        RemoveBit(sides, LEFT);
 
-        n.start = encodeMK(x+1,y,z);
-        if (boost::range::binary_search(urange,n,myfunction))
-            RemoveBit(sides, LEFT);
+    n.start = encodeMK(x-1,y,z);
+    if (boost::range::binary_search(lrange,n,myfunction))
+        RemoveBit(sides, RIGHT);
 
-        n.start = encodeMK(x-1,y,z);
-        if (boost::range::binary_search(lrange,n,myfunction))
-            RemoveBit(sides, RIGHT);
+    n.start = encodeMK(x,y,z-1);
+    if (boost::range::binary_search(lrange,n,myfunction))
+        RemoveBit(sides, BACK);
 
-        n.start = encodeMK(x,y,z-1);
-        if (boost::range::binary_search(lrange,n,myfunction))
-            RemoveBit(sides, BACK);
+    n.start = encodeMK(x,y-1,z);
+    if (boost::range::binary_search(lrange,n,myfunction))
+        RemoveBit(sides, BOTTOM);
 
-        n.start = encodeMK(x,y-1,z);
-        if (boost::range::binary_search(lrange,n,myfunction))
-            RemoveBit(sides, BOTTOM);
+    return sides;
+}
 
-        return sides;
-    }
-
-    vector<MNode> & GetChildNodes()
-    {
-        return m_nodes;
-    }
-
-    bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse);
-    bool CheckCollision(const AABB & aabb);
-    void Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart);
-    VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
-    glm::ivec3 VoxelSideToPosition(VoxelSide side);
-
-    friend class VoxMeshManager;
-private:
-    vector<MNode> m_nodes;
-};
+template <int Depth>
+vector<MNode> & MortonOctTree<Depth>::GetChildNodes()
+{
+    return m_nodes;
+}
 
 template <int Depth>
 bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse)
@@ -229,8 +115,17 @@ bool MortonOctTree<Depth>::CheckCollision(const glm::vec3 & bmin, const glm::vec
 template <int Depth>
 bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
 {
-    auto clamp = [] (float & x) { if(x<0) x=0; else if(x>1023) x=1023; };
-    auto clampVec = [&clamp] (glm::vec3 & x) { clamp(x.x); clamp(x.y); clamp(x.z); };
+    auto clamp = [] (float & x)
+    {
+        if(x<0) x=0;
+        else if(x>1023) x=1023;
+    };
+    auto clampVec = [&clamp] (glm::vec3 & x)
+    {
+        clamp(x.x);
+        clamp(x.y);
+        clamp(x.z);
+    };
 
     glm::vec3 min = aabb.GetMin(),
               max = aabb.GetMax();
@@ -238,8 +133,11 @@ bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
     clampVec(min);
     clampVec(max);
 
-    auto low = boost::range::lower_bound(m_nodes,MNode(comp(min)));
-    auto hi  = boost::range::lower_bound(m_nodes,MNode(comp(max)));
+    uint32_t mortonMin = encodeMK(comp(min));
+    uint32_t mortonMax = encodeMK(comp(max));
+
+    auto low = boost::range::lower_bound(m_nodes,MNode(mortonMin));
+    auto hi  = boost::range::lower_bound(m_nodes,MNode(mortonMax));
 
     if(hi!=m_nodes.end())
         hi++;
@@ -258,6 +156,36 @@ bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
     }
 
     //std::cout<<"Nodes queried: " << nodeCount << std::endl;
+    return false;
+}
+
+template <int Depth>
+bool MortonOctTree<Depth>::CheckCollisionB(const AABB & aabb)
+{
+    auto clamp = [] (float & x)
+    {
+        if(x<0) x=0;
+        else if(x>1023) x=1023;
+    };
+    auto clampVec = [&clamp] (glm::vec3 & x)
+    {
+        clamp(x.x);
+        clamp(x.y);
+        clamp(x.z);
+    };
+
+    glm::vec3 min = aabb.GetMin(),
+              max = aabb.GetMax();
+
+    clampVec(min);
+    clampVec(max);
+
+    for(uint32_t z = min.z; z < max.z; z++)
+        for(uint32_t y = min.y; y < max.y; y++)
+            for(uint32_t x = min.x; x < max.x; x++)
+                if(boost::range::binary_search(m_nodes,MNode(x,y,z)))
+                    return true;
+
     return false;
 }
 
@@ -447,6 +375,4 @@ glm::ivec3 MortonOctTree<Depth>::VoxelSideToPosition(VoxelSide side)
 
     return pos;
 }
-
-#endif	/* MORTONOCTTREE_H */
 

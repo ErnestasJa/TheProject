@@ -41,7 +41,44 @@ void VoxelOctreeApp::InitPython()
     PyRun_SimpleString(initString.c_str());
 }
 
-//This method is not bugged, mesh builder is, pls fix, k thx.
+void VoxelOctreeApp::InitResources()
+{
+    AppContext * ctx = this->Ctx();
+
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
+    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
+                         1.7777777f,45.0f,0.1,1024.0f));
+
+    AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+    cube = new TCubeMesh<glm::vec3>(aabb);
+    octree = new MortonOctTree<10>();
+    octreeGen = new VoxMeshManager(octree);
+
+    LoadLevel("res/voxel_octree/de_nuke.bvox");
+}
+
+bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
+{
+    Application::Init(title,width,height);
+
+    InitPython();
+
+    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
+    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
+    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseMove));
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+    glClearColor(0.4,1,0.2,0);
+
+    InitResources();
+
+    _appContext->_timer->tick();
+    return true;
+}
+
 void ReadBVoxFile(MortonOctTree<10> * mot, const std::string &fileName)
 {
     char * buf;
@@ -65,46 +102,16 @@ void ReadBVoxFile(MortonOctTree<10> * mot, const std::string &fileName)
     delete[] buf;
 }
 
-void VoxelOctreeApp::InitPlaneMesh()
+bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
 {
-    AppContext * ctx = this->Ctx();
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
-    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
-                         1.7777777f,45.0f,0.1,1024.0f));
-
-    AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
-    cube = new TCubeMesh<glm::vec3>(aabb);
-    octree = new MortonOctTree<10>();
-    octreeGen = new VoxMeshManager(octree);
-
-    ReadBVoxFile(octree,"res/voxel_octree/rooftops.bvox");
+    octree->GetChildNodes().clear();
+    octreeGen->GetMeshes().clear();
+    ReadBVoxFile(octree, levelName);
 
     octree->SortLeafNodes();
     octree->RemoveDuplicateNodes();
     std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
     octreeGen->GenAllChunks();
-}
-
-bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
-{
-    Application::Init(title,width,height);
-
-    InitPython();
-
-    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
-    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
-    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseMove));
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-    glClearColor(0.4,1,0.2,0);
-
-    InitPlaneMesh();
-
-    _appContext->_timer->tick();
-    return true;
 }
 
 static bool renderWireframe = false;
@@ -119,7 +126,7 @@ bool VoxelOctreeApp::Update()
         AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
         aabb.Translate(cam->GetPosition());
 
-        if(octree->CheckCollision(aabb))
+        if(octree->CheckCollisionB(aabb))
             Ctx()->_logger->log(LOG_LOG, "Camera collided with octree node");
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -162,11 +169,16 @@ void VoxelOctreeApp::OnWindowClose()
 float speed = 1;
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
-
     if(action == GLFW_PRESS && key==GLFW_KEY_LEFT_SHIFT)
         speed = 0.1;
 
     if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_SHIFT)
+        speed = 1;
+
+    if(action == GLFW_PRESS && key==GLFW_KEY_LEFT_CONTROL)
+        speed = 10;
+
+    if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_CONTROL)
         speed = 1;
 
     if(key==GLFW_KEY_W)

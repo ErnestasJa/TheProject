@@ -1,7 +1,7 @@
 #ifndef VOXMESHGENERATOR_H
 #define VOXMESHGENERATOR_H
 
-#include "MortonOctTree.h"
+#include "MortonOctree.h"
 #include "opengl/Mesh.h"
 #include "utility/bit.h"
 #include <boost/unordered_map.hpp>

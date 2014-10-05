@@ -100,6 +100,7 @@ void Mesh::Render(uint32_t sub_mesh_index)
 void Mesh::Render()
 {
     glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[INDICES]->Id);
 
     if(sub_meshes.size()!=0)
         for(uint32_t i = 0; i < sub_meshes.size(); i++)
@@ -107,6 +108,7 @@ void Mesh::Render()
     else
         glDrawElements(GL_TRIANGLES,buffers[INDICES]->GetSize(),GL_UNSIGNED_INT,0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
