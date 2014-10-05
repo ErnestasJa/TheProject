@@ -4,6 +4,7 @@
 #include "resources/ResourceCache.h"
 #include "Chunk.h"
 #include "VoxelMesh.h"
+#include "utility/Timer.h"
 
 VoxelMesh::VoxelMesh(uint32_t size):m_vox(boost::extents[size][size][size])
 {
@@ -70,11 +71,21 @@ void VoxelMesh::UpdateMesh()
 {
     if(!Empty())
     {
+        Timer a(0);
+        a.tick();
         GreedyBuild();
+        a.tick();
+        printf("Greedy took: %u ms\n",a.get_delta_time());
 
+        a.tick();
         UploadBuffers();
+        a.tick();
+        printf("Upload took: %u ms\n",a.get_delta_time());
 
+        a.tick();
         RecalculateAABB<u8vec3>();
+        a.tick();
+        printf("AABB Recalculate took: %u ms\n",a.get_delta_time());
     }
 }
 
@@ -228,7 +239,7 @@ void VoxelMesh::GreedyBuild()
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,z-1,y,x);
+                        GetVoxel(tmpVoxel,z+1,y,x);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -244,7 +255,7 @@ void VoxelMesh::GreedyBuild()
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,z+1,y,x);
+                        GetVoxel(tmpVoxel,z-1,y,x);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -311,7 +322,7 @@ void VoxelMesh::GreedyBuild()
                             faceCount++;
                             break;
                         }
-                        case 5:
+                        case 4: //x+
                         {
                             face[3]=u8vec3(z+1,              qstart.y,           qstart.x);
                             face[2]=u8vec3(z+1,              qstart.y,           qstart.x+qdims.x);
@@ -321,7 +332,7 @@ void VoxelMesh::GreedyBuild()
                             faceCount++;
                             break;
                         }
-                        case 4: //x-
+                        case 5: //x-
                         {
                             face[0]=u8vec3(z,                qstart.y,           qstart.x);
                             face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
@@ -354,7 +365,7 @@ void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
     uint32_t indicesStart = vbo->data.size();
-    u8vec4 color((rand()%128+128),(rand()%128+128),(rand()%128+128),1.f);
+//    u8vec4 color((rand()%128+128),(rand()%128+128),(rand()%128+128),1.f);
 
     vbo->data.push_back(face[0]);
     vbo->data.push_back(face[1]);
@@ -379,7 +390,6 @@ void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
 {
     m_vox[x][y][z].active=true;
     m_vox[x][y][z].color=col;
-    m_dirty=true;
 }
 
 uint32_t VoxelMesh::GetFaceCount()

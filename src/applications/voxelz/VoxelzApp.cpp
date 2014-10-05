@@ -138,7 +138,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=VoxelSprite::LoadFromImage(loader->load("teemo.png"),1);
+    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("teemo.png"),16);
 
     return true;
 }
@@ -217,6 +217,9 @@ void InitPlaneMesh(AppContext * ctx)
     chkmgr=new ChunkManager();
     ctx->_timer->tick();
     printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
+    chkmgr->Render(cam.get(),vsh,false);
+    ctx->_timer->tick();
+    printf("\n\nGeneration and uploading took: %d ms\n\n\n",ctx->_timer->get_delta_time());
 }
 
 bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
