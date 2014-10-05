@@ -107,8 +107,8 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     std::list<ChunkPtr> exploded;
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
-        AABB b=AABB(a.second->aabb.GetMin()+(CHUNK_SIZEF*((glm::vec3)a.first)),a.second->aabb.GetMax()+(CHUNK_SIZEF*((glm::vec3)a.first)));
-        if(ab.IntersectsWith(b))
+        a.second->aabb.Translate(CHUNK_SIZEF*a.first);
+        if(ab.IntersectsWith(a.second->aabb))
             exploded.push_back(a.second);
     }
 

@@ -127,6 +127,9 @@ const glm::vec3 & AABB::GetMax() const
 
 void AABB::CalculatePoints()
 {
+    m_center=(m_min_point+m_max_point)/2.f;
+    m_halfSize=glm::abs(m_max_point-m_center);
+
     float w=m_halfSize.x,h=m_halfSize.y,l=m_halfSize.z;
 
     points[0]=m_center;

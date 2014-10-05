@@ -103,9 +103,6 @@ void Mesh::RecalculateAABB()
     }
     else
         aabb.Reset(static_cast<glm::vec3>(T()));
-
-
-    aabb.CalculatePoints();
 }
 
 typedef std::shared_ptr<Mesh> MeshPtr;

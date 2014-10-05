@@ -138,7 +138,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=VoxelSprite::LoadFromImage(loader->load("wiz.png"),1);
+    spr=VoxelSprite::LoadFromImage(loader->load("teemo.png"),1);
 
     return true;
 }
