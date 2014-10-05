@@ -32,14 +32,23 @@ bool VoxelMesh::Empty()
     return true;
 }
 
-void VoxelMesh::Render()
+void VoxelMesh::Render(bool wireframe)
 {
+    if(wireframe)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    }
+
     if(m_dirty)
         Rebuild();
 
     if(!Empty()&&!m_dirty)
         Mesh::Render();
 
+    if(wireframe)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    }
 }
 
 void VoxelMesh::Cleanup()
@@ -368,6 +377,7 @@ void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
 {
     m_vox[x][y][z].active=true;
     m_vox[x][y][z].color=col;
+    m_dirty=true;
 }
 
 uint32_t VoxelMesh::GetFaceCount()

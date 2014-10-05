@@ -53,7 +53,7 @@ public:
 
     void CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col);
 
-    void Render();
+    void Render(bool wireframe=false);
 
     virtual void Rebuild()=0;
 
@@ -77,7 +77,7 @@ protected:
     uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask);
     void clear_mask(MaskNode **mask);
     void clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey);
-    void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
+    virtual void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
     void GreedyBuild();
     void AddQuadToMesh(const u8vec3 * face,const u8vec4 &col);
 private:

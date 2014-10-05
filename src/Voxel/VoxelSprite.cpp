@@ -3,7 +3,7 @@
 
 #include "resources/image.h"
 
-VoxelSprite::VoxelSprite():VoxelMesh(16)
+VoxelSprite::VoxelSprite(uint32_t size):VoxelMesh(size)
 {
 
 }
@@ -21,16 +21,16 @@ void VoxelSprite::Rebuild()
 
 VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img,uint32_t extrude,u8vec4 discardColor)
 {
-    VoxelSprite *ret=new VoxelSprite();
-//    loop(z,extrude)
-//    loop(x,img->width)
-//    loop(y,img->height)
-//    {
-//        u8vec4 pixel=img->GetPixel(x,img->height-1-y);
-//        if(pixel.a==0)
-//            continue;
-//        else
-//            ret->CreateVox(x,y,z);//,EBS_BACK|EBS_BOTTOM|EBS_FRONT|EBS_LEFT|EBS_RIGHT|EBS_TOP,pixel);
-//    }
+    VoxelSprite *ret=new VoxelSprite(std::max(img->width,img->height));
+    loop(z,extrude)
+    loop(x,img->width)
+    loop(y,img->height)
+    {
+        u8vec4 pixel=img->GetPixel(x,img->height-1-y);
+        if(pixel.a==0)
+            continue;
+        else
+            ret->CreateVox(x,y,z,pixel);//,EBS_BACK|EBS_BOTTOM|EBS_FRONT|EBS_LEFT|EBS_RIGHT|EBS_TOP,pixel);
+    }
     return ret;
 }

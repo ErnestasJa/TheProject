@@ -137,17 +137,66 @@ uint32_t Chunk::GetBlockCount()
 
 void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
 {
-    if(x>m_size-1 || x<0 || y>m_size-1 || y<0 || z>m_size-1 || z<0)
+    if(x<0&&leftN!=nullptr)
     {
-        vox.active=0;
-        vox.type=0;
-        vox.color=u8vec4(128);
+        Block b=leftN->Get(15,y,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
+    {
+        Block b=rightN->Get(0,y,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(y<0&&botN!=nullptr)
+    {
+        Block b=botN->Get(x,15,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(y>CHUNK_SIZE-1&&topN!=nullptr)
+    {
+        Block b=topN->Get(x,0,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(z<0&&backN!=nullptr)
+    {
+        Block b=backN->Get(x,y,15);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
+    {
+        Block b=frontN->Get(x,y,0);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(x<0||y<0||z<0||x>15||y>15||z>15)
+    {
+        vox.active=false;
+        return;
     }
     else
     {
-        vox.active=m_vox[x][y][z].active;
-        vox.type=m_vox[x][y][z].type;
-        vox.color=m_vox[x][y][z].color;
+        Block b=m_pBlocks[x][y][z];
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
     }
 }
 

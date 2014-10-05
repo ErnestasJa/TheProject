@@ -7,7 +7,7 @@ class image;
 class VoxelSprite:public VoxelMesh
 {
     public:
-        VoxelSprite();
+        VoxelSprite(uint32_t size);
 
         virtual ~VoxelSprite();
 

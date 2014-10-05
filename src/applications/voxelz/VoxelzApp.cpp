@@ -138,7 +138,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),8,u8vec4(0));
+    spr=VoxelSprite::LoadFromImage(loader->load("wiz.png"),1);
 
     return true;
 }
@@ -277,12 +277,12 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
 
-//        vsh->Set();
-//        Model = glm::mat4(1.0f);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        MVar<glm::mat4>(0, "mvp", MVP).Set();
-//        spr->Render();
-//
+        vsh->Set();
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        spr->Render(wireframe);
+
 //        gbsh->Set();
 //        Model = glm::mat4(1.0f);
 //        MVP   = cam->GetViewProjMat() * Model;
