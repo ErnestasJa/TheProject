@@ -16,6 +16,7 @@ public:
     bool CollidesWith(const AABB & other) const;
     bool CollidesWith(const glm::vec3 & aabb_min, const glm::vec3 & aabb_max) const;
     bool CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayInverseDirection) const;
+    void Translate(const glm::vec3 &point);
 
     glm::vec3 GetPoint(uint32_t i) const;
     glm::vec3 GetHalfSize() const;
@@ -24,8 +25,6 @@ public:
     const glm::vec3 & GetMax() const;
 
 protected:
-    void CalculatePoints();
-
     glm::vec3 m_min_point,m_max_point,m_center,m_halfSize,m_invalid;
     glm::vec3 points[8];
 };
