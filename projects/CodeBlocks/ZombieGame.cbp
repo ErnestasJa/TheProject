@@ -333,9 +333,11 @@
 		<Unit filename="../../src/utility/timer.h" />
 		<Unit filename="../../src/utility/util.cpp" />
 		<Unit filename="../../src/utility/util.h" />
+		<Unit filename="../../src/voxel_octree/MNode.cpp" />
+		<Unit filename="../../src/voxel_octree/MNode.h" />
 		<Unit filename="../../src/voxel_octree/Morton.h" />
-		<Unit filename="../../src/voxel_octree/MortonOctTree.cpp" />
-		<Unit filename="../../src/voxel_octree/MortonOctTree.h" />
+		<Unit filename="../../src/voxel_octree/MortonOctree.cpp" />
+		<Unit filename="../../src/voxel_octree/MortonOctree.h" />
 		<Unit filename="../../src/voxel_octree/VoxMeshManager.cpp" />
 		<Unit filename="../../src/voxel_octree/VoxMeshManager.h" />
 		<Extensions>
