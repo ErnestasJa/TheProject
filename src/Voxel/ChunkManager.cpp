@@ -11,8 +11,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=0;
-    int testheight=0;
+    int testsize=128;
+    int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -101,6 +101,17 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     glm::vec3 startpos=pos-power;
     glm::vec3 endpos=pos+power;
 
+    AABB ab=AABB(startpos-glm::vec3(1),endpos+glm::vec3(1)); //+(CHUNK_SIZEF*((glm::vec3)a.first))
+    printf("Explosion AABB size %f %f %f\n",ab.GetHalfSize().x*2,ab.GetHalfSize().y*2,ab.GetHalfSize().z*2);
+
+    std::list<ChunkPtr> exploded;
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+    {
+        AABB b=AABB(a.second->aabb.GetMin()+(CHUNK_SIZEF*((glm::vec3)a.first)),a.second->aabb.GetMax()+(CHUNK_SIZEF*((glm::vec3)a.first)));
+        if(ab.IntersectsWith(b))
+            exploded.push_back(a.second);
+    }
+
     printf("BOOM! Position:%s Startbound:%s Endbound:%s \n",v3str(pos),v3str(startpos),v3str(endpos));
 
     for(int x=startpos.x; x<endpos.x; x++)
@@ -115,6 +126,12 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
                 }
             }
         }
+    }
+    printf("%u chunks updated.\n",exploded.size());
+    if(exploded.size()>0)
+    BOOST_FOREACH(std::list<ChunkPtr>::value_type a,exploded)
+    {
+        a->Rebuild();
     }
 }
 

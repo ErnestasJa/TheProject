@@ -139,7 +139,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
 {
     if(x<0&&leftN!=nullptr)
     {
-        Block b=leftN->Get(15,y,z);
+        Block b=leftN->Get(CHUNK_SIZE-1,y,z);
         vox.active=b.IsActive();
         vox.color=getTypeCol(b.GetBlockType());
         vox.type=b.GetBlockType();
@@ -155,7 +155,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     }
     else if(y<0&&botN!=nullptr)
     {
-        Block b=botN->Get(x,15,z);
+        Block b=botN->Get(x,CHUNK_SIZE-1,z);
         vox.active=b.IsActive();
         vox.color=getTypeCol(b.GetBlockType());
         vox.type=b.GetBlockType();
@@ -171,7 +171,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     }
     else if(z<0&&backN!=nullptr)
     {
-        Block b=backN->Get(x,y,15);
+        Block b=backN->Get(x,y,CHUNK_SIZE-1);
         vox.active=b.IsActive();
         vox.color=getTypeCol(b.GetBlockType());
         vox.type=b.GetBlockType();
@@ -185,7 +185,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
         vox.type=b.GetBlockType();
         return;
     }
-    else if(x<0||y<0||z<0||x>15||y>15||z>15)
+    else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
     {
         vox.active=false;
         return;

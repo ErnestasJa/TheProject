@@ -237,6 +237,7 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
 
     if(!InitPostProc(_appContext))
         return false;
+
     return true;
 }
 
@@ -350,7 +351,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
         cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(voxpos,25);
+        chkmgr->Explode(voxpos,16);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {

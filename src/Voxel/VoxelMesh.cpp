@@ -73,6 +73,8 @@ void VoxelMesh::UpdateMesh()
         GreedyBuild();
 
         UploadBuffers();
+
+        RecalculateAABB<u8vec3>();
     }
 }
 

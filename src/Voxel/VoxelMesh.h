@@ -28,7 +28,7 @@ typedef boost::multi_array<Voxel, 3> VoxelArray;
 
 static Voxel EMPTY_VOXEL=Voxel();
 
-class VoxelMesh:Mesh
+class VoxelMesh:public Mesh
 {
 private:
     struct MaskNode

@@ -137,23 +137,6 @@ void Mesh::render_triangle_strip()
     glBindVertexArray(0);
 }
 
-void Mesh::RecalculateAABB()
-{
-    BufferObject<glm::vec3> * bo = static_cast<BufferObject<glm::vec3> *>(buffers[0]);
-
-    if(bo->data.size()>0)
-    {
-        aabb.Reset(bo->data[0]);
-
-        for(uint32_t i = 1; i < bo->data.size(); i++)
-        {
-            aabb.AddPoint(bo->data[i]);
-        }
-    }
-    else
-        aabb.Reset(glm::vec3());
-}
-
 void Mesh::UploadBuffers()
 {
     glBindVertexArray(vao);
