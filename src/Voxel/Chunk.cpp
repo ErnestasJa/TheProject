@@ -10,40 +10,39 @@
 
 static u8vec4 getTypeCol(uint32_t typ)
 {
-    uint32_t nois=rand()%8;
     switch(typ)
     {
     case EBT_VOIDROCK:
-        return u8vec4(0+nois,0+nois,0+nois,255);
+        return u8vec4(0,0,0,255);
         break;
     case EBT_STONE:
-        return u8vec4(128+nois,128+nois,128+nois,255);
+        return u8vec4(128,128,128,255);
         break;
     case EBT_SAND:
-        return u8vec4(192+nois,192+nois,64+nois,255);
+        return u8vec4(192,192,64,255);
         break;
     case EBT_DIRT:
-        return u8vec4(64+nois,64+nois,0+nois,255);
+        return u8vec4(64,64,0,255);
         break;
     case EBT_GRASS:
-        return u8vec4(0+nois,128+nois,0+nois,255);
+        return u8vec4(0,128,0,255);
         break;
     case EBT_LEAF:
-        return u8vec4(0+nois,192+nois,0+nois,255);
+        return u8vec4(0,192,0,255);
         break;
     case EBT_WOOD:
-        return u8vec4(128+nois,128+nois,0+nois,255);
+        return u8vec4(128,128,0,255);
         break;
     case EBT_WATER:
-        return u8vec4(0+nois,0+nois,128+nois,128);
+        return u8vec4(0,0,128,128);
         break;
     default:
-        return u8vec4(255-nois,255-nois,255-nois,255);
+        return u8vec4(255,255,255,255);
         break;
     }
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE),m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     // Create the blocks
     m_chunkManager = chunkManager;
@@ -78,73 +77,7 @@ void Chunk::Rebuild()
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
                 if(!m_pBlocks[x][y][z].IsActive()) continue;
-
-                uint32_t flags=0;
-                AddBit(flags,EBS_LEFT);
-                AddBit(flags,EBS_RIGHT);
-                AddBit(flags,EBS_TOP);
-                AddBit(flags,EBS_BOTTOM);
-                AddBit(flags,EBS_FRONT);
-                AddBit(flags,EBS_BACK);
-
-                if(x>0&&m_pBlocks[x-1][y][z].IsActive())
-                {
-                    RemoveBit(flags,EBS_LEFT);
-                }
-                else if(x==0&&leftN!=nullptr&&leftN->Get(15,y,z).IsActive())
-                {
-                    RemoveBit(flags,EBS_LEFT);
-                }
-
-                if(x<CHUNK_SIZE-1&&m_pBlocks[x+1][y][z].IsActive())
-                {
-                    RemoveBit(flags,EBS_RIGHT);
-                }
-                else if(x==(CHUNK_SIZE-1)&&rightN!=nullptr&&rightN->Get(0,y,z).IsActive())
-                {
-                    RemoveBit(flags,EBS_RIGHT);
-                }
-
-                if(y>0&&m_pBlocks[x][y-1][z].IsActive())
-                {
-                    RemoveBit(flags,EBS_BOTTOM);
-                }
-                else if(y==0&&botN!=nullptr&&botN->Get(x,15,z).IsActive())
-                {
-                    RemoveBit(flags,EBS_BOTTOM);
-                }
-
-                if(y<CHUNK_SIZE-1&&m_pBlocks[x][y+1][z].IsActive())
-                {
-                    RemoveBit(flags,EBS_TOP);
-                }
-                else if(y==CHUNK_SIZE-1&&topN!=nullptr&&topN->Get(x,0,z).IsActive())
-                {
-                    RemoveBit(flags,EBS_TOP);
-                }
-
-                if(z>0&&m_pBlocks[x][y][z-1].IsActive())
-                {
-                    RemoveBit(flags,EBS_BACK);
-                }
-                else if(z==0&&backN!=nullptr&&backN->Get(x,y,15).IsActive())
-                {
-                    RemoveBit(flags,EBS_BACK);
-                }
-
-                if(z<CHUNK_SIZE-1&&m_pBlocks[x][y][z+1].IsActive())
-                {
-                    RemoveBit(flags,EBS_FRONT);
-                }
-                else if(z==(CHUNK_SIZE-1)&&frontN!=nullptr&&frontN->Get(x,y,0).IsActive())
-                {
-                    RemoveBit(flags,EBS_FRONT);
-                }
-
-                if(flags!=0) // Only a visible voxel should be added
-                {
-                    CreateVoxel(x,y,z,flags,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
-                }
+                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
             }
         }
     }
@@ -200,5 +133,70 @@ uint32_t Chunk::GetBlockCount()
     }
 
     return ret;
+}
+
+void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
+{
+    if(x<0&&leftN!=nullptr)
+    {
+        Block b=leftN->Get(CHUNK_SIZE-1,y,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
+    {
+        Block b=rightN->Get(0,y,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(y<0&&botN!=nullptr)
+    {
+        Block b=botN->Get(x,CHUNK_SIZE-1,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(y>CHUNK_SIZE-1&&topN!=nullptr)
+    {
+        Block b=topN->Get(x,0,z);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(z<0&&backN!=nullptr)
+    {
+        Block b=backN->Get(x,y,CHUNK_SIZE-1);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
+    {
+        Block b=frontN->Get(x,y,0);
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
+    else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
+    {
+        vox.active=false;
+        return;
+    }
+    else
+    {
+        Block b=m_pBlocks[x][y][z];
+        vox.active=b.IsActive();
+        vox.color=getTypeCol(b.GetBlockType());
+        vox.type=b.GetBlockType();
+        return;
+    }
 }
 

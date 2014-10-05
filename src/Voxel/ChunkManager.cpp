@@ -11,8 +11,8 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=0;
-    int testheight=0;
+    int testsize=128;
+    int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -75,6 +75,9 @@ ChunkManager::ChunkManager()
         }
     }
 
+//    AddChunk(glm::vec3(0));
+//    m_chunks[glm::vec3(0)]->Fill();
+
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         SetChunkNeighbours(a.second,a.first);
@@ -98,6 +101,17 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     glm::vec3 startpos=pos-power;
     glm::vec3 endpos=pos+power;
 
+    AABB ab=AABB(startpos-glm::vec3(1),endpos+glm::vec3(1)); //+(CHUNK_SIZEF*((glm::vec3)a.first))
+    printf("Explosion AABB size %f %f %f\n",ab.GetHalfSize().x*2,ab.GetHalfSize().y*2,ab.GetHalfSize().z*2);
+
+    std::list<ChunkPtr> exploded;
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+    {
+        AABB b=AABB(a.second->aabb.GetMin()+(CHUNK_SIZEF*((glm::vec3)a.first)),a.second->aabb.GetMax()+(CHUNK_SIZEF*((glm::vec3)a.first)));
+        if(ab.IntersectsWith(b))
+            exploded.push_back(a.second);
+    }
+
     printf("BOOM! Position:%s Startbound:%s Endbound:%s \n",v3str(pos),v3str(startpos),v3str(endpos));
 
     for(int x=startpos.x; x<endpos.x; x++)
@@ -112,6 +126,12 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
                 }
             }
         }
+    }
+    printf("%u chunks updated.\n",exploded.size());
+    if(exploded.size()>0)
+    BOOST_FOREACH(std::list<ChunkPtr>::value_type a,exploded)
+    {
+        a->Rebuild();
     }
 }
 
@@ -202,21 +222,29 @@ const Block &ChunkManager::GetBlock(const glm::vec3 &pos)
         return EMPTY_BLOCK;
 }
 
-void ChunkManager::Render(Camera *cam,ShaderPtr vsh)
+void ChunkManager::Render(Camera *cam,ShaderPtr vsh,bool wireframe)
 {
     glm::mat4 Model;
-
+    if(wireframe)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    }
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         glm::vec3 pos=a.first*CHUNK_SIZEF;
 
         Model = glm::mat4(1.0f);
         Model = glm::translate(Model,pos);
-        MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
+        if(vsh->getparam("M")!=-1) MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
         glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
         glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
-        MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
+        if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
+        if(vsh->getparam("mvp")!=-1) MVar<glm::mat4>(vsh->getparam("mvp"), "mvp", MVP).Set();
         a.second->Render();
+    }
+    if(wireframe)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
 }
 
@@ -242,5 +270,15 @@ uint32_t ChunkManager::GetTotalBlocks()
         ret+=a.second->GetBlockCount();
     }
     return ret;
+}
+
+uint32_t ChunkManager::GetTotalFaces()
+{
+    uint32_t totalfaces=0;
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+    {
+        totalfaces+=a.second->GetFaceCount();
+    }
+    return totalfaces;
 }
 

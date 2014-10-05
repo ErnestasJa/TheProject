@@ -3,8 +3,8 @@
 namespace helpers
 {
 #define loop(var,count) for(uint32_t (var) = 0; (var) < (count); (var)++)
+#define loopi(var,count) for(int32_t (var) = 0; (var) < (count); (var)++)
 #define loopr(var,start,count) for(uint32_t (var) = (start); (var) < (count); (var)++)
-#define loopi(count) for(uint32_t i = 0; i < (count); i++)
 #define loopxyz(cx,cy,cz) loop(z,(cz)) loop(y,(cy)) loop(x,(cx))
 #define comp(vec) (vec).x, (vec).y, (vec).z
 #define ROUNDING_ERROR 0.00001f

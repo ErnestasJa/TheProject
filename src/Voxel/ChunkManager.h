@@ -79,13 +79,15 @@ public:
     const ChunkPtr & AddChunk(const glm::vec3 &pos);
     const ChunkPtr & AddChunkWorld(const glm::vec3 &pos);
 
-    void Render(Camera *cam,ShaderPtr vsh);
+    void Render(Camera *cam,ShaderPtr vsh,bool wireframe=false);
 
     void Clear();
 
     uint32_t GetChunkCount();
 
     uint32_t GetTotalBlocks();
+
+    uint32_t GetTotalFaces();
 protected:
 private:
     ChunkMap m_chunks;

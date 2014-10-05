@@ -1,8 +1,6 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <boost/multi_array.hpp>
-
 #include "VoxelMesh.h"
 #include "Block.h"
 
@@ -32,6 +30,7 @@ private:
     ChunkManager *m_chunkManager;
     glm::vec3 m_chunkPos;
     BlockArray m_pBlocks;
+    void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
 public:
     typedef std::shared_ptr<Chunk> chkptr;
     chkptr leftN,rightN,botN,topN,backN,frontN;

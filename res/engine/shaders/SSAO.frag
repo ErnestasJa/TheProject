@@ -6,14 +6,15 @@ uniform sampler2D g_buffer_pos;
 uniform sampler2D g_random;
 uniform sampler2D g_depth;
 
+uniform mat4 V;
 uniform mat4 MV;
 
 const float g_screen_size=1280*768;
 const float random_size=1280*768;
-const float g_sample_rad=0.006;
-const float g_intensity=1.38;
-const float g_scale=0.000002;
-const float g_bias=0.07;
+const float g_sample_rad=0.25;
+const float g_intensity=1;
+const float g_scale=0.5;
+const float g_bias=0.2;
 
 in vec4 _pos;
 in vec2 _uv;
@@ -56,7 +57,7 @@ vec3 n = getNormal(_uv);
 vec2 rand = getRandom(_uv);
 
 float ao = 0.0f;
-float rad = g_sample_rad/p.z;
+float rad = g_sample_rad/(texture2D(g_depth,_uv).r*2-1);
 
 //**SSAO Calculation**//
 int iterations = 4;
@@ -75,5 +76,5 @@ ao/=iterations*4.0;
 //**END**//
 
 //Do stuff here with your occlusion value Ã¢aoÃ¢: modulate ambient lighting, write it to a buffer for later //use, etc.
-fragColor=texture2D(g_buffer_diff, _uv);//*(1-ao);
+fragColor=texture2D(g_buffer_diff, _uv)*(1-ao);
 }

@@ -138,7 +138,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),8,u8vec4(0));
+    spr=VoxelSprite::LoadFromImage(loader->load("wiz.png"),1);
 
     return true;
 }
@@ -199,7 +199,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     std::stringstream ss;
 
-    loopi(10)
+    loopi(i,10)
     {
         ss<<i;
         texts[i]=new gui_static_text(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
@@ -237,6 +237,7 @@ bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
 
     if(!InitPostProc(_appContext))
         return false;
+
     return true;
 }
 
@@ -247,16 +248,19 @@ bool VoxelzApp::Update()
         _appContext->_timer->tick();
 
         cam->Update(0);
-        //GBuffer->Set();
-        //GBuffer->EnableBuffer(0);
-        //GBuffer->EnableBuffer(1);
+//        GBuffer->Set();
+//        GBuffer->EnableBuffer(0);
+//        GBuffer->EnableBuffer(1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
         glm::mat4 MVP   = cam->GetViewProjMat() * Model;
 
-        sh->Set();
+        vsh->Set();
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        chkmgr->Render(cam.get(),vsh,wireframe);
 
+        sh->Set();
         Model = glm::mat4(1.0f);
         Model = glm::translate(voxpos);
         MVP   = cam->GetViewProjMat() * Model;
@@ -270,12 +274,6 @@ bool VoxelzApp::Update()
         cub->Render(true);
 
         Model = glm::mat4(1.0f);
-        Model = glm::translate(pointpos);
-        MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        smallcub->Render(true);
-
-        Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
@@ -284,17 +282,17 @@ bool VoxelzApp::Update()
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        spr->Render();
+        spr->Render(wireframe);
 
-        gbsh->Set();
-        Model = glm::mat4(1.0f);
-        MVP   = cam->GetViewProjMat() * Model;
-        if(gbsh->getparam("v_inv")!=-1)
-            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
-        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
-        chkmgr->Render(cam.get(),gbsh);
-        //GBuffer->Unset();
+//        gbsh->Set();
+//        Model = glm::mat4(1.0f);
+//        MVP   = cam->GetViewProjMat() * Model;
+//        if(gbsh->getparam("v_inv")!=-1)
+//            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
+//        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+//        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
+//        chkmgr->Render(cam.get(),gbsh);
+//        GBuffer->Unset();
 
         /// RENDER TO QUAD
 //        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -313,8 +311,8 @@ bool VoxelzApp::Update()
 //
 //        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
 //        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
-
-        //mesh->Render();
+//
+//        mesh->Render();
 
         env->Render();
 
@@ -353,7 +351,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
         cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(voxpos,5);
+        chkmgr->Explode(voxpos,16);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {
@@ -391,7 +389,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
         }
     }
 
-    swprintf(buf,L"LookAt: %.2f %.2f %.2f",lookat.x,lookat.y,lookat.z);
+    swprintf(buf,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
@@ -466,6 +464,9 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 
         swprintf(buf,L"Total Blocks %d",chkmgr->GetTotalBlocks());
         env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
+
+        swprintf(buf,L"Total Faces %d",chkmgr->GetTotalFaces());
+        env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
         switch(button)
         {
         case GLFW_MOUSE_BUTTON_LEFT:

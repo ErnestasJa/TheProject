@@ -80,11 +80,33 @@ struct Mesh
 
     void render_lines();
     void render_triangle_strip();
-
-    void RecalculateAABB();
     void UploadBuffers();
     void free();
+
+    template <class T>
+    void RecalculateAABB();
 };
+
+template <class T>
+void Mesh::RecalculateAABB()
+{
+    BufferObject<T> * bo = static_cast<BufferObject<T> *>(buffers[0]);
+
+    if(bo->data.size()>0)
+    {
+        aabb.Reset(static_cast<glm::vec3>(bo->data[0]));
+
+        for(uint32_t i = 1; i < bo->data.size(); i++)
+        {
+            aabb.AddPoint(static_cast<glm::vec3>(bo->data[i]));
+        }
+    }
+    else
+        aabb.Reset(static_cast<glm::vec3>(T()));
+
+
+    aabb.CalculatePoints();
+}
 
 typedef std::shared_ptr<Mesh> MeshPtr;
 

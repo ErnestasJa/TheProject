@@ -60,7 +60,7 @@ void GUIElement::AddChild(GUIElement *e)
 
     e->parent=this;
     children.push_back(e);
-    printf("Definitely added a child. I has %d\n",children.size());
+
     e->relative_rect=e->absolute_rect;
 
     UpdateAbsolutePos();
@@ -260,7 +260,7 @@ GUIElement * GUIElement::search_elements(GUIElement * el, const std::string & na
         return el;
     }
 
-    loopi(el->GetChildren().size())
+    loopi(i,el->GetChildren().size())
     {
         GUIElement * e = search_elements(el->GetChildren()[i],name);
 
