@@ -9,8 +9,11 @@
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
-#include "voxel_octree/MortonOctTree.h"
+#include "voxel_octree/MortonOctree.h"
 #include "voxel_octree/VoxMeshManager.h"
+
+template <class T>
+class TCubeMesh;
 
 class VoxelOctreeApp: public Application
 {
@@ -19,7 +22,10 @@ public:
     virtual ~VoxelOctreeApp();
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
-    void InitPlaneMesh();
+    bool LoadLevel(const std::string & levelName);
+
+    void InitResources();
+    void InitPython();
     virtual bool Update();
     void Exit();
 
@@ -30,11 +36,12 @@ public:
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
 private:
-    MeshPtr mesh;
     ShaderPtr sh;
     CameraPtr cam;
     MortonOctTree<10> * octree;
     VoxMeshManager * octreeGen;
+    TCubeMesh<glm::vec3> * cube;
 };
+
 
 #endif // VOXELOCTREEAPP_H

@@ -4,6 +4,8 @@
 #include "AABB.h"
 #include "IBufferObject.h"
 #include "BufferObject.h"
+#include "utility/vector.h"
+
 
 typedef vector<glm::mat3x4> frame;
 typedef vector<frame> frame_vec;

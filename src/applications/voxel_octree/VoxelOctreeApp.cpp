@@ -2,6 +2,10 @@
 #include "VoxelOctreeApp.h"
 #include "voxel_octree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
+#include "opengl/CubeMesh.h"
+#include "py/cpputils.h"
+#include "py/OctreeUtils.h"
+#include <boost/algorithm/string/replace.hpp>
 
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -13,46 +17,51 @@ VoxelOctreeApp::~VoxelOctreeApp()
 
 }
 
-void VoxelOctreeApp::InitPlaneMesh()
+void VoxelOctreeApp::InitPython()
+{
+    /*char * buf;
+    uint32_t len = helpers::read("res/voxel_octree/init.py", buf);
+*/
+    PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
+    PyImport_AppendInittab("octree", &PyInit_Octree);
+    Py_Initialize();
+
+    std::string path = this->GetAbsoluteResourcePath();
+
+    path.erase(path.length()-1);
+    boost::algorithm::replace_all(path,"\\","\\\\"); //just windows things
+
+    std::string scriptLoadString = "script_path = os.path.join(('" + path + "'),'python')";
+
+    std::string initString = "import sys, os\n";
+                initString += scriptLoadString+"\n";
+                initString += "sys.path.append(script_path)\n";
+                //initString += "print('Python search path: ' + str(sys.path))\n";
+
+    PyRun_SimpleString(initString.c_str());
+}
+
+void VoxelOctreeApp::InitResources()
 {
     AppContext * ctx = this->Ctx();
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_color");
-    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 
-    mesh = MeshPtr(new Mesh());
-    IndexBufferObject<uint32_t> * ibo = new IndexBufferObject<uint32_t>();
-    BufferObject<glm::vec3> *vbo = new BufferObject<glm::vec3>();
-    BufferObject<glm::vec3> *cbo = new BufferObject<glm::vec3>();
-    mesh->buffers[Mesh::POSITION] = vbo;
-    mesh->buffers[Mesh::INDICES] = ibo;
-    mesh->buffers[Mesh::COLOR] = cbo;
-    mesh->Init();
+    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
+    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
+                         1.7777777f,45.0f,0.1,1024.0f));
 
+    AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+    cube = new TCubeMesh<glm::vec3>(aabb);
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
-
-    for(uint32_t i = 0; i < 128; i++)
-        for(uint32_t j = 0; j < 128; j++)
-            for(uint32_t k = 0; k < 128; k++)
-                octree->AddOrphanNode(MNode(k,j,i));
-
-    /*
-    for(auto it = octree->GetChildNodes().begin(); it != octree->GetChildNodes().end(); it++ )
-    {
-        MNode node = (*it);
-        if(node.start!=0)
-            std::cout << "Start = " << node.start << std::endl;
-    }*/
-
-    octree->SortLeafNodes();
-    octree->RebuildTree();
-    octreeGen->GenAllChunks();
+    LoadLevel("res/voxel_octree/de_nuke.bvox");
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
+
+    InitPython();
 
     _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
     _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
@@ -62,15 +71,50 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.4,1,0.2,0);
 
-    InitPlaneMesh();
+    InitResources();
 
     _appContext->_timer->tick();
     return true;
 }
 
+void ReadBVoxFile(MortonOctTree<10> * mot, const std::string &fileName)
+{
+    char * buf;
+    uint32_t len;
+    len=helpers::read(fileName,buf);
+    uint32_t * data = (uint32_t*)((void*)&buf[0]);
+
+    uint32_t voxel_count = data[0];
+    data++;
+
+    std::cout << "File len: " << len << std::endl;
+    std::cout << "Voxel count: " << voxel_count << std::endl;
+
+    for(int i = 0; i < voxel_count; i++)
+    {
+        uint32_t x = data[0], y = data[1], z = data[2];
+        mot->AddOrphanNode(MNode(x,y,z));
+        data+=3;
+    }
+
+    delete[] buf;
+}
+
+bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
+{
+    octree->GetChildNodes().clear();
+    octreeGen->GetMeshes().clear();
+    ReadBVoxFile(octree, levelName);
+
+    octree->SortLeafNodes();
+    octree->RemoveDuplicateNodes();
+    std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
+    octreeGen->GenAllChunks();
+}
+
+static bool renderWireframe = false;
 bool VoxelOctreeApp::Update()
 {
     if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
@@ -79,14 +123,32 @@ bool VoxelOctreeApp::Update()
 
         cam->Update(0);
 
+        AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+        aabb.Translate(cam->GetPosition());
+
+        if(octree->CheckCollisionB(aabb))
+            Ctx()->_logger->log(LOG_LOG, "Camera collided with octree node");
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 Model = glm::mat4(1.0f);
-        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
         sh->Set();
+        glm::mat4 Model = glm::translate(glm::mat4(1.0f),cam->GetPosition()); // glm::mat4(1.0f);//
+        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        cube->Render(true,false);
+
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+
+        if(renderWireframe)
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        else
+            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
         octreeGen->RenderAllMeshes();
+
+
 
         _appContext->_window->SwapBuffers();
         return true;
@@ -103,16 +165,35 @@ void VoxelOctreeApp::OnWindowClose()
 {
 
 }
+
+float speed = 1;
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
+    if(action == GLFW_PRESS && key==GLFW_KEY_LEFT_SHIFT)
+        speed = 0.1;
+
+    if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_SHIFT)
+        speed = 1;
+
+    if(action == GLFW_PRESS && key==GLFW_KEY_LEFT_CONTROL)
+        speed = 10;
+
+    if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_CONTROL)
+        speed = 1;
+
     if(key==GLFW_KEY_W)
-        cam->Walk(1);
+        cam->Walk(speed);
     if(key==GLFW_KEY_S)
-        cam->Walk(-1);
+        cam->Walk(-speed);
     if(key==GLFW_KEY_A)
-        cam->Strafe(-1);
+        cam->Strafe(-speed);
     if(key==GLFW_KEY_D)
-        cam->Strafe(1);
+        cam->Strafe(speed);
+
+    if(key==GLFW_KEY_1)
+        renderWireframe = true;
+    else if(key==GLFW_KEY_2)
+        renderWireframe = false;
 }
 
 void VoxelOctreeApp::OnMouseMove(double x, double y)

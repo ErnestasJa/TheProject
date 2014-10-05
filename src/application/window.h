@@ -85,6 +85,7 @@ public:
             return false;
         }
 
+        _windows[_window]=this;
         glfwMakeContextCurrent(_window);
 
         glfwSetWindowSizeCallback(_window, &WindowResize);
@@ -97,7 +98,8 @@ public:
 
         glfwSetWindowShouldClose(_window, GL_FALSE);
 
-        _windows[_window]=this;
+        glfwSwapBuffers(_window);
+        glfwPollEvents();
         return true;
     }
 
