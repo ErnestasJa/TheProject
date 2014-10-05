@@ -115,13 +115,13 @@ void AABB::CalculatePoints()
     h=glm::abs(ext.y);
     l=glm::abs(ext.z);
 
-    points[0]=m_min_point;
-    points[1]=m_min_point+glm::vec3(w,0,0);
-    points[2]=m_min_point+glm::vec3(0,h,0);
-    points[3]=m_min_point+glm::vec3(0,0,l);
+    points[0]=m_min;
+    points[1]=m_min+glm::vec3(w,0,0);
+    points[2]=m_min+glm::vec3(0,h,0);
+    points[3]=m_min+glm::vec3(0,0,l);
 
-    points[4]=m_max_point-glm::vec3(l,0,0);
-    points[5]=m_max_point-glm::vec3(0,h,0);
-    points[6]=m_max_point-glm::vec3(0,0,w);
-    points[7]=m_max_point;
+    points[4]=m_max-glm::vec3(l,0,0);
+    points[5]=m_max-glm::vec3(0,h,0);
+    points[6]=m_max-glm::vec3(0,0,w);
+    points[7]=m_max;
 }
