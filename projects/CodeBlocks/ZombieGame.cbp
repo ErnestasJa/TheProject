@@ -310,6 +310,8 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="../../src/py/OctreeApplicationPy.cpp" />
+		<Unit filename="../../src/py/OctreeApplicationPy.h" />
 		<Unit filename="../../src/py/OctreeUtils.cpp" />
 		<Unit filename="../../src/py/OctreeUtils.h" />
 		<Unit filename="../../src/py/cpputils.cpp" />

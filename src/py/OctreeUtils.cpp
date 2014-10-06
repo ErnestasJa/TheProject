@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "OctreeUtils.h"
 #include "python.h"
-#include "voxel_octree/MortonOctree.h"
+#include "voxel_octree/Morton.h"
 
 PyObject * EncodeMKPy(PyObject* self, PyObject* arg)
 {

@@ -17,7 +17,11 @@ class TCubeMesh;
 
 class VoxelOctreeApp: public Application
 {
+private:
+    static VoxelOctreeApp * m_instance;
 public:
+    static VoxelOctreeApp * Instance();
+
     VoxelOctreeApp(uint32_t argc, const char ** argv);
     virtual ~VoxelOctreeApp();
 
@@ -26,6 +30,7 @@ public:
 
     void InitResources();
     void InitPython();
+    void AfterInit();
     virtual bool Update();
     void Exit();
 

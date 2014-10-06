@@ -5,11 +5,20 @@
 #include "opengl/CubeMesh.h"
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
+#include "py/OctreeApplicationPy.h"
 #include <boost/algorithm/string/replace.hpp>
+
+
+VoxelOctreeApp * VoxelOctreeApp::m_instance = nullptr;
+
+VoxelOctreeApp * VoxelOctreeApp::Instance()
+{
+    return m_instance;
+}
 
 VoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
-
+    m_instance = this;
 }
 
 VoxelOctreeApp::~VoxelOctreeApp()
@@ -19,11 +28,9 @@ VoxelOctreeApp::~VoxelOctreeApp()
 
 void VoxelOctreeApp::InitPython()
 {
-    /*char * buf;
-    uint32_t len = helpers::read("res/voxel_octree/init.py", buf);
-*/
     PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
     PyImport_AppendInittab("octree", &PyInit_Octree);
+    PyImport_AppendInittab("oapp", &PyInit_OctreeApplication);
     Py_Initialize();
 
     std::string path = this->GetAbsoluteResourcePath();
@@ -54,13 +61,11 @@ void VoxelOctreeApp::InitResources()
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
 
-    LoadLevel("res/voxel_octree/de_nuke.bvox");
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
-
     InitPython();
 
     _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
@@ -74,7 +79,7 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glClearColor(0.4,1,0.2,0);
 
     InitResources();
-
+    AfterInit();
     _appContext->_timer->tick();
     return true;
 }
@@ -112,6 +117,15 @@ bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
     octree->RemoveDuplicateNodes();
     std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
     octreeGen->GenAllChunks();
+}
+
+void VoxelOctreeApp::AfterInit()
+{
+    char * buf = nullptr;
+    uint32_t len = helpers::read("res/voxel_octree/init.py", buf);
+
+    if(len>0)
+        PyRun_SimpleString(buf);
 }
 
 static bool renderWireframe = false;
