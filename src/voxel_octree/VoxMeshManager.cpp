@@ -33,21 +33,6 @@ void VoxMeshManager::SetBuildNode(const MNode & node)
     m_buildNodes[x][y][z].size = 1;
 }
 
-void VoxMeshManager::BuildChunk(Mesh* mesh)
-{
-    uint8_t sides;
-
-    loopxyz(32,32,32)
-    if(m_buildNodes[x][y][z].size>0)
-    {
-        sides = GetVisibleBuildNodeSides(x,y,z);
-        if(sides)
-            AddVoxelToMesh( mesh, m_buildNodes[x][y][z], sides);
-    }
-
-    loopxyz(32,32,32) m_buildNodes[x][y][z].size=0;
-}
-
 bool vf_equals(const MNode & n1, const MNode & n2)
 {
     return n1.size == 1 && n1.size == n2.size;
@@ -98,12 +83,71 @@ uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode mask[32][32], boo
     return h;
 }
 
+inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNode mask[32][32])
+{
+    MNode tmpNode;
+
+    switch(dim)
+    {
+    case 0:
+    {
+        loop(y,32) loop(x,32)
+        {
+            MaskNode & n = mask[x][y];
+
+            GetBuildNode(tmpNode,x,y,slice);
+            n = (tmpNode.size==1);
+
+            GetBuildNode(tmpNode,x,y,slice+1);
+            n .frontFace = (tmpNode.size==0);
+
+            GetBuildNode(tmpNode,x,y,slice-1);
+            n .backFace = (tmpNode.size==0);
+        }
+        break;
+    }
+    case 1:
+    {
+        loop(y,32) loop(x,32)
+        {
+            MaskNode & n = mask[x][y];
+
+            GetBuildNode(tmpNode,x,slice,y);
+            n = (tmpNode.size==1);
+
+            GetBuildNode(tmpNode,x,slice+1,y);
+            n.frontFace = (tmpNode.size==0);
+
+            GetBuildNode(tmpNode,x,slice-1,y);
+            n.backFace = (tmpNode.size==0);
+        }
+        break;
+    }
+    case 2:
+    {
+        loop(y,32) loop(x,32)
+        {
+            MaskNode & n = mask[x][y];
+
+            GetBuildNode(tmpNode,slice,x,y);
+            n = (tmpNode.size==1);
+
+            GetBuildNode(tmpNode,slice+1,x,y);
+            n.frontFace = (tmpNode.size==0);
+
+            GetBuildNode(tmpNode,slice-1,x,y);
+            n.backFace = (tmpNode.size==0);
+        }
+        break;
+    }
+    }
+}
+
 void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
 {
     MaskNode mask[32][32];
     MaskNode mn;
-    MNode tmpNode;
-    glm::vec3 face[4];
+
     glm::ivec2 qstart, qdims, qbstart, qbdims;
 
     uint32_t faceCount = 0;
@@ -113,65 +157,7 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
         clear_mask(mask);
         loop(z, 32)
         {
-            switch(dim)
-            {
-            case 0: //xy slices
-            {
-                loop(y,32) loop(x,32)
-                {
-                    MaskNode & n = mask[x][y];
-
-                    GetBuildNode(tmpNode,x,y,z);
-                    n = (tmpNode.size==1);
-
-                    GetBuildNode(tmpNode,x,y,z+1);
-                    n .frontFace = (tmpNode.size==0);
-
-                    GetBuildNode(tmpNode,x,y,z-1);
-                    n .backFace = (tmpNode.size==0);
-                }
-                break;
-            }
-            case 1: //xz slices
-            {
-                loop(y,32) loop(x,32)
-                {
-                    MaskNode & n = mask[x][y];
-
-                    GetBuildNode(tmpNode,x,z,y);
-                    n = (tmpNode.size==1);
-
-                    GetBuildNode(tmpNode,x,z+1,y);
-                    n.frontFace = (tmpNode.size==0);
-
-                    GetBuildNode(tmpNode,x,z-1,y);
-                    n.backFace = (tmpNode.size==0);
-                }
-                break;
-            }
-            case 2: //yz slices
-            {
-                loop(y,32) loop(x,32)
-                {
-                    MaskNode & n = mask[x][y];
-
-                    GetBuildNode(tmpNode,z,y,x);
-                    n = (tmpNode.size==1);
-
-                    GetBuildNode(tmpNode,z+1,y,x);
-                    n.frontFace = (tmpNode.size==0);
-
-                    GetBuildNode(tmpNode,z-1,y,x);
-                    n.backFace = (tmpNode.size==0);
-                }
-                break;
-            }
-            default:
-                break;
-            }
-
-            qstart.x = 0;
-            qstart.y = 0;
+            BuildSliceMask(dim,z,mask);
 
             loop(y, 32)
             {
@@ -180,124 +166,115 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                     mn = mask[x][y];
                     if(mn)
                     {
-                        /*
-                        *    We found our victim, lets find out how fat he is.
-                        */
-                        if(mn.backFace)
+                        if(mn.frontFace)
                         {
                             qstart.x=x;
                             qstart.y=y;
-                            qdims.x =length(x,y,mask,false);
-                            qdims.y =height(x,y,qdims.x,mask,false);
+                            qdims.x =length(x,y,mask);
+                            qdims.y =height(x,y,qdims.x,mask);
+
+                            AddFaceToMesh(mesh, true, dim, z, qstart, qdims, offset);
+
+                            for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
+                            for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
+                            {
+                                mask[xi][yi].frontFace=false;
+                                mask[xi][yi].exists=mask[xi][yi].backFace;
+                            }
                         }
-                        if(mn.frontFace)
+                        if(mn.backFace)
                         {
                             qbstart.x=x;
                             qbstart.y=y;
-                            qbdims.x =length(x,y,mask);
-                            qbdims.y =height(x,y,qbdims.x,mask);
+                            qbdims.x =length(x,y,mask,false);
+                            qbdims.y =height(x,y,qbdims.x,mask,false);
+
+                            AddFaceToMesh(mesh, false, dim, z, qbstart, qbdims, offset);
+
+                            for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
+                            for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
+                            {
+                                mask[xi][yi].backFace=false;
+                                mask[xi][yi].exists=mask[xi][yi].frontFace;
+                            }
                         }
 
-                        /*
-                        *    Now that we know how fat that little prick is, lets erase his identity.
-                        */
-                        if(mn.backFace)
-                        for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
-                            for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
-                            {
-                                    mask[xi][yi].backFace=false;
-                                    mask[xi][yi].exists=mask[xi][yi].frontFace;
-                            }
-
-                        if(mn.frontFace)
-                        for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
-                        for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
-                        {
-                                mask[xi][yi].frontFace=false;
-                                mask[xi][yi].exists=mask[xi][yi].backFace;
-                        }
-
-                        switch(dim)
-                        {
-                        case 0: //xy
-                        {
-                            if(mn.backFace)
-                            {
-                                face[3]=glm::vec3(qstart.x,             qstart.y,           z)+offset;
-                                face[2]=glm::vec3(qstart.x+qdims.x,     qstart.y,           z)+offset;
-                                face[1]=glm::vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z)+offset;
-                                face[0]=glm::vec3(qstart.x,             qstart.y+qdims.y,   z)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[0]=glm::vec3(qbstart.x,            qbstart.y,              z+1)+offset;
-                                face[1]=glm::vec3(qbstart.x+qbdims.x,   qbstart.y,              z+1)+offset;
-                                face[2]=glm::vec3(qbstart.x+qbdims.x,   qbstart.y+qbdims.y,     z+1)+offset;
-                                face[3]=glm::vec3(qbstart.x,            qbstart.y+qbdims.y,     z+1)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-                            break;
-                        }
-                        case 1: //xz
-                        {
-                            if(mn.backFace)
-                            {
-                                face[0]=glm::vec3(qstart.x,         z,                  qstart.y)+offset;
-                                face[1]=glm::vec3(qstart.x+qdims.x, z,                  qstart.y)+offset;
-                                face[2]=glm::vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y)+offset;
-                                face[3]=glm::vec3(qstart.x,         z,                  qstart.y+qdims.y)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[3]=glm::vec3(qbstart.x,         z+1,                qbstart.y)+offset;
-                                face[2]=glm::vec3(qbstart.x+qbdims.x, z+1,                qbstart.y)+offset;
-                                face[1]=glm::vec3(qbstart.x+qbdims.x, z+1,                qbstart.y+qbdims.y)+offset;
-                                face[0]=glm::vec3(qbstart.x,         z+1,                qbstart.y+qbdims.y)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-                            break;
-                        }
-                        case 2: //yz
-                        {
-                            if(mn.backFace)
-                            {
-                                face[0]=glm::vec3(z,                qstart.y,           qstart.x)+offset;
-                                face[1]=glm::vec3(z,                qstart.y,           qstart.x+qdims.x)+offset;
-                                face[2]=glm::vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x)+offset;
-                                face[3]=glm::vec3(z,                qstart.y+qdims.y,   qstart.x)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-
-                            if(mn.frontFace)
-                            {
-                                face[3]=glm::vec3(z+1,              qbstart.y,           qbstart.x)+offset;
-                                face[2]=glm::vec3(z+1,              qbstart.y,           qbstart.x+qbdims.x)+offset;
-                                face[1]=glm::vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x+qbdims.x)+offset;
-                                face[0]=glm::vec3(z+1,              qbstart.y+qbdims.y,   qbstart.x)+offset;
-                                AddQuadToMesh(mesh,face);
-                                faceCount++;
-                            }
-                            break;
-                        }
-                        default:
-                            break;
-                        }
                     }
                 }
             }
         }
+
+        //std::cout << "Added " << faceCount << " faces to mesh" << std::endl;
+    }
+}
+
+void VoxMeshManager::AddFaceToMesh(Mesh* mesh, bool frontFace, uint32_t dir, uint32_t slice, glm::ivec2 start, glm::ivec2 dims, glm::vec3 offset)
+{
+    glm::vec3 face[4];
+
+    switch(dir)
+    {
+    case 0: //xy
+    {
+        if(frontFace)
+        {
+            face[0]=glm::vec3(start.x,          start.y,              slice+1)+offset;
+            face[1]=glm::vec3(start.x+dims.x,   start.y,              slice+1)+offset;
+            face[2]=glm::vec3(start.x+dims.x,   start.y+dims.y,       slice+1)+offset;
+            face[3]=glm::vec3(start.x,          start.y+dims.y,       slice+1)+offset;
+        }
+        else
+        {
+            face[3]=glm::vec3(start.x,          start.y,             slice)+offset;
+            face[2]=glm::vec3(start.x+dims.x,   start.y,             slice)+offset;
+            face[1]=glm::vec3(start.x+dims.x,   start.y+dims.y,      slice)+offset;
+            face[0]=glm::vec3(start.x,          start.y+dims.y,      slice)+offset;
+        }
+        break;
+    }
+    case 1: //xz
+    {
+        if(frontFace)
+        {
+            face[3]=glm::vec3(start.x,         slice+1,                start.y)+offset;
+            face[2]=glm::vec3(start.x+dims.x,  slice+1,                start.y)+offset;
+            face[1]=glm::vec3(start.x+dims.x,  slice+1,                start.y+dims.y)+offset;
+            face[0]=glm::vec3(start.x,         slice+1,                start.y+dims.y)+offset;
+        }
+        else
+        {
+            face[0]=glm::vec3(start.x,         slice,                  start.y)+offset;
+            face[1]=glm::vec3(start.x+dims.x,  slice,                  start.y)+offset;
+            face[2]=glm::vec3(start.x+dims.x,  slice,                  start.y+dims.y)+offset;
+            face[3]=glm::vec3(start.x,         slice,                  start.y+dims.y)+offset;
+        }
+
+        break;
+    }
+    case 2: //yz
+    {
+        if(frontFace)
+        {
+            face[0]=glm::vec3(slice+1, start.x,         start.y      )+offset;
+            face[1]=glm::vec3(slice+1, start.x +dims.x, start.y      )+offset;
+            face[2]=glm::vec3(slice+1, start.x +dims.x, start.y+dims.y)+offset;
+            face[3]=glm::vec3(slice+1, start.x,         start.y+dims.y)+offset;
+        }
+        else
+        {
+            face[3]=glm::vec3(slice, start.x,         start.y      )+offset;
+            face[2]=glm::vec3(slice, start.x +dims.x, start.y      )+offset;
+            face[1]=glm::vec3(slice, start.x +dims.x, start.y+dims.y)+offset;
+            face[0]=glm::vec3(slice, start.x,         start.y+dims.y)+offset;
+        }
+
+        break;
+    }
+    default:
+        break;
     }
 
-    //std::cout << "Added " << faceCount << " faces to mesh" << std::endl;
+    AddQuadToMesh(mesh,face);
 }
 
 void VoxMeshManager::AddQuadToMesh(Mesh* mesh, const glm::vec3 * face)
@@ -594,5 +571,6 @@ void VoxMeshManager::RenderAllMeshes()
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->Render();
 }
+
 
 
