@@ -16,7 +16,7 @@ private:
     MNode m_buildNodes[32][32][32];
     MortonOctTree<10> * m_octree;
     Map m_map;
-    uint32_t m_level;
+    uint32_t m_level;uint32_t faceCount;
 
     MeshPtr CreateEmptyMesh();
     void ClearMesh(Mesh* mesh);

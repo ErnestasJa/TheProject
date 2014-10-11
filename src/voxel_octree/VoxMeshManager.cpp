@@ -150,11 +150,10 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
 
     glm::ivec2 qstart, qdims, qbstart, qbdims;
 
-    uint32_t faceCount = 0;
+    clear_mask(mask);
 
     loopr(dim, 0, 3)
     {
-        clear_mask(mask);
         loop(z, 32)
         {
             BuildSliceMask(dim,z,mask);
@@ -164,6 +163,7 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                 loop(x, 32)
                 {
                     mn = mask[x][y];
+
                     if(mn)
                     {
                         if(mn.frontFace)
@@ -174,6 +174,7 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                             qdims.y =height(x,y,qdims.x,mask);
 
                             AddFaceToMesh(mesh, true, dim, z, qstart, qdims, offset);
+                            faceCount++;
 
                             for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
                             for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
@@ -190,6 +191,7 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                             qbdims.y =height(x,y,qbdims.x,mask,false);
 
                             AddFaceToMesh(mesh, false, dim, z, qbstart, qbdims, offset);
+                            faceCount++;
 
                             for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
                             for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
@@ -198,13 +200,10 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                                 mask[xi][yi].exists=mask[xi][yi].frontFace;
                             }
                         }
-
                     }
                 }
             }
         }
-
-        //std::cout << "Added " << faceCount << " faces to mesh" << std::endl;
     }
 }
 
@@ -349,6 +348,7 @@ void VoxMeshManager::GenAllChunks()
     if(m_octree->GetChildNodes().size()==0)
         return;
 
+    faceCount = 0;
     ClearBuildNodes();
 
 
@@ -382,6 +382,8 @@ void VoxMeshManager::GenAllChunks()
 
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->UploadBuffers();
+
+    std::cout << "Added " << faceCount << " faces to mesh" << std::endl;
 }
 
 void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, const MNode & node, uint8_t sides)
