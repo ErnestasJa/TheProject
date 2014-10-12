@@ -65,7 +65,7 @@
 			<Add library="jsoncpp" />
 			<Add library="glxw" />
 			<Add library="stb_image_lib" />
-			<Add library="boost_container-mgw48-mt-1_56" />
+			<Add library="libboost_container-mgw49-mt-1_56" />
 			<Add directory="../../../../libs/win32" />
 		</Linker>
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.cpp" />
