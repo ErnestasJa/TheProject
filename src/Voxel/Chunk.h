@@ -4,8 +4,8 @@
 #include "VoxelMesh.h"
 #include "Block.h"
 
-#define CHUNK_SIZE 16
-#define CHUNK_SIZEF 16.f
+#define CHUNK_SIZE 32
+#define CHUNK_SIZEF 32.f
 class ChunkManager;
 
 static Block EMPTY_BLOCK=Block();

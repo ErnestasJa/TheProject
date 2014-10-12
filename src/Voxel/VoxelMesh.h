@@ -36,6 +36,12 @@ private:
         uint8_t exists;
         u8vec4 color;
 
+        MaskNode()
+        {
+            exists=false;
+            color=u8vec4(255);
+        }
+
         MaskNode & operator = (bool value)
         {
             exists = value;

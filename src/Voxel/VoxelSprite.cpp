@@ -22,6 +22,7 @@ void VoxelSprite::Rebuild()
 VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img,uint32_t extrude,u8vec4 discardColor)
 {
     VoxelSprite *ret=new VoxelSprite(std::max(img->width,img->height));
+
     loop(z,extrude)
     loop(x,img->width)
     loop(y,img->height)

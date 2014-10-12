@@ -11,72 +11,99 @@
 
 ChunkManager::ChunkManager()
 {
-    int testsize=128;
-    int testheight=128;
+    char * buf;
+    uint32_t len;
+    len=helpers::read("res/de_nuke.bvox",buf);
+    uint32_t * data = (uint32_t*)((void*)&buf[0]);
 
-    for(int x=-testsize; x<testsize; x++)
+    uint32_t voxel_count = data[0];
+    data++;
+
+    std::cout << "File len: " << len << std::endl;
+    std::cout << "Voxel count: " << voxel_count << std::endl;
+
+    for(int i = 0; i < voxel_count; i++)
     {
-        for(int z=-testsize; z<testsize; z++)
-        {
-            float h=scaled_raw_noise_2d(5,testheight,x/256.f,z/256.f);
-            for(int y=0; y<testheight; y++)
-            {
-                if(y==0)
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
-                    continue;
-                }
-                else if(y==(int)h)
-                {
-                    float b=scaled_raw_noise_3d(0,testheight,x/256.f,y/256.f,z/256.f);
-                    if(b*(rand()%5+1)<32)
-                    {
-                        SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
-                        continue;
-                    }
-                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
-                    continue;
-                }
-                else if(y>h)
-                {
-                    if(y<60)
-                    {
-                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
-                        continue;
-                    }
-                    else
-                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
-                    {
-                        // Trunk
-                        h = (rand() & 0x3) + 3;
-                        for(int i = 0; i < h; i++)
-                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
-
-                        // Leaves
-                        for(int ix = -3; ix <= 3; ix++)
-                        {
-                            for(int iy = -1; iy <= 1; iy++)
-                            {
-                                for(int iz = -3; iz <= 3; iz++)
-                                {
-                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
-                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-                else
-                {
-                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
-                }
-            }
-        }
+        uint32_t x = data[0], y = data[1], z = data[2];
+        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+        data+=3;
     }
+
+    delete[] buf;
+//    int testsize=128;
+//    int testheight=128;
+//
+//    for(int x=-testsize; x<testsize; x++)
+//    {
+//        for(int z=-testsize; z<testsize; z++)
+//        {
+//            float h=scaled_raw_noise_2d(5,testheight,x/256.f,z/256.f);
+//            for(int y=0; y<testheight; y++)
+//            {
+//                if(y==0)
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_VOIDROCK,true);
+//                    continue;
+//                }
+//                else if(y==(int)h)
+//                {
+//                    float b=scaled_raw_noise_3d(0,testheight,x/256.f,y/256.f,z/256.f);
+//                    if(b*(rand()%5+1)<32)
+//                    {
+//                        SetBlock(glm::vec3(x,y,z),EBT_SAND,true);
+//                        continue;
+//                    }
+//                    SetBlock(glm::vec3(x,y,z),EBT_GRASS,true);
+//                    continue;
+//                }
+//                else if(y>h)
+//                {
+//                    if(y<60)
+//                    {
+//                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+//                        continue;
+//                    }
+//                    else
+//                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
+//                    {
+//                        // Trunk
+//                        h = (rand() & 0x3) + 3;
+//                        for(int i = 0; i < h; i++)
+//                            SetBlock(glm::vec3(x, y + i, z), EBT_WOOD, true);
+//
+//                        // Leaves
+//                        for(int ix = -3; ix <= 3; ix++)
+//                        {
+//                            for(int iy = -1; iy <= 1; iy++)
+//                            {
+//                                for(int iz = -3; iz <= 3; iz++)
+//                                {
+//                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
+//                                        SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//                else
+//                {
+//                    SetBlock(glm::vec3(x,y,z),EBT_STONE,true);
+//                }
+//            }
+//        }
+//    }
 
 //    AddChunk(glm::vec3(0));
 //    m_chunks[glm::vec3(0)]->Fill();
+
+//    loop(i,16)
+//    loop(j,16)
+//    loop(k,16)
+//    {
+//        AddChunk(glm::vec3(i,j,k));
+//        m_chunks[glm::vec3(i,j,k)]->Fill();
+//    }
 
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
@@ -107,8 +134,8 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     std::list<ChunkPtr> exploded;
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
-        AABB b=AABB(a.second->aabb.GetMin()+(CHUNK_SIZEF*((glm::vec3)a.first)),a.second->aabb.GetMax()+(CHUNK_SIZEF*((glm::vec3)a.first)));
-        if(ab.IntersectsWith(b))
+        a.second->aabb.Translate(CHUNK_SIZEF*a.first);
+        if(ab.IntersectsWith(a.second->aabb))
             exploded.push_back(a.second);
     }
 
