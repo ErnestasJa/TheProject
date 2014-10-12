@@ -66,7 +66,7 @@ private:
     vector<MNode> m_nodes;
 };
 
-typedef MortonOctTree<10> MortonOctTreePtr;
+typedef std::shared_ptr<MortonOctTree<10>> MortonOctTreePtr;
 
 #include "MortonOctree.inl"
 

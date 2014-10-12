@@ -15,8 +15,6 @@ Player::~Player()
     //dtor
 }
 
-
-
 glm::vec3 & Player::GetPosition()
 {
     return m_position;
