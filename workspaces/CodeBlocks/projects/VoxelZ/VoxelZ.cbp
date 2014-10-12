@@ -12,11 +12,13 @@
 				<Option object_output="../../../../bin/obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
+					<Add library="engine-debug-static" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -25,16 +27,18 @@
 				<Option object_output="../../../../bin/obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-libgcc -static-libstdc++ -static" />
+					<Add library="engine-release-static" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add directory="../../../../src/engine" />
 			<Add directory="../../../../src/applications/voxelz" />
@@ -47,10 +51,9 @@
 			<Add directory="../../../../libs/libsigc++" />
 			<Add directory="../../../../libs/physfs" />
 			<Add directory="../../../../libs/stb_image" />
-			<Add directory="../../../../libs/tinyxml2" />
+			<Add directory="../../../../libs/tinyxml2/src" />
 		</Compiler>
 		<Linker>
-			<Add library="engine-static-debug" />
 			<Add library="glfw3" />
 			<Add library="opengl32" />
 			<Add library="glu32" />

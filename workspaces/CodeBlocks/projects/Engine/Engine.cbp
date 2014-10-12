@@ -58,7 +58,7 @@
 				</Linker>
 			</Target>
 			<Target title="DebugStatic">
-				<Option output="../../../../libs/win32/engine-static-debug" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../../libs/win32/engine-debug-static" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="../../../../bin/objstaticdebug" />
 				<Option type="2" />
