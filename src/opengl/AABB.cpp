@@ -70,6 +70,11 @@ bool AABB::IntersectsWith(const AABB &other) const
    return false;
 }
 
+bool AABB::SweepCollidesWith(const AABB & other) const
+{
+    return false;
+}
+
 bool AABB::CollidesWith(const glm::vec3 & aabb_min, const glm::vec3 & aabb_max) const
 {
     return (m_min_point.x <= aabb_max.x && m_min_point.y <= aabb_max.y && m_min_point.z <= aabb_max.z &&
