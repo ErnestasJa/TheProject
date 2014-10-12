@@ -143,23 +143,24 @@ public:
 
         pos = new BufferObject<T>();
 
+        const glm::vec3 bmin=aabb.GetMin(), bmax=aabb.GetMax();
         /// - - +
-        T p1(aabb.GetMin().x, aabb.GetMin().y, aabb.GetMax().z);
+        T p1(bmin.x, bmin.y, bmax.z);
         /// + - +
-        T p2(aabb.GetMax().x, aabb.GetMin().y, aabb.GetMax().z);
+        T p2(bmax.x, bmin.y, bmax.z);
         /// + + +
-        T p3(aabb.GetMax().x, aabb.GetMax().y, aabb.GetMax().z);
+        T p3(bmax.x, bmax.y, bmax.z);
         /// - + +
-        T p4(aabb.GetMin().x, aabb.GetMax().y, aabb.GetMax().z);
+        T p4(bmin.x, bmax.y, bmax.z);
 
         /// - - -
-        T p5(aabb.GetMin().x, aabb.GetMin().y, aabb.GetMin().z);
+        T p5(bmin.x, bmin.y, bmin.z);
         /// + - -
-        T p6(aabb.GetMax().x, aabb.GetMin().y, aabb.GetMin().z);
+        T p6(bmax.x, bmin.y, bmin.z);
         /// + + -
-        T p7(aabb.GetMax().x, aabb.GetMax().y, aabb.GetMin().z);
+        T p7(bmax.x, bmax.y, bmin.z);
         /// - + -
-        T p8(aabb.GetMin().x, aabb.GetMax().y, aabb.GetMin().z);
+        T p8(bmin.x, bmax.y, bmin.z);
 
         pos->data.resize(8);
         pos->data[0]=p1;

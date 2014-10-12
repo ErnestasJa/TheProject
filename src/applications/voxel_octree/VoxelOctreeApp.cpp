@@ -56,7 +56,7 @@ void VoxelOctreeApp::InitResources()
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
                          1.7777777f,45.0f,0.1,1024.0f));
 
-    AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+    AABB aabb(glm::vec3(0), glm::vec3(1,2,1));
     cube = new TCubeMesh<glm::vec3>(aabb);
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
@@ -137,7 +137,7 @@ bool VoxelOctreeApp::Update()
 
         cam->Update(0);
 
-        AABB aabb(glm::vec3(-0.5,-1,-0.5), glm::vec3(0.5,1,0.5));
+        AABB aabb(glm::vec3(0), glm::vec3(1,2,1));
         aabb.Translate(cam->GetPosition());
 
         if(octree->CheckCollisionB(aabb))

@@ -5,7 +5,7 @@ class AABB
 {
 public:
     AABB();
-    AABB(const glm::vec3 & min_point, const glm::vec3 & max_point);
+    AABB(const glm::vec3 & center, const glm::vec3 & halfsize);
     virtual ~AABB();
 
     void Reset(const glm::vec3 &point);
@@ -13,9 +13,8 @@ public:
     void CalculatePoints();
     bool ContainsPoint(const glm::vec3 &point) const;
     bool IntersectsWith(const AABB &other) const;
-    bool CollidesWith(const AABB & other) const;
     bool SweepCollidesWith(const AABB & other) const;
-    bool CollidesWith(const glm::vec3 & aabb_min, const glm::vec3 & aabb_max) const;
+    bool IntersectsWith(const glm::vec3 & aabbCenter, const glm::vec3 & aabbHalfsize) const;
     bool CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayInverseDirection) const;
     void Translate(const glm::vec3 &point);
 
@@ -26,7 +25,7 @@ public:
     const glm::vec3 & GetMax() const;
 
 protected:
-    glm::vec3 m_min_point,m_max_point,m_center,m_halfSize,m_invalid;
+    glm::vec3 m_center,m_halfSize;
     glm::vec3 points[8];
 };
 

@@ -1,13 +1,13 @@
 #include "Precomp.h"
 #include "AABB.h"
 
-AABB::AABB(): m_min_point(-1),m_max_point(1)
+AABB::AABB(): m_halfSize(0.5)
 {
     //ctor
     CalculatePoints();
 }
 
-AABB::AABB(const glm::vec3 & min_point, const glm::vec3 & max_point):m_min_point(min_point),m_max_point(max_point)
+AABB::AABB(const glm::vec3 & center, const glm::vec3 & halfSize):m_center(center), m_halfSize(halfSize)
 {
     //ctor
     CalculatePoints();
@@ -20,21 +20,54 @@ AABB::~AABB()
 
 void AABB::Reset(const glm::vec3 &point)
 {
-    m_min_point = m_max_point = point;
+    m_center = point;
+    m_halfSize = glm::vec3(0);
 }
 
 void AABB::AddPoint(const glm::vec3 &point)
 {
-    if (point.x>m_max_point.x) m_max_point.x = point.x;
-    if (point.y>m_max_point.y) m_max_point.y = point.y;
-    if (point.z>m_max_point.z) m_max_point.z = point.z;
+    glm::vec3 mi(m_center - m_halfSize), mx(m_center+m_halfSize);
+    float tmp;
 
-    if (point.x<m_min_point.x) m_min_point.x = point.x;
-    if (point.y<m_min_point.y) m_min_point.y = point.y;
-    if (point.z<m_min_point.z) m_min_point.z = point.z;
+    //max
+    if (point.x > mx.x)
+    {
+        tmp = point.x - mx.x;
+        m_halfSize.x += tmp;
+        m_center.x += tmp*0.5f;
+    }
+    else if (point.x < mi.x)
+    {
+        tmp = mx.x - point.x;
+        m_halfSize.x += tmp;
+        m_center.x += tmp*0.5f;
+    }
 
-    m_center=(m_min_point+m_max_point)/2.f;
-    m_halfSize=glm::abs(m_max_point-m_center);
+    if (point.y > mx.y)
+    {
+        tmp = point.y - mx.y;
+        m_halfSize.y += tmp;
+        m_center.y += tmp*0.5f;
+    }
+    else if (point.y < mx.y)
+    {
+        tmp = mx.y - point.y;
+        m_halfSize.y += tmp;
+        m_center.y += tmp*0.5f;
+    }
+
+    if (point.z > mx.z)
+    {
+        tmp = point.z - mx.z;
+        m_halfSize.z += tmp;
+        m_center.z += tmp*0.5f;
+    }
+    else if (point.z < mx.z)
+    {
+        tmp = mx.z - point.z;
+        m_halfSize.z += tmp;
+        m_center.z += tmp*0.5f;
+    }
 }
 
 void AABB::Translate(const glm::vec3 &point)
@@ -53,21 +86,9 @@ bool AABB::ContainsPoint(const glm::vec3 & point) const
 
 bool AABB::IntersectsWith(const AABB &other) const
 {
-   //check the X axis
-   if(glm::abs(m_center.x - other.GetCenter().x) <= m_halfSize.x + other.GetHalfSize().x)
-   {
-      //check the Y axis
-      if(glm::abs(m_center.y - other.GetCenter().y) <= m_halfSize.y + other.GetHalfSize().y)
-      {
-          //check the Z axis
-          if(glm::abs(m_center.z - other.GetCenter().z) <= m_halfSize.z + other.GetHalfSize().z)
-          {
-             return true;
-          }
-      }
-   }
-
-   return false;
+   return (glm::abs(m_center.x - other.GetCenter().x) <= m_halfSize.x + other.GetHalfSize().x)
+        &&(glm::abs(m_center.y - other.GetCenter().y) <= m_halfSize.y + other.GetHalfSize().y)
+        &&(glm::abs(m_center.z - other.GetCenter().z) <= m_halfSize.z + other.GetHalfSize().z);
 }
 
 bool AABB::SweepCollidesWith(const AABB & other) const
@@ -75,28 +96,29 @@ bool AABB::SweepCollidesWith(const AABB & other) const
     return false;
 }
 
-bool AABB::CollidesWith(const glm::vec3 & aabb_min, const glm::vec3 & aabb_max) const
+bool AABB::IntersectsWith(const glm::vec3 & center, const glm::vec3 & halfsize) const
 {
-    return (m_min_point.x <= aabb_max.x && m_min_point.y <= aabb_max.y && m_min_point.z <= aabb_max.z &&
-            m_max_point.x >= aabb_min.x && m_max_point.y >= aabb_min.y && m_max_point.z >= aabb_min.z);
+    return (glm::abs(m_center.x - center.x) <= m_halfSize.x + halfsize.x)
+        &&(glm::abs(m_center.y - center.y) <= m_halfSize.y + halfsize.y)
+        &&(glm::abs(m_center.z - center.z) <= m_halfSize.z + halfsize.z);
 }
 
 bool AABB::CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse) const
 {
-    double tx1 = (m_min_point.x - rayStart.x)*rayDirectionInverse.x;
-    double tx2 = (m_max_point.x - rayStart.x)*rayDirectionInverse.x;
+    double tx1 = ((m_center.x-m_halfSize.x) - rayStart.x)*rayDirectionInverse.x;
+    double tx2 = ((m_center.x+m_halfSize.x) - rayStart.x)*rayDirectionInverse.x;
 
     double tmin = std::min(tx1, tx2);
     double tmax = std::max(tx1, tx2);
 
-    double ty1 = (m_min_point.y - rayStart.y)*rayDirectionInverse.y;
-    double ty2 = (m_max_point.y - rayStart.y)*rayDirectionInverse.y;
+    double ty1 = ((m_center.y-m_halfSize.y) - rayStart.y)*rayDirectionInverse.y;
+    double ty2 = ((m_center.y+m_halfSize.y) - rayStart.y)*rayDirectionInverse.y;
 
     tmin = std::max(tmin, std::min(ty1, ty2));
     tmax = std::min(tmax, std::max(ty1, ty2));
 
-    double tz1 = (m_min_point.z - rayStart.z)*rayDirectionInverse.z;
-    double tz2 = (m_max_point.z - rayStart.z)*rayDirectionInverse.z;
+    double tz1 = ((m_center.z-m_halfSize.z) - rayStart.z)*rayDirectionInverse.z;
+    double tz2 = ((m_center.z+m_halfSize.z) - rayStart.z)*rayDirectionInverse.z;
 
     tmin = std::max(tmin, std::min(tz1, tz2));
     tmax = std::min(tmax, std::max(tz1, tz2));
@@ -106,7 +128,6 @@ bool AABB::CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayDire
 
 glm::vec3 AABB::GetPoint(uint32_t i) const
 {
-    if(i>7) return m_invalid;
     return points[i];
 }
 
@@ -122,20 +143,17 @@ glm::vec3 AABB::GetCenter() const
 
 const glm::vec3 & AABB::GetMin() const
 {
-    return m_min_point;
+    return m_center-m_halfSize;
 }
 
 const glm::vec3 & AABB::GetMax() const
 {
-    return m_max_point;
+    return m_center+m_halfSize;
 }
 
 void AABB::CalculatePoints()
 {
-    m_center=(m_min_point+m_max_point)/2.f;
-    m_halfSize=glm::abs(m_max_point-m_center);
-
-    float w=m_halfSize.x,h=m_halfSize.y,l=m_halfSize.z;
+    float w=m_halfSize.x*2.0f,h=m_halfSize.y*2.0f,l=m_halfSize.z*2.0f;
 
     points[0]=m_center;
     points[1]=m_center+glm::vec3(w,0,0);

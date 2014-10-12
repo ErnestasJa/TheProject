@@ -148,7 +148,7 @@ bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
     {
         nodeCount++;
         decodeMK(low->start,x,y,z);
-        if(aabb.CollidesWith(glm::vec3(x,y,z),glm::vec3(x+1,y+1,z+1)))
+        if(aabb.IntersectsWith(glm::vec3(x,y,z),glm::vec3(x+1,y+1,z+1)))
         {
             std::cout<<"Nodes queried: " << nodeCount << std::endl;
             return true;
