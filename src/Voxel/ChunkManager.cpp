@@ -128,7 +128,7 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     glm::vec3 startpos=pos-power;
     glm::vec3 endpos=pos+power;
 
-    AABB ab=AABB(pos,power/2.0f); //+(CHUNK_SIZEF*((glm::vec3)a.first))
+    AABB ab=AABB(pos,glm::vec3(power/2.0f)); //+(CHUNK_SIZEF*((glm::vec3)a.first))
     printf("Explosion AABB size %f %f %f\n",ab.GetHalfSize().x*2,ab.GetHalfSize().y*2,ab.GetHalfSize().z*2);
 
     std::list<ChunkPtr> exploded;
