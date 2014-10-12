@@ -24,6 +24,7 @@
 					<Add directory="src/py" />
 					<Add directory="src/gui/custom_elements" />
 					<Add directory="src/gui/font_rendering" />
+					<Add directory="src/applications/voxel_octree/player" />
 				</Compiler>
 				<Linker>
 					<Add library="dl" />
@@ -60,6 +61,7 @@
 					<Add directory="src/py" />
 					<Add directory="src/gui/custom_elements" />
 					<Add directory="src/gui/font_rendering" />
+					<Add directory="src/applications/voxel_octree/player" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -83,6 +85,7 @@
 					<Add directory="src/py" />
 					<Add directory="src/gui/custom_elements" />
 					<Add directory="src/gui/font_rendering" />
+					<Add directory="src/applications/voxel_octree/player" />
 				</Compiler>
 				<Linker>
 					<Add library="glfw3" />
@@ -111,6 +114,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
 					<Add option="-DRELEASE" />
@@ -123,9 +127,10 @@
 					<Add directory="src/py" />
 					<Add directory="src/gui/custom_elements" />
 					<Add directory="src/gui/font_rendering" />
+					<Add directory="src/applications/voxel_octree/player" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc -static-libstdc++ -static" />
+					<Add option="-s" />
 					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
@@ -166,6 +171,7 @@
 					<Add directory="src/py" />
 					<Add directory="src/gui/custom_elements" />
 					<Add directory="src/gui/font_rendering" />
+					<Add directory="src/applications/voxel_octree/player" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -190,8 +196,8 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="-DGL3_PROTOTYPES" />
 			<Add directory="../../src" />
 			<Add directory="../../src/math" />
@@ -209,9 +215,7 @@
 			<Add directory="../../libs/boost" />
 		</Compiler>
 		<Linker>
-			<Add option="-static-libgcc" />
-			<Add option="-static-libstdc++" />
-			<Add option="-static" />
+			<Add option="-static-libgcc -static-libstdc++ -static" />
 		</Linker>
 		<Unit filename="../../src/Config.h" />
 		<Unit filename="../../src/Voxel/Block.cpp" />
@@ -238,6 +242,8 @@
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeApp.h" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp" />
 		<Unit filename="../../src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h" />
+		<Unit filename="../../src/applications/voxel_octree/player/Player.cpp" />
+		<Unit filename="../../src/applications/voxel_octree/player/Player.h" />
 		<Unit filename="../../src/applications/voxelz/VoxelzApp.cpp" />
 		<Unit filename="../../src/applications/voxelz/VoxelzApp.h" />
 		<Unit filename="../../src/applications/voxelz/VoxelzProfilingApp.cpp" />

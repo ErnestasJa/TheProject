@@ -54,7 +54,6 @@ public:
     inline bool CheckNodeFloat(float x, float y, float z);
     inline bool CheckNode(uint32_t x, uint32_t y, uint32_t z);
     uint8_t GetVisibleSides(uint32_t x, uint32_t y, uint32_t  z, vector<MNode>::iterator nodeIt);
-    vector<MNode> & GetChildNodes();
     bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse);
     bool CheckCollision(const AABB & aabb);
     bool CheckCollisionB(const AABB & aabb);
@@ -62,9 +61,12 @@ public:
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
 
+    vector<MNode> & GetChildNodes();
 private:
     vector<MNode> m_nodes;
 };
+
+typedef MortonOctTree<10> MortonOctTreePtr;
 
 #include "MortonOctree.inl"
 

@@ -41,30 +41,23 @@ bool vf_equals(const MNode & n1, const MNode & n2)
 
 struct MaskNode
 {
-    uint8_t exists:1;
     uint8_t frontFace:1;
     uint8_t backFace:1;
-    uint8_t align:5;
-
-    MaskNode & operator = (bool value)
-    {
-        exists = value;
-        return *this;
-    }
+    uint8_t align:6;
 
     operator bool()
     {
-        return exists==1 && (frontFace || backFace);
+        return (frontFace || backFace);
     }
 };
 
 
-#define clear_mask(mask) loop(i,32) loop(j,32) {mask[i][j].frontFace = false;mask[i][j].backFace = false; mask[i][j].exists = false;}
+#define clear_mask(mask) loop(i,32) loop(j,32) {mask[i][j].frontFace = mask[i][j].backFace = false;}
 
 uint32_t length(uint32_t x, uint32_t y, MaskNode mask[32][32], bool front = true)
 {
     for(uint32_t i = x; i < 32; i++)
-        if(!mask[i][y].exists || (front?mask[i][y].frontFace==false:mask[i][y].backFace==false))
+        if(front?mask[i][y].frontFace==false:mask[i][y].backFace==false)
             return i-x;
 
     return 32-x;
@@ -96,13 +89,15 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
             MaskNode & n = mask[x][y];
 
             GetBuildNode(tmpNode,x,y,slice);
-            n = (tmpNode.size==1);
 
-            GetBuildNode(tmpNode,x,y,slice+1);
-            n .frontFace = (tmpNode.size==0);
+            if(tmpNode.size==1)
+            {
+                GetBuildNode(tmpNode,x,y,slice+1);
+                n .frontFace = (tmpNode.size==0);
 
-            GetBuildNode(tmpNode,x,y,slice-1);
-            n .backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,x,y,slice-1);
+                n .backFace = (tmpNode.size==0);
+            }
         }
         break;
     }
@@ -113,13 +108,15 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
             MaskNode & n = mask[x][y];
 
             GetBuildNode(tmpNode,x,slice,y);
-            n = (tmpNode.size==1);
 
-            GetBuildNode(tmpNode,x,slice+1,y);
-            n.frontFace = (tmpNode.size==0);
+            if(tmpNode.size==1)
+            {
+                GetBuildNode(tmpNode,x,slice+1,y);
+                n.frontFace = (tmpNode.size==0);
 
-            GetBuildNode(tmpNode,x,slice-1,y);
-            n.backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,x,slice-1,y);
+                n.backFace = (tmpNode.size==0);
+            }
         }
         break;
     }
@@ -130,30 +127,54 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
             MaskNode & n = mask[x][y];
 
             GetBuildNode(tmpNode,slice,x,y);
-            n = (tmpNode.size==1);
+            if(tmpNode.size==1)
+            {
+                GetBuildNode(tmpNode,slice+1,x,y);
+                n.frontFace = (tmpNode.size==0);
 
-            GetBuildNode(tmpNode,slice+1,x,y);
-            n.frontFace = (tmpNode.size==0);
-
-            GetBuildNode(tmpNode,slice-1,x,y);
-            n.backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,slice-1,x,y);
+                n.backFace = (tmpNode.size==0);
+            }
         }
         break;
     }
     }
 }
 
+#define TOTAL_HEIGHT 32
+#define TOTAL_WIDTH  32
+
+struct ScanArea
+{
+    glm::ivec2 start, end;
+
+    ScanArea(){}
+    ScanArea(glm::ivec2 startArea, glm::ivec2 endArea)
+    {
+        start = startArea;
+        end = endArea;
+    }
+
+    bool scanRight()
+    {
+        return end.x<TOTAL_WIDTH-1;
+    }
+
+    bool scanDown()
+    {
+        return end.x<TOTAL_WIDTH-1;
+    }
+};
+
 void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
 {
     MaskNode mask[32][32];
     MaskNode mn;
-
     glm::ivec2 qstart, qdims, qbstart, qbdims;
-
-    clear_mask(mask);
 
     loopr(dim, 0, 3)
     {
+        clear_mask(mask);
         loop(z, 32)
         {
             BuildSliceMask(dim,z,mask);
@@ -164,42 +185,33 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
                 {
                     mn = mask[x][y];
 
-                    if(mn)
+                    if(mn.frontFace)
                     {
-                        if(mn.frontFace)
-                        {
-                            qstart.x=x;
-                            qstart.y=y;
-                            qdims.x =length(x,y,mask);
-                            qdims.y =height(x,y,qdims.x,mask);
+                        qstart.x=x;
+                        qstart.y=y;
+                        qdims.x =length(x,y,mask);
+                        qdims.y =height(x,y,qdims.x,mask);
 
-                            AddFaceToMesh(mesh, true, dim, z, qstart, qdims, offset);
-                            faceCount++;
+                        AddFaceToMesh(mesh, true, dim, z, qstart, qdims, offset);
+                        faceCount++;
 
-                            for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
-                            for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
-                            {
-                                mask[xi][yi].frontFace=false;
-                                mask[xi][yi].exists=mask[xi][yi].backFace;
-                            }
-                        }
-                        if(mn.backFace)
-                        {
-                            qbstart.x=x;
-                            qbstart.y=y;
-                            qbdims.x =length(x,y,mask,false);
-                            qbdims.y =height(x,y,qbdims.x,mask,false);
+                        for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
+                        for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
+                            mask[xi][yi].frontFace=false;
+                    }
+                    if(mn.backFace)
+                    {
+                        qbstart.x=x;
+                        qbstart.y=y;
+                        qbdims.x =length(x,y,mask,false);
+                        qbdims.y =height(x,y,qbdims.x,mask,false);
 
-                            AddFaceToMesh(mesh, false, dim, z, qbstart, qbdims, offset);
-                            faceCount++;
+                        AddFaceToMesh(mesh, false, dim, z, qbstart, qbdims, offset);
+                        faceCount++;
 
-                            for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
-                            for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
-                            {
-                                mask[xi][yi].backFace=false;
-                                mask[xi][yi].exists=mask[xi][yi].frontFace;
-                            }
-                        }
+                        for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
+                        for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
+                            mask[xi][yi].backFace=false;
                     }
                 }
             }
