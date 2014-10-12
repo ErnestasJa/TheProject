@@ -33,7 +33,7 @@
 // OTHER LIBRARIES
 #include "physfs.h"
 #include "tinyxml2.h"
-#include "sigc++/sigc++.h"
+us#include "sigc++/sigc++.h"
 
 // PROJECT INCLUDES
 #include "utility/bit.h"
