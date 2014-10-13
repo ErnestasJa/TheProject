@@ -18,7 +18,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
-					<Add library="engine-debug-static" />
+					<Add library="engined" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -34,11 +34,12 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-libgcc -static-libstdc++ -static" />
-					<Add library="engine-release-static" />
+					<Add library="engine" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add directory="../../../../src/engine" />
 			<Add directory="../../../../src/applications/voxelz" />
@@ -53,19 +54,10 @@
 			<Add directory="../../../../libs/stb_image" />
 			<Add directory="../../../../libs/tinyxml2/src" />
 		</Compiler>
+		<ResourceCompiler>
+			<Add directory="../../../../res" />
+		</ResourceCompiler>
 		<Linker>
-			<Add library="glfw3" />
-			<Add library="opengl32" />
-			<Add library="glu32" />
-			<Add library="gdi32" />
-			<Add library="libphysfs.a" />
-			<Add library="freetype" />
-			<Add library="tinyxml2_lib" />
-			<Add library="sigc++" />
-			<Add library="jsoncpp" />
-			<Add library="glxw" />
-			<Add library="stb_image_lib" />
-			<Add library="libboost_container-mgw49-mt-1_56" />
 			<Add directory="../../../../libs/win32" />
 		</Linker>
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.cpp" />
@@ -88,6 +80,9 @@
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/resources.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
