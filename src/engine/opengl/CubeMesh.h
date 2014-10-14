@@ -5,7 +5,6 @@
 #include "opengl/Shader.h"
 #include "opengl/BufferObject.h"
 #include "resources/ResourceCache.h"
-#include "Voxel/VoxelTypes.h"
 
 template <class T>
 class TCubeMesh
@@ -14,21 +13,21 @@ private:
     float m_size;
 public:
     BufferObject<T> * pos;
-    BufferObject<u8vec4> * col;
+    BufferObject<glm::detail::tvec4<uint8_t>> * col;
     BufferObject<glm::vec2> * tex_coords;
     IndexBufferObject<uint32_t> * indices;
-    u8vec4 m_color;
+    glm::detail::tvec4<uint8_t> m_color;
 
     std::shared_ptr<Mesh> glmesh;
 
-    TCubeMesh(float size=1.0f,u8vec4 color=u8vec4(1))
+    TCubeMesh(float size=1.0f,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
     {
         this->m_size=size;
         this->m_color=color;
         Init();
     }
 
-    TCubeMesh(const AABB & aabb,u8vec4 color=u8vec4(1))
+    TCubeMesh(const AABB & aabb,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
     {
         this->m_size=1;
         this->m_color=color;
@@ -71,7 +70,7 @@ public:
         pos->data[6]=p7;
         pos->data[7]=p8;
 
-        col = new BufferObject<u8vec4>();
+        col = new BufferObject<glm::detail::tvec4<uint8_t>>();
 
         col->data.resize(8);
         col->data[0]=m_color;
@@ -172,7 +171,7 @@ public:
         pos->data[6]=p7;
         pos->data[7]=p8;
 
-        col = new BufferObject<u8vec4>();
+        col = new BufferObject<glm::detail::tvec4<uint8_t>>();
 
         col->data.resize(8);
         col->data[0]=m_color;
@@ -248,6 +247,6 @@ public:
     }
 };
 
-typedef TCubeMesh<u8vec3> CubeMesh;
+typedef TCubeMesh<glm::detail::tvec3<uint8_t>> CubeMesh;
 
 #endif // CUBEMESH_H
