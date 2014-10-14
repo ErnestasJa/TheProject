@@ -65,6 +65,9 @@ def compile_boost():
                 print("Calling boost: bootstrap gcc")
                 subprocess.call('bootstrap gcc', shell=True)
 
+        if easygui.boolbox(msg='Would you like to compile boost tool: bcp?', title='Compile boost', choices=('Yes', 'No'), image=None):
+            subprocess.call('b2 tools/bcp', shell=True)
+
         if easygui.boolbox(msg='Would you like to compile boost.python?', title='Compile boost', choices=('Yes', 'No'), image=None):
             buildstr = 'b2 ' + buildcores + ' --with-python --build-dir="../../build"  toolset=gcc cxxflags="-fPIC" link=shared threading=multi debug'
             print("Calling boost: " + buildstr)

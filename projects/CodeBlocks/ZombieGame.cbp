@@ -362,6 +362,9 @@
 		<Unit filename="../../src/utility/util.cpp" />
 		<Unit filename="../../src/utility/util.h" />
 		<Unit filename="../../src/utility/vector.h" />
+		<Unit filename="../../src/voxel_octree/CollisionInfo.h" />
+		<Unit filename="../../src/voxel_octree/CollisionManager.cpp" />
+		<Unit filename="../../src/voxel_octree/CollisionManager.h" />
 		<Unit filename="../../src/voxel_octree/MNode.cpp" />
 		<Unit filename="../../src/voxel_octree/MNode.h" />
 		<Unit filename="../../src/voxel_octree/Morton.h" />
