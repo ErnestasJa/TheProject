@@ -15,3 +15,4 @@ libs/win32/
 libs/linux/
 __pycache__/
 tests/bin/
+*#

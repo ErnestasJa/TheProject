@@ -13,7 +13,7 @@ public:
     void CalculatePoints();
     bool ContainsPoint(const glm::vec3 &point) const;
     bool IntersectsWith(const AABB &other) const;
-    bool SweepCollidesWith(const AABB & other) const;
+    float SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::vec3 & normal) const;
     bool IntersectsWith(const glm::vec3 & aabbCenter, const glm::vec3 & aabbHalfsize) const;
     bool CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayInverseDirection) const;
     void Translate(const glm::vec3 &point);
