@@ -148,7 +148,10 @@
 		<Unit filename="../../../../src/engine/opengl/shader.h" />
 		<Unit filename="../../../../src/engine/opengl/texture.cpp" />
 		<Unit filename="../../../../src/engine/opengl/texture.h" />
-		<Unit filename="../../../../src/engine/precomp.h" />
+		<Unit filename="../../../../src/engine/precomp.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="../../../../src/engine/resources/IImageLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/IImageLoader.h" />
 		<Unit filename="../../../../src/engine/resources/IMeshLoader.cpp" />
