@@ -75,17 +75,17 @@ void VoxelMesh::UpdateMesh()
         a.tick();
         GreedyBuild();
         a.tick();
-        printf("Greedy took: %u ms\n",a.get_delta_time());
+        //printf("Greedy took: %u ms\n",a.get_delta_time());
 
         a.tick();
         UploadBuffers();
         a.tick();
-        printf("Upload took: %u ms\n",a.get_delta_time());
+        //printf("Upload took: %u ms\n",a.get_delta_time());
 
         a.tick();
         RecalculateAABB<u8vec3>();
         a.tick();
-        printf("AABB Recalculate took: %u ms\n",a.get_delta_time());
+        //printf("AABB Recalculate took: %u ms\n",a.get_delta_time());
     }
 }
 

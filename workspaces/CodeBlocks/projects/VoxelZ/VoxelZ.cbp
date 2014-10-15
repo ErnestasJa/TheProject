@@ -17,7 +17,6 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc -static-libstdc++ -static" />
 					<Add library="engined" />
 				</Linker>
 			</Target>
@@ -33,7 +32,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-libgcc -static-libstdc++ -static" />
 					<Add library="engine" />
 				</Linker>
 			</Target>

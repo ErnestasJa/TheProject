@@ -3,9 +3,9 @@
 	<background x="0" y="0" w="32" h="32"/>
 	
 	<input>
-		<active x="36" y="4" w="24" h="24"/>
-		<hover x="68" y="4" w="24" h="24"/>
-		<disabled x="100" y="4" w="24" h="24"/>
+		<active x="32" y="0" w="32" h="32"/>
+		<hover x="64" y="0" w="32" h="32"/>
+		<disabled x="96" y="0" w="32" h="32"/>
 	</input>
 	
 	<button>

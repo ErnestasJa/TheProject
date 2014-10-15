@@ -17,11 +17,12 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add option="-static-libgcc -static-libstdc++ -static" />
 					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs" />
+					<Add library="libphysfs.a" />
 					<Add library="freetype" />
 					<Add library="tinyxml2_lib" />
 					<Add library="sigc++" />
@@ -44,11 +45,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-libgcc -static-libstdc++ -static" />
 					<Add library="glfw3" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add library="physfs" />
+					<Add library="libphysfs.a" />
 					<Add library="freetype" />
 					<Add library="tinyxml2_lib" />
 					<Add library="sigc++" />

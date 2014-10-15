@@ -197,6 +197,12 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_static_text* texts[10];
 
+    gui_button* tbtn=new gui_button(env,Rect2D<int>(200,0,200,40),L"Button");
+
+    gui_checkbox* chk = new gui_checkbox(env,Rect2D<int>(200,40,16,16),false);
+
+    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,256,128),L"Editboxas",glm::vec4(1),true,true,false);
+
     std::stringstream ss;
 
     loopi(i,10)
@@ -359,6 +365,10 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {
         wireframe=!wireframe;
+    }
+    if(key==GLFW_KEY_F&&action==GLFW_RELEASE)
+    {
+        cam->SetFPS(!cam->IsFPS());
     }
 }
 

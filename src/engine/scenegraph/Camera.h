@@ -43,6 +43,11 @@ public:
 
     virtual void Update(float dt);
 
+    bool IsFPS()
+    {
+        return m_fps;
+    }
+
     void SetFPS(bool b)
     {
         m_fps=b;

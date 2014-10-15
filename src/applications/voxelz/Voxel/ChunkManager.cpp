@@ -31,8 +31,8 @@ ChunkManager::ChunkManager()
 //
 //    delete[] buf;
 
-    int testsize=128;
-    int testheight=128;
+    int testsize=64;
+    int testheight=64;
 
     for(int x=-testsize; x<testsize; x++)
     {
