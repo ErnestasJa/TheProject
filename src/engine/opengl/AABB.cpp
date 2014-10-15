@@ -38,9 +38,9 @@ void AABB::AddPoint(const glm::vec3 &point)
     }
     else if (point.x < mi.x)
     {
-        tmp = mx.x - point.x;
-        m_halfSize.x += tmp;
-        m_center.x += tmp*0.5f;
+        tmp = mi.x - point.x;
+        m_halfSize.x -= tmp;
+        m_center.x -= tmp*0.5f;
     }
 
     if (point.y > mx.y)
@@ -49,11 +49,11 @@ void AABB::AddPoint(const glm::vec3 &point)
         m_halfSize.y += tmp;
         m_center.y += tmp*0.5f;
     }
-    else if (point.y < mx.y)
+    else if (point.y < mi.y)
     {
-        tmp = mx.y - point.y;
-        m_halfSize.y += tmp;
-        m_center.y += tmp*0.5f;
+        tmp = mi.y - point.y;
+        m_halfSize.y -= tmp;
+        m_center.y -= tmp*0.5f;
     }
 
     if (point.z > mx.z)
@@ -62,11 +62,11 @@ void AABB::AddPoint(const glm::vec3 &point)
         m_halfSize.z += tmp;
         m_center.z += tmp*0.5f;
     }
-    else if (point.z < mx.z)
+    else if (point.z < mi.z)
     {
-        tmp = mx.z - point.z;
-        m_halfSize.z += tmp;
-        m_center.z += tmp*0.5f;
+        tmp = mi.z - point.z;
+        m_halfSize.z -= tmp;
+        m_center.z -= tmp*0.5f;
     }
 }
 
