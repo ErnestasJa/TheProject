@@ -197,11 +197,13 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_static_text* texts[10];
 
-    gui_button* tbtn=new gui_button(env,Rect2D<int>(200,0,200,40),L"Button");
+    gui_button* tbtn=new gui_button(env,Rect2D<int>(200,0,64,64),L"Button");
 
     gui_checkbox* chk = new gui_checkbox(env,Rect2D<int>(200,40,16,16),false);
 
-    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,256,128),L"Editboxas",glm::vec4(1),true,true,false);
+    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,20,20),L"Editboxas",glm::vec4(1),true,true,false);
+
+    gui_window* win = new gui_window(env,Rect2D<int>(512,0,256,256),L"My precious");
 
     std::stringstream ss;
 

@@ -347,7 +347,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,std::shared_ptr<Textu
 
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
     glUniform1ui(gui_shader->getparam("coloured"),0);
-    //sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
+    sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
     sliced_quad->Render();
 
     glDisable(GL_BLEND);
@@ -373,7 +373,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,uint32_t style,bool t
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
     glUniform1ui(gui_shader->getparam("coloured"),0);
     glUniform1f(gui_shader->getparam("alpha"),0.9f);
-    //sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
+    sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
     sliced_quad->Render();
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
@@ -393,6 +393,6 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> dims,glm::vec4 col)
     glUniformMatrix4fv(gui_shader->getparam("M"),1,GL_FALSE,glm::value_ptr(M));
     glUniform1ui(gui_shader->getparam("coloured"),1);
     glUniform4fv(gui_shader->getparam("color"),1,glm::value_ptr(col));
-    //sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
+    sliced_quad->SetRatio(glm::vec2(dims.w,dims.h));
     sliced_quad->Render();
 }

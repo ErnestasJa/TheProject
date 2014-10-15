@@ -19,33 +19,33 @@ private:
         /// LL
         pos->data[0]=glm::vec3(-m_size.x,-m_size.y,0);
 
-        pos->data[1]=glm::vec3(-m_size.x+(m_size.x/100.f)*m_margin,-m_size.y,0); /// X+
-        pos->data[2]=glm::vec3(-m_size.x+(m_size.x/100.f)*m_margin,-m_size.y+(m_size.y/100.f)*m_margin,0); /// Y+ X+
-        pos->data[3]=glm::vec3(-m_size.x,-m_size.y+(m_size.y/100.f)*m_margin,0); /// Y+
+        pos->data[1]=glm::vec3(-m_size.x+m_margin*ratio.x,-m_size.y,0); /// X+
+        pos->data[2]=glm::vec3(-m_size.x+m_margin*ratio.x,-m_size.y+m_margin*ratio.y,0); /// Y+ X+
+        pos->data[3]=glm::vec3(-m_size.x,-m_size.y+m_margin*ratio.y,0); /// Y+
         /// ///////////////////////////////////////////////////////
 
         /// LR
         pos->data[4]=glm::vec3(m_size.x,-m_size.y,0);
 
-        pos->data[5]=glm::vec3(m_size.x-(m_size.x/100.f)*m_margin,-m_size.y,0); /// X- Y
-        pos->data[6]=glm::vec3(m_size.x-(m_size.x/100.f)*m_margin,-m_size.y+(m_size.y/100.f)*m_margin,0); /// X- Y+
-        pos->data[7]=glm::vec3(m_size.x,-m_size.y+(m_size.y/100.f)*m_margin,0); /// X Y+
+        pos->data[5]=glm::vec3(m_size.x-m_margin*ratio.x,-m_size.y,0); /// X- Y
+        pos->data[6]=glm::vec3(m_size.x-m_margin*ratio.x,-m_size.y+m_margin*ratio.y,0); /// X- Y+
+        pos->data[7]=glm::vec3(m_size.x,-m_size.y+m_margin*ratio.y,0); /// X Y+
         /// ///////////////////////////////////////////////////////
 
         /// UR
         pos->data[8]=glm::vec3(m_size.x,m_size.y,0);
 
-        pos->data[9]=glm::vec3(m_size.x-(m_size.x/100.f)*m_margin,m_size.y,0); /// X- Y
-        pos->data[10]=glm::vec3(m_size.x-(m_size.x/100.f)*m_margin,m_size.y-(m_size.y/100.f)*m_margin,0); /// X- Y-
-        pos->data[11]=glm::vec3(m_size.x,m_size.y-(m_size.y/100.f)*m_margin,0); /// X Y-
+        pos->data[9]=glm::vec3(m_size.x-m_margin*ratio.x,m_size.y,0); /// X- Y
+        pos->data[10]=glm::vec3(m_size.x-m_margin*ratio.x,m_size.y-m_margin*ratio.y,0); /// X- Y-
+        pos->data[11]=glm::vec3(m_size.x,m_size.y-m_margin*ratio.y,0); /// X Y-
         /// ///////////////////////////////////////////////////////
 
         /// UL
         pos->data[12]=glm::vec3(-m_size.x,m_size.y,0);
 
-        pos->data[13]=glm::vec3(-m_size.x+(m_size.x/100.f)*m_margin,m_size.y,0);
-        pos->data[14]=glm::vec3(-m_size.x,m_size.y-(m_size.y/100.f)*m_margin,0);
-        pos->data[15]=glm::vec3(-m_size.x+(m_size.x/100.f)*m_margin,m_size.y-(m_size.y/100.f)*m_margin,0);
+        pos->data[13]=glm::vec3(-m_size.x+m_margin*ratio.x,m_size.y,0);
+        pos->data[14]=glm::vec3(-m_size.x,m_size.y-m_margin*ratio.y,0);
+        pos->data[15]=glm::vec3(-m_size.x+m_margin*ratio.x,m_size.y-m_margin*ratio.y,0);
         /// ///////////////////////////////////////////////////////
     }
 
@@ -95,8 +95,8 @@ public:
         tex_coords->data.resize(16);
 
         glm::vec2 tm(1);
-        tm.x = 1/256.f*m_margin;
-        tm.y = 1/256.f*m_margin;
+        tm.x = 1.f/256.f*m_margin;
+        tm.y = 1.f/256.f*m_margin;
 
         glm::vec2 a=glm::vec2(helpers::limit(uvs[0].x,0.f,1.f),helpers::limit(uvs[0].y,0.f,1.f));
         glm::vec2 b=glm::vec2(helpers::limit(uvs[1].x,0.f,1.f),helpers::limit(uvs[1].y,0.f,1.f));
@@ -150,12 +150,12 @@ public:
 
     void Render()
     {
-        //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-        //glBindTexture(GL_TEXTURE_2D,0);
+//        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+//        glBindTexture(GL_TEXTURE_2D,0);
         glBindVertexArray(glmesh->vao);
         glDrawElements(GL_TRIANGLES,54,GL_UNSIGNED_INT,0);
         glBindVertexArray(0);
-        //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+//        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
 
     void SetTCoords(vector<glm::vec2> tcoords)
@@ -185,6 +185,9 @@ public:
             this->m_size.x=1.f;
             this->m_size.y=1.f;
         }
+
+        ratio.x=1.f/size.x;
+        ratio.y=1.f/size.y;
 
         CreateVerts();
 

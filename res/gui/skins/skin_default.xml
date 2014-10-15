@@ -9,10 +9,10 @@
 	</input>
 	
 	<button>
-		<active x="132" y="4" w="24" h="24"/>
-		<hover x="164" y="4" w="24" h="24"/>
-		<click x="196" y="4" w="24" h="24"/>
-		<disabled x="228" y="4" w="24" h="24"/>
+		<active x="128" y="0" w="32" h="32"/>
+		<hover x="160" y="0" w="32" h="32"/>
+		<click x="192" y="0" w="32" h="32"/>
+		<disabled x="224" y="0" w="32" h="32"/>
 	</button>
 	
 	<checkbox_u>
