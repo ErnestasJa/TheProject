@@ -61,6 +61,7 @@ struct gui_skin
     {
         rects.resize(gui_skin_style_count);
         uvs.resize(gui_skin_style_count*4);
+        margins.resize(gui_skin_style_count);
     }
 
     void load(std::string filename)
@@ -88,6 +89,7 @@ struct gui_skin
             if(e->NoChildren())
             {
                 rects[i]=Rect2D<int>(e->IntAttribute("x"),e->IntAttribute("y"),e->IntAttribute("w"),e->IntAttribute("h"));
+                if(e->QueryAttribute("m",&margins[i])==XML_NO_ATTRIBUTE)printf("WTF!");
                 e=e->NextSiblingElement();
                 i++;
                 continue;
@@ -98,6 +100,7 @@ struct gui_skin
                 while(ce!=nullptr)
                 {
                     rects[i]=Rect2D<int>(ce->IntAttribute("x"),ce->IntAttribute("y"),ce->IntAttribute("w"),ce->IntAttribute("h"));
+                    if(ce->QueryAttribute("m",&margins[i])==XML_NO_ATTRIBUTE)printf("WTF!");
                     ce=ce->NextSiblingElement();
                     i++;
                 }
@@ -149,12 +152,18 @@ struct gui_skin
         return glm::vec2(rects[style].w,rects[style].h);
     }
 
+    int get_margin(uint32_t style)
+    {
+        return margins[style];
+    }
+
     void print()
     {
     }
 private:
     vector<Rect2D<int> > rects;
     vector<glm::vec2> uvs;
+    vector<int> margins;
 
 
     std::string name,atlas;

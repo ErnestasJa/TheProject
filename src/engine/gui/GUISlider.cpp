@@ -43,13 +43,13 @@ void gui_slider::Render()
 {
     if(m_vertical)
     {
-        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+absolute_rect.w/4,absolute_rect.y,absolute_rect.w/2,absolute_rect.h),gui_skin_progress_h_bg,true);
-        environment->draw_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+m_slider_pos-6,absolute_rect.w,12),gui_skin_progress_h_bar,true);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+absolute_rect.w/4,absolute_rect.y,absolute_rect.w/2,absolute_rect.h),gui_skin_progress_h_bg);
+        environment->draw_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+m_slider_pos-6,absolute_rect.w,12),gui_skin_progress_h_bar);
     }
     else
     {
-        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+absolute_rect.h/4,absolute_rect.w,absolute_rect.h/2),gui_skin_scroll_h_bg,true);
-        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+m_slider_pos-6,absolute_rect.y,12,absolute_rect.h),gui_skin_scroll_h_bar,true);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x,absolute_rect.y+absolute_rect.h/4,absolute_rect.w,absolute_rect.h/2),gui_skin_scroll_h_bg);
+        environment->draw_sliced_gui_quad(Rect2D<int>(absolute_rect.x+m_slider_pos-6,absolute_rect.y,12,absolute_rect.h),gui_skin_scroll_h_bar);
     }
 
     this->RenderChildren();

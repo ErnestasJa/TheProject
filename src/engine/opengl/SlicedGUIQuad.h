@@ -167,24 +167,9 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void SetRatio(glm::vec2 size)
+    void SetRatio(glm::vec2 size,int margin=1)
     {
-        float minRatio=std::min(size.x,size.y)/std::max(size.x,size.y);
-        if(size.x>size.y)
-        {
-            this->m_size.x=1.f;
-            this->m_size.y=glm::abs(minRatio-1);
-        }
-        else if(size.x<size.y)
-        {
-            this->m_size.x=glm::abs(minRatio-1);
-            this->m_size.y=1.f;
-        }
-        else
-        {
-            this->m_size.x=1.f;
-            this->m_size.y=1.f;
-        }
+        m_margin=(float)margin;
 
         ratio.x=1.f/size.x;
         ratio.y=1.f/size.y;

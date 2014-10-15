@@ -205,6 +205,10 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_window* win = new gui_window(env,Rect2D<int>(512,0,256,256),L"My precious");
 
+    gui_slider* slid=new gui_slider(env,Rect2D<int>(200,200,128,16),0,100,50);
+
+    GUIColorPicker* gcpk=new GUIColorPicker(env,Rect2D<int>(0,300,128,128));
+
     std::stringstream ss;
 
     loopi(i,10)

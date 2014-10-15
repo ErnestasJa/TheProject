@@ -31,7 +31,7 @@ void gui_pane::Render()
 
     if(this->m_draw)
     {
-        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background,true);
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background);
     }
 
     this->RenderChildren();
