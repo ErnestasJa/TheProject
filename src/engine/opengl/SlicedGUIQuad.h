@@ -173,11 +173,11 @@ public:
         if(size.x>size.y)
         {
             this->m_size.x=1.f;
-            this->m_size.y=minRatio;
+            this->m_size.y=glm::abs(minRatio-1);
         }
         else if(size.x<size.y)
         {
-            this->m_size.x=minRatio;
+            this->m_size.x=glm::abs(minRatio-1);
             this->m_size.y=1.f;
         }
         else
