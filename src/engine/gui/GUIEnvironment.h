@@ -5,7 +5,7 @@
 #include "font_rendering/FontRenderer.h"
 
 class Shader;
-class Quad;
+class GUIQuad;
 class SlicedGUIQuad;
 class Texture;
 class Window;
@@ -28,11 +28,11 @@ public:
 
     void draw_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false, bool multichannel=true);
     void draw_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
-    void draw_gui_quad(Rect2D<int> dims,glm::vec4 col=glm::vec4(1.f));
+    void draw_gui_quad(Rect2D<int> size,glm::vec4 col=glm::vec4(1.f));
 
     void draw_sliced_gui_quad(Rect2D<int> size, std::shared_ptr<Texture> tex, bool tile=false);
-    void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background, bool tile=false);
-    void draw_sliced_gui_quad(Rect2D<int> dims,glm::vec4 col=glm::vec4(1.f));
+    void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background);
+    void draw_sliced_gui_quad(Rect2D<int> size,glm::vec4 col=glm::vec4(1.f));
 
     void set_skin(gui_skin* skin);
 
@@ -95,7 +95,7 @@ private:
     Texture* skin_atlas;
     Shader* gui_shader;
 
-    Quad* gui_quad;
+    GUIQuad* gui_quad;
     SlicedGUIQuad* sliced_quad;
 
     FontRenderer* m_font_renderer;

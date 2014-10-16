@@ -26,10 +26,15 @@ gui_pane::~gui_pane()
 
 void gui_pane::Render()
 {
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(absolute_rect.x, environment->GetAbsoluteRect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
+
     if(this->m_draw)
     {
-        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background,true);
+        environment->draw_sliced_gui_quad(absolute_rect,gui_skin_background);
     }
 
     this->RenderChildren();
+
+    glDisable(GL_SCISSOR_TEST);
 }

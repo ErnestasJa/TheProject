@@ -132,6 +132,7 @@
 		<Unit filename="../../../../src/engine/opengl/FrameBufferObject.h" />
 		<Unit filename="../../../../src/engine/opengl/GLObject.cpp" />
 		<Unit filename="../../../../src/engine/opengl/GLObject.h" />
+		<Unit filename="../../../../src/engine/opengl/GUIQuad.h" />
 		<Unit filename="../../../../src/engine/opengl/GridMesh.h" />
 		<Unit filename="../../../../src/engine/opengl/IBufferObject.cpp" />
 		<Unit filename="../../../../src/engine/opengl/IBufferObject.h" />

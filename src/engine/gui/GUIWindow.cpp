@@ -29,14 +29,15 @@ gui_window::gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring
 
     tbr=Rect2D<int>(absolute_rect);
     tbr.resize(tbr.w,20);
-    printf("TBR: %s\n",tbr.to_string().c_str());
+    tbr.move(0,1);
+    //printf("TBR: %s\n",tbr.to_string().c_str());
     bgr=Rect2D<int>(absolute_rect);
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);
 
     if(showclose)
     {
-        close_btn=new gui_button(env,Rect2D<int>(tbr.w-18,2,16,16),L"X");
+        close_btn=new gui_button(env,Rect2D<int>(tbr.w-17,4,14,14),L"X");
         close_btn->SetParent(this);
         close_btn->SetEventListener(this);
     }
@@ -54,7 +55,7 @@ void gui_window::Render()
 
     environment->draw_sliced_gui_quad(tbr,gui_skin_titlebar);
     environment->draw_sliced_gui_quad(bgr,gui_skin_background);
-    environment->get_font_renderer()->RenderString(titlebar_text,glm::vec2(tbr.x+6,tbr.y+6));
+    environment->get_font_renderer()->RenderString(L"['s]"+titlebar_text+L"[s']",glm::vec2(tbr.x+6,tbr.y+6));
 
     this->absolute_rect.move(0,20);
     UpdateAbsolutePos();
@@ -120,6 +121,7 @@ void gui_window::move(glm::vec2 delta)
     UpdateAbsolutePos();
     tbr=Rect2D<int>(absolute_rect);
     tbr.resize(tbr.w,20);
+    tbr.move(0,1);
     bgr=Rect2D<int>(absolute_rect);
     bgr.resize(bgr.w,bgr.h-20);
     bgr.move(0,20);

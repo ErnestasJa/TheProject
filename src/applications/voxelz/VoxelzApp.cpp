@@ -199,11 +199,15 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_button* tbtn=new gui_button(env,Rect2D<int>(200,0,64,64),L"Button");
 
-    gui_checkbox* chk = new gui_checkbox(env,Rect2D<int>(200,40,16,16),false);
+    gui_checkbox* chk = new gui_checkbox(env,Rect2D<int>(200,160,16,16),false);
 
-    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,20,20),L"Editboxas",glm::vec4(1),true,true,false);
+    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,128,32),L"Editboxas",glm::vec4(1),true,true,false);
 
     gui_window* win = new gui_window(env,Rect2D<int>(512,0,256,256),L"My precious");
+
+    gui_slider* slid=new gui_slider(env,Rect2D<int>(200,200,128,16),0,100,50);
+
+    GUIColorPicker* gcpk=new GUIColorPicker(env,Rect2D<int>(0,300,128,128));
 
     std::stringstream ss;
 

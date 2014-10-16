@@ -9,5 +9,6 @@
 //#define BOOST_VECTOR_WITH_ALOCATOR
 
 #define LOG_OUTPUT
+//#define RELEASE_FS
 
 #endif // CONFIG_H_INCLUDED
