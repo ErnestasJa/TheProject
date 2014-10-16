@@ -2,7 +2,7 @@
 
 #include "GUIEnvironment.h"
 #include "opengl/Shader.h"
-#include "opengl/Quad.h"
+#include "opengl/GUIQuad.h"
 #include "opengl/SlicedGUIQuad.h"
 #include "GUISkin.h"
 #include "resources/image.h"
@@ -39,7 +39,7 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
     last_char=' ';
 
     gui_shader=Shader::LoadShader("res/engine/shaders/gui_quad");
-    gui_quad=new Quad();
+    gui_quad=new GUIQuad();
     gui_quad->Init();
 
     sliced_quad=new SlicedGUIQuad(glm::vec2(1),8);

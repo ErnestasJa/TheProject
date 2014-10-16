@@ -5,7 +5,7 @@
 #include "font_rendering/FontRenderer.h"
 
 class Shader;
-class Quad;
+class GUIQuad;
 class SlicedGUIQuad;
 class Texture;
 class Window;
@@ -95,7 +95,7 @@ private:
     Texture* skin_atlas;
     Shader* gui_shader;
 
-    Quad* gui_quad;
+    GUIQuad* gui_quad;
     SlicedGUIQuad* sliced_quad;
 
     FontRenderer* m_font_renderer;
