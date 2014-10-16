@@ -28,27 +28,27 @@ public:
         glmesh = share(new Mesh());
         pos = new BufferObject<glm::vec3>();
         pos->data.resize(4);
-        pos->data[0]=glm::vec3(-1, 1, 0);
-        pos->data[1]=glm::vec3(1, 1, 0);
-        pos->data[2]=glm::vec3(-1,-1, 0);
-        pos->data[3]=glm::vec3(1,-1, 0);
+        pos->data[0]=glm::vec3(-1, -1, 0);
+        pos->data[1]=glm::vec3(1, -1, 0);
+        pos->data[2]=glm::vec3(1, 1, 0);
+        pos->data[3]=glm::vec3(-1, 1, 0);
 
         tex_coords = new BufferObject<glm::vec2>();
         tex_coords->data.resize(4);
-        tex_coords->data[0] = glm::vec2(0,1);
-        tex_coords->data[1] = glm::vec2(1,1);
-        tex_coords->data[2] = glm::vec2(0,0);
-        tex_coords->data[3] = glm::vec2(1,0);
+        tex_coords->data[0] = glm::vec2(0,0);
+        tex_coords->data[1] = glm::vec2(1,0);
+        tex_coords->data[2] = glm::vec2(1,1);
+        tex_coords->data[3] = glm::vec2(0,1);
 
         indices = new IndexBufferObject<uint32_t>();
         indices->data.resize(6);
-        indices->data[0]=0;
-        indices->data[1]=2;
+        indices->data[0]=3;
+        indices->data[1]=0;
         indices->data[2]=1;
 
-        indices->data[3]=2;
-        indices->data[4]=3;
-        indices->data[5]=1;
+        indices->data[3]=1;
+        indices->data[4]=2;
+        indices->data[5]=3;
 
         glmesh->buffers.resize(3);
         glmesh->buffers[0] = pos;
