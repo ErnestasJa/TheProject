@@ -61,4 +61,3 @@ void Timer::tick()
     last_time = time;
     time = real_time - start_time;
 }
-

@@ -21,8 +21,8 @@ public:
     glm::vec3 GetPoint(uint32_t i) const;
     glm::vec3 GetHalfSize() const;
     glm::vec3 GetCenter() const;
-    const glm::vec3 & GetMin() const;
-    const glm::vec3 & GetMax() const;
+    glm::vec3 GetMin() const;
+    glm::vec3 GetMax() const;
 
 protected:
     glm::vec3 m_center,m_halfSize;

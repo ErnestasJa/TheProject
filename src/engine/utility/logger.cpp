@@ -6,7 +6,6 @@
 
 Logger::Logger(Application *app,int verbosity)
 {
-    #ifdef LOG_OUTPUT
     m_verbosity=verbosity;
     m_app=app;
 
@@ -22,11 +21,7 @@ Logger::Logger(Application *app,int verbosity)
 
     //open it
     m_logfile=PHYSFS_openWrite(fname.c_str());
-
     log(LOG_DEBUG,"Logger initialised...");
-    #else
-    printf("Logging is disabled.\n");
-    #endif
 }
 
 Logger::~Logger()
@@ -37,7 +32,6 @@ Logger::~Logger()
 
 void Logger::log(loglevel lev,const char* st, ...)
 {
-    #ifdef LOG_OUTPUT
     m_app->Ctx()->_timer->tick();
     char buf[256];
     va_list l;
@@ -77,7 +71,7 @@ void Logger::log(loglevel lev,const char* st, ...)
 //    PHYSFS_write(m_logfile,message.c_str(),message.size(),1);
 //    PHYSFS_flush(m_logfile);
     printf("%s",message.c_str());
-    #endif // LOG_OUTPUT
+
 }
 
 std::string Logger::timestamp()

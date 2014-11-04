@@ -147,7 +147,7 @@ void Camera::Update(float dt)
     {
         glm::ivec2 s=_appContext->_window->GetWindowSize();
         m_current_mouse_pos=_appContext->_window->GetMousePos();
-        _appContext->_window->set_mouse_pos(s/2);
+        _appContext->_window->SetMousePos(s/2);
         m_last_mouse_pos=_appContext->_window->GetMousePos();
         HandleMouse();
 
