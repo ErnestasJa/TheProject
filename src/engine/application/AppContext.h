@@ -5,6 +5,7 @@
 #include "gui/GUIEnvironment.h"
 #include "utility/logger.h"
 #include "utility/timer.h"
+#include "InputHandler.h"
 
 struct AppContext
 {
@@ -15,6 +16,7 @@ struct AppContext
         _timer = nullptr;
         _logger = nullptr;
         _glUtil = nullptr;
+        _input = nullptr;
     }
 
     bool IsInitialized()
@@ -27,4 +29,5 @@ struct AppContext
     GUIEnvironment* _guiEnv;
     timer_ptr   _timer;
     Logger* _logger;
+    InputHandler* _input;
 };

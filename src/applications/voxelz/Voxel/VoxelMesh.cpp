@@ -94,13 +94,11 @@ void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     if(x>m_size-1 || x<0 || y>m_size-1 || y<0 || z>m_size-1 || z<0)
     {
         vox.active=0;
-        vox.type=0;
         vox.color=u8vec4(128);
     }
     else
     {
         vox.active=m_vox[x][y][z].active;
-        vox.type=m_vox[x][y][z].type;
         vox.color=m_vox[x][y][z].color;
     }
 }

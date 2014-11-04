@@ -76,8 +76,8 @@ void Chunk::Rebuild()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(!m_pBlocks[x][y][z].IsActive()) continue;
-                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].GetBlockType()));
+                if(!m_pBlocks[x][y][z].active) continue;
+                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].type));
             }
         }
     }
@@ -87,10 +87,10 @@ void Chunk::Rebuild()
     m_dirty=false;
 }
 
-void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
+void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,Etype type,bool active)
 {
-    m_pBlocks[x][y][z].SetActive(active);
-    m_pBlocks[x][y][z].SetBlockType(type);
+    m_pBlocks[x][y][z].active=active;
+    m_pBlocks[x][y][z].type=type;
     m_dirty=true;
 }
 
@@ -109,8 +109,8 @@ void Chunk::Fill()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                m_pBlocks[x][y][z].SetBlockType(EBT_STONE);
-                m_pBlocks[x][y][z].SetActive(true);
+                m_pBlocks[x][y][z].type=EBT_STONE;
+                m_pBlocks[x][y][z].active=true;
             }
         }
     }
@@ -127,7 +127,7 @@ uint32_t Chunk::GetBlockCount()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(m_pBlocks[x][y][z].IsActive()) ret++;
+                if(m_pBlocks[x][y][z].active) ret++;
             }
         }
     }
@@ -140,49 +140,43 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     if(x<0&&leftN!=nullptr)
     {
         Block b=leftN->Get(CHUNK_SIZE-1,y,z);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
     {
         Block b=rightN->Get(0,y,z);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(y<0&&botN!=nullptr)
     {
         Block b=botN->Get(x,CHUNK_SIZE-1,z);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(y>CHUNK_SIZE-1&&topN!=nullptr)
     {
         Block b=topN->Get(x,0,z);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(z<0&&backN!=nullptr)
     {
         Block b=backN->Get(x,y,CHUNK_SIZE-1);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
     {
         Block b=frontN->Get(x,y,0);
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
     else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
@@ -193,9 +187,8 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     else
     {
         Block b=m_pBlocks[x][y][z];
-        vox.active=b.IsActive();
-        vox.color=getTypeCol(b.GetBlockType());
-        vox.type=b.GetBlockType();
+        vox.active=b.active;
+        vox.color=getTypeCol(b.type);
         return;
     }
 }

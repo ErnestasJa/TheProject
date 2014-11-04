@@ -188,4 +188,9 @@ public:
         return _shouldClose;
     }
 
+    GLFWwindow* GetActiveGLFWWindow()
+    {
+        return _window;
+    }
+
 };

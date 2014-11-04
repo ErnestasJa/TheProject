@@ -28,10 +28,11 @@ VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img,uint32_t extr
     loop(y,img->height)
     {
         u8vec4 pixel=img->GetPixel(x,img->height-1-y);
-        if(pixel.a==0)
+        if(pixel.a==0 || pixel==discardColor)
             continue;
         else
-            ret->CreateVox(x,y,z,pixel);//,EBS_BACK|EBS_BOTTOM|EBS_FRONT|EBS_LEFT|EBS_RIGHT|EBS_TOP,pixel);
+            ret->CreateVox(x,y,z,pixel);
     }
+    ret->Rebuild();
     return ret;
 }

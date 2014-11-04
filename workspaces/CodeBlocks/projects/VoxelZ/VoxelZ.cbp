@@ -14,9 +14,11 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-pg" />
+					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add library="engined" />
 				</Linker>
 			</Target>
@@ -29,6 +31,7 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -58,7 +61,6 @@
 		<Linker>
 			<Add directory="../../../../libs/win32" />
 		</Linker>
-		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.h" />

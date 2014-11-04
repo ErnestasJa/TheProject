@@ -1,7 +1,9 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-enum EBlockType
+#include "Voxel.h"
+
+enum Etype
 {
     EBT_AIR,
 
@@ -17,40 +19,15 @@ enum EBlockType
     EBT_COUNT
 };
 
-class Block
+struct Block: public Voxel
 {
-    public:
-        Block()
-        {
-            m_active=false;
-            m_blockType=EBT_AIR;
-        }
-        virtual ~Block(){};
-
-        bool IsActive() const
-        {
-            return m_active;
-        }
-        void SetActive(bool active)
-        {
-            m_active=active;
-        }
-        void SetBlockType(EBlockType type)
-        {
-            m_blockType=type;
-        }
-
-        uint32_t GetBlockType() const
-        {
-            return m_blockType;
-        }
-
-        //static const int BLOCK_RENDER_SIZE=1;
-    protected:
-    private:
-
-        uint32_t m_active:1;
-        uint32_t m_blockType:31;
+    Block()
+    {
+        active=false;
+        type=EBT_AIR;
+        color=u8vec4(255);
+    }
+    uint32_t type;
 };
 
 #endif // BLOCK_H

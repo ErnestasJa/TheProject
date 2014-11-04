@@ -1,16 +1,16 @@
 #ifndef VOXEL_H_INCLUDED
 #define VOXEL_H_INCLUDED
 
+#include "VoxelTypes.h"
+
 struct Voxel
 {
     Voxel()
     {
         active=false;
-        type=0;
         color=u8vec4(255);
     }
-    uint8_t active:1;
-    uint8_t type:1;
+    bool active;
     u8vec4 color;
 };
 

@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "VoxelzApp.h"
 #include "application/window.h"
+#include "Application/InputHandler.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
@@ -138,7 +139,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("teemo.png"),16);
+    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),16);
 
     return true;
 }
@@ -232,6 +233,7 @@ void InitPlaneMesh(AppContext * ctx)
     chkmgr->Render(cam.get(),vsh,false);
     ctx->_timer->tick();
     printf("\n\nGeneration and uploading took: %d ms\n\n\n",ctx->_timer->get_delta_time());
+    ctx->_input=new InputHandler(ctx->_window);
 }
 
 bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -339,6 +341,7 @@ bool VoxelzApp::Update()
 //        env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
+        HandleMovement((float)_appContext->_timer->get_delta_time()/1000.f);
         return true;
     }
     return false;
@@ -354,16 +357,27 @@ void VoxelzApp::OnWindowClose()
 {
 
 }
+
+void VoxelzApp::HandleMovement(float delta)
+{
+    float speed=16.f;
+    InputHandler* han=_appContext->_input;
+    if(han->IsKeyDown(GLFW_KEY_LEFT_SHIFT))
+        speed=32.f;
+    else
+        speed=16.f;
+    if(han->IsKeyDown(GLFW_KEY_W))
+        cam->Walk(speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_S))
+        cam->Walk(-speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_A))
+        cam->Strafe(-speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_D))
+        cam->Strafe(speed*delta);
+}
+
 void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
-    if(key==GLFW_KEY_W)
-        cam->Walk(1);
-    if(key==GLFW_KEY_S)
-        cam->Walk(-1);
-    if(key==GLFW_KEY_A)
-        cam->Strafe(-1);
-    if(key==GLFW_KEY_D)
-        cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
         chkmgr->Explode(voxpos,16);
@@ -401,7 +415,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
         mz = glm::floor(testpos.z);
 
         /* If we find a block that is not air, we are done */
-        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_AIR)
+        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type!=EBT_AIR)
         {
             validvoxel=true;
             break;
@@ -440,7 +454,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()==EBT_AIR)
+    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type==EBT_AIR)
     {
         mx = my = mz = 99999;
         validvoxel=false;

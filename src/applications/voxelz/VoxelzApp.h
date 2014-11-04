@@ -12,6 +12,7 @@ public:
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
     virtual bool Update();
+    void HandleMovement(float delta);
     void Exit();
 
     void OnWindowClose();
