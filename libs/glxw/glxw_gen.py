@@ -3,7 +3,7 @@
 import argparse
 import os
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib2
 
 def download(output_dir, include_dir, source_url, filename):
     full_filename = os.path.join(output_dir, filename)

@@ -7,10 +7,13 @@ from tools import easygui
 buildDir = "build"
 platform = ""
 
+LINUX = "linux"
+WINDOWS = "windows"
+
 if os.name == "posix":
-    platform = "linux"
+    platform = LINUX
 else:
-    platform = "win32"
+    platform = WINDOWS
 
 projectPath = os.getcwd()
 libpath = os.path.join("libs", platform);
@@ -23,9 +26,9 @@ choice = easygui.choicebox("Choose number of cores available", "Core choice", ch
 
 if choice != None :
     if choice == "4":
-        buildcores += "-j5"
+        buildcores += "-j4"
     elif choice == "8":
-        buildcores += "-j9"
+        buildcores += "-j8"
 
 if os.path.isdir("build") == False:
     os.mkdir("build")
@@ -50,7 +53,7 @@ def get_shared_libs_from_dir( dir ):
                 
     return match
 
-def compile_boost():
+def compile_boost_windows():
     #warn if no boost
     boostpath = os.path.join(os.getcwd(), "libs/boost")
 
@@ -60,13 +63,13 @@ def compile_boost():
         restore_path = os.getcwd()
         os.chdir(boostpath)
 
-        if not os.path.isfile( "b2" if platform == "linux" else "b2.exe"):
+        if not os.path.isfile("b2.exe"):
             if easygui.boolbox(msg='Would you like to compile boost build system?', title='Compile boost', choices=('Yes', 'No'), image=None):
                 print("Calling boost: bootstrap gcc")
                 subprocess.call('bootstrap gcc', shell=True)
 
         if easygui.boolbox(msg='Would you like to compile boost tool: bcp?', title='Compile boost', choices=('Yes', 'No'), image=None):
-            subprocess.call('b2 tools/bcp', shell=True)
+                subprocess.call('b2 tools/bcp', shell=True)
 
         if easygui.boolbox(msg='Would you like to compile boost.python?', title='Compile boost', choices=('Yes', 'No'), image=None):
             buildstr = 'b2 ' + buildcores + ' --with-python --build-dir="../../build"  toolset=gcc cxxflags="-fPIC" link=shared threading=multi debug'
@@ -80,14 +83,51 @@ def compile_boost():
             
         os.chdir(restore_path)
 
-compile_boost()
+def compile_boost_linux():
+    #warn if no boost
+    boostpath = os.path.join(os.getcwd(), "libs/boost")
+
+    if (os.path.isdir(boostpath) == False) or (len(os.listdir(boostpath)) == 0):
+        easygui.msgbox("You do not have boost sources inside libs folder.\nClose this message box to continue.", title="Boost missing!")
+    else:
+        restore_path = os.getcwd()
+        os.chdir(boostpath)
+
+        if not os.path.isfile( "b2" ):
+            if easygui.boolbox(msg='Would you like to compile boost build system?', title='Compile boost', choices=('Yes', 'No'), image=None):
+                print("Calling boost: bootstrap gcc")
+                subprocess.call('sh bootstrap.sh gcc', shell=True)
+
+        if easygui.boolbox(msg='Would you like to compile boost tool: bcp?', title='Compile boost', choices=('Yes', 'No'), image=None):
+            subprocess.call('./b2 tools/bcp', shell=True)
+
+        if easygui.boolbox(msg='Would you like to compile boost.python?', title='Compile boost', choices=('Yes', 'No'), image=None):
+            buildstr = './b2 ' + buildcores + ' --with-python --build-dir="../../build"  toolset=gcc cxxflags="-fPIC" link=shared threading=multi debug'
+            print("Calling boost: " + buildstr)
+            subprocess.call(buildstr, shell=True)
+
+        if easygui.boolbox(msg='Would you like to compile boost?', title='Compile boost', choices=('Yes', 'No'), image=None):
+            buildstr = './b2 ' + buildcores + ' --without-python --build-dir="../../build"  toolset=gcc link=static threading=multi release'
+            print("Calling boost: " + buildstr)
+            subprocess.call(buildstr, shell=True)
+            
+        os.chdir(restore_path)
+
+if( platform == LINUX ):
+    compile_boost_linux()
+else:
+    compile_boost_windows()
 
 #COMPILE
 if easygui.boolbox(msg='Would you like to compile other libraries?', title='Compile other libraries', choices=('Yes', 'No'), image=None):
     os.chdir("build")
 
-    subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "MinGW Makefiles"', shell=True)
-    subprocess.call('mingw32-make ' + buildcores, shell=True)
+    if(platform == "linux"):
+        subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Unix Makefiles"', shell=True)
+        subprocess.call('make ' + buildcores, shell=True)
+    else:
+        subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "MinGW Makefiles"', shell=True)
+        subprocess.call('mingw32-make ' + buildcores, shell=True)
 
     os.chdir("..")
 
