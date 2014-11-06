@@ -77,7 +77,7 @@ def compile_boost_windows():
             subprocess.call(buildstr, shell=True)
 
         if easygui.boolbox(msg='Would you like to compile boost?', title='Compile boost', choices=('Yes', 'No'), image=None):
-            buildstr = 'b2 ' + buildcores + ' --without-python --build-dir="../../build"  toolset=gcc link=static threading=multi release'
+            buildstr = 'b2 ' + buildcores + ' --without-python --build-dir="../../build"  toolset=gcc cxxflags="-fPIC" link=static threading=multi release'
             print("Calling boost: " + buildstr)
             subprocess.call(buildstr, shell=True)
             
@@ -136,7 +136,7 @@ if easygui.boolbox(msg='Would you like to copy all libraries?', title='Compile b
     matches = []
     shared_matches = []
     
-    directories = ["build","libs/freetype", "libs/python", "libs/irrKlang-1.5.0"]
+    directories = ["build", "libs/python", "libs/irrKlang-1.5.0"]
 
     #copy static libs
     for directory in directories:

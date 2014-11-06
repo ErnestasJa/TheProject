@@ -1,7 +1,7 @@
 #pragma once
 #include "GUIEventListener.h"
 #include "utility/Rect2d.h"
-#include "utility/vector.h"
+#include "utility/Vector.h"
 
 enum GUIElementType
 {

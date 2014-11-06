@@ -1,5 +1,5 @@
 #include "Precomp.h"
-#include <ft2build.h>
+#include "ft2build.h"
 #include FT_FREETYPE_H
 #include "Font.h"
 #include "FontFamily.h"

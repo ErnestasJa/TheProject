@@ -30,6 +30,7 @@
 					<Add library="glxw" />
 					<Add library="stb_image_lib" />
 					<Add library="libboost_container-mgw49-mt-1_56" />
+					<Add directory="../../../../libs/win32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -60,13 +61,43 @@
 					<Add library="libboost_container-mgw49-mt-1_56" />
 				</Linker>
 			</Target>
+			<Target title="Debug Linux">
+				<Option output="../../../../libs/linux/engined" imp_lib="../../../../libs/linux/libengined.a" def_file="../../../../libs/linux/libengined.def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../bin/objsodebug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-fPIC" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc -static-libstdc++" />
+					<Add directory="../../../../libs/linux" />
+				</Linker>
+			</Target>
+			<Target title="Release Linux">
+				<Option output="../../../../libs/linux/engine" imp_lib="../../../../libs/linux/libengined.a" def_file="../../../../libs/linux/libengined.def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../bin/objsorelease" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
+					<Add option="-fPIC" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libgcc -static-libstdc++" />
+					<Add directory="../../../../libs/linux" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add directory="../../../../src/engine" />
 			<Add directory="../../../../libs/boost" />
-			<Add directory="../../../../libs/freetype/include" />
+			<Add directory="../../../../libs/freetype2/include" />
 			<Add directory="../../../../libs/glfw/include" />
 			<Add directory="../../../../libs/glm" />
 			<Add directory="../../../../libs/glxw/include" />
@@ -76,19 +107,20 @@
 			<Add directory="../../../../libs/stb_image" />
 			<Add directory="../../../../libs/tinyxml2/src" />
 		</Compiler>
-		<Linker>
-			<Add directory="../../../../libs/win32" />
-		</Linker>
 		<Unit filename="../../../../src/engine/Config.h" />
+		<Unit filename="../../../../src/engine/Precomp.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="../../../../src/engine/application/AppContext.h" />
+		<Unit filename="../../../../src/engine/application/Application.cpp" />
+		<Unit filename="../../../../src/engine/application/Application.h" />
 		<Unit filename="../../../../src/engine/application/ApplicationLauncher.cpp" />
 		<Unit filename="../../../../src/engine/application/ApplicationLauncher.h" />
 		<Unit filename="../../../../src/engine/application/InputHandler.cpp" />
 		<Unit filename="../../../../src/engine/application/InputHandler.h" />
-		<Unit filename="../../../../src/engine/application/application.cpp" />
-		<Unit filename="../../../../src/engine/application/application.h" />
-		<Unit filename="../../../../src/engine/application/window.cpp" />
-		<Unit filename="../../../../src/engine/application/window.h" />
+		<Unit filename="../../../../src/engine/application/Window.cpp" />
+		<Unit filename="../../../../src/engine/application/Window.h" />
 		<Unit filename="../../../../src/engine/gui/GUI.h" />
 		<Unit filename="../../../../src/engine/gui/GUIButton.cpp" />
 		<Unit filename="../../../../src/engine/gui/GUIButton.h" />
@@ -119,11 +151,11 @@
 		<Unit filename="../../../../src/engine/gui/custom_elements/GUIColorPicker.h" />
 		<Unit filename="../../../../src/engine/gui/custom_elements/ToggleGroup.h" />
 		<Unit filename="../../../../src/engine/gui/font_rendering/Font.cpp" />
+		<Unit filename="../../../../src/engine/gui/font_rendering/Font.h" />
 		<Unit filename="../../../../src/engine/gui/font_rendering/FontFamily.cpp" />
 		<Unit filename="../../../../src/engine/gui/font_rendering/FontFamily.h" />
 		<Unit filename="../../../../src/engine/gui/font_rendering/FontRenderer.cpp" />
 		<Unit filename="../../../../src/engine/gui/font_rendering/FontRenderer.h" />
-		<Unit filename="../../../../src/engine/gui/font_rendering/font.h" />
 		<Unit filename="../../../../src/engine/opengl/AABB.cpp" />
 		<Unit filename="../../../../src/engine/opengl/AABB.h" />
 		<Unit filename="../../../../src/engine/opengl/BufferObject.cpp" />
@@ -142,26 +174,26 @@
 		<Unit filename="../../../../src/engine/opengl/MVar.h" />
 		<Unit filename="../../../../src/engine/opengl/Material.cpp" />
 		<Unit filename="../../../../src/engine/opengl/Material.h" />
+		<Unit filename="../../../../src/engine/opengl/Mesh.cpp" />
+		<Unit filename="../../../../src/engine/opengl/Mesh.h" />
 		<Unit filename="../../../../src/engine/opengl/OpenGLUtil.cpp" />
 		<Unit filename="../../../../src/engine/opengl/OpenGLUtil.h" />
+		<Unit filename="../../../../src/engine/opengl/Quad.h" />
 		<Unit filename="../../../../src/engine/opengl/RenderBufferObject.cpp" />
 		<Unit filename="../../../../src/engine/opengl/RenderBufferObject.h" />
+		<Unit filename="../../../../src/engine/opengl/Shader.h" />
 		<Unit filename="../../../../src/engine/opengl/SlicedGUIQuad.h" />
-		<Unit filename="../../../../src/engine/opengl/mesh.cpp" />
-		<Unit filename="../../../../src/engine/opengl/mesh.h" />
-		<Unit filename="../../../../src/engine/opengl/quad.h" />
-		<Unit filename="../../../../src/engine/opengl/shader.h" />
-		<Unit filename="../../../../src/engine/opengl/texture.cpp" />
-		<Unit filename="../../../../src/engine/opengl/texture.h" />
-		<Unit filename="../../../../src/engine/precomp.h">
-			<Option compile="1" />
-			<Option weight="0" />
-		</Unit>
+		<Unit filename="../../../../src/engine/opengl/Texture.cpp" />
+		<Unit filename="../../../../src/engine/opengl/Texture.h" />
 		<Unit filename="../../../../src/engine/resources/IImageLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/IImageLoader.h" />
 		<Unit filename="../../../../src/engine/resources/IMeshLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/IMeshLoader.h" />
+		<Unit filename="../../../../src/engine/resources/IQM.h" />
 		<Unit filename="../../../../src/engine/resources/IQMLoader.cpp" />
+		<Unit filename="../../../../src/engine/resources/IQMloader.h" />
+		<Unit filename="../../../../src/engine/resources/Image.cpp" />
+		<Unit filename="../../../../src/engine/resources/Image.h" />
 		<Unit filename="../../../../src/engine/resources/ImageLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/ImageLoader.h" />
 		<Unit filename="../../../../src/engine/resources/MeshLoader.cpp" />
@@ -172,30 +204,27 @@
 		<Unit filename="../../../../src/engine/resources/ShaderLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/ShaderLoader.h" />
 		<Unit filename="../../../../src/engine/resources/SoundManager.h" />
-		<Unit filename="../../../../src/engine/resources/image.cpp" />
-		<Unit filename="../../../../src/engine/resources/image.h" />
-		<Unit filename="../../../../src/engine/resources/iqm.h" />
-		<Unit filename="../../../../src/engine/resources/iqmloader.h" />
-		<Unit filename="../../../../src/engine/resources/tgaloader.cpp" />
-		<Unit filename="../../../../src/engine/resources/tgaloader.h" />
+		<Unit filename="../../../../src/engine/resources/TGAloader.cpp" />
+		<Unit filename="../../../../src/engine/resources/TGAloader.h" />
 		<Unit filename="../../../../src/engine/scenegraph/Camera.cpp" />
 		<Unit filename="../../../../src/engine/scenegraph/Camera.h" />
+		<Unit filename="../../../../src/engine/utility/Bit.h" />
 		<Unit filename="../../../../src/engine/utility/Box3d.h" />
+		<Unit filename="../../../../src/engine/utility/Helpers.cpp" />
+		<Unit filename="../../../../src/engine/utility/Helpers.h" />
+		<Unit filename="../../../../src/engine/utility/Helpers.inl" />
+		<Unit filename="../../../../src/engine/utility/Logger.cpp" />
+		<Unit filename="../../../../src/engine/utility/Logger.h" />
 		<Unit filename="../../../../src/engine/utility/Plane3d.h" />
+		<Unit filename="../../../../src/engine/utility/Rect2d.h" />
 		<Unit filename="../../../../src/engine/utility/SimplexNoise.cpp" />
 		<Unit filename="../../../../src/engine/utility/SimplexNoise.h" />
 		<Unit filename="../../../../src/engine/utility/StringUtil.h" />
-		<Unit filename="../../../../src/engine/utility/bit.h" />
-		<Unit filename="../../../../src/engine/utility/helpers.cpp" />
-		<Unit filename="../../../../src/engine/utility/helpers.h" />
-		<Unit filename="../../../../src/engine/utility/logger.cpp" />
-		<Unit filename="../../../../src/engine/utility/logger.h" />
-		<Unit filename="../../../../src/engine/utility/rect2d.h" />
-		<Unit filename="../../../../src/engine/utility/timer.cpp" />
-		<Unit filename="../../../../src/engine/utility/timer.h" />
-		<Unit filename="../../../../src/engine/utility/util.cpp" />
-		<Unit filename="../../../../src/engine/utility/util.h" />
-		<Unit filename="../../../../src/engine/utility/vector.h" />
+		<Unit filename="../../../../src/engine/utility/Timer.cpp" />
+		<Unit filename="../../../../src/engine/utility/Timer.h" />
+		<Unit filename="../../../../src/engine/utility/Util.cpp" />
+		<Unit filename="../../../../src/engine/utility/Util.h" />
+		<Unit filename="../../../../src/engine/utility/Vector.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

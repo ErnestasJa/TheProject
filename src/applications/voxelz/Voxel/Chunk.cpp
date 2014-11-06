@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 
 #include "Chunk.h"
 
@@ -91,6 +91,7 @@ void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,Etype type,bool active)
 {
     m_pBlocks[x][y][z].active=active;
     m_pBlocks[x][y][z].type=type;
+    m_pBlocks[x][y][z].color=getTypeCol(type);
     m_dirty=true;
 }
 
@@ -139,44 +140,32 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
 {
     if(x<0&&leftN!=nullptr)
     {
-        Block b=leftN->Get(CHUNK_SIZE-1,y,z);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)leftN->Get(CHUNK_SIZE-1,y,z);
         return;
     }
     else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
     {
-        Block b=rightN->Get(0,y,z);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)rightN->Get(0,y,z);
         return;
     }
     else if(y<0&&botN!=nullptr)
     {
-        Block b=botN->Get(x,CHUNK_SIZE-1,z);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)botN->Get(x,CHUNK_SIZE-1,z);
         return;
     }
     else if(y>CHUNK_SIZE-1&&topN!=nullptr)
     {
-        Block b=topN->Get(x,0,z);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)topN->Get(x,0,z);
         return;
     }
     else if(z<0&&backN!=nullptr)
     {
-        Block b=backN->Get(x,y,CHUNK_SIZE-1);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)backN->Get(x,y,CHUNK_SIZE-1);
         return;
     }
     else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
     {
-        Block b=frontN->Get(x,y,0);
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)frontN->Get(x,y,0);
         return;
     }
     else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
@@ -186,9 +175,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     }
     else
     {
-        Block b=m_pBlocks[x][y][z];
-        vox.active=b.active;
-        vox.color=getTypeCol(b.type);
+        vox=(Voxel)m_pBlocks[x][y][z];
         return;
     }
 }

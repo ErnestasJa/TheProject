@@ -1,23 +1,23 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelzApp.h"
-#include "application/window.h"
-#include "Application/InputHandler.h"
+#include "application/Window.h"
+#include "application/InputHandler.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
-#include "OpenGl/FrameBufferObject.h"
-#include "OpenGl/RenderBufferObject.h"
+#include "opengl/FrameBufferObject.h"
+#include "opengl/RenderBufferObject.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 #include "resources/ImageLoader.h"
-#include "Opengl/CubeMesh.h"
-#include "Opengl/GridMesh.h"
+#include "opengl/CubeMesh.h"
+#include "opengl/GridMesh.h"
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
 #include "Voxel/VoxelSprite.h"
-#include "GUI/GUI.h"
-#include "GUI/custom_elements/GUIColorPicker.h"
+#include "gui/GUI.h"
+#include "gui/custom_elements/GUIColorPicker.h"
 
 VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -422,15 +422,15 @@ void VoxelzApp::OnMouseMove(double x, double y)
         }
     }
 
-    swprintf(buf,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
+    swprintf(buf,255,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
 
-    swprintf(buf,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
+    swprintf(buf,255,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
     env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
 
-    swprintf(buf,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
+    swprintf(buf,255,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
     env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
 
     /* Find out which face of the block we are looking at */
@@ -477,13 +477,13 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     newvoxpos=glm::vec3(mx,my,mz);
 
-    swprintf(buf,L"Face: %d",face);
+    swprintf(buf,255,L"Face: %d",face);
     env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
 
-    swprintf(buf,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
+    swprintf(buf,255,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
     env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
 
-    swprintf(buf,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
+    swprintf(buf,255,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
     env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
@@ -492,13 +492,13 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
     if(action==GLFW_PRESS)
     {
         wchar_t buf[256];
-        swprintf(buf,L"Total Chunks %d",chkmgr->GetChunkCount());
+        swprintf(buf,255,L"Total Chunks %d",chkmgr->GetChunkCount());
         env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
 
-        swprintf(buf,L"Total Blocks %d",chkmgr->GetTotalBlocks());
+        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
         env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
 
-        swprintf(buf,L"Total Faces %d",chkmgr->GetTotalFaces());
+        swprintf(buf,255,L"Total Faces %d",chkmgr->GetTotalFaces());
         env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
         switch(button)
         {

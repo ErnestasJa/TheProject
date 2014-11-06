@@ -2,7 +2,7 @@
 #include "utility/Logger.h"
 #include "Camera.h"
 #include "application/AppContext.h"
-#include "OpenGL/AABB.h"
+#include "opengl/AABB.h"
 
 Camera::Camera(AppContext* ctx, const glm::vec3 &pos,const glm::vec3 &target,const glm::vec3 &up, float aspect_ratio, float field_of_view, float near_z, float far_z)
 {

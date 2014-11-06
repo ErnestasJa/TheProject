@@ -3,8 +3,8 @@
 #include "Window.h"
 #include "opengl/OpenGLUtil.h"
 #include "gui/GUIEnvironment.h"
-#include "utility/logger.h"
-#include "utility/timer.h"
+#include "utility/Logger.h"
+#include "utility/Timer.h"
 #include "InputHandler.h"
 
 struct AppContext

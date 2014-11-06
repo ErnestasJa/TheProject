@@ -2,7 +2,7 @@
 #define VOXELZ_H
 
 #include "application/Application.h"
-#include "gui/GuiEventListener.h"
+#include "gui/GUIEventListener.h"
 
 class VoxelzApp: public Application
 {

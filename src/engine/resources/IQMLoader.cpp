@@ -1,6 +1,6 @@
 #include "Precomp.h"
 #include "IQM.h"
-#include "IQMLoader.h"
+#include "IQMloader.h"
 #include "opengl/Mesh.h"
 #include "opengl/BufferObject.h"
 #include "utility/Util.h"

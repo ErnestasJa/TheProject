@@ -1,7 +1,7 @@
 #ifndef VOXELMESH_H
 #define VOXELMESH_H
 
-#include "OpenGL/Mesh.h"
+#include "opengl/Mesh.h"
 
 #include "VoxelTypes.h"
 
@@ -75,6 +75,7 @@ protected:
     VoxelArray m_vox;
 
     bool m_dirty;
+    bool m_empty;
 
     int32_t m_size,m_faceCount;
     shader_ptr m_shader;

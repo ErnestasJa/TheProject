@@ -2,11 +2,11 @@
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "ChunkManager.h"
-#include "Scenegraph/Camera.h"
+#include "scenegraph/Camera.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
 #include "utility/SimplexNoise.h"
-#include "utility/timer.h"
+#include "utility/Timer.h"
 #include <boost/foreach.hpp>
 
 ChunkManager::ChunkManager()
@@ -31,7 +31,7 @@ ChunkManager::ChunkManager()
 //
 //    delete[] buf;
 
-    int testsize=128;
+    int testsize=256;
     int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)

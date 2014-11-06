@@ -1,7 +1,7 @@
 #ifndef CHUNKMANAGER_H
 #define CHUNKMANAGER_H
 
-#include "OpenGL/Shader.h"
+#include "opengl/Shader.h"
 #include <boost/unordered_map.hpp>
 #include <boost/functional/hash.hpp>
 

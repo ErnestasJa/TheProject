@@ -1,7 +1,7 @@
 #include "Precomp.h"
-#include "Utility/helpers.h"
-#include "Application/AppContext.h"
-#include "Utility/Logger.h"
+#include "utility/Helpers.h"
+#include "application/AppContext.h"
+#include "utility/Logger.h"
 #include "opengl/Shader.h"
 #include "opengl/OpenGLUtil.h"
 #include "gui/GUIEnvironment.h"
@@ -155,26 +155,26 @@ void FontRenderer::SetDefaultFontFamily(const std::string &familyName)
         _defaultFamily=candidate;
 }
 
-uint32_t FontRenderer::_FindTagEnd(std::wstring str,const wchar_t tag)
+int32_t FontRenderer::_FindTagEnd(std::wstring str,const wchar_t tag)
 {
     wchar_t buf[32];
 
-    swprintf(buf,L"['%c",tag);
+    swprintf(buf,32,L"['%c",tag);
     std::wstring thistagopen=buf;
 
-    swprintf(buf,L"[%c']",tag);
+    swprintf(buf,32,L"[%c']",tag);
     std::wstring thistagclose=buf;
 
-    uint32_t tagstart=str.find(thistagopen);
+    int32_t tagstart=str.find(thistagopen);
 
-    uint32_t naiveend=str.find(thistagclose,tagstart);
+    int32_t naiveend=str.find(thistagclose,tagstart);
 
-    uint32_t track=tagstart;
-    uint32_t realend=naiveend;
+    int32_t track=tagstart;
+    int32_t realend=naiveend;
     while(1)
     {
-        uint32_t nestedcheck=str.find(thistagopen,track+3);
-        bool nested=nestedcheck!=std::wstring::npos;
+        int32_t nestedcheck=str.find(thistagopen,track+3);
+        bool nested=nestedcheck!=std::string::npos;
 
         if(nested&&nestedcheck<naiveend)
         {
@@ -191,12 +191,12 @@ uint32_t FontRenderer::_FindTagEnd(std::wstring str,const wchar_t tag)
 void FontRenderer::_FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
 {
     if(in.length()==0)return;
-    uint32_t firsttag,tagclose,tagend,taglength;
-    wchar_t tag;
+    int32_t firsttag=0,tagclose=0,tagend=0,taglength=0;
+    wchar_t tag=L' ';
 
-    firsttag=in.find(L"['");
+    firsttag=in.find(L"['",0);
 
-    if(firsttag!=std::wstring::npos)
+    if(firsttag!=std::string::npos)
     {
         ///printf("tag found\n");
         tag=in.substr(firsttag+2,1)[0];
@@ -235,10 +235,10 @@ void FontRenderer::_FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
         boost::split(tagvals,tagvalsubstr,boost::is_any_of(L","));
 
         float r,g,b,a;
-        r=1.f/255.f*_wtoi(tagvals[0].c_str());
-        g=1.f/255.f*_wtoi(tagvals[1].c_str());
-        b=1.f/255.f*_wtoi(tagvals[2].c_str());
-        a=1.f/255.f*_wtoi(tagvals[3].c_str());
+        r=1.f/255.f*helpers::wtoi(tagvals[0].c_str());
+        g=1.f/255.f*helpers::wtoi(tagvals[1].c_str());
+        b=1.f/255.f*helpers::wtoi(tagvals[2].c_str());
+        a=1.f/255.f*helpers::wtoi(tagvals[3].c_str());
         inf.color=glm::vec4(r,g,b,a);
     }
     break;
@@ -285,8 +285,6 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos, const 
     _fontShader->Set();
     _SetFontColor(color);
 
-    const uint16_t *p;
-
     /* Use the Texture containing the atlas */
     GL_CHECK(glBindTexture(GL_TEXTURE_2D, _currentFont->tex));
 
@@ -303,29 +301,31 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos, const 
     Font* a=_currentFont;
 
     /* Loop through all characters */
-    for (p = (const uint16_t *)text.c_str(); *p; p++)
+    for (int i=0; i<text.length(); i++)
     {
+        const uint16_t p=(const uint16_t)text.c_str()[i];
+
         /* Calculate the vertex and Texture coordinates */
-        float x2 = _pos.x + a->c[*p].bl * sx;
-        float y2 = -_pos.y - a->c[*p].bt * sy;
-        float w = a->c[*p].bw * sx;
-        float h = a->c[*p].bh * sy;
+        float x2 = _pos.x + a->c[p].bl * sx;
+        float y2 = -_pos.y - a->c[p].bt * sy;
+        float w = a->c[p].bw * sx;
+        float h = a->c[p].bh * sy;
 
         /* Advance the cursor to the start of the next character */
-        _pos.x += a->c[*p].ax * sx;
-        _pos.y += a->c[*p].ay * sy;
+        _pos.x += a->c[p].ax * sx;
+        _pos.y += a->c[p].ay * sy;
 
         /* Skip glyphs that have no pixels */
         if (!w || !h)
             continue;
 
-        coords[c++] = glm::vec4(x2, -y2, a->c[*p].tx, a->c[*p].ty);
-        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+        coords[c++] = glm::vec4(x2, -y2, a->c[p].tx, a->c[p].ty);
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[p].tx, a->c[p].ty + a->c[p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[p].tx + a->c[p].bw / a->w, a->c[p].ty);
 
-        coords[c++] = glm::vec4(x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h);
-        coords[c++] = glm::vec4(x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty);
+        coords[c++] = glm::vec4(x2, -y2 - h, a->c[p].tx, a->c[p].ty + a->c[p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2 - h, a->c[p].tx + a->c[p].bw / a->w, a->c[p].ty + a->c[p].bh / a->h);
+        coords[c++] = glm::vec4(x2 + w, -y2, a->c[p].tx + a->c[p].bw / a->w, a->c[p].ty);
     }
 
     /* Draw all the character on the screen in one go */
