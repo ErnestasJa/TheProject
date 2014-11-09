@@ -4,10 +4,8 @@
 
 #include "Application/Application.h"
 #include "Application/ApplicationLauncher.h"
-#include "applications/voxelz/VoxelzApp.h"
-#include "applications/voxelz/VoxelzProfilingApp.h"
-#include "applications/voxel_octree/VoxelOctreeApp.h"
-#include "applications/voxel_octree/VoxelOctreeBenchmarkApp.h"
+#include "VoxelOctreeApp.h"
+#include "VoxelOctreeBenchmarkApp.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
 
@@ -38,8 +36,6 @@ char ShowAppMenu(ApplicationLauncher & launcher)
 int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
-    appLauncher.RegisterApplication("VoxelZ application", APP(VoxelzApp));
-    appLauncher.RegisterApplication("VoxelZ profiling application", APP(VoxelzProfilingApp));
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
     appLauncher.RegisterApplication("Voxel octree benchmark application", APP(VoxelOctreeBenchmarkApp));
 
