@@ -1,7 +1,7 @@
 #ifndef SG_CAMERA_OBJECT_H
 #define SG_CAMERA_OBJECT_H
 
-#include "Utility/Plane3d.h"
+#include "utility/Plane3d.h"
 
 enum FRUSTUM_PLANES
 {

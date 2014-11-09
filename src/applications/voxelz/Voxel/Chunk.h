@@ -22,7 +22,7 @@ public:
     void Rebuild();
     void UpdateNeighbours();
 
-    void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
+    void Set(uint32_t x,uint32_t y,uint32_t z,Etype type,bool active);
     const Block &Get(uint32_t x,uint32_t y,uint32_t z);
 
     uint32_t GetBlockCount();

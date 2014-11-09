@@ -1,6 +1,6 @@
 #include "Precomp.h"
-#include "Utility/Vector.h"
-#include "Utility/Rect2d.h"
+#include "utility/Vector.h"
+#include "utility/Rect2d.h"
 #include "GUISkin.h"
 
 gui_skin::gui_skin()

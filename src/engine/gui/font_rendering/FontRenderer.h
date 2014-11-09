@@ -51,7 +51,7 @@ private:
     void _RenderString(const std::wstring &text, glm::vec2 pos,const glm::vec4 &color,bool drawShadow);
 
     void _FormatTags(TextLine &tl, std::wstring in, SubLineInfo inf);
-    uint32_t _FindTagEnd(std::wstring str,const wchar_t tag);
+    int32_t _FindTagEnd(std::wstring str,const wchar_t tag);
 
     GLuint _VAO;
     GLuint _VBO;

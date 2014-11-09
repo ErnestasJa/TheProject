@@ -2,7 +2,7 @@
 
 #include "ImageLoader.h"
 #include "PNGLoader.h"
-#include "TGALoader.h"
+#include "TGAloader.h"
 #include "opengl/Texture.h"
 
 #include "utility/Logger.h"

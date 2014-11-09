@@ -1,17 +1,17 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelzProfilingApp.h"
-#include "application/window.h"
+#include "application/Window.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
-#include "Opengl/CubeMesh.h"
-#include "Opengl/GridMesh.h"
+#include "opengl/CubeMesh.h"
+#include "opengl/GridMesh.h"
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
-#include "GUI/GUI.h"
+#include "gui/GUI.h"
 
 VoxelzProfilingApp::VoxelzProfilingApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -41,9 +41,9 @@ static void AddSingleChunk(AppContext * ctx)
 static void AddManyChunks(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int x=-8; x<8; x++)
-        for(int z=-8; z<8; z++)
-            for(int y=0; y<16; y++)
+    for(int x=-2; x<2; x++)
+        for(int z=-2; z<2; z++)
+            for(int y=0; y<4; y++)
                 chkmgr->AddChunk(glm::vec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
 }
@@ -58,9 +58,9 @@ static void SingleChunkRebuild(AppContext * ctx)
 static void AllChunksRebuild(AppContext * ctx)
 {
     BEGIN_BENCHMARK
-    for(int x=-8; x<8; x++)
-        for(int z=-8; z<8; z++)
-            for(int y=0; y<16; y++)
+    for(int x=-2; x<2; x++)
+        for(int z=-2; z<2; z++)
+            for(int y=0; y<4; y++)
                 chkmgr->GetChunk(glm::vec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
 }

@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 
 #include "opengl/Mesh.h"
 #include "resources/ResourceCache.h"
@@ -16,6 +16,7 @@ VoxelMesh::VoxelMesh(uint32_t size):m_vox(boost::extents[size][size][size])
     buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
 
     m_faceCount=0;
+    m_empty=true;
 
     Init();
 }
@@ -26,11 +27,7 @@ VoxelMesh::~VoxelMesh()
 
 bool VoxelMesh::Empty()
 {
-    loop(x,m_size) loop(y,m_size) loop(z,m_size) if(m_vox[x][y][z].active)
-    {
-        return false;
-    }
-    return true;
+    return m_empty;
 }
 
 void VoxelMesh::Render(bool wireframe)
@@ -94,13 +91,11 @@ void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     if(x>m_size-1 || x<0 || y>m_size-1 || y<0 || z>m_size-1 || z<0)
     {
         vox.active=0;
-        vox.type=0;
         vox.color=u8vec4(128);
     }
     else
     {
         vox.active=m_vox[x][y][z].active;
-        vox.type=m_vox[x][y][z].type;
         vox.color=m_vox[x][y][z].color;
     }
 }
@@ -388,6 +383,8 @@ void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
 
 void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
 {
+    if(m_empty)
+        m_empty=false;
     m_vox[x][y][z].active=true;
     m_vox[x][y][z].color=col;
 }

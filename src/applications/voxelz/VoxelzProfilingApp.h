@@ -2,7 +2,6 @@
 #define VOXELZ_PROFILING_H
 
 #include "application/Application.h"
-#include "gui/GuiEventListener.h"
 
 class VoxelzProfilingApp: public Application
 {

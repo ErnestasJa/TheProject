@@ -5,11 +5,11 @@
 #include "opengl/GUIQuad.h"
 #include "opengl/SlicedGUIQuad.h"
 #include "GUISkin.h"
-#include "resources/image.h"
+#include "resources/Image.h"
 #include "resources/ImageLoader.h"
 #include "opengl/Texture.h"
-#include "Application/Window.h"
-#include "Application/AppContext.h"
+#include "application/Window.h"
+#include "application/AppContext.h"
 
 GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(0,0,ctx->_window->GetWindowSize().x,ctx->_window->GetWindowSize().y))
 {

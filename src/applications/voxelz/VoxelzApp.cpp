@@ -1,22 +1,23 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelzApp.h"
-#include "application/window.h"
+#include "application/Window.h"
+#include "application/InputHandler.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
-#include "OpenGl/FrameBufferObject.h"
-#include "OpenGl/RenderBufferObject.h"
+#include "opengl/FrameBufferObject.h"
+#include "opengl/RenderBufferObject.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 #include "resources/ImageLoader.h"
-#include "Opengl/CubeMesh.h"
-#include "Opengl/GridMesh.h"
+#include "opengl/CubeMesh.h"
+#include "opengl/GridMesh.h"
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
 #include "Voxel/VoxelSprite.h"
-#include "GUI/GUI.h"
-#include "GUI/custom_elements/GUIColorPicker.h"
+#include "gui/GUI.h"
+#include "gui/custom_elements/GUIColorPicker.h"
 
 VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -138,7 +139,7 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("teemo.png"),16);
+    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),16);
 
     return true;
 }
@@ -232,6 +233,7 @@ void InitPlaneMesh(AppContext * ctx)
     chkmgr->Render(cam.get(),vsh,false);
     ctx->_timer->tick();
     printf("\n\nGeneration and uploading took: %d ms\n\n\n",ctx->_timer->get_delta_time());
+    ctx->_input=new InputHandler(ctx->_window);
 }
 
 bool VoxelzApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -339,6 +341,7 @@ bool VoxelzApp::Update()
 //        env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();
+        HandleMovement((float)_appContext->_timer->get_delta_time()/1000.f);
         return true;
     }
     return false;
@@ -354,16 +357,27 @@ void VoxelzApp::OnWindowClose()
 {
 
 }
+
+void VoxelzApp::HandleMovement(float delta)
+{
+    float speed=16.f;
+    InputHandler* han=_appContext->_input;
+    if(han->IsKeyDown(GLFW_KEY_LEFT_SHIFT))
+        speed=32.f;
+    else
+        speed=16.f;
+    if(han->IsKeyDown(GLFW_KEY_W))
+        cam->Walk(speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_S))
+        cam->Walk(-speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_A))
+        cam->Strafe(-speed*delta);
+    if(han->IsKeyDown(GLFW_KEY_D))
+        cam->Strafe(speed*delta);
+}
+
 void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
-    if(key==GLFW_KEY_W)
-        cam->Walk(1);
-    if(key==GLFW_KEY_S)
-        cam->Walk(-1);
-    if(key==GLFW_KEY_A)
-        cam->Strafe(-1);
-    if(key==GLFW_KEY_D)
-        cam->Strafe(1);
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
         chkmgr->Explode(voxpos,16);
@@ -401,22 +415,22 @@ void VoxelzApp::OnMouseMove(double x, double y)
         mz = glm::floor(testpos.z);
 
         /* If we find a block that is not air, we are done */
-        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()!=EBT_AIR)
+        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type!=EBT_AIR)
         {
             validvoxel=true;
             break;
         }
     }
 
-    swprintf(buf,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
+    swprintf(buf,255,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
     glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
 
-    swprintf(buf,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
+    swprintf(buf,255,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
     env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
 
-    swprintf(buf,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
+    swprintf(buf,255,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
     env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
 
     /* Find out which face of the block we are looking at */
@@ -440,7 +454,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).GetBlockType()==EBT_AIR)
+    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type==EBT_AIR)
     {
         mx = my = mz = 99999;
         validvoxel=false;
@@ -463,13 +477,13 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     newvoxpos=glm::vec3(mx,my,mz);
 
-    swprintf(buf,L"Face: %d",face);
+    swprintf(buf,255,L"Face: %d",face);
     env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
 
-    swprintf(buf,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
+    swprintf(buf,255,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
     env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
 
-    swprintf(buf,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
+    swprintf(buf,255,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
     env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
 }
 
@@ -478,13 +492,13 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
     if(action==GLFW_PRESS)
     {
         wchar_t buf[256];
-        swprintf(buf,L"Total Chunks %d",chkmgr->GetChunkCount());
+        swprintf(buf,255,L"Total Chunks %d",chkmgr->GetChunkCount());
         env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
 
-        swprintf(buf,L"Total Blocks %d",chkmgr->GetTotalBlocks());
+        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
         env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
 
-        swprintf(buf,L"Total Faces %d",chkmgr->GetTotalFaces());
+        swprintf(buf,255,L"Total Faces %d",chkmgr->GetTotalFaces());
         env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
         switch(button)
         {

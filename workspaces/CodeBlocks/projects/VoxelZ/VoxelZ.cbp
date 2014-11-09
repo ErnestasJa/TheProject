@@ -14,10 +14,14 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-pg" />
+					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg" />
+					<Add option="-pg -lgmon" />
 					<Add library="engined" />
+					<Add directory="../../../../libs/win32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -29,20 +33,93 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="engine" />
+					<Add directory="../../../../libs/win32" />
+				</Linker>
+			</Target>
+			<Target title="Debug Linux">
+				<Option output="../../../../bin/DebugLinux/VoxelZ" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../../bin/DebugLinux" />
+				<Option object_output="../../../../bin/obj/DebugLinux/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="src/engine/application" />
+				</Compiler>
+				<Linker>
+					<Add library="engined" />
+					<Add library="libglfw3" />
+					<Add library="X11" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="Xrandr" />
+					<Add library="Xcursor" />
+					<Add library="Xxf86vm" />
+					<Add library="Xi" />
+					<Add library="dl" />
+					<Add library="pthread" />
+					<Add library="glxw_glx" />
+					<Add library="glxw" />
+					<Add library="libfreetype.a" />
+					<Add library="libsigc++.a" />
+					<Add library="physfs" />
+					<Add library="z" />
+					<Add library="tinyxml2_lib" />
+					<Add library="stb_image_lib" />
+					<Add directory="../../../../libs/linux" />
+				</Linker>
+			</Target>
+			<Target title="Release Linux">
+				<Option output="../../../../bin/ReleaseLinux/VoxelZ" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../../bin/ReleaseLinux" />
+				<Option object_output="../../../../bin/obj/ReleaseLinux/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
+					<Add option="-pg" />
+					<Add directory="src/engine/application" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add library="engined" />
+					<Add library="libglfw3" />
+					<Add library="X11" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="Xrandr" />
+					<Add library="Xcursor" />
+					<Add library="Xxf86vm" />
+					<Add library="Xi" />
+					<Add library="dl" />
+					<Add library="pthread" />
+					<Add library="glxw_glx" />
+					<Add library="glxw" />
+					<Add library="libfreetype.a" />
+					<Add library="libsigc++.a" />
+					<Add library="physfs" />
+					<Add library="z" />
+					<Add library="tinyxml2_lib" />
+					<Add library="stb_image_lib" />
+					<Add directory="../../../../libs/linux" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add directory="../../../../src/engine" />
 			<Add directory="../../../../src/applications/voxelz" />
 			<Add directory="../../../../libs/boost" />
-			<Add directory="../../../../libs/freetype/include" />
+			<Add directory="../../../../libs/freetype2/include" />
 			<Add directory="../../../../libs/glfw/include" />
 			<Add directory="../../../../libs/glm" />
 			<Add directory="../../../../libs/glxw/include" />
@@ -55,10 +132,6 @@
 		<ResourceCompiler>
 			<Add directory="../../../../res" />
 		</ResourceCompiler>
-		<Linker>
-			<Add directory="../../../../libs/win32" />
-		</Linker>
-		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.h" />
@@ -80,10 +153,6 @@
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/resources.rc">
 			<Option compilerVar="WINDRES" />
-		</Unit>
-		<Unit filename="../../../../src/engine/precomp.h">
-			<Option compile="1" />
-			<Option weight="0" />
 		</Unit>
 		<Extensions>
 			<code_completion />

@@ -1,6 +1,6 @@
 #include "Precomp.h"
 #include "VoxelTypes.h"
-#include "OpenGL/BufferObject.h"
+#include "opengl/BufferObject.h"
 
 template <>
 uint32_t IndexBufferObject<uint16_t>::GetDataType()

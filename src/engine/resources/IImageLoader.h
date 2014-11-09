@@ -1,6 +1,6 @@
 #pragma once
 
-#include "image.h"
+#include "Image.h"
 
 class iimage_loader
 {

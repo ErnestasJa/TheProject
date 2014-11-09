@@ -1,7 +1,7 @@
 #include "Precomp.h"
 
-#include "Application/Application.h"
-#include "Application/ApplicationLauncher.h"
+#include "application/Application.h"
+#include "application/ApplicationLauncher.h"
 #include "VoxelzApp.h"
 #include "VoxelzProfilingApp.h"
 #include "utility/Logger.h"

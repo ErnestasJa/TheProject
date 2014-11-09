@@ -1,10 +1,11 @@
 #include "Precomp.h"
 #include "GUIColorPicker.h"
 #include "gui/GUI.h"
-#include "resources/image.h"
+#include "resources/Image.h"
 #include "resources/ImageLoader.h"
-#include "opengl/texture.h"
-#include "Application/AppContext.h"
+#include "opengl/Texture.h"
+#include "application/AppContext.h"
+#include "utility/Helpers.h"
 
 GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions, bool drawbackground):GUIElement(env,dimensions)
 {
@@ -112,9 +113,9 @@ bool GUIColorPicker::OnEvent(const GUIEvent &e)
     case button_released:
         if(e.get_element()==btnSet)
         {
-            uint32_t r=_wtoi(ebR->get_text().c_str());
-            uint32_t g=_wtoi(ebG->get_text().c_str());
-            uint32_t b=_wtoi(ebB->get_text().c_str());
+            uint32_t r=helpers::wtoi(ebR->get_text().c_str());
+            uint32_t g=helpers::wtoi(ebG->get_text().c_str());
+            uint32_t b=helpers::wtoi(ebB->get_text().c_str());
             colRGB=glm::vec4(r,g,b,255);
         }
         break;

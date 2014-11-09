@@ -2,11 +2,11 @@
 #include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "ChunkManager.h"
-#include "Scenegraph/Camera.h"
+#include "scenegraph/Camera.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
 #include "utility/SimplexNoise.h"
-#include "utility/timer.h"
+#include "utility/Timer.h"
 #include <boost/foreach.hpp>
 
 ChunkManager::ChunkManager()
@@ -31,8 +31,8 @@ ChunkManager::ChunkManager()
 //
 //    delete[] buf;
 
-    int testsize=64;
-    int testheight=64;
+    int testsize=256;
+    int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
     {
@@ -65,7 +65,7 @@ ChunkManager::ChunkManager()
                         continue;
                     }
                     else
-                    if(GetBlock(glm::vec3(x, y - 1, z)).GetBlockType() == EBT_GRASS && (rand() & 0xff) == 0)
+                    if(GetBlock(glm::vec3(x, y - 1, z)).type == EBT_GRASS && (rand() & 0xff) == 0)
                     {
                         // Trunk
                         h = (rand() & 0x3) + 3;
@@ -79,7 +79,7 @@ ChunkManager::ChunkManager()
                             {
                                 for(int iz = -3; iz <= 3; iz++)
                                 {
-                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).IsActive())
+                                    if(ix * ix + iy * iy + iz * iz < 8 + (rand() & 1) && !GetBlock(glm::vec3(x + ix, y + h + iy, z + iz)).active)
                                         SetBlock(glm::vec3(x + ix, y + h + iy, z + iz), EBT_LEAF, true);
                                 }
                             }
@@ -163,7 +163,7 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     }
 }
 
-void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
+void ChunkManager::SetBlock(const glm::vec3 &pos,Etype type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 
