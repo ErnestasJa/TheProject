@@ -9,8 +9,8 @@
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
-#include "voxel_octree/MortonOctree.h"
-#include "voxel_octree/VoxMeshManager.h"
+#include "motree/MortonOctree.h"
+#include "motree/VoxMeshManager.h"
 
 class VoxelOctreeBenchmarkApp: public Application
 {

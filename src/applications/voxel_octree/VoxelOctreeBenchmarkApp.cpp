@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "VoxelOctreeBenchmarkApp.h"
-#include "voxel_octree/VoxMeshManager.h"
+#include "motree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
 
 

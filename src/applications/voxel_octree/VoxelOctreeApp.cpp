@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "VoxelOctreeApp.h"
-#include "voxel_octree/VoxMeshManager.h"
+#include "motree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
 #include "opengl/CubeMesh.h"
 #include "py/cpputils.h"
@@ -163,7 +163,7 @@ bool VoxelOctreeApp::Update()
         octreeGen->RenderAllMeshes();
 
 
-
+	_appContext->_glUtil->check_and_output_errors();
         _appContext->_window->SwapBuffers();
         return true;
     }

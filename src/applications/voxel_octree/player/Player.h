@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "scenegraph/Camera.h"
-#include "voxel_octree/MortonOctree.h"
+#include "motree/MortonOctree.h"
 
 static glm::vec3 gGravity = glm::vec3(0,1,0);
 

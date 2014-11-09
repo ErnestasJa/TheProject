@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "OctreeApplicationPy.h"
-#include "applications/voxel_octree/VoxelOctreeApp.h"
+#include "VoxelOctreeApp.h"
 
 
 PyObject * LoadLevel(PyObject* self, PyObject* args)

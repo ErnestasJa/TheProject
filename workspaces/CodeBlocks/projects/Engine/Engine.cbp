@@ -15,6 +15,7 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="src/applications" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++ -static" />
@@ -42,6 +43,7 @@
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
+					<Add directory="src/applications" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -151,10 +153,7 @@
 		<Unit filename="../../../../src/engine/opengl/shader.h" />
 		<Unit filename="../../../../src/engine/opengl/texture.cpp" />
 		<Unit filename="../../../../src/engine/opengl/texture.h" />
-		<Unit filename="../../../../src/engine/precomp.h">
-			<Option compile="1" />
-			<Option weight="0" />
-		</Unit>
+		<Unit filename="../../../../src/engine/precomp.h" />
 		<Unit filename="../../../../src/engine/resources/IImageLoader.cpp" />
 		<Unit filename="../../../../src/engine/resources/IImageLoader.h" />
 		<Unit filename="../../../../src/engine/resources/IMeshLoader.cpp" />
@@ -179,18 +178,18 @@
 		<Unit filename="../../../../src/engine/scenegraph/Camera.cpp" />
 		<Unit filename="../../../../src/engine/scenegraph/Camera.h" />
 		<Unit filename="../../../../src/engine/utility/Box3d.h" />
+		<Unit filename="../../../../src/engine/utility/Logger.cpp" />
+		<Unit filename="../../../../src/engine/utility/Logger.h" />
 		<Unit filename="../../../../src/engine/utility/Plane3d.h" />
 		<Unit filename="../../../../src/engine/utility/SimplexNoise.cpp" />
 		<Unit filename="../../../../src/engine/utility/SimplexNoise.h" />
 		<Unit filename="../../../../src/engine/utility/StringUtil.h" />
+		<Unit filename="../../../../src/engine/utility/Timer.cpp" />
+		<Unit filename="../../../../src/engine/utility/Timer.h" />
 		<Unit filename="../../../../src/engine/utility/bit.h" />
 		<Unit filename="../../../../src/engine/utility/helpers.cpp" />
 		<Unit filename="../../../../src/engine/utility/helpers.h" />
-		<Unit filename="../../../../src/engine/utility/logger.cpp" />
-		<Unit filename="../../../../src/engine/utility/logger.h" />
 		<Unit filename="../../../../src/engine/utility/rect2d.h" />
-		<Unit filename="../../../../src/engine/utility/timer.cpp" />
-		<Unit filename="../../../../src/engine/utility/timer.h" />
 		<Unit filename="../../../../src/engine/utility/util.cpp" />
 		<Unit filename="../../../../src/engine/utility/util.h" />
 		<Unit filename="../../../../src/engine/utility/vector.h" />

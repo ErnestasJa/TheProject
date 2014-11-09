@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager()
+CollisionManager::CollisionManager(MortonOctTreePtr octree)
 {
     //ctor
 }

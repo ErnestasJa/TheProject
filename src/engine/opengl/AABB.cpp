@@ -170,7 +170,7 @@ float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::ve
     float exitTime = std::min(std::min(exit.x, exit.y),exit.z);
 
     // if there was no collision
-    if (entryTime > exitTime || entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f || entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f)
+    if (entryTime > exitTime || (entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f) || entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f)
     {
         normal.x = 0.0f;
         normal.y = 0.0f;
@@ -276,12 +276,12 @@ glm::vec3 AABB::GetCenter() const
     return m_center;
 }
 
-const glm::vec3 & AABB::GetMin() const
+glm::vec3 AABB::GetMin() const
 {
     return m_center-m_halfSize;
 }
 
-const glm::vec3 & AABB::GetMax() const
+glm::vec3 AABB::GetMax() const
 {
     return m_center+m_halfSize;
 }

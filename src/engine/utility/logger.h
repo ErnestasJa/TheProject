@@ -14,6 +14,7 @@ enum loglevel
 class Application;
 class PHYSFS_File;
 
+
 class Logger
 {
 public:
