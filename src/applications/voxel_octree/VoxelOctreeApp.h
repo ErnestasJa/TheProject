@@ -10,6 +10,7 @@
 #include "scenegraph/Camera.h"
 #include "motree/MortonOctree.h"
 #include "motree/VoxMeshManager.h"
+#include "player/Player.h"
 
 template <class T>
 class TCubeMesh;
@@ -45,6 +46,7 @@ private:
     MortonOctTree<10> * octree;
     VoxMeshManager * octreeGen;
     TCubeMesh<glm::vec3> * cube;
+    Player * player;
 };
 
 

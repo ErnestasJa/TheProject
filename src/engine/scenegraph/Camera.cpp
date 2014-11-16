@@ -133,6 +133,11 @@ const glm::vec3 Camera::GetLook() const
     return m_look;
 }
 
+const glm::vec3 Camera::GetRight() const
+{
+    return m_right;
+}
+
 const glm::vec3 Camera::GetPosition() const
 {
     return m_pos;

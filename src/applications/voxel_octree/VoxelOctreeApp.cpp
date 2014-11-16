@@ -56,13 +56,14 @@ void VoxelOctreeApp::InitResources()
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
                          1.7777777f,45.0f,0.1,1024.0f));
 
-    AABB aabb(glm::vec3(0), glm::vec3(1,2,1));
-    cube = new TCubeMesh<glm::vec3>(aabb);
+
+    
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
     octree->AddOrphanNode(MNode(0,0,0));
     octreeGen->GenAllChunks();
-    
+    player = new Player(cam,octree,glm::vec3(236.348465, 132.464081, 183.379868));
+    cube = new TCubeMesh<glm::vec3>(player->GetAABB());
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -81,7 +82,7 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glClearColor(0.4,1,0.2,0);
 
     InitResources();
-    //AfterInit();
+    AfterInit();
     _appContext->_timer->tick();
     return true;
 }
@@ -131,45 +132,67 @@ void VoxelOctreeApp::AfterInit()
 }
 
 static bool renderWireframe = false;
+bool wk=false, ak=false, sk=false, dk=false;
 bool VoxelOctreeApp::Update()
 {
-    if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
+  if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
     {
-        _appContext->_timer->tick();
+      _appContext->_timer->tick();
 
-        cam->Update(0);
+      ///PLAYER MOVE CODE
+      if(wk){
+	player->GetVelocity().x=(cam->GetLook()*5.0f).x;
+	player->GetVelocity().z=(cam->GetLook()*5.0f).z;
+      }
+      else if(sk){
+	player->GetVelocity().x=(cam->GetLook()*-5.0f).x;
+	player->GetVelocity().z=(cam->GetLook()*-5.0f).z;
+      }
+    
+      if(dk){
+	player->GetVelocity().x=(cam->GetRight()*5.0f).x;
+	player->GetVelocity().z=(cam->GetRight()*5.0f).z;
+      }
+      else if(ak){
+	player->GetVelocity().x=(cam->GetRight()*-5.0f).x;
+	player->GetVelocity().z=(cam->GetRight()*-5.0f).z;
+      }
 
-        AABB aabb(glm::vec3(0), glm::vec3(1,2,1));
-        aabb.Translate(cam->GetPosition());
+      if((!(wk||ak||sk||dk)) && player->OnGround())
+	{
+	  player->GetVelocity().x=0;
+	  player->GetVelocity().z=0;
+	}
+      ///~PLAYER MOVE CODE END
 
-        if(octree->CheckCollisionB(aabb))
-            Ctx()->_logger->log(LOG_LOG, "Camera collided with octree node");
+      player->Update(((float)_appContext->_timer->get_delta_time())/1000.0f);
+      cam->Update(0);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        sh->Set();
-        glm::mat4 Model = glm::translate(glm::mat4(1.0f),cam->GetPosition()); // glm::mat4(1.0f);//
-        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        cube->Render(true,false);
+      sh->Set();
+      glm::mat4 Model = glm::translate(glm::mat4(1.0f),cam->GetPosition()); // glm::mat4(1.0f);//
+      glm::mat4 MVP   = cam->GetViewProjMat() * Model;
+      MVar<glm::mat4>(0, "mvp", MVP).Set();
+      cube->Render(true,false);
 
-        Model = glm::mat4(1.0f);
-        MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
+      Model = glm::mat4(1.0f);
+      MVP   = cam->GetViewProjMat() * Model;
+      MVar<glm::mat4>(0, "mvp", MVP).Set();
 
-        if(renderWireframe)
-            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        else
-            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+      if(renderWireframe)
+	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+      else
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
-        octreeGen->RenderAllMeshes();
+      octreeGen->RenderAllMeshes();
 
 
-	_appContext->_glUtil->check_and_output_errors();
-        _appContext->_window->SwapBuffers();
-        return true;
+      _appContext->_glUtil->check_and_output_errors();
+      _appContext->_window->SwapBuffers();
+      return true;
     }
-    return false;
+  return false;
 }
 
 void VoxelOctreeApp::Exit()
@@ -181,6 +204,11 @@ void VoxelOctreeApp::OnWindowClose()
 {
 
 }
+
+#define UPDATE_KEY(var,key_enum)\
+  if(action == GLFW_PRESS && key==key_enum) var = true;\
+  if(action == GLFW_RELEASE && key==key_enum) var = false
+
 
 float speed = 1;
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
@@ -197,14 +225,15 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
     if(action == GLFW_RELEASE && key==GLFW_KEY_LEFT_CONTROL)
         speed = 1;
 
-    if(key==GLFW_KEY_W)
-        cam->Walk(speed);
-    if(key==GLFW_KEY_S)
-        cam->Walk(-speed);
-    if(key==GLFW_KEY_A)
-        cam->Strafe(-speed);
-    if(key==GLFW_KEY_D)
-        cam->Strafe(speed);
+    if(key==GLFW_KEY_SPACE)
+      {
+	player->Jump(20);
+      }
+
+    UPDATE_KEY(wk,GLFW_KEY_W);
+    UPDATE_KEY(ak,GLFW_KEY_A);
+    UPDATE_KEY(sk,GLFW_KEY_S);
+    UPDATE_KEY(dk,GLFW_KEY_D);
 
     if(key==GLFW_KEY_1)
         renderWireframe = true;
@@ -221,6 +250,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
     glm::vec3 position=cam->GetPosition();
     glm::vec3 lookat=glm::normalize(cam->GetLook());
+    this->Ctx()->_logger->log(LOG_LOG, "cam pos: [%f, %f, %f]",position.x,position.y,position.z);
 
     if(action==GLFW_PRESS)
     {

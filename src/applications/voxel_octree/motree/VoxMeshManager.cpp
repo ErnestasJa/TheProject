@@ -22,7 +22,8 @@ Map & VoxMeshManager::GetMeshes()
 void VoxMeshManager::ClearBuildNodes()
 {
     loopxyz(32,32,32)
-    m_buildNodes[x][y][z].size = 0;
+      m_buildNodes[x][y][z].size = 0;;
+    
 }
 
 void VoxMeshManager::SetBuildNode(const MNode & node)
@@ -41,14 +42,14 @@ bool vf_equals(const MNode & n1, const MNode & n2)
 
 struct MaskNode
 {
-    uint8_t frontFace:1;
-    uint8_t backFace:1;
-    uint8_t align:6;
+  uint8_t frontFace:1;
+  uint8_t backFace:1;
+  uint8_t align:6;
 
-    operator bool()
-    {
-        return (frontFace || backFace);
-    }
+  MaskNode()
+  {
+    frontFace=backFace=false;
+  }
 };
 
 
@@ -69,10 +70,11 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
     switch(dim)
     {
     case 0:
-    {
+
+      {
         loop(y,32) loop(x,32)
         {
-            MaskNode & n = mask[x][y];
+            MaskNode & n = mask[y][x];
 
             GetBuildNode(tmpNode,x,y,slice);
 
@@ -91,7 +93,7 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
     {
         loop(y,32) loop(x,32)
         {
-            MaskNode & n = mask[x][y];
+            MaskNode & n = mask[y][x];
 
             GetBuildNode(tmpNode,x,slice,y);
 
@@ -110,7 +112,7 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
     {
         loop(y,32) loop(x,32)
         {
-            MaskNode & n = mask[x][y];
+            MaskNode & n = mask[y][x];
 
             GetBuildNode(tmpNode,slice,x,y);
             if(tmpNode.size==1)
@@ -148,7 +150,7 @@ int lengthr(int x, int y, Rect & r, MaskNode mask[32][32], bool front)
 int heightr(int x, int y, int l, Rect & r, MaskNode mask[32][32], bool front)
 {
     int h = y;
-    for(; h <= r.y2 && lengthr(x,h,r,mask,front) == l; h++);
+    for(; h <= r.y2 && lengthr(x,h,r,mask,front) >= l; h++);
     return h-y;
 }
 
@@ -187,8 +189,7 @@ void VoxMeshManager::BuildFacesFromMask(Mesh* mesh, int dim, int z, const glm::v
                     sx = i+l, sy = j, ex = r.x2, ey = j+h-1; ///right one
                     if(sx<=ex&&sy<=ey)
                     scanArea.push(Rect{sx,sy,ex,ey});
-
-		    printf("Face [%i,%i,%i,%i]\n",i,j,i+l,j+h);
+		    
                     AddFaceToMesh(mesh, frontFace, dim, z, glm::ivec2(i,j), glm::ivec2(l,h), offset);
                     clearArea(mask,frontFace,i,j,i+l,j+h);
                     faceNumber++;
