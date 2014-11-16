@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelOctreeApp.h"
 #include "motree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
@@ -60,7 +60,9 @@ void VoxelOctreeApp::InitResources()
     cube = new TCubeMesh<glm::vec3>(aabb);
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
-
+    octree->AddOrphanNode(MNode(0,0,0));
+    octreeGen->GenAllChunks();
+    
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -79,7 +81,7 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
     glClearColor(0.4,1,0.2,0);
 
     InitResources();
-    AfterInit();
+    //AfterInit();
     _appContext->_timer->tick();
     return true;
 }

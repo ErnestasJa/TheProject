@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxMeshManager.h"
 #include "Morton.h"
 #include "stdlib.h"
@@ -54,26 +54,12 @@ struct MaskNode
 
 #define clear_mask(mask) loop(i,32) loop(j,32) {mask[i][j].frontFace = mask[i][j].backFace = false;}
 
-uint32_t length(uint32_t x, uint32_t y, MaskNode mask[32][32], bool front = true)
+inline void clearArea(MaskNode mask[32][32], bool front, int si, int sj, int i2, int j2)
 {
-    for(uint32_t i = x; i < 32; i++)
-        if(front?mask[i][y].frontFace==false:mask[i][y].backFace==false)
-            return i-x;
-
-    return 32-x;
-}
-
-uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode mask[32][32], bool front = true)
-{
-    uint32_t h = 0;
-
-    for(uint32_t i = y; i < 32; i++)
-        if(length(x,i,mask,front)==len)
-            h++;
-        else
-            break;
-
-    return h;
+  for(int j = sj; j < j2; j++)	   
+    for(int i = si; i < i2; i++)		     
+      if(front) mask[j][i].frontFace = false;
+      else mask[j][i].backFace = false;
 }
 
 inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNode mask[32][32])
@@ -144,33 +130,80 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
 #define TOTAL_HEIGHT 32
 #define TOTAL_WIDTH  32
 
-struct ScanArea
+#include <stack>
+
+struct Rect
 {
-    glm::ivec2 start, end;
-
-    ScanArea(){}
-    ScanArea(glm::ivec2 startArea, glm::ivec2 endArea)
-    {
-        start = startArea;
-        end = endArea;
-    }
-
-    bool scanRight()
-    {
-        return end.x<TOTAL_WIDTH-1;
-    }
-
-    bool scanDown()
-    {
-        return end.x<TOTAL_WIDTH-1;
-    }
+    int x,y,x2,y2;
 };
+
+int lengthr(int x, int y, Rect & r, MaskNode mask[32][32], bool front)
+{
+    int l = x;
+    for( ;l <= r.x2 && (front?mask[y][l].frontFace:mask[y][l].backFace); l++);
+    return l-x;
+}
+
+
+int heightr(int x, int y, int l, Rect & r, MaskNode mask[32][32], bool front)
+{
+    int h = y;
+    for(; h <= r.y2 && lengthr(x,h,r,mask,front) == l; h++);
+    return h-y;
+}
+
+
+void VoxMeshManager::BuildFacesFromMask(Mesh* mesh, int dim, int z, const glm::vec3 & offset, MaskNode mask[32][32], bool frontFace)
+{
+    std::stack<Rect> scanArea;
+
+    Rect full{0,0,31,31};
+    scanArea.push(full);
+
+    int faceNumber=1;
+
+    while(!scanArea.empty())
+    {
+        Rect r = scanArea.top();
+        scanArea.pop();
+
+        for(int j = r.y; j <= r.y2; j++)
+        {
+            for(int i = r.x; i <= r.x2; i++)
+            {
+	      if(frontFace ? mask[j][i].frontFace : mask[j][i].backFace)
+              {
+		    int l = lengthr(i,j,r, mask, frontFace);
+                    int h = heightr(i,j+1,l,full, mask, frontFace)+1;
+		    
+                    int sx = r.x, sy = j+h, ex = r.x2, ey = r.y2;   ///bot one
+                    if(sx<=ex&&sy<=ey)
+                    scanArea.push(Rect{sx,sy,ex,ey});
+
+                    sx = r.x, sy = j+1, ex = i-1, ey = j+h-1;   ///left one
+                    if(sx<=ex&&sy<=ey)
+                    scanArea.push(Rect{sx,sy,ex,ey});
+
+                    sx = i+l, sy = j, ex = r.x2, ey = j+h-1; ///right one
+                    if(sx<=ex&&sy<=ey)
+                    scanArea.push(Rect{sx,sy,ex,ey});
+
+		    printf("Face [%i,%i,%i,%i]\n",i,j,i+l,j+h);
+                    AddFaceToMesh(mesh, frontFace, dim, z, glm::ivec2(i,j), glm::ivec2(l,h), offset);
+                    clearArea(mask,frontFace,i,j,i+l,j+h);
+                    faceNumber++;
+
+                    goto out;
+                }
+            }
+        }
+        out:;
+    }
+}
 
 void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
 {
     MaskNode mask[32][32];
-    MaskNode mn;
-    glm::ivec2 qstart, qdims, qbstart, qbdims;
 
     loopr(dim, 0, 3)
     {
@@ -178,44 +211,9 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
         loop(z, 32)
         {
             BuildSliceMask(dim,z,mask);
-
-            loop(y, 32)
-            {
-                loop(x, 32)
-                {
-                    mn = mask[x][y];
-
-                    if(mn.frontFace)
-                    {
-                        qstart.x=x;
-                        qstart.y=y;
-                        qdims.x =length(x,y,mask);
-                        qdims.y =height(x,y,qdims.x,mask);
-
-                        AddFaceToMesh(mesh, true, dim, z, qstart, qdims, offset);
-                        faceCount++;
-
-                        for(uint32_t yi = qstart.y; yi < qstart.y+qdims.y; yi++)
-                        for(uint32_t xi = qstart.x; xi < qstart.x+qdims.x; xi++)
-                            mask[xi][yi].frontFace=false;
-                    }
-                    if(mn.backFace)
-                    {
-                        qbstart.x=x;
-                        qbstart.y=y;
-                        qbdims.x =length(x,y,mask,false);
-                        qbdims.y =height(x,y,qbdims.x,mask,false);
-
-                        AddFaceToMesh(mesh, false, dim, z, qbstart, qbdims, offset);
-                        faceCount++;
-
-                        for(uint32_t yi = qbstart.y; yi < qbstart.y+qbdims.y; yi++)
-                        for(uint32_t xi = qbstart.x; xi < qbstart.x+qbdims.x; xi++)
-                            mask[xi][yi].backFace=false;
-                    }
-                }
-            }
-        }
+	    BuildFacesFromMask(mesh, dim, z, offset, mask, true);
+	    BuildFacesFromMask(mesh, dim, z, offset, mask, false);
+         }
     }
 }
 

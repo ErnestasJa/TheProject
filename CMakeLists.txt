@@ -3,7 +3,7 @@ project (BUILD_LIBRARIES)
 
 #Libs don't really need c++11?
 #Causes build failure for googletest cause of strict ansi settings c++11 flag adds
-#set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+#set(CMAKE_CXX_FLAGS "-fPIC -std=c++11 ${CMAKE_CXX_FLAGS}")
 
 #libs that we want to build
 add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/stb_image/")

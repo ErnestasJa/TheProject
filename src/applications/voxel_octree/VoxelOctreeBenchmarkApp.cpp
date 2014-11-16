@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelOctreeBenchmarkApp.h"
 #include "motree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"

@@ -3,7 +3,7 @@
 
 #include "MortonOctree.h"
 #include "opengl/Mesh.h"
-#include "utility/bit.h"
+#include "utility/Bit.h"
 #include <boost/unordered_map.hpp>
 
 typedef boost::unordered_map<uint32_t, MeshPtr>::iterator MapIterator;
@@ -22,6 +22,7 @@ private:
     void ClearMesh(Mesh* mesh);
     void ClearBuildNodes();
     void BuildSliceMask(uint32_t dir, uint32_t slice, MaskNode mask[32][32]);
+    void BuildFacesFromMask(Mesh* mesh, int dim, int z, const glm::vec3 & offset, MaskNode mask[32][32], bool frontFaces);
     void AddFaceToMesh(Mesh* mesh, bool frontFace, uint32_t dir, uint32_t slice, glm::ivec2 start, glm::ivec2 dims, glm::vec3 offset);
     void GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset);
     void SetBuildNode(const MNode & node);

@@ -2,8 +2,8 @@
 
 #define RELEASE_FS
 
-#include "Application/Application.h"
-#include "Application/ApplicationLauncher.h"
+#include "application/Application.h"
+#include "application/ApplicationLauncher.h"
 #include "VoxelOctreeApp.h"
 #include "VoxelOctreeBenchmarkApp.h"
 #include "utility/Logger.h"

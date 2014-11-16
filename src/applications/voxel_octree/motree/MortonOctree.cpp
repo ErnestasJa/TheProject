@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "MortonOctree.h"
-#include "utility/util.h"
+#include "utility/Util.h"
 

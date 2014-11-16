@@ -2,7 +2,7 @@
 #define	MORTONOCTTREE_H
 
 #include "Morton.h"
-#include "utility/vector.h"
+#include "utility/Vector.h"
 #include "opengl/AABB.h"
 
 enum VoxelSide

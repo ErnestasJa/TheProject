@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "CollisionManager.h"
 
 CollisionManager::CollisionManager(MortonOctTreePtr octree)

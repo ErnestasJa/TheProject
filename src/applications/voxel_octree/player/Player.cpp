@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "Player.h"
 
 Player::Player(CameraPtr cam, MortonOctTreePtr octree, glm::vec3 position, AABB aabb, glm::vec3 eyeOffset)

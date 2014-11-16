@@ -2,8 +2,7 @@
 #define VOXELOCTREEAPP_H
 
 #include "application/Application.h"
-#include "gui/GuiEventListener.h"
-#include "application/window.h"
+#include "application/Window.h"
 #include "opengl/Mesh.h"
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"

@@ -72,6 +72,18 @@
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc -static-libstdc++" />
+					<Add option="-Wl,-whole-archive" />
+					<Add option="-lX11" />
+					<Add option="-lGL" />
+					<Add option="-lGLU" />
+					<Add option="-lXrandr" />
+					<Add option="-lXcursor" />
+					<Add option="-lXxf86vm" />
+					<Add option="-lXi" />
+					<Add option="-ldl" />
+					<Add option="-lpthread" />
+					<Add option="-lz" />
+					<Add option="-Wl,-no-whole-archive" />
 					<Add directory="../../../../libs/linux" />
 				</Linker>
 			</Target>
