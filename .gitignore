@@ -11,7 +11,7 @@ cmake_install.cmake
 MakeFile
 build
 libs/boost/
-libs/win32/
+libs/windows/
 libs/linux/
 __pycache__/
 tests/bin/

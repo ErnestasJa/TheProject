@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(glxw C)
 
-find_package(PythonInterp 2.7.0 REQUIRED)
+find_package(PythonInterp 3.4.0 REQUIRED)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
