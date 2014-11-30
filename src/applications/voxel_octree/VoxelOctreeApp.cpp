@@ -140,22 +140,30 @@ bool VoxelOctreeApp::Update()
       _appContext->_timer->tick();
 
       ///PLAYER MOVE CODE
+      auto look = cam->GetLook();
+      auto right = cam->GetRight();
+      look.y=0;
+      right.y=0;
+      
+      look = glm::normalize(look)*5.0f;
+      right = glm::normalize(right)*5.0f;
+      
       if(wk){
-	player->GetVelocity().x=(cam->GetLook()*5.0f).x;
-	player->GetVelocity().z=(cam->GetLook()*5.0f).z;
+	player->GetVelocity().x=look.x;
+	player->GetVelocity().z=look.z;
       }
       else if(sk){
-	player->GetVelocity().x=(cam->GetLook()*-5.0f).x;
-	player->GetVelocity().z=(cam->GetLook()*-5.0f).z;
+	player->GetVelocity().x=-look.x;
+	player->GetVelocity().z=-look.z;
       }
     
       if(dk){
-	player->GetVelocity().x=(cam->GetRight()*5.0f).x;
-	player->GetVelocity().z=(cam->GetRight()*5.0f).z;
+	player->GetVelocity().x=right.x;
+	player->GetVelocity().z=right.z;
       }
       else if(ak){
-	player->GetVelocity().x=(cam->GetRight()*-5.0f).x;
-	player->GetVelocity().z=(cam->GetRight()*-5.0f).z;
+	player->GetVelocity().x=-right.x;
+	player->GetVelocity().z=-right.z;
       }
 
       if((!(wk||ak||sk||dk)) && player->OnGround())
@@ -171,7 +179,7 @@ bool VoxelOctreeApp::Update()
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       sh->Set();
-      glm::mat4 Model = glm::translate(glm::mat4(1.0f),cam->GetPosition()); // glm::mat4(1.0f);//
+      glm::mat4 Model = glm::translate(glm::mat4(1.0f),player->GetPosition()); // glm::mat4(1.0f);//
       glm::mat4 MVP   = cam->GetViewProjMat() * Model;
       MVar<glm::mat4>(0, "mvp", MVP).Set();
       cube->Render(true,false);

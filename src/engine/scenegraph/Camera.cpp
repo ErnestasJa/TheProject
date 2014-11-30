@@ -143,6 +143,11 @@ const glm::vec3 Camera::GetPosition() const
     return m_pos;
 }
 
+void Camera::SetPosition(glm::vec3 pos)
+{
+  m_pos = pos;
+}
+
 void Camera::Update(float dt)
 {
     m_pos+=m_translation;

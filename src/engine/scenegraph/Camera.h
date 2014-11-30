@@ -34,16 +34,9 @@ public:
     virtual glm::mat4 & GetProjectionMat();
 
 	const glm::vec3 GetLook() const;
-	const glm::vec3 GetRight() const
-	{
-	  return m_right;
-	}
+	const glm::vec3 GetRight() const;
 	const glm::vec3 GetPosition() const;
-	void SetPosition(glm::vec3 pos)
-	{
-	  m_pos = pos;
-	}
-
+	void SetPosition(glm::vec3 pos);
 	const float GetFar() const;
 	const float GetNear() const;
 	const float GetFOV() const;

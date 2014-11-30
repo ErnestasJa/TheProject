@@ -179,16 +179,78 @@ bool MortonOctTree<Depth>::CheckCollisionB(const AABB & aabb)
 
     clampVec(min);
     clampVec(max);
-
+    
     for(uint32_t z = min.z; z < max.z; z++)
         for(uint32_t y = min.y; y < max.y; y++)
             for(uint32_t x = min.x; x < max.x; x++)
-                if(boost::range::binary_search(m_nodes,MNode(x,y,z)))
-                    return true;
-
+	      if(boost::range::binary_search(m_nodes,MNode(x,y,z)))
+		return true;
+	      
     return false;
 }
 
+static inline AABB BroadphaseAABB(const AABB & box, const glm::vec3 & vel)
+{
+  auto hvel = vel*0.5f;
+  auto center = box.GetCenter()+hvel;
+  auto size = box.GetHalfSize()+glm::abs(hvel);
+  return AABB(center,size);
+}
+  
+template <int Depth>
+CollisionInfoVector MortonOctTree<Depth>::CheckCollisionSwept(const AABB & aabb, const glm::vec3 & vel)
+{
+  CollisionInfoVector infoVec;
+  auto clamp = [] (float & x)
+    {
+      if(x<0) x=0;
+      else if(x>1023) x=1023;
+    };
+  auto clampVec = [&clamp] (glm::vec3 & x)
+    {
+      clamp(x.x);
+      clamp(x.y);
+      clamp(x.z);
+    };
+
+  auto bpbox = BroadphaseAABB(aabb, vel);
+
+  glm::vec3 min = bpbox.GetMin(),
+    max = bpbox.GetMax();
+
+  clampVec(min);
+  clampVec(max);
+
+  glm::vec3 normalOut;
+
+auto printAABB = [](const std::string & name, const AABB & bb)
+{
+    glm::vec3 mi = bb.GetMin(),
+    mx = bb.GetMax();
+printf("(%s) min [%0.2f,%0.2f,%0.2f], [%0.2f,%0.2f,%0.2f]]\n", name.c_str(), mi.x, mi.y, mi.z, mx.x, mx.y, mx.z);
+};
+
+printAABB("bpbox", bpbox);
+
+  for(uint32_t z = min.z; z < max.z; z++)
+    for(uint32_t y = min.y; y < max.y; y++)
+      for(uint32_t x = min.x; x < max.x; x++)
+	if(boost::range::binary_search(m_nodes,MNode(x,y,z))){
+	  AABB b1(glm::vec3(x+0.5,y+0.5,z+0.5),glm::vec3(0.5,0.5,0.5));
+printAABB("playa",aabb);
+printAABB("b1   ",b1);
+	  AABBCollisionInfo info;
+	  info.time = aabb.SweepCollidesWith(b1,vel,normalOut);
+
+	  if(info.time!=1.0f){
+	    info.voxelMK = encodeMK(x,y,z);
+	    info.normal=normalOut;
+	    infoVec.push_back(info);
+	  }
+	}
+  return infoVec;
+}
+ 
 template <int Depth>
 void MortonOctTree<Depth>::Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart)
 {

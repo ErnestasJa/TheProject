@@ -42,6 +42,15 @@ struct CollisionInfo
     glm::vec3 rayStart, rayDirection;
 };
 
+struct AABBCollisionInfo
+{
+    uint32_t voxelMK;
+    float time;
+    glm::vec3 normal;
+};
+
+typedef std::vector<AABBCollisionInfo> CollisionInfoVector;
+
 template <int Depth>
 class MortonOctTree
 {
@@ -57,6 +66,7 @@ public:
     bool CheckCollision(const glm::vec3 & bmin, const glm::vec3 & bmax, const glm::vec3 & rayStart, const glm::vec3 & rayDirectionInverse);
     bool CheckCollision(const AABB & aabb);
     bool CheckCollisionB(const AABB & aabb);
+    CollisionInfoVector CheckCollisionSwept(const AABB & aabb, const glm::vec3 & vel);
     void Collide(CollisionInfo & colInfo, uint32_t depthLevel, const glm::ivec3 & octStart);
     VoxelSide GetCollisionSide(glm::vec3 voxPos, glm::vec3 rayStart,  glm::vec3 rayDirection);
     glm::ivec3 VoxelSideToPosition(VoxelSide side);
