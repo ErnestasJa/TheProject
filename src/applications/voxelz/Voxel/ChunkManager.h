@@ -8,7 +8,7 @@
 class Camera;
 class Block;
 class Chunk;
-enum Etype;
+enum EBlockType;
 
 struct chunk_hash : std::unary_function<glm::vec3, std::size_t>
 {
@@ -67,9 +67,11 @@ public:
     ChunkManager();
     virtual ~ChunkManager();
 
+    void Generate();
+
     void Explode(const glm::vec3 &pos,float power);
 
-    void SetBlock(const glm::vec3 &pos,Etype type,bool active);
+    void SetBlock(const glm::vec3 &pos,EBlockType type,bool active);
     const Block &GetBlock(const glm::vec3 &pos);
 
     const ChunkPtr &GetChunk(const glm::vec3 &pos);

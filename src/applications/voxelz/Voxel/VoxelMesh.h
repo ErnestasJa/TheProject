@@ -24,9 +24,7 @@ enum EBlockSides
 class shader;
 typedef std::shared_ptr<shader> shader_ptr;
 
-typedef boost::multi_array<Voxel, 3> VoxelArray;
-
-static Voxel EMPTY_VOXEL=Voxel();
+static Voxel EMPTY_VOXEL;
 
 class VoxelMesh:public Mesh
 {
@@ -72,12 +70,12 @@ public:
     uint32_t GetFaceCount();
 
 protected:
-    VoxelArray m_vox;
+    Voxel m_vox[16][16][16];
 
     bool m_dirty;
     bool m_empty;
 
-    int32_t m_size,m_faceCount;
+    int32_t m_size,m_faceCount,mVecTrack,mIndexTrack;
     shader_ptr m_shader;
 
     uint32_t length(uint32_t x, uint32_t y, MaskNode **mask);

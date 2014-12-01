@@ -6,14 +6,20 @@
 #include "VoxelMesh.h"
 #include "utility/Timer.h"
 
-VoxelMesh::VoxelMesh(uint32_t size):m_vox(boost::extents[size][size][size])
+VoxelMesh::VoxelMesh(uint32_t size)
 {
+    mVecTrack=0;
+    mIndexTrack=0;
     m_size=size;
     m_dirty=false;
 
     buffers[Mesh::POSITION] = new BufferObject<u8vec3>();
     buffers[Mesh::COLOR] = new BufferObject<u8vec4>();
     buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
+
+    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.resize((uint32_t)glm::pow(size/2.f,3.f));
+    ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.resize((uint32_t)glm::pow(size/2.f,3.f));
+    ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.resize((uint32_t)glm::pow(size/2.f,3.f)*36);
 
     m_faceCount=0;
     m_empty=true;
@@ -53,6 +59,9 @@ void VoxelMesh::Cleanup()
 {
     if(!Empty())
     {
+        mVecTrack=0;
+        mIndexTrack=0;
+
         loop(x,m_size)
         loop(y,m_size)
         loop(z,m_size)
@@ -359,26 +368,28 @@ void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
-    uint32_t indicesStart = vbo->data.size();
 //    u8vec4 color((rand()%128+128),(rand()%128+128),(rand()%128+128),1.f);
 
-    vbo->data.push_back(face[0]);
-    vbo->data.push_back(face[1]);
-    vbo->data.push_back(face[2]);
-    vbo->data.push_back(face[3]);
+    vbo->data[mVecTrack]=(face[0]);
+    vbo->data[mVecTrack+1]=(face[1]);
+    vbo->data[mVecTrack+2]=(face[2]);
+    vbo->data[mVecTrack+3]=(face[3]);
 
-    cbo->data.push_back(col);
-    cbo->data.push_back(col);
-    cbo->data.push_back(col);
-    cbo->data.push_back(col);
+    cbo->data[mVecTrack]=(col);
+    cbo->data[mVecTrack+1]=(col);
+    cbo->data[mVecTrack+2]=(col);
+    cbo->data[mVecTrack+3]=(col);
 
-    ibo->data.push_back(indicesStart);
-    ibo->data.push_back(indicesStart+2);
-    ibo->data.push_back(indicesStart+3);
+    ibo->data[mIndexTrack]=(mVecTrack);
+    ibo->data[mIndexTrack+1]=(mVecTrack+2);
+    ibo->data[mIndexTrack+2]=(mVecTrack+3);
 
-    ibo->data.push_back(indicesStart);
-    ibo->data.push_back(indicesStart+1);
-    ibo->data.push_back(indicesStart+2);
+    ibo->data[mIndexTrack+3]=(mVecTrack);
+    ibo->data[mIndexTrack+4]=(mVecTrack+1);
+    ibo->data[mIndexTrack+5]=(mVecTrack+2);
+
+    mVecTrack+=4;
+    mIndexTrack+=6;
 }
 
 void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)

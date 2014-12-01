@@ -11,27 +11,41 @@
 
 ChunkManager::ChunkManager()
 {
-//    char * buf;
-//    uint32_t len;
-//    len=helpers::read("res/de_nuke.bvox",buf);
-//    uint32_t * data = (uint32_t*)((void*)&buf[0]);
-//
-//    uint32_t voxel_count = data[0];
-//    data++;
-//
-//    std::cout << "File len: " << len << std::endl;
-//    std::cout << "Voxel count: " << voxel_count << std::endl;
-//
-//    for(int i = 0; i < voxel_count; i++)
-//    {
-//        uint32_t x = data[0], y = data[1], z = data[2];
-//        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
-//        data+=3;
-//    }
-//
-//    delete[] buf;
 
-    int testsize=256;
+}
+
+ChunkManager::~ChunkManager()
+{
+    m_chunks.clear();
+}
+
+void ChunkManager::Generate()
+{
+    #define GEN_FILL
+    #ifdef GEN_FILE
+    char * buf;
+    uint32_t len;
+    len=helpers::read("res/de_nuke.bvox",buf);
+    uint32_t * data = (uint32_t*)((void*)&buf[0]);
+
+    uint32_t voxel_count = data[0];
+    data++;
+
+    std::cout << "File len: " << len << std::endl;
+    std::cout << "Voxel count: " << voxel_count << std::endl;
+
+    for(int i = 0; i < voxel_count; i++)
+    {
+        uint32_t x = data[0], y = data[1], z = data[2];
+        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+        data+=3;
+    }
+
+    delete[] buf;
+    #endif //GEN_FILE
+
+    #ifdef GEN_NOISE
+    int testsize=512;
     int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
@@ -94,27 +108,29 @@ ChunkManager::ChunkManager()
             }
         }
     }
-
-//    AddChunk(glm::vec3(0));
-//    m_chunks[glm::vec3(0)]->Fill();
-
-//    loop(i,16)
-//    loop(j,16)
-//    loop(k,16)
-//    {
-//        AddChunk(glm::vec3(i,j,k));
-//        m_chunks[glm::vec3(i,j,k)]->Fill();
-//    }
-
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
         SetChunkNeighbours(a.second,a.first);
     }
-}
+    #endif // GEN_NOISE
 
-ChunkManager::~ChunkManager()
-{
-    m_chunks.clear();
+    #ifdef GEN_SINGLE
+    AddChunk(glm::vec3(0));
+    m_chunks[glm::vec3(0)]->Fill();
+    #endif // GEN_SINGLE
+
+    #ifdef GEN_FILL
+    loop(i,16)
+    loop(j,8)
+    loop(k,16)
+    {
+        AddChunk(glm::vec3(i,j,k))->Fill();
+    }
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+    {
+        SetChunkNeighbours(a.second,a.first);
+    }
+    #endif
 }
 
 static const char* v3str(const glm::vec3 & vec)
@@ -157,13 +173,13 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     }
     printf("%u chunks updated.\n",exploded.size());
     if(exploded.size()>0)
-    BOOST_FOREACH(std::list<ChunkPtr>::value_type a,exploded)
+        BOOST_FOREACH(std::list<ChunkPtr>::value_type a,exploded)
     {
         a->Rebuild();
     }
 }
 
-void ChunkManager::SetBlock(const glm::vec3 &pos,Etype type,bool active)
+void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
 {
     glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 

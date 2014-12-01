@@ -23,106 +23,102 @@ VoxelzProfilingApp::~VoxelzProfilingApp()
 
 }
 
-static ShaderPtr sh;
-static CameraPtr cam;
 static ChunkManager *chkmgr;
+static AppContext *ctx;
+static const int ManyChunksWidth = 2;
+static const int ManyChunksHeight = 2;
 
 #define BEGIN_BENCHMARK ctx->_timer->tick();
 #define END_BENCHMARK(name) ctx->_timer->tick(); \
                       printf("Benchmarking %s is over. It took: %d ms.\n",(name),ctx->_timer->get_delta_time());
 
-static void AddSingleChunk(AppContext * ctx)
+static void AddSingleChunk()
 {
     BEGIN_BENCHMARK
     chkmgr->AddChunk(glm::vec3(0,0,0))->Fill();
     END_BENCHMARK("AddSingleChunk")
 }
 
-static void AddManyChunks(AppContext * ctx)
+static void AddManyChunks()
 {
     BEGIN_BENCHMARK
-    for(int x=-2; x<2; x++)
-        for(int z=-2; z<2; z++)
-            for(int y=0; y<4; y++)
+    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
+        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
+            for(int y=0; y<ManyChunksHeight; y++)
                 chkmgr->AddChunk(glm::vec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
 }
 
-static void SingleChunkRebuild(AppContext * ctx)
+static void SingleChunkRebuild()
 {
     BEGIN_BENCHMARK
     chkmgr->GetChunk(glm::vec3(0,0,0))->Rebuild();
     END_BENCHMARK("RebuildSingle")
 }
 
-static void AllChunksRebuild(AppContext * ctx)
+static void AllChunksRebuild()
 {
     BEGIN_BENCHMARK
-    for(int x=-2; x<2; x++)
-        for(int z=-2; z<2; z++)
-            for(int y=0; y<4; y++)
+    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
+        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
+            for(int y=0; y<ManyChunksHeight; y++)
                 chkmgr->GetChunk(glm::vec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
 }
 
 void VoxelzProfilingApp::Benchmark()
 {
-    AddSingleChunk(_appContext);
+    //AddSingleChunk();
 
-    SingleChunkRebuild(_appContext);
+    //SingleChunkRebuild();
 
-    AddManyChunks(_appContext);
+    //AddManyChunks();
 
-    AllChunksRebuild(_appContext);
+    //AllChunksRebuild();
+
+    u8vec4 col;
+
+    vector<u8vec4> vec;
+    vec.resize(100000000);
+
+    BEGIN_BENCHMARK
+    loop(i,100000000)
+    vec[i]=(u8vec4(255,255,255,255));
+    END_BENCHMARK("SHIT")
+
+    vector<u8vec4> vec2;
+    vec2.reserve(100000000);
+    BEGIN_BENCHMARK
+    loop(i,100000000)
+    vec2.push_back(std::move(u8vec4(255,255,255,255)));
+    END_BENCHMARK("SHIT")
 
 }
 
 bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
-
-    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelzProfilingApp::OnKeyEvent));
-    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelzProfilingApp::OnMouseKey));
-    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelzProfilingApp::OnMouseMove));
+    ctx=_appContext;
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
 
-    sh = (new shader_loader(_appContext->_logger))->load("res/engine/shaders/solid_unlit");
-    cam = share(new Camera(_appContext,glm::vec3(0,128,128),glm::vec3(0,0,0),glm::vec3(0,1,0)));
-
+    BEGIN_BENCHMARK
     chkmgr=new ChunkManager();
-    printf("\nPROFILE ME TIMBERS!\n");
+    END_BENCHMARK("chkmgr gen")
+
+    printf("\n\n--------------------------------\nPROFILE ME TIMBERS!\n--------------------------------\n");
     Benchmark();
-    printf("TIMBERRRRR!\n");
+    printf("\n--------------------------------\nTIMBERRRRR!\n--------------------------------\n");
     Exit();
     return false;
 }
 
 bool VoxelzProfilingApp::Update()
 {
-    if(_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
-    {
-        cam->Update(0);
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glm::mat4 Model = glm::mat4(1.0f);
-        glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-
-        sh->Set();
-
-        Model = glm::mat4(1.0f);
-        MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        chkmgr->Render(cam.get(),sh);
-
-        _appContext->_window->SwapBuffers();
-        return true;
-    }
-    return false;
+    return true;
 }
 
 void VoxelzProfilingApp::Exit()

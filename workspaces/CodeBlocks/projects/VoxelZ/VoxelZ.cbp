@@ -18,10 +18,10 @@
 					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
 					<Add option="-pg -lgmon" />
+					<Add option="-pg" />
 					<Add library="engined" />
-					<Add directory="../../../../libs/win32" />
+					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -32,13 +32,13 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="engine" />
-					<Add directory="../../../../libs/win32" />
+					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
 			<Target title="Debug Linux">

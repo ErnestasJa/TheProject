@@ -42,7 +42,7 @@ static u8vec4 getTypeCol(uint32_t typ)
     }
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE),m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     // Create the blocks
     m_chunkManager = chunkManager;
@@ -87,7 +87,7 @@ void Chunk::Rebuild()
     m_dirty=false;
 }
 
-void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,Etype type,bool active)
+void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
     m_pBlocks[x][y][z].active=active;
     m_pBlocks[x][y][z].type=type;
@@ -140,32 +140,32 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
 {
     if(x<0&&leftN!=nullptr)
     {
-        vox=(Voxel)leftN->Get(CHUNK_SIZE-1,y,z);
+        vox=leftN->Get(CHUNK_SIZE-1,y,z);
         return;
     }
     else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
     {
-        vox=(Voxel)rightN->Get(0,y,z);
+        vox=rightN->Get(0,y,z);
         return;
     }
     else if(y<0&&botN!=nullptr)
     {
-        vox=(Voxel)botN->Get(x,CHUNK_SIZE-1,z);
+        vox=botN->Get(x,CHUNK_SIZE-1,z);
         return;
     }
     else if(y>CHUNK_SIZE-1&&topN!=nullptr)
     {
-        vox=(Voxel)topN->Get(x,0,z);
+        vox=topN->Get(x,0,z);
         return;
     }
     else if(z<0&&backN!=nullptr)
     {
-        vox=(Voxel)backN->Get(x,y,CHUNK_SIZE-1);
+        vox=backN->Get(x,y,CHUNK_SIZE-1);
         return;
     }
     else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
     {
-        vox=(Voxel)frontN->Get(x,y,0);
+        vox=frontN->Get(x,y,0);
         return;
     }
     else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
@@ -175,7 +175,7 @@ void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
     }
     else
     {
-        vox=(Voxel)m_pBlocks[x][y][z];
+        vox=m_pBlocks[x][y][z];
         return;
     }
 }

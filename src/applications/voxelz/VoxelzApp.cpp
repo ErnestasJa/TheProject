@@ -26,7 +26,6 @@ VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 
 VoxelzApp::~VoxelzApp()
 {
-
 }
 
 static MeshPtr mesh;
@@ -228,6 +227,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
+    chkmgr->Generate();
     ctx->_timer->tick();
     printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
     chkmgr->Render(cam.get(),vsh,false);

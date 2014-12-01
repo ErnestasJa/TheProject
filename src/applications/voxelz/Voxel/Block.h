@@ -3,7 +3,7 @@
 
 #include "Voxel.h"
 
-enum Etype
+enum EBlockType
 {
     EBT_AIR,
 
@@ -27,6 +27,8 @@ struct Block: public Voxel
         type=EBT_AIR;
         color=u8vec4(255);
     }
+    Block(const Block& other) = delete;
+    Block& operator = (const Block&) = delete;
     uint32_t type;
 };
 
