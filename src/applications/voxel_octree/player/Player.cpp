@@ -43,8 +43,6 @@ const AABB & Player::GetAABB()
 
 void Player::Update(float timeStep)
 {
-  auto lastPos = this->m_position;
-
   ApplyGravity();
   
   if(m_onGround)
@@ -55,9 +53,9 @@ void Player::Update(float timeStep)
   if(!m_onGround && IsOnGround()) //we just fell down, unstuck from ground
     {
       m_onGround = true;
-      while(IsOnGround())
+      /*while(IsOnGround())
 	m_position += glm::vec3(0,0.001,0);
-      m_position -= glm::vec3(0,0.001,0);
+	m_position -= glm::vec3(0,0.001,0);*/
     }
   else if(m_onGround && !IsOnGround())
     m_onGround = false;
@@ -123,13 +121,14 @@ static bool IsNullVec(const glm::vec3 & n)
 #include <stdio.h>
 bool Player::IsSweptColliding(float timeStep)
 {
-  AABB g = m_aabb;
-  g.SetCenter(this->m_position);
   glm::vec3 vel = m_velocity*timeStep;
 
   if(IsNullVec(vel))
     return false;
 
+  AABB g = m_aabb;
+  g.SetCenter(this->m_position);
+  
   auto vec = m_octree->CheckCollisionSwept(g, vel);
 
   if(vec.size()==0)
@@ -138,74 +137,72 @@ bool Player::IsSweptColliding(float timeStep)
       return false;
     }
   
-  glm::vec3 vSweepDir = glm::normalize(vel);
-  float fMinHitDist = vec[0].time;
-  bool bAxisBlocked[3] = {false,false,false};
+  glm::vec3 sweepDir = glm::normalize(vel);
+  float minHitDist = vec[0].time;
+  bool axisBlocked[3] = {false,false,false};
   float minDistAxis[3] = {99999999,99999999,99999999};
   uint32_t axisVoxel[3] = {0,0,0};  
 
-  
-  ///Unblock axis if hitting voxel edge that is a part of wall
+  ///for decoding voxel coordinates
   uint32_t x1,y1,z1;
   uint32_t x2,y2,z2;
 
+  ///check which axis to clamp motion on
   for(unsigned int i = 0; i < vec.size(); i++)
   {
-    auto pEntity = vec[i];
-    float t = pEntity.time;
+    auto voxel = vec[i];
+    float t = voxel.time;
     
-    if(pEntity.time==1||IsNullVec(pEntity.normal))
+    if(t==1||IsNullVec(voxel.normal))
       continue;
 
-    int axis = GetBlockAxis(pEntity.normal);
+    int axis = GetBlockAxis(voxel.normal);
     
     // get nearest distance
-    if( t < fMinHitDist)
-      fMinHitDist = t;
+    if( t < minHitDist)
+      minHitDist = t;
 
-    bAxisBlocked[axis] = true;
+    decodeMK(voxel.voxelMK,x1,y1,z1);
+    printf("CI Axis:[%i] Time:[%0.3f] Normal[%.2f,%.2f,%.2f]\nVoxel[%i,%i,%i]\n",axis,t,voxel.normal.x,voxel.normal.y,voxel.normal.z,x1,y1,z1);
+
+    ///this loop lets player slide against walls just fine, but can't make it work on y axis
+    ///and this probably also will have more issues when player size changes and voxel count increases
+    loop(j, vec.size())
+      {
+	if(i==j)
+	  continue;
+	
+	decodeMK(vec[i].voxelMK,x1,y1,z1);
+	decodeMK(vec[j].voxelMK,x2,y2,z2);
+	if(axis==0&&z1==z2){
+	  printf("Noblock X\n");
+	  goto noblock;
+	}
+	else if(axis==2&&x1==x2){
+	  printf("Noblock Z\n");
+	  goto noblock;
+	}
+	else if(axis==1 && (x1==x2 && z1==z2))
+	  {
+	    printf("Noblock Y\n");
+	    goto noblock;
+	  }
+      }
+    axisBlocked[axis] = true;
+
+  noblock:;
   }
-
-  glm::vec3 vBlockedMotion = vSweepDir * fMinHitDist;
-  printf("Blck axisd[%.2f,%.2f,%.2f]\n", minDistAxis[0], minDistAxis[1], minDistAxis[2]);
-  printf("Blck axis [%i, %i, %i]\n", bAxisBlocked[0], bAxisBlocked[1], bAxisBlocked[2]);
-
-
-  /*if(bAxisBlocked[0]&&bAxisBlocked[2])
-    {
-      if(x1==x3)
-	bAxisBlocked[2]=false;
-      else if(z1==z3)
-	bAxisBlocked[0]=false;
-    }
-
-  if(bAxisBlocked[0]&&bAxisBlocked[1])
-    {
-      if(x1==x2)
-	bAxisBlocked[1]=false;
-      else if(y1==y2)
-	bAxisBlocked[0]=false;
-    }
-
   
-  if(bAxisBlocked[2]&&bAxisBlocked[1])
-    {
-      if(z2==z3)
-	bAxisBlocked[1]=false;
-      else if(y2==y3)
-	bAxisBlocked[2]=false;
-	}*/
-  
-  glm::vec3 vClampedMotion = vel;
+  printf("Blck axis [%i, %i, %i]\n", axisBlocked[0], axisBlocked[1], axisBlocked[2]);
+ 
+  glm::vec3 clampedMotion = vel;
   for(int i = 0; i < 3; i++)
   {
-    if(bAxisBlocked[i]){
-      vClampedMotion[i] *= fMinHitDist; //vBlockedMotion[i];
-      
-    }
+    if(axisBlocked[i])
+      clampedMotion[i] *= minHitDist;      
   }
 
-  m_position = m_position + vClampedMotion;
+  m_position = m_position + clampedMotion;
   return true;
 }
 

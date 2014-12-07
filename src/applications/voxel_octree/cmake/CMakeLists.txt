@@ -13,7 +13,7 @@ else()
 endif()
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 find_package(PythonLibs REQUIRED)
 message(${PYTHON_INCLUDE_DIRS})
