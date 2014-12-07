@@ -49,7 +49,7 @@ struct AABBCollisionInfo
     glm::vec3 normal;
 };
 
-typedef std::vector<AABBCollisionInfo> CollisionInfoVector;
+typedef vector<AABBCollisionInfo> CollisionInfoVector;
 
 template <int Depth>
 class MortonOctTree

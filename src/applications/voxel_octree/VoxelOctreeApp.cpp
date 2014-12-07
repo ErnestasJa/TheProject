@@ -60,7 +60,6 @@ void VoxelOctreeApp::InitResources()
     
     octree = new MortonOctTree<10>();
     octreeGen = new VoxMeshManager(octree);
-    octree->AddOrphanNode(MNode(0,0,0));
     octreeGen->GenAllChunks();
     player = new Player(cam,octree,glm::vec3(236.348465, 132.464081, 183.379868));
     cube = new TCubeMesh<glm::vec3>(player->GetAABB());

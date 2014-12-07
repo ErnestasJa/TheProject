@@ -46,13 +46,12 @@ void Player::Update(float timeStep)
   auto lastPos = this->m_position;
 
   ApplyGravity();
-  IsSweptColliding();
-
+  
   if(m_onGround)
     m_velocity.y=0;
   
-  m_position += m_velocity * timeStep;
-
+  IsSweptColliding(timeStep);
+  
   if(!m_onGround && IsOnGround()) //we just fell down, unstuck from ground
     {
       m_onGround = true;
@@ -106,36 +105,108 @@ bool Player::IsColliding()
   return m_octree->CheckCollisionB(aabb);
 }
 
+bool sortCI(const AABBCollisionInfo & a, const AABBCollisionInfo & b)
+{
+  return a.time<b.time;
+}
+
+int GetBlockAxis(const glm::vec3 & n)
+{
+  return (n.x!=0.0f?0:(n.y!=0.0f?1:2));
+}
+
+static bool IsNullVec(const glm::vec3 & n)
+{
+  return (n.x==n.y&&n.y==n.z&&n.z==0.0);
+}
+
 #include <stdio.h>
-bool Player::IsSweptColliding()
+bool Player::IsSweptColliding(float timeStep)
 {
   AABB g = m_aabb;
   g.SetCenter(this->m_position);
+  glm::vec3 vel = m_velocity*timeStep;
 
-  auto vec = m_octree->CheckCollisionSwept(g, m_velocity);
+  if(IsNullVec(vel))
+    return false;
 
-  bool z = false, x = false;
+  auto vec = m_octree->CheckCollisionSwept(g, vel);
 
-  for(auto ci : vec)
+  if(vec.size()==0)
     {
-      float remainingtime = 1.0f - ci.time;
-      float dotprod = glm::dot(m_velocity, ci.normal) * remainingtime;
-      auto change = ci.normal * dotprod;
-
-      if(ci.normal.z!=0.0f && !z)
-	{ 
-	  m_velocity.x = m_velocity.x - change.x;
-	  m_velocity.z = m_velocity.z - change.z;
-	  z=true;
-	}
-      else if(ci.normal.x!=0 && !x)
-	{
-	  m_velocity.x = m_velocity.x - change.x;
-	  m_velocity.z = m_velocity.z - change.z;
-	  x=true;
-	}
-     
+      m_position += vel;
+      return false;
     }
+  
+  glm::vec3 vSweepDir = glm::normalize(vel);
+  float fMinHitDist = vec[0].time;
+  bool bAxisBlocked[3] = {false,false,false};
+  float minDistAxis[3] = {99999999,99999999,99999999};
+  uint32_t axisVoxel[3] = {0,0,0};  
+
+  
+  ///Unblock axis if hitting voxel edge that is a part of wall
+  uint32_t x1,y1,z1;
+  uint32_t x2,y2,z2;
+
+  for(unsigned int i = 0; i < vec.size(); i++)
+  {
+    auto pEntity = vec[i];
+    float t = pEntity.time;
+    
+    if(pEntity.time==1||IsNullVec(pEntity.normal))
+      continue;
+
+    int axis = GetBlockAxis(pEntity.normal);
+    
+    // get nearest distance
+    if( t < fMinHitDist)
+      fMinHitDist = t;
+
+    bAxisBlocked[axis] = true;
+  }
+
+  glm::vec3 vBlockedMotion = vSweepDir * fMinHitDist;
+  printf("Blck axisd[%.2f,%.2f,%.2f]\n", minDistAxis[0], minDistAxis[1], minDistAxis[2]);
+  printf("Blck axis [%i, %i, %i]\n", bAxisBlocked[0], bAxisBlocked[1], bAxisBlocked[2]);
+
+
+  /*if(bAxisBlocked[0]&&bAxisBlocked[2])
+    {
+      if(x1==x3)
+	bAxisBlocked[2]=false;
+      else if(z1==z3)
+	bAxisBlocked[0]=false;
+    }
+
+  if(bAxisBlocked[0]&&bAxisBlocked[1])
+    {
+      if(x1==x2)
+	bAxisBlocked[1]=false;
+      else if(y1==y2)
+	bAxisBlocked[0]=false;
+    }
+
+  
+  if(bAxisBlocked[2]&&bAxisBlocked[1])
+    {
+      if(z2==z3)
+	bAxisBlocked[1]=false;
+      else if(y2==y3)
+	bAxisBlocked[2]=false;
+	}*/
+  
+  glm::vec3 vClampedMotion = vel;
+  for(int i = 0; i < 3; i++)
+  {
+    if(bAxisBlocked[i]){
+      vClampedMotion[i] *= fMinHitDist; //vBlockedMotion[i];
+      
+    }
+  }
+
+  m_position = m_position + vClampedMotion;
+  return true;
 }
 
  

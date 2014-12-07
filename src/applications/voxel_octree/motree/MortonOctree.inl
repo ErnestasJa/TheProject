@@ -125,7 +125,7 @@ bool MortonOctTree<Depth>::CheckCollision(const AABB & aabb)
         clamp(x.x);
         clamp(x.y);
         clamp(x.z);
-    };
+   };
 
     glm::vec3 min = aabb.GetMin(),
               max = aabb.GetMax();
@@ -230,15 +230,11 @@ auto printAABB = [](const std::string & name, const AABB & bb)
 printf("(%s) min [%0.2f,%0.2f,%0.2f], [%0.2f,%0.2f,%0.2f]]\n", name.c_str(), mi.x, mi.y, mi.z, mx.x, mx.y, mx.z);
 };
 
-printAABB("bpbox", bpbox);
-
   for(uint32_t z = min.z; z < max.z; z++)
     for(uint32_t y = min.y; y < max.y; y++)
       for(uint32_t x = min.x; x < max.x; x++)
 	if(boost::range::binary_search(m_nodes,MNode(x,y,z))){
 	  AABB b1(glm::vec3(x+0.5,y+0.5,z+0.5),glm::vec3(0.5,0.5,0.5));
-printAABB("playa",aabb);
-printAABB("b1   ",b1);
 	  AABBCollisionInfo info;
 	  info.time = aabb.SweepCollidesWith(b1,vel,normalOut);
 

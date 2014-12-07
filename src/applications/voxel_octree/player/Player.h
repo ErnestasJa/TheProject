@@ -28,7 +28,7 @@ class Player
 
   bool IsColliding();
   bool IsOnGround();
-  bool IsSweptColliding();
+  bool IsSweptColliding(float timeStep);
   
   MortonOctTree<10> * m_octree;
   CameraPtr m_cam;
