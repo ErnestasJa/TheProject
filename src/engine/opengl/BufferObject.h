@@ -9,6 +9,11 @@ struct BufferObject: public IBufferObject
 {
     vector<T> data;
 
+    virtual ~BufferObject()
+    {
+        data.clear();
+    }
+
     //void Init_buffers();
     virtual void Init();
     virtual void Upload();
@@ -23,6 +28,11 @@ template <class T>
 struct IndexBufferObject: public IBufferObject
 {
     vector<T> data;
+
+    virtual ~IndexBufferObject()
+    {
+        data.clear();
+    }
 
     //void Init_buffers();
     virtual void Init();

@@ -31,7 +31,7 @@ VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img,uint32_t extr
         if(pixel.a==0 || pixel==discardColor)
             continue;
         else
-            ret->CreateVox(x,y,z,pixel);
+            ret->CreateVox(x,y,z,VecRGBAToIntRGBA(pixel));
     }
     ret->Rebuild();
     return ret;

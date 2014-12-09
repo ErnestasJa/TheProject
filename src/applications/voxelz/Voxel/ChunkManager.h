@@ -10,56 +10,79 @@ class Block;
 class Chunk;
 enum EBlockType;
 
-struct chunk_hash : std::unary_function<glm::vec3, std::size_t>
+struct chunk_hash : std::unary_function<glm::ivec3, std::size_t>
 {
-    std::size_t operator()(glm::vec3 const& v) const
+    std::size_t operator()(glm::ivec3 const& v) const
     {
         std::size_t seed = 0;
         boost::hash_combine(seed, v.x);
+        std::size_t a=seed;
         boost::hash_combine(seed, v.y);
+        std::size_t b=seed;
         boost::hash_combine(seed, v.z);
+        std::size_t c=seed;
+
         return seed;
     }
 };
 
-inline glm::vec3 WorldToChunkCoords(const glm::vec3 &other)
+struct chunk_equal
+{
+    bool operator() (glm::ivec3 const& a, glm::ivec3 const& b) const
+    {
+        return a.x==b.x && a.y==b.y && a.z==b.z;
+    }
+};
+
+struct GLMVec3Compare
+{
+   bool operator() (const glm::vec3 &a,const glm::vec3 &b) const
+   {
+       return
+        (a.x<b.x || !(a.x==b.x)) ||
+        (a.x==b.x && a.y<b.y && !(a.y==b.y)) ||
+        (a.x==b.x && a.y==b.y && a.z<b.z && !(a.z==b.z));
+   }
+};
+
+inline glm::ivec3 WorldToChunkCoords(const glm::ivec3 &other)
 {
     int cx = glm::floor(other.x / CHUNK_SIZEF);
     int cy = glm::floor(other.y / CHUNK_SIZEF);
     int cz = glm::floor(other.z / CHUNK_SIZEF);
 
-    return glm::vec3(cx,cy,cz);
+    return glm::ivec3(cx,cy,cz);
 }
 
-inline glm::vec3 ChunkToWorldCoords(const glm::vec3 &other)
+inline glm::ivec3 ChunkToWorldCoords(const glm::ivec3 &other)
 {
-    int cx = glm::floor(other.x * CHUNK_SIZEF);
-    int cy = glm::floor(other.y * CHUNK_SIZEF);
-    int cz = glm::floor(other.z * CHUNK_SIZEF);
+    int cx = other.x * CHUNK_SIZEF;
+    int cy = other.y * CHUNK_SIZEF;
+    int cz = other.z * CHUNK_SIZEF;
 
-    return glm::vec3(cx,cy,cz);
+    return glm::ivec3(cx,cy,cz);
 }
 
-inline glm::vec3 ChunkSpaceCoords(const glm::vec3 &pos)
+inline glm::ivec3 ChunkSpaceCoords(const glm::ivec3 &pos)
 {
-	glm::vec3 ats;
+	glm::ivec3 ats;
 
-	ats.x = (int)pos.x % CHUNK_SIZE;
+	ats.x = pos.x % CHUNK_SIZE;
 	if(pos.x<0&&ats.x!=0)
         ats.x= (CHUNK_SIZE)+ats.x;
 
-	ats.y = (int)pos.y % CHUNK_SIZE;
+	ats.y = pos.y % CHUNK_SIZE;
 	if(pos.y<0&&ats.y!=0)
         ats.y=(CHUNK_SIZE)+ats.y;
 
-	ats.z = (int)pos.z % CHUNK_SIZE;
+	ats.z = pos.z % CHUNK_SIZE;
 	if(pos.z<0&&ats.z!=0)
         ats.z=(CHUNK_SIZE)+ats.z;
 
 	return ats;
 }
 
-typedef boost::unordered_map<glm::vec3, ChunkPtr, chunk_hash> ChunkMap;
+typedef boost::unordered_map<glm::ivec3, ChunkPtr, chunk_hash, chunk_equal> ChunkMap;
 
 class ChunkManager
 {
@@ -69,17 +92,21 @@ public:
 
     void Generate();
 
-    void Explode(const glm::vec3 &pos,float power);
+    void NoiseChunk(ChunkPtr chunkToNoise);
 
-    void SetBlock(const glm::vec3 &pos,EBlockType type,bool active);
-    const Block &GetBlock(const glm::vec3 &pos);
+    void Explode(const glm::ivec3 &pos,float power);
 
-    const ChunkPtr &GetChunk(const glm::vec3 &pos);
-    const ChunkPtr &GetChunkWorld(const glm::vec3 &pos);
-    void SetChunkNeighbours(const ChunkPtr &chunk,const glm::vec3 &pos);
+    void SetBlock(const glm::ivec3 &pos,EBlockType type,bool active);
+    const Block &GetBlock(const glm::ivec3 &pos);
 
-    const ChunkPtr & AddChunk(const glm::vec3 &pos);
-    const ChunkPtr & AddChunkWorld(const glm::vec3 &pos);
+    ChunkPtr GetChunk(const glm::ivec3 &pos);
+    ChunkPtr GetChunkWorld(const glm::ivec3 &pos);
+    void SetChunkNeighbours(ChunkPtr chunk,const glm::ivec3 &pos);
+
+    ChunkPtr AddChunk(const glm::ivec3 &pos);
+    ChunkPtr AddChunkWorld(const glm::ivec3 &pos);
+
+    void RemoveChunk(const glm::ivec3 &pos);
 
     void Render(Camera *cam,ShaderPtr vsh,bool wireframe=false);
 

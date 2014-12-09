@@ -14,7 +14,6 @@
     #include <boost/container/allocator.hpp>
     #include <boost/range/algorithm.hpp>
     #include <boost/range/algorithm_ext.hpp>
-
     template<typename T>
     using vector = boost::container::vector<T,boost::container::allocator<T>>;
 #elif defined STD_VECTOR

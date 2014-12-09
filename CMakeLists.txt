@@ -15,6 +15,3 @@ add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/jsoncpp/")
 add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/libsigc++/")
 add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/physfs/")
 add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/googletest/")
-
-#No bullet yet..
-#add_subdirectory("${BUILD_LIBRARIES_SOURCE_DIR}/libs/bullet/src/")

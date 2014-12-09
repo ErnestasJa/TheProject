@@ -19,16 +19,15 @@ enum EBlockType
     EBT_COUNT
 };
 
-struct Block: public Voxel
+struct Block
 {
     Block()
     {
         active=false;
         type=EBT_AIR;
-        color=u8vec4(255);
     }
-    Block(const Block& other) = delete;
-    Block& operator = (const Block&) = delete;
+
+    bool active;
     uint32_t type;
 };
 

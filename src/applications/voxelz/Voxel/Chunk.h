@@ -8,15 +8,14 @@
 #define CHUNK_SIZEF 16.f
 class ChunkManager;
 
-static Block EMPTY_BLOCK;
-
-typedef boost::multi_array<Block, 3> BlockArray;
-
 class Chunk:public VoxelMesh
 {
 public:
-    Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos);
-    ~Chunk();
+    static Block EMPTY_BLOCK;
+    BOOST_MOVABLE_BUT_NOT_COPYABLE(Chunk)
+
+    Chunk(ChunkManager *chunkManager, glm::ivec3 chunkPos);
+    virtual ~Chunk();
 
     void Fill();
     void Rebuild();
@@ -24,16 +23,20 @@ public:
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
     const Block &Get(uint32_t x,uint32_t y,uint32_t z);
+    const glm::ivec3 &GetPosition()
+    {
+        return m_chunkPos;
+    }
 
     uint32_t GetBlockCount();
 private:
     ChunkManager *m_chunkManager;
-    glm::vec3 m_chunkPos;
-    Block m_pBlocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-    void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
+    glm::ivec3 m_chunkPos;
+    vector<Block> m_pBlocks;
+    const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
 public:
-    typedef std::shared_ptr<Chunk> chkptr;
-    chkptr leftN,rightN,botN,topN,backN,frontN;
+    typedef Chunk* _ChunkPtr;
+    _ChunkPtr leftN,rightN,botN,topN,backN,frontN;
 };
-typedef Chunk::chkptr ChunkPtr;
+typedef Chunk::_ChunkPtr ChunkPtr;
 #endif // CHUNK_H

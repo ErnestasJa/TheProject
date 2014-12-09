@@ -8,42 +8,45 @@
 #include "resources/ResourceCache.h"
 #include <boost/foreach.hpp>
 
-static u8vec4 getTypeCol(uint32_t typ)
+Block Chunk::EMPTY_BLOCK=Block();
+
+static intRGBA getTypeCol(uint32_t typ)
 {
     switch(typ)
     {
     case EBT_VOIDROCK:
-        return u8vec4(0,0,0,255);
+        return VecRGBAToIntRGBA(u8vec4(0,0,0,255));
         break;
     case EBT_STONE:
-        return u8vec4(128,128,128,255);
+        return VecRGBAToIntRGBA(u8vec4(128,128,128,255));
         break;
     case EBT_SAND:
-        return u8vec4(192,192,64,255);
+        return VecRGBAToIntRGBA(u8vec4(192,192,64,255));
         break;
     case EBT_DIRT:
-        return u8vec4(64,64,0,255);
+        return VecRGBAToIntRGBA(u8vec4(64,64,0,255));
         break;
     case EBT_GRASS:
-        return u8vec4(0,128,0,255);
+        return VecRGBAToIntRGBA(u8vec4(0,128,0,255));
         break;
     case EBT_LEAF:
-        return u8vec4(0,192,0,255);
+        return VecRGBAToIntRGBA(u8vec4(0,192,0,255));
         break;
     case EBT_WOOD:
-        return u8vec4(128,128,0,255);
+        return VecRGBAToIntRGBA(u8vec4(128,128,0,255));
         break;
     case EBT_WATER:
-        return u8vec4(0,0,128,128);
+        return VecRGBAToIntRGBA(u8vec4(0,0,128,128));
         break;
     default:
-        return u8vec4(255,255,255,255);
+        return VecRGBAToIntRGBA(u8vec4(255,255,255,255));
         break;
     }
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager, glm::ivec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
+    m_pBlocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
     // Create the blocks
     m_chunkManager = chunkManager;
     m_chunkPos = chunkPos;
@@ -53,7 +56,7 @@ Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZ
 
 Chunk::~Chunk()
 {
-    Cleanup();
+    m_pBlocks.clear();
 }
 
 void Chunk::UpdateNeighbours()
@@ -76,8 +79,12 @@ void Chunk::Rebuild()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(!m_pBlocks[x][y][z].active) continue;
-                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].type));
+                if(!m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].active)
+                {
+                    RemoveVox(x,y,z);
+                    continue;
+                }
+                CreateVox(x,y,z,getTypeCol(m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].type));
             }
         }
     }
@@ -89,17 +96,30 @@ void Chunk::Rebuild()
 
 void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
-    m_pBlocks[x][y][z].active=active;
-    m_pBlocks[x][y][z].type=type;
-    m_pBlocks[x][y][z].color=getTypeCol(type);
-    m_dirty=true;
+    if(x<0||x>=CHUNK_SIZE||y<0||y>=CHUNK_SIZE||z<0||z>=CHUNK_SIZE) return;
+    if(active)
+    {
+        Block a;
+        a.type=type;
+        a.active=active;
+        m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=a;
+
+        CreateVox(x,y,z,getTypeCol(type));
+        m_dirty=true;
+    }
+    else
+    {
+        m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=EMPTY_BLOCK;
+        RemoveVox(x,y,z);
+        m_dirty=true;
+    }
 }
 
 const Block &Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
 {
     if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
         return EMPTY_BLOCK;
-    return m_pBlocks[x][y][z];
+    return m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
 }
 
 void Chunk::Fill()
@@ -110,8 +130,9 @@ void Chunk::Fill()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                m_pBlocks[x][y][z].type=EBT_STONE;
-                m_pBlocks[x][y][z].active=true;
+                m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].type=EBT_STONE;
+                m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].active=true;
+                CreateVox(x,y,z,getTypeCol(m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].type));
             }
         }
     }
@@ -128,7 +149,7 @@ uint32_t Chunk::GetBlockCount()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(m_pBlocks[x][y][z].active) ret++;
+                if(m_pBlocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].active) ret++;
             }
         }
     }
@@ -136,47 +157,39 @@ uint32_t Chunk::GetBlockCount()
     return ret;
 }
 
-void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
+const Voxel& Chunk::GetVoxel(int32_t x,int32_t y, int32_t z)
 {
     if(x<0&&leftN!=nullptr)
     {
-        vox=leftN->Get(CHUNK_SIZE-1,y,z);
-        return;
+        return leftN->GetVoxel(CHUNK_SIZE-1,y,z);
     }
     else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
     {
-        vox=rightN->Get(0,y,z);
-        return;
+        return rightN->GetVoxel(0,y,z);
     }
     else if(y<0&&botN!=nullptr)
     {
-        vox=botN->Get(x,CHUNK_SIZE-1,z);
-        return;
+        return botN->GetVoxel(x,CHUNK_SIZE-1,z);
     }
     else if(y>CHUNK_SIZE-1&&topN!=nullptr)
     {
-        vox=topN->Get(x,0,z);
-        return;
+        return topN->GetVoxel(x,0,z);
     }
     else if(z<0&&backN!=nullptr)
     {
-        vox=backN->Get(x,y,CHUNK_SIZE-1);
-        return;
+        return backN->GetVoxel(x,y,CHUNK_SIZE-1);
     }
     else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
     {
-        vox=frontN->Get(x,y,0);
-        return;
+        return frontN->GetVoxel(x,y,0);
     }
     else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
     {
-        vox.active=false;
-        return;
+        return VoxelMesh::EMPTY_VOXEL;
     }
     else
     {
-        vox=m_pBlocks[x][y][z];
-        return;
+        return m_vox[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
     }
 }
 

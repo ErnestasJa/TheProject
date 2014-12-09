@@ -5,6 +5,6 @@
 		<Project filename="projects/VoxelZ/VoxelZ.cbp">
 			<Depends filename="projects/Engine/Engine.cbp" />
 		</Project>
-		<Project filename="../../../MemorySandbox/MemorySandbox.cbp" />
+		<Project filename="../../../Sandybox/Sandybox.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

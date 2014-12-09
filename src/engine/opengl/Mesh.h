@@ -48,8 +48,9 @@ struct sub_mesh
 };
 
 struct IBufferObject;
-struct Mesh
+class Mesh
 {
+public:
     enum BUFFER_OBJECT_INDEX
     {
         POSITION     = 0,

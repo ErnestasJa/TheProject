@@ -6,8 +6,12 @@
 #include "VoxelMesh.h"
 #include "utility/Timer.h"
 
+Voxel VoxelMesh::EMPTY_VOXEL=Voxel();
+
 VoxelMesh::VoxelMesh(uint32_t size)
 {
+    m_vox.reserve(size*size*size);
+
     mVecTrack=0;
     mIndexTrack=0;
     m_size=size;
@@ -17,9 +21,9 @@ VoxelMesh::VoxelMesh(uint32_t size)
     buffers[Mesh::COLOR] = new BufferObject<u8vec4>();
     buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
 
-    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.resize((uint32_t)glm::pow(size/2.f,3.f));
-    ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.resize((uint32_t)glm::pow(size/2.f,3.f));
-    ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.resize((uint32_t)glm::pow(size/2.f,3.f)*36);
+    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.reserve((uint32_t)glm::pow(size/2.f,3.f));
+    ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.reserve((uint32_t)glm::pow(size/2.f,3.f));
+    ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.reserve((uint32_t)glm::pow(size/2.f,3.f)*36);
 
     m_faceCount=0;
     m_empty=true;
@@ -29,6 +33,8 @@ VoxelMesh::VoxelMesh(uint32_t size)
 
 VoxelMesh::~VoxelMesh()
 {
+    Cleanup();
+    m_vox.clear();
 }
 
 bool VoxelMesh::Empty()
@@ -47,7 +53,10 @@ void VoxelMesh::Render(bool wireframe)
         Rebuild();
 
     if(!Empty()&&!m_dirty)
+    {
         Mesh::Render();
+    }
+
 
     if(wireframe)
     {
@@ -57,20 +66,24 @@ void VoxelMesh::Render(bool wireframe)
 
 void VoxelMesh::Cleanup()
 {
+    mVecTrack=0;
+    mIndexTrack=0;
     if(!Empty())
     {
-        mVecTrack=0;
-        mIndexTrack=0;
-
-        loop(x,m_size)
-        loop(y,m_size)
-        loop(z,m_size)
-        m_vox[x][y][z].active=false;
+        m_vox.clear();
 
         ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.clear();
         ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.clear();
         ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.clear();
+
+        m_empty=true;
     }
+}
+
+void VoxelMesh::ClearBuffers()
+{
+    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.clear();
+    ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.clear();
 }
 
 void VoxelMesh::UpdateMesh()
@@ -85,6 +98,7 @@ void VoxelMesh::UpdateMesh()
 
         a.tick();
         UploadBuffers();
+        ClearBuffers();
         a.tick();
         //printf("Upload took: %u ms\n",a.get_delta_time());
 
@@ -95,17 +109,15 @@ void VoxelMesh::UpdateMesh()
     }
 }
 
-void VoxelMesh::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
+const Voxel & VoxelMesh::GetVoxel(int32_t x,int32_t y, int32_t z)
 {
     if(x>m_size-1 || x<0 || y>m_size-1 || y<0 || z>m_size-1 || z<0)
     {
-        vox.active=0;
-        vox.color=u8vec4(128);
+        return VoxelMesh::EMPTY_VOXEL;
     }
     else
     {
-        vox.active=m_vox[x][y][z].active;
-        vox.color=m_vox[x][y][z].color;
+        return m_vox[x+y*m_size+z*m_size*m_size];
     }
 }
 
@@ -152,9 +164,6 @@ void VoxelMesh::GreedyBuild()
     MaskNode **mask=new MaskNode*[m_size];
     loop(i,m_size) mask[i]=new MaskNode[m_size];
 
-    MaskNode mn;
-    Voxel tmpVoxel;
-
     u8vec3 face[4];
 
     glm::ivec2 qstart, qdims;
@@ -174,12 +183,12 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,y,z);
+                    const Voxel& tmpVoxel=GetVoxel(x,y,z);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
 
-                        GetVoxel(tmpVoxel,x,y,z-1);
+                        const Voxel& tmpVoxel=GetVoxel(x,y,z-1);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -191,11 +200,11 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,y,z);
+                    const Voxel& tmpVoxel=GetVoxel(x,y,z);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,x,y,z+1);
+                        const Voxel& tmpVoxel=GetVoxel(x,y,z+1);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -207,11 +216,11 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,z,y);
+                    const Voxel& tmpVoxel=GetVoxel(x,z,y);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,x,z+1,y);
+                        const Voxel& tmpVoxel=GetVoxel(x,z+1,y);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -223,11 +232,11 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,x,z,y);
+                    const Voxel& tmpVoxel=GetVoxel(x,z,y);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,x,z-1,y);
+                        const Voxel& tmpVoxel=GetVoxel(x,z-1,y);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -239,11 +248,11 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,z,y,x);
+                    const Voxel& tmpVoxel=GetVoxel(z,y,x);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,z+1,y,x);
+                        const Voxel& tmpVoxel=GetVoxel(z+1,y,x);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -255,11 +264,11 @@ void VoxelMesh::GreedyBuild()
                 {
                     MaskNode & n = mask[x][y];
 
-                    GetVoxel(tmpVoxel,z,y,x);
+                    const Voxel& tmpVoxel=GetVoxel(z,y,x);
                     n.color=tmpVoxel.color;
                     if(tmpVoxel.active)
                     {
-                        GetVoxel(tmpVoxel,z-1,y,x);
+                        const Voxel& tmpVoxel=GetVoxel(z-1,y,x);
                         n.exists = !(tmpVoxel.active==1);
                     }
                 }
@@ -273,7 +282,7 @@ void VoxelMesh::GreedyBuild()
             {
                 loop(x, m_size)
                 {
-                    mn = mask[x][y];
+                    MaskNode& mn = mask[x][y];
                     if(mn)
                     {
                         /*
@@ -360,44 +369,53 @@ void VoxelMesh::GreedyBuild()
     delete mask;
 
     m_faceCount=faceCount*2;
+
+    if(m_faceCount==0)
+        m_empty=true;
 }
 
-void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const u8vec4 &col)
+void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const intRGBA &col)
 {
     BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
-//    u8vec4 color((rand()%128+128),(rand()%128+128),(rand()%128+128),1.f);
+    uint32_t indexStart=vbo->data.size();
 
-    vbo->data[mVecTrack]=(face[0]);
-    vbo->data[mVecTrack+1]=(face[1]);
-    vbo->data[mVecTrack+2]=(face[2]);
-    vbo->data[mVecTrack+3]=(face[3]);
+    vbo->data.push_back(face[0]);
+    vbo->data.push_back(face[1]);
+    vbo->data.push_back(face[2]);
+    vbo->data.push_back(face[3]);
 
-    cbo->data[mVecTrack]=(col);
-    cbo->data[mVecTrack+1]=(col);
-    cbo->data[mVecTrack+2]=(col);
-    cbo->data[mVecTrack+3]=(col);
+    u8vec4 _col=IntRGBAToVecRGBA(col);
 
-    ibo->data[mIndexTrack]=(mVecTrack);
-    ibo->data[mIndexTrack+1]=(mVecTrack+2);
-    ibo->data[mIndexTrack+2]=(mVecTrack+3);
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
 
-    ibo->data[mIndexTrack+3]=(mVecTrack);
-    ibo->data[mIndexTrack+4]=(mVecTrack+1);
-    ibo->data[mIndexTrack+5]=(mVecTrack+2);
+    ibo->data.push_back(indexStart);
+    ibo->data.push_back(indexStart+2);
+    ibo->data.push_back(indexStart+3);
 
-    mVecTrack+=4;
-    mIndexTrack+=6;
+    ibo->data.push_back(indexStart);
+    ibo->data.push_back(indexStart+1);
+    ibo->data.push_back(indexStart+2);
 }
 
-void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col)
+void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const intRGBA &col)
 {
+    Voxel vox;
+    vox.active=true;
+    vox.color=col;
     if(m_empty)
         m_empty=false;
-    m_vox[x][y][z].active=true;
-    m_vox[x][y][z].color=col;
+    m_vox[x+y*m_size+z*m_size*m_size]=vox;
+}
+
+void VoxelMesh::RemoveVox(int32_t x, int32_t y, int32_t z)
+{
+    m_vox[x+y*m_size+z*m_size*m_size]=EMPTY_VOXEL;
 }
 
 uint32_t VoxelMesh::GetFaceCount()

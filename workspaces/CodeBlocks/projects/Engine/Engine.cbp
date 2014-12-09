@@ -82,7 +82,6 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-fPIC" />
 				</Compiler>

@@ -1,5 +1,4 @@
 #include "Precomp.h"
-#include "Voxel/Block.h"
 #include "Voxel/Chunk.h"
 #include "ChunkManager.h"
 #include "scenegraph/Camera.h"
@@ -9,20 +8,33 @@
 #include "utility/Timer.h"
 #include <boost/foreach.hpp>
 
+#define WORLD_HEIGHT 256
+
 ChunkManager::ChunkManager()
 {
-
 }
 
 ChunkManager::~ChunkManager()
 {
+    int cunt=0;
+    for(auto a:m_chunks)
+    {
+        cunt++;
+        delete a.second;
+    }
+    printf("Cunt is %d\n",cunt);
     m_chunks.clear();
+}
+
+static void PlaceTrees(ChunkMap cmap)
+{
+
 }
 
 void ChunkManager::Generate()
 {
-    #define GEN_FILL
-    #ifdef GEN_FILE
+#define GEN_NEW
+#ifdef GEN_FILE
     char * buf;
     uint32_t len;
     len=helpers::read("res/de_nuke.bvox",buf);
@@ -42,10 +54,10 @@ void ChunkManager::Generate()
     }
 
     delete[] buf;
-    #endif //GEN_FILE
+#endif //GEN_FILE
 
-    #ifdef GEN_NOISE
-    int testsize=512;
+#ifdef GEN_NOISE
+    int testsize=256;
     int testheight=128;
 
     for(int x=-testsize; x<testsize; x++)
@@ -75,11 +87,10 @@ void ChunkManager::Generate()
                 {
                     if(y<60)
                     {
-                        SetBlock(glm::vec3(x,y,z),EBT_WATER,true);
+                        SetBlock(glm::vec3(x,y,z),EBT_WATER,false);
                         continue;
                     }
-                    else
-                    if(GetBlock(glm::vec3(x, y - 1, z)).type == EBT_GRASS && (rand() & 0xff) == 0)
+                    else if(GetBlock(glm::vec3(x, y - 1, z)).type == EBT_GRASS && (rand() & 0xff) == 0)
                     {
                         // Trunk
                         h = (rand() & 0x3) + 3;
@@ -108,18 +119,18 @@ void ChunkManager::Generate()
             }
         }
     }
-    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
-    {
-        SetChunkNeighbours(a.second,a.first);
-    }
-    #endif // GEN_NOISE
+//    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+//    {
+//        SetChunkNeighbours(a.second,a.first);
+//    }
+#endif // GEN_NOISE
 
-    #ifdef GEN_SINGLE
+#ifdef GEN_SINGLE
     AddChunk(glm::vec3(0));
     m_chunks[glm::vec3(0)]->Fill();
-    #endif // GEN_SINGLE
+#endif // GEN_SINGLE
 
-    #ifdef GEN_FILL
+#ifdef GEN_FILL
     loop(i,16)
     loop(j,8)
     loop(k,16)
@@ -130,7 +141,46 @@ void ChunkManager::Generate()
     {
         SetChunkNeighbours(a.second,a.first);
     }
-    #endif
+#endif
+
+#ifdef GEN_NEW
+    loop(i,32)
+    loop(j,16)
+    loop(k,32)
+    {
+        ChunkPtr a=AddChunk(glm::ivec3(i,j,k));
+        NoiseChunk(a);
+    }
+    BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
+    {
+        SetChunkNeighbours(a.second,a.first);
+    }
+#endif
+
+}
+
+void ChunkManager::RemoveChunk(const glm::ivec3& pos)
+{
+    //printf("I am being used by %d referencees\n",m_chunks[pos].use_count());
+
+    if(m_chunks[pos]->leftN!=nullptr) m_chunks[pos]->leftN->rightN=nullptr;
+    if(m_chunks[pos]->rightN!=nullptr) m_chunks[pos]->rightN->leftN=nullptr;
+
+    if(m_chunks[pos]->botN!=nullptr) m_chunks[pos]->botN->topN=nullptr;
+    if(m_chunks[pos]->topN!=nullptr) m_chunks[pos]->topN->botN=nullptr;
+
+    if(m_chunks[pos]->backN!=nullptr) m_chunks[pos]->backN->frontN=nullptr;
+    if(m_chunks[pos]->frontN!=nullptr) m_chunks[pos]->frontN->backN=nullptr;
+
+    //printf("Now I am being used by %d referencees\n",m_chunks[pos].use_count());
+
+
+    if(m_chunks.count(pos)!=0)
+    {
+        Chunk* temp=m_chunks[pos];
+        m_chunks.erase(pos);
+        delete temp;
+    }
 }
 
 static const char* v3str(const glm::vec3 & vec)
@@ -140,23 +190,69 @@ static const char* v3str(const glm::vec3 & vec)
     return std::string(buf).c_str();
 }
 
-void ChunkManager::Explode(const glm::vec3 &pos,float power)
+void ChunkManager::NoiseChunk(ChunkPtr chunkToNoise)
 {
-    glm::vec3 startpos=pos-power;
-    glm::vec3 endpos=pos+power;
+    glm::ivec3 cpos=chunkToNoise->GetPosition();
+    for(int x=0; x<16; x++)
+    {
+        for(int z=0; z<16; z++)
+        {
+            float h=scaled_raw_noise_2d(5,WORLD_HEIGHT/2,(cpos.x+x)/256.f,(cpos.z+z)/256.f);
+            for(int y=0; y<16; y++)
+            {
+                if(cpos.y+y==0)
+                {
+                    chunkToNoise->Set(x,y,z,EBT_VOIDROCK,true);
+                    continue;
+                }
+                else if(cpos.y+y==(int)h)
+                {
+                    float b=scaled_raw_noise_3d(0,WORLD_HEIGHT/2,(cpos.x+x)/256.f,(cpos.y+y)/256.f,(cpos.z+z)/256.f);
+                    if(b*(rand()%5+1)<32)
+                    {
+                        chunkToNoise->Set(x,y,z,EBT_SAND,true);
+                        continue;
+                    }
+                    chunkToNoise->Set(x,y,z,EBT_GRASS,true);
+                    continue;
+                }
+                else if(cpos.y+y>h)
+                {
+                    if(cpos.y+y<60)
+                    {
+                        chunkToNoise->Set(x,y,z,EBT_WATER,true);
+                        continue;
+                    }
+                    break;
+                }
+                else
+                {
+                    chunkToNoise->Set(x,y,z,EBT_STONE,true);
+                }
+            }
+        }
+    }
+}
 
-    AABB ab=AABB(pos,glm::vec3(power/2.0f)); //+(CHUNK_SIZEF*((glm::vec3)a.first))
+void ChunkManager::Explode(const glm::ivec3 &pos,float power)
+{
+    glm::vec3 posf=glm::vec3(pos);
+
+    glm::vec3 startpos=posf-power;
+    glm::vec3 endpos=posf+power;
+
+    AABB ab=AABB(posf,glm::vec3(power/2.0f)); //+(CHUNK_SIZEF*((glm::vec3)a.first))
     printf("Explosion AABB size %f %f %f\n",ab.GetHalfSize().x*2,ab.GetHalfSize().y*2,ab.GetHalfSize().z*2);
 
     std::list<ChunkPtr> exploded;
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
-        a.second->aabb.Translate(CHUNK_SIZEF*a.first);
+        a.second->aabb.Translate(CHUNK_SIZEF*glm::vec3(a.first));
         if(ab.IntersectsWith(a.second->aabb))
             exploded.push_back(a.second);
     }
 
-    printf("BOOM! Position:%s Startbound:%s Endbound:%s \n",v3str(pos),v3str(startpos),v3str(endpos));
+    printf("BOOM! Position:%s Startbound:%s Endbound:%s \n",v3str(posf),v3str(startpos),v3str(endpos));
 
     for(int x=startpos.x; x<endpos.x; x++)
     {
@@ -164,9 +260,9 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
         {
             for(int z=startpos.z; z<endpos.z; z++)
             {
-                if (sqrt((float) glm::pow((pos.x-x),2.f) + glm::pow((pos.y-y),2.f) + glm::pow((pos.z-z),2.f)) <= power/2)
+                if (sqrt((float) glm::pow((posf.x-x),2.f) + glm::pow((posf.y-y),2.f) + glm::pow((posf.z-z),2.f)) <= power/2)
                 {
-                    SetBlock(glm::vec3(x,y,z),EBT_AIR,false);
+                    SetBlock(glm::ivec3(x,y,z),EBT_AIR,false);
                 }
             }
         }
@@ -179,9 +275,9 @@ void ChunkManager::Explode(const glm::vec3 &pos,float power)
     }
 }
 
-void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
+void ChunkManager::SetBlock(const glm::ivec3 &pos,EBlockType type,bool active)
 {
-    glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
+    glm::ivec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
 
     if(m_chunks.count(chunkCoords)!=0)
     {
@@ -194,9 +290,9 @@ void ChunkManager::SetBlock(const glm::vec3 &pos,EBlockType type,bool active)
     }
 }
 
-void ChunkManager::SetChunkNeighbours(const ChunkPtr &chunk,const glm::vec3 &pos)
+void ChunkManager::SetChunkNeighbours(ChunkPtr chunk,const glm::ivec3 &pos)
 {
-    glm::vec3 posXNeg(pos.x-1,pos.y,pos.z),posXPos(pos.x+1,pos.y,pos.z),posYNeg(pos.x,pos.y-1,pos.z),posYPos(pos.x,pos.y+1,pos.z),posZNeg(pos.x,pos.y,pos.z-1),posZPos(pos.x,pos.y,pos.z+1);
+    glm::ivec3 posXNeg(pos.x-1,pos.y,pos.z),posXPos(pos.x+1,pos.y,pos.z),posYNeg(pos.x,pos.y-1,pos.z),posYPos(pos.x,pos.y+1,pos.z),posZNeg(pos.x,pos.y,pos.z-1),posZPos(pos.x,pos.y,pos.z+1);
 
     if(m_chunks.count(posXNeg)!=0) m_chunks[pos]->leftN=m_chunks[posXNeg];
     if(m_chunks.count(posXPos)!=0) m_chunks[pos]->rightN=m_chunks[posXPos];
@@ -209,7 +305,7 @@ void ChunkManager::SetChunkNeighbours(const ChunkPtr &chunk,const glm::vec3 &pos
 }
 
 //! pos: in CHUNK coordinates
-const ChunkPtr & ChunkManager::AddChunk(const glm::vec3 &pos)
+ChunkPtr ChunkManager::AddChunk(const glm::ivec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
     {
@@ -217,29 +313,29 @@ const ChunkPtr & ChunkManager::AddChunk(const glm::vec3 &pos)
     }
     else
     {
-        m_chunks[pos]=ChunkPtr(new Chunk(this,ChunkToWorldCoords(pos)));
-        SetChunkNeighbours(m_chunks[pos],pos);
+        m_chunks[pos]=new Chunk(this,ChunkToWorldCoords(pos));
+        //SetChunkNeighbours(m_chunks[pos],pos);
         return m_chunks[pos];
     }
 }
 
 //! pos: in WORLD coordinates
-const ChunkPtr & ChunkManager::AddChunkWorld(const glm::vec3 &pos)
+ChunkPtr ChunkManager::AddChunkWorld(const glm::ivec3 &pos)
 {
-    glm::vec3 chunkCoords=WorldToChunkCoords(pos);
+    glm::ivec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
     {
         return m_chunks[chunkCoords];
     }
     else
     {
-        m_chunks[chunkCoords]=ChunkPtr(new Chunk(this,ChunkToWorldCoords(chunkCoords)));
+        m_chunks[chunkCoords]=new Chunk(this,ChunkToWorldCoords(chunkCoords));
         return m_chunks[chunkCoords];
     }
 }
 
 //! pos: in CHUNK coordinates
-const ChunkPtr & ChunkManager::GetChunk(const glm::vec3 &pos)
+ChunkPtr ChunkManager::GetChunk(const glm::ivec3 &pos)
 {
     if(m_chunks.count(pos)!=0)
         return m_chunks[pos];
@@ -248,22 +344,22 @@ const ChunkPtr & ChunkManager::GetChunk(const glm::vec3 &pos)
 }
 
 //! pos: in WORLD coordinates
-const ChunkPtr & ChunkManager::GetChunkWorld(const glm::vec3 &pos)
+ChunkPtr ChunkManager::GetChunkWorld(const glm::ivec3 &pos)
 {
-    glm::vec3 chunkCoords=WorldToChunkCoords(pos);
+    glm::ivec3 chunkCoords=WorldToChunkCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
         return m_chunks[chunkCoords];
     else
         return NullChunk;
 }
 
-const Block &ChunkManager::GetBlock(const glm::vec3 &pos)
+const Block &ChunkManager::GetBlock(const glm::ivec3 &pos)
 {
-    glm::vec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
+    glm::ivec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
     if(m_chunks.count(chunkCoords)!=0)
         return m_chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
     else
-        return EMPTY_BLOCK;
+        return Chunk::EMPTY_BLOCK;
 }
 
 void ChunkManager::Render(Camera *cam,ShaderPtr vsh,bool wireframe)
@@ -275,16 +371,19 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh,bool wireframe)
     }
     BOOST_FOREACH(ChunkMap::value_type a,m_chunks)
     {
-        glm::vec3 pos=a.first*CHUNK_SIZEF;
+        //if(!a.second->Empty())
+        {
+            glm::vec3 pos=glm::vec3(a.first)*CHUNK_SIZEF;
 
-        Model = glm::mat4(1.0f);
-        Model = glm::translate(Model,pos);
-        if(vsh->getparam("M")!=-1) MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
-        glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
-        glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
-        if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
-        if(vsh->getparam("mvp")!=-1) MVar<glm::mat4>(vsh->getparam("mvp"), "mvp", MVP).Set();
-        a.second->Render();
+            Model = glm::mat4(1.0f);
+            Model = glm::translate(Model,pos);
+            if(vsh->getparam("M")!=-1) MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
+            glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
+            glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
+            if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
+            if(vsh->getparam("mvp")!=-1) MVar<glm::mat4>(vsh->getparam("mvp"), "mvp", MVP).Set();
+            a.second->Render();
+        }
     }
     if(wireframe)
     {

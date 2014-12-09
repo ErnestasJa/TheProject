@@ -13,6 +13,7 @@ build
 libs/boost/
 libs/windows/
 libs/linux/
+libs/bullet/
 __pycache__/
 tests/bin/
 *#

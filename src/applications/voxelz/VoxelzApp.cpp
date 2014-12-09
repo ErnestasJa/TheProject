@@ -18,6 +18,7 @@
 #include "Voxel/VoxelSprite.h"
 #include "gui/GUI.h"
 #include "gui/custom_elements/GUIColorPicker.h"
+#include "physics/Physics.h"
 
 VoxelzApp::VoxelzApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -28,6 +29,7 @@ VoxelzApp::~VoxelzApp()
 {
 }
 
+static physics_manager *physman;
 static MeshPtr mesh;
 static ShaderPtr sh,vsh,qsh,gbsh,ssaosh;
 static CameraPtr cam;
@@ -265,17 +267,17 @@ bool VoxelzApp::Update()
         _appContext->_timer->tick();
 
         cam->Update(0);
-//        GBuffer->Set();
-//        GBuffer->EnableBuffer(0);
-//        GBuffer->EnableBuffer(1);
+        GBuffer->Set();
+        GBuffer->EnableBuffer(0);
+        GBuffer->EnableBuffer(1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glm::mat4 Model = glm::mat4(1.0f);
         glm::mat4 MVP   = cam->GetViewProjMat() * Model;
 
-        vsh->Set();
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        chkmgr->Render(cam.get(),vsh,wireframe);
+//        vsh->Set();
+//        MVar<glm::mat4>(0, "mvp", MVP).Set();
+//        chkmgr->Render(cam.get(),vsh,wireframe);
 
         sh->Set();
         Model = glm::mat4(1.0f);
@@ -301,35 +303,35 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         spr->Render(wireframe);
 
-//        gbsh->Set();
-//        Model = glm::mat4(1.0f);
-//        MVP   = cam->GetViewProjMat() * Model;
-//        if(gbsh->getparam("v_inv")!=-1)
-//            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
-//        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-//        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
-//        chkmgr->Render(cam.get(),gbsh);
-//        GBuffer->Unset();
+        gbsh->Set();
+        Model = glm::mat4(1.0f);
+        MVP   = cam->GetViewProjMat() * Model;
+        if(gbsh->getparam("v_inv")!=-1)
+            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
+        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
+        chkmgr->Render(cam.get(),gbsh,wireframe);
+        GBuffer->Unset();
 
         /// RENDER TO QUAD
-//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//        ssaosh->Set();
-//
-//        GBdiffuse->Set(0);
-//        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
-//        GBnormal->Set(1);
-//        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
-//        GBposition->Set(2);
-//        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
-//        SSAONormal->Set(3);
-//        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
-//        GBdepth->Set(4);
-//        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
-//
-//        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-//        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
-//
-//        mesh->Render();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        ssaosh->Set();
+
+        GBdiffuse->Set(0);
+        if(ssaosh->getparam("g_buffer_diff")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_diff"), "g_buffer_diff", 0).Set();
+        GBnormal->Set(1);
+        if(ssaosh->getparam("g_buffer_norm")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_norm"), "g_buffer_norm", 1).Set();
+        GBposition->Set(2);
+        if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
+        SSAONormal->Set(3);
+        if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
+        GBdepth->Set(4);
+        if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
+
+        if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
+
+        mesh->Render();
 
         env->Render();
 
@@ -380,7 +382,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
 {
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(voxpos,16);
+        chkmgr->Explode(glm::ivec3(voxpos),16);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {
@@ -415,7 +417,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
         mz = glm::floor(testpos.z);
 
         /* If we find a block that is not air, we are done */
-        if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type!=EBT_AIR)
+        if(chkmgr->GetBlock(glm::ivec3(mx, my, mz)).type!=EBT_AIR)
         {
             validvoxel=true;
             break;
@@ -425,7 +427,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
     swprintf(buf,255,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
-    glm::vec3 aa=WorldToChunkCoords(glm::vec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::vec3(mx,my,mz));
+    glm::ivec3 aa=WorldToChunkCoords(glm::ivec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::ivec3(mx,my,mz));
 
     swprintf(buf,255,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
     env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
@@ -454,7 +456,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->GetBlock(glm::vec3(mx, my, mz)).type==EBT_AIR)
+    if(chkmgr->GetBlock(glm::ivec3(mx, my, mz)).type==EBT_AIR)
     {
         mx = my = mz = 99999;
         validvoxel=false;
@@ -504,11 +506,11 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         {
         case GLFW_MOUSE_BUTTON_LEFT:
             if(validvoxel)
-                chkmgr->SetBlock(voxpos,EBT_AIR,false);
+                chkmgr->SetBlock(glm::ivec3(voxpos),EBT_AIR,false);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             if(validvoxel)
-                chkmgr->SetBlock(newvoxpos,EBT_GRASS,true);
+                chkmgr->SetBlock(glm::ivec3(newvoxpos),EBT_GRASS,true);
             break;
         }
     }
