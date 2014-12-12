@@ -107,7 +107,7 @@ bool InitPostProc(AppContext* ctx)
     loop(y,sy)
     SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
-#define _DEBUG_FBO
+#define DEBUGFBO
 #ifdef DEBUG_FBO
     guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
     guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
@@ -303,13 +303,12 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         spr->Render(wireframe);
 
+        /// G BUFFER
         gbsh->Set();
         Model = glm::mat4(1.0f);
         MVP   = cam->GetViewProjMat() * Model;
-        if(gbsh->getparam("v_inv")!=-1)
-            MVar<glm::mat4>(gbsh->getparam("v_inv"), "v_inv", glm::inverse(cam->GetViewMat())).Set();
-        MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
-        MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
+        if(gbsh->getparam("V")!=-1) MVar<glm::mat4>(gbsh->getparam("V"), "V", cam->GetViewMat()).Set();
+        if(gbsh->getparam("P")!=-1) MVar<glm::mat4>(gbsh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         chkmgr->Render(cam.get(),gbsh,wireframe);
         GBuffer->Unset();
 
@@ -325,10 +324,11 @@ bool VoxelzApp::Update()
         if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
         SSAONormal->Set(3);
         if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
-        GBdepth->Set(4);
+        GBtexcoord->Set(4);
         if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
 
         if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
+        if(ssaosh->getparam("invP")!=-1) MVar<glm::mat4>(ssaosh->getparam("invP"), "invP", glm::inverse(cam->GetProjectionMat())).Set();
         if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
 
         mesh->Render();

@@ -381,7 +381,7 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh,bool wireframe)
             glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
             glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
             if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
-            if(vsh->getparam("mvp")!=-1) MVar<glm::mat4>(vsh->getparam("mvp"), "mvp", MVP).Set();
+            if(vsh->getparam("MVP")!=-1) MVar<glm::mat4>(vsh->getparam("MVP"), "MVP", MVP).Set();
             a.second->Render();
         }
     }

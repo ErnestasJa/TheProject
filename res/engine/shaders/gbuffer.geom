@@ -25,7 +25,7 @@ out vec4 position;
 
 void main()
 {
-	vec3 calcNorm=normalize(normMatrix*cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz))*0.5+vec3(0.5);
+	vec3 calcNorm=((V*M)*vec4(normalize(cross(vertex[1].pos.xyz - vertex[0].pos.xyz, vertex[2].pos.xyz - vertex[0].pos.xyz)),0)).xyz*0.5+vec3(0.5);
 	normal = calcNorm;
 	color = vertex[0].color;
 	position = vertex[0].pos;
