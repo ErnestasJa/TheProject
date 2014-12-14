@@ -46,7 +46,7 @@ static intRGBA getTypeCol(uint32_t typ)
 
 Chunk::Chunk(ChunkManager *chunkManager, glm::ivec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
-    m_pBlocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    m_pBlocks.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
     // Create the blocks
     m_chunkManager = chunkManager;
     m_chunkPos = chunkPos;

@@ -18,5 +18,4 @@ void main(){
 	Gdiffuse = color.rgb;
 	Gnormal = normal;
 	Gposition = position.rgb;
-	Gtexcoord = vec3(gl_FragCoord.z/4096.f).rgb;
 }

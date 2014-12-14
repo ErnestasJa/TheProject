@@ -145,7 +145,7 @@ void ChunkManager::Generate()
 
 #ifdef GEN_NEW
     loop(i,32)
-    loop(j,16)
+    loop(j,8)
     loop(k,32)
     {
         ChunkPtr a=AddChunk(glm::ivec3(i,j,k));
@@ -223,7 +223,11 @@ void ChunkManager::NoiseChunk(ChunkPtr chunkToNoise)
                         chunkToNoise->Set(x,y,z,EBT_WATER,true);
                         continue;
                     }
-                    break;
+                    else
+                    {
+                        chunkToNoise->Set(x,y,z,EBT_AIR,false);
+                        continue;
+                    }
                 }
                 else
                 {
@@ -379,7 +383,7 @@ void ChunkManager::Render(Camera *cam,ShaderPtr vsh,bool wireframe)
             Model = glm::translate(Model,pos);
             if(vsh->getparam("M")!=-1) MVar<glm::mat4>(vsh->getparam("M"), "M", Model).Set();
             glm::mat4 MVP=cam->GetProjectionMat()*cam->GetViewMat()*Model;
-            glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(cam->GetViewMat()*Model)));
+            glm::mat3 normMatrix = glm::inverse(glm::mat3(cam->GetViewMat()*Model));
             if(vsh->getparam("normMatrix")!=-1) MVar<glm::mat3>(vsh->getparam("normMatrix"), "normMatrix", normMatrix).Set();
             if(vsh->getparam("MVP")!=-1) MVar<glm::mat4>(vsh->getparam("MVP"), "MVP", MVP).Set();
             a.second->Render();

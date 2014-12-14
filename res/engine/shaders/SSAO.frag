@@ -12,14 +12,15 @@ uniform mat4 MV;
 uniform mat4 invP;
 
 const float g_screen_size=1280*768;
-const float random_size=1280*768;
-const float g_sample_rad=0.25;
-const float g_intensity=1;
-const float g_scale=0.5;
-const float g_bias=0.2;
+const float random_size=64*64;
+
+uniform float g_sample_rad=0.005;
+uniform float g_intensity=1;
+uniform float g_scale=0.5;
+uniform float g_bias=0.2;
 
 const float near=1.f;
-const float far=4096.f;
+const float far=1024.f;
 const vec4 R5_clipRange = vec4(near, far, near * far, far - near);
 
 
@@ -30,7 +31,7 @@ out vec4 fragColor;
 
 float GetDistance (vec2 texCoord)
 {
-return texture2D(g_depth, texCoord).r * R5_clipRange.w;
+return texture2D(g_depth, texCoord).r/far * R5_clipRange.w;
 }
 
 vec3 getPosition(vec2 uv)

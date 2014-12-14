@@ -99,13 +99,13 @@ bool InitPostProc(AppContext* ctx)
     SSAONormal=share(new Texture());
     image_loader* loader=new image_loader(ctx->_logger);
     std::shared_ptr<image> img=std::shared_ptr<image>(loader->load("res/SSAO_noise.png"));
-    SSAONormal->Init(nullptr,GL_TEXTURE_2D,GL_RGB,GL_RGB,1280,768);
-    uint32_t sx=1280/64;
-    uint32_t sy=768/64;
-
-    loop(x,sx)
-    loop(y,sy)
-    SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
+    SSAONormal->Init(img->data,GL_TEXTURE_2D,GL_RGB,GL_RGB,64,64);
+//    uint32_t sx=1280/64;
+//    uint32_t sy=768/64;
+//
+//    loop(x,sx)
+//    loop(y,sy)
+//    SSAONormal->SetSubImage2D(img->data,x*64,y*64,64,64);
 
 #define DEBUGFBO
 #ifdef DEBUG_FBO
@@ -183,7 +183,7 @@ void InitPlaneMesh(AppContext * ctx)
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
-    cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0)));
+    cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,1024.f));
     //cam->SetFPS(false);
 
     env=new GUIEnvironment(ctx);
@@ -205,8 +205,6 @@ void InitPlaneMesh(AppContext * ctx)
 
     gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,128,32),L"Editboxas",glm::vec4(1),true,true,false);
 
-    gui_window* win = new gui_window(env,Rect2D<int>(512,0,256,256),L"My precious");
-
     gui_slider* slid=new gui_slider(env,Rect2D<int>(200,200,128,16),0,100,50);
 
     GUIColorPicker* gcpk=new GUIColorPicker(env,Rect2D<int>(0,300,128,128));
@@ -221,6 +219,52 @@ void InitPlaneMesh(AppContext * ctx)
         texts[i]->SetParent(pan);
         ss.str(std::string()); ///clear stream
     }
+
+    #define SSAOTWEAK
+    #ifdef SSAO_TWEAK
+
+    gui_window *wssao=new gui_window(env,Rect2D<int>(512,0,512,256),L"Ayyy.. SSAO!",true,false,false,true);
+
+    gui_static_text* stext=new gui_static_text(env,Rect2D<int>(8,32,64,16),L"['s]Radius:[s']");
+    gui_slider *srad=new gui_slider(env,Rect2D<int>(72,32,128,16),0.01f,10.0f,0.25f,false);
+    gui_edit_box *seb=new gui_edit_box(env,Rect2D<int>(208,32,64,16),L"",glm::vec4(1),true,true,false);
+    seb->set_text(helpers::to_wstr(srad->get_value()));
+    stext->SetParent(wssao);
+    seb->SetParent(wssao);
+    srad->SetParent(wssao);
+    srad->SetName("ssao_rad");
+    seb->SetName("ssao_rad_eb");
+
+    stext=new gui_static_text(env,Rect2D<int>(8,64,64,16),L"['s]Intensity:[s']");
+    srad=new gui_slider(env,Rect2D<int>(72,64,128,16),0.01f,10.0f,1.f,false);
+    seb=new gui_edit_box(env,Rect2D<int>(208,64,64,16),L"",glm::vec4(1),true,true,false);
+    seb->set_text(helpers::to_wstr(srad->get_value()));
+    stext->SetParent(wssao);
+    seb->SetParent(wssao);
+    srad->SetParent(wssao);
+    srad->SetName("ssao_intens");
+    seb->SetName("ssao_intens_eb");
+
+    stext=new gui_static_text(env,Rect2D<int>(8,96,64,16),L"['s]Scale:[s']");
+    srad=new gui_slider(env,Rect2D<int>(72,96,128,16),0.01f,10.0f,0.5f,false);
+    seb=new gui_edit_box(env,Rect2D<int>(208,96,64,16),L"",glm::vec4(1),true,true,false);
+    seb->set_text(helpers::to_wstr(srad->get_value()));
+    stext->SetParent(wssao);
+    seb->SetParent(wssao);
+    srad->SetParent(wssao);
+    srad->SetName("ssao_scale");
+    seb->SetName("ssao_scale_eb");
+
+    stext=new gui_static_text(env,Rect2D<int>(8,128,64,16),L"['s]Bias:[s']");
+    srad=new gui_slider(env,Rect2D<int>(72,128,128,16),0.01f,10.0f,0.2f,false);
+    seb=new gui_edit_box(env,Rect2D<int>(208,128,64,16),L"",glm::vec4(1),true,true,false);
+    seb->set_text(helpers::to_wstr(srad->get_value()));
+    stext->SetParent(wssao);
+    seb->SetParent(wssao);
+    srad->SetParent(wssao);
+    srad->SetName("ssao_bias");
+    seb->SetName("ssao_bias_eb");
+    #endif // SSAO_TWEAK
 
     cub=new CubeMesh(1);
     smallcub=new CubeMesh(0.25);
@@ -324,12 +368,24 @@ bool VoxelzApp::Update()
         if(ssaosh->getparam("g_buffer_pos")!=-1) MVar<int32_t>(ssaosh->getparam("g_buffer_pos"), "g_buffer_pos", 2).Set();
         SSAONormal->Set(3);
         if(ssaosh->getparam("g_random")!=-1) MVar<int32_t>(ssaosh->getparam("g_random"), "g_random", 3).Set();
-        GBtexcoord->Set(4);
+        GBdepth->Set(4);
         if(ssaosh->getparam("g_depth")!=-1) MVar<int32_t>(ssaosh->getparam("g_depth"), "g_depth", 4).Set();
 
         if(ssaosh->getparam("P")!=-1) MVar<glm::mat4>(ssaosh->getparam("P"), "P", cam->GetProjectionMat()).Set();
         if(ssaosh->getparam("invP")!=-1) MVar<glm::mat4>(ssaosh->getparam("invP"), "invP", glm::inverse(cam->GetProjectionMat())).Set();
         if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
+
+        #ifdef SSAO_TWEAK
+        if(ssaosh->getparam("g_sample_rad")!=-1) MVar<float>(ssaosh->getparam("g_sample_rad"), "g_sample_rad", env->get_element_by_name_t<gui_slider>("ssao_rad")->get_value()).Set();
+        if(ssaosh->getparam("g_intensity")!=-1) MVar<float>(ssaosh->getparam("g_intensity"), "g_intensity", env->get_element_by_name_t<gui_slider>("ssao_intens")->get_value()).Set();
+        if(ssaosh->getparam("g_scale")!=-1) MVar<float>(ssaosh->getparam("g_scale"), "g_scale", env->get_element_by_name_t<gui_slider>("ssao_scale")->get_value()).Set();
+        if(ssaosh->getparam("g_bias")!=-1) MVar<float>(ssaosh->getparam("g_bias"), "g_bias", env->get_element_by_name_t<gui_slider>("ssao_bias")->get_value()).Set();
+
+        env->get_element_by_name_t<gui_edit_box>("ssao_rad_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_rad")->get_value()));
+        env->get_element_by_name_t<gui_edit_box>("ssao_intens_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_intens")->get_value()));
+        env->get_element_by_name_t<gui_edit_box>("ssao_scale_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_scale")->get_value()));
+        env->get_element_by_name_t<gui_edit_box>("ssao_bias_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_bias")->get_value()));
+        #endif // SSAO_TWEAK
 
         mesh->Render();
 

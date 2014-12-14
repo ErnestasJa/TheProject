@@ -14,12 +14,17 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-g" />
 					<Add directory="src/engine/application" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
 					<Add library="engined" />
+					<Add library="boost_system-mgw49-mt-1_57" />
+					<Add library="BulletDynamics" />
+					<Add library="BulletCollision" />
+					<Add library="LinearMath" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -37,6 +42,10 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="engine" />
+					<Add library="boost_system-mgw49-mt-1_57" />
+					<Add library="BulletDynamics" />
+					<Add library="BulletCollision" />
+					<Add library="LinearMath" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
