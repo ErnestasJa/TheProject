@@ -33,31 +33,38 @@ char ShowAppMenu(ApplicationLauncher & launcher)
     return choice;
 }
 
+void StartApp(uint32_t app, ApplicationLauncher & launcher, int argc, const char ** argv)
+{
+    launcher.RunApplication(app-1,argc,argv);
+
+    if(launcher.GetCurrentApplication()->Init(launcher.GetApplicationName(app-1),1280,768))
+      {
+	while(launcher.GetCurrentApplication()->Update());
+
+	launcher.GetCurrentApplication()->Exit();
+	delete launcher.GetCurrentApplication();
+      }
+}
+
+
 int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
     appLauncher.RegisterApplication("Voxel octree benchmark application", APP(VoxelOctreeBenchmarkApp));
 
-    char choice = ShowAppMenu(appLauncher);
-    uint32_t nr =  choice - '0';
 
-    while(choice != '\n' && nr > 0 && nr <= appLauncher.GetApplicationCount() )
-    {
-        appLauncher.RunApplication(nr-1,argc,argv);
+    int appToLaunch = 0;
+    char choice;
+    uint32_t nr;
+    
+    if(argc>=2)
+      nr = (int) argv[1][0] - '0';
 
-        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,768))
-        {
-            while(appLauncher.GetCurrentApplication()->Update());
-
-            appLauncher.GetCurrentApplication()->Exit();
-            delete appLauncher.GetCurrentApplication();
-        }
-
-        choice = ShowAppMenu(appLauncher);
-        nr =  choice - '0';
+    if(nr != 0){
+      std::cout << "Starting app: " << nr << std::endl;  
+      StartApp(nr, appLauncher, argc, argv);
     }
-
 
     return 0;
 }

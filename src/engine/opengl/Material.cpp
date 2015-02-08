@@ -23,7 +23,7 @@ void Material::Set()
 {
     m_shader->Set();
 
-    loopi(i,8)
+    loop(i,8)
     if(textures[i])
         textures[i]->Set(i);
 
