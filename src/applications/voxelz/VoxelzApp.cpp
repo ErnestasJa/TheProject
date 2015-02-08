@@ -273,7 +273,8 @@ void InitPlaneMesh(AppContext * ctx)
 
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
-    chkmgr->Generate();
+//    chkmgr->Generate();
+chkmgr->AddChunk(glm::ivec3(0));
     ctx->_timer->tick();
     printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
     chkmgr->Render(cam.get(),vsh,false);
@@ -438,7 +439,7 @@ void VoxelzApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32
 {
     if(key==GLFW_KEY_SPACE&&action==GLFW_RELEASE)
     {
-        chkmgr->Explode(glm::ivec3(voxpos),16);
+//        chkmgr->Explode(glm::ivec3(voxpos),32);
     }
     if(key==GLFW_KEY_Z&&action==GLFW_RELEASE)
     {
@@ -483,7 +484,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
     swprintf(buf,255,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
     env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
 
-    glm::ivec3 aa=WorldToChunkCoords(glm::ivec3(mx,my,mz)),bb=ChunkSpaceCoords(glm::ivec3(mx,my,mz));
+    glm::ivec3 aa=WorldToSuperChunkCoords(glm::ivec3(mx,my,mz)),bb=SuperChunkSpaceCoords(glm::ivec3(mx,my,mz));
 
     swprintf(buf,255,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
     env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
@@ -553,11 +554,11 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
         swprintf(buf,255,L"Total Chunks %d",chkmgr->GetChunkCount());
         env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
 
-        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
-        env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
+//        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
+//        env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
 
-        swprintf(buf,255,L"Total Faces %d",chkmgr->GetTotalFaces());
-        env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
+//        swprintf(buf,255,L"Total Faces %d",chkmgr->GetTotalFaces());
+//        env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
         switch(button)
         {
         case GLFW_MOUSE_BUTTON_LEFT:

@@ -8,7 +8,7 @@
 
 Voxel VoxelMesh::EMPTY_VOXEL=Voxel();
 
-VoxelMesh::VoxelMesh(uint32_t size)
+VoxelMesh::VoxelMesh(uint32_t size,bool init)
 {
     m_vox.reserve(size*size*size);
 
@@ -28,6 +28,7 @@ VoxelMesh::VoxelMesh(uint32_t size)
     m_faceCount=0;
     m_empty=true;
 
+    if(init)
     Init();
 }
 

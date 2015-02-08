@@ -37,58 +37,41 @@ static const int ManyChunksHeight = 16;
 static void AddSingleChunk()
 {
     BEGIN_BENCHMARK
-    chkmgr->AddChunk(glm::ivec3(0,0,0))->Fill();
     END_BENCHMARK("AddSingleChunk")
 }
 
 static void AddManyChunks()
 {
     BEGIN_BENCHMARK
-    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
-        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
-            for(int y=0; y<ManyChunksHeight; y++)
-                chkmgr->AddChunk(glm::ivec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
 }
 
 static void SingleChunkRebuild()
 {
     BEGIN_BENCHMARK
-    chkmgr->GetChunk(glm::ivec3(0,0,0))->Rebuild();
     END_BENCHMARK("RebuildSingle")
 }
 
 static void AllChunksRebuild()
 {
     BEGIN_BENCHMARK
-    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
-        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
-            for(int y=0; y<ManyChunksHeight; y++)
-                chkmgr->GetChunk(glm::ivec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
 }
 
 static void RemoveManyChunks()
 {
     BEGIN_BENCHMARK
-    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
-        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
-            for(int y=0; y<ManyChunksHeight; y++)
-                chkmgr->RemoveChunk(glm::ivec3(x,y,z));
     END_BENCHMARK("AddManyChunks")
 }
 
 void VoxelzProfilingApp::Benchmark()
 {
-    BENCHMARK_INTERRUPT
-    AddManyChunks();
-    printf("Chunks: %d\n",chkmgr->GetChunkCount());
-    BENCHMARK_INTERRUPT
-    RemoveManyChunks();
-    printf("Chunks: %d\n",chkmgr->GetChunkCount());
-    BENCHMARK_INTERRUPT
-    delete chkmgr;
-    BENCHMARK_INTERRUPT
+
+    glm::ivec3 stuff(64,0,0);
+    glm::ivec3 a=WorldToChunkCoords(stuff);
+    a=ChunkSpaceCoords(stuff);
+    a=WorldToSuperChunkCoords(stuff);
+    a=SuperChunkSpaceCoords(stuff);
 }
 
 bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_t height)

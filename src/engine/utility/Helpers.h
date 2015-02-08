@@ -36,6 +36,12 @@ inline int wtoi(const wchar_t *str)
 #include "Helpers.inl"
 }
 
+template <class T>
+inline std::shared_ptr<T> share(T* t)
+{
+    return std::shared_ptr<T>(t);
+}
+
 ///TO IMPLEMENT!
 const char* getErr(uint32_t err);
 void CheckOpenGLError(const char* stmt, const char* fname, int line);

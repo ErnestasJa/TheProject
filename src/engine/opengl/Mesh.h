@@ -82,6 +82,10 @@ public:
     void render_lines();
     void render_triangle_strip();
     void UploadBuffers();
+
+    template<typename T>
+    void UploadBufferSubData(BUFFER_OBJECT_INDEX ind,vector<T> subdata,uint32_t offset);
+
     void free();
 
     template <class T>
@@ -104,6 +108,25 @@ void Mesh::RecalculateAABB()
     }
     else
         aabb.Reset(static_cast<glm::vec3>(T()));
+}
+
+template <class T>
+void Mesh::UploadBufferSubData(BUFFER_OBJECT_INDEX ind,vector<T> subdata,uint32_t offset)
+{
+    glBindVertexArray(vao);
+
+    for(uint32_t i = 0; i < buffers.size(); i++)
+    {
+        if(buffers[i])
+        {
+            if(i==ind)
+            {
+                BufferObject<T>* bufferino=(BufferObject<T>*)buffers[i];
+                bufferino->UploadSubData(subdata,offset);
+            }
+        }
+    }
+    glBindVertexArray(0);
 }
 
 typedef std::shared_ptr<Mesh> MeshPtr;

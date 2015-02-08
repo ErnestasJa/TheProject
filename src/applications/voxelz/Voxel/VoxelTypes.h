@@ -1,6 +1,10 @@
 #ifndef VOXELTYPES_H_INCLUDED
 #define VOXELTYPES_H_INCLUDED
 
+#include <boost/unordered_map.hpp>
+#include <boost/functional/hash.hpp>
+#include <utility/vector.h>
+
 typedef glm::detail::tvec4<uint8_t> u8vec4;
 typedef glm::detail::tvec4<uint16_t> u16vec4;
 
@@ -42,6 +46,48 @@ inline static u8vec3 IntRGBToVecRGB(const intRGBA &col)
 inline static u8vec4 IntRGBAToVecRGBA(const intRGBA &col)
 {
     return u8vec4(col>>24&0xFF,col>>16&0xFF,col>>8&0xFF,col&0xFF);
+}
+
+struct ivec3hash : std::unary_function<glm::ivec3, std::size_t>
+{
+    std::size_t operator()(glm::ivec3 const& v) const
+    {
+        std::size_t seed = 0;
+        boost::hash_combine(seed, v.x);
+        std::size_t a=seed;
+        boost::hash_combine(seed, v.y);
+        std::size_t b=seed;
+        boost::hash_combine(seed, v.z);
+        std::size_t c=seed;
+
+        return seed;
+    }
+};
+
+struct ivec3equal
+{
+    bool operator() (glm::ivec3 const& a, glm::ivec3 const& b) const
+    {
+        return a.x==b.x && a.y==b.y && a.z==b.z;
+    }
+};
+
+struct GLMVec3Compare
+{
+    bool operator() (const glm::vec3 &a,const glm::vec3 &b) const
+    {
+        return
+            (a.x<b.x || !(a.x==b.x)) ||
+            (a.x==b.x && a.y<b.y && !(a.y==b.y)) ||
+            (a.x==b.x && a.y==b.y && a.z<b.z && !(a.z==b.z));
+    }
+};
+
+template <typename T>
+inline void appendVectors(vector<T> &a,vector<T> &b)
+{
+    a.reserve(a.size()+b.size());
+    a.insert(a.end(), b.begin(), b.end());
 }
 
 #endif // VOXELTYPES_H_INCLUDED

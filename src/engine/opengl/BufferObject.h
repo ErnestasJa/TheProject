@@ -17,6 +17,7 @@ struct BufferObject: public IBufferObject
     //void Init_buffers();
     virtual void Init();
     virtual void Upload();
+    virtual void UploadSubData(vector<T> subdata,uint32_t offset);
 
     virtual IBufferObject::IBO_TYPE GetType(){return IBufferObject::DATA;}
     virtual uint32_t GetDataType();

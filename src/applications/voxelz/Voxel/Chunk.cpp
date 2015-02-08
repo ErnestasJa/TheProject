@@ -44,14 +44,19 @@ static intRGBA getTypeCol(uint32_t typ)
     }
 }
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::ivec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &chunkPos, const uint32_t & offset):VoxelMesh(CHUNK_SIZE,false)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     m_pBlocks.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
     // Create the blocks
     m_chunkManager = chunkManager;
     m_chunkPos = chunkPos;
 
+    generated=false;
+    built=false;
+    uploaded=false;
+
     leftN=rightN=botN=topN=backN=frontN=nullptr;
+    _offset=offset;
 }
 
 Chunk::~Chunk()
@@ -89,7 +94,7 @@ void Chunk::Rebuild()
         }
     }
 
-    UpdateMesh();
+    //UpdateMesh();
 
     m_dirty=false;
 }
@@ -191,5 +196,34 @@ const Voxel& Chunk::GetVoxel(int32_t x,int32_t y, int32_t z)
     {
         return m_vox[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
     }
+}
+
+void Chunk::AddQuadToMesh(const u8vec3 * face, const intRGBA &col)
+{
+    BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
+    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
+    BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
+
+    uint32_t indexStart=_offset+vbo->data.size();
+
+    vbo->data.push_back(u8vec3(m_chunkPos)+face[0]);
+    vbo->data.push_back(u8vec3(m_chunkPos)+face[1]);
+    vbo->data.push_back(u8vec3(m_chunkPos)+face[2]);
+    vbo->data.push_back(u8vec3(m_chunkPos)+face[3]);
+
+    u8vec4 _col=IntRGBAToVecRGBA(col);
+
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
+    cbo->data.push_back(_col);
+
+    ibo->data.push_back(indexStart);
+    ibo->data.push_back(indexStart+2);
+    ibo->data.push_back(indexStart+3);
+
+    ibo->data.push_back(indexStart);
+    ibo->data.push_back(indexStart+1);
+    ibo->data.push_back(indexStart+2);
 }
 
