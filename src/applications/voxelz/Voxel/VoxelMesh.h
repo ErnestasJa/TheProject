@@ -3,8 +3,6 @@
 
 #include "opengl/Mesh.h"
 
-#include "VoxelTypes.h"
-
 #include "Voxel.h"
 
 #include <boost/multi_array.hpp>
@@ -88,7 +86,7 @@ protected:
     void clear_mask(MaskNode **mask);
     void clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey);
     virtual const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
-    virtual void AddQuadToMesh(const u8vec3 * face,const intRGBA &col);
+    virtual void AddQuadToMesh(const glm::ivec3 * face,const intRGBA &col);
     void ClearBuffers();
 private:
 };

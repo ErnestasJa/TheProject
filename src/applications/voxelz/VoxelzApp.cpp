@@ -274,7 +274,6 @@ void InitPlaneMesh(AppContext * ctx)
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
 //    chkmgr->Generate();
-chkmgr->AddChunk(glm::ivec3(0));
     ctx->_timer->tick();
     printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
     chkmgr->Render(cam.get(),vsh,false);

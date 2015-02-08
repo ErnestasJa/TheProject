@@ -198,18 +198,18 @@ const Voxel& Chunk::GetVoxel(int32_t x,int32_t y, int32_t z)
     }
 }
 
-void Chunk::AddQuadToMesh(const u8vec3 * face, const intRGBA &col)
+void Chunk::AddQuadToMesh(const glm::ivec3 * face, const intRGBA &col)
 {
-    BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
+    BufferObject<glm::ivec3> *vbo = (BufferObject<glm::ivec3> *) buffers[Mesh::POSITION];
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 
     uint32_t indexStart=_offset+vbo->data.size();
 
-    vbo->data.push_back(u8vec3(m_chunkPos)+face[0]);
-    vbo->data.push_back(u8vec3(m_chunkPos)+face[1]);
-    vbo->data.push_back(u8vec3(m_chunkPos)+face[2]);
-    vbo->data.push_back(u8vec3(m_chunkPos)+face[3]);
+    vbo->data.push_back(m_chunkPos+face[0]);
+    vbo->data.push_back(m_chunkPos+face[1]);
+    vbo->data.push_back(m_chunkPos+face[2]);
+    vbo->data.push_back(m_chunkPos+face[3]);
 
     u8vec4 _col=IntRGBAToVecRGBA(col);
 

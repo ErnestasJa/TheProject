@@ -17,11 +17,11 @@ VoxelMesh::VoxelMesh(uint32_t size,bool init)
     m_size=size;
     m_dirty=false;
 
-    buffers[Mesh::POSITION] = new BufferObject<u8vec3>();
+    buffers[Mesh::POSITION] = new BufferObject<glm::ivec3>();
     buffers[Mesh::COLOR] = new BufferObject<u8vec4>();
     buffers[Mesh::INDICES] = new IndexBufferObject<uint32_t>();
 
-    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.reserve((uint32_t)glm::pow(size/2.f,3.f));
+    ((BufferObject<glm::ivec3> *) buffers[Mesh::POSITION])->data.reserve((uint32_t)glm::pow(size/2.f,3.f));
     ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.reserve((uint32_t)glm::pow(size/2.f,3.f));
     ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.reserve((uint32_t)glm::pow(size/2.f,3.f)*36);
 
@@ -73,7 +73,7 @@ void VoxelMesh::Cleanup()
     {
         m_vox.clear();
 
-        ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.clear();
+        ((BufferObject<glm::ivec3> *) buffers[Mesh::POSITION])->data.clear();
         ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.clear();
         ((BufferObject<uint32_t> *) buffers[Mesh::INDICES])->data.clear();
 
@@ -83,7 +83,7 @@ void VoxelMesh::Cleanup()
 
 void VoxelMesh::ClearBuffers()
 {
-    ((BufferObject<u8vec3> *) buffers[Mesh::POSITION])->data.clear();
+    ((BufferObject<glm::ivec3> *) buffers[Mesh::POSITION])->data.clear();
     ((BufferObject<u8vec4> *) buffers[Mesh::COLOR])->data.clear();
 }
 
@@ -104,7 +104,7 @@ void VoxelMesh::UpdateMesh()
         //printf("Upload took: %u ms\n",a.get_delta_time());
 
         a.tick();
-        RecalculateAABB<u8vec3>();
+        RecalculateAABB<glm::ivec3>();
         a.tick();
         //printf("AABB Recalculate took: %u ms\n",a.get_delta_time());
     }
@@ -165,7 +165,7 @@ void VoxelMesh::GreedyBuild()
     MaskNode **mask=new MaskNode*[m_size];
     loop(i,m_size) mask[i]=new MaskNode[m_size];
 
-    u8vec3 face[4];
+    glm::ivec3 face[4];
 
     glm::ivec2 qstart, qdims;
 
@@ -298,60 +298,60 @@ void VoxelMesh::GreedyBuild()
                         {
                         case 0: //z+
                         {
-                            face[3]=u8vec3(qstart.x,            qstart.y,              z);
-                            face[2]=u8vec3(qstart.x+qdims.x,   qstart.y,              z);
-                            face[1]=u8vec3(qstart.x+qdims.x,   qstart.y+qdims.y,     z);
-                            face[0]=u8vec3(qstart.x,            qstart.y+qdims.y,     z);
+                            face[3]=glm::ivec3(qstart.x,            qstart.y,              z);
+                            face[2]=glm::ivec3(qstart.x+qdims.x,   qstart.y,              z);
+                            face[1]=glm::ivec3(qstart.x+qdims.x,   qstart.y+qdims.y,     z);
+                            face[0]=glm::ivec3(qstart.x,            qstart.y+qdims.y,     z);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 1: //z-
                         {
-                            face[0]=u8vec3(qstart.x,             qstart.y,           z+1);
-                            face[1]=u8vec3(qstart.x+qdims.x,     qstart.y,           z+1);
-                            face[2]=u8vec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z+1);
-                            face[3]=u8vec3(qstart.x,             qstart.y+qdims.y,   z+1);
+                            face[0]=glm::ivec3(qstart.x,             qstart.y,           z+1);
+                            face[1]=glm::ivec3(qstart.x+qdims.x,     qstart.y,           z+1);
+                            face[2]=glm::ivec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z+1);
+                            face[3]=glm::ivec3(qstart.x,             qstart.y+qdims.y,   z+1);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 2: //y+
                         {
-                            face[3]=u8vec3(qstart.x,         z+1,                qstart.y);
-                            face[2]=u8vec3(qstart.x+qdims.x, z+1,                qstart.y);
-                            face[1]=u8vec3(qstart.x+qdims.x, z+1,                qstart.y+qdims.y);
-                            face[0]=u8vec3(qstart.x,         z+1,                qstart.y+qdims.y);
+                            face[3]=glm::ivec3(qstart.x,         z+1,                qstart.y);
+                            face[2]=glm::ivec3(qstart.x+qdims.x, z+1,                qstart.y);
+                            face[1]=glm::ivec3(qstart.x+qdims.x, z+1,                qstart.y+qdims.y);
+                            face[0]=glm::ivec3(qstart.x,         z+1,                qstart.y+qdims.y);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 3: //y-
                         {
-                            face[0]=u8vec3(qstart.x,         z,                  qstart.y);
-                            face[1]=u8vec3(qstart.x+qdims.x, z,                  qstart.y);
-                            face[2]=u8vec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
-                            face[3]=u8vec3(qstart.x,         z,                  qstart.y+qdims.y);
+                            face[0]=glm::ivec3(qstart.x,         z,                  qstart.y);
+                            face[1]=glm::ivec3(qstart.x+qdims.x, z,                  qstart.y);
+                            face[2]=glm::ivec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
+                            face[3]=glm::ivec3(qstart.x,         z,                  qstart.y+qdims.y);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 4: //x+
                         {
-                            face[3]=u8vec3(z+1,              qstart.y,           qstart.x);
-                            face[2]=u8vec3(z+1,              qstart.y,           qstart.x+qdims.x);
-                            face[1]=u8vec3(z+1,              qstart.y+qdims.y,   qstart.x+qdims.x);
-                            face[0]=u8vec3(z+1,              qstart.y+qdims.y,   qstart.x);
+                            face[3]=glm::ivec3(z+1,              qstart.y,           qstart.x);
+                            face[2]=glm::ivec3(z+1,              qstart.y,           qstart.x+qdims.x);
+                            face[1]=glm::ivec3(z+1,              qstart.y+qdims.y,   qstart.x+qdims.x);
+                            face[0]=glm::ivec3(z+1,              qstart.y+qdims.y,   qstart.x);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
                         }
                         case 5: //x-
                         {
-                            face[0]=u8vec3(z,                qstart.y,           qstart.x);
-                            face[1]=u8vec3(z,                qstart.y,           qstart.x+qdims.x);
-                            face[2]=u8vec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
-                            face[3]=u8vec3(z,                qstart.y+qdims.y,   qstart.x);
+                            face[0]=glm::ivec3(z,                qstart.y,           qstart.x);
+                            face[1]=glm::ivec3(z,                qstart.y,           qstart.x+qdims.x);
+                            face[2]=glm::ivec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
+                            face[3]=glm::ivec3(z,                qstart.y+qdims.y,   qstart.x);
                             AddQuadToMesh(face,mn.color);
                             faceCount++;
                             break;
@@ -375,9 +375,9 @@ void VoxelMesh::GreedyBuild()
         m_empty=true;
 }
 
-void VoxelMesh::AddQuadToMesh(const u8vec3 * face, const intRGBA &col)
+void VoxelMesh::AddQuadToMesh(const glm::ivec3 * face, const intRGBA &col)
 {
-    BufferObject<u8vec3> *vbo = (BufferObject<u8vec3> *) buffers[Mesh::POSITION];
+    BufferObject<glm::ivec3> *vbo = (BufferObject<glm::ivec3> *) buffers[Mesh::POSITION];
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) buffers[Mesh::INDICES];
     BufferObject<u8vec4> *cbo = (BufferObject<u8vec4> *) buffers[Mesh::COLOR];
 

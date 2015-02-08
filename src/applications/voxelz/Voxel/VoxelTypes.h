@@ -4,6 +4,7 @@
 #include <boost/unordered_map.hpp>
 #include <boost/functional/hash.hpp>
 #include <utility/vector.h>
+#include "SimplexNoise.h"
 
 typedef glm::detail::tvec4<uint8_t> u8vec4;
 typedef glm::detail::tvec4<uint16_t> u16vec4;

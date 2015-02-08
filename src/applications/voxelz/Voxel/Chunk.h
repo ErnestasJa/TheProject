@@ -66,8 +66,7 @@ public:
     }
 
     uint32_t GetBlockCount();
-    void AddQuadToMesh(const u8vec3 * face, const intRGBA &col);
-
+    void AddQuadToMesh(const glm::ivec3 * face, const intRGBA &col);
 private:
     ChunkManager *m_chunkManager;
     glm::ivec3 m_chunkPos;

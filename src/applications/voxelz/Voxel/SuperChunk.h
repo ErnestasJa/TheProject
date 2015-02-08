@@ -7,7 +7,7 @@
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
 #define CHUNK_BLOCK_SIZE ((CHUNK_SIZE+1)*(CHUNK_SIZE+1)*(CHUNK_SIZE+1))
 #define VRAM_BLOCK_SIZE (CHUNK_BLOCK_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
-#define CHUNK_UPDATES_PER_FRAME 16
+#define CHUNK_UPDATES_PER_FRAME 4
 
 #include "Chunk.h"
 
@@ -58,14 +58,36 @@ private:
     uint32_t _occlusion;
     uint32_t _offsetTrack;
     glm::ivec3 _pos;
+    float noises[SUPERCHUNK_SIZE_BLOCKS][SUPERCHUNK_SIZE_BLOCKS];
+    std::thread genThread;
+    std::mutex genMutex;
+    bool threadGen;
+    vector<ChunkPtr> _genList;
+
+    void AsyncGen()
+    {
+        while(threadGen)
+        {
+            //printf("So async\n");
+            if(_genList.size()>0)
+            {
+                for(auto a:_genList)
+                {
+
+                }
+                _genList.clear();
+            }
+        }
+    }
 public:
     SuperChunk(ChunkManager* chkmgr,const glm::ivec3 &pos)
     {
         this->_chunkManager=chkmgr;
         this->_pos=pos;
         this->_offsetTrack=0;
+        threadGen=true;
 
-        BufferObject<u8vec3> *vert=new BufferObject<u8vec3>();
+        BufferObject<glm::ivec3> *vert=new BufferObject<glm::ivec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
@@ -77,8 +99,23 @@ public:
         buffers[Mesh::COLOR]=col;
         buffers[Mesh::INDICES]=inds;
 
-        Init();
+        loopi(x,SUPERCHUNK_SIZE_BLOCKS)
+        loopi(y,SUPERCHUNK_SIZE_BLOCKS)
+        {
+            noises[x][y]=scaled_raw_noise_2d(0,256,(x+_pos.x)/256.f,(y+_pos.z)/256.f);
+        }
 
+        //genThread=std::thread(&SuperChunk::AsyncGen,this);
+
+        Init();
+    }
+
+    ~SuperChunk()
+    {
+    }
+
+    void Fill()
+    {
         loopi(x,SUPERCHUNK_SIZE)
         {
             loopi(z,SUPERCHUNK_SIZE)
@@ -86,14 +123,10 @@ public:
                 loopi(y,SUPERCHUNK_SIZE)
                 {
                     AddChunk(glm::ivec3(x,y,z));
+                    //_chunks[glm::ivec3(x,y,z)]->Fill();
                 }
             }
         }
-    }
-
-    ~SuperChunk()
-    {
-
     }
 
     void Update()
@@ -135,7 +168,36 @@ public:
 
     void Generate(ChunkPtr chunk)
     {
-        chunk->Fill();
+        loopi(x,CHUNK_SIZE)
+        {
+            loopi(z,CHUNK_SIZE)
+            {
+                float noiseval=noises[x+chunk->GetPosition().x][z+chunk->GetPosition().z];
+                loopi(y,CHUNK_SIZE)
+                {
+                    if(y+chunk->GetPosition().y+this->_pos.y==0)
+                    {
+                        chunk->Set(x,y,z,EBT_VOIDROCK,true);
+                        continue;
+                    }
+                    else if(y+chunk->GetPosition().y+this->_pos.y==(int)noiseval)
+                    {
+                        chunk->Set(x,y,z,EBT_GRASS,true);
+                        continue;
+                    }
+                    else if(y+chunk->GetPosition().y+this->_pos.y>noiseval)
+                    {
+                        //trees
+                        chunk->Set(x,y,z,EBT_AIR,false);
+                        continue;
+                    }
+                    else
+                    {
+                        chunk->Set(x,y,z,EBT_STONE,true);
+                    }
+                }
+            }
+        }
     }
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
@@ -178,9 +240,26 @@ public:
         _offsetTrack=_offsetTrack+CHUNK_BLOCK_SIZE;
     }
 
+    ChunkPtr GetChunk(const glm::ivec3 &chunkCoords)
+    {
+        if(chunkCoords.x<SUPERCHUNK_SIZE&&chunkCoords.x>=0&&
+                chunkCoords.y<SUPERCHUNK_SIZE&&chunkCoords.y>=0&&
+                chunkCoords.z<SUPERCHUNK_SIZE&&chunkCoords.z>=0)
+        {
+            if(_chunks.count(chunkCoords)!=0)
+                return _chunks[chunkCoords];
+            else
+            {
+                AddChunk(chunkCoords);
+                return _chunks[chunkCoords];
+            }
+        }
+        return nullptr;
+    }
+
     void UpdateChunkData(ChunkPtr chunk)
     {
-        BufferObject<u8vec3>* chunkPosData=(BufferObject<u8vec3>*)chunk->buffers[Mesh::POSITION];
+        BufferObject<glm::ivec3>* chunkPosData=(BufferObject<glm::ivec3>*)chunk->buffers[Mesh::POSITION];
         BufferObject<u8vec4>* chunkColData=(BufferObject<u8vec4>*)chunk->buffers[Mesh::COLOR];
 
         this->UploadBufferSubData(Mesh::POSITION,chunkPosData->data,chunk->_offset);

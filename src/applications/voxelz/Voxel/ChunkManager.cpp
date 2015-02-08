@@ -8,10 +8,16 @@
 #include "utility/Timer.h"
 #include <boost/foreach.hpp>
 
-#define WORLD_HEIGHT 256
-
 ChunkManager::ChunkManager()
 {
+
+    loopi(x,4)
+    loopi(z,4)
+    loopi(y,2)
+    {
+        AddChunk(glm::ivec3(x,y,z));
+        _superChunks[glm::ivec3(x,y,z)]->Fill();
+    }
 }
 
 ChunkManager::~ChunkManager()
