@@ -247,6 +247,6 @@ public:
     }
 };
 
-typedef TCubeMesh<glm::detail::tvec3<uint8_t>> CubeMesh;
+typedef TCubeMesh<glm::ivec3> CubeMesh;
 
 #endif // CUBEMESH_H

@@ -7,8 +7,10 @@
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
 #define CHUNK_BLOCK_SIZE ((CHUNK_SIZE+1)*(CHUNK_SIZE+1)*(CHUNK_SIZE+1))
 #define VRAM_BLOCK_SIZE (CHUNK_BLOCK_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
-#define CHUNK_UPDATES_PER_FRAME 4
+#define CHUNK_UPDATES_PER_FRAME 16
 
+#include "OpenGL/Mesh.h"
+#include "GreedyMeshBuilder.h"
 #include "Chunk.h"
 
 inline glm::ivec3 WorldToSuperChunkCoords(const glm::ivec3 &other)
@@ -51,7 +53,6 @@ inline glm::ivec3 SuperChunkSpaceCoords(const glm::ivec3 &pos)
 class SuperChunk:public Mesh
 {
 public:
-    typedef std::shared_ptr<SuperChunk> _SuperChunkPtr;
 private:
     ChunkManager* _chunkManager;
     ChunkMap _chunks;
@@ -59,38 +60,20 @@ private:
     uint32_t _offsetTrack;
     glm::ivec3 _pos;
     float noises[SUPERCHUNK_SIZE_BLOCKS][SUPERCHUNK_SIZE_BLOCKS];
-    std::thread genThread;
-    std::mutex genMutex;
-    bool threadGen;
-    vector<ChunkPtr> _genList;
-
-    void AsyncGen()
-    {
-        while(threadGen)
-        {
-            //printf("So async\n");
-            if(_genList.size()>0)
-            {
-                for(auto a:_genList)
-                {
-
-                }
-                _genList.clear();
-            }
-        }
-    }
+    vector<Chunk> _genList;
 public:
+    typedef std::shared_ptr<SuperChunk> _SuperChunkPtr;
     SuperChunk(ChunkManager* chkmgr,const glm::ivec3 &pos)
     {
         this->_chunkManager=chkmgr;
         this->_pos=pos;
         this->_offsetTrack=0;
-        threadGen=true;
 
         BufferObject<glm::ivec3> *vert=new BufferObject<glm::ivec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
+        printf("RESERVED VRAM BLOCK: %f Mb\n",(float)(VRAM_BLOCK_SIZE*sizeof(glm::ivec3)+VRAM_BLOCK_SIZE*sizeof(glm::ivec3))/1000000.f);
         vert->data.resize(VRAM_BLOCK_SIZE);
         col->data.resize(VRAM_BLOCK_SIZE);
         inds->data.resize(0);
@@ -104,8 +87,6 @@ public:
         {
             noises[x][y]=scaled_raw_noise_2d(0,256,(x+_pos.x)/256.f,(y+_pos.z)/256.f);
         }
-
-        //genThread=std::thread(&SuperChunk::AsyncGen,this);
 
         Init();
     }
@@ -140,22 +121,18 @@ public:
                 {
                     //printf("Generate\n");
                     Generate(a.second);
-                    a.second->generated=true;
                     chunksPerFrame++;
                 }
                 else if(a.second->generated&&!a.second->built)
                 {
                     //printf("Build\n");
-                    a.second->Rebuild();
-                    a.second->GreedyBuild();
-                    a.second->built=true;
+                    GreedyMeshBuilder::GreedyBuild(a.second);
                     chunksPerFrame++;
                 }
                 else if(a.second->generated&&a.second->built&&!a.second->uploaded)
                 {
                     //printf("Upload\n");
                     UpdateChunkData(a.second);
-                    a.second->uploaded=true;
                     chunksPerFrame++;
                 }
             }
@@ -172,32 +149,44 @@ public:
         {
             loopi(z,CHUNK_SIZE)
             {
-                float noiseval=noises[x+chunk->GetPosition().x][z+chunk->GetPosition().z];
+                float noiseval=noises[x+chunk->position.x][z+chunk->position.z];
+
                 loopi(y,CHUNK_SIZE)
                 {
-                    if(y+chunk->GetPosition().y+this->_pos.y==0)
+                    float absoluteY=y+chunk->position.y+this->_pos.y;
+
+                    if(absoluteY==0)
                     {
-                        chunk->Set(x,y,z,EBT_VOIDROCK,true);
+                        chunk->SetBlock(x,y,z,EBT_VOIDROCK,true);
                         continue;
                     }
-                    else if(y+chunk->GetPosition().y+this->_pos.y==(int)noiseval)
+                    else if(absoluteY==(int)noiseval)
                     {
-                        chunk->Set(x,y,z,EBT_GRASS,true);
+                        chunk->SetBlock(x,y,z,EBT_GRASS,true);
                         continue;
                     }
-                    else if(y+chunk->GetPosition().y+this->_pos.y>noiseval)
+                    else if(absoluteY>noiseval)
                     {
+                        if(absoluteY<64)
+                        {
+                            chunk->SetBlock(x,y,z,EBT_WATER,true);
+                        }
+                        else
+                        {
+                            chunk->SetBlock(x,y,z,EBT_AIR,false);
+                            continue;
+                        }
                         //trees
-                        chunk->Set(x,y,z,EBT_AIR,false);
-                        continue;
+
                     }
                     else
                     {
-                        chunk->Set(x,y,z,EBT_STONE,true);
+                        chunk->SetBlock(x,y,z,EBT_STONE,true);
                     }
                 }
             }
         }
+        chunk->generated=true;
     }
 
     void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
@@ -207,7 +196,7 @@ public:
 
         if(_chunks.count(chunkCoords)!=0)
         {
-            _chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
+            _chunks[chunkCoords]->SetBlock(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
             _chunks[chunkCoords]->built=false;
             _chunks[chunkCoords]->uploaded=false;
         }
@@ -215,7 +204,7 @@ public:
         {
             AddChunk(chunkCoords,_offsetTrack);
             _offsetTrack=_offsetTrack+CHUNK_BLOCK_SIZE;
-            _chunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
+            _chunks[chunkCoords]->SetBlock(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
         }
     }
 
@@ -224,7 +213,7 @@ public:
         glm::ivec3 pos(x,y,z);
         glm::ivec3 chunkCoords=WorldToChunkCoords(pos),voxelCoords=ChunkSpaceCoords(pos);
         if(_chunks.count(chunkCoords)!=0)
-            return _chunks[chunkCoords]->Get(voxelCoords.x,voxelCoords.y,voxelCoords.z);
+            return _chunks[chunkCoords]->GetBlock(voxelCoords.x,voxelCoords.y,voxelCoords.z);
         else
             return Chunk::EMPTY_BLOCK;
     }
@@ -259,13 +248,11 @@ public:
 
     void UpdateChunkData(ChunkPtr chunk)
     {
-        BufferObject<glm::ivec3>* chunkPosData=(BufferObject<glm::ivec3>*)chunk->buffers[Mesh::POSITION];
-        BufferObject<u8vec4>* chunkColData=(BufferObject<u8vec4>*)chunk->buffers[Mesh::COLOR];
-
-        this->UploadBufferSubData(Mesh::POSITION,chunkPosData->data,chunk->_offset);
-        this->UploadBufferSubData(Mesh::COLOR,chunkColData->data,chunk->_offset);
+        this->UploadBufferSubData(Mesh::POSITION,chunk->meshData.positions,chunk->offset);
+        this->UploadBufferSubData(Mesh::COLOR,chunk->meshData.colors,chunk->offset);
 
         RebuildIndices();
+        chunk->uploaded=true;
     }
 
     void RebuildIndices()
@@ -275,11 +262,9 @@ public:
 
         for(auto a:_chunks)
         {
-            IndexBufferObject<uint32_t>* chunkIndexData=(IndexBufferObject<uint32_t>*)a.second->buffers[Mesh::INDICES];
-            //printf("Chunkindixes %d\n",chunkIndexData->data.size());
-            appendVectors<uint32_t>(inds->data,chunkIndexData->data);
+            appendVectors<uint32_t>(inds->data,a.second->meshData.indices);
         }
-        //printf("Indices: %d\n",inds->data.size());
+
         glBindVertexArray(vao);
         inds->Upload();
         glBindVertexArray(0);

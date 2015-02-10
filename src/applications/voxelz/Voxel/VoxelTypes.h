@@ -91,4 +91,26 @@ inline void appendVectors(vector<T> &a,vector<T> &b)
     a.insert(a.end(), b.begin(), b.end());
 }
 
+template <typename T>
+inline void freeVector(vector<T> &a)
+{
+    vector<T>().swap(a);
+}
+
+struct VoxMeshData
+{
+    vector<glm::ivec3> positions;
+    vector<u8vec4> colors;
+    vector<uint32_t> indices;
+
+    bool empty;
+
+    void Free()
+    {
+        positions.clear();
+        colors.clear();
+        indices.clear();
+    }
+};
+
 #endif // VOXELTYPES_H_INCLUDED

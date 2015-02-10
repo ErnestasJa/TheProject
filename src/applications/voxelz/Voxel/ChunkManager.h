@@ -17,10 +17,8 @@ public:
     void SetBlock(const glm::ivec3 &pos,EBlockType type,bool active);
     const Block &GetBlock(const glm::ivec3 &pos);
 
-    SuperChunkPtr AddChunk(const glm::ivec3 &pos);
-    SuperChunkPtr AddChunkWorld(const glm::ivec3 &pos);
-    SuperChunkPtr GetChunk(const glm::ivec3 &pos);
-    SuperChunkPtr GetChunkWorld(const glm::ivec3 &pos);
+    SuperChunkPtr AddSuperChunk(const glm::ivec3 &pos);
+    SuperChunkPtr GetSuperChunk(const glm::ivec3 &pos);
 
     uint32_t GetChunkCount();
 
@@ -28,7 +26,7 @@ public:
 protected:
 private:
     SuperChunkMap _superChunks;
-    SuperChunkPtr NullSuperChunk;
+    static SuperChunk NULL_SUPERCHUNK;
 };
 
 #endif // CHUNKMANAGER_H

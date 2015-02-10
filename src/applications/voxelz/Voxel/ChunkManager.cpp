@@ -11,25 +11,18 @@
 ChunkManager::ChunkManager()
 {
 
-    loopi(x,4)
-    loopi(z,4)
-    loopi(y,2)
+    loopi(x,2)
+    loopi(z,2)
+    loopi(y,1)
     {
-        AddChunk(glm::ivec3(x,y,z));
+        AddSuperChunk(glm::ivec3(x,y,z));
         _superChunks[glm::ivec3(x,y,z)]->Fill();
     }
 }
 
 ChunkManager::~ChunkManager()
 {
-//    int cunt=0;
-//    for(auto a:_superChunks)
-//    {
-//        cunt++;
-//        delete a.second;
-//    }
-//    printf("Cunt is %d\n",cunt);
-//    _superChunks.clear();
+    _superChunks.clear();
 }
 
 static const char* v3str(const glm::vec3 & vec)
@@ -49,13 +42,13 @@ void ChunkManager::SetBlock(const glm::ivec3 &pos,EBlockType type,bool active)
     }
     else
     {
-        AddChunk(chunkCoords);
+        AddSuperChunk(chunkCoords);
         _superChunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
 }
 
 //! pos: in CHUNK coordinates
-SuperChunkPtr ChunkManager::AddChunk(const glm::ivec3 &pos)
+SuperChunkPtr ChunkManager::AddSuperChunk(const glm::ivec3 &pos)
 {
     if(_superChunks.count(pos)!=0)
     {
@@ -68,38 +61,13 @@ SuperChunkPtr ChunkManager::AddChunk(const glm::ivec3 &pos)
     }
 }
 
-//! pos: in WORLD coordinates
-SuperChunkPtr ChunkManager::AddChunkWorld(const glm::ivec3 &pos)
-{
-//    glm::ivec3 chunkCoords=WorldToChunkCoords(pos);
-//    if(_superChunks.count(chunkCoords)!=0)
-//    {
-//        return _superChunks[chunkCoords];
-//    }
-//    else
-//    {
-//        _superChunks[chunkCoords]=new Chunk(this,ChunkToWorldCoords(chunkCoords));
-//        return _superChunks[chunkCoords];
-//    }
-}
-
-//! pos: in CHUNK coordinates
-SuperChunkPtr ChunkManager::GetChunk(const glm::ivec3 &pos)
+//! pos: in SUPER_CHUNK coordinates
+SuperChunkPtr ChunkManager::GetSuperChunk(const glm::ivec3 &pos)
 {
     if(_superChunks.count(pos)!=0)
         return _superChunks[pos];
     else
-        return NullSuperChunk;
-}
-
-//! pos: in WORLD coordinates
-SuperChunkPtr ChunkManager::GetChunkWorld(const glm::ivec3 &pos)
-{
-    glm::ivec3 chunkCoords=WorldToSuperChunkCoords(pos);
-    if(_superChunks.count(chunkCoords)!=0)
-        return _superChunks[chunkCoords];
-    else
-        return NullSuperChunk;
+        return nullptr;
 }
 
 const Block &ChunkManager::GetBlock(const glm::ivec3 &pos)
@@ -145,24 +113,4 @@ uint32_t ChunkManager::GetChunkCount()
 {
     return _superChunks.size();
 }
-
-//uint32_t ChunkManager::GetTotalBlocks()
-//{
-//    uint32_t ret=0;
-//    BOOST_FOREACH(ChunkMap::value_type a,_superChunks)
-//    {
-//        ret+=a.second->GetBlockCount();
-//    }
-//    return ret;
-//}
-
-//uint32_t ChunkManager::GetTotalFaces()
-//{
-//    uint32_t totalfaces=0;
-//    BOOST_FOREACH(ChunkMap::value_type a,_superChunks)
-//    {
-//        totalfaces+=a.second->GetFaceCount();
-//    }
-//    return totalfaces;
-//}
 

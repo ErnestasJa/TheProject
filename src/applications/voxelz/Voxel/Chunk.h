@@ -1,11 +1,11 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include "VoxelMesh.h"
 #include "Block.h"
 
-#define CHUNK_SIZE 16
-#define CHUNK_SIZEF 16.f
+#define CHUNK_SIZE 32
+#define CHUNK_SIZEF 32.f
+
 class ChunkManager;
 
 inline glm::ivec3 WorldToChunkCoords(const glm::ivec3 &other)
@@ -45,40 +45,74 @@ inline glm::ivec3 ChunkSpaceCoords(const glm::ivec3 &pos)
     return ats;
 }
 
-class Chunk:public VoxelMesh
+class Chunk
 {
 public:
+    uint32_t id;
+    uint32_t offset;
+    bool empty,generated,built,uploaded;
+    glm::ivec3 position;
+
     static Block EMPTY_BLOCK;
+
+    VoxMeshData meshData;
+
+    typedef std::shared_ptr<Chunk> _ChunkPtr;
+    _ChunkPtr leftN,rightN,botN,topN,backN,frontN;
+private:
+    ChunkManager *_chunkManager;
+    vector<Block> _blocks;
+public:
     BOOST_MOVABLE_BUT_NOT_COPYABLE(Chunk)
 
-    Chunk(ChunkManager *chunkManager,const glm::ivec3 &chunkPos, const uint32_t & offset);
+    Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset);
     virtual ~Chunk();
 
     void Fill();
-    void Rebuild();
     void UpdateNeighbours();
 
-    void Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
-    const Block &Get(uint32_t x,uint32_t y,uint32_t z);
-    const glm::ivec3 &GetPosition()
-    {
-        return m_chunkPos;
-    }
+    void SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
+    const Block &GetBlock(uint32_t x,uint32_t y,uint32_t z);
 
     uint32_t GetBlockCount();
-    void AddQuadToMesh(const glm::ivec3 * face, const intRGBA &col);
-private:
-    ChunkManager *m_chunkManager;
-    glm::ivec3 m_chunkPos;
-    vector<Block> m_pBlocks;
-    const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
-public:
-    uint32_t _id;
-    typedef std::shared_ptr<Chunk> _ChunkPtr;
-    _ChunkPtr leftN,rightN,botN,topN,backN,frontN;
-    uint32_t _offset;
-    bool generated,built,uploaded;
+
+    const Block & ElementAt(int32_t x,int32_t y, int32_t z);
+
+    static intRGBA getTypeCol(uint32_t typ)
+    {
+        switch(typ)
+        {
+        case EBT_VOIDROCK:
+            return VecRGBAToIntRGBA(u8vec4(0,0,0,255));
+            break;
+        case EBT_STONE:
+            return VecRGBAToIntRGBA(u8vec4(128,128,128,255));
+            break;
+        case EBT_SAND:
+            return VecRGBAToIntRGBA(u8vec4(192,192,64,255));
+            break;
+        case EBT_DIRT:
+            return VecRGBAToIntRGBA(u8vec4(64,64,0,255));
+            break;
+        case EBT_GRASS:
+            return VecRGBAToIntRGBA(u8vec4(0,128,0,255));
+            break;
+        case EBT_LEAF:
+            return VecRGBAToIntRGBA(u8vec4(0,192,0,255));
+            break;
+        case EBT_WOOD:
+            return VecRGBAToIntRGBA(u8vec4(128,128,0,255));
+            break;
+        case EBT_WATER:
+            return VecRGBAToIntRGBA(u8vec4(0,0,128,128));
+            break;
+        default:
+            return VecRGBAToIntRGBA(u8vec4(255,255,255,255));
+            break;
+        }
+    }
 };
 typedef Chunk::_ChunkPtr ChunkPtr;
 typedef boost::unordered_map<glm::ivec3, ChunkPtr, ivec3hash, ivec3equal> ChunkMap;
+
 #endif // CHUNK_H

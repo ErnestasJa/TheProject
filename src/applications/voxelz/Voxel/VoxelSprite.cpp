@@ -16,7 +16,7 @@ VoxelSprite::~VoxelSprite()
 void VoxelSprite::Rebuild()
 {
     UpdateMesh();
-    m_dirty=false;
+    _dirty=false;
 }
 
 VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img,uint32_t extrude,u8vec4 discardColor)

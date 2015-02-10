@@ -24,31 +24,10 @@ typedef std::shared_ptr<shader> shader_ptr;
 
 class VoxelMesh:public Mesh
 {
+public:
+    int32_t _size;
 private:
-    struct MaskNode
-    {
-        BOOST_MOVABLE_BUT_NOT_COPYABLE(MaskNode)
-
-        uint8_t exists;
-        intRGBA color;
-
-        MaskNode()
-        {
-            exists=false;
-            color=VecRGBToIntRGB(u8vec3(255));
-        }
-
-        MaskNode & operator = (bool value)
-        {
-            exists = value;
-            return *this;
-        }
-
-        operator bool()
-        {
-            return exists==1;
-        }
-    };
+    void ClearBuffers();
 public:
     BOOST_MOVABLE_BUT_NOT_COPYABLE(VoxelMesh);
     static Voxel EMPTY_VOXEL;
@@ -57,37 +36,23 @@ public:
 
     void CreateVox(int32_t x, int32_t y, int32_t z, const intRGBA &col);
     void RemoveVox(int32_t x, int32_t y, int32_t z);
+    const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
 
     void Render(bool wireframe=false);
-
-    virtual void Rebuild(){};
 
     void UpdateMesh();
 
     void Cleanup();
 
     bool Empty();
-
-    uint32_t GetFaceCount();
-
-    void GreedyBuild();
-
 protected:
-    vector<Voxel> m_vox;
+    vector<Voxel> _vox;
 
-    bool m_dirty;
-    bool m_empty;
+    bool _dirty;
+    bool _empty;
 
-    int32_t m_size,m_faceCount,mVecTrack,mIndexTrack;
-    shader_ptr m_shader;
-
-    uint32_t length(uint32_t x, uint32_t y, MaskNode **mask);
-    uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask);
-    void clear_mask(MaskNode **mask);
-    void clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey);
-    virtual const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
-    virtual void AddQuadToMesh(const glm::ivec3 * face,const intRGBA &col);
-    void ClearBuffers();
+    int32_t _faceCount;
+    shader_ptr _shader;
 private:
 };
 #endif // VOXELMESH_H
