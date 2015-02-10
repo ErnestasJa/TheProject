@@ -61,6 +61,7 @@ private:
     glm::ivec3 _pos;
     float noises[SUPERCHUNK_SIZE_BLOCKS][SUPERCHUNK_SIZE_BLOCKS];
     vector<Chunk> _genList;
+    bool built;
 public:
     typedef std::shared_ptr<SuperChunk> _SuperChunkPtr;
     SuperChunk(ChunkManager* chkmgr,const glm::ivec3 &pos)
@@ -68,6 +69,7 @@ public:
         this->_chunkManager=chkmgr;
         this->_pos=pos;
         this->_offsetTrack=0;
+        built=false;
 
         BufferObject<glm::ivec3> *vert=new BufferObject<glm::ivec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
@@ -113,9 +115,9 @@ public:
     void Update()
     {
         int32_t chunksPerFrame=0;
-        for(auto a:_chunks)
+        if(!built)
         {
-            if(chunksPerFrame!=CHUNK_UPDATES_PER_FRAME)
+            for(auto a:_chunks)
             {
                 if(!a.second->generated)
                 {
@@ -123,7 +125,25 @@ public:
                     Generate(a.second);
                     chunksPerFrame++;
                 }
-                else if(a.second->generated&&!a.second->built)
+            }
+            built=true;
+            for(auto a:_chunks)
+            {
+                glm::ivec3 pos=a.first;
+                a.second->leftN=GetChunk(glm::ivec3(pos.x-1,pos.y,pos.z));
+                a.second->rightN=GetChunk(glm::ivec3(pos.x+1,pos.y,pos.z));
+                a.second->botN=GetChunk(glm::ivec3(pos.x,pos.y-1,pos.z));
+                a.second->topN=GetChunk(glm::ivec3(pos.x,pos.y+1,pos.z));
+                a.second->frontN=GetChunk(glm::ivec3(pos.x,pos.y,pos.z+1));
+                a.second->backN=GetChunk(glm::ivec3(pos.x,pos.y,pos.z-1));
+            }
+        }
+        else{
+        for(auto a:_chunks)
+        {
+            if(chunksPerFrame!=CHUNK_UPDATES_PER_FRAME)
+            {
+                if(a.second->generated&&!a.second->built)
                 {
                     //printf("Build\n");
                     GreedyMeshBuilder::GreedyBuild(a.second);
@@ -140,6 +160,7 @@ public:
             {
                 break;
             }
+        }
         }
     }
 

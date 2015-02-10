@@ -101,6 +101,8 @@ void GreedyMeshBuilder::AddQuadToMesh(VoxelMesh* vox,const glm::ivec3 * face, co
 template <>
 void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
 {
+    chk->meshData.Free();
+
     uint32_t size=CHUNK_SIZE;
     MaskNode **mask=new MaskNode*[size];
     loop(i,CHUNK_SIZE) mask[i]=new MaskNode[size];
