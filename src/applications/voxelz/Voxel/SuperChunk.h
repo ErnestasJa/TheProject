@@ -73,7 +73,7 @@ public:
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
-        printf("RESERVED VRAM BLOCK: %f Mb\n",(float)(VRAM_BLOCK_SIZE*sizeof(glm::ivec3)+VRAM_BLOCK_SIZE*sizeof(glm::ivec3))/1000000.f);
+        printf("RESERVED RAM BLOCK: %f Mb\n",(float)(VRAM_BLOCK_SIZE*sizeof(glm::ivec3)+VRAM_BLOCK_SIZE*sizeof(glm::ivec3))/1000000.f);
         vert->data.resize(VRAM_BLOCK_SIZE);
         col->data.resize(VRAM_BLOCK_SIZE);
         inds->data.resize(0);
@@ -85,7 +85,7 @@ public:
         loopi(x,SUPERCHUNK_SIZE_BLOCKS)
         loopi(y,SUPERCHUNK_SIZE_BLOCKS)
         {
-            noises[x][y]=scaled_raw_noise_2d(0,256,(x+_pos.x)/256.f,(y+_pos.z)/256.f);
+            noises[x][y]=scaled_raw_noise_2d(0,WORLD_HEIGHT,(x+_pos.x)/WORLD_HEIGHTF/2,(y+_pos.z)/WORLD_HEIGHTF/2);
         }
 
         Init();

@@ -150,6 +150,8 @@
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/ChunkManager.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/ChunkManager.h" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/GreedyMeshBuilder.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/GreedyMeshBuilder.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/SimplexNoise.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/SimplexNoise.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/SuperChunk.h" />

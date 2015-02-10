@@ -1,5 +1,7 @@
 #ifndef CHUNKMANAGER_H
 #define CHUNKMANAGER_H
+#define WORLD_HEIGHT 128
+#define WORLD_HEIGHTF 128.f
 
 #include "opengl/Shader.h"
 
