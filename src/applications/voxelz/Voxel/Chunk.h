@@ -69,7 +69,7 @@ public:
     virtual ~Chunk();
 
     void Fill();
-    void UpdateNeighbours();
+    void UpdateNeighbours(uint32_t x,uint32_t y,uint32_t z);
 
     void SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);
     const Block &GetBlock(uint32_t x,uint32_t y,uint32_t z);

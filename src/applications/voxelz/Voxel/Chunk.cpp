@@ -30,19 +30,46 @@ Chunk::~Chunk()
     freeVector(_blocks);
 }
 
-void Chunk::UpdateNeighbours()
+void Chunk::UpdateNeighbours(uint32_t x, uint32_t y, uint32_t z)
 {
-//    if(leftN) leftN->Rebuild();
-//    if(rightN) rightN->Rebuild();
-//    if(botN) botN->Rebuild();
-//    if(topN) topN->Rebuild();
-//    if(backN) backN->Rebuild();
-//    if(frontN) frontN->Rebuild();
+    if(x==0&&leftN!=nullptr)
+    {
+        leftN->built=false;
+        leftN->uploaded=false;
+    }
+    if(x==CHUNK_SIZE-1&&rightN!=nullptr)
+    {
+        leftN->built=false;
+        leftN->uploaded=false;
+    }
+
+    if(y==0&&botN!=nullptr)
+    {
+        botN->built=false;
+        botN->uploaded=false;
+    }
+    if(y==CHUNK_SIZE-1&&topN!=nullptr)
+    {
+        topN->built=false;
+        topN->uploaded=false;
+    }
+
+    if(z==0&&backN!=nullptr)
+    {
+        backN->built=false;
+        backN->uploaded=false;
+    }
+    if(z==CHUNK_SIZE-1&&frontN!=nullptr)
+    {
+        frontN->built=false;
+        frontN->uploaded=false;
+    }
 }
 
 void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
     if(x<0||x>=CHUNK_SIZE||y<0||y>=CHUNK_SIZE||z<0||z>=CHUNK_SIZE) return;
+
     if(active)
     {
         Block a;
@@ -54,6 +81,8 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
     {
         _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=EMPTY_BLOCK;
     }
+
+    UpdateNeighbours(x,y,z);
 }
 
 const Block &Chunk::GetBlock(uint32_t x,uint32_t y,uint32_t z)

@@ -5,7 +5,7 @@
 #define SUPERCHUNK_SIZEF 8.f
 #define SUPERCHUNK_SIZE_BLOCKS (SUPERCHUNK_SIZE*CHUNK_SIZE)
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
-#define CHUNK_BLOCK_SIZE ((CHUNK_SIZE+1)*(CHUNK_SIZE+1)*(CHUNK_SIZE+1))
+#define CHUNK_BLOCK_SIZE ((CHUNK_SIZE)*(CHUNK_SIZE)*(CHUNK_SIZE))
 #define VRAM_BLOCK_SIZE (CHUNK_BLOCK_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
 #define CHUNK_UPDATES_PER_FRAME 16
 
@@ -75,10 +75,11 @@ public:
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
-        printf("RESERVED RAM BLOCK: %f Mb\n",(float)(VRAM_BLOCK_SIZE*sizeof(glm::ivec3)+VRAM_BLOCK_SIZE*sizeof(glm::ivec3))/1000000.f);
         vert->data.resize(VRAM_BLOCK_SIZE);
         col->data.resize(VRAM_BLOCK_SIZE);
         inds->data.resize(0);
+
+        printf("RESERVED RAM BLOCK: %f Mb\n",(float)(vert->data.size()*sizeof(vert->data[0])+col->data.size()*sizeof(col->data[0]))/1000000.f);
 
         buffers[Mesh::POSITION]=vert;
         buffers[Mesh::COLOR]=col;
@@ -91,6 +92,8 @@ public:
         }
 
         Init();
+        freeVector(((BufferObject<glm::ivec3>*)buffers[Mesh::POSITION])->data);
+        freeVector(((BufferObject<u8vec4>*)buffers[Mesh::COLOR])->data);
     }
 
     ~SuperChunk()
@@ -271,7 +274,6 @@ public:
     {
         this->UploadBufferSubData(Mesh::POSITION,chunk->meshData.positions,chunk->offset);
         this->UploadBufferSubData(Mesh::COLOR,chunk->meshData.colors,chunk->offset);
-
         RebuildIndices();
         chunk->uploaded=true;
     }

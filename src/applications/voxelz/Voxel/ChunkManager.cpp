@@ -11,9 +11,9 @@
 ChunkManager::ChunkManager()
 {
 
-    loopi(x,4)
-    loopi(z,4)
-    loopi(y,1)
+    loopi(x,2)
+    loopi(z,2)
+    loopi(y,2)
     {
         AddSuperChunk(glm::ivec3(x,y,z));
         _superChunks[glm::ivec3(x,y,z)]->Fill();
