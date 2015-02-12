@@ -145,3 +145,35 @@ void BufferObject<s16vec3>::Upload()
     glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(s16vec3),&data[0],GL_STATIC_DRAW);
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+template <>
+uint32_t BufferObject<u16vec3>::GetDataType()
+{
+    return GL_SHORT;
+}
+
+template <>
+uint32_t BufferObject<u16vec3>::GetComponentCount()
+{
+    return 3;
+}
+
+template <>
+void BufferObject<u16vec3>::Init()
+{
+    glGenBuffers(1, &this->Id);
+}
+
+template <>
+void BufferObject<u16vec3>::Upload()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(u16vec3),&data[0],GL_STATIC_DRAW);
+}
+
+template <>
+void BufferObject<u16vec3>::UploadSubData(vector<u16vec3> subdata,uint32_t offset)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferSubData(GL_ARRAY_BUFFER, offset*sizeof(u16vec3), subdata.size()*sizeof(u16vec3), &subdata[0]);
+}

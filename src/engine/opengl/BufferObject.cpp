@@ -160,7 +160,7 @@ uint32_t BufferObject<glm::detail::tvec3<uint8_t> >::GetDataType()
 template <>
 uint32_t BufferObject<glm::detail::tvec3<uint8_t> >::GetComponentCount()
 {
-    return 4;
+    return 3;
 }
 
 template <>

@@ -11,9 +11,9 @@
 ChunkManager::ChunkManager()
 {
 
-    loopi(x,2)
-    loopi(z,2)
-    loopi(y,2)
+    loopi(x,8)
+    loopi(z,8)
+    loopi(y,1)
     {
         AddSuperChunk(glm::ivec3(x,y,z));
         _superChunks[glm::ivec3(x,y,z)]->Fill();
@@ -43,6 +43,7 @@ void ChunkManager::SetBlock(const glm::ivec3 &pos,EBlockType type,bool active)
     else
     {
         AddSuperChunk(chunkCoords);
+        _superChunks[chunkCoords]->Fill();
         _superChunks[chunkCoords]->Set(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
     }
 }

@@ -97,11 +97,12 @@ inline void freeVector(vector<T> &a)
     vector<T>().swap(a);
 }
 
+template <typename T,typename U,typename V>
 struct VoxMeshData
 {
-    vector<glm::ivec3> positions;
-    vector<u8vec4> colors;
-    vector<uint32_t> indices;
+    vector<T> positions;
+    vector<U> colors;
+    vector<V> indices;
 
     bool empty;
 

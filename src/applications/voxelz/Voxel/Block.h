@@ -3,7 +3,7 @@
 
 #include "Voxel.h"
 
-enum EBlockType
+enum EBlockType:uint32_t
 {
     EBT_AIR,
 

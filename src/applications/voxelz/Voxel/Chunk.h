@@ -5,6 +5,8 @@
 
 #define CHUNK_SIZE 16
 #define CHUNK_SIZEF 16.f
+#define CHUNK_BLOCK_SIZE ((CHUNK_SIZE)*(CHUNK_SIZE)*(CHUNK_SIZE))
+#define CHUNK_MESH_SIZE ((CHUNK_SIZE)*(CHUNK_SIZE)*(CHUNK_SIZE))
 
 class ChunkManager;
 
@@ -55,7 +57,7 @@ public:
 
     static Block EMPTY_BLOCK;
 
-    VoxMeshData meshData;
+    VoxMeshData<u16vec3,u8vec4,uint32_t> meshData;
 
     typedef std::shared_ptr<Chunk> _ChunkPtr;
     _ChunkPtr leftN,rightN,botN,topN,backN,frontN;
@@ -69,6 +71,7 @@ public:
     virtual ~Chunk();
 
     void Fill();
+    void FillCheckerboard();
     void UpdateNeighbours(uint32_t x,uint32_t y,uint32_t z);
 
     void SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active);

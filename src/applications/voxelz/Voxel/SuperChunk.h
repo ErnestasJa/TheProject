@@ -5,8 +5,7 @@
 #define SUPERCHUNK_SIZEF 8.f
 #define SUPERCHUNK_SIZE_BLOCKS (SUPERCHUNK_SIZE*CHUNK_SIZE)
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
-#define CHUNK_BLOCK_SIZE ((CHUNK_SIZE)*(CHUNK_SIZE)*(CHUNK_SIZE))
-#define VRAM_BLOCK_SIZE (CHUNK_BLOCK_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
+#define VRAM_BLOCK_SIZE (CHUNK_MESH_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
 #define CHUNK_UPDATES_PER_FRAME 16
 
 #include "OpenGL/Mesh.h"
@@ -71,7 +70,7 @@ public:
         this->_offsetTrack=0;
         built=false;
 
-        BufferObject<glm::ivec3> *vert=new BufferObject<glm::ivec3>();
+        BufferObject<u16vec3> *vert=new BufferObject<u16vec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
@@ -104,12 +103,12 @@ public:
     {
         loopi(x,SUPERCHUNK_SIZE)
         {
-            loopi(z,SUPERCHUNK_SIZE)
+            loopi(y,SUPERCHUNK_SIZE)
             {
-                loopi(y,SUPERCHUNK_SIZE)
+                loopi(z,SUPERCHUNK_SIZE)
                 {
                     AddChunk(glm::ivec3(x,y,z));
-                    //_chunks[glm::ivec3(x,y,z)]->Fill();
+                    //_chunks[glm::ivec3(x,y,z)]->FillCheckerboard();
                 }
             }
         }
@@ -142,20 +141,23 @@ public:
             }
         }
         else{
-        for(auto a:_chunks)
-        {
+                loopi(x,SUPERCHUNK_SIZE)
+            loopi(y,SUPERCHUNK_SIZE)
+                loopi(z,SUPERCHUNK_SIZE)
+                {
+
             if(chunksPerFrame!=CHUNK_UPDATES_PER_FRAME)
             {
-                if(a.second->generated&&!a.second->built)
+                if(_chunks[glm::ivec3(x,y,z)]->generated&&!_chunks[glm::ivec3(x,y,z)]->built)
                 {
                     //printf("Build\n");
-                    GreedyMeshBuilder::GreedyBuild(a.second);
+                    GreedyMeshBuilder::GreedyBuild(_chunks[glm::ivec3(x,y,z)]);
                     chunksPerFrame++;
                 }
-                else if(a.second->generated&&a.second->built&&!a.second->uploaded)
+                else if(_chunks[glm::ivec3(x,y,z)]->generated&&_chunks[glm::ivec3(x,y,z)]->built&&!_chunks[glm::ivec3(x,y,z)]->uploaded)
                 {
                     //printf("Upload\n");
-                    UpdateChunkData(a.second);
+                    UpdateChunkData(_chunks[glm::ivec3(x,y,z)]);
                     chunksPerFrame++;
                 }
             }
@@ -227,7 +229,7 @@ public:
         else
         {
             AddChunk(chunkCoords,_offsetTrack);
-            _offsetTrack=_offsetTrack+CHUNK_BLOCK_SIZE;
+            _offsetTrack=_offsetTrack+CHUNK_MESH_SIZE;
             _chunks[chunkCoords]->SetBlock(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
         }
     }
@@ -250,7 +252,7 @@ public:
     void AddChunk(const glm::ivec3 &chunkCoords)
     {
         AddChunk(chunkCoords,_offsetTrack);
-        _offsetTrack=_offsetTrack+CHUNK_BLOCK_SIZE;
+        _offsetTrack=_offsetTrack+CHUNK_MESH_SIZE;
     }
 
     ChunkPtr GetChunk(const glm::ivec3 &chunkCoords)

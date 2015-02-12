@@ -48,10 +48,10 @@ void GreedyMeshBuilder::AddQuadToMesh(ChunkPtr chk,const glm::ivec3 * face, cons
 {
     uint32_t indexStart=chk->offset+chk->meshData.positions.size();
 
-    chk->meshData.positions.push_back(chk->position+face[0]);
-    chk->meshData.positions.push_back(chk->position+face[1]);
-    chk->meshData.positions.push_back(chk->position+face[2]);
-    chk->meshData.positions.push_back(chk->position+face[3]);
+    chk->meshData.positions.push_back((u16vec3)(chk->position+face[0]));
+    chk->meshData.positions.push_back((u16vec3)(chk->position+face[1]));
+    chk->meshData.positions.push_back((u16vec3)(chk->position+face[2]));
+    chk->meshData.positions.push_back((u16vec3)(chk->position+face[3]));
 
     u8vec4 _col=IntRGBAToVecRGBA(col);
 
@@ -315,6 +315,14 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
         chk->meshData.empty=true;
 
     chk->built=true;
+
+
+    uint32_t possize=chk->meshData.positions.size();
+    uint32_t colsize=chk->meshData.colors.size();
+    uint32_t indsize=chk->meshData.indices.size();
+
+    //printf("Chunk data: o %d p %d c %d i %d\n",chk->offset,possize,colsize,indsize);
+
 }
 
 template <>

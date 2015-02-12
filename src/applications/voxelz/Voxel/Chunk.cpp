@@ -82,7 +82,7 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
         _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=EMPTY_BLOCK;
     }
 
-    UpdateNeighbours(x,y,z);
+    //UpdateNeighbours(x,y,z);
 }
 
 const Block &Chunk::GetBlock(uint32_t x,uint32_t y,uint32_t z)
@@ -105,6 +105,18 @@ void Chunk::Fill()
             }
         }
     }
+}
+
+void Chunk::FillCheckerboard()
+{
+    loopi(x,CHUNK_SIZE)
+    loopi(y,CHUNK_SIZE)
+    loopi(z,CHUNK_SIZE)
+    {
+        SetBlock(x,y,z,(EBlockType)(rand()%EBT_COUNT),true);
+    }
+
+    generated=true;
 }
 
 uint32_t Chunk::GetBlockCount()
