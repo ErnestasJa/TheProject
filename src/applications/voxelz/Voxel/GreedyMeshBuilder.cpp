@@ -5,6 +5,7 @@
 #include "Chunk.h"
 #include "VoxelMesh.h"
 
+template<>
 void GreedyMeshBuilder::_clearMask(MaskNode **mask,uint32_t size)
 {
     loop(i,size) loop(j,size)
@@ -13,7 +14,16 @@ void GreedyMeshBuilder::_clearMask(MaskNode **mask,uint32_t size)
     }
 }
 
-void GreedyMeshBuilder::_clearMaskRanged(MaskNode **mask,int sx,int sy,int ex,int ey,uint32_t size)
+template<>
+void GreedyMeshBuilder::_clearMask(MaskNode **mask,u16vec3 size)
+{
+    loopi(i,size.x) loopi(j,size.y)
+    {
+        mask[i][j].exists = false;
+    }
+}
+
+void GreedyMeshBuilder::_clearMaskRanged(MaskNode **mask,int sx,int sy,int ex,int ey)
 {
     for(int i=sx; i<ex; i++) for(int j=sy; j<ey; j++)
         {
@@ -21,6 +31,7 @@ void GreedyMeshBuilder::_clearMaskRanged(MaskNode **mask,int sx,int sy,int ex,in
         }
 }
 
+template<>
 uint32_t GreedyMeshBuilder::_quadLength(uint32_t x, uint32_t y, MaskNode **mask,uint32_t size)
 {
     for(uint32_t i = x; i < size; i++)
@@ -30,11 +41,36 @@ uint32_t GreedyMeshBuilder::_quadLength(uint32_t x, uint32_t y, MaskNode **mask,
     return size-x;
 }
 
+template<>
+uint32_t GreedyMeshBuilder::_quadLength(uint32_t x, uint32_t y, MaskNode **mask,u16vec3 size)
+{
+    for(uint32_t i = x; i < size.x; i++)
+        if(mask[i][y].color!=mask[x][y].color || !mask[i][y].exists)
+            return i-x;
+
+    return size.x-x;
+}
+
+template<>
 uint32_t GreedyMeshBuilder::_quadHeight(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask,uint32_t size)
 {
     uint32_t h = 0;
 
     for(uint32_t i = y; i < size; i++)
+        if(_quadLength(x,i,mask,size)==len&&mask[x][i].color==mask[x][y].color)
+            h++;
+        else
+            break;
+
+    return h;
+}
+
+template<>
+uint32_t GreedyMeshBuilder::_quadHeight(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask,u16vec3 size)
+{
+    uint32_t h = 0;
+
+    for(uint32_t i = y; i < size.y; i++)
         if(_quadLength(x,i,mask,size)==len&&mask[x][i].color==mask[x][y].color)
             h++;
         else
@@ -96,6 +132,8 @@ void GreedyMeshBuilder::AddQuadToMesh(VoxelMesh* vox,const glm::ivec3 * face, co
     ibo->data.push_back(indexStart);
     ibo->data.push_back(indexStart+1);
     ibo->data.push_back(indexStart+2);
+
+    //printf("\nQuad added: \n%s \n%s \n%s \n%s\n\n",GLMVec3ToStr(face[0]),GLMVec3ToStr(face[1]),GLMVec3ToStr(face[2]),GLMVec3ToStr(face[3]));
 }
 
 template <>
@@ -301,7 +339,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                         default:
                             break;
                         }
-                        _clearMaskRanged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y,size);
+                        _clearMaskRanged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y);
                     }
                 }
             }
@@ -328,9 +366,9 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
 template <>
 void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
 {
-    uint32_t m_size=vxm->_size;
-    MaskNode **mask=new MaskNode*[m_size];
-    loop(i,m_size) mask[i]=new MaskNode[m_size];
+    u16vec3 m_size=vxm->_size;
+    MaskNode **mask=new MaskNode*[m_size.x];
+    loopi(i,m_size.x) mask[i]=new MaskNode[m_size.y];
 
     glm::ivec3 face[4];
 
@@ -341,13 +379,13 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
     for(uint32_t dim=0; dim<6; dim++)
     {
         _clearMask(mask,m_size);
-        loopi(z, m_size)
+        loopi(z, m_size.z)
         {
             switch(dim)
             {
             case 0: //z-
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -355,7 +393,6 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
                     n.color=tmpVox.color;
                     if(tmpVox.active)
                     {
-
                         const Voxel& tmpVox=vxm->GetVoxel(x,y,z-1);
                         n.exists = !(tmpVox.active==1);
                     }
@@ -364,7 +401,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 1: //z+
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -380,7 +417,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 2: //y-
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -396,7 +433,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 3: //y+
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -412,7 +449,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 4: //x+
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -428,7 +465,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 5: //x-
             {
-                loopi(y,m_size) loopi(x,m_size)
+                loopi(y,m_size.y) loopi(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -446,9 +483,9 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
                 break;
             }
 
-            loop(y, m_size)
+            loopi(y, m_size.y)
             {
-                loop(x, m_size)
+                loopi(x, m_size.x)
                 {
                     MaskNode& mn = mask[x][y];
                     if(mn)
@@ -526,13 +563,22 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
                         default:
                             break;
                         }
-                        _clearMaskRanged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y,m_size);
+                        _clearMaskRanged(mask,qstart.x,qstart.y,qstart.x+qdims.x,qstart.y+qdims.y);
                     }
                 }
             }
         }
     }
 
-    loop(i,m_size) delete mask[i];
+    //printf("%d\n",faceCount*2);
+
+    BufferObject<glm::ivec3>* pb=(BufferObject<glm::ivec3>*)vxm->buffers[Mesh::POSITION];
+    BufferObject<u8vec4>* cb=(BufferObject<u8vec4>*)vxm->buffers[Mesh::COLOR];
+    IndexBufferObject<uint32_t>* ib=(IndexBufferObject<uint32_t>*)vxm->buffers[Mesh::INDICES];
+    printf("Dataz %d %d %d\n",pb->data.size(),cb->data.size(),ib->data.size());
+
+    loop(i,m_size.x) delete mask[i];
     delete mask;
+
+    vxm->_dirty=false;
 }

@@ -11,25 +11,54 @@
 ChunkManager::ChunkManager()
 {
 
-    loopi(x,8)
-    loopi(z,8)
-    loopi(y,1)
-    {
-        AddSuperChunk(glm::ivec3(x,y,z));
-        _superChunks[glm::ivec3(x,y,z)]->Fill();
-    }
+//    char * buf;
+//    uint32_t len;
+//    len=helpers::read("res/test1.bvox",buf);
+//    uint32_t * data = (uint32_t*)((void*)&buf[0]);
+//
+//    uint32_t voxel_count = data[0];
+//    data++;
+//
+//    std::cout << "File len: " << len << std::endl;
+//    std::cout << "Voxel count: " << voxel_count << std::endl;
+//
+//    for(int i = 0; i < voxel_count; i++)
+//    {
+//        uint32_t x = data[0], y = data[1], z = data[2];
+//        SetBlock(glm::ivec3(x,y,z),EBT_CLOUD,true);
+//        data+=3;
+//    }
+//
+//    delete[] buf;
+//
+//    for(auto a:_superChunks)
+//    {
+//        for(auto b:a.second->_chunks)
+//        {
+//            glm::ivec3 pos=b.first;
+//            b.second->leftN=a.second->GetChunk(glm::ivec3(pos.x-1,pos.y,pos.z));
+//            b.second->rightN=a.second->GetChunk(glm::ivec3(pos.x+1,pos.y,pos.z));
+//            b.second->botN=a.second->GetChunk(glm::ivec3(pos.x,pos.y-1,pos.z));
+//            b.second->topN=a.second->GetChunk(glm::ivec3(pos.x,pos.y+1,pos.z));
+//            b.second->frontN=a.second->GetChunk(glm::ivec3(pos.x,pos.y,pos.z+1));
+//            b.second->backN=a.second->GetChunk(glm::ivec3(pos.x,pos.y,pos.z-1));
+//            b.second->generated=true;
+//        }
+//
+//    }
+
+//    loopi(x,1)
+//    loopi(z,1)
+//    loopi(y,1)
+//    {
+//        AddSuperChunk(glm::ivec3(x,y,z));
+//        _superChunks[glm::ivec3(x,y,z)]->Fill();
+//    }
 }
 
 ChunkManager::~ChunkManager()
 {
     _superChunks.clear();
-}
-
-static const char* v3str(const glm::vec3 & vec)
-{
-    char buf[256];
-    sprintf(buf,"vec3(%f %f %f)",vec.x,vec.y,vec.z);
-    return std::string(buf).c_str();
 }
 
 void ChunkManager::SetBlock(const glm::ivec3 &pos,EBlockType type,bool active)

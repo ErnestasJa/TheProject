@@ -10,7 +10,7 @@
 
 #include "GUISlider.h"
 
-gui_slider::gui_slider(GUIEnvironment* env, Rect2D<int> dimensions, float min, float max, float pos, bool vertical):GUIElement(env,dimensions)
+GUISlider::GUISlider(GUIEnvironment* env, Rect2D<int> dimensions, float min, float max, float pos, bool vertical):GUIElement(env,dimensions)
 {
     this->Type=GUIET_SLIDER;
     environment=env;
@@ -35,11 +35,11 @@ gui_slider::gui_slider(GUIEnvironment* env, Rect2D<int> dimensions, float min, f
     this->SetParent(env);
 }
 
-gui_slider::~gui_slider()
+GUISlider::~GUISlider()
 {
 }
 
-void gui_slider::Render()
+void GUISlider::Render()
 {
     if(m_vertical)
     {
@@ -55,7 +55,7 @@ void gui_slider::Render()
     this->RenderChildren();
 }
 
-bool gui_slider::OnEvent(const GUIEvent & e)
+bool GUISlider::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -87,7 +87,7 @@ bool gui_slider::OnEvent(const GUIEvent & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_slider::handle_mouse()
+void GUISlider::handle_mouse()
 {
     if(m_vertical)
     {
@@ -120,12 +120,12 @@ void gui_slider::handle_mouse()
     //printf("value: %f\n",m_cur_value);
 }
 
-float gui_slider::get_value() const
+float GUISlider::get_value() const
 {
     return m_cur_value;
 }
 
-void gui_slider::set_value(float value)
+void GUISlider::set_value(float value)
 {
     m_cur_value = clamp(value,m_min,m_max);
 }

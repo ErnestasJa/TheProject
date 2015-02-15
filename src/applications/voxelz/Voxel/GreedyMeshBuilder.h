@@ -29,10 +29,13 @@ private:
         }
     };
 
-    static void _clearMask(MaskNode **mask,uint32_t size);
-    static void _clearMaskRanged(MaskNode **mask,int sx,int sy,int ex,int ey,uint32_t size);
-    static uint32_t _quadLength(uint32_t x, uint32_t y, MaskNode **mask,uint32_t size);
-    static uint32_t _quadHeight(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask,uint32_t size);
+    template<typename T>
+    static void _clearMask(MaskNode **mask, T size);
+    static void _clearMaskRanged(MaskNode **mask,int sx,int sy,int ex,int ey);
+    template<typename T>
+    static uint32_t _quadLength(uint32_t x, uint32_t y, MaskNode **mask,T size);
+    template<typename T>
+    static uint32_t _quadHeight(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask,T size);
 
 public:
     template <typename T>

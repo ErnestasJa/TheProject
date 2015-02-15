@@ -1,6 +1,8 @@
 #ifndef AABB_H
 #define AABB_H
 
+#include "Utility/Vector.h"
+
 class AABB
 {
 public:
@@ -19,6 +21,7 @@ public:
     void Translate(const glm::vec3 &point);
 
     glm::vec3 GetPoint(uint32_t i) const;
+    vector<glm::vec3> GetPoints() const;
     glm::vec3 GetHalfSize() const;
     glm::vec3 GetCenter() const;
     glm::vec3 GetMin() const;
@@ -26,7 +29,7 @@ public:
 
 protected:
     glm::vec3 m_center,m_halfSize;
-    glm::vec3 points[8];
+    vector<glm::vec3> points;
 };
 
 #endif // SG_AABB_H

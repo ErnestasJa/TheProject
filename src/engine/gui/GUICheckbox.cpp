@@ -9,7 +9,7 @@
 
 #include "GUIStaticText.h"
 
-gui_checkbox::gui_checkbox(GUIEnvironment* env, Rect2D<int> dimensions,bool checked):GUIElement(env,dimensions)
+GUICheckbox::GUICheckbox(GUIEnvironment* env, Rect2D<int> dimensions,bool checked):GUIElement(env,dimensions)
 {
     this->Type=GUIET_CHECKBOX;
     cur_style=checked?gui_skin_checkbox_c_active:gui_skin_checkbox_u_active;
@@ -26,11 +26,11 @@ gui_checkbox::gui_checkbox(GUIEnvironment* env, Rect2D<int> dimensions,bool chec
     this->SetParent(env);
 }
 
-gui_checkbox::~gui_checkbox()
+GUICheckbox::~GUICheckbox()
 {
 }
 
-void gui_checkbox::Render()
+void GUICheckbox::Render()
 {
     if(enabled&&!hovered)
         cur_style=this->checked?gui_skin_checkbox_c_active:gui_skin_checkbox_u_active;
@@ -40,7 +40,7 @@ void gui_checkbox::Render()
     environment->draw_gui_quad(absolute_rect,cur_style);
 }
 
-bool gui_checkbox::OnEvent(const GUIEvent & e)
+bool GUICheckbox::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 

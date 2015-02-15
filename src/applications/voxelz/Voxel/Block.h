@@ -15,6 +15,7 @@ enum EBlockType:uint32_t
     EBT_WOOD,
     EBT_LEAF,
     EBT_VOIDROCK,
+    EBT_CLOUD,
 
     EBT_COUNT
 };

@@ -37,7 +37,7 @@ static CubeMesh *cub,*smallcub;
 static GridMesh *grid;
 static ChunkManager *chkmgr;
 static GUIEnvironment *env;
-static gui_image *guiImg;
+static GUIImage *guiImg;
 static FrameBufferObject* GBuffer;
 static TexturePtr GBdepth,GBdiffuse,GBnormal,GBposition,GBtexcoord,SSAONormal;
 static glm::vec3 voxpos,newvoxpos,pointpos;
@@ -109,15 +109,15 @@ bool InitPostProc(AppContext* ctx)
 
 #define DEBUGFBO
 #ifdef DEBUG_FBO
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
-    guiImg=new gui_image(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,384,320,192),GBposition);
-    guiImg=new gui_image(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
-    guiImg=new gui_image(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-320,0,320,192),GBdepth,false);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-640,0,320,192),GBdiffuse);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-320,192,320,192),GBnormal);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-320,384,320,192),GBposition);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-320,576,320,192),GBtexcoord);
+    guiImg=new GUIImage(env,Rect2D<int>(1280-640,192,320,192),SSAONormal);
 #endif
 
-//    gui_window *twin=new gui_window(env,Rect2D<int>(0,0,512,512),L"Voxelmator3000",true,false,false,true);
+//    GUIWindow *twin=new GUIWindow(env,Rect2D<int>(0,0,512,512),L"Voxelmator3000",true,false,false,true);
 //
 //    GUIColorPicker* cp=new GUIColorPicker(env,Rect2D<int>(0,16,128,128),false);
 //    cp->SetParent(twin);
@@ -140,7 +140,9 @@ bool InitPostProc(AppContext* ctx)
     GBuffer->Unset();
     if(!GBuffer->IsComplete()) return false;
 
-    spr=new VoxelSprite(0);//VoxelSprite::LoadFromImage(loader->load("res/mewtwo.png"),16);
+    //spr=VoxelSprite::LoadFromImage(loader->load("res/tile.png"),loader->load("res/tile_disp.png"),1);
+    spr=new VoxelSprite(u16vec3(2,2,2));
+    loopi(x,2)loopi(y,2)loopi(z,2)spr->CreateVox(x,y,z,VecRGBAToIntRGBA(u8vec4(255))); spr->Rebuild();
 
     return true;
 }
@@ -183,7 +185,7 @@ void InitPlaneMesh(AppContext * ctx)
     gbsh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/gbuffer");
     ssaosh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/SSAO");
 
-    cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,1024.f));
+    cam=share(new Camera(ctx,glm::vec3(0,128,0),glm::vec3(0,128,32),glm::vec3(0,1,0),1.777777f,45.0f,1.0f,4096.f));
     //cam->SetFPS(false);
 
     env=new GUIEnvironment(ctx);
@@ -195,17 +197,17 @@ void InitPlaneMesh(AppContext * ctx)
     env->get_font_renderer()->CreateFontFamily("default36",36,
                                                "res/gui/fonts/OpenSans-Regular.ttf","res/gui/fonts/OpenSans-Bold.ttf",
                                                "res/gui/fonts/OpenSans-Italic.ttf","res/gui/fonts/OpenSans-BoldItalic.ttf");
-    gui_pane* pan=new gui_pane(env,Rect2D<int>(0,0,200,200),true);
+    GUIPane* pan=new GUIPane(env,Rect2D<int>(0,0,200,200),true);
 
-    gui_static_text* texts[10];
+    GUIStaticText* texts[10];
 
-    gui_button* tbtn=new gui_button(env,Rect2D<int>(200,0,64,64),L"Button");
+    GUIButton* tbtn=new GUIButton(env,Rect2D<int>(200,0,64,64),L"Button");
 
-    gui_checkbox* chk = new gui_checkbox(env,Rect2D<int>(200,160,16,16),false);
+    GUICheckbox* chk = new GUICheckbox(env,Rect2D<int>(200,160,16,16),false);
 
-    gui_edit_box* eb = new gui_edit_box(env, Rect2D<int>(210,60,128,32),L"Editboxas",glm::vec4(1),true,true,false);
+    GUIEditBox* eb = new GUIEditBox(env, Rect2D<int>(210,60,128,32),L"Editboxas",glm::vec4(1),true,true,false);
 
-    gui_slider* slid=new gui_slider(env,Rect2D<int>(200,200,128,16),0,100,50);
+    GUISlider* slid=new GUISlider(env,Rect2D<int>(200,200,128,16),0,100,50);
 
     GUIColorPicker* gcpk=new GUIColorPicker(env,Rect2D<int>(0,300,128,128));
 
@@ -214,7 +216,7 @@ void InitPlaneMesh(AppContext * ctx)
     loopi(i,10)
     {
         ss<<i;
-        texts[i]=new gui_static_text(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
+        texts[i]=new GUIStaticText(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
         texts[i]->SetName(ss.str());
         texts[i]->SetParent(pan);
         ss.str(std::string()); ///clear stream
@@ -223,11 +225,11 @@ void InitPlaneMesh(AppContext * ctx)
     #define SSAOTWEAK
     #ifdef SSAO_TWEAK
 
-    gui_window *wssao=new gui_window(env,Rect2D<int>(512,0,512,256),L"Ayyy.. SSAO!",true,false,false,true);
+    GUIWindow *wssao=new GUIWindow(env,Rect2D<int>(512,0,512,256),L"Ayyy.. SSAO!",true,false,false,true);
 
-    gui_static_text* stext=new gui_static_text(env,Rect2D<int>(8,32,64,16),L"['s]Radius:[s']");
-    gui_slider *srad=new gui_slider(env,Rect2D<int>(72,32,128,16),0.01f,10.0f,0.25f,false);
-    gui_edit_box *seb=new gui_edit_box(env,Rect2D<int>(208,32,64,16),L"",glm::vec4(1),true,true,false);
+    GUIStaticText* stext=new GUIStaticText(env,Rect2D<int>(8,32,64,16),L"['s]Radius:[s']");
+    GUISlider *srad=new GUISlider(env,Rect2D<int>(72,32,128,16),0.01f,10.0f,0.25f,false);
+    GUIEditBox *seb=new GUIEditBox(env,Rect2D<int>(208,32,64,16),L"",glm::vec4(1),true,true,false);
     seb->set_text(helpers::to_wstr(srad->get_value()));
     stext->SetParent(wssao);
     seb->SetParent(wssao);
@@ -235,9 +237,9 @@ void InitPlaneMesh(AppContext * ctx)
     srad->SetName("ssao_rad");
     seb->SetName("ssao_rad_eb");
 
-    stext=new gui_static_text(env,Rect2D<int>(8,64,64,16),L"['s]Intensity:[s']");
-    srad=new gui_slider(env,Rect2D<int>(72,64,128,16),0.01f,10.0f,1.f,false);
-    seb=new gui_edit_box(env,Rect2D<int>(208,64,64,16),L"",glm::vec4(1),true,true,false);
+    stext=new GUIStaticText(env,Rect2D<int>(8,64,64,16),L"['s]Intensity:[s']");
+    srad=new GUISlider(env,Rect2D<int>(72,64,128,16),0.01f,10.0f,1.f,false);
+    seb=new GUIEditBox(env,Rect2D<int>(208,64,64,16),L"",glm::vec4(1),true,true,false);
     seb->set_text(helpers::to_wstr(srad->get_value()));
     stext->SetParent(wssao);
     seb->SetParent(wssao);
@@ -245,9 +247,9 @@ void InitPlaneMesh(AppContext * ctx)
     srad->SetName("ssao_intens");
     seb->SetName("ssao_intens_eb");
 
-    stext=new gui_static_text(env,Rect2D<int>(8,96,64,16),L"['s]Scale:[s']");
-    srad=new gui_slider(env,Rect2D<int>(72,96,128,16),0.01f,10.0f,0.5f,false);
-    seb=new gui_edit_box(env,Rect2D<int>(208,96,64,16),L"",glm::vec4(1),true,true,false);
+    stext=new GUIStaticText(env,Rect2D<int>(8,96,64,16),L"['s]Scale:[s']");
+    srad=new GUISlider(env,Rect2D<int>(72,96,128,16),0.01f,10.0f,0.5f,false);
+    seb=new GUIEditBox(env,Rect2D<int>(208,96,64,16),L"",glm::vec4(1),true,true,false);
     seb->set_text(helpers::to_wstr(srad->get_value()));
     stext->SetParent(wssao);
     seb->SetParent(wssao);
@@ -255,9 +257,9 @@ void InitPlaneMesh(AppContext * ctx)
     srad->SetName("ssao_scale");
     seb->SetName("ssao_scale_eb");
 
-    stext=new gui_static_text(env,Rect2D<int>(8,128,64,16),L"['s]Bias:[s']");
-    srad=new gui_slider(env,Rect2D<int>(72,128,128,16),0.01f,10.0f,0.2f,false);
-    seb=new gui_edit_box(env,Rect2D<int>(208,128,64,16),L"",glm::vec4(1),true,true,false);
+    stext=new GUIStaticText(env,Rect2D<int>(8,128,64,16),L"['s]Bias:[s']");
+    srad=new GUISlider(env,Rect2D<int>(72,128,128,16),0.01f,10.0f,0.2f,false);
+    seb=new GUIEditBox(env,Rect2D<int>(208,128,64,16),L"",glm::vec4(1),true,true,false);
     seb->set_text(helpers::to_wstr(srad->get_value()));
     stext->SetParent(wssao);
     seb->SetParent(wssao);
@@ -273,12 +275,6 @@ void InitPlaneMesh(AppContext * ctx)
 
     ctx->_timer->tick();
     chkmgr=new ChunkManager();
-//    chkmgr->Generate();
-    ctx->_timer->tick();
-    printf("\n\nBuilding took: %d ms\n\n\n",ctx->_timer->get_delta_time());
-    chkmgr->Render(cam.get(),vsh,false);
-    ctx->_timer->tick();
-    printf("\n\nGeneration and uploading took: %d ms\n\n\n",ctx->_timer->get_delta_time());
     ctx->_input=new InputHandler(ctx->_window);
 }
 
@@ -376,15 +372,15 @@ bool VoxelzApp::Update()
         if(ssaosh->getparam("MV")!=-1) MVar<glm::mat4>(ssaosh->getparam("MV"), "MV", cam->GetViewMat()*glm::mat4(1)).Set();
 
         #ifdef SSAO_TWEAK
-        if(ssaosh->getparam("g_sample_rad")!=-1) MVar<float>(ssaosh->getparam("g_sample_rad"), "g_sample_rad", env->get_element_by_name_t<gui_slider>("ssao_rad")->get_value()).Set();
-        if(ssaosh->getparam("g_intensity")!=-1) MVar<float>(ssaosh->getparam("g_intensity"), "g_intensity", env->get_element_by_name_t<gui_slider>("ssao_intens")->get_value()).Set();
-        if(ssaosh->getparam("g_scale")!=-1) MVar<float>(ssaosh->getparam("g_scale"), "g_scale", env->get_element_by_name_t<gui_slider>("ssao_scale")->get_value()).Set();
-        if(ssaosh->getparam("g_bias")!=-1) MVar<float>(ssaosh->getparam("g_bias"), "g_bias", env->get_element_by_name_t<gui_slider>("ssao_bias")->get_value()).Set();
+        if(ssaosh->getparam("g_sample_rad")!=-1) MVar<float>(ssaosh->getparam("g_sample_rad"), "g_sample_rad", env->get_element_by_name_t<GUISlider>("ssao_rad")->get_value()).Set();
+        if(ssaosh->getparam("g_intensity")!=-1) MVar<float>(ssaosh->getparam("g_intensity"), "g_intensity", env->get_element_by_name_t<GUISlider>("ssao_intens")->get_value()).Set();
+        if(ssaosh->getparam("g_scale")!=-1) MVar<float>(ssaosh->getparam("g_scale"), "g_scale", env->get_element_by_name_t<GUISlider>("ssao_scale")->get_value()).Set();
+        if(ssaosh->getparam("g_bias")!=-1) MVar<float>(ssaosh->getparam("g_bias"), "g_bias", env->get_element_by_name_t<GUISlider>("ssao_bias")->get_value()).Set();
 
-        env->get_element_by_name_t<gui_edit_box>("ssao_rad_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_rad")->get_value()));
-        env->get_element_by_name_t<gui_edit_box>("ssao_intens_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_intens")->get_value()));
-        env->get_element_by_name_t<gui_edit_box>("ssao_scale_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_scale")->get_value()));
-        env->get_element_by_name_t<gui_edit_box>("ssao_bias_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<gui_slider>("ssao_bias")->get_value()));
+        env->get_element_by_name_t<GUIEditBox>("ssao_rad_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<GUISlider>("ssao_rad")->get_value()));
+        env->get_element_by_name_t<GUIEditBox>("ssao_intens_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<GUISlider>("ssao_intens")->get_value()));
+        env->get_element_by_name_t<GUIEditBox>("ssao_scale_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<GUISlider>("ssao_scale")->get_value()));
+        env->get_element_by_name_t<GUIEditBox>("ssao_bias_eb")->set_text(helpers::to_wstr(env->get_element_by_name_t<GUISlider>("ssao_bias")->get_value()));
         #endif // SSAO_TWEAK
 
         mesh->Render();
@@ -481,15 +477,15 @@ void VoxelzApp::OnMouseMove(double x, double y)
     }
 
     swprintf(buf,255,L"['s]LookAt: %.2f %.2f %.2f[s']",lookat.x,lookat.y,lookat.z);
-    env->get_element_by_name_t<gui_static_text>("0")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("0")->set_text(buf);
 
     glm::ivec3 aa=WorldToSuperChunkCoords(glm::ivec3(mx,my,mz)),bb=SuperChunkSpaceCoords(glm::ivec3(mx,my,mz));
 
     swprintf(buf,255,L"Chunk: %.2f %.2f %.2f",aa.x,aa.y,aa.z);
-    env->get_element_by_name_t<gui_static_text>("1")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("1")->set_text(buf);
 
     swprintf(buf,255,L"Chunk Coords: %.2f %.2f %.2f",bb.x,bb.y,bb.z);
-    env->get_element_by_name_t<gui_static_text>("2")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("2")->set_text(buf);
 
     /* Find out which face of the block we are looking at */
 
@@ -536,13 +532,13 @@ void VoxelzApp::OnMouseMove(double x, double y)
     newvoxpos=glm::vec3(mx,my,mz);
 
     swprintf(buf,255,L"Face: %d",face);
-    env->get_element_by_name_t<gui_static_text>("3")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("3")->set_text(buf);
 
     swprintf(buf,255,L"VoxPos: %.2f %.2f %.2f",voxpos.x,voxpos.y,voxpos.z);
-    env->get_element_by_name_t<gui_static_text>("4")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("4")->set_text(buf);
 
     swprintf(buf,255,L"NewVoxPos: %.2f %.2f %.2f",newvoxpos.x,newvoxpos.y,newvoxpos.z);
-    env->get_element_by_name_t<gui_static_text>("5")->set_text(buf);
+    env->get_element_by_name_t<GUIStaticText>("5")->set_text(buf);
 }
 
 void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
@@ -551,13 +547,13 @@ void VoxelzApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
     {
         wchar_t buf[256];
         swprintf(buf,255,L"Total Chunks %d",chkmgr->GetChunkCount());
-        env->get_element_by_name_t<gui_static_text>("6")->set_text(buf);
+        env->get_element_by_name_t<GUIStaticText>("6")->set_text(buf);
 
-//        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
-//        env->get_element_by_name_t<gui_static_text>("7")->set_text(buf);
+        swprintf(buf,255,L"Total Blocks %d",chkmgr->GetTotalBlocks());
+        env->get_element_by_name_t<GUIStaticText>("7")->set_text(buf);
 
 //        swprintf(buf,255,L"Total Faces %d",chkmgr->GetTotalFaces());
-//        env->get_element_by_name_t<gui_static_text>("8")->set_text(buf);
+//        env->get_element_by_name_t<GUIStaticText>("8")->set_text(buf);
         switch(button)
         {
         case GLFW_MOUSE_BUTTON_LEFT:

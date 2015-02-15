@@ -7,7 +7,7 @@
 
 #include "GUIPane.h"
 
-gui_pane::gui_pane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw):GUIElement(env,dimensions)
+GUIPane::GUIPane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw):GUIElement(env,dimensions)
 {
     this->Type=GUIET_PANE;
     environment=env;
@@ -20,11 +20,11 @@ gui_pane::gui_pane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw):GUIEl
     this->SetParent(env);
 }
 
-gui_pane::~gui_pane()
+GUIPane::~GUIPane()
 {
 }
 
-void gui_pane::Render()
+void GUIPane::Render()
 {
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->GetAbsoluteRect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);

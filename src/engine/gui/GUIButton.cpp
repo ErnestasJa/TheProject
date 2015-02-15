@@ -13,7 +13,7 @@
 
 #include "GUIImage.h"
 
-gui_button::gui_button(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text,bool toggle,bool toggle_status):GUIElement(env,dimensions)
+GUIButton::GUIButton(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text,bool toggle,bool toggle_status):GUIElement(env,dimensions)
 {
     this->Type=GUIET_BUTTON;
     environment=env;
@@ -32,11 +32,11 @@ gui_button::gui_button(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring
     this->SetParent(env);
 }
 
-gui_button::~gui_button()
+GUIButton::~GUIButton()
 {
 }
 
-void gui_button::Render()
+void GUIButton::Render()
 {
     if(!enabled)
         cur_col=col_disabled;
@@ -49,12 +49,12 @@ void gui_button::Render()
     this->RenderChildren();
 }
 
-void gui_button::set_text(const std::wstring &text)
+void GUIButton::set_text(const std::wstring &text)
 {
     this->m_text=text;
 }
 
-void gui_button::set_image(gui_image* img)
+void GUIButton::set_image(GUIImage* img)
 {
     if(m_overlay_image!=nullptr)
     {
@@ -67,13 +67,13 @@ void gui_button::set_image(gui_image* img)
     }
 }
 
-void gui_button::remove_image()
+void GUIButton::remove_image()
 {
     this->RemoveChild(m_overlay_image);
     m_overlay_image=nullptr;
 }
 
-bool gui_button::OnEvent(const GUIEvent & e)
+bool GUIButton::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
     switch(e.GetType())

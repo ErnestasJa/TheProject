@@ -6,14 +6,14 @@ class Texture;
 template <typename T>
 class Rect2D;
 
-class gui_image:public GUIElement
+class GUIImage:public GUIElement
 {
 private:
     std::shared_ptr<Texture> m_tex;
     bool m_multichannel;
 public:
-    gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel=true);
-    virtual ~gui_image();
+    GUIImage(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel=true);
+    virtual ~GUIImage();
 
     void SetImage(std::shared_ptr<Texture> tex);
 

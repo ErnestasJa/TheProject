@@ -9,9 +9,9 @@
 
 Voxel VoxelMesh::EMPTY_VOXEL=Voxel();
 
-VoxelMesh::VoxelMesh(uint32_t size,bool init)
+VoxelMesh::VoxelMesh(const u16vec3 &size)
 {
-    _vox.reserve(size*size*size);
+    _vox.resize(size.x*size.y*size.z);
 
     _size=size;
     _dirty=false;
@@ -27,7 +27,6 @@ VoxelMesh::VoxelMesh(uint32_t size,bool init)
     _faceCount=0;
     _empty=true;
 
-    if(init)
     Init();
 }
 
@@ -84,9 +83,9 @@ void VoxelMesh::UpdateMesh()
     if(!Empty())
     {
         GreedyMeshBuilder::GreedyBuild(this);
-
         UploadBuffers();
         ClearBuffers();
+
 
         RecalculateAABB<glm::ivec3>();
     }
@@ -94,28 +93,36 @@ void VoxelMesh::UpdateMesh()
 
 const Voxel & VoxelMesh::GetVoxel(int32_t x,int32_t y, int32_t z)
 {
-    if(x>_size-1 || x<0 || y>_size-1 || y<0 || z>_size-1 || z<0)
+    if(x>_size.x-1 || x<0 || y>_size.y-1 || y<0 || z>_size.z-1 || z<0)
     {
         return VoxelMesh::EMPTY_VOXEL;
     }
     else
     {
-        return _vox[x+y*_size+z*_size*_size];
+        return _vox[x+_size.x*(y+_size.y*z)];
     }
 }
 
 void VoxelMesh::CreateVox(int32_t x, int32_t y, int32_t z, const intRGBA &col)
 {
-    Voxel vox;
-    vox.active=true;
-    vox.color=col;
+    if(x>_size.x-1 || x<0 || y>_size.y-1 || y<0 || z>_size.z-1 || z<0)
+    {
+        //printf("overflown wtf");
+        return;
+    }
+
     if(_empty)
         _empty=false;
-    _vox[x+y*_size+z*_size*_size]=vox;
+    _vox[x+_size.x*(y+_size.y*z)].active=true;
+    _vox[x+_size.x*(y+_size.y*z)].color=col;
 }
 
 void VoxelMesh::RemoveVox(int32_t x, int32_t y, int32_t z)
 {
-    _vox[x+y*_size+z*_size*_size]=EMPTY_VOXEL;
+    if(x>_size.x-1 || x<0 || y>_size.y-1 || y<0 || z>_size.z-1 || z<0)
+    {
+        return;
+    }
+    _vox[x+_size.x*(y+_size.y*z)]=EMPTY_VOXEL;
 }
 

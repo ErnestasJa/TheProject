@@ -9,7 +9,7 @@ class GUIQuad;
 class SlicedGUIQuad;
 class Texture;
 class Window;
-class gui_skin;
+class GUISkin;
 class Logger;
 class AppContext;
 
@@ -34,7 +34,7 @@ public:
     void draw_sliced_gui_quad(Rect2D<int> size, uint32_t style=gui_style::gui_skin_background);
     void draw_sliced_gui_quad(Rect2D<int> size,glm::vec4 col=glm::vec4(1.f));
 
-    void set_skin(gui_skin* skin);
+    void set_skin(GUISkin* skin);
 
     glm::vec2 get_mouse_pos();
     glm::vec2 get_gui_scale();
@@ -82,16 +82,16 @@ public:
 
     FontRenderer *get_font_renderer();
 
-//    gui_static_text *add_gui_static_text();
-//    gui_button *add_gui_button();
-//    gui_checkbox *add_gui_checkbox();
-//    gui_edit_box *add_gui_edit_box();
+//    GUIStaticText *add_gui_static_text();
+//    GUIButton *add_GUIButton();
+//    GUICheckbox *add_GUICheckbox();
+//    GUIEditBox *add_GUIEditBox();
 //
-//    gui_window *add_gui_window();
-//    gui_pane* add_gui_pane();
+//    GUIWindow *add_GUIWindow();
+//    GUIPane* add_GUIPane();
 private:
     AppContext* m_context;
-    gui_skin* skin;
+    GUISkin* skin;
     Texture* skin_atlas;
     Shader* gui_shader;
 

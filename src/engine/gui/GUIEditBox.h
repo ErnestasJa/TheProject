@@ -4,7 +4,7 @@
 
 template <typename T>
 class Rect2D;
-class gui_edit_box:public GUIElement
+class GUIEditBox:public GUIElement
 {
 private:
     uint32_t blinktimer,curspos,reptimer,font_size;
@@ -18,8 +18,8 @@ private:
     void add_text(int32_t index,std::wstring text);
     void remove_text(int32_t index, int32_t length);
 public:
-    gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
-    virtual ~gui_edit_box();
+    GUIEditBox(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
+    virtual ~GUIEditBox();
 
     void Render();
 

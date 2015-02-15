@@ -23,6 +23,15 @@ public:
     SuperChunkPtr GetSuperChunk(const glm::ivec3 &pos);
 
     uint32_t GetChunkCount();
+    uint32_t GetTotalBlocks()
+    {
+        uint32_t ret=0;
+        for(auto a:_superChunks)
+        {
+            ret+=a.second->GetBlockCount();
+        }
+        return ret;
+    }
 
     void Render(Camera *cam,ShaderPtr vsh,bool wireframe=false);
 protected:

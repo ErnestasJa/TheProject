@@ -4,12 +4,14 @@
 AABB::AABB(): m_halfSize(0.5)
 {
     //ctor
+    points.resize(8);
     CalculatePoints();
 }
 
 AABB::AABB(const glm::vec3 & center, const glm::vec3 & halfSize):m_center(center), m_halfSize(halfSize)
 {
     //ctor
+    points.resize(8);
     CalculatePoints();
 }
 
@@ -266,6 +268,11 @@ glm::vec3 AABB::GetPoint(uint32_t i) const
     return points[i];
 }
 
+vector<glm::vec3> AABB::GetPoints() const
+{
+    return points;
+}
+
 glm::vec3 AABB::GetHalfSize() const
 {
     return m_halfSize;
@@ -290,13 +297,13 @@ void AABB::CalculatePoints()
 {
     float w=m_halfSize.x*2.0f,h=m_halfSize.y*2.0f,l=m_halfSize.z*2.0f;
 
-    points[0]=m_center;
-    points[1]=m_center+glm::vec3(w,0,0);
-    points[2]=m_center+glm::vec3(0,h,0);
-    points[3]=m_center+glm::vec3(0,0,l);
+    points[0]=m_center-m_halfSize;
+    points[1]=m_center-glm::vec3(m_halfSize.x,0,0);
+    points[2]=m_center-glm::vec3(0,m_halfSize.y,0);
+    points[3]=m_center-glm::vec3(0,0,m_halfSize.z);
 
-    points[4]=m_center-glm::vec3(l,0,0);
-    points[5]=m_center-glm::vec3(0,h,0);
-    points[6]=m_center-glm::vec3(0,0,w);
-    points[7]=m_center;
+    points[4]=m_center+glm::vec3(0,0,m_halfSize.z);
+    points[5]=m_center+glm::vec3(0,m_halfSize.y,0);
+    points[6]=m_center+glm::vec3(m_halfSize.x,0,0);
+    points[7]=m_center+m_halfSize;
 }

@@ -55,9 +55,9 @@ enum gui_style
     gui_skin_style_count
 };
 
-struct gui_skin
+struct GUISkin
 {
-    gui_skin();
+    GUISkin();
 
     void load(std::string filename);
 

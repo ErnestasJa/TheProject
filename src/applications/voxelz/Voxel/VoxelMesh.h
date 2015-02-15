@@ -5,8 +5,6 @@
 
 #include "Voxel.h"
 
-#include <boost/multi_array.hpp>
-
 enum EBlockSides
 {
     EBS_FRONT=BIT0,
@@ -25,13 +23,14 @@ typedef std::shared_ptr<shader> shader_ptr;
 class VoxelMesh:public Mesh
 {
 public:
-    int32_t _size;
+    u16vec3 _size;
+    bool _dirty;
 private:
     void ClearBuffers();
 public:
     BOOST_MOVABLE_BUT_NOT_COPYABLE(VoxelMesh);
     static Voxel EMPTY_VOXEL;
-    VoxelMesh(uint32_t size,bool init=false);
+    VoxelMesh(const u16vec3 &size);
     virtual ~VoxelMesh();
 
     void CreateVox(int32_t x, int32_t y, int32_t z, const intRGBA &col);
@@ -47,8 +46,6 @@ public:
     bool Empty();
 protected:
     vector<Voxel> _vox;
-
-    bool _dirty;
     bool _empty;
 
     int32_t _faceCount;

@@ -6,7 +6,7 @@
 
 #include "GUIImage.h"
 
-gui_image::gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel):GUIElement(env,dimensions)
+GUIImage::GUIImage(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_ptr<Texture> tex,bool multichannel):GUIElement(env,dimensions)
 {
     this->Type=GUIET_ELEMENT;
     environment=env;
@@ -23,11 +23,11 @@ gui_image::gui_image(GUIEnvironment* env, Rect2D<int> dimensions, std::shared_pt
     this->SetParent(env);
 }
 
-gui_image::~gui_image()
+GUIImage::~GUIImage()
 {
 }
 
-void gui_image::SetImage(std::shared_ptr<Texture> tex)
+void GUIImage::SetImage(std::shared_ptr<Texture> tex)
 {
     if(tex!=nullptr)
     m_tex=tex;
@@ -35,7 +35,7 @@ void gui_image::SetImage(std::shared_ptr<Texture> tex)
         return;
 }
 
-void gui_image::Render()
+void GUIImage::Render()
 {
     environment->draw_gui_quad(absolute_rect,m_tex,false,m_multichannel);
 

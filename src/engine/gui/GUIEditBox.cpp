@@ -6,7 +6,7 @@
 #include "GUIEditBox.h"
 #include "font_rendering/Font.h"
 
-gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):GUIElement(env,dimensions)
+GUIEditBox::GUIEditBox(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):GUIElement(env,dimensions)
 {
     this->Type=GUIET_EDITBOX;
     environment=env;
@@ -31,11 +31,11 @@ gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wst
     this->SetParent(env);
 }
 
-gui_edit_box::~gui_edit_box()
+GUIEditBox::~GUIEditBox()
 {
 }
 
-void gui_edit_box::Render()
+void GUIEditBox::Render()
 {
     blinktimer++;
 
@@ -84,13 +84,13 @@ void gui_edit_box::Render()
     this->RenderChildren();
 }
 
-void gui_edit_box::set_text(const std::wstring &text)
+void GUIEditBox::set_text(const std::wstring &text)
 {
     this->m_text=text;
     curspos=text.length();
 }
 
-bool gui_edit_box::OnEvent(const GUIEvent & e)
+bool GUIEditBox::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -161,7 +161,7 @@ bool gui_edit_box::OnEvent(const GUIEvent & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_edit_box::add_text(int32_t index,std::wstring text)
+void GUIEditBox::add_text(int32_t index,std::wstring text)
 {
     curspos=index;
 
@@ -173,7 +173,7 @@ void gui_edit_box::add_text(int32_t index,std::wstring text)
     curspos+=text.length();
 }
 
-void gui_edit_box::remove_text(int32_t index, int32_t length)
+void GUIEditBox::remove_text(int32_t index, int32_t length)
 {
     if(index>0&&index-length>=0)
     {

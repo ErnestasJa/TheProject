@@ -45,7 +45,7 @@ GUIEnvironment::GUIEnvironment(AppContext* ctx):GUIElement(nullptr, Rect2D<int>(
     sliced_quad=new SlicedGUIQuad(glm::vec2(1),8);
     sliced_quad->Init();
 
-    skin=new gui_skin();
+    skin=new GUISkin();
 
     skin->load("res/gui/skins/skin_default.xml");
 

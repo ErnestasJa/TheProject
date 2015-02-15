@@ -14,11 +14,11 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-pg" />
+					<Add option="-g" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
 					<Add library="engined" />
 					<Add library="boost_system-mgw49-mt-1_57" />
 					<Add library="BulletDynamics" />
@@ -37,6 +37,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -58,6 +59,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add library="engined" />
@@ -96,6 +98,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -145,6 +148,11 @@
 		<ResourceCompiler>
 			<Add directory="../../../../res" />
 		</ResourceCompiler>
+		<Unit filename="../../../../src/applications/voxelz/TemplateApp.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/TemplateApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshEditorApp.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshEditorApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshGrid.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.h" />

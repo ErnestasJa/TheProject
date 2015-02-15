@@ -12,11 +12,12 @@ Block Chunk::EMPTY_BLOCK=Block();
 
 Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
-    _blocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    _blocks.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
     // Create the blocks
     _chunkManager = chunkManager;
     this->position = position;
 
+    empty=true;
     generated=false;
     built=false;
     uploaded=false;
@@ -72,6 +73,7 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
 
     if(active)
     {
+        empty=false;
         Block a;
         a.type=type;
         a.active=active;

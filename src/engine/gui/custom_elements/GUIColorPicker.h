@@ -6,12 +6,12 @@
 template <typename T>
 class Rect2D;
 
-class gui_static_text;
-class gui_image;
-class gui_edit_box;
-class gui_button;
-class gui_pane;
-class gui_slider;
+class GUIStaticText;
+class GUIImage;
+class GUIEditBox;
+class GUIButton;
+class GUIPane;
+class GUISlider;
 class image;
 class Texture;
 
@@ -21,11 +21,11 @@ private:
     glm::vec4 colRGB;
     glm::vec3 colHSV;
     glm::vec2 cursorPos;
-    gui_image *cursor,*picker;
-    gui_pane *bg;
-    gui_button *btnSet;
-    gui_edit_box *ebR,*ebG,*ebB;
-    gui_slider *sat,*val;
+    GUIImage *cursor,*picker;
+    GUIPane *bg;
+    GUIButton *btnSet;
+    GUIEditBox *ebR,*ebG,*ebB;
+    GUISlider *sat,*val;
     std::shared_ptr<image> imgBuf;
     std::shared_ptr<Texture> texBuf;
 

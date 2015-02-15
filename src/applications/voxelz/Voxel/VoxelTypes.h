@@ -16,6 +16,15 @@ typedef glm::detail::tvec3<uint16_t> u16vec3;
 
 typedef uint32_t intRGBA;
 
+template<typename T>
+inline static const char* GLMVec3ToStr(const T & in)
+{
+    glm::vec3 vec=(glm::vec3)in;
+    char buf[256];
+    sprintf(buf,"vec3(%f %f %f)",vec.x,vec.y,vec.z);
+    return std::string(buf).c_str();
+}
+
 inline static uint32_t VecRGBToIntRGB(const u8vec3& col)
 {
     uint8_t r = col.x & 0xFF;

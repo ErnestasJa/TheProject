@@ -7,7 +7,7 @@
 
 #include "GUIStaticText.h"
 
-gui_static_text::gui_static_text(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow):GUIElement(env,dimensions)
+GUIStaticText::GUIStaticText(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow):GUIElement(env,dimensions)
 {
     this->Type=GUIET_STATIC_TEXT;
     environment=env;
@@ -24,11 +24,11 @@ gui_static_text::gui_static_text(GUIEnvironment* env, Rect2D<int> dimensions, st
     this->SetParent(env);
 }
 
-gui_static_text::~gui_static_text()
+GUIStaticText::~GUIStaticText()
 {
 }
 
-void gui_static_text::Render()
+void GUIStaticText::Render()
 {
     if(this->m_draw_background)
     {
@@ -40,7 +40,7 @@ void gui_static_text::Render()
     this->RenderChildren();
 }
 
-void gui_static_text::set_text(const std::wstring &text)
+void GUIStaticText::set_text(const std::wstring &text)
 {
     this->m_text=text;
 }

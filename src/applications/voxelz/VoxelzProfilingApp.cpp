@@ -13,6 +13,8 @@
 #include "Voxel/ChunkManager.h"
 #include "gui/GUI.h"
 #include "boost/pool/object_pool.hpp"
+#include "Voxel/VoxelSprite.h"
+#include "resources/ImageLoader.h"
 
 VoxelzProfilingApp::VoxelzProfilingApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -66,12 +68,10 @@ static void RemoveManyChunks()
 
 void VoxelzProfilingApp::Benchmark()
 {
-
-    glm::ivec3 stuff(64,0,0);
-    glm::ivec3 a=WorldToChunkCoords(stuff);
-    a=ChunkSpaceCoords(stuff);
-    a=WorldToSuperChunkCoords(stuff);
-    a=SuperChunkSpaceCoords(stuff);
+    BEGIN_BENCHMARK
+    image_loader* loader=new image_loader(ctx->_logger);
+    VoxelSprite::LoadFromImage(loader->load("res/masterracesubtle.png"),1);
+    END_BENCHMARK("fullhdimagegen")
 }
 
 bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -85,7 +85,7 @@ bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_
     glClearColor(0.5,0.5,0.7,0);
 
     BEGIN_BENCHMARK
-    chkmgr=new ChunkManager();
+    //chkmgr=new ChunkManager();
     END_BENCHMARK("chkmgr gen")
 
     printf("\n\n--------------------------------\nPROFILE ME TIMBERS!\n--------------------------------\n");

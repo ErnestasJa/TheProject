@@ -6,7 +6,7 @@ class Quad;
 class Shader;
 template <typename T>
 class Rect2D;
-class gui_static_text:public GUIElement
+class GUIStaticText:public GUIElement
 {
 private:
     std::wstring m_text;
@@ -15,8 +15,8 @@ private:
 
     bool draw_shadow;
 public:
-    gui_static_text(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
-    virtual ~gui_static_text();
+    GUIStaticText(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false);
+    virtual ~GUIStaticText();
 
     void Render();
 

@@ -3,14 +3,14 @@
 #include "utility/Rect2d.h"
 #include "GUISkin.h"
 
-gui_skin::gui_skin()
+GUISkin::GUISkin()
 {
     rects.resize(gui_skin_style_count);
     uvs.resize(gui_skin_style_count*4);
     margins.resize(gui_skin_style_count);
 }
 
-void gui_skin::load(std::string filename)
+void GUISkin::load(std::string filename)
 {
     std::string skin_path = filename.substr(0,filename.rfind("/")+1);
     std::cout << "skin_path =" << skin_path.c_str() << std::endl;
@@ -58,7 +58,7 @@ void gui_skin::load(std::string filename)
     xml.Clear();
 }
 
-void gui_skin::set_style_element(int32_t style,Rect2D<int> atlas_info)
+void GUISkin::set_style_element(int32_t style,Rect2D<int> atlas_info)
 {
     if(style>gui_skin_style_count||style<0)
         return;
@@ -66,7 +66,7 @@ void gui_skin::set_style_element(int32_t style,Rect2D<int> atlas_info)
     rects[style]=atlas_info;
 }
 
-vector<glm::vec2> gui_skin::get_uv(uint32_t style)
+vector<glm::vec2> GUISkin::get_uv(uint32_t style)
 {
     vector<glm::vec2> ret;
     ret.resize(4);
@@ -77,7 +77,7 @@ vector<glm::vec2> gui_skin::get_uv(uint32_t style)
     return ret;
 }
 
-void gui_skin::generate_uv()
+void GUISkin::generate_uv()
 {
     uvs[0]=glm::vec2(0,0);
     uvs[1]=glm::vec2(1,0);

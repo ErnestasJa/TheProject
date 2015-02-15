@@ -6,13 +6,13 @@ class Quad;
 class Shader;
 template <typename T>
 class Rect2D;
-class gui_pane:public GUIElement
+class GUIPane:public GUIElement
 {
 private:
     bool m_draw;
 public:
-    gui_pane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw=true);
-    virtual ~gui_pane();
+    GUIPane(GUIEnvironment* env, Rect2D<int> dimensions, bool draw=true);
+    virtual ~GUIPane();
 
     void Render();
 
