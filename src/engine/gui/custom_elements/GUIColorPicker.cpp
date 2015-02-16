@@ -45,10 +45,13 @@ GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions, bool
 
     ebR=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+32,32,16),L"255",glm::vec4(1,0,0,1));
     ebR->SetParent(picker);
+    ebR->SetMaxLength(3);
     ebG=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+56,32,16),L"255",glm::vec4(0,1,0,1));
     ebG->SetParent(picker);
+    ebG->SetMaxLength(3);
     ebB=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+80,32,16),L"255",glm::vec4(0,0,1,1));
     ebB->SetParent(picker);
+    ebB->SetMaxLength(3);
 
     btnSet=new GUIButton(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+104,32,16),L"Set");
     btnSet->SetParent(picker);
@@ -142,6 +145,12 @@ void GUIColorPicker::UpdateValues()
 glm::vec4 GUIColorPicker::GetColorRGB()
 {
     return colRGB;
+}
+
+void GUIColorPicker::SetColorRGB(uint8_t r, uint8_t g, uint8_t b)
+{
+    colRGB=glm::vec4(r,g,b,255);
+    glm::vec3 hsv=helpers::rgb2hsv(r,g,b);
 }
 
 void GUIColorPicker::Render()

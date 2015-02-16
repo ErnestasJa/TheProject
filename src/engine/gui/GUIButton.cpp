@@ -44,7 +44,7 @@ void GUIButton::Render()
     environment->draw_sliced_gui_quad(absolute_rect,m_toggled&&m_toggle?gui_skin_button_click:enabled?cur_style:gui_skin_button_disabled);
 
     glm::vec2 dm=this->environment->get_font_renderer()->GetTextDimensions(this->m_text);
-    this->environment->get_font_renderer()->RenderString(L"['s]"+this->m_text+L"[s']",glm::vec2(this->absolute_rect.x+absolute_rect.w/2-dm.x/2,this->absolute_rect.y+((this->absolute_rect.h-dm.y)/2)));
+    this->environment->get_font_renderer()->RenderString(L"['s]"+this->m_text+L"[s']",glm::ivec2(this->absolute_rect.x+absolute_rect.w/2.f-dm.x/2.f,this->absolute_rect.y+((this->absolute_rect.h-dm.y)/2.f)));
 
     this->RenderChildren();
 }

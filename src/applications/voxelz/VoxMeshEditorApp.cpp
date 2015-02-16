@@ -13,6 +13,7 @@
 #include "scenegraph/Camera.h"
 #include "resources/ImageLoader.h"
 #include "opengl/GridMesh.h"
+#include "opengl/CubeMesh.h"
 #include "gui/GUI.h"
 #include "gui/custom_elements/GUIColorPicker.h"
 #include "physics/Physics.h"
@@ -30,15 +31,59 @@ VoxMeshEditorApp::~VoxMeshEditorApp()
 void VoxMeshEditorApp::InitGUI()
 {
     _guiEnv=new GUIEnvironment(_appContext);
+    _guiEnv->SetEventListener(this);
     _appContext->_guiEnv=this->_guiEnv;
 
     glm::ivec2 winSize=_appContext->_window->GetWindowSize();
-    _mainWin=new GUIWindow(_guiEnv,Rect2D<int>(winSize.x-512,0,512,512),L"The editor",true,false,true,false);
+    _mainWin=new GUIWindow(_guiEnv,Rect2D<int>(0,winSize.y-256,1280,256),L"The editor",true,true,true,false);
 
-    _guiSwitches["showGrid"]=true;
-    _guiSwitches["showMesh"]=true;
+    _guiSwitches["showEditGrid"]=false;
+    _guiSwitches["showVoxGrid"]=true;
+    _guiSwitches["showOrigMesh"]=true;
     _guiSwitches["showVoxMesh"]=true;
     _guiSwitches["wireVoxMesh"]=false;
+
+    GUIPane* cbxpane=new GUIPane(_guiEnv,Rect2D<int>(8,28,128,220),true);
+    _labels["checkBoxPaneFile"]=new GUIStaticText(_guiEnv,Rect2D<int>(4,4,128,16),L"['s]['b]File:[b'][s']");
+    _labels["checkBoxPaneFile"]->SetParent(cbxpane);
+    cbxpane->SetParent(_mainWin);
+
+    _buttons["btn_importMesh"]=new GUIButton(_guiEnv,Rect2D<int>(8,24,112,32),L"Import Mesh");
+    _buttons["btn_importMesh"]->SetParent(cbxpane);
+
+    cbxpane=new GUIPane(_guiEnv,Rect2D<int>(144,28,128,220),true);
+    _labels["checkBoxPaneSwitch"]=new GUIStaticText(_guiEnv,Rect2D<int>(4,4,128,16),L"['s]['b]Switchables:[b'][s']");
+    _labels["checkBoxPaneSwitch"]->SetParent(cbxpane);
+    cbxpane->SetParent(_mainWin);
+
+    uint32_t i=0;
+    for(auto sw:_guiSwitches)
+    {
+        wchar_t wbuf[64];
+        char sbuf[64];
+
+        sprintf(sbuf,"lab_%s",sw.first.c_str());
+        swprintf(wbuf,64,L"['s]%s:[s']",sw.first.c_str());
+        _labels[sbuf]=new GUIStaticText(_guiEnv,Rect2D<int>(8,24+i*20,96,16),wbuf);
+        _labels[sbuf]->SetParent(cbxpane);
+        sprintf_s(sbuf,64,"cbx_%s",sw.first.c_str());
+        _checkboxes[sbuf]=new GUICheckbox(_guiEnv,Rect2D<int>(100,24+i*20,16,16),sw.second);
+        _checkboxes[sbuf]->SetParent(cbxpane);
+        _checkboxes[sbuf]->SetName(sbuf);
+
+        i++;
+    }
+
+    _colPicker=new GUIColorPicker(_guiEnv,Rect2D<int>(winSize.x-288,28,196,188),true);
+    _colPicker->SetParent(_mainWin);
+    _colPicker->SetName("colorPicker");
+
+    cbxpane=new GUIPane(_guiEnv,Rect2D<int>(0,0,196,196));
+    GUIStaticText* controls=new GUIStaticText(_guiEnv,Rect2D<int>(8,8,196,196),L"['s]['b]Controls:[b'][s']\n\n['s]F1 - This Menu[s']\n['s]W,A,S,D + Mouse - Move[s']\n['s]Shift - Accelerate[s']\n['s]Ctrl - Slowdown[s']\n['s]F - Focus GUI[s']\n['s]H - Toggle Editors' GUI[s']");
+    controls->SetParent(cbxpane);
+
+    GUIEditBox* ebb=new GUIEditBox(_guiEnv,Rect2D<int>(300,24,128,64));
+    ebb->SetParent(_mainWin);
 }
 
 glm::vec2 Project(vector<glm::vec3> points,const glm::vec3 &axis)
@@ -83,12 +128,14 @@ bool IsIntersecting(AABB box,Triangle<T> tri)
         glm::vec3 axis=glm::cross(triEdges[i],boxNormals[j]);
         glm::vec2 boxProj=Project(box.GetPoints(),axis);
         glm::vec2 triProj=Project(tri.points,axis);
-        if(boxProj[1] <= triProj[0] || boxProj[0] >= triProj[1] )
+        if(boxProj[1] < triProj[0] || boxProj[0] > triProj[1] )
             return false;
     }
 
     return true;
 }
+
+vector<CubeMesh*> boxes;
 
 template<typename T>
 void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
@@ -96,16 +143,20 @@ void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
     uint32_t trisize=tris.size();
     loopi(i,tris.size())
     {
-        printf("Processing tri %u of %u...\n",i,trisize);
+        //printf("Processing tri %u of %u...\n",i,trisize);
 
         AABB a;
-        a.AddPoint(tris[i].points[0]);
+        a.Reset(tris[i].points[0]);
         a.AddPoint(tris[i].points[1]);
         a.AddPoint(tris[i].points[2]);
-        //a.CalculatePoints();
+        //boxes.push_back(new CubeMesh(a));
+        //printf("Tri Points:\n%s\n%s\n%s\n",GLMVec3ToStr(tris[i].points[0]),GLMVec3ToStr(tris[i].points[1]),GLMVec3ToStr(tris[i].points[2]));
 
-        glm::ivec3 amn=(glm::ivec3)glm::floor(a.GetCenter()-a.GetHalfSize());
-        glm::ivec3 amx=(glm::ivec3)glm::ceil(a.GetCenter()+a.GetHalfSize());
+
+        //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(a.GetMin()),GLMVec3ToStr(a.GetMax()),GLMVec3ToStr(a.GetCenter()),GLMVec3ToStr(a.GetHalfSize()));
+        glm::ivec3 amn=(glm::ivec3)glm::round((a.GetMin()));
+        glm::ivec3 amx=(glm::ivec3)glm::round((a.GetMax()));
+        //printf("Ranges %s %s\n",GLMVec3ToStr(amn),GLMVec3ToStr(amx));
 
         int32_t sx,ex,sy,ey,sz,ez;
 
@@ -138,11 +189,11 @@ void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
             ez=tmp;
         }
 
-        for(int32_t x=sx; x<=ex; x++)
+        for(int32_t x=sx-1; x<=ex+1; x++)
         {
-            for(int32_t y=sy; y<=ey; y++)
+            for(int32_t y=sy-1; y<=ey+1; y++)
             {
-                for(int32_t z=sz; z<=ez; z++)
+                for(int32_t z=sz-1; z<=ez+1; z++)
                 {
                     if(voxmesh->GetVoxel(x,y,z).active==false)
                     {
@@ -151,7 +202,7 @@ void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
                         if(IsIntersecting<glm::vec3>(voxaabb,tris[i]))
                             voxmesh->CreateVox(x,y,z,VecRGBToIntRGB(u8vec3(255)));
                         else
-                            continue;//voxmesh->CreateVox(x,y,z,VecRGBToIntRGB(u8vec3(255,0,0)));
+                            continue;
                     }
                     else
                         continue;
@@ -168,23 +219,31 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     _appContext->_input=new InputHandler(_appContext->_window);
 
+    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxMeshEditorApp::OnKeyEvent));
+    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxMeshEditorApp::OnMouseKey));
+    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxMeshEditorApp::OnMouseMove));
+
     _defaultShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/solid_unlit");
     _meshShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/solid_unlit_tex");
     _voxShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/voxel");
 
-    _grid=new VoxMeshGrid(glm::vec3(64),8);
-    _axisGrid=new GridMesh(1);
+    _grid=new VoxMeshGrid(glm::vec3(128),8);
+    _axisGrid=new GridMesh(1,128);
 
     _cam=new Camera(_appContext,glm::vec3(0,32,150),glm::vec3(0),glm::vec3(0,1,0));
 
     mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
     meshLoader->add_loader(new iqmloader(_appContext->_logger));
     _iqmMesh=meshLoader->load("res/mill.iqm");
+    _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    _iqmMesh->HardScale<glm::vec3>(glm::vec3(3.f));
+    _iqmMesh->HardScale<glm::vec3>(glm::vec3(0.5f));
     //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
 
-    _voxMesh=new VoxelMesh(u16vec3(128));
+    AABB bb=_iqmMesh->aabb;
+    boxes.push_back(new CubeMesh(_iqmMesh->aabb));
+
+    _voxMesh=new VoxelMesh(u16vec3(512));
 
 
     vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
@@ -194,10 +253,16 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     _voxMesh->UpdateMesh();
 
+    InitGUI();
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
+
+    //AABB bb(glm::vec3(0.5),glm::vec3(0.5));
+    //boxes.push_back(new CubeMesh(bb));
+    printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
 
     return true;
 }
@@ -217,16 +282,37 @@ bool VoxMeshEditorApp::Update()
         glm::mat4 Model(1.0f);
         glm::mat4 MVP   = _cam->GetViewProjMat() * Model;
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        _axisGrid->render_lines();
-        //_grid->render_lines();
+        if(_guiSwitches["showVoxGrid"])
+            _axisGrid->render_lines();
+        if(_guiSwitches["showEditGrid"])
+        {
+            glEnable(GL_BLEND);
+            _grid->render_lines();
+            glDisable(GL_BLEND);
+        }
 
-        _meshShader->Set();
         MVar<glm::mat4>(0, "mvp", MVP).Set();
-        _iqmMesh->Render();
+        for(auto b:boxes)
+        {
+            b->Render(true);
+        }
 
-        _voxShader->Set();
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        _voxMesh->Render();
+        if(_guiSwitches["showOrigMesh"])
+        {
+            MVar<glm::mat4>(0, "mvp", MVP).Set();
+            _iqmMesh->Render();
+        }
+
+        if(_guiSwitches["showVoxMesh"])
+        {
+            _voxShader->Set();
+            MVar<glm::mat4>(0, "mvp", MVP).Set();
+            _voxMesh->Render(_guiSwitches["wireVoxMesh"]);
+        }
+
+        glDisable(GL_DEPTH_TEST);
+        _guiEnv->Render();
+        glEnable(GL_DEPTH_TEST);
 
         _appContext->_window->SwapBuffers();
         return true;
@@ -241,20 +327,23 @@ void VoxMeshEditorApp::Exit()
 
 void VoxMeshEditorApp::HandleMovement(float dt)
 {
-    float speed=16.f;
-    InputHandler* han=_appContext->_input;
-    if(han->IsKeyDown(GLFW_KEY_LEFT_SHIFT))
-        speed=32.f;
-    else
-        speed=16.f;
-    if(han->IsKeyDown(GLFW_KEY_W))
-        _cam->Walk(speed*dt);
-    if(han->IsKeyDown(GLFW_KEY_S))
-        _cam->Walk(-speed*dt);
-    if(han->IsKeyDown(GLFW_KEY_A))
-        _cam->Strafe(-speed*dt);
-    if(han->IsKeyDown(GLFW_KEY_D))
-        _cam->Strafe(speed*dt);
+    if(_cam->IsFPS())
+    {
+        float speed=16.f;
+        InputHandler* han=_appContext->_input;
+        if(han->IsKeyDown(GLFW_KEY_LEFT_SHIFT))
+            speed=32.f;
+        else
+            speed=16.f;
+        if(han->IsKeyDown(GLFW_KEY_W))
+            _cam->Walk(speed*dt);
+        if(han->IsKeyDown(GLFW_KEY_S))
+            _cam->Walk(-speed*dt);
+        if(han->IsKeyDown(GLFW_KEY_A))
+            _cam->Strafe(-speed*dt);
+        if(han->IsKeyDown(GLFW_KEY_D))
+            _cam->Strafe(speed*dt);
+    }
 }
 
 void VoxMeshEditorApp::OnWindowClose()
@@ -263,6 +352,14 @@ void VoxMeshEditorApp::OnWindowClose()
 }
 void VoxMeshEditorApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
+    if(key==GLFW_KEY_F&&action==GLFW_RELEASE)
+    {
+        _cam->SetFPS(!_cam->IsFPS());
+    }
+    if(key==GLFW_KEY_H&&action==GLFW_RELEASE)
+    {
+        _mainWin->SetVisible(!_mainWin->IsVisible());
+    }
 }
 
 void VoxMeshEditorApp::OnMouseMove(double x, double y)
@@ -273,5 +370,31 @@ void VoxMeshEditorApp::OnMouseMove(double x, double y)
 void VoxMeshEditorApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
 
+}
+
+bool VoxMeshEditorApp::OnEvent(const GUIEvent& e)
+{
+    switch(e.GetType())
+    {
+    case gui_event_type::checkbox_state_changed:
+        if(e.get_caller()->GetName().compare("cbx_showEditGrid")==0)
+            _guiSwitches["showEditGrid"]=_checkboxes["cbx_showEditGrid"]->IsChecked();
+
+        if(e.get_caller()->GetName().compare("cbx_showVoxGrid")==0)
+            _guiSwitches["showVoxGrid"]=_checkboxes["cbx_showVoxGrid"]->IsChecked();
+
+        if(e.get_caller()->GetName().compare("cbx_showOrigMesh")==0)
+            _guiSwitches["showOrigMesh"]=_checkboxes["cbx_showOrigMesh"]->IsChecked();
+
+        if(e.get_caller()->GetName().compare("cbx_showVoxMesh")==0)
+            _guiSwitches["showVoxMesh"]=_checkboxes["cbx_showVoxMesh"]->IsChecked();
+
+        if(e.get_caller()->GetName().compare("cbx_wireVoxMesh")==0)
+            _guiSwitches["wireVoxMesh"]=_checkboxes["cbx_wireVoxMesh"]->IsChecked();
+        break;
+    default:
+        break;
+
+    }
 }
 

@@ -52,6 +52,11 @@ enum gui_style
     gui_skin_color_text,
     gui_skin_color_text_disabled,
 
+    gui_skin_icon_arrow_up,
+    gui_skin_icon_arrow_down,
+    gui_skin_icon_close,
+    gui_skin_icon_ok,
+
     gui_skin_style_count
 };
 

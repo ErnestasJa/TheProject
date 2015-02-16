@@ -42,7 +42,7 @@ public:
 
     virtual ~VoxMeshGrid() {}
 
-    void AddLine(const glm::vec3& start,const glm::vec3& end,const glm::vec4 &color=glm::vec4(1.f))
+    void AddLine(const glm::vec3& start,const glm::vec3& end,const glm::vec4 &color=glm::vec4(1.f,1.f,1.f,0.5f))
     {
         pos->data.push_back(start);
         pos->data.push_back(end);

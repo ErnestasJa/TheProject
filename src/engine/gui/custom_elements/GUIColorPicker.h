@@ -37,8 +37,8 @@ public:
     void Render();
 
     glm::vec4 GetColorRGB();
-//    void SetColorRGB(uint8_t r, uint8_t g, uint8_t b);
-//
+    void SetColorRGB(uint8_t r, uint8_t g, uint8_t b);
+
 //    glm::vec3 GetColorHSV();
 //    void SetColorHSV(uint32_t H, float S, float V);
 

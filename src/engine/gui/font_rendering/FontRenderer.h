@@ -47,8 +47,8 @@ private:
     Shader* _fontShader;
     void _SetFontColor(const glm::vec4 &color);
     Font* _CreateFont(const std::string &name,const std::string &filename, const int32_t &size=12);
-    void _RenderString(const std::wstring &text, glm::vec2 pos, const glm::vec4 &color);
-    void _RenderString(const std::wstring &text, glm::vec2 pos,const glm::vec4 &color,bool drawShadow);
+    void _RenderString(const std::wstring &text, glm::ivec2 pos, const glm::vec4 &color);
+    void _RenderString(const std::wstring &text, glm::ivec2 pos,const glm::vec4 &color,bool drawShadow);
 
     void _FormatTags(TextLine &tl, std::wstring in, SubLineInfo inf);
     int32_t _FindTagEnd(std::wstring str,const wchar_t tag);
@@ -78,7 +78,7 @@ public:
 
     void SetDefaultFontFamily(const std::string &familyName);
 
-    void RenderString(const std::wstring &text, const glm::vec2 &pos,float linewidth=0.f, std::string fontFamilyName="default");
+    void RenderString(const std::wstring &text, const glm::ivec2 &pos,float linewidth=0.f, std::string fontFamilyName="default");
 
     glm::vec2 GetTextDimensions(const std::wstring & text);
 };

@@ -28,6 +28,8 @@ template <class T> inline bool equals(const T & v1, const T & v2);
 inline float coslerp(float y1,float y2,float mu);
 inline glm::vec3 hsv2rgb(float h,float s,float v);
 
+inline glm::vec3 rgb2hsv(float r, float g, float b);
+
 inline int wtoi(const wchar_t *str)
 {
   return (int)wcstol(str, 0, 10);

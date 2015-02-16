@@ -16,8 +16,6 @@ GUICheckbox::GUICheckbox(GUIEnvironment* env, Rect2D<int> dimensions,bool checke
 
     environment=env;
 
-    cross="X";
-
     this->checked=checked;
 
     absolute_rect=dimensions;

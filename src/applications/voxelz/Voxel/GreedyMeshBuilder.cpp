@@ -570,7 +570,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
         }
     }
 
-    //printf("%d\n",faceCount*2);
+    printf("%d\n",faceCount*2);
 
     BufferObject<glm::ivec3>* pb=(BufferObject<glm::ivec3>*)vxm->buffers[Mesh::POSITION];
     BufferObject<u8vec4>* cb=(BufferObject<u8vec4>*)vxm->buffers[Mesh::COLOR];

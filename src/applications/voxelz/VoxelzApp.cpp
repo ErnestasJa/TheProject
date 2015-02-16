@@ -45,37 +45,6 @@ static bool validvoxel,wireframe;
 static int face;
 static VoxelSprite *spr;
 
-//static glm::vec3 rgb2hsv(float r, float g, float b)
-//{
-//    float h,s,v;
-//
-//    float min, max, delta;
-//    min = MIN( r, g, b );
-//    max = MAX( r, g, b );
-//    v = max;				// v
-//    delta = max - min;
-//    if( max != 0 )
-//        s = delta / max;		// s
-//    else
-//    {
-//        // r = g = b = 0		// s = 0, v is undefined
-//        s = 0;
-//        h = -1;
-//        return;
-//    }
-//    if( r == max )
-//        h = ( g - b ) / delta;		// between yellow & magenta
-//    else if( g == max )
-//        h = 2 + ( b - r ) / delta;	// between cyan & yellow
-//    else
-//        h = 4 + ( r - g ) / delta;	// between magenta & cyan
-//    h *= 60;				// degrees
-//    if( h < 0 )
-//        h += 360;
-//
-//    return glm::vec3(h,s,v);
-//}
-
 bool InitPostProc(AppContext* ctx)
 {
 //    RenderBufferObject* rbo=new RenderBufferObject();
@@ -390,8 +359,8 @@ bool VoxelzApp::Update()
         glDisable(GL_DEPTH_TEST);
         //env->get_font_renderer()->render_string_formatted(L"Im ['c 0,0,255,255]blue[c']\n['c 255,0,0,255]da[c']['c 0,255,0,255]bu[c']['c 0,0,255,255]dee[c']['c 255,255,0,255]da[c']['c 0,255,255,255]bu[c']['c 255,0,255,255]dam[c']",glm::vec2(0,256),200,true);
 //        env->get_font_renderer()->use_font("bits");
-        env->get_font_renderer()->RenderString(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['i]['b]lazy[b'][i'] dog.[s']",glm::vec2(0,256),0,"default36");
-        env->get_font_renderer()->RenderString(L"['s]Tags ['s]['c 128,128,255,64]['b]inside[b'][c'] tags[s'] ['s]by the side of inside tags[s'][s']",glm::vec2(0,296),0,"polygon");
+        env->get_font_renderer()->RenderString(L"['s]The ['b]quick[b'] ['c 155,125,0,255]brown[c'] fox ['i]jumps[i'] over the ['i]['b]lazy[b'][i'] dog.[s']",glm::ivec2(0,256),0,"default36");
+        env->get_font_renderer()->RenderString(L"['s]Tags ['s]['c 128,128,255,64]['b]inside[b'][c'] tags[s'] ['s]by the side of inside tags[s'][s']",glm::ivec2(0,296),0,"polygon");
 //        env->get_font_renderer()->use_font("default");
         glEnable(GL_DEPTH_TEST);
         _appContext->_window->SwapBuffers();

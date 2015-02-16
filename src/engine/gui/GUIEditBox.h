@@ -7,7 +7,7 @@ class Rect2D;
 class GUIEditBox:public GUIElement
 {
 private:
-    uint32_t blinktimer,curspos,reptimer,font_size;
+    uint32_t blinktimer,curspos,reptimer,font_size,maxlength;
     int32_t sx;
     float _mx,_mw,_my,_mh; //margins for drawing
     wchar_t lastkey;
@@ -29,6 +29,8 @@ public:
     {
         return m_text;
     }
+
+    void SetMaxLength(uint32_t length=0);
 
     bool OnEvent(const GUIEvent & e);
 protected:

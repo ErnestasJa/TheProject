@@ -12,8 +12,6 @@ class GUIStaticText;
 class GUICheckbox:public GUIElement
 {
 private:
-    std::string cross;
-
     bool checked;
 
     uint32_t cur_style;
@@ -25,7 +23,7 @@ public:
 
     bool OnEvent(const GUIEvent & e);
 
-    bool is_checked()
+    bool IsChecked()
     {
         return checked;
     }

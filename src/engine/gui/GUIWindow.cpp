@@ -55,7 +55,7 @@ void GUIWindow::Render()
 
     environment->draw_sliced_gui_quad(tbr,gui_skin_titlebar);
     environment->draw_sliced_gui_quad(bgr,gui_skin_background);
-    environment->get_font_renderer()->RenderString(L"['s]"+titlebar_text+L"[s']",glm::vec2(tbr.x+6,tbr.y+6));
+    environment->get_font_renderer()->RenderString(L"['s]"+titlebar_text+L"[s']",glm::ivec2(tbr.x+6,tbr.y+6));
 
     this->absolute_rect.move(0,20);
     UpdateAbsolutePos();

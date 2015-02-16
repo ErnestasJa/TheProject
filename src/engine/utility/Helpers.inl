@@ -139,3 +139,34 @@ inline glm::vec3 hsv2rgb(float h,float s,float v)
     }
     return glm::vec3(r,g,b);
 }
+
+inline glm::vec3 rgb2hsv(float r, float g, float b)
+{
+    float h,s,v;
+
+    float min, max, delta;
+    min = glm::min( glm::min(r, g), b );
+    max = glm::max( glm::max( r, g), b );
+    v = max;				// v
+    delta = max - min;
+    if( max != 0 )
+        s = delta / max;		// s
+    else
+    {
+        // r = g = b = 0		// s = 0, v is undefined
+        s = 0;
+        h = -1;
+        return glm::vec3(0);
+    }
+    if( r == max )
+        h = ( g - b ) / delta;		// between yellow & magenta
+    else if( g == max )
+        h = 2 + ( b - r ) / delta;	// between cyan & yellow
+    else
+        h = 4 + ( r - g ) / delta;	// between magenta & cyan
+    h *= 60;				// degrees
+    if( h < 0 )
+        h += 360;
+
+    return glm::vec3(h,s,v);
+}

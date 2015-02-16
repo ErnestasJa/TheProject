@@ -4,6 +4,7 @@
 #include <application/Application.h>
 #include <opengl/Shader.h>
 #include <opengl/Mesh.h>
+#include <GUI/GUIEventListener.h>
 
 class VoxMeshGrid;
 class GridMesh;
@@ -22,7 +23,7 @@ class VoxelMesh;
 
 class Camera;
 
-class VoxMeshEditorApp : public Application
+class VoxMeshEditorApp : public Application, public GUIEventListener
 {
 private:
     ShaderPtr _defaultShader,_meshShader,_voxShader;
@@ -57,6 +58,8 @@ public:
     void OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
+
+    bool OnEvent(const GUIEvent & e);
 
 protected:
 };

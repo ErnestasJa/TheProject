@@ -64,4 +64,11 @@
 		<text x="0" y="250" w="8" h="8" m="0"/>
 		<text_disabled x="0" y="258" w="8" h="8" m="0"/>
 	</colors>
+	
+	<icons>
+		<arrowup x="0" y="224" w="16" h="16" m="0"/>
+		<arrowdown x="16" y="224" w="16" h="16" m="0"/>
+		<close x="32" y="224" w="16" h="16" m="0"/>
+		<ok x="48" y="224" w="16" h="16" m="0"/>
+	</icons>
 </skin>

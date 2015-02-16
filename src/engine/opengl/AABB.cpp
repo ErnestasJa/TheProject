@@ -29,47 +29,15 @@ void AABB::Reset(const glm::vec3 &point)
 void AABB::AddPoint(const glm::vec3 &point)
 {
     glm::vec3 mi(m_center - m_halfSize), mx(m_center+m_halfSize);
-    float tmp;
 
-    //max
-    if (point.x > mx.x)
-    {
-        tmp = point.x - mx.x;
-        m_halfSize.x += tmp;
-        m_center.x += tmp*0.5f;
-    }
-    else if (point.x < mi.x)
-    {
-        tmp = mi.x - point.x;
-        m_halfSize.x -= tmp;
-        m_center.x -= tmp*0.5f;
-    }
+    #define DOMIN(axis) mi.axis = point.axis < mi.axis ? (point.axis) : (mi.axis)
+    #define DOMAX(axis) mx.axis = point.axis > mx.axis ? (point.axis) : (mx.axis)
 
-    if (point.y > mx.y)
-    {
-        tmp = point.y - mx.y;
-        m_halfSize.y += tmp;
-        m_center.y += tmp*0.5f;
-    }
-    else if (point.y < mi.y)
-    {
-        tmp = mi.y - point.y;
-        m_halfSize.y -= tmp;
-        m_center.y -= tmp*0.5f;
-    }
+    DOMIN(x);DOMIN(y);DOMIN(z);
+    DOMAX(x);DOMAX(y);DOMAX(z);
 
-    if (point.z > mx.z)
-    {
-        tmp = point.z - mx.z;
-        m_halfSize.z += tmp;
-        m_center.z += tmp*0.5f;
-    }
-    else if (point.z < mi.z)
-    {
-        tmp = mi.z - point.z;
-        m_halfSize.z -= tmp;
-        m_center.z -= tmp*0.5f;
-    }
+    m_halfSize = (mx-mi)*0.5f;
+    m_center = mi + m_halfSize;
 }
 
 void AABB::Translate(const glm::vec3 &point)

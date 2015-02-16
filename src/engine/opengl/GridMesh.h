@@ -49,7 +49,7 @@ public:
         col->data.push_back(glm::vec4(0.5,0.5,1,1));
         col->data.push_back(glm::vec4(0.5,0.5,1,1));
 
-        loop(i,size)
+        for(uint32_t i=0; i<=size; i++)
         {
             if(i!=halfsize)
             {
@@ -80,6 +80,13 @@ public:
                     col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
                     col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
                 }
+            }
+            else if(i==size)
+            {
+                pos->data.push_back(glm::vec3(-halfsize+i*density,0,-halfsize));
+                pos->data.push_back(glm::vec3(-halfsize+i*density,0,halfsize));
+                col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
+                col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
             }
         }
 
