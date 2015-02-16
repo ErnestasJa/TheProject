@@ -3,19 +3,17 @@
 
 AABB::AABB(): m_halfSize(0.5)
 {
-    //ctor
-    CalculatePoints();
+
 }
 
 AABB::AABB(const glm::vec3 & center, const glm::vec3 & halfSize):m_center(center), m_halfSize(halfSize)
 {
-    //ctor
-    CalculatePoints();
+
 }
 
 AABB::~AABB()
 {
-    //dtor
+
 }
 
 void AABB::Reset(const glm::vec3 &point)
@@ -27,47 +25,15 @@ void AABB::Reset(const glm::vec3 &point)
 void AABB::AddPoint(const glm::vec3 &point)
 {
     glm::vec3 mi(m_center - m_halfSize), mx(m_center+m_halfSize);
-    float tmp;
 
-    //max
-    if (point.x > mx.x)
-    {
-        tmp = point.x - mx.x;
-        m_halfSize.x += tmp;
-        m_center.x += tmp*0.5f;
-    }
-    else if (point.x < mi.x)
-    {
-        tmp = mi.x - point.x;
-        m_halfSize.x -= tmp;
-        m_center.x -= tmp*0.5f;
-    }
+    #define DOMIN(axis) mi.axis = point.axis < mi.axis ? (point.axis) : (mi.axis)
+    #define DOMAX(axis) mx.axis = point.axis > mx.axis ? (point.axis) : (mx.axis)
 
-    if (point.y > mx.y)
-    {
-        tmp = point.y - mx.y;
-        m_halfSize.y += tmp;
-        m_center.y += tmp*0.5f;
-    }
-    else if (point.y < mi.y)
-    {
-        tmp = mi.y - point.y;
-        m_halfSize.y -= tmp;
-        m_center.y -= tmp*0.5f;
-    }
+    DOMIN(x);DOMIN(y);DOMIN(z);
+    DOMAX(x);DOMAX(y);DOMAX(z);
 
-    if (point.z > mx.z)
-    {
-        tmp = point.z - mx.z;
-        m_halfSize.z += tmp;
-        m_center.z += tmp*0.5f;
-    }
-    else if (point.z < mi.z)
-    {
-        tmp = mi.z - point.z;
-        m_halfSize.z -= tmp;
-        m_center.z -= tmp*0.5f;
-    }
+    m_halfSize = (mx-mi)*0.5f;
+    m_center = mi + m_halfSize;
 }
 
 void AABB::Translate(const glm::vec3 &point)
@@ -239,11 +205,6 @@ bool AABB::CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayDire
     return tmax >= tmin;
 }
 
-glm::vec3 AABB::GetPoint(uint32_t i) const
-{
-    return points[i];
-}
-
 const glm::vec3 & AABB::GetHalfSize() const
 {
     return m_halfSize;
@@ -262,19 +223,4 @@ glm::vec3 AABB::GetMin() const
 glm::vec3 AABB::GetMax() const
 {
     return m_center+m_halfSize;
-}
-
-void AABB::CalculatePoints()
-{
-    float w=m_halfSize.x*2.0f,h=m_halfSize.y*2.0f,l=m_halfSize.z*2.0f;
-
-    points[0]=m_center;
-    points[1]=m_center+glm::vec3(w,0,0);
-    points[2]=m_center+glm::vec3(0,h,0);
-    points[3]=m_center+glm::vec3(0,0,l);
-
-    points[4]=m_center-glm::vec3(l,0,0);
-    points[5]=m_center-glm::vec3(0,h,0);
-    points[6]=m_center-glm::vec3(0,0,w);
-    points[7]=m_center;
 }

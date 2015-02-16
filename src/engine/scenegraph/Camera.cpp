@@ -82,7 +82,7 @@ INTERSECT_RESULT Camera::PointInFrustum(const glm::vec3 &point)
 
 INTERSECT_RESULT Camera::BoxInFrustum(const AABB &box)
 {
-    INTERSECT_RESULT res=IR_INSIDE;
+    /*INTERSECT_RESULT res=IR_INSIDE;
     bool in=false,out=false;
     loop(i,6)
     {
@@ -100,7 +100,7 @@ INTERSECT_RESULT Camera::BoxInFrustum(const AABB &box)
         else if(out)
             res = IR_INTERSECT;
     }
-    return res;
+    return res;*/
 }
 
 glm::mat4 & Camera::GetProjectionMat()
