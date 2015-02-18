@@ -79,7 +79,7 @@ public:
         col->data.resize(VRAM_BLOCK_SIZE);
         inds->data.resize(0);
 
-        printf("RESERVED RAM BLOCK: %f Mb\n",(float)(vert->data.size()*sizeof(vert->data[0])+col->data.size()*sizeof(col->data[0]))/1000000.f);
+        //printf("RESERVED RAM BLOCK: %f Mb\n",(float)(vert->data.size()*sizeof(vert->data[0])+col->data.size()*sizeof(col->data[0]))/1000000.f);
 
         buffers[Mesh::POSITION]=vert;
         buffers[Mesh::COLOR]=col;
@@ -112,6 +112,14 @@ public:
                     //_chunks[glm::ivec3(x,y,z)]->FillCheckerboard();
                 }
             }
+        }
+    }
+
+    void FlagGenerated()
+    {
+        for(auto ch:_chunks)
+        {
+            ch.second->generated=true;
         }
     }
 

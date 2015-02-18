@@ -18,6 +18,8 @@
 #include "gui/custom_elements/GUIColorPicker.h"
 #include "physics/Physics.h"
 
+#include "Voxel/ChunkManager.h"
+
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
@@ -212,7 +214,82 @@ void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
     }
 }
 
+template<typename T>
+void VoxelizeMesh(vector<Triangle<T> > tris,ChunkManager* voxmesh)
+{
+    uint32_t trisize=tris.size();
+    loopi(i,tris.size())
+    {
+        //printf("Processing tri %u of %u...\n",i,trisize);
 
+        AABB a;
+        a.Reset(tris[i].points[0]);
+        a.AddPoint(tris[i].points[1]);
+        a.AddPoint(tris[i].points[2]);
+        //boxes.push_back(new CubeMesh(a));
+        //printf("Tri Points:\n%s\n%s\n%s\n",GLMVec3ToStr(tris[i].points[0]),GLMVec3ToStr(tris[i].points[1]),GLMVec3ToStr(tris[i].points[2]));
+
+
+        //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(a.GetMin()),GLMVec3ToStr(a.GetMax()),GLMVec3ToStr(a.GetCenter()),GLMVec3ToStr(a.GetHalfSize()));
+        glm::ivec3 amn=(glm::ivec3)glm::round((a.GetMin()));
+        glm::ivec3 amx=(glm::ivec3)glm::round((a.GetMax()));
+        //printf("Ranges %s %s\n",GLMVec3ToStr(amn),GLMVec3ToStr(amx));
+
+        int32_t sx,ex,sy,ey,sz,ez;
+
+        sx=amn.x;
+        sy=amn.y;
+        sz=amn.z;
+
+        ex=amx.x;
+        ey=amx.y;
+        ez=amx.z;
+
+        if(ex<sx)
+        {
+            int32_t tmp=sx;
+            sx=ex;
+            ex=tmp;
+        }
+
+        if(ey<sy)
+        {
+            int32_t tmp=sy;
+            sy=ey;
+            ey=tmp;
+        }
+
+        if(ez<sz)
+        {
+            int32_t tmp=sz;
+            sz=ez;
+            ez=tmp;
+        }
+
+        for(int32_t x=sx; x<=ex+1; x++)
+        {
+            for(int32_t y=sy; y<=ey+1; y++)
+            {
+                for(int32_t z=sz; z<=ez+1; z++)
+                {
+                    if(voxmesh->GetBlock(glm::ivec3(x,y,z)).active==false)
+                    {
+                        AABB voxaabb(glm::vec3(x,y,z)+glm::vec3(0.5f),glm::vec3(0.5f));
+                        voxaabb.CalculatePoints();
+                        if(IsIntersecting<glm::vec3>(voxaabb,tris[i]))
+                            voxmesh->SetBlock(glm::ivec3(x,y,z),EBT_STONE,true);
+                        else
+                            continue;
+                    }
+                    else
+                        continue;
+                }
+            }
+        }
+    }
+}
+
+ChunkManager* cmg;
 bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
@@ -237,21 +314,28 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _iqmMesh=meshLoader->load("res/mill.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    _iqmMesh->HardScale<glm::vec3>(glm::vec3(0.5f));
-    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
+    uint32_t gridSize=512;
+
+    glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
+    float scale=(float)(gridSize)/glm::max(glm::max(hs.x,hs.y),hs.z);
+    _iqmMesh->RecalculateAABB<glm::vec3>();
+    _iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
+    _iqmMesh->HardScale<glm::vec3>(glm::vec3(5));
 
     AABB bb=_iqmMesh->aabb;
     boxes.push_back(new CubeMesh(_iqmMesh->aabb));
 
-    _voxMesh=new VoxelMesh(u16vec3(512));
-
+    //_voxMesh=new VoxelMesh(u16vec3(gridSize));
 
     vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
     printf("Total triangles: %u\n",vec.size());
 
-    VoxelizeMesh(vec,_voxMesh);
+    //VoxelizeMesh(vec,_voxMesh);
+    cmg=new ChunkManager();
+    VoxelizeMesh(vec,cmg);
+    cmg->FlagGenerated();
 
-    _voxMesh->UpdateMesh();
+    //_voxMesh->UpdateMesh();
 
     InitGUI();
 
@@ -262,7 +346,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     //AABB bb(glm::vec3(0.5),glm::vec3(0.5));
     //boxes.push_back(new CubeMesh(bb));
-    printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
+    //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
 
     return true;
 }
@@ -307,7 +391,7 @@ bool VoxMeshEditorApp::Update()
         {
             _voxShader->Set();
             MVar<glm::mat4>(0, "mvp", MVP).Set();
-            _voxMesh->Render(_guiSwitches["wireVoxMesh"]);
+            cmg->Render(_cam,_voxShader,false);
         }
 
         glDisable(GL_DEPTH_TEST);

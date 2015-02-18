@@ -36,8 +36,8 @@ void AABB::AddPoint(const glm::vec3 &point)
     DOMIN(x);DOMIN(y);DOMIN(z);
     DOMAX(x);DOMAX(y);DOMAX(z);
 
-    m_halfSize = (mx-mi)*0.5f;
-    m_center = mi + m_halfSize;
+    m_halfSize = glm::abs((mx-mi)*0.5f);
+    m_center = (mi + mx) *0.5f;
 }
 
 void AABB::Translate(const glm::vec3 &point)

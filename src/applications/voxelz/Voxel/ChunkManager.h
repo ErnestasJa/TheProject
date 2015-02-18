@@ -33,6 +33,14 @@ public:
         return ret;
     }
 
+    void FlagGenerated()
+    {
+        for(auto sc:_superChunks)
+        {
+            sc.second->FlagGenerated();
+        }
+    }
+
     void Render(Camera *cam,ShaderPtr vsh,bool wireframe=false);
 protected:
 private:
