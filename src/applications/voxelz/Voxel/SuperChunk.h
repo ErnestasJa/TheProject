@@ -126,7 +126,7 @@ public:
     void Update()
     {
         int32_t chunksPerFrame=0;
-        if(built)
+        if(!built)
         {
             for(auto a:_chunks)
             {

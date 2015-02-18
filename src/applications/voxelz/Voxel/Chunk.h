@@ -55,9 +55,10 @@ public:
     bool empty,generated,built,uploaded;
     glm::ivec3 position;
 
-    static Block EMPTY_BLOCK;
+    static const Block EMPTY_BLOCK;
 
     VoxMeshData<u16vec3,u8vec4,uint32_t> meshData;
+    int16_t _blockIndices[CHUNK_BLOCK_SIZE];
 
     typedef std::shared_ptr<Chunk> _ChunkPtr;
     _ChunkPtr leftN,rightN,botN,topN,backN,frontN;

@@ -8,11 +8,15 @@
 #include "resources/ResourceCache.h"
 #include <boost/foreach.hpp>
 
-Block Chunk::EMPTY_BLOCK=Block();
+const Block Chunk::EMPTY_BLOCK=Block();
 
 Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
-    _blocks.resize(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    _blocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    loopi(i,CHUNK_BLOCK_SIZE)
+    {
+        _blockIndices[i]=-1;
+    }
     // Create the blocks
     _chunkManager = chunkManager;
     this->position = position;
@@ -71,17 +75,21 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
 {
     if(x<0||x>=CHUNK_SIZE||y<0||y>=CHUNK_SIZE||z<0||z>=CHUNK_SIZE) return;
 
-    if(active)
+    int32_t ind=_blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+
+    Block blockToAdd=EMPTY_BLOCK;
+    blockToAdd.type=type;
+    blockToAdd.active=active;
+
+    if(ind!=-1) //block already exists
     {
-        empty=false;
-        Block a;
-        a.type=type;
-        a.active=active;
-        _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=a;
+        _blocks[ind]=blockToAdd;
     }
-    else
+    else //add a new one to the vector
     {
-        _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=EMPTY_BLOCK;
+        _blocks.push_back(blockToAdd);
+        _blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=_blocks.size()-1;
+        empty=false;
     }
 
     //UpdateNeighbours(x,y,z);
@@ -89,9 +97,13 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
 
 const Block &Chunk::GetBlock(uint32_t x,uint32_t y,uint32_t z)
 {
-    if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
-        return EMPTY_BLOCK;
-    return _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+    if(!((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0)))
+    {
+        int32_t ind=_blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+        if(ind!=-1)
+            return _blocks[ind];
+    }
+    return EMPTY_BLOCK;
 }
 
 void Chunk::Fill()
@@ -102,8 +114,7 @@ void Chunk::Fill()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].type=EBT_STONE;
-                _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].active=true;
+                SetBlock(x,y,z,EBT_STONE,true);
             }
         }
     }
@@ -131,7 +142,7 @@ uint32_t Chunk::GetBlockCount()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(_blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE].active) ret++;
+                if(GetBlock(x,y,z).active) ret++;
             }
         }
     }
@@ -171,7 +182,7 @@ const Block & Chunk::ElementAt(int32_t x,int32_t y, int32_t z)
     }
     else
     {
-        return _blocks[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+        return GetBlock(x,y,z);
     }
 }
 

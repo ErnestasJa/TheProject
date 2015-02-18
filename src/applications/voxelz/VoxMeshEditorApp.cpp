@@ -232,7 +232,7 @@ void VoxelizeMesh(vector<Triangle<T> > tris,ChunkManager* voxmesh)
 
         //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(a.GetMin()),GLMVec3ToStr(a.GetMax()),GLMVec3ToStr(a.GetCenter()),GLMVec3ToStr(a.GetHalfSize()));
         glm::ivec3 amn=(glm::ivec3)glm::round((a.GetMin()));
-        glm::ivec3 amx=(glm::ivec3)glm::round((a.GetMax()));
+        glm::ivec3 amx=(glm::ivec3)glm::ceil((a.GetMax()));
         //printf("Ranges %s %s\n",GLMVec3ToStr(amn),GLMVec3ToStr(amx));
 
         int32_t sx,ex,sy,ey,sz,ez;
@@ -266,14 +266,15 @@ void VoxelizeMesh(vector<Triangle<T> > tris,ChunkManager* voxmesh)
             ez=tmp;
         }
 
-        for(int32_t x=sx; x<=ex+1; x++)
+        for(int32_t x=sx-1; x<=ex+1; x++)
         {
-            for(int32_t y=sy; y<=ey+1; y++)
+            for(int32_t y=sy-1; y<=ey+1; y++)
             {
-                for(int32_t z=sz; z<=ez+1; z++)
+                for(int32_t z=sz-1; z<=ez+1; z++)
                 {
-                    if(voxmesh->GetBlock(glm::ivec3(x,y,z)).active==false)
+                    if(voxmesh->GetBlock(glm::ivec3(x,y,z))==Chunk::EMPTY_BLOCK)
                     {
+                        //printf("Definitely empty\n");
                         AABB voxaabb(glm::vec3(x,y,z)+glm::vec3(0.5f),glm::vec3(0.5f));
                         voxaabb.CalculatePoints();
                         if(IsIntersecting<glm::vec3>(voxaabb,tris[i]))
@@ -311,16 +312,18 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
     meshLoader->add_loader(new iqmloader(_appContext->_logger));
-    _iqmMesh=meshLoader->load("res/mill.iqm");
+    _iqmMesh=meshLoader->load("res/tree.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
     uint32_t gridSize=512;
-
+    if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
+    {
+        _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
+    }
     glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
-    float scale=(float)(gridSize)/glm::max(glm::max(hs.x,hs.y),hs.z);
-    _iqmMesh->RecalculateAABB<glm::vec3>();
-    _iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
-    _iqmMesh->HardScale<glm::vec3>(glm::vec3(5));
+    float scale=(float)(gridSize)/glm::abs(glm::max(glm::max(hs.x,hs.y),hs.z));
+    _iqmMesh->HardScale<glm::vec3>(glm::vec3(scale));
+    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
 
     AABB bb=_iqmMesh->aabb;
     boxes.push_back(new CubeMesh(_iqmMesh->aabb));

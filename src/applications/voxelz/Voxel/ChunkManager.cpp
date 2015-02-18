@@ -47,13 +47,13 @@ ChunkManager::ChunkManager()
 //
 //    }
 
-//    loopi(x,1)
-//    loopi(z,1)
-//    loopi(y,1)
-//    {
-//        AddSuperChunk(glm::ivec3(x,y,z));
-//        _superChunks[glm::ivec3(x,y,z)]->Fill();
-//    }
+    loopi(x,8)
+    loopi(z,8)
+    loopi(y,1)
+    {
+        AddSuperChunk(glm::ivec3(x,y,z));
+        _superChunks[glm::ivec3(x,y,z)]->Fill();
+    }
 }
 
 ChunkManager::~ChunkManager()
