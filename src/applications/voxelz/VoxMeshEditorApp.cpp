@@ -315,7 +315,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _iqmMesh=meshLoader->load("res/tree.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    uint32_t gridSize=512;
+    uint32_t gridSize=1024;
     if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
     {
         _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
@@ -394,7 +394,7 @@ bool VoxMeshEditorApp::Update()
         {
             _voxShader->Set();
             MVar<glm::mat4>(0, "mvp", MVP).Set();
-            cmg->Render(_cam,_voxShader,false);
+            cmg->Render(_cam,_voxShader,_guiSwitches["wireVoxMesh"]);
         }
 
         glDisable(GL_DEPTH_TEST);

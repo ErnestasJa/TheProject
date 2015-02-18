@@ -13,11 +13,11 @@ const Block Chunk::EMPTY_BLOCK=Block();
 Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
 {
     _blocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    // Create the blocks
     loopi(i,CHUNK_BLOCK_SIZE)
     {
         _blockIndices[i]=-1;
     }
-    // Create the blocks
     _chunkManager = chunkManager;
     this->position = position;
 

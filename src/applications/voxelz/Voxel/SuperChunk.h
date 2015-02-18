@@ -6,7 +6,7 @@
 #define SUPERCHUNK_SIZE_BLOCKS (SUPERCHUNK_SIZE*CHUNK_SIZE)
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
 #define VRAM_BLOCK_SIZE (CHUNK_MESH_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
-#define CHUNK_UPDATES_PER_FRAME 16
+#define CHUNK_UPDATES_PER_FRAME 8
 
 #include "OpenGL/Mesh.h"
 #include "GreedyMeshBuilder.h"
@@ -126,7 +126,7 @@ public:
     void Update()
     {
         int32_t chunksPerFrame=0;
-        if(!built)
+        if(built)
         {
             for(auto a:_chunks)
             {
@@ -149,7 +149,7 @@ public:
 
                 if(chunksPerFrame!=CHUNK_UPDATES_PER_FRAME)
                 {
-                    if(!_chunks[glm::ivec3(x,y,z)]->empty)
+                    if(_chunks.count(glm::ivec3(x,y,z))!=0&&!_chunks[glm::ivec3(x,y,z)]->empty)
                     {
                         if(_chunks[glm::ivec3(x,y,z)]->generated&&!_chunks[glm::ivec3(x,y,z)]->built)
                         {
