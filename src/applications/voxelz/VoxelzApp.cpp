@@ -111,7 +111,7 @@ bool InitPostProc(AppContext* ctx)
 
     //spr=VoxelSprite::LoadFromImage(loader->load("res/tile.png"),loader->load("res/tile_disp.png"),1);
     spr=new VoxelSprite(u16vec3(2,2,2));
-    loopi(x,2)loopi(y,2)loopi(z,2)spr->CreateVox(x,y,z,VecRGBAToIntRGBA(u8vec4(255))); spr->Rebuild();
+    loop(x,2)loop(y,2)loop(z,2)spr->CreateVox(x,y,z,VecRGBAToIntRGBA(u8vec4(255))); spr->Rebuild();
 
     return true;
 }
@@ -182,7 +182,7 @@ void InitPlaneMesh(AppContext * ctx)
 
     std::stringstream ss;
 
-    loopi(i,10)
+    loop(i,10)
     {
         ss<<i;
         texts[i]=new GUIStaticText(env,Rect2D<int>(0,i*20,200,20),L"",glm::vec4(1),false,true);
@@ -306,11 +306,11 @@ bool VoxelzApp::Update()
         MVar<glm::mat4>(0, "mvp", MVP).Set();
         grid->render_lines();
 
-        vsh->Set();
-        Model = glm::mat4(1.0f);
-        MVP   = cam->GetViewProjMat() * Model;
-        MVar<glm::mat4>(0, "mvp", MVP).Set();
-        spr->Render(wireframe);
+//        vsh->Set();
+//        Model = glm::mat4(1.0f);
+//        MVP   = cam->GetViewProjMat() * Model;
+//        MVar<glm::mat4>(0, "mvp", MVP).Set();
+//        spr->Render(wireframe);
 
         /// G BUFFER
         gbsh->Set();
@@ -477,7 +477,7 @@ void VoxelzApp::OnMouseMove(double x, double y)
 
     /* If we are looking at air, move the cursor out of sight */
 
-    if(chkmgr->GetBlock(glm::ivec3(mx, my, mz)).type==EBT_AIR)
+    if(chkmgr->GetBlock(glm::ivec3(mx, my, mz))==Chunk::EMPTY_BLOCK)
     {
         mx = my = mz = 99999;
         validvoxel=false;

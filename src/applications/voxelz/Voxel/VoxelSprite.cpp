@@ -59,7 +59,7 @@ VoxelSprite* VoxelSprite::LoadFromImage(std::shared_ptr<image> img, std::shared_
             continue;
         else
         {
-            loopi(z,testrusion+2)
+            loop(z,testrusion+2)
             ret->CreateVox(x,y,z,VecRGBAToIntRGBA(pixel));
         }
 

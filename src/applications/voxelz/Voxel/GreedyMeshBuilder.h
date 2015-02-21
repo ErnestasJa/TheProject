@@ -37,12 +37,14 @@ private:
     template<typename T>
     static uint32_t _quadHeight(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask,T size);
 
-public:
-    template <typename T>
-    static void GreedyBuild(T obj);
     template <typename T>
     static void AddQuadToMesh(T obj,const glm::ivec3 * face, const intRGBA & col);
     template <typename T>
-    static void GetElement(T obj);
+    static void AddQuadToMesh(T obj,const glm::ivec3 * face, const u16vec4& inds, const intRGBA & col);
+    template <typename T>
+    static const T &GetElement(uint32_t x,uint32_t y,uint32_t z);
+public:
+    template <typename T>
+    static void GreedyBuild(T obj);
 };
 #endif // GREEDYMESHBUILDER_H_INCLUDED

@@ -6,7 +6,7 @@
 #define SUPERCHUNK_SIZE_BLOCKS (SUPERCHUNK_SIZE*CHUNK_SIZE)
 #define SUPERCHUNK_SIZE_BLOCKSF (SUPERCHUNK_SIZEF*CHUNK_SIZEF)
 #define VRAM_BLOCK_SIZE (CHUNK_MESH_SIZE*(SUPERCHUNK_SIZE*SUPERCHUNK_SIZE*SUPERCHUNK_SIZE))
-#define CHUNK_UPDATES_PER_FRAME 8
+#define CHUNK_UPDATES_PER_FRAME 16
 
 #include "OpenGL/Mesh.h"
 #include "GreedyMeshBuilder.h"
@@ -70,6 +70,7 @@ public:
         this->_pos=pos;
         this->_offsetTrack=0;
         built=false;
+        _offsetTrack=0;
 
         BufferObject<u16vec3> *vert=new BufferObject<u16vec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
@@ -79,14 +80,14 @@ public:
         col->data.resize(VRAM_BLOCK_SIZE);
         inds->data.resize(0);
 
-        //printf("RESERVED RAM BLOCK: %f Mb\n",(float)(vert->data.size()*sizeof(vert->data[0])+col->data.size()*sizeof(col->data[0]))/1000000.f);
+        printf("RESERVED RAM BLOCK: %f Mb\n",(float)(vert->data.size()*sizeof(vert->data[0])+col->data.size()*sizeof(col->data[0]))/1000000.f);
 
         buffers[Mesh::POSITION]=vert;
         buffers[Mesh::COLOR]=col;
         buffers[Mesh::INDICES]=inds;
 
-        loopi(x,SUPERCHUNK_SIZE_BLOCKS)
-        loopi(y,SUPERCHUNK_SIZE_BLOCKS)
+        loop(x,SUPERCHUNK_SIZE_BLOCKS)
+        loop(y,SUPERCHUNK_SIZE_BLOCKS)
         {
             noises[x][y]=scaled_raw_noise_2d(0,WORLD_HEIGHT,(x+_pos.x)/WORLD_HEIGHTF/2,(y+_pos.z)/WORLD_HEIGHTF/2);
         }
@@ -102,11 +103,11 @@ public:
 
     void Fill()
     {
-        loopi(x,SUPERCHUNK_SIZE)
+        loop(x,SUPERCHUNK_SIZE)
         {
-            loopi(y,SUPERCHUNK_SIZE)
+            loop(y,SUPERCHUNK_SIZE)
             {
-                loopi(z,SUPERCHUNK_SIZE)
+                loop(z,SUPERCHUNK_SIZE)
                 {
                     AddChunk(glm::ivec3(x,y,z));
                     //_chunks[glm::ivec3(x,y,z)]->FillCheckerboard();
@@ -123,10 +124,30 @@ public:
         }
     }
 
+    void SetChunkNeighbours()
+    {
+        for(auto a:_chunks)
+        {
+            if(a.second->empty==false)
+            {
+                glm::ivec3 pos=a.first;
+
+                a.second->leftN=GetChunk(pos+glm::ivec3(-1,0,0));
+                a.second->rightN=GetChunk(pos+glm::ivec3(1,0,0));
+
+                a.second->botN=GetChunk(pos+glm::ivec3(0,-1,0));
+                a.second->topN=GetChunk(pos+glm::ivec3(0,1,0));
+
+                a.second->backN=GetChunk(pos+glm::ivec3(0,0,-1));
+                a.second->frontN=GetChunk(pos+glm::ivec3(0,0,1));
+            }
+        }
+    }
+
     void Update()
     {
         int32_t chunksPerFrame=0;
-        if(built)
+        if(!built)
         {
             for(auto a:_chunks)
             {
@@ -138,13 +159,13 @@ public:
                 }
             }
             built=true;
-
+            SetChunkNeighbours();
         }
         else
         {
-            loopi(x,SUPERCHUNK_SIZE)
-            loopi(y,SUPERCHUNK_SIZE)
-            loopi(z,SUPERCHUNK_SIZE)
+            loop(x,SUPERCHUNK_SIZE)
+            loop(y,SUPERCHUNK_SIZE)
+            loop(z,SUPERCHUNK_SIZE)
             {
 
                 if(chunksPerFrame!=CHUNK_UPDATES_PER_FRAME)
@@ -175,13 +196,13 @@ public:
 
     void Generate(ChunkPtr chunk)
     {
-        loopi(x,CHUNK_SIZE)
+        loop(x,CHUNK_SIZE)
         {
-            loopi(z,CHUNK_SIZE)
+            loop(z,CHUNK_SIZE)
             {
                 float noiseval=noises[x+chunk->position.x][z+chunk->position.z];
 
-                loopi(y,CHUNK_SIZE)
+                loop(y,CHUNK_SIZE)
                 {
                     float absoluteY=y+chunk->position.y+this->_pos.y;
 
@@ -289,9 +310,12 @@ public:
 
     void UpdateChunkData(ChunkPtr chunk)
     {
-        this->UploadBufferSubData(Mesh::POSITION,chunk->meshData.positions,chunk->offset);
-        this->UploadBufferSubData(Mesh::COLOR,chunk->meshData.colors,chunk->offset);
-        RebuildIndices();
+        if(!chunk->meshData.empty)
+        {
+            this->UploadBufferSubData(Mesh::POSITION,chunk->meshData.positions,chunk->offset);
+            this->UploadBufferSubData(Mesh::COLOR,chunk->meshData.colors,chunk->offset);
+            RebuildIndices();
+        }
         chunk->uploaded=true;
     }
 
@@ -299,6 +323,19 @@ public:
     {
         IndexBufferObject<uint32_t> *inds = (IndexBufferObject<uint32_t>*)buffers[Mesh::INDICES];
         inds->data.clear();
+
+        uint32_t finalsize=0;
+
+//        for(auto a:_chunks)
+//        {
+//            finalsize+=a.second->meshData.indices.size();
+//        }
+//        inds->data.reserve(finalsize);
+//
+//        for(auto a:_chunks)
+//        {
+//            finalsize+=a.second->meshData.indices.size();
+//        }
 
         for(auto a:_chunks)
         {

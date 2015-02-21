@@ -10,24 +10,24 @@
 
 const Block Chunk::EMPTY_BLOCK=Block();
 
-Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)
 {
-    _blocks.reserve(CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE);
+    _chunkManager = chunkManager;
+    this->position = position;
+    this->offset=offset;
+
     // Create the blocks
-    loopi(i,CHUNK_BLOCK_SIZE)
+    _blocks.reserve(CHUNK_BLOCK_SIZE);
+    loop(i,CHUNK_BLOCK_SIZE)
     {
         _blockIndices[i]=-1;
     }
-    _chunkManager = chunkManager;
-    this->position = position;
+
 
     empty=true;
-    generated=false;
-    built=false;
-    uploaded=false;
+    generated=built=uploaded=false;
 
-    leftN=rightN=botN=topN=backN=frontN;
-    this->offset=offset;
+    leftN=rightN=botN=topN=backN=frontN=nullptr;
 }
 
 Chunk::~Chunk()
@@ -92,7 +92,7 @@ void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool activ
         empty=false;
     }
 
-    //UpdateNeighbours(x,y,z);
+    UpdateNeighbours(x,y,z);
 }
 
 const Block &Chunk::GetBlock(uint32_t x,uint32_t y,uint32_t z)
@@ -122,9 +122,9 @@ void Chunk::Fill()
 
 void Chunk::FillCheckerboard()
 {
-    loopi(x,CHUNK_SIZE)
-    loopi(y,CHUNK_SIZE)
-    loopi(z,CHUNK_SIZE)
+    loop(x,CHUNK_SIZE)
+    loop(y,CHUNK_SIZE)
+    loop(z,CHUNK_SIZE)
     {
         SetBlock(x,y,z,(EBlockType)(rand()%EBT_COUNT),true);
     }

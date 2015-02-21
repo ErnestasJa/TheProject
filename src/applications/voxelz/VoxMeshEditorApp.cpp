@@ -108,7 +108,7 @@ bool IsIntersecting(AABB box,Triangle<T> tri)
 {
     //test aabb normals
     glm::vec3 boxNormals[]= {glm::vec3(1.f,0.f,0.f),glm::vec3(0.f,1.f,0.f),glm::vec3(0.f,0.f,1.f)};
-    loopi(i,3)
+    loop(i,3)
     {
         glm::vec3 n=boxNormals[i];
         glm::vec2 proj=Project(tri.points,n);
@@ -124,8 +124,8 @@ bool IsIntersecting(AABB box,Triangle<T> tri)
 
     // test nine edge cross products
     T triEdges[]= {tri.points[0]-tri.points[1],tri.points[1]-tri.points[2],tri.points[2]-tri.points[0]};
-    loopi(i,3)
-    loopi(j,3)
+    loop(i,3)
+    loop(j,3)
     {
         glm::vec3 axis=glm::cross(triEdges[i],boxNormals[j]);
         glm::vec2 boxProj=Project(box.GetPoints(),axis);
@@ -143,7 +143,7 @@ template<typename T>
 void VoxelizeMesh(vector<Triangle<T> > tris,VoxelMesh* voxmesh)
 {
     uint32_t trisize=tris.size();
-    loopi(i,tris.size())
+    loop(i,tris.size())
     {
         //printf("Processing tri %u of %u...\n",i,trisize);
 
@@ -218,7 +218,7 @@ template<typename T>
 void VoxelizeMesh(vector<Triangle<T> > tris,ChunkManager* voxmesh)
 {
     uint32_t trisize=tris.size();
-    loopi(i,tris.size())
+    loop(i,tris.size())
     {
         //printf("Processing tri %u of %u...\n",i,trisize);
 
@@ -315,7 +315,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _iqmMesh=meshLoader->load("res/tree.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    uint32_t gridSize=1024;
+    uint32_t gridSize=256;
     if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
     {
         _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());

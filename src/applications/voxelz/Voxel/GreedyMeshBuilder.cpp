@@ -17,7 +17,7 @@ void GreedyMeshBuilder::_clearMask(MaskNode **mask,uint32_t size)
 template<>
 void GreedyMeshBuilder::_clearMask(MaskNode **mask,u16vec3 size)
 {
-    loopi(i,size.x) loopi(j,size.y)
+    loop(i,size.x) loop(j,size.y)
     {
         mask[i][j].exists = false;
     }
@@ -99,9 +99,37 @@ void GreedyMeshBuilder::AddQuadToMesh(ChunkPtr chk,const glm::ivec3 * face, cons
     chk->meshData.indices.push_back(indexStart);
     chk->meshData.indices.push_back(indexStart+2);
     chk->meshData.indices.push_back(indexStart+3);
+
     chk->meshData.indices.push_back(indexStart);
     chk->meshData.indices.push_back(indexStart+1);
     chk->meshData.indices.push_back(indexStart+2);
+}
+
+template<>
+void GreedyMeshBuilder::AddQuadToMesh(ChunkPtr chk,const glm::ivec3 * face, const u16vec4& inds, const intRGBA & col)
+{
+    printf("Inds: %u,%u,%u,%u\n",inds[0],inds[1],inds[2],inds[3]);
+    uint32_t indexStart=chk->offset+chk->meshData.positions.size();
+
+    chk->meshData.positions[inds[0]]=(u16vec3)(chk->position+face[0]);
+    chk->meshData.positions[inds[1]]=(u16vec3)(chk->position+face[1]);
+    chk->meshData.positions[inds[2]]=(u16vec3)(chk->position+face[2]);
+    chk->meshData.positions[inds[3]]=(u16vec3)(chk->position+face[3]);
+
+    u8vec4 _col=IntRGBAToVecRGBA(col);
+
+    chk->meshData.colors[inds[0]]=_col;
+    chk->meshData.colors[inds[1]]=_col;
+    chk->meshData.colors[inds[2]]=_col;
+    chk->meshData.colors[inds[3]]=_col;
+
+    chk->meshData.indices.push_back(chk->offset+inds[0]);
+    chk->meshData.indices.push_back(chk->offset+inds[2]);
+    chk->meshData.indices.push_back(chk->offset+inds[3]);
+
+    chk->meshData.indices.push_back(chk->offset+inds[0]);
+    chk->meshData.indices.push_back(chk->offset+inds[1]);
+    chk->meshData.indices.push_back(chk->offset+inds[2]);
 }
 
 template<>
@@ -136,16 +164,20 @@ void GreedyMeshBuilder::AddQuadToMesh(VoxelMesh* vox,const glm::ivec3 * face, co
     //printf("\nQuad added: \n%s \n%s \n%s \n%s\n\n",GLMVec3ToStr(face[0]),GLMVec3ToStr(face[1]),GLMVec3ToStr(face[2]),GLMVec3ToStr(face[3]));
 }
 
+#define INDEX3D(x,y,z,size) (x+y*size+z*size*size)
+
 template <>
 void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
 {
     chk->meshData.Free();
+    //chk->meshData.indices.clear();
 
     uint32_t size=CHUNK_SIZE;
     MaskNode **mask=new MaskNode*[size];
     loop(i,CHUNK_SIZE) mask[i]=new MaskNode[size];
 
     glm::ivec3 face[4];
+    u16vec4 inds;
 
     glm::ivec2 qstart, qdims;
 
@@ -154,13 +186,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
     for(uint32_t dim=0; dim<6; dim++)
     {
         _clearMask(mask,size);
-        loopi(z, size)
+        loop(z, size)
         {
             switch(dim)
             {
             case 0: //z-
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -177,7 +209,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
             }
             case 1: //z+
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -193,7 +225,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
             }
             case 2: //y-
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -209,7 +241,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
             }
             case 3: //y+
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -225,7 +257,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
             }
             case 4: //x+
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -241,7 +273,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
             }
             case 5: //x-
             {
-                loopi(y,size) loopi(x,size)
+                loop(y,size) loop(x,size)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -282,6 +314,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[2]=glm::ivec3(qstart.x+qdims.x,   qstart.y,              z);
                             face[1]=glm::ivec3(qstart.x+qdims.x,   qstart.y+qdims.y,     z);
                             face[0]=glm::ivec3(qstart.x,            qstart.y+qdims.y,     z);
+
+                            inds=u16vec4(INDEX3D(qstart.x,            qstart.y+qdims.y,     z,size),
+                                         INDEX3D(qstart.x+qdims.x,   qstart.y+qdims.y,     z,size),
+                                         INDEX3D(qstart.x+qdims.x,   qstart.y,              z,size),
+                                         INDEX3D(qstart.x,            qstart.y,              z,size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -292,6 +331,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[1]=glm::ivec3(qstart.x+qdims.x,     qstart.y,           z+1);
                             face[2]=glm::ivec3(qstart.x+qdims.x,     qstart.y+qdims.y,   z+1);
                             face[3]=glm::ivec3(qstart.x,             qstart.y+qdims.y,   z+1);
+
+                            inds=u16vec4(INDEX3D(qstart.x,          qstart.y,           z+1,size),
+                                         INDEX3D(qstart.x+qdims.x,  qstart.y,           z+1,size),
+                                         INDEX3D(qstart.x+qdims.x,  qstart.y+qdims.y,   z+1,size),
+                                         INDEX3D(qstart.x,          qstart.y+qdims.y,   z+1,size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -302,6 +348,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[2]=glm::ivec3(qstart.x+qdims.x, z+1,                qstart.y);
                             face[1]=glm::ivec3(qstart.x+qdims.x, z+1,                qstart.y+qdims.y);
                             face[0]=glm::ivec3(qstart.x,         z+1,                qstart.y+qdims.y);
+
+                            inds=u16vec4(INDEX3D(qstart.x,         z+1,                qstart.y+qdims.y,           size),
+                                         INDEX3D(qstart.x+qdims.x, z+1,                qstart.y+qdims.y,           size),
+                                         INDEX3D(qstart.x+qdims.x, z+1,                qstart.y,   size),
+                                         INDEX3D(qstart.x,         z+1,                qstart.y,   size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -312,6 +365,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[1]=glm::ivec3(qstart.x+qdims.x, z,                  qstart.y);
                             face[2]=glm::ivec3(qstart.x+qdims.x, z,                  qstart.y+qdims.y);
                             face[3]=glm::ivec3(qstart.x,         z,                  qstart.y+qdims.y);
+
+                            inds=u16vec4(INDEX3D(qstart.x,              z,  qstart.y,           size),
+                                         INDEX3D(qstart.x+qdims.x,      z,  qstart.y,           size),
+                                         INDEX3D(qstart.x+qdims.x,      z,  qstart.y+qdims.y,   size),
+                                         INDEX3D(qstart.x,              z,  qstart.y+qdims.y,   size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -322,6 +382,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[2]=glm::ivec3(z+1,              qstart.y,           qstart.x+qdims.x);
                             face[1]=glm::ivec3(z+1,              qstart.y+qdims.y,   qstart.x+qdims.x);
                             face[0]=glm::ivec3(z+1,              qstart.y+qdims.y,   qstart.x);
+
+                            inds=u16vec4(INDEX3D(z+1,              qstart.y+qdims.y,   qstart.x,           size),
+                                         INDEX3D(z+1,              qstart.y+qdims.y,   qstart.x+qdims.x,   size),
+                                         INDEX3D(z+1,              qstart.y,           qstart.x+qdims.x,   size),
+                                         INDEX3D(z+1,              qstart.y,           qstart.x,           size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -332,6 +399,13 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
                             face[1]=glm::ivec3(z,                qstart.y,           qstart.x+qdims.x);
                             face[2]=glm::ivec3(z,                qstart.y+qdims.y,   qstart.x+qdims.x);
                             face[3]=glm::ivec3(z,                qstart.y+qdims.y,   qstart.x);
+
+                            inds=u16vec4(INDEX3D(z,qstart.y,          qstart.x,           size),
+                                         INDEX3D(z,qstart.y,          qstart.x+qdims.x,   size),
+                                         INDEX3D(z,qstart.y+qdims.y,  qstart.x+qdims.x,   size),
+                                         INDEX3D(z,qstart.y+qdims.y,  qstart.x,           size)
+                                        );
+
                             AddQuadToMesh(chk,face,mn.color);
                             faceCount++;
                             break;
@@ -351,6 +425,8 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
 
     if(faceCount==0)
         chk->meshData.empty=true;
+    else
+        chk->meshData.empty=false;
 
     chk->built=true;
 
@@ -359,7 +435,7 @@ void GreedyMeshBuilder::GreedyBuild(ChunkPtr chk)
     uint32_t colsize=chk->meshData.colors.size();
     uint32_t indsize=chk->meshData.indices.size();
 
-    //printf("Chunk data: o %d p %d c %d i %d\n",chk->offset,possize,colsize,indsize);
+    //printf("Faces: %u\nChunk data: o %d p %d c %d i %d\n",faceCount,chk->offset,possize,colsize,indsize);
 
 }
 
@@ -368,7 +444,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
 {
     u16vec3 m_size=vxm->_size;
     MaskNode **mask=new MaskNode*[m_size.x];
-    loopi(i,m_size.x) mask[i]=new MaskNode[m_size.y];
+    loop(i,m_size.x) mask[i]=new MaskNode[m_size.y];
 
     glm::ivec3 face[4];
 
@@ -379,13 +455,13 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
     for(uint32_t dim=0; dim<6; dim++)
     {
         _clearMask(mask,m_size);
-        loopi(z, m_size.z)
+        loop(z, m_size.z)
         {
             switch(dim)
             {
             case 0: //z-
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -401,7 +477,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 1: //z+
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -417,7 +493,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 2: //y-
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -433,7 +509,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 3: //y+
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -449,7 +525,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 4: //x+
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -465,7 +541,7 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
             }
             case 5: //x-
             {
-                loopi(y,m_size.y) loopi(x,m_size.x)
+                loop(y,m_size.y) loop(x,m_size.x)
                 {
                     MaskNode & n = mask[x][y];
 
@@ -483,9 +559,9 @@ void GreedyMeshBuilder::GreedyBuild(VoxelMesh* vxm)
                 break;
             }
 
-            loopi(y, m_size.y)
+            loop(y, m_size.y)
             {
-                loopi(x, m_size.x)
+                loop(x, m_size.x)
                 {
                     MaskNode& mn = mask[x][y];
                     if(mn)
