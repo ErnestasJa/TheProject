@@ -9,6 +9,8 @@
 class VoxMeshGrid;
 class GridMesh;
 
+class ParticleSystem;
+
 class GUIEnvironment;
 class GUIWindow;
 class GUIColorPicker;
@@ -26,7 +28,8 @@ class Camera;
 class VoxMeshEditorApp : public Application, public GUIEventListener
 {
 private:
-    ShaderPtr _defaultShader,_meshShader,_voxShader;
+    ShaderPtr _defaultShader,_meshShader,_voxShader,_particleShader;
+    ParticleSystem *_particleSystem;
     VoxMeshGrid * _grid;
     GridMesh * _axisGrid;
 

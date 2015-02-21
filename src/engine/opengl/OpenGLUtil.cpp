@@ -44,7 +44,7 @@ bool OpenGLUtil::check_and_output_errors()
         _logger->log(LOG_ERROR,"GL_ERROR: %s",gl_error_to_string(err).c_str());
 
         ///
-        assert(err==GL_NO_ERROR);
+        //assert(err==GL_NO_ERROR);
 
         ret = true;
     }

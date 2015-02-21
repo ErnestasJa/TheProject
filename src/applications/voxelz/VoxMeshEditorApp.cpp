@@ -20,6 +20,8 @@
 
 #include "Voxel/ChunkManager.h"
 
+#include "Game/ParticleSystem.h"
+
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
@@ -301,42 +303,49 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxMeshEditorApp::OnMouseKey));
     _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxMeshEditorApp::OnMouseMove));
 
-    _defaultShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/solid_unlit");
-    _meshShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/solid_unlit_tex");
-    _voxShader=(new shader_loader(_appContext->_logger))->load("res/engine/shaders/voxel");
+    shader_loader* shaderLoader=new shader_loader(_appContext->_logger);
+
+    _defaultShader=shaderLoader->load("res/engine/shaders/solid_unlit");
+    _meshShader=shaderLoader->load("res/engine/shaders/solid_unlit_tex");
+    _voxShader=shaderLoader->load("res/engine/shaders/voxel");
+    _particleShader=shaderLoader->load("res/engine/shaders/voxelparticle");
+
+    delete shaderLoader;
 
     _grid=new VoxMeshGrid(glm::vec3(128),8);
     _axisGrid=new GridMesh(1,128);
 
     _cam=new Camera(_appContext,glm::vec3(0,32,150),glm::vec3(0),glm::vec3(0,1,0));
 
-    mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
-    meshLoader->add_loader(new iqmloader(_appContext->_logger));
-    _iqmMesh=meshLoader->load("res/tree.iqm");
-    _iqmMesh->RecalculateAABB<glm::vec3>();
-
-    uint32_t gridSize=256;
-    if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
-    {
-        _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
-    }
-    glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
-    float scale=(float)(gridSize)/glm::abs(glm::max(glm::max(hs.x,hs.y),hs.z));
-    _iqmMesh->HardScale<glm::vec3>(glm::vec3(scale));
-    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
-
-    AABB bb=_iqmMesh->aabb;
-    boxes.push_back(new CubeMesh(_iqmMesh->aabb));
-
-    //_voxMesh=new VoxelMesh(u16vec3(gridSize));
-
-    vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
-    printf("Total triangles: %u\n",vec.size());
+//    mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
+//    meshLoader->add_loader(new iqmloader(_appContext->_logger));
+//    _iqmMesh=meshLoader->load("res/mill.iqm");
+//    _iqmMesh->RecalculateAABB<glm::vec3>();
+//
+//    uint32_t gridSize=1;
+//    if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
+//    {
+//        _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
+//    }
+//    glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
+//    float scale=(float)(gridSize)/glm::abs(glm::max(glm::max(hs.x,hs.y),hs.z));
+//    _iqmMesh->HardScale<glm::vec3>(glm::vec3(scale));
+//    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
+//
+//    AABB bb=_iqmMesh->aabb;
+//    boxes.push_back(new CubeMesh(_iqmMesh->aabb));
+//
+//    //_voxMesh=new VoxelMesh(u16vec3(gridSize));
+//
+//    vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
+//    printf("Total triangles: %u\n",vec.size());
 
     //VoxelizeMesh(vec,_voxMesh);
-    cmg=new ChunkManager();
-    VoxelizeMesh(vec,cmg);
-    cmg->FlagGenerated();
+    //cmg=new ChunkManager();
+    //VoxelizeMesh(vec,cmg);
+    //cmg->FlagGenerated();
+
+    _particleSystem=new ParticleSystem();
 
     //_voxMesh->UpdateMesh();
 
@@ -361,6 +370,7 @@ bool VoxMeshEditorApp::Update()
         _appContext->_timer->tick();
         float dt=(float)_appContext->_timer->get_delta_time()/1000.f;
         _cam->Update(dt);
+        _particleSystem->Update(dt);
         HandleMovement(dt);
 
         glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
@@ -384,18 +394,23 @@ bool VoxMeshEditorApp::Update()
             b->Render(true);
         }
 
-        if(_guiSwitches["showOrigMesh"])
-        {
-            MVar<glm::mat4>(0, "mvp", MVP).Set();
-            _iqmMesh->Render();
-        }
+//        if(_guiSwitches["showOrigMesh"])
+//        {
+//            MVar<glm::mat4>(0, "mvp", MVP).Set();
+//            _iqmMesh->Render();
+//        }
 
-        if(_guiSwitches["showVoxMesh"])
-        {
-            _voxShader->Set();
-            MVar<glm::mat4>(0, "mvp", MVP).Set();
-            cmg->Render(_cam,_voxShader,_guiSwitches["wireVoxMesh"]);
-        }
+//        if(_guiSwitches["showVoxMesh"])
+//        {
+//            _voxShader->Set();
+//            MVar<glm::mat4>(0, "mvp", MVP).Set();
+//            cmg->Render(_cam,_voxShader,_guiSwitches["wireVoxMesh"]);
+//        }2
+        _particleShader->Set();
+        if(_particleShader->getparam("M")!=-1) MVar<glm::mat4>(_particleShader->getparam("M"), "M", glm::mat4(1.f)).Set();
+        if(_particleShader->getparam("V")!=-1) MVar<glm::mat4>(_particleShader->getparam("V"), "V", _cam->GetViewMat()).Set();
+        if(_particleShader->getparam("P")!=-1) MVar<glm::mat4>(_particleShader->getparam("P"), "P", _cam->GetProjectionMat()).Set();
+        _particleSystem->Render(_appContext->_glUtil);
 
         glDisable(GL_DEPTH_TEST);
         _guiEnv->Render();
@@ -449,6 +464,8 @@ void VoxMeshEditorApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action
     }
 }
 
+bool draggingMouse;
+
 void VoxMeshEditorApp::OnMouseMove(double x, double y)
 {
 
@@ -456,7 +473,24 @@ void VoxMeshEditorApp::OnMouseMove(double x, double y)
 
 void VoxMeshEditorApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
-
+    switch(button)
+    {
+    case GLFW_MOUSE_BUTTON_1:
+        switch(action)
+        {
+        case GLFW_PRESS:
+            draggingMouse=true;
+            break;
+        case GLFW_RELEASE:
+            draggingMouse=false;
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 bool VoxMeshEditorApp::OnEvent(const GUIEvent& e)

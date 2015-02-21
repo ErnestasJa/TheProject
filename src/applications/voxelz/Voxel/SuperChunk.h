@@ -153,7 +153,6 @@ public:
             {
                 if(!a.second->generated)
                 {
-                    //printf("Generate\n");
                     Generate(a.second);
                     chunksPerFrame++;
                 }
@@ -174,13 +173,11 @@ public:
                     {
                         if(_chunks[glm::ivec3(x,y,z)]->generated&&!_chunks[glm::ivec3(x,y,z)]->built)
                         {
-                            //printf("Build\n");
                             GreedyMeshBuilder::GreedyBuild(_chunks[glm::ivec3(x,y,z)]);
                             chunksPerFrame++;
                         }
                         else if(_chunks[glm::ivec3(x,y,z)]->generated&&_chunks[glm::ivec3(x,y,z)]->built&&!_chunks[glm::ivec3(x,y,z)]->uploaded)
                         {
-                            //printf("Upload\n");
                             UpdateChunkData(_chunks[glm::ivec3(x,y,z)]);
                             chunksPerFrame++;
                         }
@@ -255,6 +252,7 @@ public:
         {
             AddChunk(chunkCoords,_offsetTrack);
             _offsetTrack=_offsetTrack+CHUNK_MESH_SIZE;
+            _chunks[chunkCoords]->generated=true;
             _chunks[chunkCoords]->SetBlock(voxelCoords.x,voxelCoords.y,voxelCoords.z,type,active);
         }
     }
@@ -299,11 +297,6 @@ public:
         {
             if(_chunks.count(chunkCoords)!=0)
                 return _chunks[chunkCoords];
-            else
-            {
-                AddChunk(chunkCoords);
-                return _chunks[chunkCoords];
-            }
         }
         return nullptr;
     }

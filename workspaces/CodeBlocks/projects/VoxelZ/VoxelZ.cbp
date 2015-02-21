@@ -14,12 +14,12 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-pg" />
+					<Add option="-g" />
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
 					<Add library="engined" />
 					<Add library="boost_system-mgw49-mt-1_57" />
 					<Add library="BulletDynamics" />
@@ -39,6 +39,7 @@
 					<Add option="-O3" />
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -61,6 +62,7 @@
 					<Add option="-g" />
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
 					<Add library="engined" />
@@ -100,6 +102,7 @@
 					<Add option="-O3" />
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -176,6 +179,8 @@
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/Entity.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/physics/Physics.h" />
 		<Unit filename="../../../../src/applications/voxelz/physics/cmotion_state.h" />
