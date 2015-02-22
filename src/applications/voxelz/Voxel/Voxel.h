@@ -8,19 +8,14 @@ struct Voxel
     Voxel()
     {
         active=false;
-        color=u8vec4(255);
+        transparent=false;
+        solid=false;
+        color=VecRGBToIntRGB(u8vec3(255));
     }
-
-    Voxel(const Voxel& other) = delete;
-    Voxel& operator= (const Voxel& other)
-    {
-        active=other.active;
-        color=other.color;
-        return *this;
-    }
-
     bool active;
-    u8vec4 color;
+    bool transparent;
+    bool solid;
+    intRGBA color;
 };
 
 #endif // VOXEL_H_INCLUDED

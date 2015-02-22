@@ -9,7 +9,7 @@
 class GridMesh:public Mesh
 {
 public:
-    GridMesh(float density,uint32_t size=256,uint32_t gridlines=16,bool drawSections=false)
+    GridMesh(float density,uint32_t size=256,uint32_t gridlines=16)
     {
         BufferObject<glm::vec3> *pos=new BufferObject<glm::vec3>();
         BufferObject<glm::vec4> *col=new BufferObject<glm::vec4>();
@@ -49,7 +49,7 @@ public:
         col->data.push_back(glm::vec4(0.5,0.5,1,1));
         col->data.push_back(glm::vec4(0.5,0.5,1,1));
 
-        loop(i,size)
+        for(uint32_t i=0; i<=size; i++)
         {
             if(i!=halfsize)
             {
@@ -80,19 +80,13 @@ public:
                     col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
                     col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
                 }
-
-                if(drawSections&&i%gridlines==0)
-                {
-                    pos->data.push_back(glm::vec3(0,-halfsize,-halfsize+i*density));
-                    pos->data.push_back(glm::vec3(0,halfsize,-halfsize+i*density));
-                    pos->data.push_back(glm::vec3(-halfsize+i*density,-halfsize,0));
-                    pos->data.push_back(glm::vec3(-halfsize+i*density,halfsize,0));
-                    col->data.push_back(glm::vec4(1,1,1,1));
-                    col->data.push_back(glm::vec4(1,1,1,1));
-                    col->data.push_back(glm::vec4(1,1,1,1));
-                    col->data.push_back(glm::vec4(1,1,1,1));
-                }
-
+            }
+            else if(i==size)
+            {
+                pos->data.push_back(glm::vec3(-halfsize+i*density,0,-halfsize));
+                pos->data.push_back(glm::vec3(-halfsize+i*density,0,halfsize));
+                col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
+                col->data.push_back(glm::vec4(0.75,0.75,0.75,1));
             }
         }
 

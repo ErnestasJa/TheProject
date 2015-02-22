@@ -12,6 +12,9 @@
 #include "Voxel/Chunk.h"
 #include "Voxel/ChunkManager.h"
 #include "gui/GUI.h"
+#include "boost/pool/object_pool.hpp"
+#include "Voxel/VoxelSprite.h"
+#include "resources/ImageLoader.h"
 
 VoxelzProfilingApp::VoxelzProfilingApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -25,74 +28,50 @@ VoxelzProfilingApp::~VoxelzProfilingApp()
 
 static ChunkManager *chkmgr;
 static AppContext *ctx;
-static const int ManyChunksWidth = 2;
-static const int ManyChunksHeight = 2;
+static const int ManyChunksWidth = 16;
+static const int ManyChunksHeight = 16;
 
 #define BEGIN_BENCHMARK ctx->_timer->tick();
 #define END_BENCHMARK(name) ctx->_timer->tick(); \
                       printf("Benchmarking %s is over. It took: %d ms.\n",(name),ctx->_timer->get_delta_time());
+#define BENCHMARK_INTERRUPT std::cout << "Enter c to continue" << std::endl; while(std::cin.get()!='c') {}
 
 static void AddSingleChunk()
 {
     BEGIN_BENCHMARK
-    chkmgr->AddChunk(glm::vec3(0,0,0))->Fill();
     END_BENCHMARK("AddSingleChunk")
 }
 
 static void AddManyChunks()
 {
     BEGIN_BENCHMARK
-    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
-        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
-            for(int y=0; y<ManyChunksHeight; y++)
-                chkmgr->AddChunk(glm::vec3(x,y,z))->Fill();
     END_BENCHMARK("AddManyChunks")
 }
 
 static void SingleChunkRebuild()
 {
     BEGIN_BENCHMARK
-    chkmgr->GetChunk(glm::vec3(0,0,0))->Rebuild();
     END_BENCHMARK("RebuildSingle")
 }
 
 static void AllChunksRebuild()
 {
     BEGIN_BENCHMARK
-    for(int x=-ManyChunksWidth/2; x<ManyChunksWidth/2; x++)
-        for(int z=-ManyChunksWidth/2; z<ManyChunksWidth/2; z++)
-            for(int y=0; y<ManyChunksHeight; y++)
-                chkmgr->GetChunk(glm::vec3(x,y,z))->Rebuild();
     END_BENCHMARK("RebuildAll")
+}
+
+static void RemoveManyChunks()
+{
+    BEGIN_BENCHMARK
+    END_BENCHMARK("AddManyChunks")
 }
 
 void VoxelzProfilingApp::Benchmark()
 {
-    //AddSingleChunk();
-
-    //SingleChunkRebuild();
-
-    //AddManyChunks();
-
-    //AllChunksRebuild();
-
-    u8vec4 col;
-
-    vector<u8vec4> vec;
-    vec.resize(100000000);
-
     BEGIN_BENCHMARK
-    loop(i,100000000)
-    vec[i]=(u8vec4(255,255,255,255));
-    END_BENCHMARK("SHIT")
-
-    vector<u8vec4> vec2;
-    vec2.reserve(100000000);
-    BEGIN_BENCHMARK
-    loop(i,100000000)
-    vec2.push_back(std::move(u8vec4(255,255,255,255)));
-    END_BENCHMARK("SHIT")
-
+    image_loader* loader=new image_loader(ctx->_logger);
+    VoxelSprite::LoadFromImage(loader->load("res/masterracesubtle.png"),1);
+    END_BENCHMARK("fullhdimagegen")
 }
 
 bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -106,7 +85,7 @@ bool VoxelzProfilingApp::Init(const std::string & title, uint32_t width, uint32_
     glClearColor(0.5,0.5,0.7,0);
 
     BEGIN_BENCHMARK
-    chkmgr=new ChunkManager();
+    //chkmgr=new ChunkManager();
     END_BENCHMARK("chkmgr gen")
 
     printf("\n\n--------------------------------\nPROFILE ME TIMBERS!\n--------------------------------\n");

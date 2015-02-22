@@ -5,15 +5,15 @@
 template <typename T>
 class Rect2D;
 
-class gui_button;
-class gui_window:public GUIElement
+class GUIButton;
+class GUIWindow:public GUIElement
 {
 private:
     bool clip,showclose,modal,dragging,movable;
     std::wstring titlebar_text;
 
     glm::mat4 m_transform;
-    gui_button* close_btn;
+    GUIButton* close_btn;
 
 
     glm::vec2 mp,dif,ds;
@@ -21,8 +21,8 @@ private:
 
     Rect2D<int> tbr,bgr;
 public:
-    gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text=L"Window", bool clip=true, bool showclose=true, bool modal=false, bool movable=true);
-    virtual ~gui_window();
+    GUIWindow(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text=L"Window", bool clip=true, bool showclose=true, bool modal=false, bool movable=true);
+    virtual ~GUIWindow();
 
     void Render();
 

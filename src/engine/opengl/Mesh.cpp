@@ -48,9 +48,10 @@ Mesh::Mesh(): vao(0), anim(nullptr)
 }
 Mesh::~Mesh()
 {
+    glBindVertexArray(vao);
     for(IBufferObject * b : buffers)
-        if(b)
-            delete b;
+        delete b;
+    glDeleteVertexArrays(1,&vao);
 }
 
 void Mesh::Init()

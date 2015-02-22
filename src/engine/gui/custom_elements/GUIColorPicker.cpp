@@ -19,7 +19,7 @@ GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions, bool
 
     if(drawbackground)
     {
-        bg=new gui_pane(env,Rect2D<int>(0,0,dimensions.w+64+16,dimensions.h+32));
+        bg=new GUIPane(env,Rect2D<int>(0,0,dimensions.w+64+16,dimensions.h+32));
         bg->SetParent(this);
         bg->SetListening(false);
     }
@@ -29,28 +29,31 @@ GUIColorPicker::GUIColorPicker(GUIEnvironment* env, Rect2D<int> dimensions, bool
     texBuf=share(new Texture());
     texBuf->Init(imgBuf);
 
-    picker=new gui_image(env,Rect2D<int>(16,16,dimensions.w,dimensions.h),texBuf);
+    picker=new GUIImage(env,Rect2D<int>(16,16,dimensions.w,dimensions.h),texBuf);
     picker->SetParent(this);
     picker->SetListening(true);
 
     image_loader* ldr=new image_loader(env->GetContext()->_logger);
     TexturePtr cursorTex=share(new Texture());
     cursorTex->Init(ldr->load("res/gui/images/cpcurs.png"));
-    cursor=new gui_image(env,Rect2D<int>(cursorPos.x,cursorPos.y,8,8),cursorTex);
+    cursor=new GUIImage(env,Rect2D<int>(cursorPos.x,cursorPos.y,8,8),cursorTex);
     cursor->SetParent(picker);
     cursor->SetListening(false);
 
-    sat=new gui_slider(env,Rect2D<int>(16,dimensions.h+16+4,dimensions.w,8),0,1,1,false);
+    sat=new GUISlider(env,Rect2D<int>(16,dimensions.h+16+4,dimensions.w,8),0,1,1,false);
     sat->SetParent(this);
 
-    ebR=new gui_edit_box(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+32,32,16),L"255",glm::vec4(1,0,0,1));
+    ebR=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+32,32,16),L"255",glm::vec4(1,0,0,1));
     ebR->SetParent(picker);
-    ebG=new gui_edit_box(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+56,32,16),L"255",glm::vec4(0,1,0,1));
+    ebR->SetMaxLength(3);
+    ebG=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+56,32,16),L"255",glm::vec4(0,1,0,1));
     ebG->SetParent(picker);
-    ebB=new gui_edit_box(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+80,32,16),L"255",glm::vec4(0,0,1,1));
+    ebG->SetMaxLength(3);
+    ebB=new GUIEditBox(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+80,32,16),L"255",glm::vec4(0,0,1,1));
     ebB->SetParent(picker);
+    ebB->SetMaxLength(3);
 
-    btnSet=new gui_button(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+104,32,16),L"Set");
+    btnSet=new GUIButton(env,Rect2D<int>(picker->GetRelativeRect().w+16,picker->GetRelativeRect().y+104,32,16),L"Set");
     btnSet->SetParent(picker);
 
     GenerateHSVMap(sat->get_value());
@@ -142,6 +145,12 @@ void GUIColorPicker::UpdateValues()
 glm::vec4 GUIColorPicker::GetColorRGB()
 {
     return colRGB;
+}
+
+void GUIColorPicker::SetColorRGB(uint8_t r, uint8_t g, uint8_t b)
+{
+    colRGB=glm::vec4(r,g,b,255);
+    glm::vec3 hsv=helpers::rgb2hsv(r,g,b);
 }
 
 void GUIColorPicker::Render()

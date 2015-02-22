@@ -47,9 +47,26 @@ struct sub_mesh
     uint32_t start, num_indices;
 };
 
-struct IBufferObject;
-struct Mesh
+template <typename T>
+struct Triangle
 {
+    Triangle()
+    {
+        points.resize(3);
+        normal=glm::vec3(0);
+    }
+    ~Triangle()
+    {
+        points.clear();
+    }
+    vector<T> points;
+    glm::vec3 normal;
+};
+
+struct IBufferObject;
+class Mesh
+{
+public:
     enum BUFFER_OBJECT_INDEX
     {
         POSITION     = 0,
@@ -81,11 +98,90 @@ struct Mesh
     void render_lines();
     void render_triangle_strip();
     void UploadBuffers();
+
+    template <typename T, typename U>
+    vector<Triangle<T> > GetTriangles();
+
+    template <typename T>
+    void HardScale(const glm::vec3& scale);
+
+    template <typename T>
+    void HardMove(const glm::vec3& trans);
+
+    template<typename T>
+    void UploadBufferSubData(BUFFER_OBJECT_INDEX ind,vector<T> subdata,uint32_t offset);
+
     void free();
 
     template <class T>
     void RecalculateAABB();
 };
+
+template <typename T,typename U>
+vector<Triangle<T> > Mesh::GetTriangles()
+{
+    vector<Triangle<T> > vec;
+    Triangle<T> tri;
+
+    BufferObject<T>* vbo=(BufferObject<T>*)this->buffers[Mesh::POSITION];
+    BufferObject<glm::vec3>* nbo=(BufferObject<glm::vec3>*)this->buffers[Mesh::NORMAL];
+    IndexBufferObject<U>* ibo=(IndexBufferObject<U>*)this->buffers[Mesh::INDICES];
+
+    auto ibodata=ibo->data;
+    auto vbodata=vbo->data;
+    auto nbodata=nbo->data;
+
+    for(uint32_t i=0; i<ibo->data.size(); i+=3)
+    {
+        tri.points[0]=vbodata[ibodata[i]];
+        tri.points[1]=vbodata[ibodata[i+1]];
+        tri.points[2]=vbodata[ibodata[i+2]];
+
+        glm::vec3 u=tri.points[1]-tri.points[0];
+        glm::vec3 v=tri.points[2]-tri.points[0];
+
+        glm::vec3 norm((u.y*v.z)-(u.z*v.y),
+                       (u.z*v.x)-(u.x*v.z),
+                       (u.x*v.y)-(u.y*v.x));
+
+        norm=glm::normalize(norm);
+        tri.normal=norm;
+
+        vec.push_back(tri);
+    }
+
+    return vec;
+}
+
+template <typename T>
+void Mesh::HardScale(const glm::vec3& scale)
+{
+    BufferObject<T> *verts=(BufferObject<T> *)this->buffers[Mesh::POSITION];
+
+    loop(i,verts->data.size())
+    {
+        verts->data[i]=verts->data[i]*scale;
+    }
+
+    UploadBuffers();
+
+    RecalculateAABB<T>();
+}
+
+template <typename T>
+void Mesh::HardMove(const glm::vec3& trans)
+{
+    BufferObject<T> *verts=(BufferObject<T> *)this->buffers[Mesh::POSITION];
+
+    loop(i,verts->data.size())
+    {
+        verts->data[i]=verts->data[i]+trans;
+    }
+
+    UploadBuffers();
+
+    RecalculateAABB<T>();
+}
 
 template <class T>
 void Mesh::RecalculateAABB()
@@ -103,6 +199,25 @@ void Mesh::RecalculateAABB()
     }
     else
         aabb.Reset(static_cast<glm::vec3>(T()));
+}
+
+template <class T>
+void Mesh::UploadBufferSubData(BUFFER_OBJECT_INDEX ind,vector<T> subdata,uint32_t offset)
+{
+    glBindVertexArray(vao);
+
+    for(uint32_t i = 0; i < buffers.size(); i++)
+    {
+        if(buffers[i])
+        {
+            if(i==ind)
+            {
+                BufferObject<T>* bufferino=(BufferObject<T>*)buffers[i];
+                bufferino->UploadSubData(subdata,offset);
+            }
+        }
+    }
+    glBindVertexArray(0);
 }
 
 typedef std::shared_ptr<Mesh> MeshPtr;

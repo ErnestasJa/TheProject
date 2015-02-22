@@ -2,10 +2,12 @@
 
 #include "application/Application.h"
 #include "application/ApplicationLauncher.h"
-#include "VoxelzApp.h"
-#include "VoxelzProfilingApp.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
+
+#include "VoxelzApp.h"
+#include "VoxelzProfilingApp.h"
+#include "VoxMeshEditorApp.h"
 
 #define APP(AppName) [](int argc, const char ** argv)->Application*{ return new AppName(argc,argv);}
 
@@ -35,6 +37,7 @@ int main(int argc, const char ** argv)
 {
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("VoxelZ application", APP(VoxelzApp));
+    appLauncher.RegisterApplication("VoxMeshEditor application", APP(VoxMeshEditorApp));
     appLauncher.RegisterApplication("VoxelZ profiling application", APP(VoxelzProfilingApp));
 
     char choice = ShowAppMenu(appLauncher);

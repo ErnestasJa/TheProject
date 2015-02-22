@@ -136,7 +136,7 @@ if easygui.boolbox(msg='Would you like to copy all libraries?', title='Compile b
     matches = []
     shared_matches = []
     
-    directories = ["build", "libs/python", "libs/irrKlang-1.5.0"]
+    directories = ["build", "libs/python", "libs/irrKlang-1.5.0", "libs/bullet" ]
 
     #copy static libs
     for directory in directories:

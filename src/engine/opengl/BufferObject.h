@@ -9,9 +9,15 @@ struct BufferObject: public IBufferObject
 {
     vector<T> data;
 
+    virtual ~BufferObject()
+    {
+        data.clear();
+    }
+
     //void Init_buffers();
     virtual void Init();
     virtual void Upload();
+    virtual void UploadSubData(vector<T> subdata,uint32_t offset);
 
     virtual IBufferObject::IBO_TYPE GetType(){return IBufferObject::DATA;}
     virtual uint32_t GetDataType();
@@ -23,6 +29,11 @@ template <class T>
 struct IndexBufferObject: public IBufferObject
 {
     vector<T> data;
+
+    virtual ~IndexBufferObject()
+    {
+        data.clear();
+    }
 
     //void Init_buffers();
     virtual void Init();

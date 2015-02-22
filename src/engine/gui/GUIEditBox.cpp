@@ -6,12 +6,12 @@
 #include "GUIEditBox.h"
 #include "font_rendering/Font.h"
 
-gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):GUIElement(env,dimensions)
+GUIEditBox::GUIEditBox(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text, glm::vec4 text_color, bool drawbackground, bool drawshadow, bool clearonsubmit):GUIElement(env,dimensions)
 {
     this->Type=GUIET_EDITBOX;
     environment=env;
 
-    blinktimer=curspos=lastkey=reptimer=sx=0;
+    blinktimer=curspos=lastkey=reptimer=sx=maxlength=0;
     font_size=env->get_font_renderer()->GetCurrentFont()->avgheight;
 
     absolute_rect=dimensions;
@@ -31,11 +31,11 @@ gui_edit_box::gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wst
     this->SetParent(env);
 }
 
-gui_edit_box::~gui_edit_box()
+GUIEditBox::~GUIEditBox()
 {
 }
 
-void gui_edit_box::Render()
+void GUIEditBox::Render()
 {
     blinktimer++;
 
@@ -75,22 +75,27 @@ void gui_edit_box::Render()
     glEnable(GL_SCISSOR_TEST);
     glScissor(absolute_rect.x, environment->GetAbsoluteRect().h - (absolute_rect.y + absolute_rect.h), absolute_rect.w, absolute_rect.h);
 
-        fr->RenderString(m_text,glm::vec2(_mx + sx, _my));
+        fr->RenderString(L"['s]"+m_text+L"[s']",glm::ivec2(_mx + sx, _my));
         if(focused&&blink)
-            fr->RenderString(L"l",glm::vec2(_mx-1 + sx + fr->GetTextDimensions(m_text.substr(0,curspos)).x,_my));
+            fr->RenderString(L"['s]|[s']",glm::ivec2(_mx-1 + sx + fr->GetTextDimensions(m_text.substr(0,curspos)).x,_my-2));
 
     glDisable(GL_SCISSOR_TEST);
 
     this->RenderChildren();
 }
 
-void gui_edit_box::set_text(const std::wstring &text)
+void GUIEditBox::set_text(const std::wstring &text)
 {
     this->m_text=text;
     curspos=text.length();
 }
 
-bool gui_edit_box::OnEvent(const GUIEvent & e)
+void GUIEditBox::SetMaxLength(uint32_t length)
+{
+    maxlength=length;
+}
+
+bool GUIEditBox::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -106,12 +111,14 @@ bool gui_edit_box::OnEvent(const GUIEvent & e)
             break;
 
         case key_typed:
+            if(maxlength==0||m_text.length()<maxlength)
+            {
             lastkey=environment->get_last_char();
             //printf("lastchar:%lc %lc\n",lastkey,'è');
             temp=L"";
             temp+=lastkey;
             add_text(curspos,temp);
-
+            }
             break;
 
         case key_pressed:
@@ -161,7 +168,7 @@ bool gui_edit_box::OnEvent(const GUIEvent & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_edit_box::add_text(int32_t index,std::wstring text)
+void GUIEditBox::add_text(int32_t index,std::wstring text)
 {
     curspos=index;
 
@@ -173,7 +180,7 @@ void gui_edit_box::add_text(int32_t index,std::wstring text)
     curspos+=text.length();
 }
 
-void gui_edit_box::remove_text(int32_t index, int32_t length)
+void GUIEditBox::remove_text(int32_t index, int32_t length)
 {
     if(index>0&&index-length>=0)
     {

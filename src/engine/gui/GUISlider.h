@@ -5,7 +5,7 @@
 template <typename T>
 class Rect2D;
 
-class gui_slider:public GUIElement
+class GUISlider:public GUIElement
 {
 private:
     float m_min, m_max, m_cur_value, m_old_value, m_slider_pos;
@@ -14,8 +14,8 @@ private:
     void handle_mouse();
     float range(){return m_max-m_min;};
 public:
-    gui_slider(GUIEnvironment* env, Rect2D<int> dimensions, float min, float max, float pos, bool vertical=false);
-    virtual ~gui_slider();
+    GUISlider(GUIEnvironment* env, Rect2D<int> dimensions, float min, float max, float pos, bool vertical=false);
+    virtual ~GUISlider();
 
     virtual void Render();
 

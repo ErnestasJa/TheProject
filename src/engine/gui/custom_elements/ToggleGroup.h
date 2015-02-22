@@ -4,14 +4,14 @@
 
 class toggle_group
 {
-    vector<gui_button*> elements;
+    vector<GUIButton*> elements;
     bool multitoggle;
     int m_current_toggle;
 
-    bool toggle(gui_button* btn)
+    bool toggle(GUIButton* btn)
     {
         bool success=false;
-        for(gui_button* el:elements)
+        for(GUIButton* el:elements)
         {
             if(this->multitoggle)
             {
@@ -40,18 +40,18 @@ public:
         this->multitoggle=multitoggle;
     }
 
-    toggle_group(vector<gui_button*> predef,bool multitoggle=false,int deftoggle=0)
+    toggle_group(vector<GUIButton*> predef,bool multitoggle=false,int deftoggle=0)
     {
         this->multitoggle=multitoggle;
         elements=predef;
     }
 
-    void add(gui_button* btn)
+    void add(GUIButton* btn)
     {
         elements.push_back(btn);
     }
 
-    gui_button* get_toggle()
+    GUIButton* get_toggle()
     {
         return elements[m_current_toggle];
     }

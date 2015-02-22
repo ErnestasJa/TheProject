@@ -14,13 +14,14 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-pg" />
+					<Add option="-g" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg -lgmon" />
-					<Add option="-pg" />
 					<Add library="engined" />
+					<Add library="boost_system-mgw49-mt-1_57" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -34,10 +35,13 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="engine" />
+					<Add library="boost_system-mgw49-mt-1_57" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -51,6 +55,8 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
 					<Add library="engined" />
@@ -72,6 +78,10 @@
 					<Add library="z" />
 					<Add library="tinyxml2_lib" />
 					<Add library="stb_image_lib" />
+					<Add library="boost_system" />
+					<Add library="BulletDynamics" />
+					<Add library="BulletCollision" />
+					<Add library="LinearMath" />
 					<Add directory="../../../../libs/linux" />
 				</Linker>
 			</Target>
@@ -83,14 +93,14 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
-					<Add option="-pg" />
 					<Add directory="src/engine/application" />
+					<Add directory="src/applications/voxelz" />
+					<Add directory="src/applications/voxelz/game" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
-					<Add library="engined" />
+					<Add option="-s" />
+					<Add library="engine" />
 					<Add library="libglfw3" />
 					<Add library="X11" />
 					<Add library="GL" />
@@ -109,13 +119,16 @@
 					<Add library="z" />
 					<Add library="tinyxml2_lib" />
 					<Add library="stb_image_lib" />
+					<Add library="boost_system" />
+					<Add library="BulletDynamics" />
+					<Add library="BulletCollision" />
+					<Add library="LinearMath" />
 					<Add directory="../../../../libs/linux" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-std=c++11" />
-			<Add option="-Wall" />
 			<Add directory="../../../../src/engine" />
 			<Add directory="../../../../src/applications/voxelz" />
 			<Add directory="../../../../libs/boost" />
@@ -128,17 +141,26 @@
 			<Add directory="../../../../libs/physfs" />
 			<Add directory="../../../../libs/stb_image" />
 			<Add directory="../../../../libs/tinyxml2/src" />
+			<Add directory="../../../../libs/bullet/src" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="../../../../res" />
 		</ResourceCompiler>
+		<Unit filename="../../../../src/applications/voxelz/TemplateApp.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/TemplateApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshEditorApp.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshEditorApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/VoxMeshGrid.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Block.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Chunk.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/ChunkManager.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/ChunkManager.h" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/GreedyMeshBuilder.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/GreedyMeshBuilder.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/SimplexNoise.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/SimplexNoise.h" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/SuperChunk.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/Voxel.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/VoxelMesh.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/VoxelMesh.h" />
@@ -150,7 +172,22 @@
 		<Unit filename="../../../../src/applications/voxelz/VoxelzApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/Entity.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/physics/Physics.h" />
+		<Unit filename="../../../../src/applications/voxelz/physics/cmotion_state.h" />
+		<Unit filename="../../../../src/applications/voxelz/physics/icollision_handler.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../../../../src/applications/voxelz/physics/icollision_handler.h" />
+		<Unit filename="../../../../src/applications/voxelz/physics/physics_manager.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../../../../src/applications/voxelz/physics/physics_manager.h" />
 		<Unit filename="../../../../src/applications/voxelz/resources.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

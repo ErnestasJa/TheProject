@@ -8,98 +8,102 @@
 #include "resources/ResourceCache.h"
 #include <boost/foreach.hpp>
 
-static u8vec4 getTypeCol(uint32_t typ)
-{
-    switch(typ)
-    {
-    case EBT_VOIDROCK:
-        return u8vec4(0,0,0,255);
-        break;
-    case EBT_STONE:
-        return u8vec4(128,128,128,255);
-        break;
-    case EBT_SAND:
-        return u8vec4(192,192,64,255);
-        break;
-    case EBT_DIRT:
-        return u8vec4(64,64,0,255);
-        break;
-    case EBT_GRASS:
-        return u8vec4(0,128,0,255);
-        break;
-    case EBT_LEAF:
-        return u8vec4(0,192,0,255);
-        break;
-    case EBT_WOOD:
-        return u8vec4(128,128,0,255);
-        break;
-    case EBT_WATER:
-        return u8vec4(0,0,128,128);
-        break;
-    default:
-        return u8vec4(255,255,255,255);
-        break;
-    }
-}
+const Block Chunk::EMPTY_BLOCK=Block();
 
-Chunk::Chunk(ChunkManager *chunkManager, glm::vec3 chunkPos):VoxelMesh(CHUNK_SIZE)//,m_pBlocks(boost::extents[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE])
+Chunk::Chunk(ChunkManager *chunkManager,const glm::ivec3 &position, const uint32_t & offset)
 {
+    _chunkManager = chunkManager;
+    this->position = position;
+    this->offset=offset;
+
     // Create the blocks
-    m_chunkManager = chunkManager;
-    m_chunkPos = chunkPos;
+    _blocks.reserve(CHUNK_BLOCK_SIZE);
+    loop(i,CHUNK_BLOCK_SIZE)
+    {
+        _blockIndices[i]=-1;
+    }
+
+
+    empty=true;
+    generated=built=uploaded=false;
 
     leftN=rightN=botN=topN=backN=frontN=nullptr;
 }
 
 Chunk::~Chunk()
 {
-    Cleanup();
+    freeVector(_blocks);
 }
 
-void Chunk::UpdateNeighbours()
+void Chunk::UpdateNeighbours(uint32_t x, uint32_t y, uint32_t z)
 {
-    if(leftN) leftN->Rebuild();
-    if(rightN) rightN->Rebuild();
-    if(botN) botN->Rebuild();
-    if(topN) topN->Rebuild();
-    if(backN) backN->Rebuild();
-    if(frontN) frontN->Rebuild();
-}
-
-void Chunk::Rebuild()
-{
-    Cleanup();
-
-    for (int x = 0; x < CHUNK_SIZE; x++)
+    if(x==0&&leftN!=nullptr)
     {
-        for (int z = 0; z < CHUNK_SIZE; z++)
-        {
-            for (int y = 0; y < CHUNK_SIZE; y++)
-            {
-                if(!m_pBlocks[x][y][z].active) continue;
-                CreateVox(x,y,z,getTypeCol(m_pBlocks[x][y][z].type));
-            }
-        }
+        leftN->built=false;
+        leftN->uploaded=false;
+    }
+    if(x==CHUNK_SIZE-1&&rightN!=nullptr)
+    {
+        leftN->built=false;
+        leftN->uploaded=false;
     }
 
-    UpdateMesh();
+    if(y==0&&botN!=nullptr)
+    {
+        botN->built=false;
+        botN->uploaded=false;
+    }
+    if(y==CHUNK_SIZE-1&&topN!=nullptr)
+    {
+        topN->built=false;
+        topN->uploaded=false;
+    }
 
-    m_dirty=false;
+    if(z==0&&backN!=nullptr)
+    {
+        backN->built=false;
+        backN->uploaded=false;
+    }
+    if(z==CHUNK_SIZE-1&&frontN!=nullptr)
+    {
+        frontN->built=false;
+        frontN->uploaded=false;
+    }
 }
 
-void Chunk::Set(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
+void Chunk::SetBlock(uint32_t x,uint32_t y,uint32_t z,EBlockType type,bool active)
 {
-    m_pBlocks[x][y][z].active=active;
-    m_pBlocks[x][y][z].type=type;
-    m_pBlocks[x][y][z].color=getTypeCol(type);
-    m_dirty=true;
+    if(x<0||x>=CHUNK_SIZE||y<0||y>=CHUNK_SIZE||z<0||z>=CHUNK_SIZE) return;
+
+    int32_t ind=_blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+
+    Block blockToAdd=EMPTY_BLOCK;
+    blockToAdd.type=type;
+    blockToAdd.active=active;
+
+    if(ind!=-1) //block already exists
+    {
+        _blocks[ind]=blockToAdd;
+    }
+    else //add a new one to the vector
+    {
+        _blocks.push_back(blockToAdd);
+        _blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE]=_blocks.size()-1;
+        empty=false;
+    }
+
+    UpdateNeighbours(x,y,z);
 }
 
-const Block &Chunk::Get(uint32_t x,uint32_t y,uint32_t z)
+const Block &Chunk::GetBlock(uint32_t x,uint32_t y,uint32_t z)
 {
-    if((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0))
-        return EMPTY_BLOCK;
-    return m_pBlocks[x][y][z];
+    if(!((x>CHUNK_SIZE-1||x<0)||(y>CHUNK_SIZE-1||y<0)||(z>CHUNK_SIZE-1||z<0)))
+    {
+        int32_t ind=_blockIndices[x+y*CHUNK_SIZE+z*CHUNK_SIZE*CHUNK_SIZE];
+        if(ind!=-1)
+            return _blocks[ind];
+    }
+    return EMPTY_BLOCK;
 }
 
 void Chunk::Fill()
@@ -110,12 +114,22 @@ void Chunk::Fill()
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                m_pBlocks[x][y][z].type=EBT_STONE;
-                m_pBlocks[x][y][z].active=true;
+                SetBlock(x,y,z,EBT_STONE,true);
             }
         }
     }
-    m_dirty=true;
+}
+
+void Chunk::FillCheckerboard()
+{
+    loop(x,CHUNK_SIZE)
+    loop(y,CHUNK_SIZE)
+    loop(z,CHUNK_SIZE)
+    {
+        SetBlock(x,y,z,(EBlockType)(rand()%EBT_COUNT),true);
+    }
+
+    generated=true;
 }
 
 uint32_t Chunk::GetBlockCount()
@@ -128,7 +142,7 @@ uint32_t Chunk::GetBlockCount()
         {
             for (int y = 0; y < CHUNK_SIZE; y++)
             {
-                if(m_pBlocks[x][y][z].active) ret++;
+                if(GetBlock(x,y,z).active) ret++;
             }
         }
     }
@@ -136,47 +150,39 @@ uint32_t Chunk::GetBlockCount()
     return ret;
 }
 
-void Chunk::GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z)
+const Block & Chunk::ElementAt(int32_t x,int32_t y, int32_t z)
 {
     if(x<0&&leftN!=nullptr)
     {
-        vox=leftN->Get(CHUNK_SIZE-1,y,z);
-        return;
+        return leftN->ElementAt(CHUNK_SIZE-1,y,z);
     }
     else if(x>CHUNK_SIZE-1&&rightN!=nullptr)
     {
-        vox=rightN->Get(0,y,z);
-        return;
+        return rightN->ElementAt(0,y,z);
     }
     else if(y<0&&botN!=nullptr)
     {
-        vox=botN->Get(x,CHUNK_SIZE-1,z);
-        return;
+        return botN->ElementAt(x,CHUNK_SIZE-1,z);
     }
     else if(y>CHUNK_SIZE-1&&topN!=nullptr)
     {
-        vox=topN->Get(x,0,z);
-        return;
+        return topN->ElementAt(x,0,z);
     }
     else if(z<0&&backN!=nullptr)
     {
-        vox=backN->Get(x,y,CHUNK_SIZE-1);
-        return;
+        return backN->ElementAt(x,y,CHUNK_SIZE-1);
     }
     else if(z>CHUNK_SIZE-1&&frontN!=nullptr)
     {
-        vox=frontN->Get(x,y,0);
-        return;
+        return frontN->ElementAt(x,y,0);
     }
     else if(x<0||y<0||z<0||x>CHUNK_SIZE-1||y>CHUNK_SIZE-1||z>CHUNK_SIZE-1)
     {
-        vox.active=false;
-        return;
+        return EMPTY_BLOCK;
     }
     else
     {
-        vox=m_pBlocks[x][y][z];
-        return;
+        return GetBlock(x,y,z);
     }
 }
 

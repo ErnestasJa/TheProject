@@ -39,9 +39,3 @@ vector<std::shared_ptr<T> > * create_resource_cache()
 {
     return new vector<std::shared_ptr<T> >();
 }
-
-template <class T>
-inline std::shared_ptr<T> share(T* t)
-{
-    return std::shared_ptr<T>(t);
-}

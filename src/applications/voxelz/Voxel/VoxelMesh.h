@@ -3,11 +3,7 @@
 
 #include "opengl/Mesh.h"
 
-#include "VoxelTypes.h"
-
 #include "Voxel.h"
-
-#include <boost/multi_array.hpp>
 
 enum EBlockSides
 {
@@ -24,67 +20,36 @@ enum EBlockSides
 class shader;
 typedef std::shared_ptr<shader> shader_ptr;
 
-static Voxel EMPTY_VOXEL;
-
 class VoxelMesh:public Mesh
 {
-private:
-    struct MaskNode
-    {
-        uint8_t exists;
-        u8vec4 color;
-
-        MaskNode()
-        {
-            exists=false;
-            color=u8vec4(255);
-        }
-
-        MaskNode & operator = (bool value)
-        {
-            exists = value;
-            return *this;
-        }
-
-        operator bool()
-        {
-            return exists==1;
-        }
-    };
 public:
-    VoxelMesh(uint32_t size);
+    u16vec3 _size;
+    bool _dirty;
+private:
+    void ClearBuffers();
+public:
+    BOOST_MOVABLE_BUT_NOT_COPYABLE(VoxelMesh);
+    static Voxel EMPTY_VOXEL;
+    VoxelMesh(const u16vec3 &size);
     virtual ~VoxelMesh();
 
-    void CreateVox(int32_t x, int32_t y, int32_t z, const u8vec4 &col);
+    void CreateVox(int32_t x, int32_t y, int32_t z, const intRGBA &col);
+    void RemoveVox(int32_t x, int32_t y, int32_t z);
+    const Voxel& GetVoxel(int32_t x,int32_t y, int32_t z);
 
     void Render(bool wireframe=false);
-
-    virtual void Rebuild()=0;
 
     void UpdateMesh();
 
     void Cleanup();
 
     bool Empty();
-
-    uint32_t GetFaceCount();
-
 protected:
-    Voxel m_vox[16][16][16];
+    vector<Voxel> _vox;
+    bool _empty;
 
-    bool m_dirty;
-    bool m_empty;
-
-    int32_t m_size,m_faceCount,mVecTrack,mIndexTrack;
-    shader_ptr m_shader;
-
-    uint32_t length(uint32_t x, uint32_t y, MaskNode **mask);
-    uint32_t height(uint32_t x, uint32_t y, uint32_t len, MaskNode **mask);
-    void clear_mask(MaskNode **mask);
-    void clear_mask_ranged(MaskNode **mask,int sx,int sy,int ex,int ey);
-    virtual void GetVoxel(Voxel &vox,int32_t x,int32_t y, int32_t z);
-    void GreedyBuild();
-    void AddQuadToMesh(const u8vec3 * face,const u8vec4 &col);
+    int32_t _faceCount;
+    shader_ptr _shader;
 private:
 };
 #endif // VOXELMESH_H

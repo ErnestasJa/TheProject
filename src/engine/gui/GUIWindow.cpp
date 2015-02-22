@@ -10,7 +10,7 @@
 #include "GUIPane.h"
 #include "GUIButton.h"
 
-gui_window::gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal, bool movable):GUIElement(env,dimensions)
+GUIWindow::GUIWindow(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring titlebar_text, bool clip, bool showclose, bool modal, bool movable):GUIElement(env,dimensions)
 {
     this->Type=GUIET_WINDOW;
     environment=env;
@@ -37,7 +37,7 @@ gui_window::gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring
 
     if(showclose)
     {
-        close_btn=new gui_button(env,Rect2D<int>(tbr.w-17,4,14,14),L"X");
+        close_btn=new GUIButton(env,Rect2D<int>(tbr.w-17,4,14,14),L"X");
         close_btn->SetParent(this);
         close_btn->SetEventListener(this);
     }
@@ -45,17 +45,17 @@ gui_window::gui_window(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring
     this->SetParent(env);
 }
 
-gui_window::~gui_window()
+GUIWindow::~GUIWindow()
 {
 }
 
-void gui_window::Render()
+void GUIWindow::Render()
 {
     glBindTexture(GL_TEXTURE_2D,0);
 
     environment->draw_sliced_gui_quad(tbr,gui_skin_titlebar);
     environment->draw_sliced_gui_quad(bgr,gui_skin_background);
-    environment->get_font_renderer()->RenderString(L"['s]"+titlebar_text+L"[s']",glm::vec2(tbr.x+6,tbr.y+6));
+    environment->get_font_renderer()->RenderString(L"['s]"+titlebar_text+L"[s']",glm::ivec2(tbr.x+6,tbr.y+6));
 
     this->absolute_rect.move(0,20);
     UpdateAbsolutePos();
@@ -64,7 +64,7 @@ void gui_window::Render()
     UpdateAbsolutePos();
 }
 
-bool gui_window::OnEvent(const GUIEvent & e)
+bool GUIWindow::OnEvent(const GUIEvent & e)
 {
     GUI_BEGIN_ON_EVENT(e)
 
@@ -109,7 +109,7 @@ bool gui_window::OnEvent(const GUIEvent & e)
     GUI_END_ON_EVENT(e)
 }
 
-void gui_window::move(glm::vec2 delta)
+void GUIWindow::move(glm::vec2 delta)
 {
     this->relative_rect.x+=delta.x;
     this->relative_rect.y+=delta.y;

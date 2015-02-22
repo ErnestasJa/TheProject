@@ -3,17 +3,21 @@
 
 AABB::AABB(): m_halfSize(0.5)
 {
-
+    //ctor
+    points.resize(8);
+    CalculatePoints();
 }
 
 AABB::AABB(const glm::vec3 & center, const glm::vec3 & halfSize):m_center(center), m_halfSize(halfSize)
 {
-
+    //ctor
+    points.resize(8);
+    CalculatePoints();
 }
 
 AABB::~AABB()
 {
-
+    //dtor
 }
 
 void AABB::Reset(const glm::vec3 &point)
@@ -32,18 +36,13 @@ void AABB::AddPoint(const glm::vec3 &point)
     DOMIN(x);DOMIN(y);DOMIN(z);
     DOMAX(x);DOMAX(y);DOMAX(z);
 
-    m_halfSize = (mx-mi)*0.5f;
-    m_center = mi + m_halfSize;
+    m_halfSize = glm::abs((mx-mi)*0.5f);
+    m_center = (mi + mx) *0.5f;
 }
 
 void AABB::Translate(const glm::vec3 &point)
 {
     m_center+=point;
-}
-
-void AABB::SetCenter(const glm::vec3 &center)
-{
-    m_center=center;
 }
 
 bool AABB::ContainsPoint(const glm::vec3 & point) const
@@ -62,117 +61,144 @@ bool AABB::IntersectsWith(const AABB &other) const
         &&(glm::abs(m_center.z - other.GetCenter().z) <= m_halfSize.z + other.GetHalfSize().z);
 }
 
-float AABB::SweepCollidesWith(const AABB & other, const glm::vec3 & vel, glm::vec3 & normal) const
+float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::vec3 & normal) const
 {
     glm::vec3 invEntry, invExit;
 
-    glm::vec3 p1s, p1e, p2s, p2e;
-    p1s=this->m_center-this->m_halfSize;
-    p1e=this->m_center+this->m_halfSize;
-
-    p2s=other.m_center-other.m_halfSize;
-    p2e=other.m_center+other.m_halfSize;
-
-#define INV_ENTRY_EXIT(axis)\
-    if (vel.axis > 0.0f)\
-    {\
-        invEntry.axis = p2s.axis - p1e.axis;\
-        invExit.axis =  p2e.axis - p1s.axis;\
-    }\
-    else\
-    {\
-        invEntry.axis = p2e.axis - p1s.axis;\
-        invExit.axis =  p2s.axis - p1e.axis;\
+    // find the distance between the objects on the near and far sides for both x and y
+    if (vel.x > 0.0f)
+    {
+        invEntry.x = (other.m_center.x-other.m_halfSize.x) - (this->m_center.x + this->m_halfSize.x);
+        invExit.x =  (other.m_center.x+other.m_halfSize.x) - (this->m_center.x - this->m_halfSize.x);
+    }
+    else
+    {
+        invEntry.x = (other.m_center.x+other.m_halfSize.x) - (this->m_center.x - this->m_halfSize.x);
+        invExit.x =  (other.m_center.x-other.m_halfSize.x) - (this->m_center.x + this->m_halfSize.x);
     }
 
-    INV_ENTRY_EXIT(x)
-    INV_ENTRY_EXIT(y)
-    INV_ENTRY_EXIT(z)
-#undef INV_ENTRY_EXIT
+    if (vel.y > 0.0f)
+    {
+        invEntry.y = (other.m_center.y-other.m_halfSize.y) - (this->m_center.y + this->m_halfSize.y);
+        invExit.y =  (other.m_center.y+other.m_halfSize.y) - (this->m_center.y - this->m_halfSize.y);
+    }
+    else
+    {
+        invEntry.y = (other.m_center.y+other.m_halfSize.y) - (this->m_center.y - this->m_halfSize.y);
+        invExit.y =  (other.m_center.y-other.m_halfSize.y) - (this->m_center.y + this->m_halfSize.y);
+    }
+
+    if (vel.z > 0.0f)
+    {
+        invEntry.z = (other.m_center.z-other.m_halfSize.z) - (this->m_center.z + this->m_halfSize.z);
+        invExit.z =  (other.m_center.z+other.m_halfSize.z) - (this->m_center.z - this->m_halfSize.y);
+    }
+    else
+    {
+        invEntry.z = (other.m_center.z+other.m_halfSize.z) - (this->m_center.z - this->m_halfSize.z);
+        invExit.z =  (other.m_center.z-other.m_halfSize.z) - (this->m_center.z + this->m_halfSize.z);
+    }
 
     // find time of collision and time of leaving for each axis (if statement is to prevent divide by zero)
     glm::vec3 entry, exit;
 
-#define ENTRY_EXIT(axis)\
-    if (vel.axis == 0.0f)\
-    {\
-        entry.axis = -std::numeric_limits<float>::infinity();\
-        exit.axis = std::numeric_limits<float>::infinity();\
-    }\
- else\
-    {\
-        entry.axis = invEntry.axis / vel.axis;\
-        exit.axis = invExit.axis / vel.axis;\
+    if (vel.x == 0.0f)
+    {
+        entry.x = -std::numeric_limits<float>::infinity();
+        exit.x = std::numeric_limits<float>::infinity();
+    }
+    else
+    {
+        entry.x = invEntry.x / vel.x;
+        exit.x = invExit.x / vel.x;
     }
 
-    ENTRY_EXIT(x)
-    ENTRY_EXIT(y)
-    ENTRY_EXIT(z)
-#undef ENTRY_EXIT
+    if (vel.y == 0.0f)
+    {
+        entry.y = -std::numeric_limits<float>::infinity();
+        exit.y = std::numeric_limits<float>::infinity();
+    }
+    else
+    {
+        entry.y = invEntry.y / vel.y;
+        exit.y = invExit.y / vel.y;
+    }
+
+    if (vel.z == 0.0f)
+    {
+        entry.z = -std::numeric_limits<float>::infinity();
+        exit.z = std::numeric_limits<float>::infinity();
+    }
+    else
+    {
+        entry.z = invEntry.z / vel.z;
+        exit.z = invExit.z / vel.z;
+    }
+
     // find the earliest/latest times of collision
     float entryTime = std::max(std::max(entry.x, entry.y),entry.z);
     float exitTime = std::min(std::min(exit.x, exit.y),exit.z);
 
-// if there was no collision
-    if (entryTime > exitTime || (entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f) || (entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f))
-      {
+    // if there was no collision
+    if (entryTime > exitTime || (entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f) || entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f)
+    {
         normal.x = 0.0f;
         normal.y = 0.0f;
         normal.z = 0.0f;
         return 1.0f;
-      }
+    }
     else // if there was a collision
-      {
+    {
         // calculate normal of collided surface
-      if (entry.x > entry.y && entry.x > entry.z)
-	  {
-        if (invEntry.x < 0.0f)
+        if (entry.x > entry.y && entry.x > entry.z)
         {
+            if (invEntry.x < 0.0f)
+            {
                 normal.x = 1.0f;
                 normal.y = 0.0f;
                 normal.z = 0.0f;
-        }
-	    else
-	      {
+            }
+	        else
+            {
                 normal.x = -1.0f;
                 normal.y = 0.0f;
                 normal.z = 0.0f;
-	      }
-	  }
+            }
+        }
         else if(entry.y > entry.x && entry.y > entry.z)
-	  {
+        {
             if (invEntry.y < 0.0f)
-	      {
+            {
                 normal.x = 0.0f;
                 normal.y = 1.0f;
                 normal.z = 0.0f;
-	      }
-	    else
-	      {
-            normal.x = 0.0f;
-            normal.y = -1.0f;
-            normal.z = 0.0f;
-	      }
-	  }
+            }
+	        else
+            {
+                normal.x = 0.0f;
+		        normal.y = -1.0f;
+		        normal.z = 0.0f;
+            }
+        }
         else
-	  {
+        {
             if (invEntry.z < 0.0f)
-	      {
+            {
                 normal.x = 0.0f;
                 normal.y = 0.0f;
                 normal.z = 1.0f;
-	      }
-	    else
-	      {
+            }
+	        else
+            {
                 normal.x = 0.0f;
-		normal.y = 0.0f;
-		normal.z = -1.0f;
-	      }
-	  }
+		        normal.y = 0.0f;
+		        normal.z = -1.0f;
+            }
+        }
 
         // return the time of collision
         return entryTime;
-      }
+    }
 }
 
 bool AABB::IntersectsWith(const glm::vec3 & center, const glm::vec3 & halfsize) const
@@ -205,12 +231,22 @@ bool AABB::CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayDire
     return tmax >= tmin;
 }
 
-const glm::vec3 & AABB::GetHalfSize() const
+glm::vec3 AABB::GetPoint(uint32_t i) const
+{
+    return points[i];
+}
+
+vector<glm::vec3> AABB::GetPoints() const
+{
+    return points;
+}
+
+glm::vec3 AABB::GetHalfSize() const
 {
     return m_halfSize;
 }
 
-const glm::vec3 & AABB::GetCenter() const
+glm::vec3 AABB::GetCenter() const
 {
     return m_center;
 }
@@ -223,4 +259,19 @@ glm::vec3 AABB::GetMin() const
 glm::vec3 AABB::GetMax() const
 {
     return m_center+m_halfSize;
+}
+
+void AABB::CalculatePoints()
+{
+    float w=m_halfSize.x*2.0f,h=m_halfSize.y*2.0f,l=m_halfSize.z*2.0f;
+
+    points[0]=m_center-m_halfSize;
+    points[1]=m_center-glm::vec3(m_halfSize.x,0,0);
+    points[2]=m_center-glm::vec3(0,m_halfSize.y,0);
+    points[3]=m_center-glm::vec3(0,0,m_halfSize.z);
+
+    points[4]=m_center+glm::vec3(0,0,m_halfSize.z);
+    points[5]=m_center+glm::vec3(0,m_halfSize.y,0);
+    points[6]=m_center+glm::vec3(m_halfSize.x,0,0);
+    points[7]=m_center+m_halfSize;
 }

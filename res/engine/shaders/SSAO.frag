@@ -6,29 +6,51 @@ uniform sampler2D g_buffer_pos;
 uniform sampler2D g_random;
 uniform sampler2D g_depth;
 
+uniform mat4 P;
 uniform mat4 V;
 uniform mat4 MV;
+uniform mat4 invP;
 
 const float g_screen_size=1280*768;
-const float random_size=1280*768;
-const float g_sample_rad=0.25;
-const float g_intensity=1;
-const float g_scale=0.5;
-const float g_bias=0.2;
+const float random_size=64*64;
+
+uniform float g_sample_rad=0.005;
+uniform float g_intensity=1;
+uniform float g_scale=0.5;
+uniform float g_bias=0.2;
+
+const float near=1.f;
+const float far=1024.f;
+const vec4 R5_clipRange = vec4(near, far, near * far, far - near);
+
 
 in vec4 _pos;
 in vec2 _uv;
 
 out vec4 fragColor;
 
+float GetDistance (vec2 texCoord)
+{
+return texture2D(g_depth, texCoord).r/far * R5_clipRange.w;
+}
+
 vec3 getPosition(vec2 uv)
 {
-return vec3(MV*texture2D(g_buffer_pos,uv));
+return vec3(texture2D(g_buffer_pos,uv));
+}
+
+vec3 GetViewPos (vec2 texCoord)
+{
+float depth = (R5_clipRange.y - R5_clipRange.z / (GetDistance(texCoord) + R5_clipRange.x)) / R5_clipRange.w;
+vec4 pos = vec4(texCoord.x, texCoord.y, depth, 1.0);
+pos.xyz = pos.xyz * 2.0 - 1.0;
+pos = invP * pos;
+return pos.xyz / pos.w;
 }
 
 vec3 getNormal(vec2 uv)
 {
-return normalize(texture2D(g_buffer_norm, uv).xyz * 2.0f - 1.0f);
+return normalize(texture2D(g_buffer_norm, uv).xyz);
 }
 
 vec2 getRandom(vec2 uv)
@@ -38,7 +60,7 @@ return normalize(texture2D(g_random, g_screen_size * uv / random_size).xy * 2.0f
 
 float doAmbientOcclusion(vec2 tcoord,in vec2 uv, in vec3 p, in vec3 cnorm)
 {
-vec3 diff = getPosition(tcoord + uv) - p;
+vec3 diff = GetViewPos(tcoord + uv) - p;
 vec3 v = normalize(diff);
 float d = length(diff)*g_scale;
 return max(0.0, dot(cnorm,v)-g_bias)*(1.0/(1.0+d))*g_intensity;
@@ -52,7 +74,7 @@ vecs[1]= vec2(-1,0);
 vecs[2]= vec2(0,1);
 vecs[3]= vec2(0,-1);
 
-vec3 p = getPosition(_uv);
+vec3 p = GetViewPos(_uv);
 vec3 n = getNormal(_uv);
 vec2 rand = getRandom(_uv);
 

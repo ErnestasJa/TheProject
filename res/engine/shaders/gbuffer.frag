@@ -18,5 +18,4 @@ void main(){
 	Gdiffuse = color.rgb;
 	Gnormal = normal;
 	Gposition = position.rgb;
-	Gtexcoord = vec3(0);
 }

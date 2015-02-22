@@ -267,14 +267,14 @@ void FontRenderer::_FormatTags(TextLine &tl,std::wstring in,SubLineInfo inf)
     return;
 }
 
-void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos, const glm::vec4 &color)
+void FontRenderer::_RenderString(const std::wstring &text, glm::ivec2 pos, const glm::vec4 &color)
 {
     glm::vec2 gs=_guiEnvironment->get_gui_scale();
     float sx,sy;
     sx=gs.x;
     sy=gs.y;
 
-    glm::vec2 _pos=pos;
+    glm::vec2 _pos=(glm::vec2)pos;
 
     _pos.x=-1+_pos.x*sx;
     _pos.y=1-_pos.y*sy-_currentFont->avgheight*sy;
@@ -338,10 +338,10 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos, const 
     glDisable(GL_BLEND);
 }
 
-void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos,const glm::vec4 &color,bool drawShadow)
+void FontRenderer::_RenderString(const std::wstring &text, glm::ivec2 pos,const glm::vec4 &color,bool drawShadow)
 {
     if(drawShadow)
-        _RenderString(text,glm::vec2(pos.x+1,pos.y+1),glm::vec4(0,0,0,color.w));
+        _RenderString(text,pos+glm::ivec2(1),glm::vec4(0,0,0,color.w));
     _RenderString(text,pos,color);
 }
 
@@ -350,7 +350,7 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::vec2 pos,const g
 /// Strip pre-tag text, strip after-tag text, strip and set tag info
 /// Check for length wrapping failures, newline accordingly with the same data used for the formatted lines
 /// Regex case: <([a-zA-Z][A-Z0-9]*)\b[^>]*>(.*?)</\1>
-void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,float linewidth, std::string fontFamilyName)
+void FontRenderer::RenderString(const std::wstring &text, const glm::ivec2 &pos,float linewidth, std::string fontFamilyName)
 {
     FontFamily* old=_currentFamily;
     FONT_FAMILY_TYPE oldStyle=_currentFamily->currentType;
@@ -410,18 +410,17 @@ void FontRenderer::RenderString(const std::wstring &text, const glm::vec2 &pos,f
             }
             if(j!=0)
             {
-                _RenderString(_celem.text,pos+glm::vec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+                _RenderString(_celem.text,pos+glm::ivec2(dims.x,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
             }
             else
             {
-                _RenderString(_celem.text,pos+glm::vec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
+                _RenderString(_celem.text,pos+glm::ivec2(0,i*(dims.y+dims.y/2.f)),_celem.color,_celem.shadow);
             }
             dims=glm::vec2(dims.x+GetTextDimensions(_celem.text).x,dims.y);
             if(_celem.bold||_celem.italic)
             {
                 UseFont(currentStyle);
             }
-
         }
     }
     if(GetFontFamily(fontFamilyName)!=nullptr)

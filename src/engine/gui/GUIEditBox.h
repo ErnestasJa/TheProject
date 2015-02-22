@@ -4,10 +4,10 @@
 
 template <typename T>
 class Rect2D;
-class gui_edit_box:public GUIElement
+class GUIEditBox:public GUIElement
 {
 private:
-    uint32_t blinktimer,curspos,reptimer,font_size;
+    uint32_t blinktimer,curspos,reptimer,font_size,maxlength;
     int32_t sx;
     float _mx,_mw,_my,_mh; //margins for drawing
     wchar_t lastkey;
@@ -18,8 +18,8 @@ private:
     void add_text(int32_t index,std::wstring text);
     void remove_text(int32_t index, int32_t length);
 public:
-    gui_edit_box(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
-    virtual ~gui_edit_box();
+    GUIEditBox(GUIEnvironment* env, Rect2D<int> dimensions, std::wstring text=L"text", glm::vec4 text_color=glm::vec4(1,1,1,1), bool drawbackground=false, bool drawshadow=false, bool clearonsubmit=false);
+    virtual ~GUIEditBox();
 
     void Render();
 
@@ -29,6 +29,8 @@ public:
     {
         return m_text;
     }
+
+    void SetMaxLength(uint32_t length=0);
 
     bool OnEvent(const GUIEvent & e);
 protected:
