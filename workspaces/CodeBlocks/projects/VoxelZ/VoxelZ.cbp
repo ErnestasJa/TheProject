@@ -173,8 +173,15 @@
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/Entity.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/GravityAffector.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/GravityAffector.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/IParticleAffector.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleEmitter.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/ParticleEmitter.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/physics/Physics.h" />
 		<Unit filename="../../../../src/applications/voxelz/physics/cmotion_state.h" />

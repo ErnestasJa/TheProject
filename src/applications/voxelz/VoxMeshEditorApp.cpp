@@ -20,6 +20,8 @@
 #include "Voxel/ChunkManager.h"
 
 #include "Game/ParticleSystem.h"
+#include "Game/ParticleEmitter.h"
+#include "Game/GravityAffector.h"
 
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -345,6 +347,12 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     //cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
+    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,100,0),5,5,5);
+    em->AddParticleAffector(new GravityAffector());
+    _particleSystem->AddEmitter(em);
+    //em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,100,0),1,10,5);
+    //em->AddParticleAffector(new GravityAffector());
+    //_particleSystem->AddEmitter(em);
 
     //_voxMesh->UpdateMesh();
 
@@ -409,11 +417,9 @@ bool VoxMeshEditorApp::Update()
         if(_particleShader->getparam("M")!=-1) MVar<glm::mat4>(_particleShader->getparam("M"), "M", glm::mat4(1.f)).Set();
         if(_particleShader->getparam("V")!=-1) MVar<glm::mat4>(_particleShader->getparam("V"), "V", _cam->GetViewMat()).Set();
         if(_particleShader->getparam("P")!=-1) MVar<glm::mat4>(_particleShader->getparam("P"), "P", _cam->GetProjectionMat()).Set();
-        _particleSystem->Render(_appContext->_glUtil);
+        _particleSystem->Render();
 
-        glDisable(GL_DEPTH_TEST);
         _guiEnv->Render();
-        glEnable(GL_DEPTH_TEST);
 
         _appContext->_window->SwapBuffers();
         return true;

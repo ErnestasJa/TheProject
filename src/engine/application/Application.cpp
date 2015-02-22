@@ -50,7 +50,7 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
     _workingDirectoryPath = PHYSFS_getBaseDir();
 
     #ifndef RELEASE_FS
-        loopi(4)
+        loopi(2)
         _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
         _workingDirectoryPath += PHYSFS_getDirSeparator();
     #endif

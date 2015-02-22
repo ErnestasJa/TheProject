@@ -12,9 +12,16 @@ struct Particle
     u8vec4 col;
     float size,angle,weight;
     float life;
+    Particle()
+    {
+        life=0;
+        size=angle=weight=0;
+        col=u8vec4(255);
+        pos=speed=glm::vec3(0);
+    }
 };
 
-class OpenGLUtil;
+class ParticleEmitter;
 
 class ParticleSystem
 {
@@ -27,6 +34,7 @@ public:
 
 private:
     Particle _particlesContainer[MAX_PARTICLES];
+    vector<ParticleEmitter*> _emitters;
     uint32_t _lastUsedParticle;
     uint32_t _particleCount;
     float _rotate;
@@ -36,33 +44,15 @@ public:
     ParticleSystem();
     virtual ~ParticleSystem();
 
-    void Render(OpenGLUtil *util);
+    void Render();
     void Update(float dt);
 
-    uint32_t FindUnused()
-    {
-        loopr(i,_lastUsedParticle,MAX_PARTICLES)
-        {
-            if(_particlesContainer[i].life<=0)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
-        }
+    uint32_t FindUnused();
 
-        loop(i,_lastUsedParticle)
-        {
-            if(_particlesContainer[i].life<=0)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
-        }
-
-        return 0;
-    }
+    void AddEmitter(ParticleEmitter* emitter);
 protected:
 private:
+    void BuildParticle(Particle& p,ParticleEmitter* e);
 };
 
 #endif // PARTICLESYSTEM_H

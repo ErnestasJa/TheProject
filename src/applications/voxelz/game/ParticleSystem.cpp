@@ -1,6 +1,7 @@
 #include "Precomp.h"
 
 #include "ParticleSystem.h"
+#include "ParticleEmitter.h"
 #include "opengl/OpenGLUtil.h"
 #include "opengl/AABB.h"
 
@@ -53,67 +54,88 @@ ParticleSystem::~ParticleSystem()
     glDeleteBuffers(1,&_VAO);
 }
 
+uint32_t ParticleSystem::FindUnused()
+{
+    if(_lastUsedParticle>=MAX_PARTICLES/2)
+    {
+        loopr(i,_lastUsedParticle,MAX_PARTICLES)
+        {
+            if(_particlesContainer[i].life<=0.f)
+            {
+                _lastUsedParticle=i;
+                return i;
+            }
+        }
+    }
+    else
+    {
+        loop(i,_lastUsedParticle)
+        {
+            if(_particlesContainer[i].life<=0.f)
+            {
+                _lastUsedParticle=i;
+                return i;
+            }
+        }
+    }
+    return 0;
+}
+
+void ParticleSystem::AddEmitter(ParticleEmitter* emitter)
+{
+    _emitters.push_back(emitter);
+}
+
 void ParticleSystem::Update(float dt)
 {
-    uint32_t newparticles = (uint32_t)(dt*10000.f);
-    uint32_t maxnewparticles=(uint32_t)(0.016f*10000.f);
-    if(newparticles>maxnewparticles)
+    for(auto emitter:_emitters)
     {
-        newparticles=maxnewparticles;
-    }
+        uint32_t newparticles = (uint32_t)(dt*emitter->_maxParticles);
+        uint32_t maxnewparticles=(uint32_t)(0.0167f*emitter->_maxParticles);
 
-    loop(i,newparticles)
-    {
-        uint32_t particleIndex=FindUnused();
-        Particle& currentParticle=_particlesContainer[particleIndex];
+        if(newparticles>maxnewparticles)
+        {
+            newparticles=maxnewparticles;
+        }
 
-        currentParticle.life=15.0f;
-        currentParticle.pos=glm::vec3(0.f);
+        emitter->_particleCount-=emitter->_deadParticles;
+        emitter->_deadParticles=0;
 
-        float spread=15.f;
-        glm::vec3 mainDir=glm::vec3(0.f,40.f,0.f);
-        glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
+        if(emitter->_particleCount<emitter->_maxParticles)
+        loop(i,newparticles)
+        {
+            uint32_t particleIndex=FindUnused();
+            Particle& currentParticle=_particlesContainer[particleIndex];
 
-        currentParticle.speed=mainDir+randomDir*spread;
+            BuildParticle(currentParticle,emitter);
 
-        currentParticle.col=u8vec4(rand()%256,rand()%256,rand()%256,(rand()%256));
-
-        currentParticle.size =(rand()%1000)/2000.0f + 0.1f;
+            emitter->_particleContainer[emitter->FindUnused()]=currentParticle;
+            emitter->_particleCount++;
+        }
     }
 
     _particleCount=0;
-
-    AABB windBox(glm::vec3(0,20,0),glm::vec3(4));
-    glm::vec3 windDir(0,5,5);
-    float windSpeed=1.f;
-    float windSpread=100.f;
-    loop(i,MAX_PARTICLES)
+    for(auto emitter:_emitters)
     {
-        Particle &p=_particlesContainer[i];
-
-        if(p.life>0.f)
-        {
-            p.life-=dt;
-            if(p.life>0.f)
-            {
-                p.speed+=glm::vec3(0.f,-9.81f,0.f)*dt*0.5f;
-                if(windBox.ContainsPoint(p.pos))
-                {
-                    p.speed+=(windDir+glm::vec3((float)(rand()%10)/windSpread,(float)(rand()%10)/windSpread,(float)(rand()%10)/windSpread))*windSpeed;
-                }
-                p.pos+=p.speed * dt;
-
-                _pos->data[_particleCount]=p.pos;
-                _col->data[_particleCount]=p.col;
-            }
-            _particleCount++;
-        }
+        emitter->Update(dt,_particleCount,_pos,_col);
     }
 }
 
-void ParticleSystem::Render(OpenGLUtil *util)
+void ParticleSystem::BuildParticle(Particle& p,ParticleEmitter* e)
 {
-    //printf("Drawing %u particles\n",_particleCount);
+    p.life=e->_particleLife;
+    p.pos=e->_pos;
+    float spread=e->_spread;
+    glm::vec3 mainDir=e->_direction;
+    glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
+    p.speed=mainDir+randomDir*spread;
+    p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
+    p.size = e->_particleSize;
+}
+
+void ParticleSystem::Render()
+{
+//    printf("Drawing %u particles\n",_particleCount);
 
     glBindBuffer(GL_ARRAY_BUFFER, _pos->Id);
     glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(glm::vec3), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf.

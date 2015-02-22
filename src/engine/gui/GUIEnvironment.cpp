@@ -78,7 +78,10 @@ void GUIEnvironment::update(float delta)
 void GUIEnvironment::Render()
 {
     glDisable(GL_DEPTH_TEST);
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     this->RenderChildren();
+    glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -168,13 +171,13 @@ void GUIEnvironment::on_mouse_moved(double x, double y)
                 {
                     last_hover = hover;
                     last_hover->OnEvent(GUIEvent(
-                        gui_event_type::element_exitted,this,
-                        last_hover));
+                                            gui_event_type::element_exitted,this,
+                                            last_hover));
                     last_hover->SetHovered(false);
                 }
                 hover = target;
                 hover->OnEvent(GUIEvent(
-                                    gui_event_type::element_hovered,this, hover));
+                                   gui_event_type::element_hovered,this, hover));
                 hover->SetHovered(true);
             }
 

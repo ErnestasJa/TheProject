@@ -279,9 +279,6 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::ivec2 pos, const
     _pos.x=-1+_pos.x*sx;
     _pos.y=1-_pos.y*sy-_currentFont->avgheight*sy;
 
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     _fontShader->Set();
     _SetFontColor(color);
 
@@ -329,13 +326,11 @@ void FontRenderer::_RenderString(const std::wstring &text, glm::ivec2 pos, const
     }
 
     /* Draw all the character on the screen in one go */
-    GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW));
-    GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, c));
+    glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW);
+    glDrawArrays(GL_TRIANGLES, 0, c);
 
-    GL_CHECK(glDisableVertexAttribArray(0));
+    glDisableVertexAttribArray(0);
     glBindVertexArray(0);
-
-    glDisable(GL_BLEND);
 }
 
 void FontRenderer::_RenderString(const std::wstring &text, glm::ivec2 pos,const glm::vec4 &color,bool drawShadow)

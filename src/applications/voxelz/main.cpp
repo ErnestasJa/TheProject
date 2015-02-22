@@ -40,14 +40,12 @@ int main(int argc, const char ** argv)
     appLauncher.RegisterApplication("VoxMeshEditor application", APP(VoxMeshEditorApp));
     appLauncher.RegisterApplication("VoxelZ profiling application", APP(VoxelzProfilingApp));
 
-    char choice = ShowAppMenu(appLauncher);
-    uint32_t nr =  choice - '0';
+//    char choice = ShowAppMenu(appLauncher);
+//    uint32_t nr =  choice - '0';
 
-    while(choice != '\n' && nr > 0 && nr <= appLauncher.GetApplicationCount() )
-    {
-        appLauncher.RunApplication(nr-1,argc,argv);
+    appLauncher.RunApplication(1,argc,argv);
 
-        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,768))
+        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(1),1280,768))
         {
             while(appLauncher.GetCurrentApplication()->Update());
 
@@ -55,9 +53,21 @@ int main(int argc, const char ** argv)
             delete appLauncher.GetCurrentApplication();
         }
 
-        choice = ShowAppMenu(appLauncher);
-        nr =  choice - '0';
-    }
+//    while(choice != '\n' && nr > 0 && nr <= appLauncher.GetApplicationCount() )
+//    {
+//        appLauncher.RunApplication(nr-1,argc,argv);
+//
+//        if(appLauncher.GetCurrentApplication()->Init(appLauncher.GetApplicationName(nr-1),1280,768))
+//        {
+//            while(appLauncher.GetCurrentApplication()->Update());
+//
+//            appLauncher.GetCurrentApplication()->Exit();
+//            delete appLauncher.GetCurrentApplication();
+//        }
+//
+//        choice = ShowAppMenu(appLauncher);
+//        nr =  choice - '0';
+//    }
 
 
     return 0;
