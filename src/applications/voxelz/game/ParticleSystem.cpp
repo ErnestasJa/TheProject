@@ -2,10 +2,12 @@
 
 #include "ParticleSystem.h"
 #include "opengl/OpenGLUtil.h"
+#include "opengl/AABB.h"
 
 ParticleSystem::ParticleSystem()
 {
     _lastUsedParticle=0;
+    _rotate=0;
 
     _geometry=new BufferObject<glm::vec3>();
     _geometry->Init();
@@ -65,22 +67,26 @@ void ParticleSystem::Update(float dt)
         uint32_t particleIndex=FindUnused();
         Particle& currentParticle=_particlesContainer[particleIndex];
 
-        currentParticle.life=5.0f;
+        currentParticle.life=15.0f;
         currentParticle.pos=glm::vec3(0.f);
 
-        float spread=3.f;
-        glm::vec3 mainDir=glm::vec3(0.f,10.f,0.f);
-
+        float spread=15.f;
+        glm::vec3 mainDir=glm::vec3(0.f,40.f,0.f);
         glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
 
         currentParticle.speed=mainDir+randomDir*spread;
 
-        currentParticle.col=u8vec4(rand()%256,rand()%256,rand()%256,(rand()%256)/2.f);
+        currentParticle.col=u8vec4(rand()%256,rand()%256,rand()%256,(rand()%256));
 
         currentParticle.size =(rand()%1000)/2000.0f + 0.1f;
     }
 
     _particleCount=0;
+
+    AABB windBox(glm::vec3(0,20,0),glm::vec3(4));
+    glm::vec3 windDir(0,5,5);
+    float windSpeed=1.f;
+    float windSpread=100.f;
     loop(i,MAX_PARTICLES)
     {
         Particle &p=_particlesContainer[i];
@@ -91,6 +97,10 @@ void ParticleSystem::Update(float dt)
             if(p.life>0.f)
             {
                 p.speed+=glm::vec3(0.f,-9.81f,0.f)*dt*0.5f;
+                if(windBox.ContainsPoint(p.pos))
+                {
+                    p.speed+=(windDir+glm::vec3((float)(rand()%10)/windSpread,(float)(rand()%10)/windSpread,(float)(rand()%10)/windSpread))*windSpeed;
+                }
                 p.pos+=p.speed * dt;
 
                 _pos->data[_particleCount]=p.pos;

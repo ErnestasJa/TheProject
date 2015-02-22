@@ -1,7 +1,7 @@
 #ifndef PARTICLESYSTEM_H
 #define PARTICLESYSTEM_H
 
-#define MAX_PARTICLES 1000000
+#define MAX_PARTICLES 100000
 
 #include "Voxel/VoxelTypes.h"
 #include "Opengl/BufferObject.h"
@@ -29,6 +29,7 @@ private:
     Particle _particlesContainer[MAX_PARTICLES];
     uint32_t _lastUsedParticle;
     uint32_t _particleCount;
+    float _rotate;
 protected:
 
 public:
