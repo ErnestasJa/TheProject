@@ -16,3 +16,4 @@ libs/linux/
 __pycache__/
 tests/bin/
 *#
+/.project
