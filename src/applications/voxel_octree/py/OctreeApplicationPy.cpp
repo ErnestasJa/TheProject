@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "OctreeApplicationPy.h"
 #include "VoxelOctreeApp.h"
 

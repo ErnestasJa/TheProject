@@ -260,7 +260,7 @@ GUIElement * GUIElement::search_elements(GUIElement * el, const std::string & na
         return el;
     }
 
-    loopi(i,el->GetChildren().size())
+    loop(i,el->GetChildren().size())
     {
         GUIElement * e = search_elements(el->GetChildren()[i],name);
 

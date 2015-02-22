@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "VoxelOctreeBenchmarkApp.h"
 #include "motree/VoxMeshManager.h"
 #include "utility/SimplexNoise.h"
@@ -29,7 +29,7 @@ void VoxelOctreeBenchmarkApp::InitOctree()
     mesh->buffers[Mesh::COLOR] = cbo;
     mesh->Init();
 
-    octree = new MortonOctTree<10>();
+    octree = share(new MortonOctTree());
     octreeGen = new VoxMeshManager(octree);
 }
 
@@ -67,7 +67,7 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
 
 void VoxelOctreeBenchmarkApp::FreeOctree()
 {
-    delete octree;
+    octree = nullptr;
     delete octreeGen;
     mesh = MeshPtr();
 }
@@ -79,9 +79,43 @@ bool VoxelOctreeBenchmarkApp::Init(const std::string & title, uint32_t width, ui
     Application::Init(title,width,height);
     timer = Ctx()->_timer;
 
-    InitOctree();
+    /*InitOctree();
     BuildOctree();
-    FreeOctree();
+    FreeOctree();*/
+
+    AABB box(glm::vec3(10,10,10),glm::vec3(0.5,0.5,0.5));
+    AABB box2(glm::vec3(8,10,10),glm::vec3(0.5,0.5,0.5));
+
+    glm::vec3 nout;
+    float time;
+    time = box2.SweepCollidesWith(box, glm::vec3(2,0.1,0), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
+
+    box2.Translate(glm::vec3(4,0,0));
+    time = box2.SweepCollidesWith(box, glm::vec3(-2,0.1,0), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
+
+    box2.SetCenter(glm::vec3(10,8,10));
+    time = box2.SweepCollidesWith(box, glm::vec3(0.1,3,0), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
+
+    box2.SetCenter(glm::vec3(10,12,10));
+    time = box2.SweepCollidesWith(box, glm::vec3(0.1,-3,0), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
+
+    box2.SetCenter(glm::vec3(10,10,8));
+    time = box2.SweepCollidesWith(box, glm::vec3(0.1,0.3,3), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
+
+    box2.SetCenter(glm::vec3(10,10,12));
+    time = box2.SweepCollidesWith(box, glm::vec3(0.1,-0.3,-3), nout);
+    Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
+    Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
 
     return true;
 }

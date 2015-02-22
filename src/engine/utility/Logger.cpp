@@ -10,7 +10,7 @@ Logger::Logger(Application *app,int verbosity)
     m_app=app;
 
     //set up filewriting
-    PHYSFS_setWriteDir(PHYSFS_getBaseDir());
+    /*PHYSFS_setWriteDir(PHYSFS_getBaseDir());
     //in case logs dir is not present
     PHYSFS_mkdir("logs");
 
@@ -20,14 +20,14 @@ Logger::Logger(Application *app,int verbosity)
     fname+="_log.txt";
 
     //open it
-    m_logfile=PHYSFS_openWrite(fname.c_str());
+    m_logfile=PHYSFS_openWrite(fname.c_str());*/
     log(LOG_DEBUG,"Logger initialised...");
 }
 
 Logger::~Logger()
 {
     log(LOG_DEBUG,"Logger is terminating...");
-    PHYSFS_close(m_logfile);
+    /*PHYSFS_close(m_logfile);*/
 }
 
 void Logger::log(loglevel lev,const char* st, ...)

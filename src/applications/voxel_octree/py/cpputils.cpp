@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "cpputils.h"
-#include "python.h"
+#include "Python.h"
 #include <iostream>
 
 PyObject * Wrap_cout(PyObject* self, PyObject* arg)

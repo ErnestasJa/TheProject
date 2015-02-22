@@ -1,0 +1,412 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"vec",
+				"vec3"
+			],
+			[
+				"uint",
+				"uint8_t"
+			],
+			[
+				"cha",
+				"changeWriteDirStatus"
+			],
+			[
+				"Save",
+				"SaveLevel"
+			],
+			[
+				"for",
+				"for	For Loop"
+			],
+			[
+				"PHYSFS_",
+				"PHYSFS_write"
+			],
+			[
+				"clam",
+				"clampedMotion"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "VoxelOctreeApp.cpp",
+			"settings":
+			{
+				"buffer_size": 9919,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "motree/CollisionManager.cpp",
+			"settings":
+			{
+				"buffer_size": 9331,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "launcher.py",
+			"settings":
+			{
+				"buffer_size": 2488,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "docs/Todo.txt",
+			"settings":
+			{
+				"buffer_size": 593,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/tools/iqm_export.py",
+			"settings":
+			{
+				"buffer_size": 46895,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 404.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.h",
+		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.inl",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/docs/Ideas.txt",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/docs/Todo.txt",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionManager.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/launcher.py",
+		"/home/senpai/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeFiles/VoxelOctree.dir/CXX.includecache",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeLists.txt",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.h",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Util.h",
+		"/home/senpai/Coding/TheProject/src/engine/Precomp.h",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Vector.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionManager.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/player/Player.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionInfo.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionInfo.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/OctreeConstants.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/EVoxelSide.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/player/Player.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.inl",
+		"/home/senpai/Coding/TheProject/src/applications/res/engine/shaders/solid_cube.frag",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/res/voxel_octree/init.py",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/tri_aabb.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.h",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.cpp",
+		"/home/senpai/Coding/TheProject/tools/voxel_export2.py",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/setup.py",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/TriAABB.cpp",
+		"/home/senpai/Coding/TheProject/tools/voxel_export.py",
+		"/home/senpai/.config/sublime-text-2/Packages/User/c_shared.sublime-build"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<open folders>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"space",
+			"GetVisibleSides",
+			"VoxelSideToPosition",
+			"EVoxelSide.h",
+			"include",
+			"myfunction",
+			"using\n",
+			"\"\n",
+			"Depth",
+			"m_octree",
+			";\n",
+			"\"\n",
+			"Depth",
+			"<Depth>",
+			";\n",
+			"CheckCollision",
+			"collide",
+			"m_buildNodes",
+			"AddFaceToMesh",
+			";\n",
+			"bool LoadLevel(const std::string & levelName);",
+			"IsNullVec",
+			"GetBlockAxis"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "VoxelOctreeApp.cpp",
+					"settings":
+					{
+						"buffer_size": 9919,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4198,
+								4198
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2040.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "motree/CollisionManager.cpp",
+					"settings":
+					{
+						"buffer_size": 9331,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4688,
+								4688
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2295.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "launcher.py",
+					"settings":
+					{
+						"buffer_size": 2488,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								185,
+								185
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "docs/Todo.txt",
+					"settings":
+					{
+						"buffer_size": 593,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								100,
+								100
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/senpai/Coding/TheProject/tools/iqm_export.py",
+					"settings":
+					{
+						"buffer_size": 46895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								34732,
+								34732
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12301.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 214.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 289.0,
+	"status_bar_visible": true
+}

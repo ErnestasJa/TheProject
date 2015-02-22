@@ -1,6 +1,6 @@
-#include "precomp.h"
+#include "Precomp.h"
 #include "OctreeUtils.h"
-#include "python.h"
+#include <Python.h>
 #include "motree/Morton.h"
 
 PyObject * EncodeMKPy(PyObject* self, PyObject* arg)
