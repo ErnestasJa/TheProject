@@ -3,6 +3,10 @@
 
 #include <boost/move/move.hpp>
 
+/**
+Think of efficient way to store color data.
+**/
+
 struct MNode
 {
 private:
@@ -10,12 +14,12 @@ private:
 
 public:
     uint32_t start;
-    uint32_t contained_by : 24;
-    uint32_t size : 8;
+    uint8_t r,g,b;
+    uint8_t size;
 
     MNode(BOOST_RV_REF(MNode) n);
     MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1);
-    MNode(uint32_t morton, uint8_t nodeSize=1);
+    MNode(uint32_t morton, uint8_t nodeSize=1, uint8_t red = 0, uint8_t green = 0, uint8_t blue = 0);
     MNode();
 
     MNode& operator=(BOOST_RV_REF(MNode) x);
@@ -24,15 +28,5 @@ public:
 
     inline uint32_t range_end() const;
 };
-
-static inline bool myfunction (const MNode & i,const MNode & j)
-{
-    return (i.start<j.start);
-}
-
-static inline bool myeqfunction (const MNode & i,const MNode & j)
-{
-    return (i.start==j.start);
-}
 
 #endif

@@ -2,14 +2,15 @@
 #define PLAYER_H
 
 #include "scenegraph/Camera.h"
-#include "motree/MortonOctree.h"
+#include "motree/CollisionManager.h"
+#include "opengl/AABB.h"
 
 static glm::vec3 gGravity = glm::vec3(0,1,0);
 
 class Player
 {
  public:
-  Player(CameraPtr cam, MortonOctTree<10>* octree, glm::vec3 position, AABB aabb = AABB(glm::vec3(0,0,0),glm::vec3(0.5,0.5,0.5)), glm::vec3 eyeOffset = glm::vec3(0,0.5,0));
+  Player(CameraPtr cam, CollisionManager * octree, glm::vec3 position, AABB aabb = AABB(glm::vec3(0,0,0),glm::vec3(0.7,1,0.7)), glm::vec3 eyeOffset = glm::vec3(0,0.5,0));
   virtual ~Player();
 
   const AABB & GetAABB();
@@ -30,7 +31,7 @@ class Player
   bool IsOnGround();
   bool IsSweptColliding(float timeStep);
   
-  MortonOctTree<10> * m_octree;
+  CollisionManager * m_octree;
   CameraPtr m_cam;
   glm::vec3   m_eyeOffset,
     m_position,

@@ -29,7 +29,7 @@ void VoxelOctreeBenchmarkApp::InitOctree()
     mesh->buffers[Mesh::COLOR] = cbo;
     mesh->Init();
 
-    octree = new MortonOctTree<10>();
+    octree = share(new MortonOctTree());
     octreeGen = new VoxMeshManager(octree);
 }
 
@@ -67,7 +67,7 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
 
 void VoxelOctreeBenchmarkApp::FreeOctree()
 {
-    delete octree;
+    octree = nullptr;
     delete octreeGen;
     mesh = MeshPtr();
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import fnmatch
 import os, shutil, subprocess
 import subprocess
@@ -14,7 +16,6 @@ class Example(Frame):
         self.initUI()
         
     def initUI(self):
-      
         self.parent.title("Launcher")
 
         self.pack(fill=BOTH, expand=1)
@@ -75,11 +76,11 @@ class Example(Frame):
     def runApplication(self):
         restore_path = os.getcwd()
         
-        os.chdir("bin")
+        #os.chdir("bin")
 
-        subprocess.call('./VoxelOctree 1', shell=True)
+        subprocess.call('./run.sh', shell=True)
 
-        os.chdir(restore_path)
+        #os.chdir(restore_path)
 
 def main():
   

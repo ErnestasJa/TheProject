@@ -1,10 +1,24 @@
-#ifndef COLLISIONINFO_H_INCLUDED
-#define COLLISIONINFO_H_INCLUDED
+#ifndef COLLISION_INFO_H
+#define COLLISION_INFO_H
+
+#include "utility/Vector.h"
+#include "MNode.h"
 
 struct CollisionInfo
 {
-    boost::container::list<MNode> nodes;
+    CollisionInfo(glm::vec3 ray_start, glm::vec3 ray_direction);
+    MNode node;
+    float nearestDistance;
+    glm::vec3 rayStart, rayDirection;
+};
+
+struct AABBCollisionInfo
+{
+    uint32_t voxelMK;
+    float time;
     glm::vec3 normal;
 };
 
-#endif // COLLISIONINFO_H_INCLUDED
+typedef vector<AABBCollisionInfo> CollisionInfoVector;
+
+#endif

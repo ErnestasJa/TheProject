@@ -2,11 +2,14 @@
 #include "MNode.h"
 #include "Morton.h"
 
-MNode::MNode(BOOST_RV_REF(MNode) n): start(n.start), size(n.size) {}
+MNode::MNode(BOOST_RV_REF(MNode) n): start(n.start), size(n.size), r(n.r), g(n.g), b(n.b) {}
 
 MNode& MNode::operator=(BOOST_RV_REF(MNode) x) // Move assign
 {
     start = x.start;
+    r = x.r;
+    g = x.g;
+    b = x.b;
     size  = x.size;
     return *this;
 }
@@ -15,19 +18,23 @@ MNode::MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize)
 {
     start = encodeMK(x,y,z);
     size = nodeSize;
-    contained_by = 0;
+    r = g = b = 255;
 }
 
-MNode::MNode(uint32_t morton, uint8_t nodeSize)
+MNode::MNode(uint32_t morton, uint8_t nodeSize, uint8_t red, uint8_t green, uint8_t blue)
 {
     start = morton;
     size = nodeSize;
-    contained_by = 0;
+    r = red;
+    g = green;
+    b = blue;
 }
 
 MNode::MNode()
 {
+    start = 0;
     size = 0;
+    r = g = b = 255;
 }
 
 inline uint32_t MNode::range_end() const

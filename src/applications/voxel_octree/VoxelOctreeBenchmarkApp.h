@@ -34,7 +34,7 @@ private:
     MeshPtr mesh;
     ShaderPtr sh;
     CameraPtr cam;
-    MortonOctTree<10> * octree;
+    MortonOctTreePtr octree;
     VoxMeshManager * octreeGen;
     timer_ptr timer;
 };

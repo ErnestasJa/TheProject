@@ -3,7 +3,7 @@
 #include "Morton.h"
 #include "stdlib.h"
 
-VoxMeshManager::VoxMeshManager(MortonOctTree<10> * octree, uint32_t level)
+VoxMeshManager::VoxMeshManager(MortonOctTreePtr octree, uint32_t level)
 {
     m_octree = octree;
     m_level = level;
@@ -22,7 +22,7 @@ Map & VoxMeshManager::GetMeshes()
 void VoxMeshManager::ClearBuildNodes()
 {
     loopxyz(32,32,32)
-      m_buildNodes[x][y][z].size = 0;;
+    m_buildNodes[x][y][z].size = 0;;
     
 }
 
@@ -30,8 +30,12 @@ void VoxMeshManager::SetBuildNode(const MNode & node)
 {
     uint32_t x,y,z;
     decodeMK(node.start&LOCAL_VOXEL_MASK, x, y, z);
-    m_buildNodes[x][y][z].start = node.start;
-    m_buildNodes[x][y][z].size = 1;
+    MNode & bn = m_buildNodes[x][y][z];
+    bn.start = node.start;
+    bn.size = 1;
+    bn.r = node.r;
+    bn.g = node.g;
+    bn.b = node.b;
 }
 
 bool vf_equals(const MNode & n1, const MNode & n2)
@@ -45,6 +49,7 @@ struct MaskNode
   uint8_t frontFace:1;
   uint8_t backFace:1;
   uint8_t align:6;
+  uint8_t r,g,b;
 
   MaskNode()
   {
@@ -60,7 +65,7 @@ inline void clearArea(MaskNode mask[32][32], bool front, int si, int sj, int i2,
   for(int j = sj; j < j2; j++)	   
     for(int i = si; i < i2; i++)		     
       if(front) mask[j][i].frontFace = false;
-      else mask[j][i].backFace = false;
+  else mask[j][i].backFace = false;
 }
 
 inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNode mask[32][32])
@@ -69,63 +74,73 @@ inline void VoxMeshManager::BuildSliceMask(uint32_t dim, uint32_t slice, MaskNod
 
     switch(dim)
     {
-    case 0:
+        case 0:
 
-      {
-        loop(y,32) loop(x,32)
         {
-            MaskNode & n = mask[y][x];
-
-            GetBuildNode(tmpNode,x,y,slice);
-
-            if(tmpNode.size==1)
+            loop(y,32) loop(x,32)
             {
-                GetBuildNode(tmpNode,x,y,slice+1);
-                n .frontFace = (tmpNode.size==0);
+                MaskNode & n = mask[y][x];
 
-                GetBuildNode(tmpNode,x,y,slice-1);
-                n .backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,x,y,slice);
+                n.r = tmpNode.r;
+                n.g = tmpNode.g;
+                n.b = tmpNode.b;
+
+                if(tmpNode.size==1)
+                {
+                    GetBuildNode(tmpNode,x,y,slice+1);
+                    n .frontFace = (tmpNode.size==0);
+
+                    GetBuildNode(tmpNode,x,y,slice-1);
+                    n .backFace = (tmpNode.size==0);
+                }
             }
+            break;
         }
-        break;
-    }
-    case 1:
-    {
-        loop(y,32) loop(x,32)
+        case 1:
         {
-            MaskNode & n = mask[y][x];
-
-            GetBuildNode(tmpNode,x,slice,y);
-
-            if(tmpNode.size==1)
+            loop(y,32) loop(x,32)
             {
-                GetBuildNode(tmpNode,x,slice+1,y);
-                n.frontFace = (tmpNode.size==0);
+                MaskNode & n = mask[y][x];
 
-                GetBuildNode(tmpNode,x,slice-1,y);
-                n.backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,x,slice,y);
+                n.r = tmpNode.r;
+                n.g = tmpNode.g;
+                n.b = tmpNode.b;
+
+                if(tmpNode.size==1)
+                {
+                    GetBuildNode(tmpNode,x,slice+1,y);
+                    n.frontFace = (tmpNode.size==0);
+
+                    GetBuildNode(tmpNode,x,slice-1,y);
+                    n.backFace = (tmpNode.size==0);
+                }
             }
+            break;
         }
-        break;
-    }
-    case 2:
-    {
-        loop(y,32) loop(x,32)
+        case 2:
         {
-            MaskNode & n = mask[y][x];
-
-            GetBuildNode(tmpNode,slice,x,y);
-            if(tmpNode.size==1)
+            loop(y,32) loop(x,32)
             {
-                GetBuildNode(tmpNode,slice+1,x,y);
-                n.frontFace = (tmpNode.size==0);
+                MaskNode & n = mask[y][x];
 
-                GetBuildNode(tmpNode,slice-1,x,y);
-                n.backFace = (tmpNode.size==0);
+                GetBuildNode(tmpNode,slice,x,y);
+                n.r = tmpNode.r;
+                n.g = tmpNode.g;
+                n.b = tmpNode.b;
+
+                if(tmpNode.size==1)
+                {
+                    GetBuildNode(tmpNode,slice+1,x,y);
+                    n.frontFace = (tmpNode.size==0);
+
+                    GetBuildNode(tmpNode,slice-1,x,y);
+                    n.backFace = (tmpNode.size==0);
+                }
             }
+            break;
         }
-        break;
-    }
     }
 }
 
@@ -139,19 +154,21 @@ struct Rect
     int x,y,x2,y2;
 };
 
-int lengthr(int x, int y, Rect & r, MaskNode mask[32][32], bool front)
+#define COLOR_EQ(C, N) (C[0]==N.r&&C[1]==N.g&&C[2]==N.b)
+
+int lengthr(int x, int y, Rect & r, MaskNode mask[32][32], bool front, uint8_t color[3])
 {
     int l = x;
-    for( ;l <= r.x2 && (front?mask[y][l].frontFace:mask[y][l].backFace); l++);
-    return l-x;
+    for( ;l <= r.x2 && (front?mask[y][l].frontFace:mask[y][l].backFace) && COLOR_EQ(color,mask[y][l]); l++);
+        return l-x;
 }
 
 
-int heightr(int x, int y, int l, Rect & r, MaskNode mask[32][32], bool front)
+int heightr(int x, int y, int l, Rect & r, MaskNode mask[32][32], bool front, uint8_t color[3])
 {
     int h = y;
-    for(; h <= r.y2 && lengthr(x,h,r,mask,front) >= l; h++);
-    return h-y;
+    for(; h <= r.y2 && lengthr(x,h,r,mask,front,color) >= l; h++);
+        return h-y;
 }
 
 
@@ -164,6 +181,8 @@ void VoxMeshManager::BuildFacesFromMask(Mesh* mesh, int dim, int z, const glm::v
 
     int faceNumber=1;
 
+    uint8_t color[3];
+
     while(!scanArea.empty())
     {
         Rect r = scanArea.top();
@@ -173,28 +192,32 @@ void VoxMeshManager::BuildFacesFromMask(Mesh* mesh, int dim, int z, const glm::v
         {
             for(int i = r.x; i <= r.x2; i++)
             {
-	      if(frontFace ? mask[j][i].frontFace : mask[j][i].backFace)
-              {
-		    int l = lengthr(i,j,r, mask, frontFace);
-                    int h = heightr(i,j+1,l,full, mask, frontFace)+1;
-		    
+                 if(frontFace ? mask[j][i].frontFace : mask[j][i].backFace)
+                 {
+                    color[0] = mask[j][i].r;
+                    color[1] = mask[j][i].g;
+                    color[2] = mask[j][i].b;
+
+                    int l = lengthr(i,j,r, mask, frontFace, color);
+                    int h = heightr(i,j+1,l,full, mask, frontFace, color)+1;
+
                     int sx = r.x, sy = j+h, ex = r.x2, ey = r.y2;   ///bot one
                     if(sx<=ex&&sy<=ey)
-                    scanArea.push(Rect{sx,sy,ex,ey});
+                        scanArea.push(Rect{sx,sy,ex,ey});
 
                     sx = r.x, sy = j+1, ex = i-1, ey = j+h-1;   ///left one
                     if(sx<=ex&&sy<=ey)
-                    scanArea.push(Rect{sx,sy,ex,ey});
+                        scanArea.push(Rect{sx,sy,ex,ey});
 
                     sx = i+l, sy = j, ex = r.x2, ey = j+h-1; ///right one
                     if(sx<=ex&&sy<=ey)
-                    scanArea.push(Rect{sx,sy,ex,ey});
-		    
-                    AddFaceToMesh(mesh, frontFace, dim, z, glm::ivec2(i,j), glm::ivec2(l,h), offset);
+                        scanArea.push(Rect{sx,sy,ex,ey});
+
+                    AddFaceToMesh(mesh, frontFace, dim, z, glm::ivec2(i,j), glm::ivec2(l,h), offset, color);
                     clearArea(mask,frontFace,i,j,i+l,j+h);
                     faceNumber++;
 
-                    goto out;
+                    goto out; // evil within
                 }
             }
         }
@@ -212,13 +235,13 @@ void VoxMeshManager::GreedyBuildChunk(Mesh* mesh, const glm::vec3 & offset)
         loop(z, 32)
         {
             BuildSliceMask(dim,z,mask);
-	    BuildFacesFromMask(mesh, dim, z, offset, mask, true);
-	    BuildFacesFromMask(mesh, dim, z, offset, mask, false);
-         }
+            BuildFacesFromMask(mesh, dim, z, offset, mask, true);
+            BuildFacesFromMask(mesh, dim, z, offset, mask, false);
+        }
     }
 }
 
-void VoxMeshManager::AddFaceToMesh(Mesh* mesh, bool frontFace, uint32_t dir, uint32_t slice, glm::ivec2 start, glm::ivec2 dims, glm::vec3 offset)
+void VoxMeshManager::AddFaceToMesh(Mesh* mesh, bool frontFace, uint32_t dir, uint32_t slice, glm::ivec2 start, glm::ivec2 dims, glm::vec3 offset, uint8_t color[3])
 {
     glm::vec3 face[4];
 
@@ -281,30 +304,30 @@ void VoxMeshManager::AddFaceToMesh(Mesh* mesh, bool frontFace, uint32_t dir, uin
         break;
     }
     default:
-        break;
+    break;
     }
 
-    AddQuadToMesh(mesh,face);
+    AddQuadToMesh(mesh, face, color);
 }
 
-void VoxMeshManager::AddQuadToMesh(Mesh* mesh, const glm::vec3 * face)
+void VoxMeshManager::AddQuadToMesh(Mesh* mesh, const glm::vec3 * face, uint8_t color[3])
 {
     BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::POSITION];
     IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) mesh->buffers[Mesh::INDICES];
     BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
 
     uint32_t indicesStart = vbo->data.size();
-    glm::vec3 color(0,150.0f/255.f,1.0f);
+    glm::vec3 col(((float)color[0])/255.0f, ((float)color[1])/255.0f, ((float)color[2])/255.0f);
 
     vbo->data.push_back(face[0]);
     vbo->data.push_back(face[1]);
     vbo->data.push_back(face[2]);
     vbo->data.push_back(face[3]);
 
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
-    cbo->data.push_back(color);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
+    cbo->data.push_back(col);
 
     ibo->data.push_back(indicesStart);
     ibo->data.push_back(indicesStart+2);
@@ -349,8 +372,12 @@ void VoxMeshManager::GetBuildNode(MNode & n, uint32_t x, uint32_t y, uint32_t z)
     }
     else
     {
-        n.size=m_buildNodes[x][y][z].size;
-        n.start=m_buildNodes[x][y][z].start;
+        MNode & node = m_buildNodes[x][y][z];
+        n.size=node.size;
+        n.start=node.start;
+        n.r = node.r;
+        n.g = node.g;
+        n.b = node.b;
     }
 }
 
@@ -420,7 +447,7 @@ void VoxMeshManager::AddVoxelToMesh(Mesh* mesh, const MNode & node, uint8_t side
     vbo->data.push_back(glm::vec3(x,  y+1,z+1));
 
     ///color data
-    glm::vec3 color((rand()%256)/255.0f,(rand()%256),(rand()%256)/255.0f);
+    glm::vec3 color(((float)node.r)/255.0f, ((float)node.g)/255.0f, ((float)node.b)/255.0f);
     cbo->data.push_back(color);
     cbo->data.push_back(color);
     cbo->data.push_back(color);

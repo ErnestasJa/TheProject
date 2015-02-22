@@ -847,7 +847,7 @@ def collectMeshes(context, bones, scale, matfun, useskel = True, usecol = False,
                 facealpha = alpha and alpha[face.index]
                 #material = os.path.basename(uvface.image.filepath) if uvface and uvface.image else 'no_tex.png'
                 material = "no_tex.png"
-				matindex = face.material_index
+                matindex = face.material_index
                 try:
                     mesh = materials[obj.name, matindex, material] 
                 except:

@@ -9,6 +9,7 @@
 #include "resources/ShaderLoader.h"
 #include "scenegraph/Camera.h"
 #include "motree/MortonOctree.h"
+#include "motree/CollisionManager.h"
 #include "motree/VoxMeshManager.h"
 #include "player/Player.h"
 
@@ -27,6 +28,7 @@ public:
 
     bool Init(const std::string & title, uint32_t width, uint32_t height);
     bool LoadLevel(const std::string & levelName);
+    bool SaveLevel(const std::string & levelName);
 
     void InitResources();
     void InitPython();
@@ -43,7 +45,8 @@ public:
 private:
     ShaderPtr sh;
     CameraPtr cam;
-    MortonOctTree<10> * octree;
+    MortonOctTreePtr octree;
+    CollisionManager * collisionManager;
     VoxMeshManager * octreeGen;
     TCubeMesh<glm::vec3> * cube;
     Player * player;

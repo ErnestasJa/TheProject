@@ -13,7 +13,7 @@ else()
 endif()
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
 
 find_package(PythonLibs REQUIRED)
 message(${PYTHON_INCLUDE_DIRS})
@@ -53,9 +53,12 @@ add_executable(VoxelOctree
 	../motree/MortonOctree.cpp
 	../motree/MNode.cpp
 	../motree/CollisionManager.cpp
+	../motree/CollisionInfo.cpp
+	../motree/VoxelSide.cpp
 	../py/cpputils.cpp
 	../py/OctreeApplicationPy.cpp
 	../py/OctreeUtils.cpp
+
 )
 
 #add_library(engine SHARED IMPORTED)
@@ -83,4 +86,5 @@ z
 "${LIBBIN_PATH}/libfreetype.a"
 "${LIBBIN_PATH}/libstb_image_lib.a"
 "${LIBBIN_PATH}/libtinyxml2_lib.a"
+"${LIBBIN_PATH}/libboost_container.a"
 )

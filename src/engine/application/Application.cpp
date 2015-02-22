@@ -50,7 +50,7 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
     _workingDirectoryPath = PHYSFS_getBaseDir();
 
     #ifndef RELEASE_FS
-        _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
+        loopi(4)
         _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
         _workingDirectoryPath += PHYSFS_getDirSeparator();
     #endif
@@ -60,6 +60,14 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
 
     _resourcePath = _workingDirectoryPath + "res" + PHYSFS_getDirSeparator();
     PHYSFS_mount(_resourcePath.c_str(),NULL,0);
+
+    _appContext->_logger->log(LOG_LOG,"Setting write dir: \"%s\"", _resourcePath.c_str());
+    int32_t changeWriteDirStatus = PHYSFS_setWriteDir(_resourcePath.c_str());
+
+    if(changeWriteDirStatus == 0)
+        _appContext->_logger->log(LOG_ERROR,"Write dir change failed.");
+    else
+        _appContext->_logger->log(LOG_LOG,"Write dir is: \"%s\"", PHYSFS_getWriteDir());
 
 
     _appContext->_window = new Window();

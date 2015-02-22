@@ -118,6 +118,7 @@
 			<Add directory="../../../../libs/physfs" />
 			<Add directory="../../../../libs/stb_image" />
 			<Add directory="../../../../libs/tinyxml2/src" />
+			<Add directory="../../../../libs" />
 		</Compiler>
 		<Unit filename="../../../../src/engine/Config.h" />
 		<Unit filename="../../../../src/engine/Precomp.h">
