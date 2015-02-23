@@ -264,8 +264,6 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex
 {
     Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
 
-    glEnable(GL_BLEND);
-
     gui_shader->Set();
     tex->Set(0);
 
@@ -286,15 +284,12 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,std::shared_ptr<Texture> tex
 
     gui_quad->Render();
 
-    glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
 void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,uint32_t style,bool tile)
 {
     Rect2D<float> scaled_dims=scale_gui_rect(dims.as<float>());
-
-    glEnable(GL_BLEND);
 
     gui_shader->Set();
     skin_atlas->Set(0);
@@ -311,7 +306,6 @@ void GUIEnvironment::draw_gui_quad(Rect2D<int> dims,uint32_t style,bool tile)
 
     gui_quad->Render();
 
-    glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
@@ -338,8 +332,6 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> size,std::shared_ptr<Textu
 {
     Rect2D<float> scaled_dims=scale_gui_rect(size.as<float>());
 
-    glEnable(GL_BLEND);
-
     gui_shader->Set();
     tex->Set(0);
 
@@ -353,15 +345,12 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> size,std::shared_ptr<Textu
     sliced_quad->SetRatio(glm::vec2(size.w,size.h));
     sliced_quad->Render();
 
-    glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
 void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> size,uint32_t style)
 {
     Rect2D<float> scaled_dims=scale_gui_rect(size.as<float>());
-
-    glEnable(GL_BLEND);
 
     gui_shader->Set();
     skin_atlas->Set(0);
@@ -378,7 +367,7 @@ void GUIEnvironment::draw_sliced_gui_quad(Rect2D<int> size,uint32_t style)
     glUniform1ui(gui_shader->getparam("coloured"),0);
     glUniform1f(gui_shader->getparam("alpha"),0.9f);
     sliced_quad->Render();
-    glDisable(GL_BLEND);
+
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
