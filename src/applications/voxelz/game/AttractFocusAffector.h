@@ -12,7 +12,7 @@ private:
 public:
     AttractFocusAffector(const glm::vec3 &attractionPoint,float power);
     virtual ~AttractFocusAffector(){};
-    void Affect(float dt,Particle &particleToAffect);
+    void Affect(float dt,Particle & particleToAffect, ParticleEmitter *emitter);
 protected:
 private:
     glm::vec3 calc_force(Particle &p, const glm::vec3 &attractionPoint);

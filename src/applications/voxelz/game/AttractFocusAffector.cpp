@@ -1,7 +1,9 @@
 #include "Precomp.h"
-#include "AttractFocusAffector.h"
+
 #include "opengl/AABB.h"
-#include "ParticleSystem.h"
+
+#include "AttractFocusAffector.h"
+#include "ParticleEmitter.h"
 
 AttractFocusAffector::AttractFocusAffector(const glm::vec3 &attractionPoint,float power)
 {
@@ -20,7 +22,7 @@ glm::vec3 AttractFocusAffector::calc_force(Particle &p, const glm::vec3 &attract
     return ret;
 }
 
-void AttractFocusAffector::Affect(float dt,Particle &particleToAffect)
+void AttractFocusAffector::Affect(float dt,Particle & particleToAffect, ParticleEmitter *emitter)
 {
 //    float dist=glm::distance(_attractionPoint,particleToAffect.pos);
 //    glm::vec3 dir=glm::normalize(_attractionPoint-particleToAffect.pos);

@@ -68,7 +68,7 @@ void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm:
             {
                 for(auto &affector:_particleAffectors)
                 {
-                    affector->Affect(dt,p);
+                    affector->Affect(dt,p,this);
                 }
 
                 p.pos+=p.speed*dt;

@@ -99,17 +99,13 @@ void ParticleSystem::Update(float dt)
 
         if(!emitter->_finished)
         {
-            uint32_t newparticles = (uint32_t)glm::ceil((dt*emitter->_maxParticles/30.f));
-//            uint32_t maxnewparticles=(uint32_t)(0.0167f*emitter->_maxParticles);
+            uint32_t newparticles = (uint32_t)glm::ceil((dt*emitter->_maxParticles));
+            uint32_t maxnewparticles=(uint32_t)(0.0167f*emitter->_maxParticles);
 
-//            if(newparticles>maxnewparticles)
-//            {
-//                newparticles=maxnewparticles;
-//            }
-//            else if(newparticles==0)
-//            {
-//                newparticles=glm::ceil(emitter->_maxParticles/10.f);
-//            }
+            if(newparticles>maxnewparticles)
+            {
+                newparticles=maxnewparticles;
+            }
 
             loop(i,newparticles)
             {

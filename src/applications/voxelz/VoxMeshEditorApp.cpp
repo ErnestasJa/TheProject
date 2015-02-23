@@ -355,14 +355,15 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    _emitter=new ParticleEmitter(glm::vec3(0,0,0),glm::vec3(0,1,0),0,10,4,4096,true);
+    _emitter=new ParticleEmitter(glm::vec3(-128,25,0),glm::vec3(1,0,0),15,5,100,1024,true);
     _emitter->AddParticleAffector(new GravityAffector());
-    _emitter->AddParticleAffector(new WindParticleAffector(AABB(glm::vec3(0,0,0),glm::vec3(1024,128,1024)),glm::vec3(1,0,0),15));
-    //_emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,15,0),1));
+    _emitter->AddParticleAffector(new WindParticleAffector(AABB(glm::vec3(0,0,0),glm::vec3(1024,128,1024)),glm::vec3(-1,0,0),15));
+    _emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,100,0),50));
     _particleSystem->AddEmitter(_emitter);
-    //em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,100,0),1,10,5);
-    //em->AddParticleAffector(new GravityAffector());
-    //_particleSystem->AddEmitter(em);
+
+    ParticleEmitter* em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,1,0),15,50,1,4096);
+    em->AddParticleAffector(new GravityAffector());
+    _particleSystem->AddEmitter(em);
 
     //_voxMesh->UpdateMesh();
 
