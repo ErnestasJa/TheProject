@@ -98,19 +98,18 @@ void ParticleSystem::Update(float dt)
             newparticles=maxnewparticles;
         }
 
-        emitter->_particleCount-=emitter->_deadParticles;
-        emitter->_deadParticles=0;
-
-        if(emitter->_particleCount<emitter->_maxParticles)
         loop(i,newparticles)
         {
+            uint32_t emitterParticleIndex=emitter->FindUnused();
+            if(emitterParticleIndex==-1) break;
+
+            if(emitter->_particleCount>emitter->_maxParticles)break;
             uint32_t particleIndex=FindUnused();
             Particle& currentParticle=_particlesContainer[particleIndex];
 
             BuildParticle(currentParticle,emitter);
 
-            emitter->_particleContainer[emitter->FindUnused()]=currentParticle;
-            emitter->_particleCount++;
+            emitter->_particleContainer[emitterParticleIndex]=currentParticle;
         }
     }
 

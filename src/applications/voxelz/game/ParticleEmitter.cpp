@@ -38,37 +38,29 @@ void ParticleEmitter::AddParticleAffector(IParticleAffector* affector)
 
 uint32_t ParticleEmitter::FindUnused()
 {
-    if(_lastUsedParticle>=_maxParticles/2)
+    loopr(i,_lastUsedParticle,_maxParticles)
     {
-        loopr(i,_lastUsedParticle,_maxParticles)
+        if(_particleContainer[i].life<=0.f)
         {
-            if(_particleContainer[i].life<=0.f)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
+            _lastUsedParticle=i;
+            return i;
         }
     }
-    else
+    loopi(_lastUsedParticle)
     {
-        loopi(_lastUsedParticle)
+        if(_particleContainer[i].life<=0.f)
         {
-            if(_particleContainer[i].life<=0.f)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
+            _lastUsedParticle=i;
+            return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col)
 {
-    loopi(_particleCount)
+    for(auto &p:_particleContainer)
     {
-        Particle &p=_particleContainer[i];
-
         if(p.life>0.f)
         {
             p.life-=dt;
@@ -83,12 +75,5 @@ void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm:
                 particleCount++;
             }
         }
-    }
-
-    loopi(_particleCount)
-    {
-        Particle &p=_particleContainer[i];
-        if(p.life<=0)
-            _deadParticles++;
     }
 }

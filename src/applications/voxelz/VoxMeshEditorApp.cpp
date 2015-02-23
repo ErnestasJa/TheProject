@@ -318,36 +318,36 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     _cam=new Camera(_appContext,glm::vec3(0,32,150),glm::vec3(0),glm::vec3(0,1,0));
 
-//    mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
-//    meshLoader->add_loader(new iqmloader(_appContext->_logger));
-//    _iqmMesh=meshLoader->load("res/mill.iqm");
-//    _iqmMesh->RecalculateAABB<glm::vec3>();
-//
-//    uint32_t gridSize=1;
-//    if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
-//    {
-//        _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
-//    }
-//    glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
-//    float scale=(float)(gridSize)/glm::abs(glm::max(glm::max(hs.x,hs.y),hs.z));
-//    _iqmMesh->HardScale<glm::vec3>(glm::vec3(scale));
-//    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
-//
-//    AABB bb=_iqmMesh->aabb;
-//    boxes.push_back(new CubeMesh(_iqmMesh->aabb));
-//
-//    //_voxMesh=new VoxelMesh(u16vec3(gridSize));
-//
-//    vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
-//    printf("Total triangles: %u\n",vec.size());
+    mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
+    meshLoader->add_loader(new iqmloader(_appContext->_logger));
+    _iqmMesh=meshLoader->load("res/mill.iqm");
+    _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    //VoxelizeMesh(vec,_voxMesh);
-    //cmg=new ChunkManager();
-    //VoxelizeMesh(vec,cmg);
-    //cmg->FlagGenerated();
+    uint32_t gridSize=512;
+    if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
+    {
+        _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
+    }
+    glm::vec3 hs=_iqmMesh->aabb.GetHalfSize()*2.f;
+    float scale=(float)(gridSize)/glm::abs(glm::max(glm::max(hs.x,hs.y),hs.z));
+    _iqmMesh->HardScale<glm::vec3>(glm::vec3(scale));
+    //_iqmMesh->HardMove<glm::vec3>(_iqmMesh->aabb.GetHalfSize());
+
+    AABB bb=_iqmMesh->aabb;
+    boxes.push_back(new CubeMesh(_iqmMesh->aabb));
+
+    //_voxMesh=new VoxelMesh(u16vec3(gridSize));
+
+    vector<Triangle<glm::vec3> > vec=_iqmMesh->GetTriangles<glm::vec3,uint32_t>();
+    printf("Total triangles: %u\n",vec.size());
+
+//    VoxelizeMesh(vec,_voxMesh);
+    cmg=new ChunkManager();
+    VoxelizeMesh(vec,cmg);
+    cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,100,0),5,5,5);
+    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,100,0),50,15,25);
     em->AddParticleAffector(new GravityAffector());
     _particleSystem->AddEmitter(em);
     //em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,100,0),1,10,5);
@@ -401,18 +401,18 @@ bool VoxMeshEditorApp::Update()
             b->Render(true);
         }
 
-//        if(_guiSwitches["showOrigMesh"])
-//        {
-//            MVar<glm::mat4>(0, "mvp", MVP).Set();
-//            _iqmMesh->Render();
-//        }
+        if(_guiSwitches["showOrigMesh"])
+        {
+            MVar<glm::mat4>(0, "mvp", MVP).Set();
+            _iqmMesh->Render();
+        }
 
-//        if(_guiSwitches["showVoxMesh"])
-//        {
-//            _voxShader->Set();
-//            MVar<glm::mat4>(0, "mvp", MVP).Set();
-//            cmg->Render(_cam,_voxShader,_guiSwitches["wireVoxMesh"]);
-//        }2
+        if(_guiSwitches["showVoxMesh"])
+        {
+            _voxShader->Set();
+            MVar<glm::mat4>(0, "mvp", MVP).Set();
+            cmg->Render(_cam,_voxShader,_guiSwitches["wireVoxMesh"]);
+        }
         _particleShader->Set();
         if(_particleShader->getparam("M")!=-1) MVar<glm::mat4>(_particleShader->getparam("M"), "M", glm::mat4(1.f)).Set();
         if(_particleShader->getparam("V")!=-1) MVar<glm::mat4>(_particleShader->getparam("V"), "V", _cam->GetViewMat()).Set();

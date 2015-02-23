@@ -124,12 +124,12 @@ vector<Triangle<T> > Mesh::GetTriangles()
     Triangle<T> tri;
 
     BufferObject<T>* vbo=(BufferObject<T>*)this->buffers[Mesh::POSITION];
-    BufferObject<glm::vec3>* nbo=(BufferObject<glm::vec3>*)this->buffers[Mesh::NORMAL];
     IndexBufferObject<U>* ibo=(IndexBufferObject<U>*)this->buffers[Mesh::INDICES];
 
     auto ibodata=ibo->data;
     auto vbodata=vbo->data;
-    auto nbodata=nbo->data;
+
+    vec.resize(ibo->data.size()/3);
 
     for(uint32_t i=0; i<ibo->data.size(); i+=3)
     {
@@ -147,7 +147,7 @@ vector<Triangle<T> > Mesh::GetTriangles()
         norm=glm::normalize(norm);
         tri.normal=norm;
 
-        vec.push_back(tri);
+        vec[i/3]=tri;
     }
 
     return vec;
