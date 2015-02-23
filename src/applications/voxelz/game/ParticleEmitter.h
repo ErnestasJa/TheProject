@@ -7,7 +7,7 @@
 
 
 class IParticleAffector;
-class Particle;
+struct Particle;
 
 class ParticleEmitter
 {
@@ -39,7 +39,7 @@ public:
 
     void AddParticleAffector(IParticleAffector* affector);
 
-    uint32_t FindUnused();
+    int32_t FindUnused();
 private:
 
 protected:

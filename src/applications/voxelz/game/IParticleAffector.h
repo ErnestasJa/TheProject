@@ -1,7 +1,7 @@
 #ifndef PARTICLEAFFECTOR_H
 #define PARTICLEAFFECTOR_H
 
-struct Particle;
+#include "Particle.h"
 
 class IParticleAffector
 {

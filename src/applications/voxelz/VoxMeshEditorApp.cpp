@@ -22,6 +22,7 @@
 #include "Game/ParticleSystem.h"
 #include "Game/ParticleEmitter.h"
 #include "Game/GravityAffector.h"
+#include "Game/AttractFocusAffector.h"
 
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -323,7 +324,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _iqmMesh=meshLoader->load("res/mill.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    uint32_t gridSize=512;
+    uint32_t gridSize=1;
     if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
     {
         _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
@@ -347,8 +348,9 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,100,0),50,15,25);
+    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,10,0),5,5,30,10000);
     em->AddParticleAffector(new GravityAffector());
+    em->AddParticleAffector(new AttractFocusAffector(glm::vec3(10,0,0),100));
     _particleSystem->AddEmitter(em);
     //em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,100,0),1,10,5);
     //em->AddParticleAffector(new GravityAffector());

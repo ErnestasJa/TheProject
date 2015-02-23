@@ -1,8 +1,8 @@
 #include "Precomp.h"
 
+#include "Particle.h"
 #include "ParticleEmitter.h"
 #include "IParticleAffector.h"
-#include "ParticleSystem.h"
 
 ParticleEmitter::ParticleEmitter(glm::vec3 pos,glm::vec3 direction, float speed, float spread,float particleLife,uint32_t maxParticles,bool loop)
 {
@@ -36,7 +36,7 @@ void ParticleEmitter::AddParticleAffector(IParticleAffector* affector)
     _particleAffectors.push_back(affector);
 }
 
-uint32_t ParticleEmitter::FindUnused()
+int32_t ParticleEmitter::FindUnused()
 {
     loopr(i,_lastUsedParticle,_maxParticles)
     {

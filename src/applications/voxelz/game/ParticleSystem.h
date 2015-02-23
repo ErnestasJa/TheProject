@@ -3,23 +3,10 @@
 
 #define MAX_PARTICLES 100000
 
+#include "Particle.h"
+
 #include "Voxel/VoxelTypes.h"
 #include "Opengl/BufferObject.h"
-
-struct Particle
-{
-    glm::vec3 pos,speed;
-    u8vec4 col;
-    float size,angle,weight;
-    float life;
-    Particle()
-    {
-        life=0;
-        size=angle=weight=0;
-        col=u8vec4(255);
-        pos=speed=glm::vec3(0);
-    }
-};
 
 class ParticleEmitter;
 
