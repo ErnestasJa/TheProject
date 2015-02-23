@@ -1,7 +1,7 @@
 #ifndef PARTICLESYSTEM_H
 #define PARTICLESYSTEM_H
 
-#define MAX_PARTICLES 100000
+#define MAX_PARTICLES 1000000
 
 #include "Particle.h"
 

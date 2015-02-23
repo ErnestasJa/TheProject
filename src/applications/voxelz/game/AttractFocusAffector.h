@@ -15,6 +15,7 @@ public:
     void Affect(float dt,Particle &particleToAffect);
 protected:
 private:
+    glm::vec3 calc_force(Particle &p, const glm::vec3 &attractionPoint);
 };
 
 #endif // ATTRACTFOCUSAFFECTOR_H

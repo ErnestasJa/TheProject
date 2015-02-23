@@ -172,10 +172,13 @@
 		<Unit filename="../../../../src/applications/voxelz/VoxelzApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/AttractFocusAffector.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/AttractFocusAffector.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/Entity.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/GravityAffector.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/GravityAffector.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/IParticleAffector.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/Particle.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleEmitter.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleEmitter.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.cpp" />

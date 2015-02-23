@@ -40,6 +40,10 @@ ParticleSystem::ParticleSystem()
     glBindBuffer(GL_ARRAY_BUFFER, _col->Id);
     glVertexAttribPointer(2,4,GL_UNSIGNED_BYTE,GL_TRUE,0,(void*)0);
 
+    glVertexAttribDivisor(0,0);
+    glVertexAttribDivisor(1,1);
+    glVertexAttribDivisor(2,1);
+
     glBindVertexArray(0);
 
     _pos->data.resize(MAX_PARTICLES);
@@ -56,28 +60,29 @@ ParticleSystem::~ParticleSystem()
 
 uint32_t ParticleSystem::FindUnused()
 {
-    if(_lastUsedParticle>=MAX_PARTICLES/2)
-    {
-        loopr(i,_lastUsedParticle,MAX_PARTICLES)
-        {
-            if(_particlesContainer[i].life<=0.f)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
-        }
-    }
-    else
-    {
-        loop(i,_lastUsedParticle)
-        {
-            if(_particlesContainer[i].life<=0.f)
-            {
-                _lastUsedParticle=i;
-                return i;
-            }
-        }
-    }
+
+//    if(_lastUsedParticle<MAX_PARTICLES/2)
+//    {
+//        loopi(MAX_PARTICLES/2+1)
+//        {
+//            if(_particlesContainer[i].life<=0.f)
+//            {
+//                _lastUsedParticle=i;
+//                return i;
+//            }
+//        }
+//    }
+//    else
+//    {
+//        loopr(i,_lastUsedParticle,MAX_PARTICLES)
+//        {
+//            if(_particlesContainer[i].life<=0.f)
+//            {
+//                _lastUsedParticle=i;
+//                return i;
+//            }
+//        }
+//    }
     return 0;
 }
 
@@ -88,29 +93,56 @@ void ParticleSystem::AddEmitter(ParticleEmitter* emitter)
 
 void ParticleSystem::Update(float dt)
 {
-    for(auto emitter:_emitters)
+    loopi(_emitters.size())
     {
-        uint32_t newparticles = (uint32_t)(dt*emitter->_maxParticles);
-        uint32_t maxnewparticles=(uint32_t)(0.0167f*emitter->_maxParticles);
+        ParticleEmitter *emitter=_emitters[i];
 
-        if(newparticles>maxnewparticles)
+        if(!emitter->_finished)
         {
-            newparticles=maxnewparticles;
-        }
+            uint32_t newparticles = (uint32_t)glm::ceil((dt*emitter->_maxParticles/30.f));
+//            uint32_t maxnewparticles=(uint32_t)(0.0167f*emitter->_maxParticles);
 
-        loop(i,newparticles)
+//            if(newparticles>maxnewparticles)
+//            {
+//                newparticles=maxnewparticles;
+//            }
+//            else if(newparticles==0)
+//            {
+//                newparticles=glm::ceil(emitter->_maxParticles/10.f);
+//            }
+
+            loop(i,newparticles)
+            {
+                uint32_t emitterParticleIndex=emitter->FindUnused();
+                if(emitter->_particleCount>=emitter->_maxParticles || emitterParticleIndex==-1) break;
+
+                Particle& currentParticle=_particlesContainer[0];
+
+                BuildParticle(currentParticle,emitter);
+
+                emitter->_particleContainer[emitterParticleIndex]=currentParticle;
+                emitter->_particleCount++;
+            }
+            if(emitter->_loop)
+            {
+                if(emitter->_deadParticleCount>0)
+                {
+                    emitter->_particleCount-=emitter->_deadParticleCount;
+                    emitter->_deadParticleCount=0;
+                }
+            }
+            else if(emitter->_particleCount==emitter->_deadParticleCount)
+            {
+                emitter->_deadParticleCount=emitter->_particleCount=0;
+                emitter->_finished=true;
+            }
+        }
+        else
         {
-            uint32_t emitterParticleIndex=emitter->FindUnused();
-            if(emitterParticleIndex==-1) break;
-
-            if(emitter->_particleCount>emitter->_maxParticles)break;
-            uint32_t particleIndex=FindUnused();
-            Particle& currentParticle=_particlesContainer[particleIndex];
-
-            BuildParticle(currentParticle,emitter);
-
-            emitter->_particleContainer[emitterParticleIndex]=currentParticle;
+            _emitters.erase(_emitters.begin()+i);
+            printf("erased an emitter\n");
         }
+        //printf("Emitter particle count %u\n",emitter->_particleCount);
     }
 
     _particleCount=0;
@@ -127,8 +159,9 @@ void ParticleSystem::BuildParticle(Particle& p,ParticleEmitter* e)
     float spread=e->_spread;
     glm::vec3 mainDir=e->_direction;
     glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
-    p.speed=mainDir+randomDir*spread;
+    p.speed=mainDir*e->_speed+randomDir*spread;
     p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
+    p.mass = 100;
     p.size = e->_particleSize;
 }
 
@@ -145,10 +178,6 @@ void ParticleSystem::Render()
     glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(u8vec4), glm::value_ptr(_col->data[0]));
 
     glBindVertexArray(_VAO);
-
-    glVertexAttribDivisor(0,0);
-    glVertexAttribDivisor(1,1);
-    glVertexAttribDivisor(2,1);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

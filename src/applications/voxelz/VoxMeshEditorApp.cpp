@@ -23,6 +23,7 @@
 #include "Game/ParticleEmitter.h"
 #include "Game/GravityAffector.h"
 #include "Game/AttractFocusAffector.h"
+#include "Game/WindParticleAffector.h"
 
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
@@ -88,8 +89,14 @@ void VoxMeshEditorApp::InitGUI()
     GUIStaticText* controls=new GUIStaticText(_guiEnv,Rect2D<int>(8,8,196,196),L"['s]['b]Controls:[b'][s']\n\n['s]F1 - This Menu[s']\n['s]W,A,S,D + Mouse - Move[s']\n['s]Shift - Accelerate[s']\n['s]Ctrl - Slowdown[s']\n['s]F - Focus GUI[s']\n['s]H - Toggle Editors' GUI[s']");
     controls->SetParent(cbxpane);
 
-    GUIEditBox* ebb=new GUIEditBox(_guiEnv,Rect2D<int>(300,24,128,64));
-    ebb->SetParent(_mainWin);
+    cbxpane=new GUIPane(_guiEnv,Rect2D<int>(280,28,196,220),true);
+    cbxpane->SetParent(_mainWin);
+    GUISlider *slid=new GUISlider(_guiEnv,Rect2D<int>(8,8,160,16),1,10000,1024);
+    slid->SetName("slider_EmitterSize");
+    slid->SetParent(cbxpane);
+    slid=new GUISlider(_guiEnv,Rect2D<int>(8,32,160,16),0.1,60,5);
+    slid->SetName("slider_EmitterLife");
+    slid->SetParent(cbxpane);
 }
 
 glm::vec2 Project(vector<glm::vec3> points,const glm::vec3 &axis)
@@ -348,10 +355,11 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    ParticleEmitter* em=new ParticleEmitter(glm::vec3(0),glm::vec3(0,10,0),5,5,30,10000);
-    em->AddParticleAffector(new GravityAffector());
-    em->AddParticleAffector(new AttractFocusAffector(glm::vec3(10,0,0),100));
-    _particleSystem->AddEmitter(em);
+    _emitter=new ParticleEmitter(glm::vec3(0,0,0),glm::vec3(0,1,0),0,10,4,4096,true);
+    _emitter->AddParticleAffector(new GravityAffector());
+    _emitter->AddParticleAffector(new WindParticleAffector(AABB(glm::vec3(0,0,0),glm::vec3(1024,128,1024)),glm::vec3(1,0,0),15));
+    //_emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,15,0),1));
+    _particleSystem->AddEmitter(_emitter);
     //em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,100,0),1,10,5);
     //em->AddParticleAffector(new GravityAffector());
     //_particleSystem->AddEmitter(em);
@@ -519,6 +527,22 @@ bool VoxMeshEditorApp::OnEvent(const GUIEvent& e)
 
         if(e.get_caller()->GetName().compare("cbx_wireVoxMesh")==0)
             _guiSwitches["wireVoxMesh"]=_checkboxes["cbx_wireVoxMesh"]->IsChecked();
+        break;
+
+    case gui_event_type::scrollbar_changed:
+        if(e.get_caller()->GetName().compare("slider_EmitterSize")==0)
+        {
+            uint32_t newValue=(uint32_t)glm::round(((GUISlider*)e.get_caller())->get_value());
+            _emitter->SetSize(newValue);
+            //_appContext->_logger->log(LOG_DEBUG,"%u",newValue);
+        }
+
+        if(e.get_caller()->GetName().compare("slider_EmitterLife")==0)
+        {
+            uint32_t newValue=(uint32_t)glm::round(((GUISlider*)e.get_caller())->get_value());
+            _emitter->SetParticleLife(newValue);
+            //_appContext->_logger->log(LOG_DEBUG,"%u",newValue);
+        }
         break;
     default:
         break;

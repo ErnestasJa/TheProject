@@ -25,6 +25,8 @@ class VoxelMesh;
 
 class Camera;
 
+class ParticleEmitter;
+
 class VoxMeshEditorApp : public Application, public GUIEventListener
 {
 private:
@@ -41,6 +43,8 @@ private:
     GUIColorPicker* _colPicker;
 
     Camera* _cam;
+
+    ParticleEmitter* _emitter;
     std::map<std::string,GUIButton*> _buttons;
     std::map<std::string,GUIStaticText*> _labels;
     std::map<std::string,GUISlider*> _sliders;

@@ -21,7 +21,7 @@ public:
     float _particleLife;
     float _particleSize;
 
-    uint32_t _particleCount,_deadParticles,_maxParticles,_lastUsedParticle;
+    uint32_t _particleCount,_deadParticleCount,_maxParticles,_lastUsedParticle;
 
     bool _loop;
     bool _finished;
@@ -38,6 +38,10 @@ public:
     void Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col);
 
     void AddParticleAffector(IParticleAffector* affector);
+
+    void SetSize(const uint32_t &newsize);
+
+    void SetParticleLife(const uint32_t &newLife);
 
     int32_t FindUnused();
 private:

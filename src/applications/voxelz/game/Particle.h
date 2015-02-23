@@ -7,8 +7,11 @@ struct Particle
 {
     glm::vec3 pos,speed;
     u8vec4 col;
+
     float size,angle,weight;
     float life;
+    float mass;
+
     Particle()
     {
         life=0;
