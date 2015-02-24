@@ -14,7 +14,7 @@ in vData
 {
     vec4 color;
 	vec4 pos;
-	vec3 rot;
+	vec4 rot;
 }vertex[];
 
 out vec4 color;
@@ -39,93 +39,95 @@ mat4 rotMat=rotationMatrix(vec3(1,0,0),vertex[0].rot.x);
 rotMat=rotMat*rotationMatrix(vec3(0,1,0),vertex[0].rot.y);
 rotMat=rotMat*rotationMatrix(vec3(0,0,1),vertex[0].rot.z);
 
+float particleSize=vertex[0].rot.w;
+
 //left
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 
 //right
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 
 //top
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 
 //bottom
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 
 //front
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 
 //back
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,0.5,0.0))*rotMat);
 EmitVertex();
 color=vertex[0].color;
-gl_Position = P*V*(vertex[0].pos+vec4(-0.5,-0.5,-0.5,0.0)*rotMat);
+gl_Position = P*V*(vertex[0].pos+(particleSize*vec4(-0.5,-0.5,-0.5,0.0))*rotMat);
 EmitVertex();
 EndPrimitive();
 }

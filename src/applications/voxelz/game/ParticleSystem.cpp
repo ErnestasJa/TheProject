@@ -4,6 +4,7 @@
 #include "ParticleEmitter.h"
 #include "opengl/OpenGLUtil.h"
 #include "opengl/AABB.h"
+#include "scenegraph/camera.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -25,10 +26,10 @@ ParticleSystem::ParticleSystem()
     glBindBuffer(GL_ARRAY_BUFFER,_col->Id);
     glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES*sizeof(u8vec4),0,GL_STREAM_DRAW);
 
-    _rot=new BufferObject<glm::vec3>();
+    _rot=new BufferObject<glm::vec4>();
     _rot->Init();
     glBindBuffer(GL_ARRAY_BUFFER,_rot->Id);
-    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES*sizeof(glm::vec3),0,GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES*sizeof(glm::vec4),0,GL_STREAM_DRAW);
 
     glGenVertexArrays(1,&_VAO);
     glBindVertexArray(_VAO);
@@ -47,7 +48,7 @@ ParticleSystem::ParticleSystem()
 
     glEnableVertexAttribArray(3);
     glBindBuffer(GL_ARRAY_BUFFER, _rot->Id);
-    glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,0,(void*)0);
+    glVertexAttribPointer(3,4,GL_FLOAT,GL_FALSE,0,(void*)0);
 
     glVertexAttribDivisor(0,0);
     glVertexAttribDivisor(1,1);
@@ -172,8 +173,8 @@ void ParticleSystem::Render()
     glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(u8vec4), glm::value_ptr(_col->data[0]));
 
     glBindBuffer(GL_ARRAY_BUFFER, _rot->Id);
-    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(glm::vec3), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf.
-    glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(glm::vec3), glm::value_ptr(_rot->data[0]));
+    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(glm::vec4), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf.
+    glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(glm::vec4), glm::value_ptr(_rot->data[0]));
 
     glBindVertexArray(_VAO);
 

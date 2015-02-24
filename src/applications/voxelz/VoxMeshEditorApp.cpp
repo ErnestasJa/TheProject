@@ -331,7 +331,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _iqmMesh=meshLoader->load("res/mill.iqm");
     _iqmMesh->RecalculateAABB<glm::vec3>();
 
-    uint32_t gridSize=1;
+    uint32_t gridSize=512;
     if(_iqmMesh->aabb.GetCenter()!=glm::vec3(0))
     {
         _iqmMesh->HardMove<glm::vec3>(glm::vec3(0)-_iqmMesh->aabb.GetCenter());
@@ -351,11 +351,11 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
 //    VoxelizeMesh(vec,_voxMesh);
     cmg=new ChunkManager();
-    //VoxelizeMesh(vec,cmg);
-    //cmg->FlagGenerated();
+    VoxelizeMesh(vec,cmg);
+    cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    _emitter=new ParticleEmitter(glm::vec3(0,25,0),glm::vec3(0,1,0),15,5,30,4096,true);
+    _emitter=new ParticleEmitter(glm::vec3(0,25,0),glm::vec3(0,1,0),5,100,10);
     _emitter->AddParticleAffector(new GravityAffector());
     //_emitter->AddParticleAffector(new WindParticleAffector(AABB(glm::vec3(0,0,0),glm::vec3(1024,128,1024)),glm::vec3(-1,0,0),15));
     //_emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,100,0),50));

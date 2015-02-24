@@ -13,7 +13,7 @@ ParticleEmitter::ParticleEmitter(glm::vec3 pos,glm::vec3 direction, float speed,
     _spread=spread;
 
     _particleLife=particleLife;
-    _particleSize=1.f;
+    _particleSize=15.f;
 
     _maxParticles=maxParticles;
     _lastUsedParticle=0;
@@ -61,9 +61,13 @@ void ParticleEmitter::Emit(Particle& p)
 {
     p.life=_particleLife;
     p.mass = 100;
-    p.size = _particleSize;
 
-    p.rot=glm::vec3((rand()%360),(rand()%360),(rand()%360));
+    p.rot.x=(rand()%360);
+    p.rot.y=(rand()%360);
+    p.rot.z=(rand()%360);
+
+    p.rot.w = rand()%(int)_particleSize;
+
     p.pos=_pos;
     p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
 
@@ -72,7 +76,7 @@ void ParticleEmitter::Emit(Particle& p)
     p.speed=mainDir*_speed+randomDir*_spread;
 }
 
-void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec3> *rot)
+void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec4> *rot)
 {
     for(auto &p:_particleContainer)
     {
@@ -87,11 +91,11 @@ void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm:
                 }
 
                 p.pos+=p.speed*dt;
-                p.rot.y+=dt;
-                if(p.rot.y>360.f) p.rot.y=0;
+
                 pos->data[particleCount]=p.pos;
                 col->data[particleCount]=p.col;
                 rot->data[particleCount]=p.rot;
+
                 particleCount++;
             }
         }

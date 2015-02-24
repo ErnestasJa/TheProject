@@ -5,7 +5,8 @@
 
 struct Particle
 {
-    glm::vec3 pos,speed,rot;
+    glm::vec3 pos,speed;
+    glm::vec4 rot; //rotation and size combined
     u8vec4 col;
 
     float size,weight;
@@ -17,7 +18,8 @@ struct Particle
         life=0;
         size=weight=0;
         col=u8vec4(255);
-        pos=speed=rot=glm::vec3(0);
+        pos=speed=glm::vec3(0);
+        rot=glm::vec4(0);
     }
 };
 

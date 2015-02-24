@@ -35,7 +35,7 @@ public:
 
     virtual ~ParticleEmitter();
 
-    void Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec3> *rot);
+    void Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec4> *rot);
 
     void AddParticleAffector(IParticleAffector* affector);
 

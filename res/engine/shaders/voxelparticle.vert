@@ -7,7 +7,7 @@
 layout (location=0) in vec3 geom;
 layout (location=1) in vec3 pos;
 layout (location=2) in vec4 col;
-layout (location=3) in vec3 rot;
+layout (location=3) in vec4 rot;
 
 uniform mat4 M;
 uniform mat4 V;
@@ -17,7 +17,7 @@ out vData
 {
     vec4 color;
 	vec4 pos;
-	vec3 rot;
+	vec4 rot;
 }vertex;
 
 void main()
