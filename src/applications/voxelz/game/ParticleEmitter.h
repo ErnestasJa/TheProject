@@ -35,13 +35,15 @@ public:
 
     virtual ~ParticleEmitter();
 
-    void Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col);
+    void Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec3> *rot);
 
     void AddParticleAffector(IParticleAffector* affector);
 
     void SetSize(const uint32_t &newsize);
 
     void SetParticleLife(const uint32_t &newLife);
+
+    void Emit(Particle& p);
 
     int32_t FindUnused();
 private:

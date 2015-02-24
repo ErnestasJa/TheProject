@@ -7,6 +7,7 @@
 layout (location=0) in vec3 geom;
 layout (location=1) in vec3 pos;
 layout (location=2) in vec4 col;
+layout (location=3) in vec3 rot;
 
 uniform mat4 M;
 uniform mat4 V;
@@ -16,6 +17,7 @@ out vData
 {
     vec4 color;
 	vec4 pos;
+	vec3 rot;
 }vertex;
 
 void main()
@@ -23,5 +25,6 @@ void main()
 	mat4 MVP=P*V*M;
 	vertex.color=col;
 	vertex.pos = vec4(pos,1);
+	vertex.rot = rot;
 	gl_Position = MVP*vec4(pos,1);
 }

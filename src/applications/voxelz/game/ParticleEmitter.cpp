@@ -57,7 +57,22 @@ int32_t ParticleEmitter::FindUnused()
     return -1;
 }
 
-void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col)
+void ParticleEmitter::Emit(Particle& p)
+{
+    p.life=_particleLife;
+    p.mass = 100;
+    p.size = _particleSize;
+
+    p.rot=glm::vec3((rand()%360),(rand()%360),(rand()%360));
+    p.pos=_pos;
+    p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
+
+    glm::vec3 mainDir=_direction;
+    glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
+    p.speed=mainDir*_speed+randomDir*_spread;
+}
+
+void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm::vec3> *pos, BufferObject<u8vec4> *col, BufferObject<glm::vec3> *rot)
 {
     for(auto &p:_particleContainer)
     {
@@ -72,9 +87,11 @@ void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm:
                 }
 
                 p.pos+=p.speed*dt;
-
+                p.rot.y+=dt;
+                if(p.rot.y>360.f) p.rot.y=0;
                 pos->data[particleCount]=p.pos;
                 col->data[particleCount]=p.col;
+                rot->data[particleCount]=p.rot;
                 particleCount++;
             }
         }

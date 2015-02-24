@@ -25,6 +25,11 @@ ParticleSystem::ParticleSystem()
     glBindBuffer(GL_ARRAY_BUFFER,_col->Id);
     glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES*sizeof(u8vec4),0,GL_STREAM_DRAW);
 
+    _rot=new BufferObject<glm::vec3>();
+    _rot->Init();
+    glBindBuffer(GL_ARRAY_BUFFER,_rot->Id);
+    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES*sizeof(glm::vec3),0,GL_STREAM_DRAW);
+
     glGenVertexArrays(1,&_VAO);
     glBindVertexArray(_VAO);
 
@@ -40,14 +45,20 @@ ParticleSystem::ParticleSystem()
     glBindBuffer(GL_ARRAY_BUFFER, _col->Id);
     glVertexAttribPointer(2,4,GL_UNSIGNED_BYTE,GL_TRUE,0,(void*)0);
 
+    glEnableVertexAttribArray(3);
+    glBindBuffer(GL_ARRAY_BUFFER, _rot->Id);
+    glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,0,(void*)0);
+
     glVertexAttribDivisor(0,0);
     glVertexAttribDivisor(1,1);
     glVertexAttribDivisor(2,1);
+    glVertexAttribDivisor(3,1);
 
     glBindVertexArray(0);
 
     _pos->data.resize(MAX_PARTICLES);
     _col->data.resize(MAX_PARTICLES);
+    _rot->data.resize(MAX_PARTICLES);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -114,7 +125,7 @@ void ParticleSystem::Update(float dt)
 
                 Particle& currentParticle=_particlesContainer[0];
 
-                BuildParticle(currentParticle,emitter);
+                emitter->Emit(currentParticle);
 
                 emitter->_particleContainer[emitterParticleIndex]=currentParticle;
                 emitter->_particleCount++;
@@ -144,21 +155,8 @@ void ParticleSystem::Update(float dt)
     _particleCount=0;
     for(auto emitter:_emitters)
     {
-        emitter->Update(dt,_particleCount,_pos,_col);
+        emitter->Update(dt,_particleCount,_pos,_col,_rot);
     }
-}
-
-void ParticleSystem::BuildParticle(Particle& p,ParticleEmitter* e)
-{
-    p.life=e->_particleLife;
-    p.pos=e->_pos;
-    float spread=e->_spread;
-    glm::vec3 mainDir=e->_direction;
-    glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
-    p.speed=mainDir*e->_speed+randomDir*spread;
-    p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
-    p.mass = 100;
-    p.size = e->_particleSize;
 }
 
 void ParticleSystem::Render()
@@ -172,6 +170,10 @@ void ParticleSystem::Render()
     glBindBuffer(GL_ARRAY_BUFFER, _col->Id);
     glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(u8vec4), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf.
     glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(u8vec4), glm::value_ptr(_col->data[0]));
+
+    glBindBuffer(GL_ARRAY_BUFFER, _rot->Id);
+    glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(glm::vec3), NULL, GL_STREAM_DRAW); // Buffer orphaning, a common way to improve streaming perf.
+    glBufferSubData(GL_ARRAY_BUFFER, 0, _particleCount * sizeof(glm::vec3), glm::value_ptr(_rot->data[0]));
 
     glBindVertexArray(_VAO);
 

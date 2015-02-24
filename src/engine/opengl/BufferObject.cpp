@@ -214,6 +214,40 @@ void BufferObject<uint32_t>::Upload()
 }
 
 template <>
+uint32_t BufferObject<float>::GetDataType()
+{
+    return GL_FLOAT;
+}
+
+template <>
+uint32_t BufferObject<float>::GetComponentCount()
+{
+    return 1;
+}
+
+template <>
+void BufferObject<float>::Init()
+{
+    glGenBuffers(1, &this->Id);
+}
+
+template <>
+void BufferObject<float>::Upload()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(float),&data[0],GL_STATIC_DRAW);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+template <>
+void BufferObject<float>::UploadSubData(vector<float> subdata,uint32_t offset)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferSubData(GL_ARRAY_BUFFER, offset*sizeof(float), subdata.size()*sizeof(float), &subdata[0]);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+template <>
 uint32_t BufferObject<glm::vec4>::GetDataType()
 {
     return GL_FLOAT;

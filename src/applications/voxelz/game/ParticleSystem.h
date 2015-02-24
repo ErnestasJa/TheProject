@@ -16,6 +16,7 @@ public:
     BufferObject<glm::vec3> *_geometry;
     BufferObject<glm::vec3> *_pos;
     BufferObject<u8vec4> *_col;
+    BufferObject<glm::vec3> *_rot;
 
     uint32_t _VAO;
 
