@@ -84,10 +84,10 @@ void GreedyMeshBuilder::AddQuadToMesh(ChunkPtr chk,const glm::ivec3 * face, cons
 {
     uint32_t indexStart=chk->offset+chk->meshData.positions.size();
 
-    chk->meshData.positions.push_back((u16vec3)(chk->position+face[0]));
-    chk->meshData.positions.push_back((u16vec3)(chk->position+face[1]));
-    chk->meshData.positions.push_back((u16vec3)(chk->position+face[2]));
-    chk->meshData.positions.push_back((u16vec3)(chk->position+face[3]));
+    chk->meshData.positions.push_back((u8vec3)(chk->position+face[0]));
+    chk->meshData.positions.push_back((u8vec3)(chk->position+face[1]));
+    chk->meshData.positions.push_back((u8vec3)(chk->position+face[2]));
+    chk->meshData.positions.push_back((u8vec3)(chk->position+face[3]));
 
     u8vec4 _col=IntRGBAToVecRGBA(col);
 
@@ -111,10 +111,10 @@ void GreedyMeshBuilder::AddQuadToMesh(ChunkPtr chk,const glm::ivec3 * face, cons
     printf("Inds: %u,%u,%u,%u\n",inds[0],inds[1],inds[2],inds[3]);
     uint32_t indexStart=chk->offset+chk->meshData.positions.size();
 
-    chk->meshData.positions[inds[0]]=(u16vec3)(chk->position+face[0]);
-    chk->meshData.positions[inds[1]]=(u16vec3)(chk->position+face[1]);
-    chk->meshData.positions[inds[2]]=(u16vec3)(chk->position+face[2]);
-    chk->meshData.positions[inds[3]]=(u16vec3)(chk->position+face[3]);
+    chk->meshData.positions[inds[0]]=(u8vec3)(chk->position+face[0]);
+    chk->meshData.positions[inds[1]]=(u8vec3)(chk->position+face[1]);
+    chk->meshData.positions[inds[2]]=(u8vec3)(chk->position+face[2]);
+    chk->meshData.positions[inds[3]]=(u8vec3)(chk->position+face[3]);
 
     u8vec4 _col=IntRGBAToVecRGBA(col);
 

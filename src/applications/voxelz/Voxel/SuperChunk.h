@@ -72,7 +72,7 @@ public:
         built=false;
         _offsetTrack=0;
 
-        BufferObject<u16vec3> *vert=new BufferObject<u16vec3>();
+        BufferObject<u8vec3> *vert=new BufferObject<u8vec3>();
         BufferObject<u8vec4> *col=new BufferObject<u8vec4>();
         IndexBufferObject<uint32_t> *inds = new IndexBufferObject<uint32_t>();
 
@@ -93,7 +93,7 @@ public:
         }
 
         Init();
-        freeVector(((BufferObject<glm::ivec3>*)buffers[Mesh::POSITION])->data);
+        freeVector(((BufferObject<u8vec3>*)buffers[Mesh::POSITION])->data);
         freeVector(((BufferObject<u8vec4>*)buffers[Mesh::COLOR])->data);
     }
 

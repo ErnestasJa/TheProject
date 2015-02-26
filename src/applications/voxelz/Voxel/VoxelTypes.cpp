@@ -90,7 +90,39 @@ void BufferObject<u8vec4>::Upload()
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+template <>
+uint32_t BufferObject<u8vec3>::GetDataType()
+{
+    return GL_UNSIGNED_BYTE;
+}
 
+template <>
+uint32_t BufferObject<u8vec3>::GetComponentCount()
+{
+    return 3;
+}
+
+template <>
+void BufferObject<u8vec3>::Init()
+{
+    glGenBuffers(1, &this->Id);
+}
+
+template <>
+void BufferObject<u8vec3>::Upload()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(u8vec3),&data[0],GL_STATIC_DRAW);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+template <>
+void BufferObject<u8vec3>::UploadSubData(vector<u8vec3> subdata,uint32_t offset)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
+    glBufferSubData(GL_ARRAY_BUFFER, offset*sizeof(u8vec3), subdata.size()*sizeof(u8vec3), &subdata[0]);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
 template <>
 uint32_t BufferObject<s8vec3>::GetDataType()

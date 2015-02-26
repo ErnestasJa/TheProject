@@ -115,6 +115,7 @@ void BufferObject<helpers::u8vec4>::UploadSubData(vector<helpers::u8vec4> subdat
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+
 template <>
 uint32_t BufferObject<glm::detail::tvec4<uint8_t> >::GetDataType()
 {
@@ -146,42 +147,6 @@ void BufferObject<glm::detail::tvec4<uint8_t> >::UploadSubData(vector<glm::detai
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->Id);
     glBufferSubData(GL_ARRAY_BUFFER, offset*sizeof(glm::detail::tvec4<uint8_t> ), subdata.size()*sizeof(glm::detail::tvec4<uint8_t> ), &subdata[0]);
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-///
-
-template <>
-uint32_t BufferObject<glm::detail::tvec3<uint8_t> >::GetDataType()
-{
-    return GL_UNSIGNED_BYTE;
-}
-
-template <>
-uint32_t BufferObject<glm::detail::tvec3<uint8_t> >::GetComponentCount()
-{
-    return 3;
-}
-
-template <>
-void BufferObject<glm::detail::tvec3<uint8_t> >::Init()
-{
-    glGenBuffers(1, &this->Id);
-}
-
-template <>
-void BufferObject<glm::detail::tvec3<uint8_t> >::Upload()
-{
-    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
-    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(glm::detail::tvec3<uint8_t> ),&data[0],GL_STATIC_DRAW);
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-template <>
-void BufferObject<glm::detail::tvec3<uint8_t> >::UploadSubData(vector<glm::detail::tvec3<uint8_t> > subdata,uint32_t offset)
-{
-    glBindBuffer(GL_ARRAY_BUFFER, this->Id);
-    glBufferSubData(GL_ARRAY_BUFFER, offset*sizeof(glm::detail::tvec3<uint8_t> ), subdata.size()*sizeof(glm::detail::tvec3<uint8_t> ), &subdata[0]);
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
