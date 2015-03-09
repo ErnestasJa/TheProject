@@ -18,6 +18,8 @@
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
 					<Add directory="src/applications/voxelz/game" />
+					<Add directory="src/applications/voxelz/Voxel" />
+					<Add directory="src/applications/voxelz/physics" />
 				</Compiler>
 				<Linker>
 					<Add library="engined" />
@@ -37,11 +39,14 @@
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
 					<Add directory="src/applications/voxelz/game" />
+					<Add directory="src/applications/voxelz/Voxel" />
+					<Add directory="src/applications/voxelz/physics" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="engine" />
 					<Add library="boost_system-mgw49-mt-1_57" />
+					<Add library="ccd" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -57,6 +62,8 @@
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
 					<Add directory="src/applications/voxelz/game" />
+					<Add directory="src/applications/voxelz/Voxel" />
+					<Add directory="src/applications/voxelz/physics" />
 				</Compiler>
 				<Linker>
 					<Add library="engined" />
@@ -97,6 +104,8 @@
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
 					<Add directory="src/applications/voxelz/game" />
+					<Add directory="src/applications/voxelz/Voxel" />
+					<Add directory="src/applications/voxelz/physics" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -142,6 +151,7 @@
 			<Add directory="../../../../libs/stb_image" />
 			<Add directory="../../../../libs/tinyxml2/src" />
 			<Add directory="../../../../libs/bullet/src" />
+			<Add directory="../../../../libs/libccd/src" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="../../../../res" />
@@ -168,6 +178,8 @@
 		<Unit filename="../../../../src/applications/voxelz/Voxel/VoxelSprite.h" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/VoxelTypes.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/Voxel/VoxelTypes.h" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/WorldGenerator.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/Voxel/WorldGenerator.h" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/VoxelzProfilingApp.cpp" />
@@ -186,6 +198,8 @@
 		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/physics/CollisionObject.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/physics/CollisionObject.h" />
 		<Unit filename="../../../../src/applications/voxelz/physics/Physics.h" />
 		<Unit filename="../../../../src/applications/voxelz/physics/cmotion_state.h" />
 		<Unit filename="../../../../src/applications/voxelz/physics/icollision_handler.cpp">

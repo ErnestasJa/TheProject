@@ -97,8 +97,22 @@ public:
         freeVector(((BufferObject<u8vec4>*)buffers[Mesh::COLOR])->data);
     }
 
-    ~SuperChunk()
+    virtual ~SuperChunk()
     {
+    }
+
+    void SaveToFile()
+    {
+        char buf[256];
+        sprintf(buf,"sc_%d%d%d.dat",_pos.x,_pos.y,_pos.z);
+        PHYSFS_file* asd=PHYSFS_openWrite(buf);
+        PHYSFS_write(asd,(void*)&noises,sizeof(noises),1);
+        PHYSFS_close(asd);
+    }
+
+    void LoadFromFile()
+    {
+
     }
 
     void Fill()

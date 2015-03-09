@@ -10,6 +10,7 @@
 #include "resources/ShaderLoader.h"
 #include "resources/MeshLoader.h"
 #include "resources/IQMLoader.h"
+#include "opengl/Texture.h"
 #include "scenegraph/Camera.h"
 #include "resources/ImageLoader.h"
 #include "opengl/GridMesh.h"
@@ -324,7 +325,7 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     _grid=new VoxMeshGrid(glm::vec3(128),8);
     _axisGrid=new GridMesh(1,128);
 
-    _cam=new Camera(_appContext,glm::vec3(0,32,150),glm::vec3(0),glm::vec3(0,1,0));
+    _cam=new Camera(_appContext,glm::vec3(0,32,150),glm::vec3(0),glm::vec3(0,1,0),1280.f/720.f,70.f);
 
     mesh_loader* meshLoader=new mesh_loader(_appContext->_logger);
     meshLoader->add_loader(new iqmloader(_appContext->_logger));
@@ -351,14 +352,14 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
 //    VoxelizeMesh(vec,_voxMesh);
     cmg=new ChunkManager();
-    VoxelizeMesh(vec,cmg);
-    cmg->FlagGenerated();
+    //VoxelizeMesh(vec,cmg);
+    //cmg->FlagGenerated();
 
     _particleSystem=new ParticleSystem();
-    _emitter=new ParticleEmitter(glm::vec3(0,25,0),glm::vec3(0,1,0),5,100,10);
+    _emitter=new ParticleEmitter(glm::vec3(0,25,0),glm::vec3(0,1,0),5,100,0.65);
     _emitter->AddParticleAffector(new GravityAffector());
     //_emitter->AddParticleAffector(new WindParticleAffector(AABB(glm::vec3(0,0,0),glm::vec3(1024,128,1024)),glm::vec3(-1,0,0),15));
-    //_emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,100,0),50));
+    _emitter->AddParticleAffector(new AttractFocusAffector(glm::vec3(0,100,0),50));
     _particleSystem->AddEmitter(_emitter);
 
 //    ParticleEmitter* em=new ParticleEmitter(glm::vec3(10,0,0),glm::vec3(0,1,0),15,50,1,4096);
@@ -377,6 +378,28 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     //AABB bb(glm::vec3(0.5),glm::vec3(0.5));
     //boxes.push_back(new CubeMesh(bb));
     //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
+
+    image_ptr noizeimg=share(new image());
+    noizeimg->Init(512,512,3);
+
+    loop(x,512)
+    {
+        loop(y,512)
+        {
+            uint8_t noiseval=(uint8_t)scaled_octave_noise_2d(8.f,1.f/2,1.f/100,0.f,256.f,x,y);
+            noiseval-=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,y,0);
+            uint8_t biome=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,y,0);
+            uint8_t biomeslice=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,0,y);
+            uint8_t finalBiome=(biome+biomeslice)%255;
+            noizeimg->SetPixel(x,y,(noiseval+finalBiome)%255,noiseval,noiseval);
+        }
+    }
+
+
+
+    TexturePtr textest=share(new Texture());
+    textest->Init(noizeimg);
+    GUIImage* noisetest=new GUIImage(_guiEnv,Rect2D<int>(1280-512,0,512,512),textest,true);
 
     return true;
 }

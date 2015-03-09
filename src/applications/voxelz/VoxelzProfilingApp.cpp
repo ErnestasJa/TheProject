@@ -69,8 +69,22 @@ static void RemoveManyChunks()
 void VoxelzProfilingApp::Benchmark()
 {
     BEGIN_BENCHMARK
-    image_loader* loader=new image_loader(ctx->_logger);
-    VoxelSprite::LoadFromImage(loader->load("res/masterracesubtle.png"),1);
+    ChunkManager* cmgr=new ChunkManager();
+    loopi(10)
+    {
+        cmgr->AddSuperChunk(glm::ivec3(i));
+    }
+
+    BENCHMARK_INTERRUPT
+
+    loopi(10)
+    {
+        cmgr->RemoveSuperChunk(glm::ivec3(i));
+    }
+
+    BENCHMARK_INTERRUPT
+    //cmgr->GetSuperChunk(glm::ivec3(0))->SaveToFile();
+    delete cmgr;
     END_BENCHMARK("fullhdimagegen")
 }
 

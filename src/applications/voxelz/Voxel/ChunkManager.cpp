@@ -90,6 +90,14 @@ SuperChunkPtr ChunkManager::AddSuperChunk(const glm::ivec3 &pos)
     }
 }
 
+void ChunkManager::RemoveSuperChunk(const glm::ivec3 &pos)
+{
+    if(_superChunks.count(pos)!=0)
+    {
+        _superChunks.erase(pos);
+    }
+}
+
 //! pos: in SUPER_CHUNK coordinates
 SuperChunkPtr ChunkManager::GetSuperChunk(const glm::ivec3 &pos)
 {

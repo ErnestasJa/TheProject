@@ -5,6 +5,7 @@
 #include "utility/Vector.h"
 #include "Opengl/BufferObject.h"
 
+#define PARTICLE_SUBSTEPS 20
 
 class IParticleAffector;
 struct Particle;

@@ -24,8 +24,5 @@ glm::vec3 AttractFocusAffector::calc_force(Particle &p, const glm::vec3 &attract
 
 void AttractFocusAffector::Affect(float dt,Particle & particleToAffect, ParticleEmitter *emitter)
 {
-//    float dist=glm::distance(_attractionPoint,particleToAffect.pos);
-//    glm::vec3 dir=glm::normalize(_attractionPoint-particleToAffect.pos);
     particleToAffect.speed+=calc_force(particleToAffect,_attractionPoint)*dt;
-    //if(glm::distance(particleToAffect.pos,_attractionPoint)<_power) particleToAffect.life=0.f;
 }

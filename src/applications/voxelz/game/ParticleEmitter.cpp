@@ -69,7 +69,7 @@ void ParticleEmitter::Emit(Particle& p)
     p.rot.w = rand()%(int)_particleSize;
 
     p.pos=_pos;
-    p.col=u8vec4(rand()%256,rand()%256,rand()%256,255);
+    p.col=u8vec4(150+rand()%106,rand()%50,rand()%1,255);
 
     glm::vec3 mainDir=_direction;
     glm::vec3 randomDir((rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f,(rand()%2000-1000.f)/1000.f);
@@ -87,6 +87,7 @@ void ParticleEmitter::Update(float dt,uint32_t &particleCount, BufferObject<glm:
             {
                 for(auto &affector:_particleAffectors)
                 {
+                    loopi(PARTICLE_SUBSTEPS)
                     affector->Affect(dt,p,this);
                 }
 
