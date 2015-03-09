@@ -156,6 +156,8 @@
 		<ResourceCompiler>
 			<Add directory="../../../../res" />
 		</ResourceCompiler>
+		<Unit filename="../../../../src/applications/voxelz/CollisionTestApp.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/CollisionTestApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/TemplateApp.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/TemplateApp.h" />
 		<Unit filename="../../../../src/applications/voxelz/VoxMeshEditorApp.cpp" />

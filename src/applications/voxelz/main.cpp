@@ -8,6 +8,7 @@
 #include "VoxelzApp.h"
 #include "VoxelzProfilingApp.h"
 #include "VoxMeshEditorApp.h"
+#include "CollisionTestApp.h"
 
 #define APP(AppName) [](int argc, const char ** argv)->Application*{ return new AppName(argc,argv);}
 
@@ -39,6 +40,7 @@ int main(int argc, const char ** argv)
     appLauncher.RegisterApplication("VoxelZ application", APP(VoxelzApp));
     appLauncher.RegisterApplication("VoxMeshEditor application", APP(VoxMeshEditorApp));
     appLauncher.RegisterApplication("VoxelZ profiling application", APP(VoxelzProfilingApp));
+    appLauncher.RegisterApplication("Collision test application", APP(CollisionTestApp));
 
     char choice = ShowAppMenu(appLauncher);
     uint32_t nr =  choice - '0';
