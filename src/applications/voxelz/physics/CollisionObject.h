@@ -24,6 +24,14 @@ struct CollisionInfo
     bool colliding;
     ccd_real_t depth;
     ccd_vec3_t dir,pos;
+
+    CollisionInfo()
+    {
+        colliding=false;
+        depth=0;
+        ccdVec3Set(&dir,0,0,0);
+        ccdVec3Set(&pos,0,0,0);
+    }
 };
 
 class CollisionObject
@@ -32,7 +40,7 @@ public:
     CollisionObject(const glm::vec3 &center,const glm::vec3 &halfsize)
     {
         _colShape=AABB(center,halfsize);
-        ccdVec3Set(&_pos,center.x,center.y,center.z);
+        _pos=GLMtoCCD(center);
     }
     virtual ~CollisionObject(){};
 
@@ -79,7 +87,7 @@ inline CollisionInfo MPRPenetration(CollisionObject * obj1, CollisionObject * ob
 
     CollisionInfo ret;
 
-    ret.colliding=ccdMPRPenetration(obj1,obj2,&ccd,&ret.depth,&ret.dir,&ret.pos);
+    ret.colliding=ccdMPRPenetration(obj1,obj2,&ccd,&ret.depth,&ret.dir,&ret.pos)+1;
 
     return ret;
 }

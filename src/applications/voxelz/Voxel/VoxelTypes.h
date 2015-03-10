@@ -17,15 +17,15 @@ typedef glm::detail::tvec3<uint16_t> u16vec3;
 typedef uint32_t intRGBA;
 
 template<typename T>
-inline static const char* GLMVec3ToStr(const T & in)
+inline std::string GLMVec3ToStr(const T & in)
 {
     glm::vec3 vec=(glm::vec3)in;
-    char buf[256];
+    char *buf=new char[256];
     sprintf(buf,"vec3(%f %f %f)",vec.x,vec.y,vec.z);
-    return std::string(buf).c_str();
+    return std::string(buf);
 }
 
-inline static uint32_t VecRGBToIntRGB(const u8vec3& col)
+inline uint32_t VecRGBToIntRGB(const u8vec3& col)
 {
     uint8_t r = col.x & 0xFF;
     uint8_t g = col.y & 0xFF;
@@ -36,7 +36,7 @@ inline static uint32_t VecRGBToIntRGB(const u8vec3& col)
     return rgba;
 }
 
-inline static uint32_t VecRGBAToIntRGBA(const u8vec4& col)
+inline uint32_t VecRGBAToIntRGBA(const u8vec4& col)
 {
     uint8_t r = col.x & 0xFF;
     uint8_t g = col.y & 0xFF;
@@ -48,12 +48,12 @@ inline static uint32_t VecRGBAToIntRGBA(const u8vec4& col)
     return rgba;
 }
 
-inline static u8vec3 IntRGBToVecRGB(const intRGBA &col)
+inline u8vec3 IntRGBToVecRGB(const intRGBA &col)
 {
     return u8vec3(col>>24&0xFF,col>>16&0xFF,col>>8&0xFF);
 }
 
-inline static u8vec4 IntRGBAToVecRGBA(const intRGBA &col)
+inline u8vec4 IntRGBAToVecRGBA(const intRGBA &col)
 {
     return u8vec4(col>>24&0xFF,col>>16&0xFF,col>>8&0xFF,col&0xFF);
 }
