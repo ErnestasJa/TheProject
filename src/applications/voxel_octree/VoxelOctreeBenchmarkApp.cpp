@@ -6,7 +6,7 @@
 
 VoxelOctreeBenchmarkApp::VoxelOctreeBenchmarkApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
-
+    std::cout << "Starting benchmark" << std::endl;   
 }
 
 VoxelOctreeBenchmarkApp::~VoxelOctreeBenchmarkApp()
@@ -17,7 +17,6 @@ VoxelOctreeBenchmarkApp::~VoxelOctreeBenchmarkApp()
 void VoxelOctreeBenchmarkApp::InitOctree()
 {
     AppContext * ctx = this->Ctx();
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_color");
     cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0)));
 
     mesh = MeshPtr(new Mesh());
@@ -40,11 +39,20 @@ void VoxelOctreeBenchmarkApp::BuildOctree()
 {
     uint32_t time, addTime, sortTime, rebuildTime, generationTime;
 
+
+    uint32_t x, y, z;
+
+    x=10;
+    y=10;
+    z=10;
+
+    std::cout << "Testing area dimensions: [" << x << ", " << y << ", " << z << "]" << std::endl;
+
     START(addTime);
-        octree->GetChildNodes().reserve(256*256*256);
-        loop(i,256)
-            loop(j,256)
-                loop(k,256)
+        octree->GetChildNodes().reserve(x*y*z);
+        loop(i,z)
+            loop(j,y)
+                loop(k,x)
                     octree->AddOrphanNode(MNode(k,j,i));
     END(addTime);
 
@@ -72,12 +80,22 @@ void VoxelOctreeBenchmarkApp::FreeOctree()
     mesh = MeshPtr();
 }
 
-
-
 bool VoxelOctreeBenchmarkApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
+    
     timer = Ctx()->_timer;
+
+    uint32_t x, y, z;
+    VarGroup & benchmark = this->GetGroup("benchmark");
+
+    x=benchmark.GetVar("x").ValueI();
+    y=benchmark.GetVar("y").ValueI();
+    z=benchmark.GetVar("z").ValueI();
+
+    std::cout << "Testing area dimensions: [" << x << ", " << y << ", " << z << "]" << std::endl;
+    std::cout << "Title: '" << this->GetVar("title").ValueS() << "'" << std::endl;
+
 
     /*InitOctree();
     BuildOctree();
@@ -144,4 +162,20 @@ void VoxelOctreeBenchmarkApp::OnMouseMove(double x, double y)
 
 void VoxelOctreeBenchmarkApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
+
+}
+
+std::string VoxelOctreeBenchmarkApp::GetApplicationId()
+{
+    return "voxel_octree_benchmark";
+}
+
+void VoxelOctreeBenchmarkApp::InitVariables()
+{
+/*
+    VarGroup & becnhGroup = this->AddGroup("benchmark");
+    becnhGroup.AddVar(Var("x", (int)10));
+    becnhGroup.AddVar(Var("y", (int)10));
+    becnhGroup.AddVar(Var("z", (int)10));
+*/
 }

@@ -27,6 +27,7 @@ choice = easygui.choicebox("Choose number of cores available", "Core choice", ch
 if choice != None :
     if choice == "4":
         buildcores += "-j4"
+
     elif choice == "8":
         buildcores += "-j8"
 
@@ -183,3 +184,4 @@ if easygui.boolbox(msg='Would you like to copy all libraries?', title='Compile b
 
     print("Press [Enter] key to continue...")
     s = input('--> ')
+    

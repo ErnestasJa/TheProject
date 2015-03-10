@@ -10,11 +10,8 @@ enum loglevel
     LOG_CRITICAL //we're fucked
 };
 
-
 class Application;
 class PHYSFS_File;
-
-
 class Logger
 {
 public:
@@ -28,7 +25,7 @@ public:
 private:
     int m_verbosity;
     Application * m_app;
-    //PHYSFS_File * m_logfile;
+    PHYSFS_File * m_logfile;
     //vector< std::pair<debuglevel,std::string> > outputs; //wrapped outputs for easy output
 
     std::string timestamp(); //timestamp generation

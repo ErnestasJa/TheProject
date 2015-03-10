@@ -37,111 +37,106 @@ void VoxelOctreeApp::InitPython()
   std::string path = this->GetAbsoluteResourcePath();
 
   path.erase(path.length()-1);
-    boost::algorithm::replace_all(path,"\\","\\\\"); //just windows things
+  boost::algorithm::replace_all(path,"\\","\\\\"); //just windows things
 
-    std::string scriptLoadString = "script_path = os.path.join(('" + path + "'),'python')";
+  std::string scriptLoadString = "script_path = os.path.join(('" + path + "'),'python')";
 
-    std::string initString = "import sys, os\n";
-    initString += scriptLoadString+"\n";
-    initString += "sys.path.append(script_path)\n";
-                //initString += "print('Python search path: ' + str(sys.path))\n";
+  std::string initString = "import sys, os\n";
+  initString += scriptLoadString+"\n";
+  initString += "sys.path.append(script_path)\n";
+  //initString += "print('Python search path: ' + str(sys.path))\n";
 
-    PyRun_SimpleString(initString.c_str());
+  PyRun_SimpleString(initString.c_str());
+}
+
+void VoxelOctreeApp::InitResources()
+{
+  AppContext * ctx = this->Ctx();
+
+  sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
+  cam = share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0), 1.7777777f,45.0f,0.1,1024.0f));
+
+  octree = share(new MortonOctTree());
+  collisionManager = new CollisionManager(octree);
+  octreeGen = new VoxMeshManager(octree);
+  octreeGen->GenAllChunks();
+  player = new Player(cam, collisionManager, glm::vec3(236.348465, 132.464081, 183.379868));
+  cube = new TCubeMesh<glm::vec3>(player->GetAABB());
+}
+
+bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
+{
+  Application::Init(title,width,height);
+  InitPython();
+
+  _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
+  _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
+  _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseMove));
+
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CCW);
+  glClearColor(0.4,0.8,0.2,0.0);
+  InitResources();
+  AfterInit();
+  _appContext->_timer->tick();
+  return true;
+}
+
+void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName, Logger * log)
+{
+  char * buf;
+  uint32_t len;
+  len=helpers::read(fileName,buf);
+  uint32_t * data = (uint32_t*)((void*)&buf[0]);
+
+  uint32_t voxel_count = data[0];
+  data++;
+
+  log->log(LOG_LOG, "File len: %u\nVoxel count: %u", len, voxel_count);
+
+  for(int i = 0; i < voxel_count; i++)
+  {
+    uint32_t x = data[0], y = data[1], z = data[2];
+    mot->AddOrphanNode(MNode(x,y,z));
+    data+=3;
   }
 
-  void VoxelOctreeApp::InitResources()
+  delete[] buf;
+}
+
+void SaveBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
+{
+  PHYSFS_file* f = PHYSFS_openWrite(("voxel_octree/" + fileName).c_str());
+
+  if(!f)
   {
-    AppContext * ctx = this->Ctx();
-
-    sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
-    cam=share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0),
-     1.7777777f,45.0f,0.1,1024.0f));
-
-
-    
-    octree = share(new MortonOctTree());
-    collisionManager = new CollisionManager(octree);
-    octreeGen = new VoxMeshManager(octree);
-    octreeGen->GenAllChunks();
-    player = new Player(cam, collisionManager, glm::vec3(236.348465, 132.464081, 183.379868));
-    cube = new TCubeMesh<glm::vec3>(player->GetAABB());
+    printf("PHYSFS: Opening (%s) to write failed.\n",fileName.c_str());
+    return;
   }
 
-  bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
+  auto nodes = mot->GetChildNodes();
+
+  uint32_t p[3];
+  uint32_t nodeCount = nodes.size();
+
+  PHYSFS_write(f, (void*)&nodeCount, 4, 1);
+  for (int i = 0; i < nodes.size(); ++i)
   {
-    Application::Init(title,width,height);
-    InitPython();
-
-    _appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnKeyEvent));
-    _appContext->_window->SigMouseKey().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseKey));
-    _appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this,&VoxelOctreeApp::OnMouseMove));
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-    glClearColor(0.4,0.8,0.2,0);
-
-    InitResources();
-    AfterInit();
-    _appContext->_timer->tick();
-    return true;
+    decodeMK(nodes[i].start,p[0],p[1],p[2]);
+    PHYSFS_write(f, (void*)p, 4, 3);
   }
 
-  void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
-  {
-    char * buf;
-    uint32_t len;
-    len=helpers::read(fileName,buf);
-    uint32_t * data = (uint32_t*)((void*)&buf[0]);
-
-    uint32_t voxel_count = data[0];
-    data++;
-
-    std::cout << "File len: " << len << std::endl;
-    std::cout << "Voxel count: " << voxel_count << std::endl;
-
-    for(int i = 0; i < voxel_count; i++)
-    {
-      uint32_t x = data[0], y = data[1], z = data[2];
-      mot->AddOrphanNode(MNode(x,y,z));
-      data+=3;
-    }
-
-    delete[] buf;
-  }
-
-  void SaveBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
-  {
-    PHYSFS_file* f = PHYSFS_openWrite(("voxel_octree/" + fileName).c_str());
-
-    if(!f)
-    {
-      printf("PHYSFS: Opening (%s) to write failed.\n",fileName.c_str());
-      return;
-    }
-
-    auto nodes = mot->GetChildNodes();
-
-    uint32_t p[3];
-    uint32_t nodeCount = nodes.size();
-
-    PHYSFS_write(f, (void*)&nodeCount, 4, 1);
-    for (int i = 0; i < nodes.size(); ++i)
-    {
-     decodeMK(nodes[i].start,p[0],p[1],p[2]);
-     PHYSFS_write(f, (void*)p, 4, 3);
-   }
-
-   printf("Saving level to file: %s\n",fileName.c_str());
-   PHYSFS_close(f);
- }
+ printf("Saving level to file: %s\n",fileName.c_str());
+ PHYSFS_close(f);
+}
 
  bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
  {
   octree->GetChildNodes().clear();
   octreeGen->GetMeshes().clear();
-  ReadBVoxFile(octree, levelName);
+  ReadBVoxFile(octree, levelName, Ctx()->_logger);
 
   octree->SortLeafNodes();
   octree->RemoveDuplicateNodes();
@@ -362,4 +357,9 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
       }
     }
   }
+}
+
+std::string VoxelOctreeApp::GetApplicationId()
+{
+    return "voxel_octree";
 }

@@ -30,9 +30,11 @@ public:
     void OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
+
+    virtual std::string GetApplicationId();
+    virtual void InitVariables();
 private:
     MeshPtr mesh;
-    ShaderPtr sh;
     CameraPtr cam;
     MortonOctTreePtr octree;
     VoxMeshManager * octreeGen;

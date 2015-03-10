@@ -1,4 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
+set(Python_ADDITIONAL_VERSIONS 3.4)
 project (BUILD_LIBRARIES)
 
 #Libs don't really need c++11?
