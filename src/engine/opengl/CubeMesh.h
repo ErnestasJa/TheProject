@@ -6,13 +6,12 @@
 #include "opengl/BufferObject.h"
 #include "resources/ResourceCache.h"
 
-template <class T>
-class TCubeMesh
+class CubeMesh
 {
 private:
     float m_size;
 public:
-    BufferObject<T> * pos;
+    BufferObject<glm::vec3> * pos;
     BufferObject<glm::detail::tvec4<uint8_t>> * col;
     BufferObject<glm::vec2> * tex_coords;
     IndexBufferObject<uint32_t> * indices;
@@ -20,45 +19,45 @@ public:
 
     std::shared_ptr<Mesh> glmesh;
 
-    TCubeMesh(float size=1.0f,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
+    CubeMesh(float size=1.0f,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
     {
         this->m_size=size;
         this->m_color=color;
         Init();
     }
 
-    TCubeMesh(const AABB & aabb,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
+    CubeMesh(const AABB & aabb,glm::detail::tvec4<uint8_t> color=glm::detail::tvec4<uint8_t>(1))
     {
         this->m_size=1;
         this->m_color=color;
         Init(aabb);
     }
 
-    ~TCubeMesh() {};
+    ~CubeMesh() {};
 
     bool Init()
     {
         glmesh = share(new Mesh());
 
-        pos = new BufferObject<T>();
+        pos = new BufferObject<glm::vec3>();
 
         /// - - +
-        T p1(0, 0, m_size);
+        glm::vec3 p1(0, 0, m_size);
         /// + - +
-        T p2(m_size, 0, m_size);
+        glm::vec3 p2(m_size, 0, m_size);
         /// + + +
-        T p3(m_size, m_size, m_size);
+        glm::vec3 p3(m_size, m_size, m_size);
         /// - + +
-        T p4(0, m_size, m_size);
+        glm::vec3 p4(0, m_size, m_size);
 
         /// - - -
-        T p5(0, 0, 0);
+        glm::vec3 p5(0, 0, 0);
         /// + - -
-        T p6(m_size, 0, 0);
+        glm::vec3 p6(m_size, 0, 0);
         /// + + -
-        T p7(m_size, m_size, 0);
+        glm::vec3 p7(m_size, m_size, 0);
         /// - + -
-        T p8(0, m_size, 0);
+        glm::vec3 p8(0, m_size, 0);
 
         pos->data.resize(8);
         pos->data[0]=p1;
@@ -140,26 +139,26 @@ public:
     {
         glmesh = share(new Mesh());
 
-        pos = new BufferObject<T>();
+        pos = new BufferObject<glm::vec3>();
 
         const glm::vec3 bmin=aabb.GetMin(), bmax=aabb.GetMax();
         /// - - +
-        T p1(bmin.x, bmin.y, bmax.z);
+        glm::vec3 p1(bmin.x, bmin.y, bmax.z);
         /// + - +
-        T p2(bmax.x, bmin.y, bmax.z);
+        glm::vec3 p2(bmax.x, bmin.y, bmax.z);
         /// + + +
-        T p3(bmax.x, bmax.y, bmax.z);
+        glm::vec3 p3(bmax.x, bmax.y, bmax.z);
         /// - + +
-        T p4(bmin.x, bmax.y, bmax.z);
+        glm::vec3 p4(bmin.x, bmax.y, bmax.z);
 
         /// - - -
-        T p5(bmin.x, bmin.y, bmin.z);
+        glm::vec3 p5(bmin.x, bmin.y, bmin.z);
         /// + - -
-        T p6(bmax.x, bmin.y, bmin.z);
+        glm::vec3 p6(bmax.x, bmin.y, bmin.z);
         /// + + -
-        T p7(bmax.x, bmax.y, bmin.z);
+        glm::vec3 p7(bmax.x, bmax.y, bmin.z);
         /// - + -
-        T p8(bmin.x, bmax.y, bmin.z);
+        glm::vec3 p8(bmin.x, bmax.y, bmin.z);
 
         pos->data.resize(8);
         pos->data[0]=p1;
@@ -246,7 +245,5 @@ public:
         if(wireframe) glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
 };
-
-typedef TCubeMesh<glm::ivec3> CubeMesh;
 
 #endif // CUBEMESH_H

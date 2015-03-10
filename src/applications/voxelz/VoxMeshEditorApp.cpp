@@ -375,8 +375,8 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
 
-    //AABB bb(glm::vec3(0.5),glm::vec3(0.5));
-    //boxes.push_back(new CubeMesh(bb));
+    AABB bbb(glm::vec3(0),glm::vec3(1));
+    boxes.push_back(new CubeMesh(bbb));
     //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
 
     image_ptr noizeimg=share(new image());
