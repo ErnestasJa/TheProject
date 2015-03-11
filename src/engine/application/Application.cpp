@@ -28,7 +28,7 @@ Application::Application(int32_t argc, const char ** argv): VarGroup("settings")
     _appContext = new AppContext();
 }
 
-#define DSP() PHYSFS_getDirSeparator()
+#define DSP() "/"
 void Application::InitSettings()
 {
     VarGroup & fs = this->AddGroup("filesystem");
@@ -60,23 +60,23 @@ void Application::SetWriteDirectory(const std::string & dir)
     }
 }
 
-std::string RemoveFromEnd(const std::string & stringToSearch, const std::string & toRemove)
+void RemoveFromEnd(std::string & stringToSearch, const std::string & toRemove)
 {
     if(&stringToSearch[stringToSearch.length()-toRemove.length()]==toRemove){
-        std::string ret = stringToSearch;
-        ret.erase((ret.length()-toRemove.length()),toRemove.length());
-        return ret;
+        stringToSearch.erase((stringToSearch.length()-toRemove.length()),toRemove.length());
     }
-    return stringToSearch;
 }
 
 #include <boost/algorithm/string/replace.hpp>
 std::string Application::GetAbsoluteDir(const std::string & absolutePart, const std::string & relativePart)
 {
     ///Maybe add regex path validations, throw exceptions?
-    std::string dir = RemoveFromEnd(relativePart,DSP()),
-        absoluteDir = RemoveFromEnd(absolutePart,DSP()),
+    std::string dir = relativePart,
+        absoluteDir = absolutePart,
         backStr = std::string("..") + DSP();
+
+    RemoveFromEnd(dir,DSP());
+    RemoveFromEnd(absoluteDir,DSP());
 
     uint32_t len = dir.size();
 
@@ -95,7 +95,8 @@ std::string Application::GetAbsoluteDir(const std::string & absolutePart, const 
     if(index<std::string::npos)
         absoluteDir.erase(absoluteDir.begin()+index,absoluteDir.end());
 
-    return absoluteDir+DSP();
+    RemoveFromEnd(absoluteDir,DSP());
+    return absoluteDir;
 }
 
 void Application::InitFileSystem()
@@ -104,22 +105,26 @@ void Application::InitFileSystem()
     // /home/senpai/Coding/TheProject/src/applications/voxel_octree/bin
     // Res dir
     // /home/senpai/Coding/TheProject/src/applications/voxel_octree/resources
-    // 
+    //
 
     //! Add error handling/exceptions
     VarGroup & fs = this->GetGroup("filesystem");
 
-    _resourcePath = std::string(fs.GetVar("resource_path").ValueS()) + DSP();
+    _resourcePath = std::string(fs.GetVar("resource_path").ValueS());
     _workingDirectoryPath = GetAbsoluteDir(_workingDirectoryPath, _resourcePath);
     boost::replace_all(_resourcePath, std::string("..") + DSP(), "");
 
     ///first set working directory as write dir
-    std::string engineResources = _resourcePath + fs.GetVar("engine_resource_path").ValueS() + DSP();
-    std::string appWriteDir = _resourcePath + this->GetApplicationId() + DSP();
-    std::string appLogDir = appWriteDir + fs.GetVar("log_path").ValueS() + DSP();
-    std::string appConfigPath = appWriteDir + fs.GetVar("config_path").ValueS() + DSP();
+    std::string engineResources = _resourcePath + DSP() + fs.GetVar("engine_resource_path").ValueS();
+    std::string appWriteDir = _resourcePath + DSP() + this->GetApplicationId();
+    std::string appLogDir = appWriteDir + DSP() + fs.GetVar("log_path").ValueS();
+    std::string appConfigPath = appWriteDir + DSP() + fs.GetVar("config_path").ValueS();
 
     SetWriteDirectory(_workingDirectoryPath);
+
+    std::cout << "WD: " << _workingDirectoryPath.c_str() << std::endl;
+    std::cout << "WD: " << (_workingDirectoryPath +DSP()+ _resourcePath).c_str() << std::endl;
+
 
     PHYSFS_mkdir(_resourcePath.c_str());
     PHYSFS_mkdir(engineResources.c_str());
@@ -127,12 +132,11 @@ void Application::InitFileSystem()
     PHYSFS_mkdir(appLogDir.c_str());
     PHYSFS_mkdir(appConfigPath.c_str());
 
-    PHYSFS_mount(_resourcePath.c_str(),NULL,0);
 
-    SetWriteDirectory(_workingDirectoryPath+appWriteDir);
+    PHYSFS_mount((_workingDirectoryPath +DSP()+ _resourcePath).c_str(),NULL,0);
+
+    SetWriteDirectory(_workingDirectoryPath +DSP()+ appWriteDir);
 }
-
-#undef DSP
 
 Application::~Application()
 {
@@ -153,6 +157,9 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
 
     _workingDirectoryPath = PHYSFS_getBaseDir();
     PHYSFS_mount(_workingDirectoryPath.c_str(), NULL, 0);
+
+    boost::replace_all(_workingDirectoryPath, PHYSFS_getDirSeparator(), DSP());
+    RemoveFromEnd(_workingDirectoryPath, DSP());
 
     InitSettings();
     ApplySettings();

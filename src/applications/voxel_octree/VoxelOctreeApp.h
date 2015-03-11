@@ -13,8 +13,7 @@
 #include "motree/VoxMeshManager.h"
 #include "player/Player.h"
 
-template <class T>
-class TCubeMesh;
+class CubeMesh;
 
 class VoxelOctreeApp: public Application
 {
@@ -49,7 +48,7 @@ private:
     MortonOctTreePtr octree;
     CollisionManager * collisionManager;
     VoxMeshManager * octreeGen;
-    TCubeMesh<glm::vec3> * cube;
+    CubeMesh * cube;
     Player * player;
 };
 
