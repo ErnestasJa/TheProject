@@ -68,6 +68,11 @@ public:
 
     bool OnEvent(const GUIEvent & e);
 
+    std::string GetApplicationId()
+    {
+        return "Voxelz";
+    }
+
 protected:
 };
 

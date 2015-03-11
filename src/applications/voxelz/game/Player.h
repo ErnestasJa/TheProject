@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "CollisionObject.h"
+#include "Physics/CollisionObject.h"
 
 #define PLAYER_HEIGHT 2.f
 #define PLAYER_WIDTH 1.f
