@@ -5,13 +5,20 @@
 			"path": "/home/senpai/Coding/TheProject/src/applications/voxel_octree"
 		},
 		{
-			"path": "/home/senpai/Coding/TheProject/src/applications/res"
-		},
-		{
 			"path": "/home/senpai/Coding/TheProject/tools"
 		},
 		{
 			"path": "/home/senpai/Coding/TheProject/src/engine"
+		},
+		{
+			"path": "/home/senpai/Coding/TheProject/res"
+		},
+		{
+			"path": "/home/senpai/Coding/TheProject"
 		}
-	]
+	],
+	"settings":{
+		"sublimegdb_workingdir": "${folder:${project_path:./bin/}}",
+   		"sublimegdb_commandline": "gdb source gdb.ini --interpreter=mi --args ./VoxelOctree 1"
+	}
 }

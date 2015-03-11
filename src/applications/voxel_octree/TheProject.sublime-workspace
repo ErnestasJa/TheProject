@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"get",
+				"GetVar"
+			],
+			[
+				"Get",
+				"GetGroup"
+			],
+			[
+				"settings",
+				"settingsFile"
+			],
+			[
+				"Appl",
+				"ApplySettings"
+			],
+			[
+				"Va",
+				"ValueI"
+			],
+			[
+				"Var",
+				"VarGroup"
+			],
+			[
 				"vec",
 				"vec3"
 			],
@@ -36,22 +60,6 @@
 	"buffers":
 	[
 		{
-			"file": "VoxelOctreeApp.cpp",
-			"settings":
-			{
-				"buffer_size": 9919,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "motree/CollisionManager.cpp",
-			"settings":
-			{
-				"buffer_size": 9331,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "launcher.py",
 			"settings":
 			{
@@ -60,18 +68,67 @@
 			}
 		},
 		{
-			"file": "docs/Todo.txt",
+			"file": "bin/config.json",
 			"settings":
 			{
-				"buffer_size": 593,
+				"buffer_size": 167,
+				"line_ending": "Unix",
+				"name": "config.json"
+			}
+		},
+		{
+			"file": "VoxelOctreeApp.cpp",
+			"settings":
+			{
+				"buffer_size": 9824,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/senpai/Coding/TheProject/tools/iqm_export.py",
+			"file": "/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
 			"settings":
 			{
-				"buffer_size": 46895,
+				"buffer_size": 61544,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/src/engine/opengl/Shader.h",
+			"settings":
+			{
+				"buffer_size": 6082,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "run.sh",
+			"settings":
+			{
+				"buffer_size": 123,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "VoxelOctreeBenchmarkApp.cpp",
+			"settings":
+			{
+				"buffer_size": 5202,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "VoxelOctreeBenchmarkApp.h",
+			"settings":
+			{
+				"buffer_size": 1181,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+			"settings":
+			{
+				"buffer_size": 6580,
 				"line_ending": "Unix"
 			}
 		}
@@ -82,8 +139,28 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"gdb",
+				"Preferences: SublimeGDB Settings – Default"
+			],
+			[
+				"settings",
+				"Preferences: SublimeGDB Settings – User"
+			],
+			[
+				"sublime",
+				"Preferences: SublimeGDB Settings – Default"
+			],
+			[
+				"SublimeGDB",
+				"Preferences: SublimeGDB Settings – Default"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
 		],
-		"width": 404.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -100,29 +177,53 @@
 	},
 	"file_history":
 	[
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/TheProject.sublime-project",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/application/ApplicationLauncher.cpp",
+		"/home/senpai/Coding/TheProject/libs/boost/boost/container/vector.hpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/main.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+		"/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/run.sh",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.cpp",
+		"/home/senpai/.config/sublime-text-2/Packages/SublimeGDB/SublimeGDB.sublime-settings",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/launcher.py",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/gdb.ini",
+		"/home/senpai/Coding/TheProject/src/engine/application/Application.h",
+		"/home/senpai/.config/sublime-text-2/Packages/User/SublimeGDB.sublime-settings",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeLists.txt",
+		"/home/senpai/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.h",
+		"/home/senpai/Coding/TheProject/res/voxel_octree/config.json",
+		"/home/senpai/Coding/TheProject/src/engine/core/VarJsonReader.h",
+		"/home/senpai/Coding/TheProject/CMakeLists.txt",
+		"/home/senpai/Coding/TheProject/build_libs.py",
+		"/home/senpai/Coding/TheProject/src/engine/core/Var.h",
+		"/home/senpai/Coding/TheProject/src/engine/core/VarGroup.h",
 		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.cpp",
 		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.h",
+		"/home/senpai/Coding/TheProject/src/engine/core/VarGroup.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/core/Var.cpp",
+		"/home/senpai/Coding/TheProject/src/engine/Core/Var.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionManager.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/docs/Todo.txt",
+		"/home/senpai/Coding/TheProject/tools/iqm_export.py",
 		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.inl",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/docs/Ideas.txt",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/docs/Todo.txt",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionManager.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/launcher.py",
 		"/home/senpai/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeFiles/VoxelOctree.dir/CXX.includecache",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeLists.txt",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.h",
 		"/home/senpai/Coding/TheProject/src/engine/utility/Util.h",
 		"/home/senpai/Coding/TheProject/src/engine/Precomp.h",
 		"/home/senpai/Coding/TheProject/src/engine/utility/Vector.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionManager.cpp",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/player/Player.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionInfo.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.h",
@@ -136,9 +237,6 @@
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/res/voxel_octree/init.py",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/tri_aabb.cpp",
-		"/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
-		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.h",
-		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.cpp",
 		"/home/senpai/Coding/TheProject/tools/voxel_export2.py",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/setup.py",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/tools/TriAABB.cpp",
@@ -162,6 +260,24 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"_workingDirectoryPath",
+			"AfterInit",
+			"LoadLevel",
+			"ReadBVoxFile",
+			"InitVariables",
+			"InitVa",
+			"\n    std::string _appWriteDir = _resourcePath + this->ApplicationWriteDir() + PHYSFS_getDirSeparator();",
+			"VoxelOctreeBenchmarkApp",
+			"    virtual std::string GetAbsoluteResourcePath();\n",
+			"\"\"));\n",
+			"BenchSettings",
+			"ret2",
+			"GetGroup",
+			"));\n",
+			"256",
+			"VoxelOctreeBenchmarkApp",
+			"y",
+			"VarGroup",
 			"space",
 			"GetVisibleSides",
 			"VoxelSideToPosition",
@@ -203,67 +319,11 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "VoxelOctreeApp.cpp",
-					"settings":
-					{
-						"buffer_size": 9919,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4198,
-								4198
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2040.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "motree/CollisionManager.cpp",
-					"settings":
-					{
-						"buffer_size": 9331,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4688,
-								4688
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2295.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "launcher.py",
 					"settings":
 					{
@@ -274,8 +334,8 @@
 						"selection":
 						[
 							[
-								185,
-								185
+								2346,
+								2346
 							]
 						],
 						"settings":
@@ -285,30 +345,31 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 848.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "docs/Todo.txt",
+					"buffer": 1,
+					"file": "bin/config.json",
 					"settings":
 					{
-						"buffer_size": 593,
+						"buffer_size": 167,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								100,
-								100
+								167,
+								167
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"auto_name": "config.json",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -317,29 +378,201 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "/home/senpai/Coding/TheProject/tools/iqm_export.py",
+					"buffer": 2,
+					"file": "VoxelOctreeApp.cpp",
 					"settings":
 					{
-						"buffer_size": 46895,
+						"buffer_size": 9824,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								34732,
-								34732
+								410,
+								410
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 210.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
+					"settings":
+					{
+						"buffer_size": 61544,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								55450,
+								55450
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 12301.0,
+						"translation.y": 29855.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/senpai/Coding/TheProject/src/engine/opengl/Shader.h",
+					"settings":
+					{
+						"buffer_size": 6082,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4799,
+								4799
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2465.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "run.sh",
+					"settings":
+					{
+						"buffer_size": 123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "VoxelOctreeBenchmarkApp.cpp",
+					"settings":
+					{
+						"buffer_size": 5202,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4862,
+								4862
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2063.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "VoxelOctreeBenchmarkApp.h",
+					"settings":
+					{
+						"buffer_size": 1181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1048,
+								1048
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"file": "/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+					"settings":
+					{
+						"buffer_size": 6580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3341,
+								3341
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 25.0,
+						"translation.y": 1295.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -364,11 +597,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.466891477621,
 			1.0
 		],
 		"rows":
@@ -380,7 +620,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 214.0
+		"height": 244.0
 	},
 	"replace":
 	{
@@ -400,6 +640,10 @@
 		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"/home/senpai/Coding/IdeaTestingPlayground/Tests/Tests.sublime-project"
+			]
 		],
 		"width": 380.0
 	},

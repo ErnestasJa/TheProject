@@ -61,86 +61,53 @@ bool AABB::IntersectsWith(const AABB &other) const
         &&(glm::abs(m_center.z - other.GetCenter().z) <= m_halfSize.z + other.GetHalfSize().z);
 }
 
-float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::vec3 & normal) const
+float AABB::SweepCollidesWith(const AABB & other, const glm::vec3 & vel, glm::vec3 & normal) const
 {
     glm::vec3 invEntry, invExit;
+    glm::vec3 p1s, p1e, p2s, p2e;
+    p1s=this->m_center-this->m_halfSize;
+    p1e=this->m_center+this->m_halfSize;
+    p2s=other.m_center-other.m_halfSize;
+    p2e=other.m_center+other.m_halfSize;
 
-    // find the distance between the objects on the near and far sides for both x and y
-    if (vel.x > 0.0f)
-    {
-        invEntry.x = (other.m_center.x-other.m_halfSize.x) - (this->m_center.x + this->m_halfSize.x);
-        invExit.x =  (other.m_center.x+other.m_halfSize.x) - (this->m_center.x - this->m_halfSize.x);
-    }
-    else
-    {
-        invEntry.x = (other.m_center.x+other.m_halfSize.x) - (this->m_center.x - this->m_halfSize.x);
-        invExit.x =  (other.m_center.x-other.m_halfSize.x) - (this->m_center.x + this->m_halfSize.x);
-    }
-
-    if (vel.y > 0.0f)
-    {
-        invEntry.y = (other.m_center.y-other.m_halfSize.y) - (this->m_center.y + this->m_halfSize.y);
-        invExit.y =  (other.m_center.y+other.m_halfSize.y) - (this->m_center.y - this->m_halfSize.y);
-    }
-    else
-    {
-        invEntry.y = (other.m_center.y+other.m_halfSize.y) - (this->m_center.y - this->m_halfSize.y);
-        invExit.y =  (other.m_center.y-other.m_halfSize.y) - (this->m_center.y + this->m_halfSize.y);
+    #define INV_ENTRY_EXIT(axis)\
+    if (vel.axis > 0.0f)\
+    {\
+    invEntry.axis = p2s.axis - p1e.axis;\
+    invExit.axis = p2e.axis - p1s.axis;\
+    }\
+    else\
+    {\
+    invEntry.axis = p2e.axis - p1s.axis;\
+    invExit.axis = p2s.axis - p1e.axis;\
     }
 
-    if (vel.z > 0.0f)
-    {
-        invEntry.z = (other.m_center.z-other.m_halfSize.z) - (this->m_center.z + this->m_halfSize.z);
-        invExit.z =  (other.m_center.z+other.m_halfSize.z) - (this->m_center.z - this->m_halfSize.y);
-    }
-    else
-    {
-        invEntry.z = (other.m_center.z+other.m_halfSize.z) - (this->m_center.z - this->m_halfSize.z);
-        invExit.z =  (other.m_center.z-other.m_halfSize.z) - (this->m_center.z + this->m_halfSize.z);
-    }
-
+    INV_ENTRY_EXIT(x)
+    INV_ENTRY_EXIT(y)
+    INV_ENTRY_EXIT(z)
+    #undef INV_ENTRY_EXIT
     // find time of collision and time of leaving for each axis (if statement is to prevent divide by zero)
     glm::vec3 entry, exit;
-
-    if (vel.x == 0.0f)
-    {
-        entry.x = -std::numeric_limits<float>::infinity();
-        exit.x = std::numeric_limits<float>::infinity();
+    #define ENTRY_EXIT(axis)\
+    if (vel.axis == 0.0f)\
+    {\
+    entry.axis = -std::numeric_limits<float>::infinity();\
+    exit.axis = std::numeric_limits<float>::infinity();\
+    }\
+    else\
+    {\
+    entry.axis = invEntry.axis / vel.axis;\
+    exit.axis = invExit.axis / vel.axis;\
     }
-    else
-    {
-        entry.x = invEntry.x / vel.x;
-        exit.x = invExit.x / vel.x;
-    }
-
-    if (vel.y == 0.0f)
-    {
-        entry.y = -std::numeric_limits<float>::infinity();
-        exit.y = std::numeric_limits<float>::infinity();
-    }
-    else
-    {
-        entry.y = invEntry.y / vel.y;
-        exit.y = invExit.y / vel.y;
-    }
-
-    if (vel.z == 0.0f)
-    {
-        entry.z = -std::numeric_limits<float>::infinity();
-        exit.z = std::numeric_limits<float>::infinity();
-    }
-    else
-    {
-        entry.z = invEntry.z / vel.z;
-        exit.z = invExit.z / vel.z;
-    }
-
+    ENTRY_EXIT(x)
+    ENTRY_EXIT(y)
+    ENTRY_EXIT(z)
+    #undef ENTRY_EXIT
     // find the earliest/latest times of collision
     float entryTime = std::max(std::max(entry.x, entry.y),entry.z);
     float exitTime = std::min(std::min(exit.x, exit.y),exit.z);
-
     // if there was no collision
-    if (entryTime > exitTime || (entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f) || entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f)
+    if (entryTime > exitTime || (entry.x < 0.0f && entry.y < 0.0f && entry.z < 0.0f) || (entry.x > 1.0f || entry.y > 1.0f || entry.z > 1.0f))
     {
         normal.x = 0.0f;
         normal.y = 0.0f;
@@ -149,7 +116,7 @@ float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::ve
     }
     else // if there was a collision
     {
-        // calculate normal of collided surface
+    // calculate normal of collided surface
         if (entry.x > entry.y && entry.x > entry.z)
         {
             if (invEntry.x < 0.0f)
@@ -158,7 +125,7 @@ float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::ve
                 normal.y = 0.0f;
                 normal.z = 0.0f;
             }
-	        else
+            else
             {
                 normal.x = -1.0f;
                 normal.y = 0.0f;
@@ -173,11 +140,11 @@ float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::ve
                 normal.y = 1.0f;
                 normal.z = 0.0f;
             }
-	        else
+            else
             {
                 normal.x = 0.0f;
-		        normal.y = -1.0f;
-		        normal.z = 0.0f;
+                normal.y = -1.0f;
+                normal.z = 0.0f;
             }
         }
         else
@@ -188,15 +155,14 @@ float AABB::SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::ve
                 normal.y = 0.0f;
                 normal.z = 1.0f;
             }
-	        else
+            else
             {
                 normal.x = 0.0f;
-		        normal.y = 0.0f;
-		        normal.z = -1.0f;
+                normal.y = 0.0f;
+                normal.z = -1.0f;
             }
         }
-
-        // return the time of collision
+// return the time of collision
         return entryTime;
     }
 }
@@ -259,6 +225,11 @@ glm::vec3 AABB::GetMin() const
 glm::vec3 AABB::GetMax() const
 {
     return m_center+m_halfSize;
+}
+
+void AABB::SetCenter(const glm::vec3 &point)
+{
+    m_center=point;
 }
 
 void AABB::CalculatePoints()

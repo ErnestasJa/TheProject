@@ -134,6 +134,12 @@
 		<Unit filename="../../../../src/engine/application/InputHandler.h" />
 		<Unit filename="../../../../src/engine/application/Window.cpp" />
 		<Unit filename="../../../../src/engine/application/Window.h" />
+		<Unit filename="../../../../src/engine/core/Var.cpp" />
+		<Unit filename="../../../../src/engine/core/Var.h" />
+		<Unit filename="../../../../src/engine/core/VarGroup.cpp" />
+		<Unit filename="../../../../src/engine/core/VarGroup.h" />
+		<Unit filename="../../../../src/engine/core/VarJsonReader.cpp" />
+		<Unit filename="../../../../src/engine/core/VarJsonReader.h" />
 		<Unit filename="../../../../src/engine/gui/GUI.h" />
 		<Unit filename="../../../../src/engine/gui/GUIButton.cpp" />
 		<Unit filename="../../../../src/engine/gui/GUIButton.h" />
