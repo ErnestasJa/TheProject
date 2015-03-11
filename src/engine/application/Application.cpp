@@ -21,12 +21,118 @@ void Application::OutputPhysFSVersions()
             (int) linked.major, (int) linked.minor, (int) linked.patch);
 } /* output_versions */
 
-Application::Application(int32_t argc, const char ** argv)
+Application::Application(int32_t argc, const char ** argv): VarGroup("settings")
 {
     this->_argc = argc;
     this->_argv = argv;
     _appContext = new AppContext();
 }
+
+#define DSP() PHYSFS_getDirSeparator()
+void Application::InitSettings()
+{
+    VarGroup & fs = this->AddGroup("filesystem");
+    fs.AddVar(Var("resource_path", "res"));
+    fs.AddVar(Var("engine_resource_path", "engine"));
+    fs.AddVar(Var("config_path", "conf"));
+    fs.AddVar(Var("log_path", "log"));
+    Application::LoadSettings(*this, "config.json");
+
+    InitVariables();
+    VarGroup & app = this->GetGroup(this->GetApplicationId().c_str());
+
+    if(app.Name()!=0)
+        Application::LoadSettings(app, (std::string(fs.GetVar("config_path").ValueS()) + DSP() + this->GetApplicationId() + ".json").c_str());
+}
+
+void Application::ApplySettings()
+{
+    InitFileSystem();
+}
+
+void Application::SetWriteDirectory(const std::string & dir)
+{
+    int32_t changeWriteDirStatus = PHYSFS_setWriteDir(dir.c_str());
+
+    if(changeWriteDirStatus == 0){
+        printf("Write dir change to '%s' failed.", dir.c_str());
+        exit(-1);
+    }
+}
+
+std::string RemoveFromEnd(const std::string & stringToSearch, const std::string & toRemove)
+{
+    if(&stringToSearch[stringToSearch.length()-toRemove.length()]==toRemove){
+        std::string ret = stringToSearch;
+        ret.erase((ret.length()-toRemove.length()),toRemove.length());
+        return ret;
+    }
+    return stringToSearch;
+}
+
+#include <boost/algorithm/string/replace.hpp>
+std::string Application::GetAbsoluteDir(const std::string & absolutePart, const std::string & relativePart)
+{
+    ///Maybe add regex path validations, throw exceptions?
+    std::string dir = RemoveFromEnd(relativePart,DSP()),
+        absoluteDir = RemoveFromEnd(absolutePart,DSP()),
+        backStr = std::string("..") + DSP();
+
+    uint32_t len = dir.size();
+
+    boost::replace_all(dir, backStr, "");
+
+    uint32_t removed = (len-dir.size())/backStr.length();
+    std::string::size_type index = std::string::npos;
+
+    for(uint32_t i = 0; i < removed; i++)
+    {
+        uint32_t found = absoluteDir.find_last_of(DSP(),index-1);
+        if(found<index)
+            index = found;
+    }
+
+    if(index<std::string::npos)
+        absoluteDir.erase(absoluteDir.begin()+index,absoluteDir.end());
+
+    return absoluteDir+DSP();
+}
+
+void Application::InitFileSystem()
+{
+    // Working dir
+    // /home/senpai/Coding/TheProject/src/applications/voxel_octree/bin
+    // Res dir
+    // /home/senpai/Coding/TheProject/src/applications/voxel_octree/resources
+    // 
+
+    //! Add error handling/exceptions
+    VarGroup & fs = this->GetGroup("filesystem");
+
+    _resourcePath = std::string(fs.GetVar("resource_path").ValueS()) + DSP();
+    _workingDirectoryPath = GetAbsoluteDir(_workingDirectoryPath, _resourcePath);
+    boost::replace_all(_resourcePath, std::string("..") + DSP(), "");
+
+    ///first set working directory as write dir
+    std::string engineResources = _resourcePath + fs.GetVar("engine_resource_path").ValueS() + DSP();
+    std::string appWriteDir = _resourcePath + this->GetApplicationId() + DSP();
+    std::string appLogDir = appWriteDir + fs.GetVar("log_path").ValueS() + DSP();
+    std::string appConfigPath = appWriteDir + fs.GetVar("config_path").ValueS() + DSP();
+
+    SetWriteDirectory(_workingDirectoryPath);
+
+    PHYSFS_mkdir(_resourcePath.c_str());
+    PHYSFS_mkdir(engineResources.c_str());
+    PHYSFS_mkdir(appWriteDir.c_str());
+    PHYSFS_mkdir(appLogDir.c_str());
+    PHYSFS_mkdir(appConfigPath.c_str());
+
+    PHYSFS_mount(_resourcePath.c_str(),NULL,0);
+
+    SetWriteDirectory(_workingDirectoryPath+appWriteDir);
+}
+
+#undef DSP
 
 Application::~Application()
 {
@@ -43,33 +149,15 @@ bool Application::Init(const std::string  &title, uint32_t width, uint32_t heigh
         return false;
     }
 
-    _appContext->_logger=new Logger(this,0);
-
     OutputPhysFSVersions();
 
     _workingDirectoryPath = PHYSFS_getBaseDir();
-
-    #ifndef RELEASE_FS
-        loopi(2)
-        _workingDirectoryPath = util::GetParentDirectory(_workingDirectoryPath, PHYSFS_getDirSeparator());
-        _workingDirectoryPath += PHYSFS_getDirSeparator();
-    #endif
-
     PHYSFS_mount(_workingDirectoryPath.c_str(), NULL, 0);
-    _appContext->_logger->log(LOG_LOG,"Directory: \"%s\"", _workingDirectoryPath.c_str());
 
-    _resourcePath = _workingDirectoryPath + "res" + PHYSFS_getDirSeparator();
-    PHYSFS_mount(_resourcePath.c_str(),NULL,0);
+    InitSettings();
+    ApplySettings();
 
-    _appContext->_logger->log(LOG_LOG,"Setting write dir: \"%s\"", _resourcePath.c_str());
-    int32_t changeWriteDirStatus = PHYSFS_setWriteDir(_resourcePath.c_str());
-
-    if(changeWriteDirStatus == 0)
-        _appContext->_logger->log(LOG_ERROR,"Write dir change failed.");
-    else
-        _appContext->_logger->log(LOG_LOG,"Write dir is: \"%s\"", PHYSFS_getWriteDir());
-
-
+    _appContext->_logger = new Logger(this,0);
     _appContext->_window = new Window();
 
     if(!_appContext->_window->Init(title, width, height))
@@ -123,4 +211,28 @@ std::string Application::GetAbsoluteResourcePath()
 std::string Application::GetAbsoluteWorkingDirectoryPath()
 {
     return _workingDirectoryPath;
+}
+
+
+VarGroup & Application::GetEngineVars()
+{
+    return *this;
+}
+
+VarGroup & Application::GetAppVars()
+{
+    return this->GetGroup(this->GetApplicationId().c_str());
+}
+
+void Application::LoadSettings(VarGroup & group, const std::string & settingsFile, Logger * log)
+{
+    char * buf;
+    uint32_t len;
+    len=helpers::read(settingsFile.c_str(),buf);
+
+    if(len>0)
+    {
+        VarJsonReader reader(log);
+        reader.Load(buf,len,group);
+    }
 }

@@ -1,7 +1,7 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include "Utility/Vector.h"
+#include "utility/Vector.h"
 
 class AABB
 {
@@ -15,10 +15,11 @@ public:
     void CalculatePoints();
     bool ContainsPoint(const glm::vec3 &point) const;
     bool IntersectsWith(const AABB &other) const;
-    float SweepCollidesWith(const glm::vec3 & vel, const AABB & other, glm::vec3 & normal) const;
+    float SweepCollidesWith(const AABB & other, const glm::vec3 & vel, glm::vec3 & normal) const;
     bool IntersectsWith(const glm::vec3 & aabbCenter, const glm::vec3 & aabbHalfsize) const;
     bool CollidesWithRay(const glm::vec3 & rayStart, const glm::vec3 & rayInverseDirection) const;
     void Translate(const glm::vec3 &point);
+    void SetCenter(const glm::vec3 &point);
 
     glm::vec3 GetPoint(uint32_t i) const;
     vector<glm::vec3> GetPoints() const;
