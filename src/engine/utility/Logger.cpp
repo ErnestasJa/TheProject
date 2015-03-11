@@ -10,7 +10,7 @@ Logger::Logger(Application *app,int verbosity)
     m_app=app;
 
     std::string fname = app->GetGroup("filesystem").GetVar("log_path").ValueS();
-    fname+=PHYSFS_getDirSeparator();
+    fname+="/";
     fname+=helpers::to_str(m_app->Ctx()->_timer->get_real_time());
     fname+="_log.txt";
 
