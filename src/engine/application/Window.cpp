@@ -146,7 +146,7 @@ bool Window::Init(const std::string  &title, uint32_t width, uint32_t height, ui
 
     glfwSetWindowShouldClose(_window, GL_FALSE);
 
-    glfwSwapInterval(0);
+    //glfwSwapInterval(0);
 
 
     glfwSwapBuffers(_window);

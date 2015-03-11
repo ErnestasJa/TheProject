@@ -14,7 +14,7 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-pg" />
 					<Add directory="src/engine/application" />
 					<Add directory="src/applications/voxelz" />
 					<Add directory="src/applications/voxelz/game" />
@@ -22,8 +22,10 @@
 					<Add directory="src/applications/voxelz/physics" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add library="engined" />
 					<Add library="boost_system-mgw49-mt-1_57" />
+					<Add library="ccd" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -46,7 +48,7 @@
 					<Add option="-s" />
 					<Add library="engine" />
 					<Add library="boost_system-mgw49-mt-1_57" />
-					<Add library="ccd" />
+					<Add library="libccd.a" />
 					<Add directory="../../../../libs/windows" />
 				</Linker>
 			</Target>
@@ -197,23 +199,13 @@
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleEmitter.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/ParticleSystem.h" />
+		<Unit filename="../../../../src/applications/voxelz/game/Player.cpp" />
+		<Unit filename="../../../../src/applications/voxelz/game/Player.h" />
 		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/game/WindParticleAffector.h" />
 		<Unit filename="../../../../src/applications/voxelz/main.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/physics/CollisionObject.cpp" />
 		<Unit filename="../../../../src/applications/voxelz/physics/CollisionObject.h" />
-		<Unit filename="../../../../src/applications/voxelz/physics/Physics.h" />
-		<Unit filename="../../../../src/applications/voxelz/physics/cmotion_state.h" />
-		<Unit filename="../../../../src/applications/voxelz/physics/icollision_handler.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="../../../../src/applications/voxelz/physics/icollision_handler.h" />
-		<Unit filename="../../../../src/applications/voxelz/physics/physics_manager.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="../../../../src/applications/voxelz/physics/physics_manager.h" />
 		<Unit filename="../../../../src/applications/voxelz/resources.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

@@ -26,6 +26,8 @@
 #include "Game/AttractFocusAffector.h"
 #include "Game/WindParticleAffector.h"
 
+#include "Physics/CollisionObject.h"
+
 VoxMeshEditorApp::VoxMeshEditorApp(uint32_t argc, const char ** argv): Application(argc,argv)
 {
 
@@ -303,6 +305,8 @@ void VoxelizeMesh(vector<Triangle<T> > tris,ChunkManager* voxmesh)
 }
 
 ChunkManager* cmg;
+CollisionObject* _colBox,*_colWall;
+CubeMesh* _colBoxMesh,*_colWallMesh;
 bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t height)
 {
     Application::Init(title,width,height);
@@ -368,39 +372,17 @@ bool VoxMeshEditorApp::Init(const std::string & title, uint32_t width, uint32_t 
 
     //_voxMesh->UpdateMesh();
 
+    _colWall=new CollisionObject(glm::vec3(0,0,0),glm::vec3(0.25,50,50));
+    _colWallMesh=new CubeMesh(_colWall->_colShape);
+    _colWall->Translate(glm::vec3(10,0,0));
+    _colBox=new CollisionObject(glm::vec3(0,0,0),glm::vec3(0.5,1,0.5));
+    _colBoxMesh=new CubeMesh(_colBox->_colShape);
     InitGUI();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glClearColor(0.5,0.5,0.7,0);
-
-    AABB bbb(glm::vec3(0),glm::vec3(1));
-    boxes.push_back(new CubeMesh(bbb));
-    //printf("AABB\nmin %s\nmax %s\ncenter %s\nhalfsize %s\n",GLMVec3ToStr(bb.GetMin()),GLMVec3ToStr(bb.GetMax()),GLMVec3ToStr(bb.GetCenter()),GLMVec3ToStr(bb.GetHalfSize()));
-
-    image_ptr noizeimg=share(new image());
-    noizeimg->Init(512,512,3);
-
-    loop(x,512)
-    {
-        loop(y,512)
-        {
-            uint8_t noiseval=(uint8_t)scaled_octave_noise_2d(8.f,1.f/2,1.f/100,0.f,256.f,x,y);
-            noiseval-=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,y,0);
-            uint8_t biome=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,y,0);
-            uint8_t biomeslice=(uint8_t)scaled_octave_noise_3d(8,0.5,1/100,0,256,x,0,y);
-            uint8_t finalBiome=(biome+biomeslice)%255;
-            noizeimg->SetPixel(x,y,(noiseval+finalBiome)%255,noiseval,noiseval);
-        }
-    }
-
-
-
-    TexturePtr textest=share(new Texture());
-    textest->Init(noizeimg);
-    GUIImage* noisetest=new GUIImage(_guiEnv,Rect2D<int>(1280-512,0,512,512),textest,true);
-
     return true;
 }
 
@@ -433,6 +415,23 @@ bool VoxMeshEditorApp::Update()
         for(auto b:boxes)
         {
             b->Render(true);
+        }
+        Model=glm::mat4(1.0f);
+        Model=glm::translate(Model,CCDtoGLM(_colWall->_pos));
+        MVP   = _cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        _colWallMesh->Render(false);
+
+        Model=glm::mat4(1.0f);
+        Model=glm::translate(Model,CCDtoGLM(_colBox->_pos));
+        MVP   = _cam->GetViewProjMat() * Model;
+        MVar<glm::mat4>(0, "mvp", MVP).Set();
+        _colBoxMesh->Render(false);
+
+        if(MPRCollide(_colBox,_colWall))
+        {
+            CollisionInfo cinf=MPRPenetration(_colBox,_colWall);
+            _colBox->Translate(CCDtoGLM(cinf.dir)*-cinf.depth);
         }
 
         if(_guiSwitches["showOrigMesh"])
@@ -484,6 +483,38 @@ void VoxMeshEditorApp::HandleMovement(float dt)
             _cam->Strafe(-speed*dt);
         if(han->IsKeyDown(GLFW_KEY_D))
             _cam->Strafe(speed*dt);
+
+
+        float spd=2.f;
+        int substeps=glm::ceil(spd*dt)*2;
+        float stepsteed=(spd*dt)/substeps;
+
+        if(han->IsKeyDown(GLFW_KEY_UP))
+        {
+            printf("Substeps %d\n",substeps);
+            loopi(substeps)
+            {
+                _colBox->Translate(glm::vec3((stepsteed),0,0));
+                if(MPRCollide(_colBox,_colWall))
+                {
+                    CollisionInfo cinf=MPRPenetration(_colBox,_colWall);
+                    _colBox->Translate(CCDtoGLM(cinf.dir)*-cinf.depth);
+                }
+            }
+        }
+
+        if(han->IsKeyDown(GLFW_KEY_DOWN))
+        {
+            loopi(substeps)
+            {
+                _colBox->Translate(-glm::vec3((stepsteed),0,0));
+                if(MPRCollide(_colBox,_colWall))
+                {
+                    CollisionInfo cinf=MPRPenetration(_colBox,_colWall);
+                    _colBox->Translate(CCDtoGLM(cinf.dir)*-cinf.depth);
+                }
+            }
+        }
     }
 }
 
