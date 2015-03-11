@@ -61,7 +61,7 @@ void VoxelOctreeApp::InitResources()
   octreeGen = new VoxMeshManager(octree);
   octreeGen->GenAllChunks();
   player = new Player(cam, collisionManager, glm::vec3(236.348465, 132.464081, 183.379868));
-  cube = new TCubeMesh<glm::vec3>(player->GetAABB());
+  cube = new CubeMesh(player->GetAABB());
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)

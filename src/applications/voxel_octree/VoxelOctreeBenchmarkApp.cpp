@@ -135,6 +135,21 @@ bool VoxelOctreeBenchmarkApp::Init(const std::string & title, uint32_t width, ui
     Ctx()->_logger->log(LOG_LOG, "Collision time: %f", time);
     Ctx()->_logger->log(LOG_LOG, "Collision normal: [%.3f,%.3f,%.3f]", nout.x, nout.y, nout.z);
 
+
+    char **i;
+
+    for (i = PHYSFS_getSearchPath(); *i != NULL; i++)
+        printf("[%s] is in the search path.\n", *i);
+
+
+    char * buf;
+    uint32_t len;
+    len=helpers::read("voxel_octree_benchmark/logs/179640682_log.txt",buf);
+
+    Ctx()->_logger->log(LOG_LOG,"LOG FILE CONTENTS: %s", buf);
+
+    delete [] buf;
+
     return true;
 }
 
