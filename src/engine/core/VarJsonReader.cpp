@@ -23,6 +23,9 @@ void LoadGroup(VarGroup & g, Json::Value & jg, Logger * logger)
     if(jgroup.isNull() || !jgroup.isObject())
         return;
 
+    if(logger)
+        logger->log(LOG_LOG, "Loading group: %s", g.Name());
+
     for(Var & var : g.Vars())
     {
         Json::Value jvar = jgroup[var.Name()];
@@ -56,9 +59,8 @@ bool VarJsonReader::Load(void * buffer, uint32_t size, VarGroup & group)
     Json::Value root;
     reader.parse(doc,doc+size, root);
 
-    std::cout << "Group:" << group.Name() << std::endl;
-    std::cout << "Group2:" << group.Groups()[0].Name() << std::endl;
-    std::cout << "Loaded json:" << root << std::endl;
+    if(m_logger)
+        m_logger->log(LOG_LOG, "Group: %s", group.Name());
 
     LoadGroup(group, root, m_logger);
     return true;

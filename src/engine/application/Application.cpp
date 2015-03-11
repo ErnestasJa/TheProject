@@ -36,7 +36,7 @@ void Application::InitSettings()
     fs.AddVar(Var("engine_resource_path", "engine"));
     fs.AddVar(Var("config_path", "conf"));
     fs.AddVar(Var("log_path", "log"));
-    Application::LoadSettings(*this, (std::string(fs.GetVar("config_path").ValueS()) + DSP() + "config.json").c_str());
+    Application::LoadSettings(*this, "config.json");
 
     InitVariables();
     VarGroup & app = this->GetGroup(this->GetApplicationId().c_str());
@@ -60,26 +60,75 @@ void Application::SetWriteDirectory(const std::string & dir)
     }
 }
 
+std::string RemoveFromEnd(const std::string & stringToSearch, const std::string & toRemove)
+{
+    if(&stringToSearch[stringToSearch.length()-toRemove.length()]==toRemove){
+        std::string ret = stringToSearch;
+        ret.erase((ret.length()-toRemove.length()),toRemove.length());
+        return ret;
+    }
+    return stringToSearch;
+}
+
+#include <boost/algorithm/string/replace.hpp>
+std::string Application::GetAbsoluteDir(const std::string & absolutePart, const std::string & relativePart)
+{
+    ///Maybe add regex path validations, throw exceptions?
+    std::string dir = RemoveFromEnd(relativePart,DSP()),
+        absoluteDir = RemoveFromEnd(absolutePart,DSP()),
+        backStr = std::string("..") + DSP();
+
+    uint32_t len = dir.size();
+
+    boost::replace_all(dir, backStr, "");
+
+    uint32_t removed = (len-dir.size())/backStr.length();
+    std::string::size_type index = std::string::npos;
+
+    for(uint32_t i = 0; i < removed; i++)
+    {
+        uint32_t found = absoluteDir.find_last_of(DSP(),index-1);
+        if(found<index)
+            index = found;
+    }
+
+    if(index<std::string::npos)
+        absoluteDir.erase(absoluteDir.begin()+index,absoluteDir.end());
+
+    return absoluteDir+DSP();
+}
+
 void Application::InitFileSystem()
 {
-    SetWriteDirectory(_workingDirectoryPath);
+    // Working dir
+    // /home/senpai/Coding/TheProject/src/applications/voxel_octree/bin
+    // Res dir
+    // /home/senpai/Coding/TheProject/src/applications/voxel_octree/resources
+    // 
 
     //! Add error handling/exceptions
     VarGroup & fs = this->GetGroup("filesystem");
 
-    ///first set working directory as write dir
     _resourcePath = std::string(fs.GetVar("resource_path").ValueS()) + DSP();
+    _workingDirectoryPath = GetAbsoluteDir(_workingDirectoryPath, _resourcePath);
+    boost::replace_all(_resourcePath, std::string("..") + DSP(), "");
+
+    ///first set working directory as write dir
     std::string engineResources = _resourcePath + fs.GetVar("engine_resource_path").ValueS() + DSP();
     std::string appWriteDir = _resourcePath + this->GetApplicationId() + DSP();
     std::string appLogDir = appWriteDir + fs.GetVar("log_path").ValueS() + DSP();
     std::string appConfigPath = appWriteDir + fs.GetVar("config_path").ValueS() + DSP();
 
+    SetWriteDirectory(_workingDirectoryPath);
+
+    PHYSFS_mkdir(_resourcePath.c_str());
     PHYSFS_mkdir(engineResources.c_str());
     PHYSFS_mkdir(appWriteDir.c_str());
     PHYSFS_mkdir(appLogDir.c_str());
     PHYSFS_mkdir(appConfigPath.c_str());
 
     PHYSFS_mount(_resourcePath.c_str(),NULL,0);
+
     SetWriteDirectory(_workingDirectoryPath+appWriteDir);
 }
 

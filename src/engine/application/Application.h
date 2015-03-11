@@ -26,6 +26,7 @@ protected:
     void InitSettings();
     void InitFileSystem();
     void SetWriteDirectory(const std::string & dir);
+    std::string GetAbsoluteDir(const std::string & absoluteDir,const std::string & relativeDir);
     void ApplySettings();
 public:
 

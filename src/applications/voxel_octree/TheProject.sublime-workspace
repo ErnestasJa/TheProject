@@ -68,10 +68,67 @@
 			}
 		},
 		{
+			"file": "bin/config.json",
+			"settings":
+			{
+				"buffer_size": 167,
+				"line_ending": "Unix",
+				"name": "config.json"
+			}
+		},
+		{
 			"file": "VoxelOctreeApp.cpp",
 			"settings":
 			{
-				"buffer_size": 9833,
+				"buffer_size": 9824,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
+			"settings":
+			{
+				"buffer_size": 61544,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/src/engine/opengl/Shader.h",
+			"settings":
+			{
+				"buffer_size": 6082,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "run.sh",
+			"settings":
+			{
+				"buffer_size": 123,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "VoxelOctreeBenchmarkApp.cpp",
+			"settings":
+			{
+				"buffer_size": 5202,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "VoxelOctreeBenchmarkApp.h",
+			"settings":
+			{
+				"buffer_size": 1181,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+			"settings":
+			{
+				"buffer_size": 6580,
 				"line_ending": "Unix"
 			}
 		}
@@ -203,6 +260,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"_workingDirectoryPath",
 			"AfterInit",
 			"LoadLevel",
 			"ReadBVoxFile",
@@ -261,7 +319,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -276,8 +334,8 @@
 						"selection":
 						[
 							[
-								2214,
-								2214
+								2346,
+								2346
 							]
 						],
 						"settings":
@@ -287,25 +345,52 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 25.0,
+						"translation.y": 848.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "VoxelOctreeApp.cpp",
+					"file": "bin/config.json",
 					"settings":
 					{
-						"buffer_size": 9833,
+						"buffer_size": 167,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2523,
-								2523
+								167,
+								167
+							]
+						],
+						"settings":
+						{
+							"auto_name": "config.json",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "VoxelOctreeApp.cpp",
+					"settings":
+					{
+						"buffer_size": 9824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								410,
+								410
 							]
 						],
 						"settings":
@@ -315,7 +400,179 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 928.0,
+						"translation.y": 210.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
+					"settings":
+					{
+						"buffer_size": 61544,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								55450,
+								55450
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 29855.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/senpai/Coding/TheProject/src/engine/opengl/Shader.h",
+					"settings":
+					{
+						"buffer_size": 6082,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4799,
+								4799
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2465.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "run.sh",
+					"settings":
+					{
+						"buffer_size": 123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "VoxelOctreeBenchmarkApp.cpp",
+					"settings":
+					{
+						"buffer_size": 5202,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4862,
+								4862
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2063.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "VoxelOctreeBenchmarkApp.h",
+					"settings":
+					{
+						"buffer_size": 1181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1048,
+								1048
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"file": "/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
+					"settings":
+					{
+						"buffer_size": 6580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3341,
+								3341
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 25.0,
+						"translation.y": 1295.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -340,11 +597,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.466891477621,
 			1.0
 		],
 		"rows":
@@ -356,7 +620,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 299.0
+		"height": 244.0
 	},
 	"replace":
 	{
