@@ -122,18 +122,14 @@ void Application::InitFileSystem()
 
     SetWriteDirectory(_workingDirectoryPath);
 
-    std::cout << "WD: " << _workingDirectoryPath.c_str() << std::endl;
-    std::cout << "WD: " << (_workingDirectoryPath +DSP()+ _resourcePath).c_str() << std::endl;
-
-
     PHYSFS_mkdir(_resourcePath.c_str());
     PHYSFS_mkdir(engineResources.c_str());
     PHYSFS_mkdir(appWriteDir.c_str());
     PHYSFS_mkdir(appLogDir.c_str());
     PHYSFS_mkdir(appConfigPath.c_str());
 
-
     PHYSFS_mount((_workingDirectoryPath +DSP()+ _resourcePath).c_str(),NULL,0);
+    PHYSFS_mount((_workingDirectoryPath +DSP()+ appWriteDir).c_str(),NULL,0);
 
     SetWriteDirectory(_workingDirectoryPath +DSP()+ appWriteDir);
 }
