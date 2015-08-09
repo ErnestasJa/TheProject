@@ -53,14 +53,14 @@ void VoxelOctreeApp::InitResources()
 {
   AppContext * ctx = this->Ctx();
 
-  sh = (new shader_loader(ctx->_logger))->load("res/engine/shaders/solid_cube");
+  sh = (new shader_loader(ctx->_logger))->load("shaders/solid_cube");
   cam = share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0), 1.7777777f,45.0f,0.1,1024.0f));
 
   octree = share(new MortonOctTree());
   collisionManager = new CollisionManager(octree);
   octreeGen = new VoxMeshManager(octree);
   octreeGen->GenAllChunks();
-  player = new Player(cam, collisionManager, glm::vec3(236.348465, 132.464081, 183.379868));
+  player = new Player(cam, collisionManager, glm::vec3(0.5, 200, 0.5));
   cube = new CubeMesh(player->GetAABB());
 }
 
@@ -89,12 +89,18 @@ void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName, Logger * lo
   char * buf;
   uint32_t len;
   len=helpers::read(fileName,buf);
-  uint32_t * data = (uint32_t*)((void*)&buf[0]);
 
+  log->log(LOG_LOG, "File len: %u", len);
+
+  if(len==0)
+    return;
+
+  uint32_t * data = (uint32_t*)((void*)&buf[0]);
   uint32_t voxel_count = data[0];
   data++;
 
-  log->log(LOG_LOG, "File len: %u\nVoxel count: %u", len, voxel_count);
+  log->log(LOG_LOG, "Voxel count: %u", voxel_count);
+
 
   for(int i = 0; i < voxel_count; i++)
   {
@@ -108,7 +114,7 @@ void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName, Logger * lo
 
 void SaveBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
 {
-  PHYSFS_file* f = PHYSFS_openWrite(("voxel_octree/" + fileName).c_str());
+  PHYSFS_file* f = PHYSFS_openWrite(fileName.c_str());
 
   if(!f)
   {
@@ -132,18 +138,18 @@ void SaveBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
  PHYSFS_close(f);
 }
 
- bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
- {
+bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
+{
   octree->GetChildNodes().clear();
   octreeGen->GetMeshes().clear();
   ReadBVoxFile(octree, levelName, Ctx()->_logger);
 
+  octree->AddOrphanNode(MNode(0,0,0,1));
   octree->SortLeafNodes();
   octree->RemoveDuplicateNodes();
   std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
   octreeGen->GenAllChunks();
 }
-
 
 bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 {
@@ -153,7 +159,7 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 void VoxelOctreeApp::AfterInit()
 {
   char * buf = nullptr;
-  uint32_t len = helpers::read("res/voxel_octree/init.py", buf);
+  uint32_t len = helpers::read("python/init.py", buf);
 
   if(len>0)
     PyRun_SimpleString(buf);

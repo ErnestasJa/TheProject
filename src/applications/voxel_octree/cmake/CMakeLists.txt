@@ -42,6 +42,7 @@ add_executable(VoxelOctree
 	../motree/VoxMeshManager.cpp
 	../motree/MortonOctree.cpp
 	../motree/MNode.cpp
+	../motree/MNodeUtil.cpp
 	../motree/CollisionManager.cpp
 	../motree/CollisionInfo.cpp
 	../motree/VoxelSide.cpp

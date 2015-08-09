@@ -259,6 +259,30 @@ home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.cpp.s:
 	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.cpp.s
 .PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.cpp.s
 
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.o: home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.o
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.o
+
+# target to build an object file
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.o:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.o
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.o
+
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.i: home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.i
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.i
+
+# target to preprocess a source file
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.i:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.i
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.i
+
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.s: home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.s
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.s
+
+# target to generate assembly for a file
+home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.s:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.s
+.PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp.s
+
 home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.o: home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.cpp.o
 .PHONY : home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.o
 
@@ -454,6 +478,9 @@ help:
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.o"
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.i"
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.s"
+	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.o"
+	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.i"
+	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.s"
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.o"
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.i"
 	@echo "... home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.s"

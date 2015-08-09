@@ -3,6 +3,23 @@
 #include "Morton.h"
 #include "stdlib.h"
 
+void AddMNode(Mesh* mesh, const MNode & node)
+{
+    BufferObject<glm::vec3> *vbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::POSITION];
+    IndexBufferObject<uint32_t> * ibo = (IndexBufferObject<uint32_t> *) mesh->buffers[Mesh::INDICES];
+    BufferObject<glm::vec3> *cbo = (BufferObject<glm::vec3> *) mesh->buffers[Mesh::COLOR];
+
+    uint32_t indicesStart = vbo->data.size();
+    glm::vec3 col(1.0f, 1.0f, 1.0f);
+
+    /*
+
+    ///buffers
+    vbo->data.push_back(face[0]);
+    cbo->data.push_back(col);
+    ibo->data.push_back(indicesStart+2);
+*/}
+
 VoxMeshManager::VoxMeshManager(MortonOctTreePtr octree, uint32_t level)
 {
     m_octree = octree;
@@ -611,6 +628,3 @@ void VoxMeshManager::RenderAllMeshes()
     for( MapIterator it = m_map.begin(); it != m_map.end(); it++ )
         it->second->Render();
 }
-
-
-

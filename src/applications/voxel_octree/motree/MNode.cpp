@@ -11,6 +11,7 @@ MNode& MNode::operator=(BOOST_RV_REF(MNode) x) // Move assign
     g = x.g;
     b = x.b;
     size  = x.size;
+    solidFaces();
     return *this;
 }
 
@@ -19,6 +20,7 @@ MNode::MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize)
     start = encodeMK(x,y,z);
     size = nodeSize;
     r = g = b = 255;
+    solidFaces();
 }
 
 MNode::MNode(uint32_t morton, uint8_t nodeSize, uint8_t red, uint8_t green, uint8_t blue)
@@ -28,6 +30,14 @@ MNode::MNode(uint32_t morton, uint8_t nodeSize, uint8_t red, uint8_t green, uint
     r = red;
     g = green;
     b = blue;
+    solidFaces();
+}
+
+MNode::MNode(uint32_t morton, uint8_t nodeSize)
+{
+    start = morton;
+    size = nodeSize;
+    solidFaces();
 }
 
 MNode::MNode()
@@ -35,6 +45,7 @@ MNode::MNode()
     start = 0;
     size = 0;
     r = g = b = 255;
+    solidFaces();
 }
 
 inline uint32_t MNode::range_end() const
