@@ -78,7 +78,7 @@ class Example(Frame):
         
         #os.chdir("bin")
 
-        subprocess.call('./run.sh 2', shell=True)
+        subprocess.call('./run.sh 1', shell=True)
 
         #os.chdir(restore_path)
 
