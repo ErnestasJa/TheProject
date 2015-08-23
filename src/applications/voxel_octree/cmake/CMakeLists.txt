@@ -53,8 +53,8 @@ add_executable(VoxelOctree
 )
 
 #add_library(engine SHARED IMPORTED)
-#set_target_properties(engine PROPERTIES IMPORTED_LOCATION "${LIBBIN_PATH}/libengine.so")
-#set_target_properties(engine PROPERTIES IMPORTED_IMPLIB "${LIBBIN_PATH}/libengine.a")
+#set_target_properties(engine PROPERTIES IMPORTED_LOCATION "${ENGINE_PATH}/build/libengine.so")
+#set_target_properties(engine PROPERTIES IMPORTED_IMPLIB "${ENGINE_PATH}/build/libengine.a")
 
 
 target_link_libraries(VoxelOctree ${PYTHON_LIBRARIES} 
@@ -62,13 +62,16 @@ GL
 GLU
 X11
 Xxf86vm
+Xinerama 
 Xrandr
 Xcursor
 Xi
+rt 
+m
 pthread
 dl
 z
-"${LIBBIN_PATH}/libengined.so"
+"${ENGINE_PATH}/build/libengine.a"
 "${LIBBIN_PATH}/libsigc++.a"
 "${LIBBIN_PATH}/libphysfs.a"
 "${LIBBIN_PATH}/libglxw_glx.a"

@@ -2,12 +2,11 @@
 
 import fnmatch
 import os, shutil, subprocess
-import subprocess
 from tkinter import Tk, Frame, Checkbutton, Button, W
 from tkinter import IntVar, RIGHT, LEFT, BOTH
 
 
-class Example(Frame):
+class Launcher(Frame):
   
     def __init__(self, parent):
         Frame.__init__(self, parent)   
@@ -49,7 +48,7 @@ class Example(Frame):
         if self.should_build.get():
             buildSucceeded = self.startBuild()
             
-        if self.should_build.get() and buildSucceeded:
+        if not self.should_build.get() or buildSucceeded:
             if self.should_run.get():
                 self.runApplication()
 
@@ -61,10 +60,11 @@ class Example(Frame):
 
         if os.path.isdir("bin") == False:
             os.mkdir("bin")
-        
+
         os.chdir("cmake")
         
-        ret = subprocess.call('cmake -G "Unix Makefiles" -DPROJECT_PATH:STRING="/home/senpai/Coding/TheProject" ./', shell=True)
+        #Remove hardcoded path! :D
+        ret = subprocess.call('cmake -G "Unix Makefiles" -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project" ./', shell=True)
         ret2 = subprocess.call('make -j9', shell=True)
         
         shutil.copyfile("VoxelOctree", "../bin/VoxelOctree")
@@ -83,10 +83,9 @@ class Example(Frame):
         #os.chdir(restore_path)
 
 def main():
-  
     root = Tk()
     root.geometry("250x150+300+300")
-    app = Example(root)
+    app = Launcher(root)
     root.mainloop()  
 
 

@@ -4,24 +4,12 @@
 		"selected_items":
 		[
 			[
-				"Mesh",
-				"MeshPtr"
+				"BOOST",
+				"boostpath"
 			],
 			[
-				"uint",
-				"uint8_t"
-			],
-			[
-				"uin",
-				"uint8_t"
-			],
-			[
-				"GetC",
-				"GetChildNodes"
-			],
-			[
-				"_w",
-				"_workingDirectoryPath"
+				"L",
+				"Launcher"
 			],
 			[
 				"get",
@@ -52,6 +40,10 @@
 				"vec3"
 			],
 			[
+				"uint",
+				"uint8_t"
+			],
+			[
 				"cha",
 				"changeWriteDirStatus"
 			],
@@ -79,42 +71,15 @@
 			"file": "launcher.py",
 			"settings":
 			{
-				"buffer_size": 2490,
+				"buffer_size": 2501,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "#ifndef MNODE_H\n#define MNODE_H\n\n#include <boost/move/move.hpp>\n#include \"MNodeUtil.h\"\n\n/**\nThink of efficient way to store color data.\n**/\n\nstruct MNode\n{\nprivate:\n    BOOST_MOVABLE_BUT_NOT_COPYABLE(MNode)\n\npublic:\n    uint32_t start;\n    uint8_t r,g,b;\n    uint8_t size;\n\n    union\n        {\n        uint8_t edges[12];\n        uint32_t faces[3];\n    };\n\n    MNode(BOOST_RV_REF(MNode) n);\n    MNode(uint32_t x, uint32_t y, uint32_t z, uint8_t nodeSize=1);\n    MNode(uint32_t morton, uint8_t nodeSize, uint8_t red, uint8_t green, uint8_t blue);\n    MNode(uint32_t morton, uint8_t nodeSize=1);\n    MNode();\n\n    MNode& operator=(BOOST_RV_REF(MNode) x);\n    bool operator<(const MNode &other) const;\n    bool operator==(const MNode &other) const;\n\n    inline uint32_t range_end() const;\n\n    inline bool isEmpty()\n    {\n        return faces[0]==F_EMPTY;\n    }\n\n    inline bool isEntirelySolid()\n    {\n        return faces[0]==F_SOLID && faces[1]==F_SOLID && faces[2]==F_SOLID;\n    }\n    \n    inline void setFaces(uint32_t face)\n    {\n        faces[0] = faces[1] = faces[2] = face;\n    }\n    \n    inline void solidFaces()\n    {\n        setFaces(F_SOLID);\n    }\n    \n    inline void emptyFaces() \n    {\n        setFaces(F_EMPTY);\n    }\n    \n    inline void edgeSet(uint8_t edgeIndex , bool end, uint8_t val)\n    {\n        uint8_t & edge = edges[edgeIndex];\n        edge = ((end) ? (edge&0xF)|((val)<<4) : (edge&0xF0)|(val));\n    }\n\n    inline uint8_t edgeGet(uint8_t edgeIndex, bool coord)\n    {\n        return (coord) ? edges[edgeIndex]>>4 : edges[edgeIndex]&0xF;\n    }\n    \n    inline uint8_t getEdgeEnd(int8_t dimension, uint8_t x, uint8_t y)\n    {\n        return edges[(dimension<<2) + (y<<1) + x] >> 4;\n    }\n\n    inline uint8_t getEdgeStart(int8_t dimension, uint8_t x, uint8_t y)\n    {\n        return edges[(dimension<<2) + (y<<1) + x]&0xF;\n    }\n\n    // dimension parameter values: 0 = x, 1 = y, 2 = z\n    // x and y parameters tell which edge is it.\n    inline uint8_t cubeEdgeIndex(uint8_t dimension, uint8_t x, uint8_t y)\n    {\n        return (dimension<<2) + (y<<1) + x;\n    }\n};\n\n#endif\n",
-			"file": "motree/MNode.h",
-			"file_size": 2094,
-			"file_write_time": 1426449973000000,
+			"file": "/home/serengeor/Coding/Project/build_libraries.py",
 			"settings":
 			{
-				"buffer_size": 2096,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "motree/MNode.cpp",
-			"settings":
-			{
-				"buffer_size": 1283,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "motree/MNodeUtil.h",
-			"settings":
-			{
-				"buffer_size": 1504,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "VoxelOctreeBenchmarkApp.cpp",
-			"settings":
-			{
-				"buffer_size": 5613,
+				"buffer_size": 5682,
 				"line_ending": "Unix"
 			}
 		}
@@ -122,17 +87,9 @@
 	"build_system": "Packages/Python/Python.sublime-build",
 	"command_palette":
 	{
-		"height": 72.0,
+		"height": 392.0,
 		"selected_items":
 		[
-			[
-				"Package Control: ",
-				"Package Control: Remove Package"
-			],
-			[
-				"rebuild",
-				"ClassHierarchy: Re/Build Ctags for Class Hierarchy"
-			],
 			[
 				"gdb",
 				"Preferences: SublimeGDB Settings – Default"
@@ -148,9 +105,13 @@
 			[
 				"SublimeGDB",
 				"Preferences: SublimeGDB Settings – Default"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
 			]
 		],
-		"width": 458.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -167,43 +128,40 @@
 	},
 	"file_history":
 	[
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNodeUtil.cpp",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeLists.txt",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.cpp",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.cpp",
-		"/home/senpai/Coding/TheProject/src/engine/scenegraph/Camera.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/run.sh",
+		"/home/serengeor/Coding/Project/CMakeLists.txt",
+		"/home/senpai/Coding/TheProject/build_libs.py",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/VoxelOctreeApp.cpp",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/launcher.py",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/Project.sublime-project",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/Project.sublime-workspace",
 		"/home/senpai/Coding/TheProject/src/engine/application/Application.cpp",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/run.sh",
 		"/home/senpai/Coding/TheProject/src/engine/opengl/Shader.h",
-		"/home/senpai/.config/sublime-text-2/Packages/ClassHierarchy/Default.sublime-keymap",
-		"/home/senpai/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
-		"/home/senpai/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/TheProject.sublime-project",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/launcher.py",
-		"/home/senpai/Coding/TheProject/src/engine/opengl/CubeMesh.h",
-		"/home/senpai/Coding/TheProject/src/engine/utility/Helpers.cpp",
-		"/home/senpai/Coding/TheProject/src/engine/utility/Helpers.inl",
-		"/home/senpai/Coding/TheProject/src/engine/utility/Helpers.h",
-		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/bin/config.json",
 		"/home/senpai/Coding/TheProject/libs/physfs/physfs.c",
+		"/home/serengeor/Coding/Project/src/applications/voxel_octree/bin/config.json",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/TheProject.sublime-project",
 		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.cpp",
 		"/home/senpai/Coding/TheProject/src/engine/application/ApplicationLauncher.cpp",
 		"/home/senpai/Coding/TheProject/libs/boost/boost/container/vector.hpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/main.cpp",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/run.sh",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.cpp",
 		"/home/senpai/.config/sublime-text-2/Packages/SublimeGDB/SublimeGDB.sublime-settings",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/launcher.py",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/VoxelOctreeApp.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/gdb.ini",
 		"/home/senpai/Coding/TheProject/src/engine/application/Application.h",
 		"/home/senpai/.config/sublime-text-2/Packages/User/SublimeGDB.sublime-settings",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeLists.txt",
 		"/home/senpai/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/senpai/Coding/TheProject/src/engine/utility/Logger.h",
 		"/home/senpai/Coding/TheProject/res/voxel_octree/config.json",
 		"/home/senpai/Coding/TheProject/src/engine/core/VarJsonReader.h",
 		"/home/senpai/Coding/TheProject/CMakeLists.txt",
-		"/home/senpai/Coding/TheProject/build_libs.py",
 		"/home/senpai/Coding/TheProject/src/engine/core/Var.h",
 		"/home/senpai/Coding/TheProject/src/engine/core/VarGroup.h",
 		"/home/senpai/Coding/TheProject/src/engine/opengl/AABB.cpp",
@@ -221,6 +179,7 @@
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxelSide.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MortonOctree.h",
+		"/home/senpai/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/cmake/CMakeFiles/VoxelOctree.dir/CXX.includecache",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/MNode.h",
 		"/home/senpai/Coding/TheProject/src/engine/utility/Util.h",
@@ -228,6 +187,8 @@
 		"/home/senpai/Coding/TheProject/src/engine/utility/Vector.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/player/Player.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionInfo.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.h",
+		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/VoxMeshManager.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/CollisionInfo.cpp",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/OctreeConstants.h",
 		"/home/senpai/Coding/TheProject/src/applications/voxel_octree/motree/EVoxelSide.h",
@@ -260,18 +221,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"void",
-			"STAERT",
-			", (uint32_t)node.getEdgeStart(x,y,z)",
-			"];\n",
-			"+b",
-			"_workingDirectoryPath",
-			"());\n",
-			" << std::endl",
-			"cube",
-			"Cube",
-			"cube",
-			"TCubeMesh",
+			"\"\"\n",
+			"senpai",
+			"/home/senpai/Coding/TheProject",
+			"/home/serengeor/Coding/Project",
+			"Example",
 			"_workingDirectoryPath",
 			"AfterInit",
 			"LoadLevel",
@@ -320,6 +274,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"/home/serengeor/Coding/Project",
+			"Launcher",
 			""
 		],
 		"reverse": false,
@@ -339,15 +295,15 @@
 					"file": "launcher.py",
 					"settings":
 					{
-						"buffer_size": 2490,
+						"buffer_size": 2501,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2285,
-								2285
+								477,
+								477
 							]
 						],
 						"settings":
@@ -357,118 +313,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "motree/MNode.h",
+					"file": "/home/serengeor/Coding/Project/build_libraries.py",
 					"settings":
 					{
-						"buffer_size": 2096,
+						"buffer_size": 5682,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1491,
-								1491
+								5464,
+								5464
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/Python/Python.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 765.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "motree/MNode.cpp",
-					"settings":
-					{
-						"buffer_size": 1283,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								456,
-								456
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 261.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "motree/MNodeUtil.h",
-					"settings":
-					{
-						"buffer_size": 1504,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								18,
-								18
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "VoxelOctreeBenchmarkApp.cpp",
-					"settings":
-					{
-						"buffer_size": 5613,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3184,
-								3184
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1755.0,
+						"translation.y": 1980.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -509,7 +382,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 233.0
+		"height": 244.0
 	},
 	"replace":
 	{
@@ -540,6 +413,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 289.0,
+	"side_bar_width": 233.0,
 	"status_bar_visible": true
 }
