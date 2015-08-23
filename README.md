@@ -1,6 +1,6 @@
-ZombieGameProject
+TheProject
 =================
+"Voxel" based engine for action games.
+Currently contains some graphics, physics engine code. Sample application. Build scripts.
 
-A project with a misleading name(for now).
-
-Currently just an in-progress graphics engine incorporating OpenGL 3.2+ rendering, GLM, GLXW, GLFW, PHYSFS, IQM mesh format, own GUI system and bullet physics.
+Build scripts are linux only for now.
