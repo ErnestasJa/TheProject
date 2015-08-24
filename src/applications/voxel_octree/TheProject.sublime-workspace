@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"copy",
+				"copy_libs"
+			],
+			[
+				"buildp",
+				"buildPath"
+			],
+			[
+				"th",
+				"threadChoices"
+			],
+			[
+				"fu",
+				"fullLibPath"
+			],
+			[
+				"bui",
+				"buildcores"
+			],
+			[
+				"compile_boost_",
+				"compile_boost_build_sys"
+			],
+			[
+				"compile",
+				"compile_other_libs"
+			],
+			[
 				"BOOST",
 				"boostpath"
 			],
@@ -79,7 +107,7 @@
 			"file": "/home/serengeor/Coding/Project/build_libraries.py",
 			"settings":
 			{
-				"buffer_size": 5682,
+				"buffer_size": 7973,
 				"line_ending": "Unix"
 			}
 		}
@@ -128,6 +156,8 @@
 	},
 	"file_history":
 	[
+		"/home/serengeor/Coding/Project/libs/build/liblist.txt",
+		"/home/serengeor/Coding/Project/libs/liblist.txt",
 		"/home/serengeor/Coding/Project/CMakeLists.txt",
 		"/home/senpai/Coding/TheProject/build_libs.py",
 		"/home/serengeor/Coding/Project/src/applications/voxel_octree/VoxelOctreeApp.cpp",
@@ -221,6 +251,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"get_shared_libs_from_dir",
+			")\n",
+			" if key == \"Boost\":\n                self.helper.compile_boost()\n",
+			"variable",
+			")\n",
+			"build",
 			"\"\"\n",
 			"senpai",
 			"/home/senpai/Coding/TheProject",
@@ -287,7 +323,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -302,8 +338,8 @@
 						"selection":
 						[
 							[
-								477,
-								477
+								1127,
+								1127
 							]
 						],
 						"settings":
@@ -323,15 +359,15 @@
 					"file": "/home/serengeor/Coding/Project/build_libraries.py",
 					"settings":
 					{
-						"buffer_size": 5682,
+						"buffer_size": 7973,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5464,
-								5464
+								3313,
+								3313
 							]
 						],
 						"settings":
@@ -341,7 +377,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1980.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
