@@ -1,1 +1,0 @@
--In application detect changes of currently loaded scene file and reload it
