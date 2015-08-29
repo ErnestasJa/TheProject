@@ -2,9 +2,6 @@
 	"folders":
 	[
 		{
-			"path": "/home/serengeor/Coding/Project/src/applications/voxel_octree"
-		},
-		{
 			"path": "/home/serengeor/Coding/Project/tools"
 		},
 		{
@@ -17,8 +14,9 @@
 			"path": "/home/serengeor/Coding/Project"
 		}
 	],
-	"settings":{
-		"sublimegdb_workingdir": "${folder:${project_path:./bin/}}",
-   		"sublimegdb_commandline": "gdb source gdb.ini --interpreter=mi --args ./VoxelOctree 1"
+	"settings":
+	{
+		"sublimegdb_commandline": "gdb source gdb.ini --interpreter=mi --args ./VoxelOctree 1",
+		"sublimegdb_workingdir": "${folder:${project_path:./bin/}}"
 	}
 }

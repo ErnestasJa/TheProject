@@ -6,7 +6,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
 
 
 set(PROJECT_PATH "" CACHE FILEPATH "Path to root directory of project")
-set(SRC_PATH "${PROJECT_PATH}/src/" )
 set(ENGINE_PATH "${ENGINE_SOURCE_DIR}" )
 set(LIB_PATH "${PROJECT_PATH}/libs/" )
 set(LIBBIN_PATH "${PROJECT_PATH}/libs/linux" )

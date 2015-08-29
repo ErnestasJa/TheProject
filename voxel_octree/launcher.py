@@ -61,13 +61,12 @@ class Launcher(Frame):
         if os.path.isdir("bin") == False:
             os.mkdir("bin")
 
-        os.chdir("cmake")
+        os.chdir("bin")
         
         #Remove hardcoded path! :D
-        ret = subprocess.call('cmake -G "Unix Makefiles" -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project" ./', shell=True)
+        ret = subprocess.call('cmake ../ -G "Unix Makefiles" -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project"', shell=True)
         ret2 = subprocess.call('make -j9', shell=True)
         
-        shutil.copyfile("VoxelOctree", "../bin/VoxelOctree")
         os.chdir(restore_path)
 
         buildSucceeded = (ret == 0 and ret2 == 0)
