@@ -65,15 +65,9 @@ class Helper:
 
         matches = []
         shared_matches = []
-        
-        if os.path.isdir(self.fullLibBuildPath) == False:
-            try:
-                os.makedirs(self.fullLibBuildPath)
-            except:
-                pass
 
         directories = [
-            self.fullBuildPath,
+            self.fullLibBuildPath,
             self.get_lib_path("python"),
             self.get_lib_path("irrKlang-1.5.0"),
             self.get_lib_path("bullet"),
@@ -85,12 +79,12 @@ class Helper:
         for directory in directories:
             matches.extend(self.get_libs_from_dir(directory))
 
-        print("Matched libs: " + str(matches))
-        print("Copying libraries to: " + self.fullLibBuildPath)
         for f in matches:
             filename = os.path.join(self.fullLibBuildPath, f[0])
-            shutil.copyfile(f[1], filename)
-            print("Copying from: " + f[1] + " to: " + filename)
+            try:
+                shutil.move(f[1], filename)
+            except:
+                pass
 
         #copy shared libs
         for directory in directories:
@@ -127,7 +121,14 @@ class Helper:
         os.chdir(self.projectPath)
 
     def compile_other_libs(self):
-        os.chdir(self.fullBuildPath)
+        os.chdir(self.fullLibPath)
+
+        try:
+            os.mkdir(self.buildPath)
+        except OSError as e:
+            print("Caught this little bad boy: " + str(e))
+        
+        os.chdir(self.buildPath)
 
         if(self.platform == "linux"):
             subprocess.call('cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Unix Makefiles"', shell=True)

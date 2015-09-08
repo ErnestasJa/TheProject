@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"ex",
+				"except"
+			],
+			[
 				"copy",
 				"copy_libs"
 			],
@@ -99,15 +103,23 @@
 			"file": "launcher.py",
 			"settings":
 			{
-				"buffer_size": 2501,
+				"buffer_size": 2439,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/build_libraries.py",
+			"file": "/home/serengeor/Coding/Project/build_engine.py",
 			"settings":
 			{
-				"buffer_size": 7973,
+				"buffer_size": 8245,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/libs/CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 899,
 				"line_ending": "Unix"
 			}
 		}
@@ -157,6 +169,13 @@
 	"file_history":
 	[
 		"/home/serengeor/Coding/Project/libs/build/liblist.txt",
+		"/home/serengeor/Coding/Project/libs/CMakeLists.txt",
+		"/home/serengeor/Stream/stream_start",
+		"/home/serengeor/Stream/key.txt",
+		"/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
+		"/home/serengeor/Coding/Project/engine/CMakeLists.txt",
+		"/home/serengeor/Coding/Project/build_libraries.py",
+		"/home/serengeor/Coding/Project/voxel_octree/hello.go",
 		"/home/serengeor/Coding/Project/libs/liblist.txt",
 		"/home/serengeor/Coding/Project/CMakeLists.txt",
 		"/home/senpai/Coding/TheProject/build_libs.py",
@@ -251,6 +270,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"SRC_PATH",
+			")\n",
 			"get_shared_libs_from_dir",
 			")\n",
 			" if key == \"Boost\":\n                self.helper.compile_boost()\n",
@@ -323,7 +344,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -331,15 +352,15 @@
 					"file": "launcher.py",
 					"settings":
 					{
-						"buffer_size": 2501,
+						"buffer_size": 2439,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1127,
-								1127
+								2069,
+								2069
 							]
 						],
 						"settings":
@@ -349,25 +370,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 675.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/serengeor/Coding/Project/build_libraries.py",
+					"file": "/home/serengeor/Coding/Project/build_engine.py",
 					"settings":
 					{
-						"buffer_size": 7973,
+						"buffer_size": 8245,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3313,
-								3313
+								1536,
+								1536
 							]
 						],
 						"settings":
@@ -377,7 +398,33 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1170.0,
+						"translation.y": 2055.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/serengeor/Coding/Project/libs/CMakeLists.txt",
+					"settings":
+					{
+						"buffer_size": 899,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								899,
+								899
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -418,7 +465,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 244.0
+		"height": 309.0
 	},
 	"replace":
 	{
