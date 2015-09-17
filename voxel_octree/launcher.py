@@ -61,10 +61,10 @@ class Launcher(Frame):
         if os.path.isdir("bin") == False:
             os.mkdir("bin")
 
-        os.chdir("bin")
+        os.chdir("cmake")
         
         #Remove hardcoded path! :D
-        ret = subprocess.call('cmake ../ -G "Unix Makefiles" -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project"', shell=True)
+        ret = subprocess.call('cmake ../cmake -G "Unix Makefiles" -Wno-dev -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project"', shell=True)
         ret2 = subprocess.call('make -j9', shell=True)
         
         os.chdir(restore_path)

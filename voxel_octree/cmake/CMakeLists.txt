@@ -10,17 +10,14 @@ message(${PYTHON_INCLUDE_DIRS})
 message(${PYTHON_LIBRARIES})
 
 set(PROJECT_PATH "" CACHE FILEPATH "Path to root directory of project")
-set(SRC_PATH "${PROJECT_PATH}/src/" )
 set(APP_PATH "${PROJECT_PATH}/voxel_octree" )
-set(ENGINE_PATH "${PROJECT_PATH}/engine/" )
-set(LIB_PATH "${PROJECT_PATH}/libs/" )
-set(LIBBIN_PATH "${PROJECT_PATH}/libs/linux" )
-
+set(ENGINE_PATH "${PROJECT_PATH}/TheEngine/src/" )
+set(LIB_PATH "${PROJECT_PATH}/TheEngine/libs/" )
+set(LIBBIN_PATH "${LIB_PATH}/build/")
 
 include_directories(
-	"${SRC_PATH}"
-	"${APP_PATH}"
 	"${ENGINE_PATH}"
+	"${APP_PATH}"
 	"${LIB_PATH}/boost/"
 	"${LIB_PATH}/freetype/include"
 	"${LIB_PATH}/glfw/include"
@@ -49,13 +46,7 @@ add_executable(VoxelOctree
 	../py/cpputils.cpp
 	../py/OctreeApplicationPy.cpp
 	../py/OctreeUtils.cpp
-
 )
-
-#add_library(engine SHARED IMPORTED)
-#set_target_properties(engine PROPERTIES IMPORTED_LOCATION "${ENGINE_PATH}/build/libengine.so")
-#set_target_properties(engine PROPERTIES IMPORTED_IMPLIB "${ENGINE_PATH}/build/libengine.a")
-
 
 target_link_libraries(VoxelOctree ${PYTHON_LIBRARIES} 
 GL
@@ -71,7 +62,7 @@ m
 pthread
 dl
 z
-"${ENGINE_PATH}/build/libengine.a"
+"${LIBBIN_PATH}/libengine.a"
 "${LIBBIN_PATH}/libsigc++.a"
 "${LIBBIN_PATH}/libphysfs.a"
 "${LIBBIN_PATH}/libglxw_glx.a"
@@ -82,4 +73,5 @@ z
 "${LIBBIN_PATH}/libtinyxml2_lib.a"
 "${LIBBIN_PATH}/libjsoncpp.a"
 "${LIBBIN_PATH}/libboost_container.a"
+"${LIBBIN_PATH}/libboost_system.a"
 )
