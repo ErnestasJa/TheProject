@@ -328,6 +328,157 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
 
 }
 
+#include <stdint.h>
+#include <vector>
+
+template <class T>
+struct vec3 {
+
+  union{
+    T vec[3];
+    struct {T x,y,z;};
+  };
+
+  vec3(){};
+
+  vec3(T x, T y, T z)
+  {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+  }
+
+  void set(T *v){
+    x=v[0];
+    y=v[1];
+    z=v[2];
+  }
+
+  void set(T a, T b, T c){
+    x=a;
+    y=b;
+    z=c;
+  }
+
+  T & operator [] (int32_t index){
+    return this->vec[index];
+  }
+};
+
+namespace util
+{
+  template <class T>
+  T min(const T & a, const T & b)
+  {
+    return a<b?a:b;
+  }
+
+  template <class T>
+  T max(const T & a, const T & b)
+  {
+    return a>b?a:b;
+  }
+}
+
+struct Triangle{
+  vec3<int32_t> min, max;
+  vec3<float> center, halfsize, a, b ,c;
+
+  void set(float * triangle)
+  {
+    min.x=util::min(util::min(triangle[0],triangle[3]),triangle[6]);
+    min.y=util::min(util::min(triangle[1],triangle[4]),triangle[7]);
+    min.z=util::min(util::min(triangle[2],triangle[5]),triangle[8]);
+    max.x=util::max(util::max(triangle[0],triangle[3]),triangle[6]);
+    max.y=util::max(util::max(triangle[1],triangle[4]),triangle[7]);
+    max.z=util::max(util::max(triangle[2],triangle[5]),triangle[8]);
+
+    halfsize.x = (max.x-min.x)/2.0f;
+    halfsize.y = (max.y-min.y)/2.0f;
+    halfsize.z = (max.z-min.z)/2.0f;
+
+    center.x = min.x + halfsize.x;
+    center.y = min.y + halfsize.y;
+    center.z = min.z + halfsize.z;
+
+    a.set(triangle);
+    b.set(triangle+3);
+    c.set(triangle+6);
+  }
+
+  void get(float out[3][3]){
+    out[0][0]=a.x;
+    out[0][1]=a.y;
+    out[0][2]=a.z;
+
+    out[1][0]=b.x;
+    out[1][1]=b.y;
+    out[1][2]=b.z;
+
+    out[2][0]=c.x;
+    out[2][1]=c.y;
+    out[2][2]=c.z;
+  }
+};
+
+
+struct Voxel {
+  vec3<uint16_t> pos;
+};
+
+
+void triangle_output(Triangle & tri, std::vector<Voxel> & voxels){
+  vec3<float> hs, center;
+  hs.set(0.5f,0.5f,0.5f);
+
+  float triangle[3][3];
+  tri.get(triangle);
+  Voxel v;
+  
+  for(uint16_t z = tri.min.z; z < tri.max.z; z++)
+    for(uint16_t y = tri.min.y; y < tri.max.y; y++)
+      for(uint16_t x = tri.min.x; x < tri.max.x; x++)
+      {
+        center.set(x+0.5f,y+0.5f,z+0.5f);
+        if(triBoxOverlap(hs.vec, center.vec, triangle))
+        {
+          v.pos = vec3<uint16_t>(x,y,z);
+          voxels.push_back(v);
+        }
+      }
+}
+
+
+void write_voxels(const char * filename, std::vector<Voxel> & voxels);
+void voxel_output(const char * filename, float * triangles, uint32_t triangle_count)
+{
+  float * triangle = triangles; 
+  Triangle tri;
+  std::vector<Voxel> voxels;
+
+  for(uint32_t i = 0; i < triangle_count ; i++)
+  {
+    tri.set(triangle);
+
+    triangle_output(tri, voxels);
+
+    triangle += 9;
+  }
+
+  write_voxels(filename, voxels);
+}
+
+#include <fstream>
+void write_voxels(const char * filename, std::vector<Voxel> & voxels)
+{
+  std::ofstream file(filename, std::ios::out | std::ios::binary);
+
+  if(voxels.size()>0)
+    file.write((char*)&voxels[0].pos[0], 2 * voxels.size());
+  
+  file.close();
+}
+
 #include <Python.h>
 
 struct module_state {
@@ -352,10 +503,40 @@ static PyObject* tri_aabb_test(PyObject* self, PyObject* args)
 
     return Py_BuildValue("i", triBoxOverlap(boxcenter, boxhalfsize, triverts));
 }
+
+static PyObject* voxelize(PyObject* self, PyObject* args)
+{
+    const char * filename;
+    int count;
+    PyObject * list;
+ 
+    if (!PyArg_ParseTuple(args, "siO", &filename, &list, &count))
+      return NULL;
+
+    uint32_t len = PyList_Size(list);
+
+    if(len<=0 || len%9!=0)
+      return NULL;
+
+    float *triangles = new float[len];
+
+    for(uint32_t i = 0; i < len%9; i++){
+      for(uint32_t j = 0; j < 9; j++)
+      {
+        uint32_t index = (i*9) + j;
+        triangles[index] = PyFloat_AsDouble(PyList_GET_ITEM(list, index));
+      }
+    }
+
+    voxel_output(filename, triangles, len%9);
+
+    return Py_BuildValue("i", 1);
+}
  
 static PyMethodDef tri_aabb_methods[] =
 {
      {"tri_aabb_test", tri_aabb_test, METH_VARARGS, "Tests tri aabb."},
+     {"voxelize", voxelize, METH_VARARGS, "Voxelizes triangle mesh and outputs to file."},
      {NULL, NULL, 0, NULL}
 };
 
@@ -387,3 +568,4 @@ PyMODINIT_FUNC PyInit_tri_aabb(void)
 
     return module;
 }
+                                                                                                                                                                                            

@@ -57,7 +57,7 @@ def save(operator,
     if use_normals:
         mesh.calc_normals()
 
-    ret = voxel_export(filepath, mesh,
+    ret = voxel_export_cpp(filepath, mesh,
                     use_normals=use_normals,
                     use_uv_coords=use_uv_coords,
                     use_colors=use_colors,
@@ -99,5 +99,35 @@ def voxel_export(filepath,
     file.close()
 
     print('Exported to :' + filepath)
+
+    return {'FINISHED'}
+
+
+def voxel_export_cpp(filepath,
+              mesh,
+              use_normals=True,
+              use_uv_coords=True,
+              use_colors=True):
+
+    voxels = []
+    
+    cf = 0
+    cfl = len(mesh.polygons)
+
+    tri_list = []
+
+    for face in mesh.polygons:
+        fv = face.vertices
+        
+        if len(fv)==3:
+            tri_list.append(mesh.vertices[fv[0]].co[0])
+            tri_list.append(mesh.vertices[fv[0]].co[1])
+            tri_list.append(mesh.vertices[fv[0]].co[2])
+
+    if tri_aabb.voxelize(str(filepath), len(tri_list), tri_list):
+        print('Exported to :' + filepath)
+    else:
+        print('Something failed')
+
 
     return {'FINISHED'}
