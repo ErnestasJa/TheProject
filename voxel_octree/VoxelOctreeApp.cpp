@@ -44,7 +44,7 @@ void VoxelOctreeApp::InitPython()
   std::string initString = "import sys, os\n";
   initString += scriptLoadString+"\n";
   initString += "sys.path.append(script_path)\n";
-  //initString += "print('Python search path: ' + str(sys.path))\n";
+  initString += "print('Python search path: ' + str(sys.path))\n";
 
   PyRun_SimpleString(initString.c_str());
 }
@@ -60,7 +60,7 @@ void VoxelOctreeApp::InitResources()
   collisionManager = new CollisionManager(octree);
   octreeGen = new VoxMeshManager(octree);
   octreeGen->GenAllChunks();
-  player = new Player(cam, collisionManager, glm::vec3(0.5, 200, 0.5));
+  player = new Player(cam, collisionManager, glm::vec3(506, 200, 150));
   cube = new CubeMesh(player->GetAABB());
 }
 
@@ -95,16 +95,17 @@ void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName, Logger * lo
   if(len==0)
     return;
 
-  uint32_t * data = (uint32_t*)((void*)&buf[0]);
-  uint32_t voxel_count = data[0];
+  uint16_t * data = (uint16_t*)((void*)&buf[0]);
+  uint32_t voxel_count = ((uint32_t*)data)[0];
+  data++;
   data++;
 
-  log->log(LOG_LOG, "Voxel count: %u", voxel_count);
+  log->log(LOG_LOG, "Voxel counts: %u", voxel_count);
 
 
   for(int i = 0; i < voxel_count; i++)
   {
-    uint32_t x = data[0], y = data[1], z = data[2];
+    uint16_t x = data[0], y = data[1], z = data[2];
     mot->AddOrphanNode(MNode(x,y,z));
     data+=3;
   }

@@ -120,9 +120,10 @@ def voxel_export_cpp(filepath,
         fv = face.vertices
         
         if len(fv)==3:
-            tri_list.append(mesh.vertices[fv[0]].co[0])
-            tri_list.append(mesh.vertices[fv[0]].co[1])
-            tri_list.append(mesh.vertices[fv[0]].co[2])
+            for vert in fv:
+                tri_list.append(mesh.vertices[vert].co[0])
+                tri_list.append(mesh.vertices[vert].co[1])
+                tri_list.append(mesh.vertices[vert].co[2])
 
     if tri_aabb.voxelize(str(filepath), len(tri_list), tri_list):
         print('Exported to :' + filepath)

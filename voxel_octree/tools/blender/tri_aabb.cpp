@@ -381,7 +381,7 @@ namespace util
 }
 
 struct Triangle{
-  vec3<int32_t> min, max;
+  vec3<float> min, max;
   vec3<float> center, halfsize, a, b ,c;
 
   void set(float * triangle)
@@ -389,13 +389,14 @@ struct Triangle{
     min.x=util::min(util::min(triangle[0],triangle[3]),triangle[6]);
     min.y=util::min(util::min(triangle[1],triangle[4]),triangle[7]);
     min.z=util::min(util::min(triangle[2],triangle[5]),triangle[8]);
+
     max.x=util::max(util::max(triangle[0],triangle[3]),triangle[6]);
     max.y=util::max(util::max(triangle[1],triangle[4]),triangle[7]);
     max.z=util::max(util::max(triangle[2],triangle[5]),triangle[8]);
 
-    halfsize.x = (max.x-min.x)/2.0f;
-    halfsize.y = (max.y-min.y)/2.0f;
-    halfsize.z = (max.z-min.z)/2.0f;
+    halfsize.x = (max.x-min.x)*0.5f;
+    halfsize.y = (max.y-min.y)*0.5f;
+    halfsize.z = (max.z-min.z)*0.5f;
 
     center.x = min.x + halfsize.x;
     center.y = min.y + halfsize.y;
@@ -434,13 +435,13 @@ void triangle_output(Triangle & tri, std::vector<Voxel> & voxels){
   float triangle[3][3];
   tri.get(triangle);
   Voxel v;
-  
-  for(uint16_t z = tri.min.z; z < tri.max.z; z++)
-    for(uint16_t y = tri.min.y; y < tri.max.y; y++)
-      for(uint16_t x = tri.min.x; x < tri.max.x; x++)
+
+  for(uint16_t z = tri.min.z; z < (int)(tri.max.z+1); z++)
+    for(uint16_t y = tri.min.y; y < (int)(tri.max.y+1); y++)
+      for(uint16_t x = tri.min.x; x < (int)(tri.max.x+1); x++)
       {
         center.set(x+0.5f,y+0.5f,z+0.5f);
-        if(triBoxOverlap(hs.vec, center.vec, triangle))
+        if(triBoxOverlap(center.vec, hs.vec, triangle))
         {
           v.pos = vec3<uint16_t>(x,y,z);
           voxels.push_back(v);
@@ -459,10 +460,8 @@ void voxel_output(const char * filename, float * triangles, uint32_t triangle_co
   for(uint32_t i = 0; i < triangle_count ; i++)
   {
     tri.set(triangle);
-
     triangle_output(tri, voxels);
-
-    triangle += 9;
+    triangle+=9;
   }
 
   write_voxels(filename, voxels);
@@ -473,9 +472,20 @@ void write_voxels(const char * filename, std::vector<Voxel> & voxels)
 {
   std::ofstream file(filename, std::ios::out | std::ios::binary);
 
+  printf("Trying to write %i voxels to file\n", voxels.size());
+
+  uint32_t count = voxels.size();
   if(voxels.size()>0)
-    file.write((char*)&voxels[0].pos[0], 2 * voxels.size());
-  
+  {
+    file.write((char*)&count, 4);
+
+    for(uint32_t i = 0; i < count; i++){
+      file.write((char*)&voxels[i].pos.x, 2);
+      file.write((char*)&voxels[i].pos.y, 2);
+      file.write((char*)&voxels[i].pos.z, 2);
+    }
+  }
+
   file.close();
 }
 
@@ -510,25 +520,43 @@ static PyObject* voxelize(PyObject* self, PyObject* args)
     int count;
     PyObject * list;
  
-    if (!PyArg_ParseTuple(args, "siO", &filename, &list, &count))
+    if (!PyArg_ParseTuple(args, "siO", &filename, &count, &list)){
+      printf("Failed to parse function args\n");
       return NULL;
+    }
 
     uint32_t len = PyList_Size(list);
+    Py_INCREF(list);
 
-    if(len<=0 || len%9!=0)
+    if(len<=0 || len%9!=0){
+      printf("Triangle list is incorrectly formated or empty\n");
       return NULL;
+    }
+
+    printf("%s %u\n", "Got list of size: ", len);
 
     float *triangles = new float[len];
 
-    for(uint32_t i = 0; i < len%9; i++){
+    for(uint32_t i = 0; i < len/9; i++){
       for(uint32_t j = 0; j < 9; j++)
       {
         uint32_t index = (i*9) + j;
-        triangles[index] = PyFloat_AsDouble(PyList_GET_ITEM(list, index));
+        PyObject * item = PyList_GetItem(list, index);
+
+        if(item==NULL){
+          printf("%s\n", "List item is null");
+          return NULL;
+        }
+
+        Py_INCREF(item);
+        triangles[index] = PyFloat_AsDouble(item);
+        Py_DECREF(item);
       }
     }
 
-    voxel_output(filename, triangles, len%9);
+    Py_DECREF(list);
+
+    voxel_output(filename, triangles, len/9);
 
     return Py_BuildValue("i", 1);
 }

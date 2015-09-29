@@ -67,9 +67,13 @@ class Launcher(Frame):
         ret = subprocess.call('cmake ../cmake -G "Unix Makefiles" -Wno-dev -DPROJECT_PATH:STRING="/home/serengeor/Coding/Project"', shell=True)
         ret2 = subprocess.call('make -j9', shell=True)
         
+        buildSucceeded = (ret == 0 and ret2 == 0)
+        
+        if buildSucceeded:
+            shutil.move(os.path.abspath("VoxelOctree"), "../bin/VoxelOctree")
+
         os.chdir(restore_path)
 
-        buildSucceeded = (ret == 0 and ret2 == 0)
         return buildSucceeded
 
     def runApplication(self):

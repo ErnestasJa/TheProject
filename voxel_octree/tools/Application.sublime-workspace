@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"bui",
+				"buildSucceeded"
+			],
+			[
+				"tria",
+				"triangle"
+			],
+			[
 				"tri",
 				"tri_list"
 			],
@@ -58,10 +66,6 @@
 			[
 				"fu",
 				"fullLibPath"
-			],
-			[
-				"bui",
-				"buildcores"
 			],
 			[
 				"compile_boost_",
@@ -136,37 +140,41 @@
 	"buffers":
 	[
 		{
-			"contents": "from distutils.core import setup, Extension\n \nmodule1 = Extension('tri_aabb', sources = ['tri_aabb.cpp'])\n \nsetup (name = 'TriAABB',\n        version = '1.0',\n        description = 'This is a fully featured voxelizer package!',\n	ext_modules = [module1] )",
-			"file": "setup.py",
-			"file_size": 253,
-			"file_write_time": 1442526232000000,
 			"settings":
 			{
-				"buffer_size": 253,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "blender/voxel_export/__init__.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 			"settings":
 			{
-				"buffer_size": 3977,
+				"buffer_size": 2570,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "blender/voxel_export/voxel_export.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
 			"settings":
 			{
-				"buffer_size": 3468,
+				"buffer_size": 61,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/usr/share/blender/2.75/scripts/addons/io_mesh_ply/export_ply.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/mnode.py",
 			"settings":
 			{
-				"buffer_size": 6490,
+				"buffer_size": 479,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+			"settings":
+			{
+				"buffer_size": 9861,
 				"line_ending": "Unix"
 			}
 		},
@@ -174,7 +182,15 @@
 			"file": "blender/tri_aabb.cpp",
 			"settings":
 			{
-				"buffer_size": 11753,
+				"buffer_size": 12447,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
+			"settings":
+			{
+				"buffer_size": 7831,
 				"line_ending": "Unix"
 			}
 		}
@@ -223,9 +239,14 @@
 	},
 	"file_history":
 	[
-		"/usr/share/blender/2.75/scripts/addons/io_mesh_ply/__init__.py",
+		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/tri_aabb.cpp",
 		"/usr/share/blender/2.75/scripts/addons/io_mesh_ply/export_ply.py",
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export/voxel_export.py",
+		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export/__init__.py",
+		"/home/serengeor/Coding/Project/voxel_octree/tools/setup.py",
+		"/home/serengeor/untitled.bvox",
+		"/tmp/blender.crash.txt",
+		"/usr/share/blender/2.75/scripts/addons/io_mesh_ply/__init__.py",
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export.py",
 		"/home/serengeor/Coding/Project/voxel_octree/run.sh",
 		"/home/serengeor/Coding/Project/voxel_octree/launcher.py",
@@ -336,6 +357,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"shutil",
+			"triBoxOverlap",
+			", ",
 			".\"},\n",
 			"ply",
 			"ExportBVOX",
@@ -421,23 +445,76 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "setup.py",
 					"settings":
 					{
-						"buffer_size": 253,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								224,
-								224
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
+					"settings":
+					{
+						"buffer_size": 2570,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								341,
+								341
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
+					"settings":
+					{
+						"buffer_size": 61,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								60
 							]
 						],
 						"settings":
@@ -451,79 +528,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "blender/voxel_export/__init__.py",
-					"settings":
-					{
-						"buffer_size": 3977,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								736,
-								736
-							],
-							[
-								2214,
-								2214
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 900.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "blender/voxel_export/voxel_export.py",
-					"settings":
-					{
-						"buffer_size": 3468,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3354,
-								3354
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1404.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "/usr/share/blender/2.75/scripts/addons/io_mesh_ply/export_ply.py",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/mnode.py",
 					"settings":
 					{
-						"buffer_size": 6490,
+						"buffer_size": 479,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6233,
-								6233
+								0,
+								0
 							]
 						],
 						"settings":
@@ -533,25 +550,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2655.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "blender/tri_aabb.cpp",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
 					"settings":
 					{
-						"buffer_size": 11753,
+						"buffer_size": 9861,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10282,
-								10282
+								1812,
+								1812
 							]
 						],
 						"settings":
@@ -561,7 +578,63 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6274.0,
+						"translation.y": 741.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "blender/tri_aabb.cpp",
+					"settings":
+					{
+						"buffer_size": 12447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11394,
+								11394
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7042.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
+					"settings":
+					{
+						"buffer_size": 7831,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2191,
+								2191
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
