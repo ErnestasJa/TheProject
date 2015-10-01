@@ -36,6 +36,7 @@ add_executable(VoxelOctree
 	../VoxelOctreeApp.cpp
 	../VoxelOctreeBenchmarkApp.cpp
 	../player/Player.cpp
+	../motree/BVoxLoader.cpp
 	../motree/VoxMeshManager.cpp
 	../motree/MortonOctree.cpp
 	../motree/MNode.cpp

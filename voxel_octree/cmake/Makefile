@@ -204,6 +204,33 @@ home/serengeor/Coding/Project/voxel_octree/main.cpp.s:
 	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/main.cpp.s
 .PHONY : home/serengeor/Coding/Project/voxel_octree/main.cpp.s
 
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.o: home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.o
+
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.o
+
+# target to build an object file
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.o:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.o
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.o
+
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.i: home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.i
+
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.i
+
+# target to preprocess a source file
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.i:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.i
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.i
+
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.s: home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.s
+
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.s
+
+# target to generate assembly for a file
+home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.s:
+	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.s
+.PHONY : home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp.s
+
 home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.o: home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.cpp.o
 
 .PHONY : home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.o
@@ -519,6 +546,9 @@ help:
 	@echo "... home/serengeor/Coding/Project/voxel_octree/main.o"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/main.i"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/main.s"
+	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.o"
+	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.i"
+	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.s"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.o"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.i"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/motree/CollisionInfo.s"

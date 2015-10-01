@@ -11,6 +11,7 @@
 #include "motree/MortonOctree.h"
 #include "motree/CollisionManager.h"
 #include "motree/VoxMeshManager.h"
+#include "motree/BVoxLoader.h"
 #include "player/Player.h"
 
 class CubeMesh;
@@ -46,6 +47,7 @@ private:
     ShaderPtr sh;
     CameraPtr cam;
     MortonOctTreePtr octree;
+    BVoxLoaderPtr bvoxLoader;
     CollisionManager * collisionManager;
     VoxMeshManager * octreeGen;
     CubeMesh * cube;

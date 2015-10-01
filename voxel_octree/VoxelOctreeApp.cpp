@@ -51,17 +51,16 @@ void VoxelOctreeApp::InitPython()
 
 void VoxelOctreeApp::InitResources()
 {
-  AppContext * ctx = this->Ctx();
-
-  sh = (new shader_loader(ctx->_logger))->load("shaders/solid_cube");
-  cam = share(new Camera(ctx,glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0), 1.7777777f,45.0f,0.1,1024.0f));
+  sh = (new shader_loader(Ctx()->_logger))->load("shaders/solid_cube");
+  cam = share(new Camera(Ctx(),glm::vec3(0,0,-5),glm::vec3(0,0,5),glm::vec3(0,1,0), 1.7777777f,45.0f,0.1,1024.0f));
 
   octree = share(new MortonOctTree());
   collisionManager = new CollisionManager(octree);
   octreeGen = new VoxMeshManager(octree);
   octreeGen->GenAllChunks();
-  player = new Player(cam, collisionManager, glm::vec3(506, 200, 150));
+  player = new Player(cam, collisionManager, glm::vec3(405, 200, 300));
   cube = new CubeMesh(player->GetAABB());
+  bvoxLoader = share(new BVoxLoader(octree, Ctx()->_logger));
 }
 
 bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
@@ -84,66 +83,12 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
   return true;
 }
 
-void ReadBVoxFile(MortonOctTreePtr mot, const std::string &fileName, Logger * log)
-{
-  char * buf;
-  uint32_t len;
-  len=helpers::read(fileName,buf);
-
-  log->log(LOG_LOG, "File len: %u", len);
-
-  if(len==0)
-    return;
-
-  uint16_t * data = (uint16_t*)((void*)&buf[0]);
-  uint32_t voxel_count = ((uint32_t*)data)[0];
-  data++;
-  data++;
-
-  log->log(LOG_LOG, "Voxel counts: %u", voxel_count);
-
-
-  for(int i = 0; i < voxel_count; i++)
-  {
-    uint16_t x = data[0], y = data[1], z = data[2];
-    mot->AddOrphanNode(MNode(x,y,z));
-    data+=3;
-  }
-
-  delete[] buf;
-}
-
-void SaveBVoxFile(MortonOctTreePtr mot, const std::string &fileName)
-{
-  PHYSFS_file* f = PHYSFS_openWrite(fileName.c_str());
-
-  if(!f)
-  {
-    printf("PHYSFS: Opening (%s) to write failed.\n",fileName.c_str());
-    return;
-  }
-
-  auto nodes = mot->GetChildNodes();
-
-  uint32_t p[3];
-  uint32_t nodeCount = nodes.size();
-
-  PHYSFS_write(f, (void*)&nodeCount, 4, 1);
-  for (int i = 0; i < nodes.size(); ++i)
-  {
-    decodeMK(nodes[i].start,p[0],p[1],p[2]);
-    PHYSFS_write(f, (void*)p, 4, 3);
-  }
-
- printf("Saving level to file: %s\n",fileName.c_str());
- PHYSFS_close(f);
-}
-
 bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
 {
   octree->GetChildNodes().clear();
   octreeGen->GetMeshes().clear();
-  ReadBVoxFile(octree, levelName, Ctx()->_logger);
+
+  bvoxLoader->ReadFile(levelName);
 
   octree->AddOrphanNode(MNode(0,0,0,1));
   octree->SortLeafNodes();
@@ -153,8 +98,8 @@ bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
 }
 
 bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
-{
-  SaveBVoxFile(octree, levelName);
+{  
+  bvoxLoader->WriteFile(levelName);
 }
 
 void VoxelOctreeApp::AfterInit()
@@ -281,7 +226,7 @@ bool VoxelOctreeApp::Update()
     if(key==GLFW_KEY_SPACE)
     {
      player->Jump(20);
-   }
+    }
 
    UPDATE_KEY(wk,GLFW_KEY_W);
    UPDATE_KEY(ak,GLFW_KEY_A);

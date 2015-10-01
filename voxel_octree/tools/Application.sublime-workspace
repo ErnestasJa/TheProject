@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"BV",
+				"bvoxLoader"
+			],
+			[
 				"bui",
 				"buildSucceeded"
 			],
@@ -140,13 +144,6 @@
 	"buffers":
 	[
 		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 			"settings":
 			{
@@ -155,18 +152,36 @@
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/CollisionManager.h",
 			"settings":
 			{
-				"buffer_size": 61,
+				"buffer_size": 1093,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/mnode.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.h",
 			"settings":
 			{
-				"buffer_size": 479,
+				"buffer_size": 541,
+				"line_ending": "Unix",
+				"name": "BVoxLoader.h"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp",
+			"settings":
+			{
+				"buffer_size": 1372,
+				"line_ending": "Unix",
+				"name": "BVoxLoader.cpp"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
+			"settings":
+			{
+				"buffer_size": 1500,
 				"line_ending": "Unix"
 			}
 		},
@@ -174,23 +189,23 @@
 			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
 			"settings":
 			{
-				"buffer_size": 9861,
+				"buffer_size": 8743,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "blender/tri_aabb.cpp",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/CollisionManager.cpp",
 			"settings":
 			{
-				"buffer_size": 12447,
+				"buffer_size": 9331,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
 			"settings":
 			{
-				"buffer_size": 7831,
+				"buffer_size": 1734,
 				"line_ending": "Unix"
 			}
 		}
@@ -239,7 +254,11 @@
 	},
 	"file_history":
 	[
+		"/home/serengeor/Coding/Project/voxel_octree/motree/MortonOctree.h",
+		"/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/tri_aabb.cpp",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/res/python/mnode.py",
 		"/usr/share/blender/2.75/scripts/addons/io_mesh_ply/export_ply.py",
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export/voxel_export.py",
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export/__init__.py",
@@ -250,7 +269,6 @@
 		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export.py",
 		"/home/serengeor/Coding/Project/voxel_octree/run.sh",
 		"/home/serengeor/Coding/Project/voxel_octree/launcher.py",
-		"/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/BufferObject.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/BufferObject.cpp",
 		"/home/serengeor/Coding/Project/voxel_octree/bin/res/voxel_octree/config.json",
@@ -357,6 +375,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ReadBVoxFile",
 			"shutil",
 			"triBoxOverlap",
 			", ",
@@ -450,31 +469,6 @@
 			[
 				{
 					"buffer": 0,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 					"settings":
 					{
@@ -485,13 +479,41 @@
 						"selection":
 						[
 							[
-								341,
-								341
+								874,
+								874
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/CollisionManager.h",
+					"settings":
+					{
+						"buffer_size": 1093,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1063,
+								1063
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -503,23 +525,24 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.h",
 					"settings":
 					{
-						"buffer_size": 61,
+						"buffer_size": 541,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								60,
-								60
+								254,
+								254
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"auto_name": "BVoxLoader.h",
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -529,74 +552,73 @@
 				},
 				{
 					"buffer": 3,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/res/python/mnode.py",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp",
 					"settings":
 					{
-						"buffer_size": 479,
+						"buffer_size": 1372,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								307,
+								307
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "BVoxLoader.cpp",
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
 					"settings":
 					{
-						"buffer_size": 9861,
+						"buffer_size": 1500,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1812,
-								1812
+								1352,
+								1352
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 741.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "blender/tri_aabb.cpp",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
 					"settings":
 					{
-						"buffer_size": 12447,
+						"buffer_size": 8743,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11394,
-								11394
+								3184,
+								3184
 							]
 						],
 						"settings":
@@ -606,35 +628,62 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7042.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/CollisionManager.cpp",
 					"settings":
 					{
-						"buffer_size": 7831,
+						"buffer_size": 9331,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2191,
-								2191
+								159,
+								159
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
+							"syntax": "Packages/C++/C++.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
+					"settings":
+					{
+						"buffer_size": 1734,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								995,
+								995
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 195.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
