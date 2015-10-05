@@ -51,7 +51,7 @@ void BVoxLoader::WriteFile(const std::string &fileName)
 
 	if(!f)
 	{
-		printf("PHYSFS: Opening (%s) to write failed.\n", fileName.c_str());
+		m_log->log(LOG_LOG, "PHYSFS: Opening (%s) to write failed.\n", fileName.c_str());
 		return;
 	}
 
