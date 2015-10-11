@@ -1,6 +1,7 @@
 #ifndef VOXELOCTREEAPP_H
 #define VOXELOCTREEAPP_H
 
+///REFACTOR: Application currently is responsible for too many things.
 #include "application/Application.h"
 #include "application/Window.h"
 #include "opengl/Mesh.h"
@@ -35,7 +36,6 @@ public:
     void AfterInit();
     virtual bool Update();
     void Exit();
-
     void OnWindowClose();
 
     ///Events
@@ -43,6 +43,9 @@ public:
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
     virtual std::string GetApplicationId();
+
+private:
+    Path GetPythonScriptLoadPath();
 private:
     ShaderPtr sh;
     CameraPtr cam;
