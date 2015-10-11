@@ -3,7 +3,7 @@ project (VoxelOctree)
 
 include(CheckCXXCompilerFlag)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -w -Wfatal-errors -std=c++11")
 
 find_package(PythonLibs REQUIRED)
 message(${PYTHON_INCLUDE_DIRS})
