@@ -27,7 +27,7 @@ public:
     VoxelOctreeApp(uint32_t argc, const char ** argv);
     virtual ~VoxelOctreeApp();
 
-    bool Init(const std::string & title, uint32_t width, uint32_t height);
+    bool Init(const std::string & title);
     bool LoadLevel(const std::string & levelName);
     bool SaveLevel(const std::string & levelName);
 

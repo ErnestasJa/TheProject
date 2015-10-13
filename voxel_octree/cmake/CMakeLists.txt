@@ -74,5 +74,6 @@ z
 "${LIBBIN_PATH}/libtinyxml2_lib.a"
 "${LIBBIN_PATH}/libjsoncpp.a"
 "${LIBBIN_PATH}/libboost_container.a"
+"${LIBBIN_PATH}/libboost_filesystem.a"
 "${LIBBIN_PATH}/libboost_system.a"
 )

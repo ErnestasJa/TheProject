@@ -91,22 +91,20 @@ void TestNodes(Logger * _logger)
     _logger->log(LOG_LOG, "================ NODE TEST END ====================");
 }
 
-bool VoxelOctreeBenchmarkApp::Init(const std::string & title, uint32_t width, uint32_t height)
+bool VoxelOctreeBenchmarkApp::Init(const std::string & title)
 {
-    Application::Init(title,width,height);
+    Application::Init(title);
     
     timer = Ctx()->_timer;
 
     uint32_t x, y, z;
-    VarGroup & benchmark = this->GetGroup("benchmark");
+    VarGroup & benchmark = this->GetContext()->settingsManager->GetGroup("benchmark");
 
     x=benchmark.GetVar("x").ValueI();
     y=benchmark.GetVar("y").ValueI();
     z=benchmark.GetVar("z").ValueI();
 
     std::cout << "Testing area dimensions: [" << x << ", " << y << ", " << z << "]" << std::endl;
-    std::cout << "Title: '" << this->GetVar("title").ValueS() << "'" << std::endl;
-
 
     /*InitOctree();
     BuildOctree();

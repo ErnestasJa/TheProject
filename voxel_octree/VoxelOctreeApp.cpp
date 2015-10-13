@@ -29,30 +29,33 @@ VoxelOctreeApp::~VoxelOctreeApp()
 
 void VoxelOctreeApp::InitPython()
 {
+	GetContext()->logger->log(LOG_LOG, "Initializing python.");
 	PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
 	PyImport_AppendInittab("octree", &PyInit_Octree);
 	PyImport_AppendInittab("oapp", &PyInit_OctreeApplication);
 	Py_Initialize();
 
-	std::string path = this->GetContext()->fileSystem->GetAbsoluteResourcePath();
+	Path pythonLoadPath = GetPythonScriptLoadPath();
+	GetContext()->logger->log(LOG_LOG, "Python path: '%s'", pythonLoadPath.generic_string().c_str());
 
-	path.erase(path.length() - 1);
-	boost::algorithm::replace_all(path, "\\", "\\\\"); //just windows things
-
-	std::string scriptLoadString = "script_path = os.path.join(('" + path + "'),'python')";
-
+	std::string scriptLoadString = "script_path = os.path.join(('" + pythonLoadPath.generic_string() + "'),'python')";
 	std::string initString = "import sys, os\n";
 	initString += scriptLoadString + "\n";
 	initString += "sys.path.append(script_path)\n";
 	initString += "print('Python search path: ' + str(sys.path))\n";
 
 	PyRun_SimpleString(initString.c_str());
-}
 
+	GetContext()->logger->log(LOG_LOG, "Python has been initialized.");
+	this->GetContext()->fileSystem->CreateDirectory("test");
+}
 
 Path VoxelOctreeApp::GetPythonScriptLoadPath()
 {
-
+	///Write directory should be our application directory, unless setting it failed.
+	Path applicationPath = this->GetContext()->fileSystem->GetWriteDirectory();
+	applicationPath.append("python");
+	return applicationPath;
 }
 
 void VoxelOctreeApp::InitResources()
@@ -69,14 +72,14 @@ void VoxelOctreeApp::InitResources()
 	bvoxLoader = share(new BVoxLoader(octree, Ctx()->_logger));
 }
 
-bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t height)
+bool VoxelOctreeApp::Init(const std::string & title)
 {
-	Application::Init(title, width, height);
+	Application::Init(title);
 	InitPython();
 
-	_appContext->_window->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
-	_appContext->_window->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
-	_appContext->_window->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));
+	this->GetContext()->_window->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
+	this->GetContext()->_window->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
+	this->GetContext()->_window->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -85,7 +88,7 @@ bool VoxelOctreeApp::Init(const std::string & title, uint32_t width, uint32_t he
 	glClearColor(0.4, 0.8, 0.2, 0.0);
 	InitResources();
 	AfterInit();
-	_appContext->_timer->tick();
+	this->GetContext()->_timer->tick();
 	return true;
 }
 
@@ -129,9 +132,9 @@ static bool renderWireframe = false;
 bool wk = false, ak = false, sk = false, dk = false;
 bool VoxelOctreeApp::Update()
 {
-	if (_appContext->_window->Update() && !_appContext->_window->GetShouldClose() && !_appContext->_window->GetKey(GLFW_KEY_ESCAPE))
+	if (this->GetContext()->_window->Update() && !this->GetContext()->_window->GetShouldClose() && !this->GetContext()->_window->GetKey(GLFW_KEY_ESCAPE))
 	{
-		_appContext->_timer->tick();
+		this->GetContext()->_timer->tick();
 
 		///PLAYER MOVE CODE
 		auto look = cam->GetLook();
@@ -171,7 +174,7 @@ bool VoxelOctreeApp::Update()
 		}
 		///~PLAYER MOVE CODE END
 
-		player->Update(((float)_appContext->_timer->get_delta_time()) / 1000.0f);
+		player->Update(((float)this->GetContext()->_timer->get_delta_time()) / 1000.0f);
 		cam->Update(0);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -193,8 +196,8 @@ bool VoxelOctreeApp::Update()
 
 		octreeGen->RenderAllMeshes();
 
-		_appContext->_glUtil->check_and_output_errors();
-		_appContext->_window->SwapBuffers();
+		this->GetContext()->_glUtil->check_and_output_errors();
+		this->GetContext()->_window->SwapBuffers();
 		return true;
 	}
 	return false;

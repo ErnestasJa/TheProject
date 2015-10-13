@@ -37,7 +37,7 @@ void StartApp(uint32_t app, ApplicationLauncher & launcher, int argc, const char
 {
     launcher.RunApplication(app-1,argc,argv);
 
-    if(launcher.GetCurrentApplication()->Init(launcher.GetApplicationName(app-1),1280,768))
+    if(launcher.GetCurrentApplication()->Init(launcher.GetApplicationName(app-1)))
       {
 	while(launcher.GetCurrentApplication()->Update());
 
@@ -52,7 +52,6 @@ int main(int argc, const char ** argv)
     ApplicationLauncher appLauncher;
     appLauncher.RegisterApplication("Voxel octree application", APP(VoxelOctreeApp));
     appLauncher.RegisterApplication("Voxel octree benchmark application", APP(VoxelOctreeBenchmarkApp));
-
 
     int appToLaunch = 0;
     char choice;

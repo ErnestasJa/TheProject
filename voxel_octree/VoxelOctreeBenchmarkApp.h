@@ -17,7 +17,7 @@ public:
     VoxelOctreeBenchmarkApp(uint32_t argc, const char ** argv);
     virtual ~VoxelOctreeBenchmarkApp();
 
-    bool Init(const std::string & title, uint32_t width, uint32_t height);
+    bool Init(const std::string & title);
     void InitOctree();
     void BuildOctree();
     void FreeOctree();
