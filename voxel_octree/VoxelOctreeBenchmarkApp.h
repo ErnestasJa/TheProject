@@ -38,7 +38,7 @@ private:
     CameraPtr cam;
     MortonOctTreePtr octree;
     VoxMeshManager * octreeGen;
-    timer_ptr timer;
+    TimerPtr timer;
 };
 
 #endif // VOXELOCTREEAPP_H

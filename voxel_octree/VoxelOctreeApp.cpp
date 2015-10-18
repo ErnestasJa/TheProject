@@ -1,9 +1,12 @@
 #include "Precomp.h"
 #include "VoxelOctreeApp.h"
+#include "core/FileSystem.h"
 #include "motree/CollisionInfo.h"
 #include "motree/VoxMeshManager.h"
-#include "utility/SimplexNoise.h"
+#include "utility/Logger.h"
+#include "utility/Timer.h"
 #include "opengl/CubeMesh.h"
+#include "opengl/OpenGLUtil.h"
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
 #include "py/OctreeApplicationPy.h"
@@ -29,14 +32,14 @@ VoxelOctreeApp::~VoxelOctreeApp()
 
 void VoxelOctreeApp::InitPython()
 {
-	GetContext()->logger->log(LOG_LOG, "Initializing python.");
+	GetContext().GetLogger()->log(LOG_LOG, "Initializing python.");
 	PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
 	PyImport_AppendInittab("octree", &PyInit_Octree);
 	PyImport_AppendInittab("oapp", &PyInit_OctreeApplication);
 	Py_Initialize();
 
 	Path pythonLoadPath = GetPythonScriptLoadPath();
-	GetContext()->logger->log(LOG_LOG, "Python path: '%s'", pythonLoadPath.generic_string().c_str());
+	GetContext().GetLogger()->log(LOG_LOG, "Python path: '%s'", pythonLoadPath.generic_string().c_str());
 
 	std::string scriptLoadString = "script_path = os.path.join(('" + pythonLoadPath.generic_string() + "'),'python')";
 	std::string initString = "import sys, os\n";
@@ -46,22 +49,22 @@ void VoxelOctreeApp::InitPython()
 
 	PyRun_SimpleString(initString.c_str());
 
-	GetContext()->logger->log(LOG_LOG, "Python has been initialized.");
-	this->GetContext()->fileSystem->CreateDirectory("test");
+	GetContext().GetLogger()->log(LOG_LOG, "Python has been initialized.");
+	GetContext().GetFileSystem()->CreateDirectory("test");
 }
 
 Path VoxelOctreeApp::GetPythonScriptLoadPath()
 {
 	///Write directory should be our application directory, unless setting it failed.
-	Path applicationPath = this->GetContext()->fileSystem->GetWriteDirectory();
+	Path applicationPath = GetContext().GetFileSystem()->GetWriteDirectory();
 	applicationPath.append("python");
 	return applicationPath;
 }
 
 void VoxelOctreeApp::InitResources()
 {
-	sh = (new shader_loader(Ctx()->_logger))->load("shaders/solid_cube");
-	cam = share(new Camera(Ctx(), glm::vec3(0, 0, -5), glm::vec3(0, 0, 5), glm::vec3(0, 1, 0), 1.7777777f, 45.0f, 0.1, 1024.0f));
+	sh = (new shader_loader())->load("shaders/solid_cube");
+	cam = share(new Camera(glm::vec3(0, 0, -5), glm::vec3(0, 0, 5), glm::vec3(0, 1, 0), 1.7777777f, 45.0f, 0.1, 1024.0f));
 
 	octree = share(new MortonOctTree());
 	collisionManager = new CollisionManager(octree);
@@ -69,7 +72,7 @@ void VoxelOctreeApp::InitResources()
 	octreeGen->GenAllChunks();
 	player = new Player(cam, collisionManager, glm::vec3(405, 200, 300));
 	cube = new CubeMesh(player->GetAABB());
-	bvoxLoader = share(new BVoxLoader(octree, Ctx()->_logger));
+	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));
 }
 
 bool VoxelOctreeApp::Init(const std::string & title)
@@ -77,9 +80,9 @@ bool VoxelOctreeApp::Init(const std::string & title)
 	Application::Init(title);
 	InitPython();
 
-	this->GetContext()->_window->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
-	this->GetContext()->_window->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
-	this->GetContext()->_window->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));
+	GetContext().GetWindow()->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
+	GetContext().GetWindow()->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
+	GetContext().GetWindow()->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -88,7 +91,7 @@ bool VoxelOctreeApp::Init(const std::string & title)
 	glClearColor(0.4, 0.8, 0.2, 0.0);
 	InitResources();
 	AfterInit();
-	this->GetContext()->_timer->tick();
+	GetContext().GetTimer()->tick();
 	return true;
 }
 
@@ -132,9 +135,9 @@ static bool renderWireframe = false;
 bool wk = false, ak = false, sk = false, dk = false;
 bool VoxelOctreeApp::Update()
 {
-	if (this->GetContext()->_window->Update() && !this->GetContext()->_window->GetShouldClose() && !this->GetContext()->_window->GetKey(GLFW_KEY_ESCAPE))
+	if (GetContext().GetWindow()->Update() && !GetContext().GetWindow()->GetShouldClose() && !GetContext().GetWindow()->GetKey(GLFW_KEY_ESCAPE))
 	{
-		this->GetContext()->_timer->tick();
+		GetContext().GetTimer()->tick();
 
 		///PLAYER MOVE CODE
 		auto look = cam->GetLook();
@@ -174,7 +177,7 @@ bool VoxelOctreeApp::Update()
 		}
 		///~PLAYER MOVE CODE END
 
-		player->Update(((float)this->GetContext()->_timer->get_delta_time()) / 1000.0f);
+		player->Update(((float)GetContext().GetTimer()->get_delta_time()) / 1000.0f);
 		cam->Update(0);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -196,8 +199,8 @@ bool VoxelOctreeApp::Update()
 
 		octreeGen->RenderAllMeshes();
 
-		this->GetContext()->_glUtil->check_and_output_errors();
-		this->GetContext()->_window->SwapBuffers();
+		GetContext().GetOpenGLUtil()->check_and_output_errors();
+		GetContext().GetWindow()->SwapBuffers();
 		return true;
 	}
 	return false;
@@ -261,7 +264,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
 	glm::vec3 lookat = glm::normalize(cam->GetLook());
 	glm::vec3 position = cam->GetPosition() + lookat; // shoot one unit in front of player
-	this->Ctx()->_logger->log(LOG_LOG, "cam pos: [%f, %f, %f]", position.x, position.y, position.z);
+	GetContext().GetLogger()->log(LOG_LOG, "cam pos: [%f, %f, %f]", position.x, position.y, position.z);
 
 	if (action == GLFW_PRESS)
 	{
@@ -276,11 +279,11 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 			{
 				uint32_t x, y, z;
 				decodeMK(info.node.start, x, y, z);
-				this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
+				GetContext().GetLogger()->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
 
 				auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), info.node);
 				decodeMK(it->start, x, y, z);
-				this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
+				GetContext().GetLogger()->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
 
 				uint32_t mk = info.node.start & CHUNK_MASK;
 				if (it != octree->GetChildNodes().end())
@@ -300,7 +303,7 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 			{
 				uint32_t x, y, z;
 				decodeMK(info.node.start, x, y, z);
-				this->Ctx()->_logger->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
+				GetContext().GetLogger()->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
 
 				/// add node
 				VoxelSide side = collisionManager->GetCollisionSide(glm::vec3(x, y, z), position, lookat);
