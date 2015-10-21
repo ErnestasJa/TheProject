@@ -27,15 +27,16 @@ public:
     VoxelOctreeApp(uint32_t argc, const char ** argv);
     virtual ~VoxelOctreeApp();
 
-    bool Init(const std::string & title);
+    virtual bool Init();
+    virtual bool Update();
+    virtual bool Exit();
+
     bool LoadLevel(const std::string & levelName);
     bool SaveLevel(const std::string & levelName);
 
     void InitResources();
     void InitPython();
     void AfterInit();
-    virtual bool Update();
-    void Exit();
     void OnWindowClose();
 
     ///Events

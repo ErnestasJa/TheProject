@@ -93,9 +93,10 @@ void TestNodes(Logger * _logger)
     _logger->log(LOG_LOG, "================ NODE TEST END ====================");
 }
 
-bool VoxelOctreeBenchmarkApp::Init(const std::string & title)
+bool VoxelOctreeBenchmarkApp::Init()
 {
-    Application::Init(title);
+    if(!InitSimple("Octree benchmark app"))
+        return false;
     
     timer = GetContext().GetTimer();
 
@@ -156,9 +157,9 @@ bool VoxelOctreeBenchmarkApp::Update()
     return false;
 }
 
-void VoxelOctreeBenchmarkApp::Exit()
+bool VoxelOctreeBenchmarkApp::Exit()
 {
-    Application::Exit();
+    return true;
 }
 
 void VoxelOctreeBenchmarkApp::OnWindowClose()

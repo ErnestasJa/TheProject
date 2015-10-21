@@ -6,7 +6,7 @@
 #include "utility/Logger.h"
 #include "utility/Timer.h"
 #include "opengl/CubeMesh.h"
-#include "opengl/OpenGLUtil.h"
+#include "opengl/OpenGLExtensionLoader.h"
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
 #include "py/OctreeApplicationPy.h"
@@ -74,10 +74,25 @@ void VoxelOctreeApp::InitResources()
 	cube = new CubeMesh(player->GetAABB());
 	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));
 }
+#include "application/SettingsManager.h"
 
-bool VoxelOctreeApp::Init(const std::string & title)
+bool VoxelOctreeApp::Init()
 {
-	Application::Init(title);
+	/*if(!InitSimple("Voxel octree application"))
+		return false;*/
+
+	if(!InitContextBasics() || !InitFileSystem() || !LoadConfig())
+	{
+		return false;
+	}
+
+	//If we want to override some settings for window.
+	auto & video_group = GetContext().GetApplicationSettingsManager()->GetGroup("video");
+	video_group.GetVar("window_width").Value(int(128));
+	video_group.GetVar("window_height").Value(int(128));
+	InitWindowAndOpenGL("Supper awesome window, waow");
+
+	
 	InitPython();
 
 	GetContext().GetWindow()->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
@@ -199,16 +214,16 @@ bool VoxelOctreeApp::Update()
 
 		octreeGen->RenderAllMeshes();
 
-		GetContext().GetOpenGLUtil()->check_and_output_errors();
+		GetContext().GetOpenGLExtensionLoader()->check_and_output_errors();
 		GetContext().GetWindow()->SwapBuffers();
 		return true;
 	}
 	return false;
 }
 
-void VoxelOctreeApp::Exit()
+bool VoxelOctreeApp::Exit()
 {
-	Application::Exit();
+	return true;
 }
 
 void VoxelOctreeApp::OnWindowClose()

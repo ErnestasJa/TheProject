@@ -17,22 +17,23 @@ public:
     VoxelOctreeBenchmarkApp(uint32_t argc, const char ** argv);
     virtual ~VoxelOctreeBenchmarkApp();
 
-    bool Init(const std::string & title);
+    virtual bool Init();
+    virtual bool Update();
+    virtual bool Exit();
+
     void InitOctree();
     void BuildOctree();
     void FreeOctree();
-    virtual bool Update();
-    void Exit();
-
-    void OnWindowClose();
 
     ///Events
+    void OnWindowClose();
     void OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers);
     void OnMouseKey(int32_t button, int32_t action, int32_t mod);
     void OnMouseMove(double x, double y);
 
     virtual std::string GetApplicationId();
     virtual void InitVariables();
+    
 private:
     MeshPtr mesh;
     CameraPtr cam;
