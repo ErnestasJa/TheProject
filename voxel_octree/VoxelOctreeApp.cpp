@@ -7,6 +7,7 @@
 #include "utility/Timer.h"
 #include "opengl/CubeMesh.h"
 #include "opengl/OpenGLExtensionLoader.h"
+#include "resources/ResourceManager.h"
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
 #include "py/OctreeApplicationPy.h"
@@ -63,7 +64,8 @@ Path VoxelOctreeApp::GetPythonScriptLoadPath()
 
 void VoxelOctreeApp::InitResources()
 {
-	sh = (new shader_loader())->load("shaders/solid_cube");
+	auto loader = GetContext().GetResourceManager();
+	sh = loader->LoadShader("shaders/solid_cube");
 	cam = share(new Camera(glm::vec3(0, 0, -5), glm::vec3(0, 0, 5), glm::vec3(0, 1, 0), 1.7777777f, 45.0f, 0.1, 1024.0f));
 
 	octree = share(new MortonOctTree());
@@ -74,6 +76,7 @@ void VoxelOctreeApp::InitResources()
 	cube = new CubeMesh(player->GetAABB());
 	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));
 }
+
 #include "application/SettingsManager.h"
 
 bool VoxelOctreeApp::Init()
