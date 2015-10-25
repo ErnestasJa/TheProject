@@ -3,19 +3,8 @@
 
 ///REFACTOR: Application currently is responsible for too many things.
 #include "application/Application.h"
-#include "application/Window.h"
-#include "opengl/Mesh.h"
-#include "opengl/Shader.h"
-#include "opengl/MVar.h"
-#include "resources/ShaderLoader.h"
-#include "scenegraph/Camera.h"
-#include "motree/MortonOctree.h"
-#include "motree/CollisionManager.h"
-#include "motree/VoxMeshManager.h"
-#include "motree/BVoxLoader.h"
-#include "player/Player.h"
+#include "AppForwardDecl.h"
 
-class CubeMesh;
 
 class VoxelOctreeApp: public Application
 {
@@ -56,6 +45,7 @@ private:
     VoxMeshManager * octreeGen;
     CubeMesh * cube;
     Player * player;
+    RendererPtr renderer;
 };
 
 

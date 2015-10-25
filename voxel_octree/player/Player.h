@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "scenegraph/Camera.h"
+#include "opengl/Camera.h"
 #include "motree/CollisionManager.h"
 #include "opengl/AABB.h"
 

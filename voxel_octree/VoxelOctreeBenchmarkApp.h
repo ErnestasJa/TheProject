@@ -7,7 +7,7 @@
 #include "opengl/Shader.h"
 #include "opengl/MVar.h"
 #include "resources/ShaderLoader.h"
-#include "scenegraph/Camera.h"
+#include "opengl/Camera.h"
 #include "motree/MortonOctree.h"
 #include "motree/VoxMeshManager.h"
 

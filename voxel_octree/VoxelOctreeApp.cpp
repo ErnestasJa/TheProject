@@ -1,13 +1,15 @@
 #include "Precomp.h"
 #include "VoxelOctreeApp.h"
-#include "core/FileSystem.h"
-#include "motree/CollisionInfo.h"
-#include "motree/VoxMeshManager.h"
+#include "core/CoreInc.h"
+#include "motree/MotreeInc.h"
+#include "opengl/OpenGLInc.h"
 #include "utility/Logger.h"
 #include "utility/Timer.h"
-#include "opengl/CubeMesh.h"
-#include "opengl/OpenGLExtensionLoader.h"
-#include "resources/ResourceManager.h"
+#include "renderer/Renderer.h"
+#include "resources/ResourcesInc.h"
+#include "application/SettingsManager.h"
+#include "application/Window.h"
+#include "player/Player.h"
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
 #include "py/OctreeApplicationPy.h"
@@ -51,7 +53,6 @@ void VoxelOctreeApp::InitPython()
 	PyRun_SimpleString(initString.c_str());
 
 	GetContext().GetLogger()->log(LOG_LOG, "Python has been initialized.");
-	GetContext().GetFileSystem()->CreateDirectory("test");
 }
 
 Path VoxelOctreeApp::GetPythonScriptLoadPath()
@@ -72,12 +73,10 @@ void VoxelOctreeApp::InitResources()
 	collisionManager = new CollisionManager(octree);
 	octreeGen = new VoxMeshManager(octree);
 	octreeGen->GenAllChunks();
-	player = new Player(cam, collisionManager, glm::vec3(405, 200, 300));
+	player = new Player(cam, collisionManager, glm::vec3(50, 50, 50));
 	cube = new CubeMesh(player->GetAABB());
 	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));
 }
-
-#include "application/SettingsManager.h"
 
 bool VoxelOctreeApp::Init()
 {
@@ -91,22 +90,21 @@ bool VoxelOctreeApp::Init()
 
 	//If we want to override some settings for window.
 	auto & video_group = GetContext().GetApplicationSettingsManager()->GetGroup("video");
-	video_group.GetVar("window_width").Value(int(128));
-	video_group.GetVar("window_height").Value(int(128));
+	video_group.GetVar("window_width").Value(int(1280));
+	video_group.GetVar("window_height").Value(int(720));
 	InitWindowAndOpenGL("Supper awesome window, waow");
 
-	
 	InitPython();
 
 	GetContext().GetWindow()->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
 	GetContext().GetWindow()->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
 	GetContext().GetWindow()->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glClearColor(0.4, 0.8, 0.2, 0.0);
+	renderer = share(new Renderer(nullptr));
+	renderer->Enable({GL_DEPTH_TEST, GL_CULL_FACE});
+	renderer->SetCullFace(GL_BACK);
+	renderer->SetFrontFace(GL_CCW);
+	renderer->SetClearColor(0.4, 0.8, 0.2, 0.0);
 	InitResources();
 	AfterInit();
 	GetContext().GetTimer()->tick();
@@ -117,9 +115,7 @@ bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
 {
 	octree->GetChildNodes().clear();
 	octreeGen->GetMeshes().clear();
-
 	bvoxLoader->ReadFile(levelName);
-
 	octree->AddOrphanNode(MNode(0, 0, 0, 1));
 	octree->SortLeafNodes();
 	octree->RemoveDuplicateNodes();
@@ -134,19 +130,11 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 
 void VoxelOctreeApp::AfterInit()
 {
-	char * buf = nullptr;
-	uint32_t len = helpers::read("python/init.py", buf);
+	FilePtr file = GetContext().GetFileSystem()->OpenRead("python/init.py");
+	ByteBufferPtr buffer = file->ReadText();
 
-	if (len > 0)
-		PyRun_SimpleString(buf);
-
-	AABB a;
-	a.Reset(glm::vec3(20, 0, 0));
-	a.AddPoint(glm::vec3(-40, 0, 0));
-	a.AddPoint(glm::vec3(-60, 0, 0));
-
-#define EVEC3(v) v.x, v.y, v.z
-	printf("min [%.3f,%.3f,%.3f] max [%.3f,%.3f,%.3f] halfsize [%.3f,%.3f,%.3f] center [%.3f,%.3f,%.3f]\n", EVEC3(a.GetMin()), EVEC3(a.GetMax()), EVEC3(a.GetHalfSize()), EVEC3(a.GetCenter()));
+	if (buffer && buffer->size() > 0)
+		PyRun_SimpleString((const char *)buffer->data());
 }
 
 static bool renderWireframe = false;

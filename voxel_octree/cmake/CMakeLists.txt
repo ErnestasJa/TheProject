@@ -44,6 +44,7 @@ add_executable(VoxelOctree
 	../motree/CollisionManager.cpp
 	../motree/CollisionInfo.cpp
 	../motree/VoxelSide.cpp
+	../renderer/Renderer.cpp
 	../py/cpputils.cpp
 	../py/OctreeApplicationPy.cpp
 	../py/OctreeUtils.cpp
