@@ -4,7 +4,6 @@
 #include "utility/Vector.h"
 #include "AppForwardDecl.h"
 
-typedef uint32_t GLEnum;
 class Renderer
 {
 public:
@@ -15,14 +14,11 @@ public:
 	bool Enable(vector<GLEnum> glCapabilities);
 	bool Disable(GLEnum glCapability);
 	bool Disable(vector<GLEnum> glCapabilities);
-
 	bool SetMaterial(MaterialPtr material);
 	MaterialPtr GetMaterial();
 	MaterialPtr GetDefaultMaterial();
-
 	bool SetCamera(CameraPtr camera);
 	CameraPtr GetCamera();
-
 	void SetClearColor(glm::vec4 color);
 	void SetClearColor(float r, float g, float b, float a);
 	void SetCullFace(GLEnum cullFace);

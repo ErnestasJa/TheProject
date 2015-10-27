@@ -3,9 +3,7 @@
 
 #include "application/Application.h"
 #include "application/Window.h"
-#include "opengl/Mesh.h"
-#include "opengl/Shader.h"
-#include "opengl/MVar.h"
+#include "opengl/OpenGLInc.h"
 #include "resources/ShaderLoader.h"
 #include "opengl/Camera.h"
 #include "motree/MortonOctree.h"

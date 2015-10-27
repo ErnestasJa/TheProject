@@ -20,4 +20,6 @@ typedef std::shared_ptr<Player> PlayerPtr;
 typedef std::shared_ptr<Renderer> RendererPtr;
 typedef std::shared_ptr<VoxMeshManager> VoxMeshManagerPtr;
 
+typedef uint32_t GLEnum;
+
 #endif

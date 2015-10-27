@@ -188,15 +188,17 @@ bool VoxelOctreeApp::Update()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		sh->Set();
+
 		glm::mat4 Model = glm::translate(glm::mat4(1.0f), player->GetPosition()); // glm::mat4(1.0f);//
 		glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-		MVar<glm::mat4>(0, "mvp", MVP).Set();
+		sh->GetBinding("mvp").Set(MVP);
+		sh->Set();
 		cube->Render(true, false);
 
 		Model = glm::mat4(1.0f);
 		MVP   = cam->GetViewProjMat() * Model;
-		MVar<glm::mat4>(0, "mvp", MVP).Set();
+		sh->GetBinding("mvp").Set(MVP);
+		sh->Set();
 
 		if (renderWireframe)
 			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
