@@ -4,6 +4,54 @@
 		"selected_items":
 		[
 			[
+				"stat",
+				"startx"
+			],
+			[
+				"dir",
+				"dir_vec3"
+			],
+			[
+				"di",
+				"dir_vec3"
+			],
+			[
+				"Voxel",
+				"VoxelizeSection"
+			],
+			[
+				"sca",
+				"scaled_dir"
+			],
+			[
+				"sc",
+				"scaled_dir"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"Add",
+				"AddPoint"
+			],
+			[
+				"Py",
+				"PythonManager"
+			],
+			[
+				"Shade",
+				"ShaderBinding"
+			],
+			[
+				"bin",
+				"m_bindingIndex"
+			],
+			[
+				"v",
+				"void"
+			],
+			[
 				"m_",
 				"m_shaderLoader"
 			],
@@ -84,10 +132,6 @@
 				"ApplicationSettingsManager"
 			],
 			[
-				"Py",
-				"PHYSFS_deinit"
-			],
-			[
 				"Init",
 				"InitWindowAndOpenGL"
 			],
@@ -166,10 +210,6 @@
 			[
 				"grou",
 				"groupValue"
-			],
-			[
-				"v",
-				"Value"
 			],
 			[
 				"var",
@@ -300,6 +340,15 @@
 	"buffers":
 	[
 		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/py/PythonManager.h",
+			"settings":
+			{
+				"buffer_size": 1294,
+				"line_ending": "Unix",
+				"name": "PythonRun.h"
+			}
+		},
+		{
 			"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 			"settings":
 			{
@@ -308,50 +357,10 @@
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
 			"settings":
 			{
-				"buffer_size": 7861,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/player/Player.h",
-			"settings":
-			{
-				"buffer_size": 900,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.h",
-			"settings":
-			{
-				"buffer_size": 1139,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.h",
-			"settings":
-			{
-				"buffer_size": 819,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/TheEngine/src/ForwardDecl.h",
-			"settings":
-			{
-				"buffer_size": 880,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
-			"settings":
-			{
-				"buffer_size": 1274,
+				"buffer_size": 2844,
 				"line_ending": "Unix"
 			}
 		},
@@ -359,40 +368,58 @@
 			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
 			"settings":
 			{
-				"buffer_size": 9302,
+				"buffer_size": 9043,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/TheEngine/src/resources/ResourcesInc.h",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp",
 			"settings":
 			{
-				"buffer_size": 206,
+				"buffer_size": 1021,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MotreeInc.h",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MNode.h",
 			"settings":
 			{
-				"buffer_size": 181,
+				"buffer_size": 2094,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.cpp",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
 			"settings":
 			{
-				"buffer_size": 1435,
+				"buffer_size": 1513,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
+			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
 			"settings":
 			{
-				"buffer_size": 1821,
+				"buffer_size": 48,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/runme.py",
+			"settings":
+			{
+				"buffer_size": 446,
+				"line_ending": "Unix",
+				"name": "runme.py"
+			}
+		},
+		{
+			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathGenerator.py",
+			"settings":
+			{
+				"buffer_size": 3326,
+				"line_ending": "Unix",
+				"name": "PathGenerator.py"
 			}
 		}
 	],
@@ -444,17 +471,65 @@
 	},
 	"file_history":
 	[
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Shader.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/ShaderBinding.h",
+		"/home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp",
+		"/usr/include/python3.5m/pythonrun.h",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Shader.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
-		"/home/serengeor/Coding/Project/voxel_octree/AppForwardDecl.h",
-		"/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.cpp",
-		"/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/CMakeLists.txt",
-		"/home/serengeor/Coding/Project/TheEngine/src/ForwardDecl.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/CoreInc.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourcesInc.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLInc.h",
-		"/home/serengeor/Coding/Project/voxel_octree/motree/MotreeInc.h",
 		"/home/serengeor/Coding/Project/voxel_octree/launcher.py",
+		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.h",
+		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLInc.h",
+		"/home/serengeor/Coding/Project/voxel_octree/PathGen/PathGenerator.h",
+		"/home/serengeor/Coding/Project/voxel_octree/PathGen/IPathFunction.h",
+		"/home/serengeor/Coding/Project/voxel_octree/PathGen/BasicPathFunction.h",
+		"/home/serengeor/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.h",
+		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/ShaderBinding.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/TBindingValue.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/TBindingValue.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Material.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Material.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/IBindingValue.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIEnvironment.cpp",
+		"/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.h",
+		"/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/CMakeLists.txt",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/ShaderBinding.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/resources/ShaderLoader.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Quad.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/font_rendering/FontRenderer.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIPane.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/SlicedGUIQuad.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIButton.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUISlider.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/CubeMesh.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIStaticText.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUICheckbox.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIWindow.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/GUIQuad.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/ForwardDecl.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/IBindingValue.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/TBindingValue.cpp",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/TBindingValue.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/Material.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/ShaderBinding.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/MVar.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material/MVar.cpp",
+		"/home/serengeor/Coding/Project/voxel_octree/AppForwardDecl.h",
+		"/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
+		"/home/serengeor/Coding/Project/voxel_octree/motree/MotreeInc.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourcesInc.h",
+		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/MVar.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Shader.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/ShaderBinding.h",
+		"/home/serengeor/Coding/Project/voxel_octree/player/Player.h",
+		"/home/serengeor/Coding/Project/TheEngine/src/core/CoreInc.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Shader.cpp",
 		"/home/serengeor/Coding/Project/voxel_octree/player/Player.cpp",
 		"/home/serengeor/Coding/Project/voxel_octree/renderer/SolidMaterial.h",
@@ -462,18 +537,11 @@
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Camera.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/utility/Plane3d.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/scenegraph/Camera.h",
-		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
 		"/home/serengeor/Coding/Project/TheEngine/src/utility/Logger.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Shader.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Material.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIEnvironment.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/gui/font_rendering/FontRenderer.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/gui/font_rendering/FontRenderer.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/resources/ShaderLoader.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/ShaderLoader.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUIEnvironment.h",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
 		"/home/serengeor/Coding/Project/voxel_octree/PathGen/PathGen.h",
 		"/home/serengeor/Downloads/uploads-9b-3e-02-95-6d-blender_maze_gen.py",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourceManager.cpp",
@@ -502,10 +570,8 @@
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourceCache.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/IImageLoader.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/IImageLoader.h",
-		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
 		"/home/serengeor/Coding/Project/voxel_octree/main.cpp",
 		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.cpp",
-		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/RecourceManager.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/Image.h",
 		"/home/serengeor/Coding/Project/TheEngine/build_tools/linux/CMakeFiles/engine.dir/build.make",
@@ -532,46 +598,7 @@
 		"/home/serengeor/Coding/Project/TheEngine/src/application/InputHandler.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/application/Window.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/application/InputHandler.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLUtil.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/resources/IQMloader.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/VarJsonReader.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/application/SettingsManager.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/utility/Timer.h",
-		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp",
-		"/home/serengeor/.config/sublime-text-2/Packages/User/template_snippet.sublime-snippet",
-		"/home/serengeor/Coding/Project/voxel_octree/tools/Application.sublime-project",
-		"/home/serengeor/Coding/Project/voxel_octree/tools/blender/voxel_export/voxel_export.py",
-		"/usr/share/blender/2.76/scripts/addons/io_scene_obj/export_obj.py",
-		"/home/serengeor/Modeling/sponza.mtl",
-		"/home/serengeor/Modeling/sponza.obj",
-		"/home/serengeor/Modeling/sponza.blend",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/config/config.cfg",
-		"/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/VarGroup.h",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/mnode.py",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/config.cfg",
-		"/usr/include/c++/5.2.0/bits/basic_string.h",
-		"/usr/include/c++/5.2.0/bits/shared_ptr_base.h",
-		"/home/serengeor/Coding/Project/TheEngine/libs/physfs/physfs.c",
-		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.h",
-		"/home/serengeor/.config/sublime-text-2/Packages/SublimeGDB/SublimeGDB.sublime-settings",
-		"/home/serengeor/.config/sublime-text-2/Packages/SublimeGDB/Default.sublime-keymap",
-		"/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeCache.txt",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/Var.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/EFileMode.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/utility/Helpers.cpp",
-		"/home/serengeor/.config/sublime-text-2/Packages/RegReplace/reg_replace.sublime-settings",
-		"/home/serengeor/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/home/serengeor/.config/sublime-text-2/Packages/RegReplace/Default.sublime-commands",
-		"/home/serengeor/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
-		"/home/serengeor/Coding/Project/TheEngine/src/gui/GUISkin.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/libs/boost/boost/smart_ptr/detail/shared_count.hpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/utility/Helpers.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/FileSystemHelpers.h",
-		"/home/serengeor/.config/sublime-text-2/Packages/User/PythonCpp.sublime-build",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/Var.h",
-		"/home/serengeor/.config/sublime-text-2/Packages/C++/C++.sublime-build",
-		"/home/serengeor/Coding/Project/voxel_octree/motree/BVoxLoader.cpp"
+		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLUtil.h"
 	],
 	"find":
 	{
@@ -595,6 +622,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"dir_vec3",
+			"w2qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrgfttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttm",
+			"mjnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+			"Shader",
+			"MVar",
+			"value",
+			"binding_index",
+			"MVar",
 			"uint32_t",
 			"pname",
 			"ImageLoader",
@@ -714,15 +749,7 @@
 			"));\n",
 			"256",
 			"VoxelOctreeBenchmarkApp",
-			"y",
-			"VarGroup",
-			"space",
-			"GetVisibleSides",
-			"VoxelSideToPosition",
-			"EVoxelSide.h",
-			"include",
-			"myfunction",
-			"using\n"
+			"y"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -730,6 +757,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"TBindingValue",
+			"m_value",
+			"index",
+			"TBindingValue",
 			"GLEnum",
 			"fsstr",
 			"fsobj",
@@ -776,11 +807,39 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 9,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/py/PythonManager.h",
+					"settings":
+					{
+						"buffer_size": 1294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1041,
+								1041
+							]
+						],
+						"settings":
+						{
+							"auto_name": "PythonRun.h",
+							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 39.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
 					"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 					"settings":
 					{
@@ -791,8 +850,8 @@
 						"selection":
 						[
 							[
-								270,
-								270
+								2327,
+								2327
 							]
 						],
 						"settings":
@@ -802,53 +861,80 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
-					"settings":
-					{
-						"buffer_size": 7861,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								114,
-								114
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 312.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/player/Player.h",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
 					"settings":
 					{
-						"buffer_size": 900,
+						"buffer_size": 2844,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								900,
-								900
+								1437,
+								1437
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+					"settings":
+					{
+						"buffer_size": 9043,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2949,
+								2949
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 848.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp",
+					"settings":
+					{
+						"buffer_size": 1021,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								885,
+								885
 							]
 						],
 						"settings":
@@ -858,61 +944,6 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 403.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.h",
-					"settings":
-					{
-						"buffer_size": 1139,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								267,
-								267
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.h",
-					"settings":
-					{
-						"buffer_size": 819,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								808,
-								808
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -920,50 +951,18 @@
 				},
 				{
 					"buffer": 5,
-					"file": "/home/serengeor/Coding/Project/TheEngine/src/ForwardDecl.h",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MNode.h",
 					"settings":
 					{
-						"buffer_size": 880,
+						"buffer_size": 2094,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								643,
-								643
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 6,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
-					"settings":
-					{
-						"buffer_size": 1274,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								188,
-								188
+								605,
+								605
 							]
 						],
 						"settings":
@@ -973,57 +972,85 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 117.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
+					"settings":
+					{
+						"buffer_size": 1513,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1220,
+								1220
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
 					"settings":
 					{
-						"buffer_size": 9302,
+						"buffer_size": 48,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3382,
-								3382
+								48,
+								48
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1053.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 8,
-					"file": "/home/serengeor/Coding/Project/TheEngine/src/resources/ResourcesInc.h",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/runme.py",
 					"settings":
 					{
-						"buffer_size": 206,
+						"buffer_size": 446,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								195,
-								195
+								137,
+								137
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage"
+							"auto_name": "runme.py",
+							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1033,80 +1060,28 @@
 				},
 				{
 					"buffer": 9,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MotreeInc.h",
+					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathGenerator.py",
 					"settings":
 					{
-						"buffer_size": 181,
+						"buffer_size": 3326,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18,
-								18
+								3326,
+								3326
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.cpp",
-					"settings":
-					{
-						"buffer_size": 1435,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								705,
-								705
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
+							"auto_name": "PathGenerator.py",
+							"syntax": "Packages/Python/Python.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
-					"settings":
-					{
-						"buffer_size": 1821,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1199,
-								1199
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 351.0,
+						"translation.y": 1209.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1131,18 +1106,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.476586568084,
 			1.0
 		],
 		"rows":
@@ -1158,7 +1126,7 @@
 	},
 	"output.exec":
 	{
-		"height": 282.0
+		"height": 168.0
 	},
 	"replace":
 	{
@@ -1189,6 +1157,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 295.0,
+	"side_bar_width": 204.0,
 	"status_bar_visible": true
 }

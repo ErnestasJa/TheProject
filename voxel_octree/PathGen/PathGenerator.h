@@ -7,8 +7,6 @@ public:
 	PathGenerator();
 	virtual ~PathGenerator();
 
-	
-
 private:
 
 };

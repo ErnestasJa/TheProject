@@ -13,6 +13,7 @@
 #include "py/cpputils.h"
 #include "py/OctreeUtils.h"
 #include "py/OctreeApplicationPy.h"
+#include "py/PythonManager.h"
 #include <boost/algorithm/string/replace.hpp>
 
 
@@ -41,27 +42,11 @@ void VoxelOctreeApp::InitPython()
 	PyImport_AppendInittab("oapp", &PyInit_OctreeApplication);
 	Py_Initialize();
 
-	Path pythonLoadPath = GetPythonScriptLoadPath();
-	GetContext().GetLogger()->log(LOG_LOG, "Python path: '%s'", pythonLoadPath.generic_string().c_str());
-
-	std::string scriptLoadString = "script_path = os.path.join(('" + pythonLoadPath.generic_string() + "'),'python')";
-	std::string initString = "import sys, os\n";
-	initString += scriptLoadString + "\n";
-	initString += "sys.path.append(script_path)\n";
-	initString += "print('Python search path: ' + str(sys.path))\n";
-
-	PyRun_SimpleString(initString.c_str());
+	PythonManager::Init();
 
 	GetContext().GetLogger()->log(LOG_LOG, "Python has been initialized.");
 }
 
-Path VoxelOctreeApp::GetPythonScriptLoadPath()
-{
-	///Write directory should be our application directory, unless setting it failed.
-	Path applicationPath = GetContext().GetFileSystem()->GetWriteDirectory();
-	applicationPath.append("python");
-	return applicationPath;
-}
 
 void VoxelOctreeApp::InitResources()
 {
@@ -73,7 +58,7 @@ void VoxelOctreeApp::InitResources()
 	collisionManager = new CollisionManager(octree);
 	octreeGen = new VoxMeshManager(octree);
 	octreeGen->GenAllChunks();
-	player = new Player(cam, collisionManager, glm::vec3(50, 50, 50));
+	player = new Player(cam, collisionManager, glm::vec3(3, 3, 3));
 	cube = new CubeMesh(player->GetAABB());
 	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));
 }
@@ -111,16 +96,24 @@ bool VoxelOctreeApp::Init()
 	return true;
 }
 
-bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
+void VoxelOctreeApp::ClearOctree()
 {
 	octree->GetChildNodes().clear();
 	octreeGen->GetMeshes().clear();
-	bvoxLoader->ReadFile(levelName);
-	octree->AddOrphanNode(MNode(0, 0, 0, 1));
+}
+
+void VoxelOctreeApp::GenerateOctreeMeshes()
+{
 	octree->SortLeafNodes();
 	octree->RemoveDuplicateNodes();
-	std::cout << "Voxel count after duplicate removal: " << octree->GetChildNodes().size() << std::endl;
 	octreeGen->GenAllChunks();
+}
+
+bool VoxelOctreeApp::LoadLevel(const std::string & levelName)
+{
+	ClearOctree();
+	bvoxLoader->ReadFile(levelName);
+	GenerateOctreeMeshes();
 }
 
 bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
@@ -130,11 +123,27 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 
 void VoxelOctreeApp::AfterInit()
 {
-	FilePtr file = GetContext().GetFileSystem()->OpenRead("python/init.py");
+	RunScript("python/init.py");
+}
+
+void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
+{
+	player->GetPosition().x = x;
+	player->GetPosition().y = y;
+	player->GetPosition().z = z;
+
+	player->GetVelocity().x = 0;
+	player->GetVelocity().y = 0;
+	player->GetVelocity().z = 0;
+}
+
+void VoxelOctreeApp::RunScript(const Path & script)
+{
+	FilePtr file = GetContext().GetFileSystem()->OpenRead(script);
 	ByteBufferPtr buffer = file->ReadText();
 
 	if (buffer && buffer->size() > 0)
-		PyRun_SimpleString((const char *)buffer->data());
+		PythonManager::RunScript((const char *)buffer->data());
 }
 
 static bool renderWireframe = false;
@@ -247,6 +256,10 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_U)
 		SaveLevel("test_save.bvox");
 
+
+	if (action == GLFW_RELEASE && key == GLFW_KEY_P)
+		RunScript("python/runme.py");
+
 	if (key == GLFW_KEY_SPACE)
 	{
 		player->Jump(20);
@@ -338,4 +351,9 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 std::string VoxelOctreeApp::GetApplicationId()
 {
 	return "voxel_octree";
+}
+
+MortonOctTreePtr VoxelOctreeApp::GetOctree()
+{
+	return octree;
 }

@@ -34,8 +34,18 @@ public:
     void OnMouseMove(double x, double y);
     virtual std::string GetApplicationId();
 
+    ///Octree
+    MortonOctTreePtr GetOctree();
+    void ClearOctree();
+    void GenerateOctreeMeshes();
+
+    ///Script
+    void RunScript(const Path & script);
+
+    ///This should probably go to "GameManagerClass"
+    void SetPlayerPosition(float x, float y, float z);
 private:
-    Path GetPythonScriptLoadPath();
+    
 private:
     ShaderPtr sh;
     CameraPtr cam;

@@ -5,21 +5,20 @@
 
 PyObject * Wrap_cout(PyObject* self, PyObject* arg)
 {
-    PyObject* pyStr = PyUnicode_AsEncodedString(arg, "utf-8", "Error ~");
-    const char *str =  PyBytes_AS_STRING(pyStr);
+    const char *str;
+
+    if (!PyArg_ParseTuple(arg, "s", &str))
+        return NULL;
 
     std::cout << str;
-
-    Py_XDECREF(arg);
-    Py_XDECREF(pyStr);
-
-    return Py_None;
+    
+    Py_RETURN_NONE;
 }
 
 // Register the wrapped functions.
 static PyMethodDef CppUtilsMethods[] =
 {
-    {"cout", Wrap_cout, METH_O, "Outputs string using standard console output"},
+    {"cout", Wrap_cout, METH_VARARGS, "Outputs string using standard console output"},
     {NULL, NULL, 0, NULL}
 };
 

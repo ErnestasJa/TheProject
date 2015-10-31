@@ -12,8 +12,6 @@ PyObject * LoadLevel(PyObject* self, PyObject* args)
 
     VoxelOctreeApp::Instance()->LoadLevel(str);
 
-    Py_XDECREF(str);
-
     return Py_None;
 }
 
