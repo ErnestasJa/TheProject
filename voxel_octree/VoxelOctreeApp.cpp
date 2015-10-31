@@ -147,6 +147,7 @@ void VoxelOctreeApp::RunScript(const Path & script)
 }
 
 static bool renderWireframe = false;
+static float speed = 0.0;
 bool wk = false, ak = false, sk = false, dk = false;
 bool VoxelOctreeApp::Update()
 {
@@ -160,8 +161,8 @@ bool VoxelOctreeApp::Update()
 		look.y = 0;
 		right.y = 0;
 
-		look = glm::normalize(look) * 5.0f;
-		right = glm::normalize(right) * 5.0f;
+		look = glm::normalize(look) * speed;
+		right = glm::normalize(right) * speed;
 
 		if (wk)
 		{
@@ -238,20 +239,19 @@ void VoxelOctreeApp::OnWindowClose()
   if(action == GLFW_RELEASE && key==key_enum) var = false
 
 
-float speed = 1;
 void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)
 {
 	if (action == GLFW_PRESS && key == GLFW_KEY_LEFT_SHIFT)
-		speed = 0.1;
+		speed = 20.0f;
 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_LEFT_SHIFT)
-		speed = 1;
+		speed = 5.0f;
 
 	if (action == GLFW_PRESS && key == GLFW_KEY_LEFT_CONTROL)
-		speed = 10;
+		speed = 50.0f;
 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_LEFT_CONTROL)
-		speed = 1;
+		speed = 5.0f;
 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_U)
 		SaveLevel("test_save.bvox");
