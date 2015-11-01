@@ -23,6 +23,9 @@ class Player
   void ApplyGravity();
   bool Jump(float velocity);
   bool OnGround();
+
+  void SetFlyEnabled(bool enabled);
+  bool GetFlyEnabled();
 	
 
  protected:
@@ -37,7 +40,7 @@ class Player
     m_position,
     m_velocity;
   AABB m_aabb;
-  bool m_onGround;
+  bool m_onGround, m_flyEnabled;
 };
 
 #endif // PLAYER_H

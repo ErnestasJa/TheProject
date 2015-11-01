@@ -1,0 +1,5 @@
+#ifndef PATH_SECTION_CORNER_H
+#define PATH_SECTION_CORNER_H
+
+
+#endif

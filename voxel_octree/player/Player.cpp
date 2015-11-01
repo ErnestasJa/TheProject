@@ -13,6 +13,7 @@ Player::Player(CameraPtr cam, CollisionManager * octree, glm::vec3 position, AAB
     m_position = position;
     m_aabb = aabb;
     m_onGround = false;
+    m_flyEnabled = true;
 }
 
 Player::~Player()
@@ -47,24 +48,40 @@ const AABB & Player::GetAABB()
 
 void Player::Update(float timeStep)
 {
-  ApplyGravity();
-  
-  if(m_onGround)
-    m_velocity.y=0;
-  
-  IsSweptColliding(timeStep);
-  
-  if(!m_onGround && IsOnGround()) //we just fell down, unstuck from ground
+
+  if(m_flyEnabled == false)
+  {
+    ApplyGravity();
+    
+    if(m_onGround)
+      m_velocity.y=0;
+    
+    IsSweptColliding(timeStep);
+    
+    if(!m_onGround && IsOnGround()) //we just fell down, unstuck from ground
     {
       m_onGround = true;
-      /*while(IsOnGround())
-	m_position += glm::vec3(0,0.001,0);
-	m_position -= glm::vec3(0,0.001,0);*/
     }
-  else if(m_onGround && !IsOnGround())
-    m_onGround = false;
-  
+    else if(m_onGround && !IsOnGround())
+      m_onGround = false;
+  }
+  else
+  {
+      glm::vec3 velocity = m_velocity*timeStep;
+      m_position = (m_position+velocity);
+  }
+
   m_cam->SetPosition(m_position+m_eyeOffset);
+}
+
+void Player::SetFlyEnabled(bool enabled)
+{
+  m_flyEnabled = enabled;
+}
+
+bool Player::GetFlyEnabled()
+{
+  return m_flyEnabled;
 }
   
 void Player::ApplyGravity()

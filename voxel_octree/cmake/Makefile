@@ -447,87 +447,6 @@ home/serengeor/Coding/Project/voxel_octree/player/Player.cpp.s:
 	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/player/Player.cpp.s
 .PHONY : home/serengeor/Coding/Project/voxel_octree/player/Player.cpp.s
 
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.o: home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.o
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.o
-
-# target to build an object file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.o:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.o
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.o
-
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.i: home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.i
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.i
-
-# target to preprocess a source file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.i:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.i
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.i
-
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.s: home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.s
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.s
-
-# target to generate assembly for a file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.s:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.s
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp.s
-
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.o: home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.o
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.o
-
-# target to build an object file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.o:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.o
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.o
-
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.i: home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.i
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.i
-
-# target to preprocess a source file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.i:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.i
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.i
-
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.s: home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.s
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.s
-
-# target to generate assembly for a file
-home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.s:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.s
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp.s
-
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.o: home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.o
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.o
-
-# target to build an object file
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.o:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.o
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.o
-
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.i: home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.i
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.i
-
-# target to preprocess a source file
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.i:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.i
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.i
-
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.s: home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.s
-
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.s
-
-# target to generate assembly for a file
-home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.s:
-	$(MAKE) -f CMakeFiles/VoxelOctree.dir/build.make CMakeFiles/VoxelOctree.dir/home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.s
-.PHONY : home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp.s
-
 home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.o: home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.cpp.o
 
 .PHONY : home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.o
@@ -600,15 +519,6 @@ help:
 	@echo "... home/serengeor/Coding/Project/voxel_octree/player/Player.o"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/player/Player.i"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/player/Player.s"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.o"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.i"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.s"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.o"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.i"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.s"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/cpputils.o"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/cpputils.i"
-	@echo "... home/serengeor/Coding/Project/voxel_octree/py/cpputils.s"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.o"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.i"
 	@echo "... home/serengeor/Coding/Project/voxel_octree/renderer/Renderer.s"

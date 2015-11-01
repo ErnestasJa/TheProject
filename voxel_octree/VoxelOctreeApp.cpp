@@ -101,8 +101,27 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 	bvoxLoader->WriteFile(levelName);
 }
 
+#include "PathGen/SectionVoxelizer.h"
+#include "PathGen/OctreeVoxelOutput.h"
+
 void VoxelOctreeApp::AfterInit()
 {
+	ClearOctree();
+
+		OctreeVoxelOutputPtr output = share(new OctreeVoxelOutput());
+		SectionVoxelizerPtr voxelizer = share(new SectionVoxelizer(output));
+
+		output->SetColor(glm::ivec3(255,0,0));
+		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::X)));
+		output->SetColor(glm::ivec3(0,255,0));
+		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::NX)));
+		output->SetColor(glm::ivec3(0,0,255));
+		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::Z)));
+		output->SetColor(glm::ivec3(255,0,255));
+		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::NZ)));
+		SetPlayerPosition(200,20,200);
+
+	GenerateOctreeMeshes();
 }
 
 void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
@@ -128,8 +147,7 @@ bool VoxelOctreeApp::Update()
 		///PLAYER MOVE CODE
 		auto look = cam->GetLook();
 		auto right = cam->GetRight();
-		look.y = 0;
-		right.y = 0;
+
 
 		look = glm::normalize(look) * speed;
 		right = glm::normalize(right) * speed;
@@ -138,11 +156,13 @@ bool VoxelOctreeApp::Update()
 		{
 			player->GetVelocity().x = look.x;
 			player->GetVelocity().z = look.z;
+			if(player->GetFlyEnabled()) player->GetVelocity().y = look.y;
 		}
 		else if (sk)
 		{
 			player->GetVelocity().x = -look.x;
 			player->GetVelocity().z = -look.z;
+			if(player->GetFlyEnabled()) player->GetVelocity().y = -look.y;
 		}
 
 		if (dk)
@@ -156,10 +176,11 @@ bool VoxelOctreeApp::Update()
 			player->GetVelocity().z = -right.z;
 		}
 
-		if ((!(wk || ak || sk || dk)) && player->OnGround())
+		if ((!(wk || ak || sk || dk)) && (player->OnGround() || player->GetFlyEnabled()))
 		{
 			player->GetVelocity().x = 0;
 			player->GetVelocity().z = 0;
+			if(player->GetFlyEnabled()) player->GetVelocity().y = 0;
 		}
 		///~PLAYER MOVE CODE END
 
@@ -226,8 +247,11 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_U)
 		SaveLevel("test_save.bvox");
 
+	if (action == GLFW_RELEASE && key == GLFW_KEY_G)
+		player->SetFlyEnabled(!player->GetFlyEnabled());
 
-	if (key == GLFW_KEY_SPACE)
+
+	if (key == GLFW_KEY_SPACE && !player->GetFlyEnabled())
 	{
 		player->Jump(20);
 	}
