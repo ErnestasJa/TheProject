@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"ra",
+				"randint"
+			],
+			[
+				"Voxel",
+				"VoxelSectionX"
+			],
+			[
 				"stat",
 				"startx"
 			],
@@ -14,10 +22,6 @@
 			[
 				"di",
 				"dir_vec3"
-			],
-			[
-				"Voxel",
-				"VoxelizeSection"
 			],
 			[
 				"sca",
@@ -340,35 +344,10 @@
 	"buffers":
 	[
 		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/py/PythonManager.h",
-			"settings":
-			{
-				"buffer_size": 1294,
-				"line_ending": "Unix",
-				"name": "PythonRun.h"
-			}
-		},
-		{
 			"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 			"settings":
 			{
 				"buffer_size": 2590,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
-			"settings":
-			{
-				"buffer_size": 2844,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
-			"settings":
-			{
-				"buffer_size": 9043,
 				"line_ending": "Unix"
 			}
 		},
@@ -378,48 +357,6 @@
 			{
 				"buffer_size": 1021,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MNode.h",
-			"settings":
-			{
-				"buffer_size": 2094,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
-			"settings":
-			{
-				"buffer_size": 1513,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
-			"settings":
-			{
-				"buffer_size": 48,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/runme.py",
-			"settings":
-			{
-				"buffer_size": 446,
-				"line_ending": "Unix",
-				"name": "runme.py"
-			}
-		},
-		{
-			"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathGenerator.py",
-			"settings":
-			{
-				"buffer_size": 3326,
-				"line_ending": "Unix",
-				"name": "PathGenerator.py"
 			}
 		}
 	],
@@ -471,24 +408,31 @@
 	},
 	"file_history":
 	[
+		"/home/serengeor/Coding/Project/voxel_octree/py/PythonManager.h",
+		"/home/serengeor/Coding/Project/voxel_octree/launcher.py",
+		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
+		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
+		"/home/serengeor/Coding/Project/voxel_octree/motree/MNode.h",
+		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/runme.py",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathGenerator.py",
+		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathSections.py",
+		"/home/serengeor/Coding/Project/.gitignore",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Shader.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/ShaderBinding.h",
 		"/home/serengeor/Coding/Project/voxel_octree/py/cpputils.cpp",
 		"/usr/include/python3.5m/pythonrun.h",
-		"/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
 		"/home/serengeor/Coding/Project/voxel_octree/bin/res/python/init.py",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/Shader.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/build_tools/linux/build_engine.py",
-		"/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeBenchmarkApp.h",
-		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLInc.h",
 		"/home/serengeor/Coding/Project/voxel_octree/PathGen/PathGenerator.h",
 		"/home/serengeor/Coding/Project/voxel_octree/PathGen/IPathFunction.h",
 		"/home/serengeor/Coding/Project/voxel_octree/PathGen/BasicPathFunction.h",
 		"/home/serengeor/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.h",
-		"/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/ShaderBinding.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/TBindingValue.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/material/TBindingValue.h",
@@ -524,7 +468,6 @@
 		"/home/serengeor/Coding/Project/voxel_octree/cmake/CMakeLists.txt",
 		"/home/serengeor/Coding/Project/voxel_octree/motree/MotreeInc.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourcesInc.h",
-		"/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/MVar.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/Shader.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/ShaderBinding.h",
@@ -592,13 +535,7 @@
 		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLUtil.cpp",
 		"/home/serengeor/Coding/Project/TheEngine/src/resources/ResourceCache.h",
 		"/home/serengeor/Coding/Project/TheEngine/src/utility/Logger.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/core/VarJsonReader.cpp",
-		"/usr/include/X11/X.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/application/Window.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/application/InputHandler.h",
-		"/home/serengeor/Coding/Project/TheEngine/src/application/Window.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/application/InputHandler.cpp",
-		"/home/serengeor/Coding/Project/TheEngine/src/opengl/OpenGLUtil.h"
+		"/home/serengeor/Coding/Project/TheEngine/src/core/VarJsonReader.cpp"
 	],
 	"find":
 	{
@@ -807,39 +744,11 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/py/PythonManager.h",
-					"settings":
-					{
-						"buffer_size": 1294,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1041,
-								1041
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PythonRun.h",
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 39.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "/home/serengeor/Coding/Project/voxel_octree/launcher.py",
 					"settings":
 					{
@@ -850,8 +759,8 @@
 						"selection":
 						[
 							[
-								2327,
-								2327
+								0,
+								0
 							]
 						],
 						"settings":
@@ -861,68 +770,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 312.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeUtils.cpp",
-					"settings":
-					{
-						"buffer_size": 2844,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1437,
-								1437
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 585.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.cpp",
-					"settings":
-					{
-						"buffer_size": 9043,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2949,
-								2949
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 848.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
+					"buffer": 1,
 					"file": "/home/serengeor/Coding/Project/voxel_octree/py/OctreeApplicationPy.cpp",
 					"settings":
 					{
@@ -948,144 +802,12 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/motree/MNode.h",
-					"settings":
-					{
-						"buffer_size": 2094,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								605,
-								605
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 117.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/VoxelOctreeApp.h",
-					"settings":
-					{
-						"buffer_size": 1513,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1220,
-								1220
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++ Starting Kit/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 117.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/init.py",
-					"settings":
-					{
-						"buffer_size": 48,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								48,
-								48
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/runme.py",
-					"settings":
-					{
-						"buffer_size": 446,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								137,
-								137
-							]
-						],
-						"settings":
-						{
-							"auto_name": "runme.py",
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/home/serengeor/Coding/Project/voxel_octree/bin/voxel_octree/python/PathGenerator.py",
-					"settings":
-					{
-						"buffer_size": 3326,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3326,
-								3326
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PathGenerator.py",
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1209.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
 				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -1106,11 +828,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":

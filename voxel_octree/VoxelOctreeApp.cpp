@@ -10,10 +10,6 @@
 #include "application/SettingsManager.h"
 #include "application/Window.h"
 #include "player/Player.h"
-#include "py/cpputils.h"
-#include "py/OctreeUtils.h"
-#include "py/OctreeApplicationPy.h"
-#include "py/PythonManager.h"
 #include <boost/algorithm/string/replace.hpp>
 
 
@@ -33,20 +29,6 @@ VoxelOctreeApp::~VoxelOctreeApp()
 {
 
 }
-
-void VoxelOctreeApp::InitPython()
-{
-	GetContext().GetLogger()->log(LOG_LOG, "Initializing python.");
-	PyImport_AppendInittab("cpputils", &PyInit_CppUtils);
-	PyImport_AppendInittab("octree", &PyInit_Octree);
-	PyImport_AppendInittab("oapp", &PyInit_OctreeApplication);
-	Py_Initialize();
-
-	PythonManager::Init();
-
-	GetContext().GetLogger()->log(LOG_LOG, "Python has been initialized.");
-}
-
 
 void VoxelOctreeApp::InitResources()
 {
@@ -78,8 +60,6 @@ bool VoxelOctreeApp::Init()
 	video_group.GetVar("window_width").Value(int(1280));
 	video_group.GetVar("window_height").Value(int(720));
 	InitWindowAndOpenGL("Supper awesome window, waow");
-
-	InitPython();
 
 	GetContext().GetWindow()->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));
 	GetContext().GetWindow()->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));
@@ -123,7 +103,6 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 
 void VoxelOctreeApp::AfterInit()
 {
-	RunScript("python/init.py");
 }
 
 void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
@@ -135,15 +114,6 @@ void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
 	player->GetVelocity().x = 0;
 	player->GetVelocity().y = 0;
 	player->GetVelocity().z = 0;
-}
-
-void VoxelOctreeApp::RunScript(const Path & script)
-{
-	FilePtr file = GetContext().GetFileSystem()->OpenRead(script);
-	ByteBufferPtr buffer = file->ReadText();
-
-	if (buffer && buffer->size() > 0)
-		PythonManager::RunScript((const char *)buffer->data());
 }
 
 static bool renderWireframe = false;
@@ -256,9 +226,6 @@ void VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, 
 	if (action == GLFW_RELEASE && key == GLFW_KEY_U)
 		SaveLevel("test_save.bvox");
 
-
-	if (action == GLFW_RELEASE && key == GLFW_KEY_P)
-		RunScript("python/runme.py");
 
 	if (key == GLFW_KEY_SPACE)
 	{

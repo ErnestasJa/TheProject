@@ -24,7 +24,6 @@ public:
     bool SaveLevel(const std::string & levelName);
 
     void InitResources();
-    void InitPython();
     void AfterInit();
     void OnWindowClose();
 
