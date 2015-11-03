@@ -4,11 +4,10 @@
 #include "IVoxelOutput.h"
 #include "IPathSection.h"
 #include "PathSectionStraight.h"
+#include "PathSectionCorner.h"
+#include "PathConfig.h"
 
 ///NOTE: Would be nicer to have different class for each type.
-
-#define PATH_HALF_WIDTH 3
-#define PATH_WALL_HEIGHT 3
 
 class SectionVoxelizer
 {
@@ -22,11 +21,12 @@ public:
 
 	bool Voxelize(IPathSectionPtr section)
 	{
-
 		switch(section->GetType())
 		{
 			case SectionType::Straight:
 				return VoxelizeStraightSection((PathSectionStraight*)section.get());
+			case SectionType::Corner:
+				return VoxelizeCorner((PathSectionCorner*)section.get());
 			default:
 				break;
 		}
@@ -34,21 +34,95 @@ public:
 		return false;
 	}
 
+	bool VoxelizeCorner(PathSectionCorner * section)
+	{	
+		switch(section->GetStartAxis())
+		{
+			case SectionAxis::X:
+			{
+				glm::ivec3 sectionStart = section->GetStart(), sectionEnd = section->GetStart() + GetOpositeDirection(section->GetStartAxis())*PATH_WIDTH;
+				for(int32_t x = sectionStart.x; x > sectionEnd.x; x--)
+				{
+					int32_t start = sectionStart.z - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.z + PATH_HALF_WIDTH;
+
+					for(int32_t z = start; z < end; z++)
+					{
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
+						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
+					}
+				}
+				break;
+			}
+			case SectionAxis::NX:
+			{
+				glm::ivec3 sectionStart = section->GetStart(), sectionEnd = section->GetStart() + GetOpositeDirection(section->GetStartAxis())*PATH_WIDTH;
+				for(int32_t x = sectionStart.x; x < sectionEnd.x; x++)
+				{
+					int32_t start = sectionStart.z - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.z + PATH_HALF_WIDTH;
+
+					for(int32_t z = start; z < end; z++)
+					{
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
+						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
+					}
+				}
+				break;
+			}
+			case SectionAxis::Z:
+			{
+				glm::ivec3 sectionStart = section->GetStart(), sectionEnd = section->GetStart() + GetOpositeDirection(section->GetStartAxis())*PATH_WIDTH;
+				for(int32_t z = sectionStart.z; z > sectionEnd.z; z--)
+				{
+					int32_t start = sectionStart.x - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.x + PATH_HALF_WIDTH;
+
+					for(int32_t x = start; x < end; x++)
+					{
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
+						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
+					}
+				}
+				break;
+			}
+			case SectionAxis::NZ:
+			{
+				glm::ivec3 sectionStart = section->GetStart(), sectionEnd = section->GetStart() + GetOpositeDirection(section->GetStartAxis())*PATH_WIDTH;
+				for(int32_t z = sectionStart.z; z < sectionEnd.z; z++)
+				{
+					int32_t start = sectionStart.x - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.x + PATH_HALF_WIDTH;
+
+					for(int32_t x = start; x < end; x++)
+					{
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
+						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
+					}
+				}
+				break;
+			}
+			default:
+				throw;
+		}
+		return true;
+	}
+
 	bool VoxelizeStraightSection(PathSectionStraight * section)
 	{
-		glm::ivec3 sstart = section->GetStart(), send = section->GetEnd();
+		glm::ivec3 sectionStart = section->GetStart(), sectionEnd = section->GetEnd();
 		
 		switch(section->GetAxis())
 		{
 			case SectionAxis::X:
-				for(int32_t x = sstart.x; x < send.x; x++)
+				for(int32_t x = sectionStart.x; x <= sectionEnd.x; x++)
 				{
-					int32_t start = sstart.z - PATH_HALF_WIDTH;
-					int32_t end = sstart.z + PATH_HALF_WIDTH;
+					int32_t start = sectionStart.z - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.z + PATH_HALF_WIDTH;
 
 					for(int32_t z = start; z < end; z++)
 					{
-						glm::ivec3 pos = glm::ivec3(x, sstart.y, z);
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
 						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
 
 						if(	z == start || z == end-1)
@@ -58,14 +132,14 @@ public:
 				}
 			break;
 			case SectionAxis::NX:
-				for(int32_t x = sstart.x; x > send.x; x--)
+				for(int32_t x = sectionStart.x; x >= sectionEnd.x; x--)
 				{
-					int32_t start = sstart.z - PATH_HALF_WIDTH;
-					int32_t end = sstart.z + PATH_HALF_WIDTH;
+					int32_t start = sectionStart.z - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.z + PATH_HALF_WIDTH;
 
 					for(int32_t z = start; z < end; z++)
 					{
-						glm::ivec3 pos = glm::ivec3(x, sstart.y, z);
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
 						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
 
 						if(	z == start || z == end-1)
@@ -75,14 +149,14 @@ public:
 				}
 			break;
 			case SectionAxis::Z:
-				for(int32_t z = sstart.z; z < send.z; z++)
+				for(int32_t z = sectionStart.z; z <= sectionEnd.z; z++)
 				{
-					int32_t start = sstart.x - PATH_HALF_WIDTH;
-					int32_t end = sstart.x + PATH_HALF_WIDTH;
+					int32_t start = sectionStart.x - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.x + PATH_HALF_WIDTH;
 
 					for(int32_t x = start; x < end; x++)
 					{
-						glm::ivec3 pos = glm::ivec3(x, sstart.y, z);
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
 						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
 
 						if(	x == start || x == end-1)
@@ -92,14 +166,14 @@ public:
 				}
 			break;
 			case SectionAxis::NZ:
-				for(int32_t z = sstart.z; z > send.z; z--)
+				for(int32_t z = sectionStart.z; z >= sectionEnd.z; z--)
 				{
-					int32_t start = sstart.x - PATH_HALF_WIDTH;
-					int32_t end = sstart.x + PATH_HALF_WIDTH;
+					int32_t start = sectionStart.x - PATH_HALF_WIDTH;
+					int32_t end = sectionStart.x + PATH_HALF_WIDTH;
 
 					for(int32_t x = start; x < end; x++)
 					{
-						glm::ivec3 pos = glm::ivec3(x, sstart.y, z);
+						glm::ivec3 pos = glm::ivec3(x, sectionStart.y, z);
 						m_voxOutput->AddVoxel(pos, VoxelOutputType::Floor);
 
 						if(	x == start || x == end-1)

@@ -26,6 +26,7 @@ public:
 	{
 		m_color = color;
 	}
+	
 private:
 	glm::ivec3 m_color;
 };

@@ -5,7 +5,6 @@
 #include "application/Application.h"
 #include "AppForwardDecl.h"
 
-
 class VoxelOctreeApp: public Application
 {
 private:
@@ -44,9 +43,12 @@ public:
     ///This should probably go to "GameManagerClass"
     void SetPlayerPosition(float x, float y, float z);
 private:
+
+    void RenderScene();
+    void RenderGrid();
     
 private:
-    ShaderPtr sh;
+    ShaderPtr sh, gridShader;
     CameraPtr cam;
     MortonOctTreePtr octree;
     BVoxLoaderPtr bvoxLoader;

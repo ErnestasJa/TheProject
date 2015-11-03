@@ -101,25 +101,37 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 	bvoxLoader->WriteFile(levelName);
 }
 
-#include "PathGen/SectionVoxelizer.h"
-#include "PathGen/OctreeVoxelOutput.h"
+#include "PathGen/PathManager.h"
+#include "opengl/GridMesh.h"
 
+///NOTE: this is temporary, pls ignore.
+static MeshPtr gridMesh;
+static glm::ivec3 pathStart(200,0,200);
 void VoxelOctreeApp::AfterInit()
 {
+	gridMesh = share(new GridMesh(1));
+	gridShader = GetContext().GetResourceManager()->LoadShader("shaders/solid_unlit");
+
 	ClearOctree();
 
-		OctreeVoxelOutputPtr output = share(new OctreeVoxelOutput());
-		SectionVoxelizerPtr voxelizer = share(new SectionVoxelizer(output));
+		PathManagerPtr pathManager = share(new PathManager(pathStart));
 
-		output->SetColor(glm::ivec3(255,0,0));
-		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::X)));
-		output->SetColor(glm::ivec3(0,255,0));
-		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::NX)));
-		output->SetColor(glm::ivec3(0,0,255));
-		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::Z)));
-		output->SetColor(glm::ivec3(255,0,255));
-		voxelizer->Voxelize(share(new PathSectionStraight(glm::ivec3(200,1,200),50,SectionAxis::NZ)));
-		SetPlayerPosition(200,20,200);
+		for(uint32_t i = 0; i < 30; i++)
+			pathManager->AppendRandomSection();
+
+
+		/*
+		pathManager->AppendSection(SectionType::Straight);
+		pathManager->AppendSection(SectionType::Straight);
+		pathManager->AppendSection(SectionType::Straight);
+		pathManager->AppendSection(SectionType::Corner);
+		pathManager->AppendSection(SectionType::Straight);
+		pathManager->AppendSection(SectionType::Corner);
+		pathManager->AppendSection(SectionType::Straight);
+		pathManager->AppendSection(SectionType::Corner);
+		pathManager->AppendSection(SectionType::Straight);*/
+
+		SetPlayerPosition(pathStart.x,20,pathStart.z);
 
 	GenerateOctreeMeshes();
 }
@@ -136,7 +148,7 @@ void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
 }
 
 static bool renderWireframe = false;
-static float speed = 0.0;
+static float speed = 5.0;
 bool wk = false, ak = false, sk = false, dk = false;
 bool VoxelOctreeApp::Update()
 {
@@ -147,7 +159,6 @@ bool VoxelOctreeApp::Update()
 		///PLAYER MOVE CODE
 		auto look = cam->GetLook();
 		auto right = cam->GetRight();
-
 
 		look = glm::normalize(look) * speed;
 		right = glm::normalize(right) * speed;
@@ -187,32 +198,47 @@ bool VoxelOctreeApp::Update()
 		player->Update(((float)GetContext().GetTimer()->get_delta_time()) / 1000.0f);
 		cam->Update(0);
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		RenderScene();
 
-
-		glm::mat4 Model = glm::translate(glm::mat4(1.0f), player->GetPosition()); // glm::mat4(1.0f);//
-		glm::mat4 MVP   = cam->GetViewProjMat() * Model;
-		sh->GetBinding("mvp").Set(MVP);
-		sh->Set();
-		cube->Render(true, false);
-
-		Model = glm::mat4(1.0f);
-		MVP   = cam->GetViewProjMat() * Model;
-		sh->GetBinding("mvp").Set(MVP);
-		sh->Set();
-
-		if (renderWireframe)
-			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		else
-			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-
-		octreeGen->RenderAllMeshes();
-
-		GetContext().GetOpenGLExtensionLoader()->check_and_output_errors();
-		GetContext().GetWindow()->SwapBuffers();
 		return true;
 	}
 	return false;
+}
+
+void VoxelOctreeApp::RenderScene()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	RenderGrid();
+
+	glm::mat4 Model = glm::translate(glm::mat4(1.0f), player->GetPosition()); // glm::mat4(1.0f);//
+	glm::mat4 MVP   = cam->GetViewProjMat() * Model;
+	sh->GetBinding("mvp").Set(MVP);
+	sh->Set();
+	cube->Render(true, false);
+
+	Model = glm::mat4(1.0f);
+	MVP   = cam->GetViewProjMat() * Model;
+	sh->GetBinding("mvp").Set(MVP);
+	sh->Set();
+
+	if (renderWireframe)
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	else
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+	octreeGen->RenderAllMeshes();
+
+	GetContext().GetOpenGLExtensionLoader()->check_and_output_errors();
+	GetContext().GetWindow()->SwapBuffers();
+}
+
+void VoxelOctreeApp::RenderGrid()
+{
+	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(pathStart.x, pathStart.y, pathStart.z));
+	gridShader->GetBinding("mvp").Set(cam->GetViewProjMat()*Model);
+	gridShader->Set();
+	gridMesh->render_lines();
 }
 
 bool VoxelOctreeApp::Exit()

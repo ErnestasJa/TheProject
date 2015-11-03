@@ -12,6 +12,8 @@ public:
 	{
 		glm::ivec3 endOffset;
 
+		length = length -1;
+
 		switch(m_axis)
 		{
 			case SectionAxis::X:
@@ -26,6 +28,8 @@ public:
 			case SectionAxis::NZ:
 				endOffset = glm::ivec3(0,0,-length);
 			break;
+			default:
+				throw;
 		}
 
 		m_end = m_start + endOffset;
@@ -56,24 +60,26 @@ public:
 		return m_end;
 	}
 
-	glm::ivec3 GetNextSectionStart(uint32_t offsetNeeded)
+	glm::ivec3 GetNextSectionStart(int32_t offsetNeeded)
 	{
 		glm::ivec3 endOffset;
 
 		switch(m_axis)
 		{
 			case SectionAxis::X:
-				endOffset = glm::ivec3(offsetNeeded,0,0);
+				endOffset = glm::ivec3(1,0,0);
 			break;
 			case SectionAxis::NX:
-				endOffset = glm::ivec3(-offsetNeeded,0,0);
+				endOffset = glm::ivec3(-1,0,0);
 			break;
 			case SectionAxis::Z:
-				endOffset = glm::ivec3(0,0,offsetNeeded);
+				endOffset = glm::ivec3(0,0,1);
 			break;
 			case SectionAxis::NZ:
-				endOffset = glm::ivec3(0,0,-offsetNeeded);
+				endOffset = glm::ivec3(0,0,-1);
 			break;
+			default:
+				throw;
 		}
 
 		return m_end + endOffset;
