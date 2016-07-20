@@ -3,7 +3,6 @@
 #include "core/CoreInc.h"
 #include "motree/MotreeInc.h"
 #include "opengl/OpenGLInc.h"
-#include "utility/Logger.h"
 #include "utility/Timer.h"
 #include "renderer/Renderer.h"
 #include "resources/ResourcesInc.h"
@@ -102,38 +101,9 @@ bool VoxelOctreeApp::SaveLevel(const std::string & levelName)
 }
 
 #include "PathGen/PathManager.h"
-#include "opengl/GridMesh.h"
 
-///NOTE: this is temporary, pls ignore.
-static MeshPtr gridMesh;
-static glm::ivec3 pathStart(200,0,200);
 void VoxelOctreeApp::AfterInit()
 {
-	gridMesh = share(new GridMesh(1));
-	gridShader = GetContext().GetResourceManager()->LoadShader("shaders/solid_unlit");
-
-	ClearOctree();
-
-		PathManagerPtr pathManager = share(new PathManager(pathStart));
-
-		for(uint32_t i = 0; i < 30; i++)
-			pathManager->AppendRandomSection();
-
-
-		/*
-		pathManager->AppendSection(SectionType::Straight);
-		pathManager->AppendSection(SectionType::Straight);
-		pathManager->AppendSection(SectionType::Straight);
-		pathManager->AppendSection(SectionType::Corner);
-		pathManager->AppendSection(SectionType::Straight);
-		pathManager->AppendSection(SectionType::Corner);
-		pathManager->AppendSection(SectionType::Straight);
-		pathManager->AppendSection(SectionType::Corner);
-		pathManager->AppendSection(SectionType::Straight);*/
-
-		SetPlayerPosition(pathStart.x,20,pathStart.z);
-
-	GenerateOctreeMeshes();
 }
 
 void VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)
@@ -233,14 +203,6 @@ void VoxelOctreeApp::RenderScene()
 	GetContext().GetWindow()->SwapBuffers();
 }
 
-void VoxelOctreeApp::RenderGrid()
-{
-	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(pathStart.x, pathStart.y, pathStart.z));
-	gridShader->GetBinding("mvp").Set(cam->GetViewProjMat()*Model);
-	gridShader->Set();
-	gridMesh->render_lines();
-}
-
 bool VoxelOctreeApp::Exit()
 {
 	return true;
@@ -302,7 +264,6 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 {
 	glm::vec3 lookat = glm::normalize(cam->GetLook());
 	glm::vec3 position = cam->GetPosition() + lookat; // shoot one unit in front of player
-	GetContext().GetLogger()->log(LOG_LOG, "cam pos: [%f, %f, %f]", position.x, position.y, position.z);
 
 	if (action == GLFW_PRESS)
 	{
@@ -317,11 +278,9 @@ void VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)
 			{
 				uint32_t x, y, z;
 				decodeMK(info.node.start, x, y, z);
-				GetContext().GetLogger()->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
 
 				auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), info.node);
 				decodeMK(it->start, x, y, z);
-				GetContext().GetLogger()->log(LOG_LOG, "Collided with node at pos: [%u, %u, %u]", x, y, z);
 
 				uint32_t mk = info.node.start & CHUNK_MASK;
 				if (it != octree->GetChildNodes().end())

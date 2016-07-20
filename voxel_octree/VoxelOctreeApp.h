@@ -37,15 +37,11 @@ public:
     void ClearOctree();
     void GenerateOctreeMeshes();
 
-    ///Script
-    void RunScript(const Path & script);
-
     ///This should probably go to "GameManagerClass"
     void SetPlayerPosition(float x, float y, float z);
 private:
 
     void RenderScene();
-    void RenderGrid();
     
 private:
     ShaderPtr sh, gridShader;

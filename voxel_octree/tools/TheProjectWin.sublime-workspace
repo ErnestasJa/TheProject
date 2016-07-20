@@ -411,8 +411,19 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "#include \"Precomp.h\"\n#include \"VoxelOctreeApp.h\"\n#include \"core/CoreInc.h\"\n#include \"motree/MotreeInc.h\"\n#include \"opengl/OpenGLInc.h\"\n#include \"utility/Logger.h\"\n#include \"utility/Timer.h\"\n#include \"renderer/Renderer.h\"\n#include \"resources/ResourcesInc.h\"\n#include \"application/SettingsManager.h\"\n#include \"application/Window.h\"\n#include \"player/Player.h\"\n#include <boost/algorithm/string/replace.hpp>\n\n\nVoxelOctreeApp * VoxelOctreeApp::m_instance = nullptr;\n\nVoxelOctreeApp * VoxelOctreeApp::Instance()\n{\n	return m_instance;\n}\n\nVoxelOctreeApp::VoxelOctreeApp(uint32_t argc, const char ** argv): Application(argc, argv)\n{\n	m_instance = this;\n}\n\nVoxelOctreeApp::~VoxelOctreeApp()\n{\n\n}\n\nvoid VoxelOctreeApp::InitResources()\n{\n	auto loader = GetContext().GetResourceManager();\n	sh = loader->LoadShader(\"shaders/solid_cube\");\n	cam = share(new Camera(glm::vec3(0, 0, -5), glm::vec3(0, 0, 5), glm::vec3(0, 1, 0), 1.7777777f, 45.0f, 0.1, 1024.0f));\n\n	octree = share(new MortonOctTree());\n	collisionManager = new CollisionManager(octree);\n	octreeGen = new VoxMeshManager(octree);\n	octreeGen->GenAllChunks();\n	player = new Player(cam, collisionManager, glm::vec3(3, 3, 3));\n	cube = new CubeMesh(player->GetAABB());\n	bvoxLoader = share(new BVoxLoader(octree, GetContext().GetLogger()));\n}\n\nbool VoxelOctreeApp::Init()\n{\n	/*if(!InitSimple(\"Voxel octree application\"))\n		return false;*/\n\n	if(!InitContextBasics() || !InitFileSystem() || !LoadConfig())\n	{\n		return false;\n	}\n\n	//If we want to override some settings for window.\n	auto & video_group = GetContext().GetApplicationSettingsManager()->GetGroup(\"video\");\n	video_group.GetVar(\"window_width\").Value(int(1280));\n	video_group.GetVar(\"window_height\").Value(int(720));\n	InitWindowAndOpenGL(\"Supper awesome window, waow\");\n\n	GetContext().GetWindow()->SigKeyEvent().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnKeyEvent));\n	GetContext().GetWindow()->SigMouseKey().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseKey));\n	GetContext().GetWindow()->SigMouseMoved().connect(sigc::mem_fun(this, &VoxelOctreeApp::OnMouseMove));\n\n	renderer = share(new Renderer(nullptr));\n	renderer->Enable({GL_DEPTH_TEST, GL_CULL_FACE});\n	renderer->SetCullFace(GL_BACK);\n	renderer->SetFrontFace(GL_CCW);\n	renderer->SetClearColor(0.4, 0.8, 0.2, 0.0);\n	InitResources();\n	AfterInit();\n	GetContext().GetTimer()->tick();\n	return true;\n}\n\nvoid VoxelOctreeApp::ClearOctree()\n{\n	octree->GetChildNodes().clear();\n	octreeGen->GetMeshes().clear();\n}\n\nvoid VoxelOctreeApp::GenerateOctreeMeshes()\n{\n	octree->SortLeafNodes();\n	octree->RemoveDuplicateNodes();\n	octreeGen->GenAllChunks();\n}\n\nbool VoxelOctreeApp::LoadLevel(const std::string & levelName)\n{\n	ClearOctree();\n	bvoxLoader->ReadFile(levelName);\n	GenerateOctreeMeshes();\n}\n\nbool VoxelOctreeApp::SaveLevel(const std::string & levelName)\n{\n	bvoxLoader->WriteFile(levelName);\n}\n\n#include \"PathGen/PathManager.h\"\n#include \"opengl/GridMesh.h\"\n\n///NOTE: this is temporary, pls ignore.\nstatic MeshPtr gridMesh;\nstatic glm::ivec3 pathStart(200,0,200);\nvoid VoxelOctreeApp::AfterInit()\n{\n	gridMesh = share(new GridMesh(1));\n	gridShader = GetContext().GetResourceManager()->LoadShader(\"shaders/solid_unlit\");\n\n	ClearOctree();\n\n		PathManagerPtr pathManager = share(new PathManager(pathStart));\n\n		for(uint32_t i = 0; i < 30; i++)\n			pathManager->AppendRandomSection();\n\n\n		/*\n		pathManager->AppendSection(SectionType::Straight);\n		pathManager->AppendSection(SectionType::Straight);\n		pathManager->AppendSection(SectionType::Straight);\n		pathManager->AppendSection(SectionType::Corner);\n		pathManager->AppendSection(SectionType::Straight);\n		pathManager->AppendSection(SectionType::Corner);\n		pathManager->AppendSection(SectionType::Straight);\n		pathManager->AppendSection(SectionType::Corner);\n		pathManager->AppendSection(SectionType::Straight);*/\n\n		SetPlayerPosition(pathStart.x,20,pathStart.z);\n\n	GenerateOctreeMeshes();\n}\n\nvoid VoxelOctreeApp::SetPlayerPosition(float x, float y, float z)\n{\n	player->GetPosition().x = x;\n	player->GetPosition().y = y;\n	player->GetPosition().z = z;\n\n	player->GetVelocity().x = 0;\n	player->GetVelocity().y = 0;\n	player->GetVelocity().z = 0;\n}\n\nstatic bool renderWireframe = false;\nstatic float speed = 5.0;\nbool wk = false, ak = false, sk = false, dk = false;\nbool VoxelOctreeApp::Update()\n{\n	if (GetContext().GetWindow()->Update() && !GetContext().GetWindow()->GetShouldClose() && !GetContext().GetWindow()->GetKey(GLFW_KEY_ESCAPE))\n	{\n		GetContext().GetTimer()->tick();\n\n		///PLAYER MOVE CODE\n		auto look = cam->GetLook();\n		auto right = cam->GetRight();\n\n		look = glm::normalize(look) * speed;\n		right = glm::normalize(right) * speed;\n\n		if (wk)\n		{\n			player->GetVelocity().x = look.x;\n			player->GetVelocity().z = look.z;\n			if(player->GetFlyEnabled()) player->GetVelocity().y = look.y;\n		}\n		else if (sk)\n		{\n			player->GetVelocity().x = -look.x;\n			player->GetVelocity().z = -look.z;\n			if(player->GetFlyEnabled()) player->GetVelocity().y = -look.y;\n		}\n\n		if (dk)\n		{\n			player->GetVelocity().x = right.x;\n			player->GetVelocity().z = right.z;\n		}\n		else if (ak)\n		{\n			player->GetVelocity().x = -right.x;\n			player->GetVelocity().z = -right.z;\n		}\n\n		if ((!(wk || ak || sk || dk)) && (player->OnGround() || player->GetFlyEnabled()))\n		{\n			player->GetVelocity().x = 0;\n			player->GetVelocity().z = 0;\n			if(player->GetFlyEnabled()) player->GetVelocity().y = 0;\n		}\n		///~PLAYER MOVE CODE END\n\n		player->Update(((float)GetContext().GetTimer()->get_delta_time()) / 1000.0f);\n		cam->Update(0);\n\n		RenderScene();\n\n		return true;\n	}\n	return false;\n}\n\nvoid VoxelOctreeApp::RenderScene()\n{\n	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);\n\n	RenderGrid();\n\n	glm::mat4 Model = glm::translate(glm::mat4(1.0f), player->GetPosition()); // glm::mat4(1.0f);//\n	glm::mat4 MVP   = cam->GetViewProjMat() * Model;\n	sh->GetBinding(\"mvp\").Set(MVP);\n	sh->Set();\n	cube->Render(true, false);\n\n	Model = glm::mat4(1.0f);\n	MVP   = cam->GetViewProjMat() * Model;\n	sh->GetBinding(\"mvp\").Set(MVP);\n	sh->Set();\n\n	if (renderWireframe)\n		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );\n	else\n		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );\n\n	octreeGen->RenderAllMeshes();\n\n	GetContext().GetOpenGLExtensionLoader()->check_and_output_errors();\n	GetContext().GetWindow()->SwapBuffers();\n}\n\nvoid VoxelOctreeApp::RenderGrid()\n{\n	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(pathStart.x, pathStart.y, pathStart.z));\n	gridShader->GetBinding(\"mvp\").Set(cam->GetViewProjMat()*Model);\n	gridShader->Set();\n	gridMesh->render_lines();\n}\n\nbool VoxelOctreeApp::Exit()\n{\n	return true;\n}\n\nvoid VoxelOctreeApp::OnWindowClose()\n{\n\n}\n\n#define UPDATE_KEY(var,key_enum)\\\n  if(action == GLFW_PRESS && key==key_enum) var = true;\\\n  if(action == GLFW_RELEASE && key==key_enum) var = false\n\n\nvoid VoxelOctreeApp::OnKeyEvent(int32_t key, int32_t scan_code, int32_t action, int32_t modifiers)\n{\n	if (action == GLFW_PRESS && key == GLFW_KEY_LEFT_SHIFT)\n		speed = 20.0f;\n\n	if (action == GLFW_RELEASE && key == GLFW_KEY_LEFT_SHIFT)\n		speed = 5.0f;\n\n	if (action == GLFW_PRESS && key == GLFW_KEY_LEFT_CONTROL)\n		speed = 50.0f;\n\n	if (action == GLFW_RELEASE && key == GLFW_KEY_LEFT_CONTROL)\n		speed = 5.0f;\n\n	if (action == GLFW_RELEASE && key == GLFW_KEY_U)\n		SaveLevel(\"test_save.bvox\");\n\n	if (action == GLFW_RELEASE && key == GLFW_KEY_G)\n		player->SetFlyEnabled(!player->GetFlyEnabled());\n\n\n	if (key == GLFW_KEY_SPACE && !player->GetFlyEnabled())\n	{\n		player->Jump(20);\n	}\n\n	UPDATE_KEY(wk, GLFW_KEY_W);\n	UPDATE_KEY(ak, GLFW_KEY_A);\n	UPDATE_KEY(sk, GLFW_KEY_S);\n	UPDATE_KEY(dk, GLFW_KEY_D);\n\n	if (key == GLFW_KEY_1)\n		renderWireframe = true;\n	else if (key == GLFW_KEY_2)\n		renderWireframe = false;\n}\n\nvoid VoxelOctreeApp::OnMouseMove(double x, double y)\n{\n\n}\n\nvoid VoxelOctreeApp::OnMouseKey(int32_t button, int32_t action, int32_t mod)\n{\n	glm::vec3 lookat = glm::normalize(cam->GetLook());\n	glm::vec3 position = cam->GetPosition() + lookat; // shoot one unit in front of player\n\n	if (action == GLFW_PRESS)\n	{\n		switch (button)\n		{\n		case GLFW_MOUSE_BUTTON_LEFT:\n		{\n			CollisionInfo info(position, lookat);\n			collisionManager->Collide(info, 0, glm::ivec3(0));\n\n			if (info.nearestDistance < INFINITY)\n			{\n				uint32_t x, y, z;\n				decodeMK(info.node.start, x, y, z);\n\n				auto it = std::lower_bound(octree->GetChildNodes().begin(), octree->GetChildNodes().end(), info.node);\n				decodeMK(it->start, x, y, z);\n\n				uint32_t mk = info.node.start & CHUNK_MASK;\n				if (it != octree->GetChildNodes().end())\n				{\n					octree->GetChildNodes().erase(it);\n					octreeGen->RebuildChunk(mk);\n				}\n			}\n			break;\n		}\n		case GLFW_MOUSE_BUTTON_RIGHT:\n		{\n			CollisionInfo info(position, lookat);\n			collisionManager->Collide(info, 0, glm::ivec3(0));\n\n			if (info.nearestDistance < INFINITY)\n			{\n				uint32_t x, y, z;\n				decodeMK(info.node.start, x, y, z);\n\n				/// add node\n				VoxelSide side = collisionManager->GetCollisionSide(glm::vec3(x, y, z), position, lookat);\n				glm::ivec3 pos = VoxelSideToPosition(side);\n\n				if ((pos.x == -1 && x == 0) || (pos.y == -1 && y == 0) || (pos.z == -1 && z == 0))\n					break;\n\n				x += pos.x;\n				y += pos.y;\n				z += pos.z;\n\n				uint32_t mk = encodeMK(x, y, z);\n\n				octree->AddNode(MNode(mk, 1, 128, 128 , 128));\n				octreeGen->RebuildChunk(mk & CHUNK_MASK);\n			}\n			break;\n		}\n		}\n	}\n}\n\nstd::string VoxelOctreeApp::GetApplicationId()\n{\n	return \"voxel_octree\";\n}\n\nMortonOctTreePtr VoxelOctreeApp::GetOctree()\n{\n	return octree;\n}",
+			"file": "/C/Coding/TheProject/voxel_octree/VoxelOctreeApp.cpp",
+			"file_size": 9511,
+			"file_write_time": 131134829299094842,
+			"settings":
+			{
+				"buffer_size": 9415,
+				"line_ending": "Unix"
+			}
+		}
 	],
-	"build_system": "Packages/User/PythonCpp.sublime-build",
+	"build_system": "",
 	"build_system_choices":
 	[
 	],
@@ -473,7 +484,11 @@
 	},
 	"expanded_folders":
 	[
-		"/home/serengeor/Coding/Project"
+		"/C/Coding/TheProject/voxel_octree",
+		"/C/Coding/TheProject/voxel_octree/bin",
+		"/C/Coding/TheProject/voxel_octree/cmake",
+		"/C/Coding/TheProject/voxel_octree/player",
+		"/C/Coding/TheProject/voxel_octree/renderer"
 	],
 	"file_history":
 	[
@@ -612,9 +627,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
+			"C:\\Coding\\TheProject",
 			"<open files>,/home/serengeor/Coding/Project/TheEngine/src",
 			"<open files>",
 			"<open files>,/home/serengeor/Coding/Project/TheEngine/src",
@@ -628,6 +644,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"GetLogger()",
+			"MaterialPtr",
 			"send",
 			"sstart",
 			"endOffset",
@@ -753,9 +771,7 @@
 			"\n    std::string _appWriteDir = _resourcePath + this->ApplicationWriteDir() + PHYSFS_getDirSeparator();",
 			"VoxelOctreeBenchmarkApp",
 			"    virtual std::string GetAbsoluteResourcePath();\n",
-			"\"\"));\n",
-			"BenchSettings",
-			"ret2"
+			"\"\"));\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -817,14 +833,44 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/Coding/TheProject/voxel_octree/VoxelOctreeApp.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9415,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8799,
+								8799
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4344.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -857,6 +903,10 @@
 	{
 		"height": 0.0
 	},
+	"output.CppYCM.4":
+	{
+		"height": 0.0
+	},
 	"output.astyle_error_message":
 	{
 		"height": 0.0
@@ -870,7 +920,7 @@
 		"height": 0.0
 	},
 	"pinned_build_system": "",
-	"project": "Application.sublime-project",
+	"project": "TheProjectWin.sublime-project",
 	"replace":
 	{
 		"height": 62.0
