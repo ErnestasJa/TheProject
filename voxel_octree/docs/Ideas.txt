@@ -1,3 +1,0 @@
-
-Cube2 like 'voxels' with editable edges ( we need it for action game (slopes!) )
-
