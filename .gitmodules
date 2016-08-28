@@ -1,6 +1,6 @@
-[submodule "TheEngine"]
-	path = TheEngine
-	url = https://github.com/serengeor/TheEngine
 [submodule "engine"]
 	path = engine
 	url = https://github.com/serengeor/TheEngine2.git
+[submodule "build/build_tools"]
+	path = build/build_tools
+	url = https://github.com/serengeor/Builder.git
