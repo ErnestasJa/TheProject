@@ -9,7 +9,6 @@ CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
 MakeFile
-build
 libs/boost/
 libs/libccd/
 libs/windows/
